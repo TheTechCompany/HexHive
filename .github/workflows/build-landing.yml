@@ -1,0 +1,35 @@
+on:
+  push: 
+    branches:
+      - master
+
+jobs:
+  build_web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with: 
+          node-version: 15.x
+
+      - run: npm i
+      - run: lerna bootstrap --scope @hexhive/landing
+
+      - run: REACT_APP_API='https://api.hexhive.io' npm run build:landing
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: web-build
+          path: packages/hexhive-landing/out
+      
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with: 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+      - name: Upload new web-build
+        run: |
+          aws s3 sync packages/hexhive-landing/out/ s3://${{ secrets.S3_BUCKET }} --delete
+      

@@ -22,5 +22,8 @@
   },
   "bugs": {
     "url": "https://github.com/TheTechCompany/hexhive-common/issues"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.5"
   }
 }
