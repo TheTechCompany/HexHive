@@ -11,6 +11,7 @@ export default () => {
 
     const login = () => {
         console.log("Login",email, password)
+        window.location.href = "/dashboard"
     }
 
     return (
