@@ -13,7 +13,7 @@ export const Home : React.FC<any> = (props) => {
             align="center"
             flex>
             <AppPicker 
-                apps={[{icon: Profile}, {icon: Calendar}, {icon: Tool}, {icon: Profile}, {icon: Profile}, {icon: Profile}, {icon: Profile}]}/>
+                apps={[{icon: Profile}, {icon: Calendar, onClick: () => props.history.push('/dashboard/flow')}, {icon: Tool, onClick: () => props.history.push('/dashboard/command')}, {icon: Profile}, {icon: Profile}, {icon: Profile}, {icon: Profile}]}/>
         </Box>  
     );
 }
