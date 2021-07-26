@@ -5,7 +5,6 @@ import { AppPicker } from '../app-picker';
 import Profile from '../../assets/profile.svg';
 import Calendar from '../../assets/calendar.svg';
 import Tool from '../../assets/tool.svg';
-import { Add } from 'grommet-icons';
 
 export const Home : React.FC<any> = (props) => {
     return (
@@ -14,7 +13,7 @@ export const Home : React.FC<any> = (props) => {
             align="center"
             flex>
             <AppPicker 
-                apps={[{icon: Profile}, {icon: Calendar}, {icon: Tool},  {icon: Profile}, {icon: Profile}, {icon: Profile}, {icon: Profile}]}/>
+                apps={[{icon: Profile}, {icon: Calendar}, {icon: Tool}, {icon: Profile}, {icon: Profile}, {icon: Profile}, {icon: Profile}]}/>
         </Box>  
     );
 }

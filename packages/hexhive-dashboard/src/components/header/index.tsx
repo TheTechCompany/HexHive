@@ -1,4 +1,4 @@
-import { Box, Header, Text } from 'grommet';
+import { Header, Text } from 'grommet';
 import React from 'react';
 import { ReactComponent as Profile } from '../../assets/profile.svg';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-const { Hexagon, TiledHexagons } = require('tiled-hexagons')
+const { TiledHexagons } = require('tiled-hexagons')
 
 export interface AppPickerProps {
     apps?: {
