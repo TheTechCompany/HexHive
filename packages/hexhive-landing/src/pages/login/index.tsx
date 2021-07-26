@@ -16,6 +16,8 @@ export default () => {
 
     return (
         <Box
+        background="light-4"
+
             fill
             flex
             direction="row"
