@@ -10,7 +10,7 @@ const Banner = () => (
       title="Connect your operation."
       subtitle="Start your Free Trial."
       button={
-        <Link href="https://creativedesignsguru.com/category/nextjs/">
+        <Link href="/signup">
           <a>
             <Button>Get Started</Button>
           </a>
