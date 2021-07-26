@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Home } from './views/home';
 import { BaseHeader } from './components/header';
