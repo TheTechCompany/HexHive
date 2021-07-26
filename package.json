@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:landing": "npx lerna run build-prod --scope @hexhive/landings",
+    "build:landing": "npx lerna run build-prod --scope @hexhive/landing",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
