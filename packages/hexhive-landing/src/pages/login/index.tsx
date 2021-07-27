@@ -11,7 +11,7 @@ export default () => {
         authorizationServer: process.env.NEXT_PUBLIC_API || 'http://localhost:8090',
         clientId: process.env.NEXT_PUBLIC_CLIENT_ID || 'command-hexhive.io',
         clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET || 'tester',
-        redirectUri: new URL('/dashboard', `${typeof(window) !== 'undefined' ? window.location.href : 'http://localhost'}`).toString()
+        redirectUri: new URL('/dashboard', `${typeof(window) == 'undefined' ? 'http://localhost:3001' /*`window.location.href`*/ : 'http://localhost:3001'}`).toString()
     });
 
     // const { client } = useContext(AuthContext)

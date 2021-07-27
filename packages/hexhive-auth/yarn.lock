@@ -2,12 +2,13 @@
 # yarn lockfile v1
 
 
-"@thetechcompany/express-shield@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@thetechcompany/express-shield/-/express-shield-0.0.16.tgz#3bbe320f3f349b11f4cb76ad4091afeb8b400e93"
-  integrity sha512-O3CVdStS8JnQck8uf38y+3YF5ahnxJMbmZ466rNVMxsGnSC+5KcbauNVCMbj9a7JuNLcw7GmKS7jyAAS0jsO3Q==
+"@thetechcompany/express-shield@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@thetechcompany/express-shield/-/express-shield-0.0.18.tgz#1c0ce37fd3139e40bf8ebb5c9d6e1760fd2597b9"
+  integrity sha512-fg0bOp02nY+j2FgVwfb/X+db2Qrexnc0jkgBlxCgL8S1YPFTtitdh9+viPIvefM/KYumQqYID2nBr9qPJcBEFQ==
   dependencies:
     basic-auth "1.1.0"
+    jsonwebtoken "^8.5.1"
     type-is "1.6.15"
 
 "@tsconfig/node10@^1.0.7":

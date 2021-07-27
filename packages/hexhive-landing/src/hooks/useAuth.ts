@@ -12,7 +12,7 @@ export const useAuth = (opts: AuthClientOpts) => {
                 authorizationServer: opts.authorizationServer || 'http://localhost:8090',
                 clientId: opts.clientId || 'command-hexhive.io',
                 clientSecret: opts.clientSecret || 'tester',
-                redirectUri: opts.redirectUri || 'http://localhost:3000/dashboard'
+                redirectUri: opts.redirectUri || 'http://localhost:3001/dashboard'
             }))
         }
     }, [])
