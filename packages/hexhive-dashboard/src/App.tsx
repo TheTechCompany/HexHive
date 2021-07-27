@@ -17,7 +17,7 @@ function App() {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `code=${code}&client_secret=${'tester'}&state=myState&client_id=${'command-hexhive.io'}&grant_type=authorization_code`
+        body: `code=${code}&client_secret=${process.env.REACT_APP_CLIENT_SECRET || 'tester'}&state=myState&client_id=${process.env.REACT_APP_CLIENT_ID || 'command-hexhive.io'}&grant_type=authorization_code`
       }).then((r) => r.json()).then((r) => {
         if(r.access_token){
           fetch(`${process.env.REACT_APP_API || 'http://localhost:8090'}/test`, {
@@ -33,7 +33,7 @@ function App() {
       
     }
   }, [])
-  
+
   return (
     <Router>
       <Box 
