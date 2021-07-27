@@ -6,4 +6,6 @@ RUN yarn
 
 COPY . .
 
+EXPOSE 8090
+
 CMD [ "yarn", "start" ]
