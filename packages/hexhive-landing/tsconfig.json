@@ -11,6 +11,10 @@
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
 
+    "paths": {
+      "react": ["../../node_modules/react"],
+      "react-dom": ["../../node_modules/react-dom"]
+    },
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -34,6 +38,10 @@
     "noEmit": true,
     "isolatedModules": true
   },
+  "references": [
+    {"path": "../hexhive-auth-ui"},
+    {"path": "../hexhive-cas-client"}
+  ],
   "exclude": ["./out/**/*", "./node_modules/**/*"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

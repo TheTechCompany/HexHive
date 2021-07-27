@@ -1,9 +1,12 @@
+import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 import { AppConfig } from '../utils/AppConfig';
 
 class MyDocument extends Document {
+  
   render() {
+    console.log("RENDER")
     return (
       <Html lang={AppConfig.locale}>
         <Head />

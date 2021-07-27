@@ -3,21 +3,43 @@ import { Box, Heading, Button, TextInput, Form } from 'grommet';
 import { Meta } from '../../layout/Meta';
 import { AppConfig } from '../../utils/AppConfig';
 import Logo from '../../assets/logo.svg';
+import { useAuth } from '../../hooks/useAuth';
 
 export default () => {
+
+    const client = useAuth({
+        authorizationServer: process.env.REACT_APP_API || 'http://localhost:8090',
+        clientId: process.env.AUTH_CLIENT_ID || 'command-hexhive.io',
+        clientSecret: 'tester',
+        redirectUri: new URL('/dashboard', `${typeof(window) !== 'undefined' ? window.location.href : 'http://localhost'}`).toString()
+    });
+
+    // const { client } = useContext(AuthContext)
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
     const login = () => {
         console.log("Login",email, password)
-        window.location.href = "/dashboard"
+       // window.location.href = "/dashboard"
+       console.log(client)
+        client?.getAuthorizationCode(email, password).then((response) => {
+            console.log(response.code);
+
+            const params = new URLSearchParams()
+            params.set('code', response.code.authorizationCode);
+
+
+            const url = new URL(response.code.redirectUri)
+            url.searchParams.set('code', response.code.authorizationCode);
+         //   window.navigator.({}, '', url.toString())
+            window.location.href = url.toString()
+        })
     }
 
     return (
         <Box
-        background="light-4"
-
+            background="light-4"
             fill
             flex
             direction="row"
@@ -69,4 +91,3 @@ export default () => {
         </Box>
     );
 }
-

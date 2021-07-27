@@ -1,19 +1,16 @@
-import Express from 'express'
 import { CentralAuthServer } from "../src";
-
-const app = Express();
+import DemoAdapter from "../src/model";
 
 const authServer = new CentralAuthServer({
     secret: 'JWT SECRET',
-    issuer: 'https://api.hexhive.io'
+    issuer: 'https://api.hexhive.io',
+    adapter: DemoAdapter
 }, {
     findUser: async (auth_blob: any) => {
         return ['ross', {id: '123'}]
     }
 })
 
-app.use(authServer.getRoutes())
-
 console.log(authServer.signToken('abccs', {name: "ID"}))
 
-app.listen(8090)
+authServer.startServer(8090)

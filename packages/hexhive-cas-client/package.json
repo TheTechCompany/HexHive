@@ -5,13 +5,13 @@
   "author": "Ross Leitch <professional.balbatross@gmail.com>",
   "homepage": "https://github.com/TheTechCompany/hexhive-common/tree/main/packages/hexhive-cas-client#readme",
   "license": "ISC",
-  "main": "lib/hexhive-cas-client.js",
+  "main": "dist/index.js",
   "directories": {
-    "lib": "lib",
+    "dist": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -25,5 +25,9 @@
   },
   "devDependencies": {
     "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "client-oauth2": "^4.3.3"
   }
 }
