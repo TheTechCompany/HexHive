@@ -64,11 +64,11 @@ export class CentralAuthServer {
         this.express.listen(port)
     }  
 
-    signToken(user: string, payload: any){
+    signToken(payload: any){
         if(!this.secret) return new Error("No Secret Provided")
         return jwt.sign({
             iss: this.issuer,
-            sub: user,
+            sub: payload?.user?._id,
             ...payload
         }, this.secret)
     }
