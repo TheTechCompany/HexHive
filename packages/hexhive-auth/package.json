@@ -13,7 +13,8 @@
     "mongoose": "^5.13.3"
   },
   "scripts": {
-    "start": "ts-node -r tsconfig-paths/register src/index.ts"
+    "start": "ts-node src/index.ts",
+    "build": "tsc -b"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
