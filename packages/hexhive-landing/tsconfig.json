@@ -11,11 +11,6 @@
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
 
-    "paths": {
-      "react": ["../../node_modules/react"],
-      "react-dom": ["../../node_modules/react-dom"],
-      "@hexhive/cas-client": ["../hexhive-cas-client"]
-    },
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -26,12 +21,13 @@
 
     "target": "es5",
     "outDir": "out",
+    "rootDir": "src/",
     "declaration": true,
     "sourceMap": true,
 
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
 
