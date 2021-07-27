@@ -8,9 +8,9 @@ import { useAuth } from '../../hooks/useAuth';
 export default () => {
 
     const client = useAuth({
-        authorizationServer: process.env.REACT_APP_API || 'http://localhost:8090',
-        clientId: process.env.AUTH_CLIENT_ID || 'command-hexhive.io',
-        clientSecret: 'tester',
+        authorizationServer: process.env.NEXT_PUBLIC_API || 'http://localhost:8090',
+        clientId: process.env.NEXT_PUBLIC_CLIENT_ID || 'command-hexhive.io',
+        clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET || 'tester',
         redirectUri: new URL('/dashboard', `${typeof(window) !== 'undefined' ? window.location.href : 'http://localhost'}`).toString()
     });
 

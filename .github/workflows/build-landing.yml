@@ -19,7 +19,7 @@ jobs:
 
       - run: lerna bootstrap --scope @hexhive/landing --include-dependencies
 
-      - run: REACT_APP_API='https://api.hexhive.io' npm run build:landing
+      - run: NEXT_PUBLIC_CLIENT_ID='hexhive.io' NEXT_PUBLIC_API='https://api.hexhive.io' npm run build:landing
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
