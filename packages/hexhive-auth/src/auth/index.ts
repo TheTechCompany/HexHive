@@ -6,8 +6,8 @@ import Express from 'express'
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken'
 import cors from 'cors';
-import { Routes } from './routes';
-import model, { AuthAdapter } from './model'
+import { Routes } from '../routes';
+import model, { AuthAdapter } from '../model'
 import { Express as OAuthServer } from '@thetechcompany/express-shield'
 import bodyParser from 'body-parser';
 
@@ -18,7 +18,7 @@ export interface CentralAuthServerOptions {
     adapter: AuthAdapter;
 }
 
-export * from './model'
+export * from '../model'
 
 export class CentralAuthServer {
     private secret?: string;

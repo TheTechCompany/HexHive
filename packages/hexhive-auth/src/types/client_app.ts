@@ -1,5 +1,5 @@
 import { model, Types, Document, Model, Schema } from "mongoose";
-import { AuthClient } from '@hexhive/cas-server';
+import { AuthClient } from '../auth';
 //import { ProgramSchema } from './program'
 
 const ClientApp: Schema = new Schema({

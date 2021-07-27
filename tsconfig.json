@@ -5,7 +5,6 @@
      "react": ["../node_modules/react"],
      "react-dom": ["../node_modules/react-dom"],
      "@types/*": ["../node_modules/@types/"],
-     "@hexhive/cas-server": ["./hexhive-cas-server/src"],
      "@hexhive/cas-client": ["./hexhive-cas-client/src"]
    }
   }

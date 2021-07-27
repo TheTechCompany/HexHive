@@ -1,7 +1,7 @@
 //Auth router
 
 import { Router } from 'express';
-import { CentralAuthServer } from '..';
+import { CentralAuthServer } from '../auth';
 
 export default (cas: CentralAuthServer, methods: {findUser: (auth_request: any) => Promise<any>}) => {
     const router = Router();

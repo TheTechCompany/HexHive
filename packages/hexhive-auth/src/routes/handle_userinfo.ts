@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { CentralAuthServer } from '..';
+import { CentralAuthServer } from '../auth';
 
 export default (cas: CentralAuthServer, methods: {findUserById: (id: string) => any}) => {
     const router = Router();

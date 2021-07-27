@@ -1,4 +1,4 @@
-import { AuthAdapter, AuthClient } from "@hexhive/cas-server";
+import { AuthAdapter, AuthClient } from "../auth";
 import { ClientApp, AccessToken, AuthorizationCode } from "../types";
 import AuthorizationCodeModel from "../types/authorization_code";
 

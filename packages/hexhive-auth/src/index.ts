@@ -1,4 +1,4 @@
-import { CentralAuthServer } from "@hexhive/cas-server";
+import { CentralAuthServer } from "./auth";
 import { isValidObjectId } from "mongoose";
 import { MongooseAdapter } from "./adapters/mongoose";
 import { connect_data, User } from "./types";

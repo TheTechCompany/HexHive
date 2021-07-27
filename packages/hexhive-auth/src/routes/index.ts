@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CentralAuthServer } from "..";
+import { CentralAuthServer } from "../auth";
 import handle_auth from "./handle_auth";
 import bodyParser from "body-parser";
 import cookieParser from 'cookie-parser'
