@@ -3,6 +3,8 @@ import { isValidObjectId } from "mongoose";
 import { MongooseAdapter } from "./adapters/mongoose";
 import { connect_data, User } from "./types";
 
+console.log("Starting Auth Service")
+
 connect_data().then(() => {
     console.log("Connected to MongoDB");
 
