@@ -39,7 +39,6 @@
     "isolatedModules": true
   },
   "references": [
-    {"path": "../hexhive-auth-ui"},
     {"path": "../hexhive-cas-client"}
   ],
   "exclude": ["./out/**/*", "./node_modules/**/*"],
