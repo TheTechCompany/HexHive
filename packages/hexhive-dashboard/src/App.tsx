@@ -32,7 +32,8 @@ function App() {
 
       
     }
-  }, [window.location.search])
+  }, [])
+  
   return (
     <Router>
       <Box 
