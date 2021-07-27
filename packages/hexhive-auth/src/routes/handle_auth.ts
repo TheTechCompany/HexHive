@@ -50,6 +50,9 @@ export default (cas: CentralAuthServer, methods: {findUser: (auth_request: any) 
           // 'authorization_code': false,
         },
       }), (req, res) => {
+        res.cookie('auth-session', res.locals.oauth.token, {
+          domain: 'hexhive.io' 
+        })
         res.send((res as any).locals)   
       })
     //     let token = cas.signToken(user, payload)
