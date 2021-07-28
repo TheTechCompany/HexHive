@@ -59,12 +59,15 @@ function App() {
           setAccessToken(resp.accessToken)
         }else{
           refreshToken(code || '').then((resp) => {
+            setAccessToken(resp.accessToken)
+
             console.log("Refresh")
          //   setAccessToken|)
           })
         }
       }).catch(() => {
         refreshToken(code || '').then((resp) => {
+          setAccessToken(resp.accessToken)
           console.log("Refresh")
        //   setAccessToken|)
         })
@@ -72,6 +75,8 @@ function App() {
   
     }else if(!code && !accessToken){
       refreshToken('').then((resp) => {
+        setAccessToken(resp.accessToken)
+
         console.log(resp)
       })
     }
