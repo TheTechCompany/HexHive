@@ -1,7 +1,10 @@
 {
   "name": "@hexhive/auth",
-  "version": "0.0.3",
-  "main": "index.js",
+  "version": "0.0.4",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "license": "MIT",
   "dependencies": {
     "@thetechcompany/express-shield": "^0.0.20",
