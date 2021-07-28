@@ -78,7 +78,7 @@ export abstract class AuthAdapter {
 
     }
 
-    async revokeToken(token: string): Promise<boolean | void> {
+    async revokeToken(token: {accessToken: string}): Promise<boolean | void> {
 
     }
 
@@ -180,7 +180,7 @@ const DemoAdapter : AuthAdapter = {
     console.log({ name: 'db.token', value: db.token })
     return new Promise(resolve => resolve(db.token))
   },
-  revokeToken: (token: string) => {
+  revokeToken: (token: {accessToken: string}) => {
     /* Delete the token from the database */
     log({
       title: 'Revoke Token',
@@ -188,7 +188,7 @@ const DemoAdapter : AuthAdapter = {
         { name: 'token', value: token },
       ]
     })
-    if (!token || token === 'undefined') return new Promise(resolve => resolve(false))
+    if (!token || token.accessToken === 'undefined') return new Promise(resolve => resolve(false))
     return new Promise(resolve => resolve(true))
   },
   generateAuthorizationCode: (client: any, user: any, scope: any) => {

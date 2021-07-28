@@ -10,6 +10,7 @@ export const Routes = (cas: CentralAuthServer, methods: any) => {
 
     router.use(bodyParser.json())
     router.use(cookieParser())
+    
     router.use('/oauth', handle_auth(cas, methods))
     router.use('/user', handle_userinfo(cas, methods))
     return router;

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@thetechcompany/express-shield@^0.0.18":
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/@thetechcompany/express-shield/-/express-shield-0.0.18.tgz#1c0ce37fd3139e40bf8ebb5c9d6e1760fd2597b9"
-  integrity sha512-fg0bOp02nY+j2FgVwfb/X+db2Qrexnc0jkgBlxCgL8S1YPFTtitdh9+viPIvefM/KYumQqYID2nBr9qPJcBEFQ==
+"@thetechcompany/express-shield@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@thetechcompany/express-shield/-/express-shield-0.0.20.tgz#a2cd14eb9e9edd0d74527748c614c8abb05a7531"
+  integrity sha512-tTQSYEnorV+8IOb6iC6BKMvrJtPL3PpEIpKhVUIm0R73RdZRve4yF0TfuBKL0rDmWJNGU16ttlsmPtNRAX1fjA==
   dependencies:
     basic-auth "1.1.0"
     jsonwebtoken "^8.5.1"

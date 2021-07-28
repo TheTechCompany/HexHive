@@ -11,7 +11,7 @@ export default () => {
         authorizationServer: process.env.NEXT_PUBLIC_API || 'http://localhost:8090',
         clientId: process.env.NEXT_PUBLIC_CLIENT_ID || 'command-hexhive.io',
         clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET || 'tester',
-        redirectUri: new URL('/dashboard', `${typeof(window) == 'undefined' ? 'http://localhost:3001' /*`window.location.href`*/ : 'http://localhost:3001'}`).toString()
+        redirectUri: new URL('/dashboard', `${(typeof(window) != 'undefined' && process.env.NODE_ENV != 'development') ? window.location.href : 'http://localhost:3001'}`).toString()
     });
 
     // const { client } = useContext(AuthContext)
@@ -24,16 +24,17 @@ export default () => {
        // window.location.href = "/dashboard"
        console.log(client)
         client?.getAuthorizationCode(email, password).then((response) => {
-            console.log(response.code);
 
-            const params = new URLSearchParams()
-            params.set('code', response.code.authorizationCode);
+            if(response && response.code){
+                const params = new URLSearchParams()
+                params.set('code', response.code.authorizationCode);
 
 
-            const url = new URL(response.code.redirectUri)
-            url.searchParams.set('code', response.code.authorizationCode);
-         //   window.navigator.({}, '', url.toString())
-            window.location.href = url.toString()
+                const url = new URL(response.code.redirectUri)
+                url.searchParams.set('code', response.code.authorizationCode);
+            //   window.navigator.({}, '', url.toString())
+                window.location.href = url.toString()
+            }
         })
     }
 

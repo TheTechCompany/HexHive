@@ -9,7 +9,7 @@ connect_data().then(() => {
     console.log("Connected to MongoDB");
 
     const authServer = new CentralAuthServer({
-        issuer: 'https://api.hexhive.io',
+        issuer: process.env.NODE_ENV == 'dev' ? 'localhost' : 'hexhive.io',
         adapter: new MongooseAdapter()
     }, {
         findUser: async (auth_blob: any) => {

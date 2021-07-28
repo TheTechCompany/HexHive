@@ -23,7 +23,7 @@ export * from '../model'
 export class CentralAuthServer {
     private secret?: string;
 
-    private issuer?: string;
+    public issuer?: string;
 
     private methods?: any;
 
@@ -56,8 +56,25 @@ export class CentralAuthServer {
           
     }
 
+    private whitelist = ['http://localhost:3001', 'http://localhost:3000', 'https://hexhive.io']
+    private corsOptions = {
+        origin: (origin : any, callback: (error: any, result?: any) => void) => {
+            console.log(origin)
+           //callback(null, true)
+
+             if (this.whitelist.indexOf(origin) !== -1 || !origin) {
+            //     console.log("TRUE")
+                 callback(null, true)
+             } else {
+                 callback(new Error('Not allowed by CORS'))
+             }
+        }
+        
+    }
+ 
+
     startServer(port: number = 8080){
-        this.express.use(cors())
+        this.express.use(cors(this.corsOptions))
         this.express.use(bodyParser.json())
         this.express.use(bodyParser.urlencoded({ extended: false }))
         this.express.use(this.getRoutes())

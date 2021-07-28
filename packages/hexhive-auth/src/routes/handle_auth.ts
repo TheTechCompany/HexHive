@@ -51,13 +51,16 @@ export default (cas: CentralAuthServer, methods: {findUser: (auth_request: any) 
         },
       }), (req, res) => {
         let oauth = res.locals.oauth.token
-        let signed_jwt = cas.signToken(oauth.refreshToken)
+        let signed_jwt = cas.signToken({user: {_id: oauth.client}, token: oauth.refreshToken})
 
         res.cookie('refresh-token', signed_jwt, {
-          domain: 'hexhive.io',
+          domain: cas.issuer || 'hexhive.io',
           expires: oauth.refreshTokenExpiresAt
         })
 
+        console.log("Sending toke")
+
+        res.status(200)
         res.send({
           accessToken: oauth.accessToken,
           expiresAt: oauth.accessTokenExpiresAt

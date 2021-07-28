@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@thetechcompany/express-shield": "^0.0.18",
+    "@thetechcompany/express-shield": "^0.0.20",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -13,6 +13,7 @@
     "mongoose": "^5.13.3"
   },
   "scripts": {
+    "dev": "NODE_ENV=dev yarn start",
     "start": "ts-node src/index.ts",
     "build": "tsc -b"
   },

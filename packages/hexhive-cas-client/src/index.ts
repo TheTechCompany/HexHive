@@ -68,13 +68,14 @@ export class AuthClient {
                     username,
                     password
                 
-            }) 
+            })
+            result = result.data
         }catch(e){
             console.log(e)
             result = e.response;
         }
 
-        return result.data
+        return result
     }
 
 

@@ -17,8 +17,9 @@ function App() {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }, //Need to change grantType to handle cookie refresHTOken
-      body: `refreshToken=${code}&state=myState&client_secret=tester&client_id=${process.env.REACT_APP_CLIENT_ID || 'command-hexhive.io'}&grant_type=refresh_token`
-    })
+      credentials: 'include',
+      body: `state=myState&client_secret=tester&client_id=${process.env.REACT_APP_CLIENT_ID || 'command-hexhive.io'}&grant_type=refresh_token`
+    }).then((r) => r.json())
     
     // .then((r) => {
 
@@ -33,6 +34,7 @@ function App() {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
+      credentials: 'include',
       body: `code=${code}&client_secret=${process.env.REACT_APP_CLIENT_SECRET || 'tester'}&state=myState&client_id=${process.env.REACT_APP_CLIENT_ID || 'command-hexhive.io'}&grant_type=authorization_code`
     }).then((r) => r.json())
     
@@ -61,6 +63,11 @@ function App() {
          //   setAccessToken|)
           })
         }
+      }).catch(() => {
+        refreshToken(code || '').then((resp) => {
+          console.log("Refresh")
+       //   setAccessToken|)
+        })
       })
   
     }else if(!code && !accessToken){

@@ -35,16 +35,22 @@ export class MongooseAdapter extends AuthAdapter {
     }
 
     async getAccessToken(token: string): Promise<string | boolean | void> {
+        console.log("GET TOKEN CODE", token)
 
         return await AccessToken.findOne({accessToken: token}).populate('client').populate('user')
     }
 
     async getRefreshToken(token: string): Promise<string | void> {
+        console.log("GET RTOKEN CODE", token)
+
         return await AccessToken.findOne({refreshToken: token}).populate('client').populate('user')
     }
 
-    async revokeToken(token: string): Promise<boolean | void> {
-        return await AccessToken.remove({accessToken: token})
+    async revokeToken(token: {accessToken: string}): Promise<boolean | void> {
+        console.log("REVOKE RTOKEN CODE", token)
+
+        await AccessToken.deleteOne({accessToken: token.accessToken})
+        return true;
     }
 
     async saveAuthorizationCode(code: { authorizationCode: string; expiresAt: any; redirectUri: any; }, client: {_id: string}, user: any): Promise<void | { authorizationCode: string; expiresAt: Date; client: any; user: any; redirectUri: string; }> {
@@ -61,7 +67,8 @@ export class MongooseAdapter extends AuthAdapter {
     }
 
     async revokeAuthorizationCode(authorizationCode: any): Promise<boolean | void> {
-        return await AuthorizationCode.remove({authorizationCode: authorizationCode.authorizationCode})
+        await AuthorizationCode.deleteOne({authorizationCode: authorizationCode.authorizationCode})
+        return true;
     }
 
     async getAuthorizationCode(authorizationCode: any): Promise<any | void> {
