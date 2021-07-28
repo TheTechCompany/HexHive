@@ -1,13 +1,13 @@
 {
   "name": "@hexhive/auth",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "dist/index.js",
   "files": [
     "dist/"
   ],
   "license": "MIT",
   "dependencies": {
-    "@thetechcompany/express-shield": "^0.0.20",
+    "@thetechcompany/express-shield": "^0.0.21",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
