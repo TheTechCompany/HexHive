@@ -15,7 +15,7 @@ jobs:
       - run: npm i
       - run: lerna bootstrap --scope @hexhive/dashboard
 
-      - run: REACT_APP_CLIENT_ID='hexhive.io' REACT_APP_CLIENT_SECRET='tester' REACT_APP_API='https://api.hexhive.io' npm run build:dashboard
+      - run: CI=false REACT_APP_CLIENT_ID='hexhive.io' REACT_APP_CLIENT_SECRET='tester' REACT_APP_API='https://api.hexhive.io' npm run build:dashboard
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
