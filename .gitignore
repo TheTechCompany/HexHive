@@ -2,4 +2,12 @@ node_modules/
 dist/
 out/
 
-*tsconfig.tsbuildinfo
+*.tsbuildinfo
+*.swp
+lerna-debug.log
+tsconfig.tsbuildinfo
+.DS_Store
+.idea
+.vs
+dist/
+.vscode
