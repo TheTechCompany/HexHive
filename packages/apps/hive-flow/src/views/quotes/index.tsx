@@ -3,10 +3,8 @@ import React, {
   useEffect, useState
 } from 'react';
 
-import utils from '../../utils';
+// import utils from '../../utils';
 import { QuoteHeader } from './header';
-
-import { sort } from 'fast-sort'
 
 import './index.css';
 
@@ -15,7 +13,6 @@ var formatter = new Intl.NumberFormat('en-US', {
   currency: 'USD'
 });
 
-var conf = require('../../conf')
 
 const Quotes: React.FC<any> = (props) => {
   const [filter, setFiler] = useState<any>({})
@@ -33,9 +30,9 @@ const Quotes: React.FC<any> = (props) => {
   ]
 
   useEffect(() => {
-    utils.quote.getAll().then((quotes) => {
-      setListData(quotes.map((x: any) => ({ id: `${x?.QuoteID}`,  status: x?.Status, name: x?.Name, price: parseInt(x?.TotalLinePrice?.toFixed(0)) || 0 })))
-    })
+    // utils.quote.getAll().then((quotes) => {
+    //   setListData(quotes.map((x: any) => ({ id: `${x?.QuoteID}`,  status: x?.Status, name: x?.Name, price: parseInt(x?.TotalLinePrice?.toFixed(0)) || 0 })))
+    // })
   }, [])
 
   const sortQuotes = (left: any, right: any) => {

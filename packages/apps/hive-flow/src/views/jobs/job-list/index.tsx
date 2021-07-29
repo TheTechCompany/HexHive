@@ -2,11 +2,10 @@ import { DataTable, Box, TextInput, Select } from 'grommet';
 import React, {
   Component, useEffect, useState
 } from 'react';
+
 import { RouteComponentProps } from 'react-router-dom';
 
-import SortedList from '../../../components/primatives/sorted-list';
-import { useQuery } from '../../../gqless';
-import utils from '../../../utils';
+// import { useQuery } from '../../../gqless';
 import { JobHeader } from './header';
 import './index.css';
 
@@ -27,12 +26,12 @@ export const JobList : React.FC<JobListProps> = (props) => {
   ])
 
 
-  const query = useQuery({
-    suspense: false,
-    staleWhileRevalidate: true
-  })
+  // const query = useQuery({
+  //   suspense: false,
+  //   staleWhileRevalidate: true
+  // })
 
-  const projects = query.ProjectMany();
+  const projects : any[] = [] // query.ProjectMany();
 
 
   const selectJob = (job : {JobID: string}) => {
@@ -72,7 +71,7 @@ export const JobList : React.FC<JobListProps> = (props) => {
     return items
   }
 
-    return query.$state.isLoading ? null : (
+    return false ? null : (
       <Box
         flex
         direction="column">

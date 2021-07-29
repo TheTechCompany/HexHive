@@ -5,7 +5,7 @@ const config = {
   react: true,
   scalarTypes: { DateTime: "string" },
   introspection: {
-    endpoint: "http://localhost:8088/graphql ",
+    endpoint: "http://localhost:80/graphql",
     headers: {},
   },
   destination: "./src/gqless/index.ts",

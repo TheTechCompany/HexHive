@@ -1,0 +1,18 @@
+.file-dialog__actions svg{
+  cursor: pointer;
+}
+
+.file-dialog__actions{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-dialog__content, .file-dialog__content > *, .file-dialog__content .react-pdf__Page, .file-dialog__content .react-pdf__Page__canvas, .react-pdf__Page__textContent{
+  height: 100% !important;
+  width: 100% !important;
+}
+.file-dialog__content{
+  border: 1px dashed gray;
+  border-radius: 3px;
+}

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {Timeline as TimelineGantt} from '@thetechcompany/react-gantt-timeline'
-import utils from '../../utils';
+//import utils from '../../utils';
 import moment from 'moment';
-import { stringToColor } from '../../utils/color';
+import { stringToColor } from '@hexhive/utils';
 import { Box } from 'grommet';
 
 interface TimelineProps {
@@ -38,26 +38,26 @@ const Timeline : React.FC<TimelineProps> = (props) => {
 
 
     useEffect(() => {
-        utils.quote.getAll().then((quotes) => {
+        // utils.quote.getAll().then((quotes) => {
             
-          setData(quotes.map((x: any) => 
-          {
-              let start = new Date(moment(x.StartDate).startOf('isoWeek').valueOf())
-              let end =  new Date(moment(start).add(7, 'days').valueOf())
+        //   setData(quotes.map((x: any) => 
+        //   {
+        //       let start = new Date(moment(x.StartDate).startOf('isoWeek').valueOf())
+        //       let end =  new Date(moment(start).add(7, 'days').valueOf())
 
-              console.log(start, end)
-          return {
-               id: `${x?.QuoteID}`, 
-               status: x?.Status,
-               color: stringToColor(x?.Name), 
-               name: x?.Name, 
-               start: start,
-               showLabel: formatter.format(parseInt(x?.TotalLinePrice?.toFixed(0) || 0)),
-               end: end,
-               price: parseInt(x?.TotalLinePrice?.toFixed(0)) || 0 
-            }
-          }))
-        })
+        //       console.log(start, end)
+        //   return {
+        //        id: `${x?.QuoteID}`, 
+        //        status: x?.Status,
+        //        color: stringToColor(x?.Name), 
+        //        name: x?.Name, 
+        //        start: start,
+        //        showLabel: formatter.format(parseInt(x?.TotalLinePrice?.toFixed(0) || 0)),
+        //        end: end,
+        //        price: parseInt(x?.TotalLinePrice?.toFixed(0)) || 0 
+        //     }
+        //   }))
+        // })
     }, [])
 
     useEffect(() => {
@@ -66,28 +66,28 @@ const Timeline : React.FC<TimelineProps> = (props) => {
         if(year != oldYear){
             if(horizon?.start) setDate(horizon?.start)
 
-            utils.quote.fetchMonthQuotes(year).then((quotes) => {
-                console.log(quotes)
+            // utils.quote.fetchMonthQuotes(year).then((quotes) => {
+            //     console.log(quotes)
 
-                setData(quotes.map((x: any) => 
-                {
-                    let start = new Date(moment(x.StartDate).startOf('isoWeek').valueOf())
-                    let end =  new Date(moment(start).add(7, 'days').valueOf())
+            //     setData(quotes.map((x: any) => 
+            //     {
+            //         let start = new Date(moment(x.StartDate).startOf('isoWeek').valueOf())
+            //         let end =  new Date(moment(start).add(7, 'days').valueOf())
       
-                    console.log(start, end)
-                return {
-                     id: `${x?.QuoteID}`, 
-                     status: x?.Status,
-                     color: stringToColor(x?.Name), 
-                     name: x?.Name, 
-                     start: start,
-                     showLabel: formatter.format(parseInt(x?.TotalLinePrice?.toFixed(0) || 0)),
-                     end: end,
-                     price: parseInt(x?.TotalLinePrice?.toFixed(0)) || 0 
-                  }
-                }))
+            //         console.log(start, end)
+            //     return {
+            //          id: `${x?.QuoteID}`, 
+            //          status: x?.Status,
+            //          color: stringToColor(x?.Name), 
+            //          name: x?.Name, 
+            //          start: start,
+            //          showLabel: formatter.format(parseInt(x?.TotalLinePrice?.toFixed(0) || 0)),
+            //          end: end,
+            //          price: parseInt(x?.TotalLinePrice?.toFixed(0)) || 0 
+            //       }
+            //     }))
 
-            })
+            // })
         }
     }, [horizon?.start])
 

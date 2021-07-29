@@ -1,81 +1,42 @@
 {
   "name": "@hexhive-apps/flow",
-  "version": "0.0.2-alpha.0",
+  "version": "0.1.0",
   "private": true,
-  "homepage": "/dashboard/flow",
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
   "dependencies": {
-    "@date-io/moment": "^1.3.9",
     "@gqless/react": "^2.0.15",
     "@hexhive/auth-ui": "^0.0.2-alpha.0",
-    "@material-ui/core": "^4.3.1",
-    "@material-ui/pickers": "^3.2.2",
+    "@hexhive/ui": "^0.0.2",
+    "@hexhive/utils": "^0.0.2-alpha.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
     "@thetechcompany/react-gantt-timeline": "^0.4.14",
-    "async": "^2.6.0",
-    "downloadjs": "^1.4.7",
-    "fast-sort": "^3.0.2",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
     "gqless": "^2.0.14",
-    "grommet": "^2.17.2",
-    "grommet-icons": "^4.5.0",
-    "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.21",
-    "moment": "^2.18.1",
-    "qs": "^6.5.2",
-    "react": "17.x",
-    "react-beautiful-dnd": "13.x",
-    "react-big-calendar": "^0.33.5",
-    "react-doc-viewer": "^0.1.5",
-    "react-dom": "17.x",
-    "react-dropzone": "^10.1.7",
-    "react-multi-date-picker": "^2.9.6",
-    "react-popover": "^0.5.10",
-    "react-redux": "^7.2.4",
-    "react-router-dom": "5.2.0",
-    "react-spinkit": "^3.0.0",
-    "react-transition-group": "^4.4.2",
-    "redux": "^4.1.0",
-    "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.3.0",
-    "sort-array": "^4.1.4",
-    "styled-components": "^5.3.0",
-    "typeface-roboto": "0.0.75"
-  },
-  "devDependencies": {
-    "@craco/craco": "^6.2.0",
-    "@gqless/cli": "^2.0.16",
-    "@types/enzyme": "^3.10.9",
-    "@types/lodash": "^4.14.170",
-    "@types/react-beautiful-dnd": "^7.1.2",
-    "@types/react-big-calendar": "^0.31.1",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-popover": "^0.5.3",
-    "@types/react-redux": "^7.1.18",
-    "@types/react-router-dom": "^5.1.7",
-    "@types/react-spinkit": "^3.0.6",
-    "@types/redux": "^3.6.0",
-    "@types/sort-array": "^2.0.0",
-    "@types/styled-components": "^5.1.9",
-    "@types/uuid": "^8.3.0",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
-    "enzyme": "^3.11.0",
-    "react-app-rewired": "^2.1.8",
-    "react-scripts": "^4.0.3",
-    "ts-loader": "8.2.x",
-    "tsconfig-paths": "^3.10.1",
-    "tsconfig-paths-webpack-plugin": "^3.5.1",
-    "typescript": "^4.3.2",
-    "webpack-bundle-analyzer": "^4.4.2"
+    "grommet": "^2.17.4",
+    "moment": "^2.29.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "generate": "gqless generate",
-    "start": "craco start",
+    "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "jest --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -88,5 +49,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@gqless/cli": "^2.0.16",
+    "@types/react-router-dom": "^5.1.8",
+    "graphql": "^15.5.1",
+    "react-app-rewired": "^2.1.8",
+    "tsconfig-paths-webpack-plugin": "^3.5.1"
   }
 }

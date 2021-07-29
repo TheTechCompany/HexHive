@@ -10,6 +10,7 @@
      "@hexhive/cas-client": ["./shared/hexhive-cas-client/src"],
      "@hexhive/types": ["./shared/hexhive-types/src"],
      "@hexhive/utils": ["./shared/hexhive-utils/src"],
+     "@hexhive/ui": ["./core/hexhive-ui/src"],
      "@hexhive/collaboration-client": ["./core/collaboration-client/src"],
      "@hexhive/command-editor": ["./core/hive-command-editor/src"],
      "@hexhive/collaboration-server": ["./core/collaboration-server/src"]

@@ -1,0 +1,60 @@
+.robust-file-list{
+    display : flex;
+   flex-direction : row;
+   flex-wrap : wrap;
+   flex : 1;
+ 
+ }
+
+ .file-tile:hover{
+  cursor: pointer;
+ }
+
+ .file-tile:hover  .file__delete-actions{
+  display: flex;
+ }
+
+ .file__upload-indicator{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.4);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+ .file__delete-actions{
+   z-index: 99;
+   display: none;
+  position: absolute;
+  right: 5px !important;
+  top: 5px !important;
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 15px;
+  background: #dfdfdf;
+  opacity: 0.8;
+  cursor: pointer;
+
+  align-items: center;
+  justify-content: center;
+ }
+
+.file-tile {
+  position: relative;
+  overflow: hidden;
+  min-height: 25vw;
+
+}
+
+.file-contents{
+  pointer-events: none;
+}
+
+.file-contents, .file-contents > *, .file-contents .react-pdf__Page, .file-contents .react-pdf__Page__canvas{
+  height: 100% !important;
+  width: 100% !important;
+}

@@ -12,20 +12,13 @@ import {
   SchemaObjectTypes,
   SchemaObjectTypesNames,
 } from "./schema.generated";
-import { AuthContext } from '@hexhive/auth-ui'
-import conf from '../conf'
-import { useContext } from "react";
 
 const queryFetcher: QueryFetcher = async function (query, variables) {
-  // Modify "http://localhost:8088/graphql " if needed
-  const token = window.sessionStorage.getItem('CREDENTIALS_TOKEN')
-
-  console.log("Token", token)
-  const response = await fetch(`${conf.baseURL}/graphql`, {
+  // Modify "http://localhost:80/graphql" if needed
+  const response = await fetch("http://localhost:80/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
     },
     body: JSON.stringify({
       query,
@@ -72,7 +65,6 @@ export const {
 
     // Set this flag based on your needs
     staleWhileRevalidate: false,
-    
   },
 });
 

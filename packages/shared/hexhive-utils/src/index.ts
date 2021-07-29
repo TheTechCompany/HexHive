@@ -1,3 +1,5 @@
+export * from './color'
+
 export const getHostForElement = (element: HTMLElement): Document | ShadowRoot =>
 (element.getRootNode?.() as Document | ShadowRoot) || window?.document;
 

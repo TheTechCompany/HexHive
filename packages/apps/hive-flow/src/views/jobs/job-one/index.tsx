@@ -2,29 +2,20 @@ import React, {
 	Component, useEffect, useState
 } from 'react';
 
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-
-import { Tabs, Text, Tab, Box, Heading } from 'grommet';
+import { Tabs, Text, Tab, Box, Heading, Spinner } from 'grommet';
 
 
-import SharedFiles from '../../../components/workhub/shared-file-card';
+// import SharedFiles from '@hexhive/auth-ui';
 
-import { connect } from 'react-redux';
 
 import moment from 'moment';
 
-import utils from '../../../utils';
+// import utils from '../../../utils';
 
 import './style.css';
-import { StoreState } from '../../../reducers';
-import { BaseKanban } from '../../../components/workhub/kanban/Kanban';
-import {FileDialog} from  '../../../components/modals/file-dialog'
+import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
+
 import { useMutation, refetch, useQuery, File } from '../../../gqless';
-import { isEqual, update } from 'lodash';
-import file from '../../../components/workhub/robust-file-list/file';
-var Spinner = require('react-spinkit');
 
 export interface FocusedJobProps{
   match?: any;
@@ -33,7 +24,7 @@ export interface FocusedJobProps{
 const STATUS = [ "Issued", "Workshop", "Finished" ];
 
 
-const FocusedJob : React.FC<FocusedJobProps> = (props) => {
+export const SingleJob : React.FC<FocusedJobProps> = (props) => {
 
   const [ loadingFiles, setLoadingFiles ] = useState<any[]>([])
   const [ uploadingFiles, setUploadingFiles ] = useState<any[]>([])
@@ -133,7 +124,7 @@ const FocusedJob : React.FC<FocusedJobProps> = (props) => {
     },
     {
       title: "Project board",
-      component: <BaseKanban 
+      component: <Kanban 
       onDrag={(result) => {
         console.log(result.destination?.droppableId)
         if(result.destination?.droppableId != undefined){
@@ -179,7 +170,7 @@ const FocusedJob : React.FC<FocusedJobProps> = (props) => {
   ]
 
   const UseLoading = (id: string) => {
-    setLoadingFiles([...new Set([...loadingFiles, id])])
+    setLoadingFiles(Array.from(new Set([...loadingFiles, id])))
 
     return () => {
       let f = loadingFiles.slice() || [];
@@ -198,29 +189,20 @@ const FocusedJob : React.FC<FocusedJobProps> = (props) => {
       })
 */
 
-      utils.job.getFiles(props.match.params.job)
+      // utils.job.getFiles(props.match.params.job)
     }
   }, [props.match.params.job]) 
 
 
 
 
-  const renderToday = () => {
-    return (
-      <Card style={{flex: 1, marginTop: '5px'}}>
-        <CardContent>
-          <Typography variant='h6'>Resources assigned today</Typography>
-        </CardContent>
-      </Card>
-    );
-  }
 
   const renderJobDuration = () => {
     if(job?.startDate){
       let startDate = moment(job?.startDate, 'DD/MM/YYYY');
       let endDate = moment(job?.endDate, 'DD/MM/YYYY') //.add(job.Duration, job.DurationType);
       return (
-        <Typography color="textSecondary" style={{fontSize: 14}}>{startDate.format('DD/MM/YYYY')} - {endDate.format('DD/MM/YYYY')}</Typography> 
+        <Text style={{fontSize: 14}}>{startDate.format('DD/MM/YYYY')} - {endDate.format('DD/MM/YYYY')}</Text> 
       );
     }else{
       return null;
@@ -229,12 +211,12 @@ const FocusedJob : React.FC<FocusedJobProps> = (props) => {
 
    const renderJobDescription = () => {
       return (
-        <Card style={{flex: 0.5}}> 
-          <CardContent className="job-description">
-            <Typography style={{textAlign: 'left'}} variant="h6">{job?.name}</Typography>
+        <Box style={{flex: 0.5}}> 
+          <Box className="job-description">
+            <Text style={{textAlign: 'left'}}>{job?.name}</Text>
             {renderJobDuration()}
-          </CardContent>
-        </Card>
+          </Box>
+        </Box>
       );
    }
 
@@ -348,6 +330,6 @@ const FocusedJob : React.FC<FocusedJobProps> = (props) => {
 	
 }
 
-export default connect((state: StoreState) => ({
-  token: state.auth.token
-}))(FocusedJob);
+// export default connect((state: StoreState) => ({
+//   token: state.auth.token
+// }))(FocusedJob);
