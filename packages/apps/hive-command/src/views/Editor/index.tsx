@@ -10,7 +10,7 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import { useAutomergeDoc } from '@hexhive/collaboration-client'
 import { IEditorProgram } from '@hexhive/command-editor';
-import { FlowShardPaths } from '@hexhive/types';
+import { FlowShardPaths } from '@hexhive/types/dist/interfaces';
 //const Editor = lazy(() => import('@hive-flow/editor'));
 
 export interface EditorProps extends RouteComponentProps<{id: string}> {

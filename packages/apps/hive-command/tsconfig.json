@@ -29,6 +29,9 @@
   ],
   "references": [
     {
+      "path": "../../shared/hexhive-types"
+    },
+    {
       "path": "../../shared/hexhive-auth-ui"
     },
     {
