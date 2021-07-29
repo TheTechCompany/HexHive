@@ -35,6 +35,9 @@
       "path": "../../shared/hexhive-auth-ui"
     },
     {
+      "path": "../../core/hexhive-ui"
+    },
+    {
       "path": "../../core/hive-command-editor"
     },
     {
