@@ -10,7 +10,7 @@ import * as Icons from 'grommet-icons'
 import { LiveComponent, Tablet, InfiniteCanvas, ZoomControls } from '@thetechcompany/live-ui'
 
 import { NodeEditorContext } from './context';
-import { StackItems, StackItemsPorts } from '@hive-flow/types';
+import { StackItems, StackItemsPorts } from '@hexhive/types/dist/interfaces';
 import _ from 'lodash';
 
 const svgr = require('@svgr/core').default

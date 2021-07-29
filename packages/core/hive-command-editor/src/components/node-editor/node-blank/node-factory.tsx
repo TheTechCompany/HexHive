@@ -1,6 +1,6 @@
 import React from "react";
 import { AbstractWidgetFactory, PortWidget, RetractingPort } from "@thetechcompany/live-ui"
-import { StackItemsPorts } from "@hive-flow/types";
+import { StackItemsPorts } from "@hexhive/types/dist/interfaces";
 import { NodeBlank } from "./NodeBlank";
 
 export class NodeFactory extends AbstractWidgetFactory {

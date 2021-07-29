@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { IconNodeFactory, StartNodeFactory } from '@thetechcompany/live-ui'
-import { FlowShard, IO, Stack } from '@hive-flow/types';
+import { FlowShard, IO, Stack } from '@hexhive/types/dist/interfaces';
 import { ActionNodeFactory } from './nodes/action-node';
 import { FlowEditor } from '../../components/flow-editor';
 import { NodeDropdown } from '../../components/node-dropdown';

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { FlowShard, IO, Stack } from '@hive-flow/types';
+import { FlowShard, IO, Stack } from '@hexhive/types/dist/interfaces';
 import { EditorAction, EditorState } from '../store';
 import { InfiniteCanvasNode, InfiniteCanvasPath } from '@thetechcompany/live-ui';
 

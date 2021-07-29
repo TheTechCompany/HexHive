@@ -1,4 +1,4 @@
-import { StackItemsPorts } from '@hive-flow/types';
+import { StackItemsPorts } from '@hexhive/types/dist/interfaces';
 import React from 'react';
 
 export interface NodeEditorState {

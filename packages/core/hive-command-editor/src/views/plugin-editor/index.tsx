@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import { GridList, InfiniteCanvas, TabPane } from '@thetechcompany/live-ui'
 import { CodeEditor } from '../../components/code-editor'
-import {  Stack, StackItems } from '@hive-flow/types';
+import {  Stack, StackItems } from '@hexhive/types/dist/interfaces';
 
 import componentTemplate from './templates/code/component'
 import ioTemplate from './templates/code/io-bus';

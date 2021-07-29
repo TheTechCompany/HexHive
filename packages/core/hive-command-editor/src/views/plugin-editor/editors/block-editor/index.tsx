@@ -1,7 +1,7 @@
 import { Tabs, Box, Tab } from 'grommet';
 import React, { useEffect, useRef, useState } from 'react';
 import { CodeEditor } from '../../../../'
-import { Stack, StackItems } from '@hexhive/types';
+import { Stack, StackItems } from '@hexhive/types/dist/interfaces';
 import ioTemplate from '../../templates/code/io-bus';
 
 

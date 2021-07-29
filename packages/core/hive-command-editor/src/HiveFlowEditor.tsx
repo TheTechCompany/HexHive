@@ -15,7 +15,7 @@ import { SELECT_HMI, SELECT_PROGRAM, SET_ROOT, UPDATE_HMI, UPDATE_PROGRAM } from
 
 import { Grommet } from 'grommet';
 
-import { FlowShard, Stack, IO, StackItems, FlowShardNodes, FlowShardPaths } from '@hive-flow/types'
+import { FlowShard, Stack, IO, StackItems, FlowShardNodes, FlowShardPaths } from '@hexhive/types/dist/interfaces'
 import _ from 'lodash';
 import { nanoid } from 'nanoid';
 import { InfiniteCanvasNode, InfiniteCanvasPath } from '@thetechcompany/live-ui';

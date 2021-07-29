@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Select, TextInput } from 'grommet';
 import { BaseModal } from '../base';
-import { StackItems } from 'hive-flow-types/src/Stack';
+import { StackItems } from '@hexhive/types/dist/interfaces';
 
 export interface StackItemModalProps {
   open: boolean;

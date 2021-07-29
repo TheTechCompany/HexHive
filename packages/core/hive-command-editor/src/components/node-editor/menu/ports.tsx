@@ -2,7 +2,7 @@ import React, { useState, useContext }  from 'react';
 
 import { TextInput, Text, Box, Button, Collapsible } from 'grommet';
 import { NodeEditorContext } from '../context';
-import { StackItemsPorts } from '@hive-flow/types'
+import { StackItemsPorts } from '@hexhive/types/dist/interfaces'
 import { SettingsOption } from 'grommet-icons';
 
 /*

@@ -5,7 +5,7 @@ import * as Icons from 'grommet-icons'
 import { StackItemModal } from '../../modals/stacks/item'
 import useResizeAware from 'react-resize-aware'
 import { size } from 'lodash';
-import { Stack, StackItems } from '@hive-flow/types';
+import { Stack, StackItems } from '@hexhive/types/dist/interfaces';
 import { TreeView } from '../../components/tree-view';
 
 type TreeNode = Readonly<{

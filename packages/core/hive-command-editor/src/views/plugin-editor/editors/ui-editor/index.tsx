@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, List, Button, Tabs, Tab } from 'grommet';
 import { IOSpecEditor } from '../../../../components/io-spec-editor/IOSpecEditor';
-import { StackItems } from '@hexhive/types';
+import { StackItems } from '@hexhive/types/dist/interfaces'
 import { NodeEditor, CodeEditor } from '../../../../'
 import { TabPane } from '@thetechcompany/live-ui';
 import componentTemplate from '../../templates/code/component'
@@ -61,7 +61,7 @@ const tabs = [
                     }}
                     code={_plugin.ui || componentTemplate} />
                 <NodeEditor 
-                    onChange={(node) => {
+                    onChange={(node: any) => {
                         console.log("Node editor", node)
                         // setPlugin({
                         //     ..._plugin,

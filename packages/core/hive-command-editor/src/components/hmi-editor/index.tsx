@@ -4,7 +4,7 @@ import { Box, Spinner } from 'grommet';
 
 import { LiveComponent, StartNodeFactory} from '@thetechcompany/live-ui';
 import { ElementNodeFactory } from './nodes/element-node/factory';
-import { FlowShard,  Stack } from '@hive-flow/types';
+import { FlowShard,  Stack } from '@hexhive/types/dist/interfaces';
 import { camelCase } from 'lodash';
 import { FlowEditor } from '../flow-editor';
 import { NodeDropdown } from '../node-dropdown';

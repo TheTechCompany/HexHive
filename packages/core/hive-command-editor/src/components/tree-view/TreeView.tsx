@@ -5,7 +5,6 @@ import * as Icons from 'grommet-icons'
 import { StackItemModal } from '../../modals/stacks/item'
 import useResizeAware from 'react-resize-aware'
 import { size } from 'lodash';
-import { Stack, StackItems } from '@hive-flow/types';
 import { TreeNode } from './TreeNode';
 import { WidthType } from 'grommet/utils';
 

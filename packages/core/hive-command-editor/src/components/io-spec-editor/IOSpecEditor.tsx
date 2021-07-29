@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useContext } from 'react';
 import { EditorContext } from '../../context';
 import { ADD_PLUGIN_INPUT, ADD_PLUGIN_OUTPUT, UPDATE_PLUGIN_ITEM, UPDATE_PLUGIN_KEY } from '../../store/actions';
-import { StackItems } from '@hive-flow/types';
+import { StackItems } from '@hexhive/types/dist/interfaces';
 
 export interface IOSpecEditorProps{
     plugin: StackItems;

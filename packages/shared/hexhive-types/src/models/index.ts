@@ -38,7 +38,7 @@ export const connect_data = () => {
 }
 
 
-export const Models = {
+export {
     Device,
     FlowShard,
     Program,
@@ -46,5 +46,3 @@ export const Models = {
     DNSRecord
 }
 
-
-export * as Types from './types'

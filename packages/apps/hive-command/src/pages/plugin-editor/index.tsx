@@ -31,7 +31,7 @@ export const PluginEditorPage : React.FC<any> = (props) => {
                     console.log("Updated stack")
                 })
             }}
-            onPluginChanged={(plugin) => {
+            onPluginChanged={(plugin: any) => {
                 setPlugin(plugin as any)
                 console.log("PLUGIN", plugin)
             }}

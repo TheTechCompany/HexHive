@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { RetractingPort } from "@thetechcompany/live-ui"
-import { StackItemsPorts } from "@hive-flow/types"
+import { StackItemsPorts } from "@hexhive/types/dist/interfaces"
 
 export interface ElementNodeProps {
     className?: string;

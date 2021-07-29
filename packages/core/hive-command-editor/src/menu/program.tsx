@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ProcessModal } from '../modals/process';
-import { FlowShard } from '@hexhive/types';
+import { FlowShard } from '@hexhive/types/dist/interfaces';
 import { makeTree } from '@hexhive/utils';
 import { useContext } from 'react';
 import { EditorContext } from '../context';

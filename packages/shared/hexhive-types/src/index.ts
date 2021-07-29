@@ -1,2 +1,3 @@
-export * from './interfaces'
-export * from './models'
+
+export * as Interfaces from './interfaces'
+export * as Models from './models'

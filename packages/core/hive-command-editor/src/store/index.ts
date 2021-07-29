@@ -1,12 +1,11 @@
 import { Dispatch, useRef, useState } from "react";
-import { FlowShard, IO, Stack } from "@hive-flow/types";
+import { FlowShard, IO, Stack } from "@hexhive/types/dist/interfaces"
 import * as actions from './actions'
 import { v4 } from 'uuid';
 import { IEditorProgram } from "../HiveFlowEditor";
 import _ from "lodash";
 import Automerge from 'automerge'
 import { nanoid } from 'nanoid'
-import { addPath } from "graphql/jsutils/Path";
 
 export interface EditorState {
     program?: IEditorProgram

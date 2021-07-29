@@ -60,12 +60,16 @@ module.exports = {
         
             console.log("TS RULE", tsRule)
 
-            tsRule.loader = 'ts-loader',
-            tsRule.options = {
-                projectReferences: true,
-                transpileOnly: true,
-                configFile: 'tsconfig.json'
-            }
+            // tsRule.loader = 'ts-loader',
+            // tsRule.options = {
+            //     projectReferences: true,
+            //     transpileOnly: true,
+            //     configFile: 'tsconfig.json'
+            // }
+
+            tsRule.include = undefined;
+            tsRule.exclude = /node_modules/;
+
 
             webpackConfig.resolve.plugins.pop();
 

@@ -1,4 +1,4 @@
-import { IProgram, IProgramIO } from '../interfaces'
+import { IProgram, IProgramIO } from '../interfaces/program'
 import { model, Schema, Document, Types, mongo } from 'mongoose'
 
 

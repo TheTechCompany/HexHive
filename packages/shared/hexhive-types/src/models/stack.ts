@@ -1,4 +1,4 @@
-import { Stack } from "../interfaces";
+import { Stack } from "../interfaces/stack";
 import { model, Document, Schema } from "mongoose";
 //import { ProgramSchema } from './program'
 
