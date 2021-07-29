@@ -1,0 +1,36 @@
+{
+  "name": "@hexhive/types",
+  "version": "0.0.2-alpha.0",
+  "description": "> TODO: description",
+  "author": "Ross Leitch <professional.balbatross@gmail.com>",
+  "homepage": "https://github.com/TheTechCompany/sudbuster#readme",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "directories": {
+    "dist": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheTechCompany/sudbuster.git"
+  },
+  "scripts": {
+    "build": "tsc -b .",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/TheTechCompany/sudbuster/issues"
+  },
+  "dependencies": {
+    "mongoose": "^5.13.2",
+    "moniker": "^0.1.2",
+    "nanoid": "^3.1.23",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.97"
+  }
+}

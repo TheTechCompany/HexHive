@@ -6,8 +6,13 @@
      "react-dom": ["../node_modules/react-dom"],
      "@types/react": ["../node_modules/@types/react"],
      "@types/react-dom": ["../node_modules/@types/react-dom"],
-     "@hexhive/auth-ui": ["./hexhive-auth-ui/src"],
-     "@hexhive/cas-client": ["./hexhive-cas-client/src"]
+     "@hexhive/auth-ui": ["./shared/hexhive-auth-ui/src"],
+     "@hexhive/cas-client": ["./shared/hexhive-cas-client/src"],
+     "@hexhive/types": ["./shared/hexhive-types/src"],
+     "@hexhive/collaboration-client": ["./core/collaboration-client/src"],
+     "@hexhive/command-editor": ["./core/hive-command-editor/src"],
+     "@hexhive/collaboration-server": ["./core/collaboration-server/src"]
+
    }
   }
 }

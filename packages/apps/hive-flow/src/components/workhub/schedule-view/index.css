@@ -1,0 +1,178 @@
+@media (max-width: 600px){
+  .week-header__controls{
+    display: none !important;
+  }
+
+  .week-day-header:not(.week-day-header-current), .week-day:not(.week-day-current){
+    display:none;
+  }
+
+  .week-day-header{
+    background: #fff !important;
+  }
+
+  .week-day-content {
+    width: 99% !important;
+  }
+
+  .week-day-content > li{
+    width: 100% !important;
+  }
+
+  .add-item-button{
+    width: 100% !important;
+  }
+}
+
+@media print {
+  .schedule-container .week-main{
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .month-picker button{
+      display: none !important;
+   }
+   .week-header{
+     box-shadow: none !important;
+     border: none;
+      display: none;
+   }
+   .week-day-header{
+      border-top: 1px solid #ddd;
+   }
+
+   .week-day{
+      border-bottom: 1px solid #ddd;
+   }
+
+   .add-item-button{
+      display: none !important;
+   }
+}
+
+.week-main{
+  padding-left: 5px;
+  padding-right: 5px; 
+  display: flex;
+   flex-direction: column;
+    flex: 1;
+}
+
+.week-main .btn-default{
+  cursor: pointer;
+   background-color: #dfdfdf; 
+   border: 0;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: box-shadow 250ms ease-in;
+}
+
+.week-main .btn-default:hover{
+   border-color: white !important;
+   background-color: #ddd;
+   box-shadow: 0px 5px 5px -5px gray;
+}
+
+.week-header {
+  z-index: 2;
+  box-shadow: 0px 5px 5px -5px gray;
+   display: flex;
+   flex-direction: column;
+}
+
+.week-header__controls{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.week-header__days{
+  display: flex;
+}
+
+.week-chevron {
+   padding: 10px;
+   cursor: pointer;
+}
+
+.week-container { 
+  padding-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+   overflow-y: hidden;
+   flex: 1;
+}
+
+.week-days {
+  overflow: hidden;
+  position: relative;
+   display: flex;
+   flex-direction: row;
+   height: 100%;
+}
+
+.week-day {
+   position: relative;
+   display: flex;
+   flex: 1;
+   flex-direction: column;
+   /*border: 1px solid #ddd;*/
+   background: white;
+}
+
+.week-day:nth-child(n+2) > .week-day-content {
+   border-left: 3px solid white;
+}
+
+.week-day:nth-child(n+2) > .week-day-header {
+   border-left: 3px solid #c7c2c0;
+}
+
+.week-day-header{
+   color: black;
+  flex: 1;
+  font-weight: bold;
+   padding-bottom: 7px;
+   padding-top: 7px;
+   z-index: 1000; /*ensure shadow is in front*/
+}
+
+.week-day-header-current{
+   background-color: #dfdfdf;/*#b3b3b3;*/
+}
+
+.week-day-content > li{
+  width: calc(100% - 3px);
+}
+
+.week-day-content{
+  width: 100%;
+  box-sizing: content-box;
+   overflow-y: scroll;
+   display: flex;
+   flex: 1;
+   flex-direction: column;
+   padding: 0px;
+   padding-right: 18px;
+   list-style: none;
+   margin-top: 8px;
+   margin-bottom: 0;
+}
+
+.create_button{
+   padding: 4px;
+   background-color: white;
+   border: white;
+   border-width: 0 1px;
+   display: grid;
+   width: 100%;
+
+}
+
+.add-item-button {
+  width: calc(100% - 3px);
+  background: #dfdfdf;
+   min-height: 35px;
+}

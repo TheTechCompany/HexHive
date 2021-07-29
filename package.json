@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:landing": "cd packages/hexhive-landing && npm run build-prod",
-    "build:dashboard": "cd packages/hexhive-dashboard && npm run build",
+    "build-app:command": "cd packages/apps/hive-command && npm run build",
+    "build-app:flow": "cd packages/apps/hive-flow && npm run build",
+    "build:landing": "cd packages/core-apps/hexhive-landing && npm run build-prod",
+    "build:dashboard": "cd packages/core-apps/hexhive-dashboard && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

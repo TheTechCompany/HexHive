@@ -1,0 +1,40 @@
+{
+  "name": "@hexhive/auth-ui",
+  "version": "0.0.2-alpha.0",
+  "description": "> TODO: description",
+  "author": "Ross Leitch <professional.balbatross@gmail.com>",
+  "homepage": "https://github.com/TheTechCompany/hexhive-common/tree/main/packages/hexhive-auth-ui#readme",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "directories": {
+    "dist": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheTechCompany/hexhive-common.git"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/TheTechCompany/hexhive-common/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^16.4.6",
+    "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
+    "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
+    "react-dom": "^17.0.2",
+    "tsconfig-paths-webpack-plugin": "^3.5.1",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@hexhive/cas-client": "^0.0.2-alpha.0"
+  }
+}

@@ -1,0 +1,28 @@
+.text-input{
+  box-shadow: 0px 5px 10px gray;
+  border-radius: 12px;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
+  height: 50px;
+  padding: 10px;
+  font-family: Roboto;
+  display: flex;
+}
+
+.text-input > .text-input__pre{
+  width: 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.text-input > input{
+  border: none;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+}
+

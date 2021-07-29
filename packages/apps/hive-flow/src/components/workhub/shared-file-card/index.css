@@ -1,0 +1,46 @@
+
+.file-list__drop{
+  background: #3f51b5 !important;
+  display: none;
+  border-radius: 7px;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-list__drop.active{
+  display: flex;
+  position: absolute;
+  height: 50px;
+  color: white;
+  right: 20%;
+  left: 20%;
+  bottom: 24px;
+}
+
+.file-list__item{
+  width: 50px;
+}
+
+.file-list.empty{
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+}
+
+.file-list {
+  width: 100%;
+  position: relative;
+  outline: none !important;
+    padding-top: 10px;
+   
+}
+.upload-helper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.upload-helper svg{
+  margin-right: 10px;
+}
