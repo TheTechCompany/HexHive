@@ -13,7 +13,6 @@
      "@hexhive/collaboration-client": ["./core/collaboration-client/src"],
      "@hexhive/command-editor": ["./core/hive-command-editor/src"],
      "@hexhive/collaboration-server": ["./core/collaboration-server/src"]
-
    }
   }
 }

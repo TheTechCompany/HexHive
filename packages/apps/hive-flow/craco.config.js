@@ -51,7 +51,6 @@ module.exports = {
             add: [], /* An array of plugins */ 
             remove: ["ModuleScopePlugin"],  /* An array of plugin constructor's names (i.e. "StyleLintPlugin", "ESLintWebpackPlugin" ) */ 
         },
-        configure: { /* Any webpack configuration options: https://webpack.js.org/configuration */ },
         configure: webpackConfig => {
 
             // ts-loader is required to reference external typescript projects/files (non-transpiled)

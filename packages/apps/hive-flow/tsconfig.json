@@ -1,7 +1,7 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "target": "es6",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "rootDir": "src/",
@@ -24,7 +24,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src/**/*"
   ],
   "exclude": [
     "build/",
