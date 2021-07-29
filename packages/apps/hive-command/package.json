@@ -36,7 +36,7 @@
   "scripts": {
     "generate": "gqless generate",
     "start": "craco start",
-    "build": "react-app-rewired --expose-gc --max-old-space-size=8192 build",
+    "build": "craco --expose-gc --max-old-space-size=8192 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
