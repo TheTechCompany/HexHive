@@ -30,7 +30,7 @@ export interface RobustFileListProps {
   grid?: boolean;
 }
 
-const RobustFileList : React.FC<RobustFileListProps> = (props) => {
+export const RobustFileList : React.FC<RobustFileListProps> = (props) => {
   const [ sort, setSort ] = useState<{property: string, direction: "asc" | "desc"}>()
 
   const [ checked, setChecked ] = useState<string[]>([])

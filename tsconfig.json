@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-   "baseUrl": "./packages",
+   "baseUrl": "./packages/",
+   "target": "ESNext",
+   "declaration": true,
+   "module": "commonjs",
    "paths": {
      "react": ["../node_modules/react"],
      "react-dom": ["../node_modules/react-dom"],

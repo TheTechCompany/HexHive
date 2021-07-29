@@ -237,7 +237,7 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
         className="job-one-container" style={{flex: 1, display: 'flex'}}>
           <FileDialog
               open={dialogOpen}
-              onSubmit={async (_files: File[]) => {
+              onSubmit={async (_files: any[]) => {
                 if(_files.length == 1){
                   let file = _files[0]
 

@@ -9,7 +9,9 @@ export default class Schedule extends Component {
   render(){
     return (
       <div className="schedule-container">
-        <ScheduleView />
+        <ScheduleView 
+          jobs={[]}
+          isLoading={false}/>
       </div>
     );
   }
