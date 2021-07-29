@@ -1,79 +1,91 @@
-import React, { Component } from 'react';
+import React, { Component, useState} from 'react';
 
 import { Switch, Link, Route , generatePath} from 'react-router-dom';
 
 import logo from '../../logo.svg';
 
 //views, logo
-import {Sidebar} from '@hexhive/ui';
+import { Sidebar} from '@hexhive/ui';
 
 // import RoutedView from '../../components/primatives/routed-view';
 
+import {
+  Plan,
+  Schedule,
+  SchedulePlay,
+  DocumentConfig,
+  Catalog,
+  Tools,
+  Group
+} from 'grommet-icons'
+
 import { Box, Spinner, Text } from 'grommet';
 import './index.css';
-import { useState } from 'react';
 import { JobList } from '../jobs/job-list';
 import { SingleJob } from '../jobs/job-one';
 import { StaffList } from '../staff/employee-list';
+import ScheduleView from '../schedule';
 import employeeOne from '../staff/employee-one';
 import { PlantList } from '../plant/plant-list';
+import Quotes from '../quotes';
 
 const Timeline = React.lazy(() => import('../timeline/Timeline'))
 
-const Schedule = React.lazy(() => import('../schedule'))
-const Quotes = React.lazy(() => import('../quotes'))
-const Jobs = React.lazy(() => import('../jobs'))
-const Employees = React.lazy(() => import('../staff'))
-// const MonthView = React.lazy(() => import('../../components/workhub/planning-calendar'))
-const Plant = React.lazy(() => import('../plant'))
+// const Schedule = React.lazy(() => import('../schedule'))
+// const Quotes = React.lazy(() => import('../quotes'))
+// const Jobs = React.lazy(() => import('../jobs'))
+// const Employees = React.lazy(() => import('../staff'))
+// // const MonthView = React.lazy(() => import('../../components/workhub/planning-calendar'))
+// const Plant = React.lazy(() => import('../plant'))
 
 
-export default (props: any) => { 
+export const Dashboard : React.FC<any> = (props: any) => { 
 
-  const [ view, setView ] = useState<string>('schedule')
-  const [ alerts, setAlerts ] = useState<string[]>([])
+  //  const [ view, setView ] = React.useState('schedule')
+  // const [ alerts, setAlerts ] = useState<string[]>([])
 
+  const alerts = []
   const active = window.location.pathname.replace(props.match.url, '')
 
   const views = () => {
-    let login_type = props.user.login_type;
+    let login_type =  'email' //props.user.login_type;
     let views = []
     if(login_type == 'email'){
       views = [{
-                  icon: "schedule",
+                  icon: <Schedule />,
                   label: "Schedule",
-                  component: Schedule,
+                  component: <> </>,
                 },
-                // {
-                //   icon: 'fast_forward',
-                //   label: "Planner", 
-                //   component: MonthView
-                // },
                 {
-                  icon: 'fast_forward',
+                  icon: <Plan />,
+                  label: "Planner", 
+                  component: <></>
+                },
+                {
+                  icon: <SchedulePlay />,
                   label: "Timeline",
-                  component: Timeline
+                  component: <></>
                 },
                 {
-                  icon: 'help_outline',
+                  icon: <DocumentConfig />,
                   label: "Quotes",
-                  component: Quotes,
+                  component: <></>,
                 },
                 {
-                  icon: 'check_circle_outline',
-                  label: "Jobs",
-                  component: Jobs
+                  icon: <Catalog />,
+                  label: "Projects",
+                  component: <></>
                 },
                 {
-                  icon: 'people',
-                  label: "Staff",
-                  component: Employees
+                  icon: <Group />,
+                  label: "People",
+                  component: <></>
                 }, 
                 { 
-                  icon: 'directions_car',
-                  label: "Plant",
+                  icon: <Tools />,
+                  label: "Equipment",
                   alerts: alerts.length,
-                  component: Plant
+                  component: <></>
                 }
       ]
     }else{
@@ -81,23 +93,23 @@ export default (props: any) => {
           {
             icon: "schedule",
             label: "Schedule",
-            component: Schedule,
+            component: <></>,
           },
           {
             icon: 'check_circle_outline',
-            label: "Jobs",
-            component: Jobs
+            label: "Projects",
+            component: <></>
           },
           {
             icon: 'people',
-            label: "Staff",
-            component: Employees
+            label: "People",
+            component: <></>
           }, 
           { 
             icon: 'directions_car',
-            label: "Plant",
+            label: "Equipment",
             alerts: alerts.length,
-            component: Plant
+            component: <></>
           }
 
       ]
@@ -105,6 +117,7 @@ export default (props: any) => {
     return views;
   }
 
+  console.log(props.match)
 
   // componentDidMount(){
 
@@ -142,11 +155,14 @@ export default (props: any) => {
               </Box>
             )}>
             <Switch>
-                <Route path={`${props.match.url}/projects`} component={JobList} />
-                <Route path={`${props.match.url}/projects/:id`} component={SingleJob} />
-                <Route path={`${props.match.url}/people`} component={StaffList} />
-                <Route path={`${props.match.url}/people/:id`} component={employeeOne} />
-                <Route path={`${props.match.url}/equipment`} component={PlantList} />
+                <Route path={`/schedule`} component={ScheduleView} />
+                <Route path={`/projects`} component={JobList} />
+                <Route path={`/projects/:id`} component={SingleJob} />
+                <Route path={`/quotes`} component={Quotes} />
+                <Route path={`/people`} component={StaffList} />
+                <Route path={`/people/:id`} component={employeeOne} />
+                <Route path={`/equipment`} component={PlantList} />
+                <Route path={`/timeline`} component={Timeline} />
             </Switch>
               
             </React.Suspense>

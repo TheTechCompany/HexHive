@@ -51,10 +51,10 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   // const jobs : Project[] = (query.ProjectMany() || []).map((x) => ({...x, __typename: 'Project'}))
 
   useEffect(() => {
-    props.getJobs();
-    props.getUsers();
-    props.getEmployees();
-    props.getPlant();
+    // props.getJobs();
+    // props.getUsers();
+    // props.getEmployees();
+    // props.getPlant();
     /*    utils.user.getAll().then((users) => {
       this.setState({users: users});
     })*/
@@ -85,18 +85,20 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   const renderHeader = () => {
     let dayHeaders = renderDayHeaders();
     return (
-      <div className="week-header">
-        <div className="week-header__controls">
+      <Box 
+        direction="column" 
+        className="week-header">
+        <Box align="center" className="week-header__controls">
           <DateSelector
             value={date}
             displayFormat={"MMMM YYYY"}
             stepSize={"week"}
             onChange={changeWeek} />
-        </div>
-        <div className="week-header__days">
+        </Box>
+        <Box direction="row" className="week-header__days">
           {dayHeaders}
-        </div>
-      </div>
+        </Box>
+      </Box>
     )
   }
 
@@ -148,7 +150,7 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   const renderSchedule = (i: number) => {
     return scheduleData[i].map((x: any, ix : number) => {
       return (
-        <li>
+        <li style={{padding: 0}}>
         <ScheduleCard
           jobs={props.jobs}
           onClick={() => {
@@ -218,7 +220,7 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
 
     if(!props.user.readonly){
       return (
-        <Button key={dayIndex} className="add-item-button"  onClick = { () => {
+        <Button label="Create" key={dayIndex} className="add-item-button"  onClick = { () => {
           var day = moment(params[0]).add(dayIndex, 'day')  
           setTimestamp(day)
           setCurrentDay(dayIndex)
@@ -227,9 +229,7 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
           
           toggleEditorModal(true)
         }
-        }>
-        Create
-      </Button>
+        } />
       );
     }else{
       return null;
@@ -243,14 +243,17 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
       var currentDay = today.getDate();
       var currentMonth = today.getMonth() + 1;
       headers.push(( 
-        <div className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day-header week-day-header-current' : 'week-day-header'}>
-          <div>
+        <Box 
+          direction="column"
+          flex
+          className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day-header week-day-header-current' : 'week-day-header'}>
+          <Box>
             {renderTime(i, 'ddd')}
-          </div>
-          <div>
+          </Box>
+          <Box>
             {renderTime(i, 'DD/MM')}
-          </div>
-        </div>
+          </Box>
+        </Box>
       ))
     }
     return headers;
@@ -264,12 +267,15 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
       var currentDay = today.getDate();
       var currentMonth = today.getMonth() + 1;
       week.push((
-        <div className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day week-day-current' : 'week-day'}>
-          <ul className = 'week-day-content'>
+        <Box 
+          align="center"
+          flex 
+          className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day week-day-current' : 'week-day'}>
+          <ul style={{listStyle: 'none', padding: 0}} className = 'week-day-content'>
             { dayItems }
             {renderAddScheduleButton(i)}
           </ul>
-        </div>
+        </Box>
       ));
     }
     return week;
@@ -279,10 +285,15 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   const renderedModal = renderCreateScheduleModal()
 
     return (
-      <Box className="week-main">
+      <Box 
+        flex 
+        direction="column" 
+        className="week-main">
         {/*<div className="week-main">*/} 
           {renderHeader()} 
-          <div className="week-container">
+          <Box 
+            flex 
+            className="week-container">
            {props.isLoading ? (
             <Box
               flex
@@ -291,11 +302,13 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
               <Spinner size="medium"/>
               <Text>Loading schedule ...</Text>
             </Box>
-           )  : (<div className="week-days">
+           )  : (
+           <Box flex direction="row" className="week-days">
               {renderedDays}      
               {renderedModal}
-            </div>)}
-          </div>
+            </Box>
+            )}
+          </Box>
         </Box>
     );
   

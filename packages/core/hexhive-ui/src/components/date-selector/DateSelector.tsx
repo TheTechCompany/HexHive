@@ -22,7 +22,7 @@ export class DateSelector extends Component<any, any> {
   render(){
     const { value, displayFormat } = this.props;
     return (
-      <Box className="month-picker">
+      <Box direction="row" align="center" className="month-picker">
         <Button icon={<ChevronLeft />} onClick={this.change.bind(this, -1)} />
    
         <Text className="month-picker__display">{moment(value).format(displayFormat)}</Text>

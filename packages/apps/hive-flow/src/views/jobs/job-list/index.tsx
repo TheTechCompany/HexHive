@@ -71,7 +71,8 @@ export const JobList : React.FC<JobListProps> = (props) => {
     return items
   }
 
-    return false ? null : (
+
+    return (false) ? null : (
       <Box
         flex
         direction="column">
@@ -118,7 +119,7 @@ export const JobList : React.FC<JobListProps> = (props) => {
           orderBy={"JobID"}
           keys={listKeys}
           data={}
-          onClick={selectJob.bind(this)}/>*/}
+       onClick={selectJob.bind(this)}/>*/}
       </Box>
       </Box>
 
