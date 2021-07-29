@@ -145,6 +145,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
                   props.history.push(path)
                 }}/>
 
+            <Box flex pad="xsmall">
             <React.Suspense fallback={(
               <Box 
                 align="center"
@@ -166,7 +167,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
             </Switch>
               
             </React.Suspense>
-
+            </Box>
                 {/*<div style={{display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingRight: '10px'}}>
                <UserIcon style={{fontSize: '30px', cursor: 'pointer'}} onClick={() => {this.props.history.push('/admin')}}/>
                 </div>*/}

@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './App.css';
 import { AuthProvider } from '@hexhive/auth-ui';
 import {Dashboard} from './views/dashboard';
-
+import { BaseStyle } from '@hexhive/styles'
 function App() {
   console.log(process.env.PUBLIC_URL)
   return (
@@ -14,7 +14,7 @@ function App() {
       clientId="hexhive.io"
       clientSecret="tester"
       redirectUri="https://hexhive.io/dashboard/flow">
-        <Grommet plain>
+        <Grommet plain theme={BaseStyle}>
             <Router basename={process.env.PUBLIC_URL}>
                 <div className="App">
                   

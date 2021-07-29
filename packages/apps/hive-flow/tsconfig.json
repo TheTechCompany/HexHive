@@ -33,6 +33,9 @@
     },
     {
       "path": "../../core/hexhive-ui"
+    },
+    {
+      "path": "../../shared/hexhive-styles"
     }
   ]
 }
