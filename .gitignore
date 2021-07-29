@@ -11,3 +11,5 @@ tsconfig.tsbuildinfo
 .vs
 dist/
 .vscode
+*.env
+.env
