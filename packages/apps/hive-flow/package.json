@@ -1,6 +1,6 @@
 {
   "name": "@pencilin/frontend",
-  "version": "1.0.5",
+  "version": "0.0.2-alpha.0",
   "private": true,
   "homepage": "/dashboard/flow",
   "eslintConfig": {
@@ -11,7 +11,7 @@
   "dependencies": {
     "@date-io/moment": "^1.3.9",
     "@gqless/react": "^2.0.15",
-    "@hexhive/auth-ui": "^0.0.6",
+    "@hexhive/auth-ui": "^0.0.2-alpha.0",
     "@material-ui/core": "^4.3.1",
     "@material-ui/pickers": "^3.2.2",
     "@thetechcompany/react-gantt-timeline": "^0.4.14",

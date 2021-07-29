@@ -1,6 +1,6 @@
 {
 	"name": "@hive-flow/web",
-	"version": "1.2.1-alpha",
+	"version": "0.0.2-alpha.0",
 	"homepage": "/dashboard/command",
 	"private": true,
 	"dependencies": {
@@ -8,7 +8,7 @@
 		"@babel/core": "7.12.3",
 		"@fontsource/roboto-condensed": "^4.5.0",
 		"@gqless/react": "^2.0.15",
-		"@hexhive/auth-ui": "^0.0.6",
+		"@hexhive/auth-ui": "^0.0.2-alpha.0",
 		"@hexhive/automerge-client": "^1.2.2-alpha.0",
 		"@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
 		"@svgr/webpack": "5.5.0",
