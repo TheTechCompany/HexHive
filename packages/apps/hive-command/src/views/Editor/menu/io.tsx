@@ -2,7 +2,7 @@ import { TreeView } from '@thetechcompany/live-ui';
 import { Box } from 'grommet';
 import React, { useState } from 'react';
 import { IOModal } from '../../../components/modals/io';
-import { makeTree } from '../../../utils';
+// import { makeTree } from '../../../utils';
 
 const types = [{
     key: "blower",

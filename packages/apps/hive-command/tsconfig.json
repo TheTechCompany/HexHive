@@ -1,4 +1,5 @@
 {
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -22,5 +23,19 @@
   },
   "include": [
     "src"
+  ],
+  "references": [
+    {
+      "path": "../../shared/hexhive-auth-ui"
+    },
+    {
+      "path": "../../core/hive-command-editor"
+    },
+    {
+      "path": "../../core/collaboration-client"
+    },
+    {
+      "path": "../../shared/hexhive-types"
+    }
   ]
 }
