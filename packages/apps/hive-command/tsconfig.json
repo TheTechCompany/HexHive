@@ -36,6 +36,9 @@
     },
     {
       "path": "../../shared/hexhive-types"
+    },
+    {
+      "path": "../../shared/hexhive-styles"
     }
   ]
 }

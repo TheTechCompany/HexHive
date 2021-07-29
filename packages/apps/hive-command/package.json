@@ -1,6 +1,7 @@
 {
   "name": "@hexhive-apps/command",
   "version": "0.0.3-alpha.0",
+  "homepage": "/dashboard/command",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.21",
@@ -8,6 +9,7 @@
     "@hexhive/auth-ui": "^0.0.3-alpha.0",
     "@hexhive/collaboration-client": "^0.0.3-alpha.0",
     "@hexhive/command-editor": "^0.0.3-alpha.0",
+    "@hexhive/styles": "^1.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -19,10 +21,12 @@
     "axios": "^0.21.1",
     "gqless": "^2.0.14",
     "grommet": "^2.17.4",
+    "leaflet": "1.7.1",
     "moment": "^2.29.1",
     "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-leaflet": "3.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "recharts": "^2.0.10",
@@ -31,7 +35,7 @@
   },
   "scripts": {
     "generate": "gqless generate",
-    "start": "react-app-rewired start",
+    "start": "craco start",
     "build": "react-app-rewired --expose-gc --max-old-space-size=8192 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -55,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^6.2.0",
     "@gqless/cli": "^2.0.16",
     "@hexhive/types": "^0.0.3-alpha.0",
     "@types/lodash": "^4.14.171",

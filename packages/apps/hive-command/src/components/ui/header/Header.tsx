@@ -38,7 +38,7 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
                 justify="start">
                 <Logo 
                     style={{cursor: 'pointer'}}
-                    onClick={() => props.history.push(`/dashboard`)}
+                    onClick={() => props.history.push(`/dashboard/command`)}
                     height="52px" />
             </Box>
             <Box 
@@ -50,8 +50,8 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
                 {props.tabs?.map((x) => (
                     <Button 
                         hoverIndicator
-                        className={!x.action && matchPath(location.pathname + location.search, {path: `${props.match.url}${x.path}`}) !== null ? 'active' : ''}
-                        onClick={() => props.history.push(`${props.match.url}${x.path}`)}
+                        className={!x.action && matchPath(location.pathname + location.search, {path: `${x.path}`}) !== null ? 'active' : ''}
+                        onClick={() => props.history.push(`${x.path}`)}
                         color="gold"
                         plain
                         icon={!x.label && x.icon}
