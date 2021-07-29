@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { programActions } from '../../../actions';
 import { ProcessModal } from '../../../components/modals/process';
 import { FlowShard } from '../../../gqless';
-import { makeTree } from '../../../utils';
+import { makeTree } from '@hexhive/utils';
 
 export interface ProgramMenuProps {
     program_shards?: FlowShard[]
