@@ -13,6 +13,12 @@ jobs:
           node-version: 15.x
 
       - run: npm i
+
+      - run: lerna bootstrap --scope @hexhive/auth-ui
+
+
+      - run: lerna run build --scope @hexhive/auth-ui
+
       - run: lerna bootstrap --scope @hexhive/dashboard
 
       - run: CI=false REACT_APP_CLIENT_ID='hexhive.io' REACT_APP_CLIENT_SECRET='tester' REACT_APP_API='https://api.hexhive.io' npm run build:dashboard
