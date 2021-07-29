@@ -1,0 +1,35 @@
+.search-field{
+  flex: 1;
+}
+
+.search-field__input {
+  margin-bottom: 8px;
+}
+
+.search-field__input .Select-control{
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  border-radius: 0;
+}
+
+.job-option.selected:hover{
+  background:  #3f51b59e !important;
+}
+
+.quote-option.selected:hover{
+  background: #b5b13fad !important;
+}
+
+.job-option.selected,job-option.selected:focus{
+  background: #3f51b5 !important;
+  color: white;
+}
+
+.quote-option.selected,quote-option.selected:focus{
+  background:  #b5b13f !important;
+  color: white;
+}
+
+.job-option {
+  margin-right: 8px;
+}

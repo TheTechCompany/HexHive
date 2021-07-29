@@ -14,12 +14,15 @@ jobs:
 
       - run: npm i
 
-      - run: lerna bootstrap --scope @hexhive/auth-ui
+      - run: lerna bootstrap --scope @hexhive/cas-client --include-dependencies
 
+      - run: lerna run build --scope @hexhive/cas-client
+      
+      - run: lerna bootstrap --scope @hexhive/auth-ui --include-dependencies
 
       - run: lerna run build --scope @hexhive/auth-ui
 
-      - run: lerna bootstrap --scope @hexhive/dashboard
+      - run: lerna bootstrap --scope @hexhive/dashboard --include-dependencies
 
       - run: CI=false REACT_APP_CLIENT_ID='hexhive.io' REACT_APP_CLIENT_SECRET='tester' REACT_APP_API='https://api.hexhive.io' npm run build:dashboard
 

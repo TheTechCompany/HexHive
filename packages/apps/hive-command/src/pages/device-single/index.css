@@ -1,0 +1,37 @@
+.bottom-row{
+    display: flex;
+    flex: 1;
+    margin-top: 8px;
+}
+
+.top-row{
+    flex: 1;
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.location-col{
+    margin-left: 8px;
+    flex: 0.6;
+    display: flex;
+}
+
+.location-col .leaflet-container{
+    flex: 1;
+}
+
+.detail-col{
+    margin-right: 8px;
+    flex: 0.4;
+}
+
+.graph-col{
+    flex: 0.7;
+    margin-right: 8px;
+    display: flex;
+}
+
+.notes-col{
+    margin-left: 8px;
+    flex: 0.3;
+}

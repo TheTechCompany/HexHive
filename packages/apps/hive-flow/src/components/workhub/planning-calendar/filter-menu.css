@@ -1,0 +1,11 @@
+.filter-menu{
+  display: flex;
+  flex-direction: column;
+ padding-left: 8px;
+ padding-right: 8px;
+}
+
+.filter-option{
+  display: flex;
+  align-items: center;
+}

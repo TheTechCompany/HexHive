@@ -1,0 +1,134 @@
+.schedule-card .MuiCardContent-root:last-child {
+    padding-bottom: 8px !important;
+}
+
+.Popover-body {
+  pointer-events: none;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+  background: hsl(0, 0%, 27%);
+  color: white;
+  border-radius: 0.3rem;
+}
+
+@media screen {
+   .notes {
+      display: none;
+   }
+}
+
+@media print {
+   .remove-card{
+      display: none;
+   }
+
+   .staff-container-header{
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;      
+   }
+
+   .plant-container-header{
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+   }
+   .ms-menu{
+      display: none;
+   }
+
+   .ms-header{
+      display: none;
+   }
+
+   .schedule-card {
+      border-bottom: 1px solid black;
+   }
+
+   .notes {
+      display: flex;
+      flex-direction: column;
+   }
+
+   .notes > div {
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+   }
+
+   .card-footer {
+      display: none;
+   }
+
+   .notes-indicator{
+    display: none !important;
+   }
+}
+
+.notes-indicator{
+  background: #F2726B;
+  color: white;
+}
+
+.notes > ul {
+   list-style: none;
+   padding: 0;
+}
+
+.notes > div {
+   font-weight: bold;
+}
+
+.card-title {
+   font-size: 15px;
+   font-weight: bold;
+}
+
+.card-footer {
+   background-color: #F2726B;
+   color: white;
+}
+.plant-container {
+   list-style: none;
+   padding: 0;
+   display: flex;
+   flex: 1;
+   flex-direction: column;
+}
+
+.schedule-card > .MuiCardContent-root{
+  padding: 2px;
+  background-color: #eeeeee;
+}
+
+.schedule-card{
+   cursor: pointer;
+   display: flex;
+   flex: 1;
+   flex-direction: column; 
+  margin-bottom: 5px;
+   border-radius: 9px;
+   background: #e6e6e6;
+   overflow: hidden;
+   box-shadow: 0px 5px 5px -5px gray;
+  transition: box-shadow 250ms ease-in;
+}
+
+.schedule-card:hover{
+  box-shadow: 0px 5px 5px -3px gray;
+}
+
+
+.staff-container-header{
+   background-color: #ddd;
+}
+
+.plant-container-header{
+   font-weight: bold; 
+}
+
+.staff-container { 
+   list-style: none;
+   display: flex;
+   flex: 1;
+   padding: 0;
+   flex-direction: column;
+}

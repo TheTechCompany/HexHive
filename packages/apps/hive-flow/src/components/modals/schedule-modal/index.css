@@ -1,0 +1,54 @@
+.MuiTab-root{
+  min-width: unset !important;
+}
+
+.schedule-modal__content.MuiDialogContent-root{
+  padding-top: 0;
+  padding-bottom: 0 ;
+}
+
+@media (max-width: 1025px){
+  .schedule-modal__content{
+    width: 50vw;
+  }
+
+}
+
+@media (min-width: 1025px){
+  .schedule-modal__content{
+    width: 37vw !important;
+    max-width: calc(600px - 48px);
+  }
+}
+
+.modal-job-view{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.staff-tab, .plant-tab, .note-tab{
+  display: flex;
+  height: 315px;
+}
+
+.calendar-container {
+   height: 50vh;
+   width: 100%;
+   overflow: hidden;
+}
+
+.calendar-container > div.Cal__Container__root{
+   width: 100% !important;
+   height: 100%;
+}
+
+.note-item{
+   display: flex;
+   margin-bottom: 5px;
+}
+
+.job-selector{
+   z-index: 20;
+}

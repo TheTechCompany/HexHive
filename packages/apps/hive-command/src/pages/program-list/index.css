@@ -1,0 +1,23 @@
+.program-list{
+  position: relative;
+  flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.program-list .MuiFab-root{
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+}
+
+.program-list > .MuiPaper-root{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.program-list > .MuiPaper-root > .MuiTypography-root{
+    display: flex;
+    padding: 8px 0 0 8px;
+}

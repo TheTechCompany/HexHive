@@ -1456,14 +1456,7 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hexhive/auth-ui@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@hexhive/auth-ui/-/auth-ui-0.0.3.tgz#e5844d6442aaca2de29ca8830a003e4af1b37362"
-  integrity sha512-sLycYv7SYWRI21hN6jlZf1y1E60z9ne1X5fM08Sf+MrQwYtoZ5wonvMKTrgfFeMBAyiIYmrZwuotrylOCn8dsA==
-  dependencies:
-    "@hexhive/cas-client" "0.0.2"
-
-"@hexhive/cas-client@0.0.2", "@hexhive/cas-client@^0.0.2":
+"@hexhive/cas-client@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@hexhive/cas-client/-/cas-client-0.0.2.tgz#79da1e97d08f34b157a045341638d0ac19d0dc3d"
   integrity sha512-KGDlJraNt2lxMr+FNUpxOYkUyFnVI0P24sDuEG6HPWi9KPjE88JWC68rE6NaedVWH0iSr+RjtCwhoG8wGOR9Gw==

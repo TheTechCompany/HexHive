@@ -36,7 +36,7 @@
     "isolatedModules": true
   },
   "references": [
-    {"path": "../hexhive-cas-client"}
+    {"path": "../../shared/hexhive-cas-client"}
   ],
   "exclude": ["./out/**/*", "./node_modules/**/*"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
