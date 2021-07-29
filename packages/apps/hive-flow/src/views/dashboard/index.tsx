@@ -12,6 +12,11 @@ import {Sidebar} from '@hexhive/ui';
 import { Box, Spinner, Text } from 'grommet';
 import './index.css';
 import { useState } from 'react';
+import { JobList } from '../jobs/job-list';
+import { SingleJob } from '../jobs/job-one';
+import { StaffList } from '../staff/employee-list';
+import employeeOne from '../staff/employee-one';
+import { PlantList } from '../plant/plant-list';
 
 const Timeline = React.lazy(() => import('../timeline/Timeline'))
 
@@ -136,7 +141,13 @@ export default (props: any) => {
                 <Text>Loading ...</Text>
               </Box>
             )}>
-
+            <Switch>
+                <Route path={`${props.match.url}/projects`} component={JobList} />
+                <Route path={`${props.match.url}/projects/:id`} component={SingleJob} />
+                <Route path={`${props.match.url}/people`} component={StaffList} />
+                <Route path={`${props.match.url}/people/:id`} component={employeeOne} />
+                <Route path={`${props.match.url}/equipment`} component={PlantList} />
+            </Switch>
               
             </React.Suspense>
 

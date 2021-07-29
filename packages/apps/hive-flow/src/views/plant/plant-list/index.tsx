@@ -10,7 +10,7 @@ import './index.css';
 import { DataTable } from 'grommet';
 
   
-export default class Plant extends Component<any, any> {
+export class PlantList extends Component<any, any> {
   
   constructor(props: any){
     super(props);
