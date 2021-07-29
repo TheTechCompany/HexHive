@@ -1,7 +1,7 @@
 import { Tabs, Box, Tab } from 'grommet';
 import React, { useEffect, useRef, useState } from 'react';
-import { CodeEditor } from '@hive-flow/editor'
-import { Stack, StackItems } from '@hive-flow/types';
+import { CodeEditor } from '../../../../'
+import { Stack, StackItems } from '@hexhive/types';
 import ioTemplate from '../../templates/code/io-bus';
 
 

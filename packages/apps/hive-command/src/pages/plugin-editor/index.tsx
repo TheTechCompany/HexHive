@@ -1,4 +1,4 @@
-import { PluginEditor } from '@hive-flow/editor';
+import { PluginEditor } from '@hexhive/command-editor';
 import { deviceActions, stackActions } from '../../actions';
 import React, { useEffect, useState } from 'react';
 import { Stack, useQuery } from '../../gqless';

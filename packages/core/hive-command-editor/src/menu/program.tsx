@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ProcessModal } from '../modals/process';
-import { FlowShard } from '@hive-flow/types';
-import { makeTree } from '@hive-flow/utils';
+import { FlowShard } from '@hexhive/types';
+import { makeTree } from '@hexhive/utils';
 import { useContext } from 'react';
 import { EditorContext } from '../context';
 import { ADD_PROGRAM } from '../store/actions';

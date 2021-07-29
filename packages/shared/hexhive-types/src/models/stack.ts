@@ -1,4 +1,4 @@
-import { IStack } from "./types";
+import { Stack } from "../interfaces";
 import { model, Document, Schema } from "mongoose";
 //import { ProgramSchema } from './program'
 
@@ -41,4 +41,4 @@ const StackSchema: Schema = new Schema({
     location: {type: String}
 })
 
-export default model<IStack>('Stack', StackSchema)
+export default model<Stack>('Stack', StackSchema)

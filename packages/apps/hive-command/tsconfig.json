@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
     "lib": [
@@ -29,7 +29,10 @@
   ],
   "references": [
     {
-      "path": "../hive-flow-editor"
+      "path": "../../shared/hexhive-auth-ui"
+    },
+    {
+      "path": "../../core/hive-command-editor"
     },
     {
       "path": "../../core/collaboration-client"

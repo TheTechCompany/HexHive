@@ -14,7 +14,7 @@ import { AuthProvider } from '@hexhive/auth-ui'
 
 import './App.css';
 import { ColorschemeModal } from './components/colorscheme-modal';
-import { AutomergeClientProvider, useAutomergeClient } from '@hexhive/automerge-client';
+import { AutomergeClientProvider, useAutomergeClient } from '@hexhive/collaboration-client';
 
 function App() {
   

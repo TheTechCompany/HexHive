@@ -4,7 +4,7 @@ import { ProgramModal } from '../../components/modals/program';
 import './index.css';
 import { useQuery, Program } from '../../gqless'
 import { Box } from 'grommet';
-import { NestedList } from 'hive-flow-web/src/components/ui/nested-list';
+import { NestedList } from '../../components/ui/nested-list';
 
 export interface ProgramListProps {
     history: any;

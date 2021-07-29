@@ -3,7 +3,7 @@ import { Box } from 'grommet';
 import React, { useState } from 'react';
 import { IOModal } from '../modals/io';
 
-import { IO, Stack } from '@hive-flow/types';
+import { IO, Stack } from '@hexhive/types';
 import { useContext } from 'react';
 import { EditorContext } from '../context';
 import { ADD_IO } from '../store/actions';

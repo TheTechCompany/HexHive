@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Button, Box } from 'grommet'
 import { useCanvasControls } from '@thetechcompany/live-ui'
 import {Zoomin, Zoomout, Publish, Undo} from '../../assets'
-import { EditorContext } from 'hive-flow-editor/src/context';
+import { EditorContext } from '../../context';
 
 export interface ZoomControlProps {
 

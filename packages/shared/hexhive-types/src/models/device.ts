@@ -1,4 +1,4 @@
-import { IDevice } from './types'
+import { IDevice } from '../interfaces'
 import { model, Types, Document, Schema } from "mongoose";
 import {nanoid} from 'nanoid';
 const Moniker = require('moniker');

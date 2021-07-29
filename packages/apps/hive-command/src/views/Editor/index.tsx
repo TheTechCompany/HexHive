@@ -4,13 +4,13 @@ import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-
 import { Box, Text, Spinner } from 'grommet';
 import { programActions } from '../../actions';
 import { FlowShardNodes, Program } from '../../gqless';
-import Editor from '@hive-flow/editor'
+import Editor from '@hexhive/command-editor'
 import qs from 'qs';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { useAutomergeDoc } from '@hexhive/automerge-client'
-import { IEditorProgram } from '@hive-flow/editor';
-import { FlowShardPaths } from '@hive-flow/types';
+import { useAutomergeDoc } from '@hexhive/collaboration-client'
+import { IEditorProgram } from '@hexhive/command-editor';
+import { FlowShardPaths } from '@hexhive/types';
 //const Editor = lazy(() => import('@hive-flow/editor'));
 
 export interface EditorProps extends RouteComponentProps<{id: string}> {

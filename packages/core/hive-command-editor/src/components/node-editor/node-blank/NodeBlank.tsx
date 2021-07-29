@@ -1,7 +1,7 @@
 import { InfiniteCanvas } from '@thetechcompany/live-ui';
 import React from 'react';
 import { useContext } from 'react';
-import { getHostForElement } from '@hive-flow/utils';
+import { getHostForElement } from '@hexhive/utils';
 
 import { NodeEditorContext } from '../context';
 export interface NodeBlankProps{

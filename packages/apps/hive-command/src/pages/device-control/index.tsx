@@ -1,6 +1,6 @@
 import { IconNodeFactory } from '@thetechcompany/live-ui';
 import { Box } from 'grommet';
-import { FlowEditor } from 'hive-flow-editor/src';
+import { FlowEditor } from '@hexhive/command-editor';
 import React from 'react';
 
 

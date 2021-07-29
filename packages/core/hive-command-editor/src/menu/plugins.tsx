@@ -3,7 +3,7 @@ import { Box, List, CheckBox} from 'grommet';
 import React, { useState } from 'react';
 import { StackModal } from '../modals/stacks';
 import { StackItemModal } from '../modals/stacks/item';
-import { Stack, StackItems } from '@hive-flow/types';
+import { Stack, StackItems } from '@hexhive/types';
 import { useContext } from 'react';
 import { EditorContext } from '../context';
 import { ADD_PLUGIN, ADD_PLUGIN_ITEM } from '../store/actions';

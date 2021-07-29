@@ -1,4 +1,4 @@
-import { IDNSRecord } from './types'
+import { IDNSRecord } from '../interfaces'
 import { model, Types, Document, Model, Schema } from "mongoose";
 
 const Moniker = require('moniker');
