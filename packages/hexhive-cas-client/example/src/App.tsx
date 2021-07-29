@@ -8,7 +8,6 @@ import './App.css'
 
 const auth = new AuthClient({
   authorizationServer: 'http://localhost:8090',
-  authorizationUri: 'http://localhost:8090/oauth/authorize',
   clientId: 'command-hexhive.io',
   clientSecret: 'tester',
   redirectUri: 'http://localhost:3000/dashboard'

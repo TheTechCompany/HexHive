@@ -2,14 +2,15 @@ import { model, Types, Document, Model, Schema } from "mongoose";
 
 //import { ProgramSchema } from './program'
 
-const UserSchema: Schema = new Schema({
-    username: String,
-    password: String,
-    organisation: {type: Types.ObjectId, ref: 'Organisation'}
+const OrgRoleSchema: Schema = new Schema({
+    organisation: {type: Types.ObjectId, ref: 'Organisation'},
+    name: String,
+    extends: {type: Types.ObjectId, ref: 'OrganisationRole'},
+    permissions: [String]
 })
 
 
-const UserModel =  model<any>('User', UserSchema)
+const OrgRoleModel =  model<any>('OrganisationRole', OrgRoleSchema)
 
 
 // const getModel = (model: Model<any>) => {
@@ -26,4 +27,4 @@ const UserModel =  model<any>('User', UserSchema)
 
 // console.log(getModel(DNSModel), DNSModel.name)
 
-export default UserModel;
+export default OrgRoleModel;

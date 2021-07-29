@@ -4,7 +4,11 @@ import User from './user';
 import AccessToken from './access_token'
 import AuthorizationCode from './authorization_code'
 import ClientApp from './client_app';
+import Organisation from './organisation'
+import App from './app'
 
+import UserRole from './user_role'
+import OrganisationRole from './org_role';
 
 let opts : any = {
     useNewUrlParser: true,
@@ -30,7 +34,7 @@ export const disconnect_data = async () => {
 export const connect_data = () => {
     return new Promise((resolve, reject) => {
     connect(
-        `mongodb://${process.env.MONGO_URL || "localhost:27017"}/${process.env.MONGO_DB || "hexhive-test"}`, 
+        `mongodb://${process.env.MONGO_URL || "localhost:27017"}/${"hexhive-auth"}`, 
         opts, (err) => {
             if(err) return reject(err);
             resolve(true);
@@ -39,7 +43,11 @@ export const connect_data = () => {
 }
 
 export {
+    App,
     User,
+    UserRole,
+    OrganisationRole,
+    Organisation,
     AccessToken,
     AuthorizationCode,
     ClientApp

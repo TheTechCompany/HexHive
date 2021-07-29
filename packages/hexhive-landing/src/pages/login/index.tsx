@@ -9,7 +9,7 @@ export default () => {
 
     const client = useAuth({
         authorizationServer: process.env.NEXT_PUBLIC_API || 'http://localhost:8090',
-        clientId: process.env.NEXT_PUBLIC_CLIENT_ID || 'command-hexhive.io',
+        clientId: process.env.NEXT_PUBLIC_CLIENT_ID || 'hexhive.io',
         clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET || 'tester',
         redirectUri: new URL('/dashboard', `${(typeof(window) != 'undefined' && process.env.NEXT_PUBLIC_API) ? window.location.href : 'http://localhost:3001'}`).toString()
     });

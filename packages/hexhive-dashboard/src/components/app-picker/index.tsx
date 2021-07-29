@@ -3,7 +3,8 @@ const { TiledHexagons } = require('tiled-hexagons')
 
 export interface AppPickerProps {
     apps?: {
-        icon: string;
+        icon: any;
+        text?: string;
         onClick?: () => void;
     }[]
 }
@@ -17,7 +18,7 @@ export const AppPicker : React.FC<AppPickerProps> = (props) => {
             tileGap={7}
             tileBorderRadii={9}
             tiles={props.apps?.map(app => {
-                return { img: app.icon, onClick: app.onClick }
+                return { icon: app.icon, text: app.text, onClick: app.onClick }
             })} />
     );
 }   
