@@ -19,6 +19,7 @@
     "@types/node": "^16.4.6",
     "@types/react-beautiful-dnd": "^13.1.1",
     "@types/react-big-calendar": "^0.33.1",
+    "@types/react-dropzone": "^5.1.0",
     "@types/react-popover": "^0.5.4",
     "@types/styled-components": "^5.1.11",
     "enzyme": "^3.11.0",
