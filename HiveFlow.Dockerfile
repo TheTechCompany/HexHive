@@ -5,7 +5,7 @@ RUN apk add -U bash tzdata openssh git
 ENV TZ=Pacific/Auckland
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENV REACT_APP_API=""
+ENV NODE_ENV="production"
 
 WORKDIR /app
 
