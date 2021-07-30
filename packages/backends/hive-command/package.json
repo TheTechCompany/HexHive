@@ -4,11 +4,15 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@hexhive/collaboration-server": "^0.0.3-alpha.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.1.0"
   }
 }
