@@ -22,9 +22,11 @@
     "@types/react-dropzone": "^5.1.0",
     "@types/react-popover": "^0.5.4",
     "@types/styled-components": "^5.1.11",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "enzyme": "^3.11.0",
     "grommet": "^2.17.4",
     "grommet-icons": "^4.6.0",
+    "jest-fetch-mock": "^3.0.3",
     "styled-components": "^5.3.0",
     "typescript": "^4.3.5"
   },
@@ -38,6 +40,7 @@
     "react-dropzone": "^11.3.4",
     "react-multi-date-picker": "^3.0.0",
     "react-popover": "^0.5.10",
+    "react-resize-aware": "^3.1.0",
     "react-sizeme": "^3.0.1"
   },
   "peerDependencies": {

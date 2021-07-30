@@ -2,7 +2,6 @@ import React, { Component, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Config from '../../helpers/config/Config';
 import { CaretLeftFill, CaretRightFill } from 'grommet-icons'
-import { useDrag } from 'beautiful-react-hooks'
 
 export interface VerticalSplitterProps {
   className?: string;
