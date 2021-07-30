@@ -13,6 +13,7 @@
     "@hexhive/collaboration-server": "^0.0.3-alpha.0"
   },
   "devDependencies": {
-    "ts-node": "^10.1.0"
+    "ts-node": "^10.1.0",
+    "tsconfig-paths": "^3.10.1"
   }
 }
