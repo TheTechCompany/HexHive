@@ -20,8 +20,8 @@ function App() {
     <AuthProvider
       clientId="hexhive.io"
       clientSecret="tester"
-      authorizationServer="http://localhost:8090"
-      redirectUri="http://localhost:3001/dashboard">
+      authorizationServer={process.env.NODE_ENV == 'production' ? "http://api.hexhive.io" : "http://localhost:8090"}
+      redirectUri={process.env.NODE_ENV == 'production' ? 'http://hexhive.io/dashboard' : "http://localhost:3001/dashboard"}>
       {(accessToken: string) => (
       <Router basename={process.env.PUBLIC_URL}>
         <Box 
