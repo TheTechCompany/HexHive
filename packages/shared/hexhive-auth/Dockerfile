@@ -8,4 +8,6 @@ COPY . .
 
 EXPOSE 8090
 
+ENV NODE_ENV='production'
+
 CMD [ "yarn", "start" ]
