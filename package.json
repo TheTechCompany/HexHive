@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/TheTechCompany/hexhive-common#readme",
   "devDependencies": {
+    "@types/lodash": "^4.14.171",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
@@ -35,6 +36,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "grommet": "^2.17.4",
+    "nanoid": "^3.1.23",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.4",

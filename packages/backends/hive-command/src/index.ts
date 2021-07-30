@@ -15,8 +15,9 @@ import { Server } from 'ws';
 //import { Server } from 'socket.io'
 
 //Datatypes
-import { connect_data } from '@hexhive/types'
-import * as Models from '@hexhive/types/dist/models'
+import { connect_data, Device, DNSRecord, Program, FlowShard, Stack  } from '@hexhive/types'
+
+
 import { setupProgramGraph, setupStackGraph, buildSchema, convertMongoose } from './graph';
 import { SSLManager } from './ssl';
 
@@ -35,7 +36,13 @@ auth_connect();
 
 const mergeServer = new AutomergeSever()
 
-const M: any = Models;
+const M: any = {
+  Device,
+  DNSRecord,
+  Program,
+  FlowShard,
+  Stack
+};
 
 setupProgramGraph()
 setupStackGraph()

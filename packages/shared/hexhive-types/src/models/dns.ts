@@ -11,7 +11,7 @@ const DNSRecordSchema: Schema = new Schema({
 })
 
 
-const DNSModel =  model<IDNSRecord>('DNSRecord', DNSRecordSchema)
+export const DNS =  model<IDNSRecord>('DNSRecord', DNSRecordSchema)
 
 
 const getModel = (model: Model<any>) => {
@@ -26,6 +26,4 @@ const getModel = (model: Model<any>) => {
 
 }
 
-console.log(getModel(DNSModel), DNSModel.name)
-
-export default DNSModel
+// console.log(getModel(DNSModel), DNSModel.name)

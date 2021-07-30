@@ -12,7 +12,8 @@
   "dependencies": {
     "@hexhive/auth": "^0.0.3-alpha.0",
     "@hexhive/collaboration-server": "^0.0.3-alpha.0",
-    "@hexhive/types": "^0.0.3-alpha.0"
+    "@hexhive/types": "^0.0.3-alpha.0",
+    "graphql-compose-mongoose": "^9.5.2"
   },
   "devDependencies": {
     "ts-node": "^10.1.0",

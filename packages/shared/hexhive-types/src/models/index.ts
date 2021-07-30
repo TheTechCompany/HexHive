@@ -1,12 +1,12 @@
 import {connect, disconnect} from 'mongoose';
 
-import Device from './device';
+export * from './device';
 import Program, {FlowShard} from './program';
 import Stack from './stack'
-import DNSRecord from './dns'
+import {DNS} from './dns'
 import { IProject } from './project';
 import { IUser } from './user';
-import { IFile } from './file';
+import { File } from './file';
 import { IQuoteSchedule, ISchedule, IScheduleOrder } from './schedule';
 
 let opts : any = {
@@ -43,14 +43,13 @@ export const connect_data = () => {
 
 
 export {
-    Device,
     FlowShard,
     Program,
     Stack,
-    DNSRecord,
+    DNS as DNSRecord,
     IProject as Project,
     IUser as User,
-    IFile as File,
+    File,
     ISchedule as Schedule,
     IQuoteSchedule as QuoteSchedule,
     IScheduleOrder as ScheduleOrder

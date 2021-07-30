@@ -1,7 +1,6 @@
 import { GraphQLError } from 'graphql';
 import { schemaComposer } from 'graphql-compose';
-import {Models} from '@hive-command/data-types';
-const { FlowShard, Program, Stack } = Models;
+import {Stack, Program, FlowShard} from '@hexhive/types';
 export const setupStackGraph = () => {
 
 
