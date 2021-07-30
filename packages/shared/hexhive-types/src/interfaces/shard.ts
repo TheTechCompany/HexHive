@@ -1,4 +1,4 @@
-export interface FlowShardNodes {
+export interface IFlowShardNodes {
     _id?: string;
     id?: string;
     type?: string;
@@ -8,7 +8,7 @@ export interface FlowShardNodes {
     y?: number;
 }  
 
-export interface FlowShardPaths{
+export interface IFlowShardPaths{
     id?: string;
     type?: string;
     source?: string;
@@ -24,12 +24,12 @@ export interface FlowShardPaths{
 }
 
 
-export interface FlowShard {
+export interface IFlowShard {
     name?: string;
   parent?: string;
   program?: string;
-  nodes?: FlowShardNodes[];
-  paths?: FlowShardPaths[];
+  nodes?: IFlowShardNodes[];
+  paths?: IFlowShardPaths[];
   items?: string[];
   _id: string;
 }

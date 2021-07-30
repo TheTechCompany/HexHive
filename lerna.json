@@ -3,7 +3,8 @@
     "packages/core-apps/*",
     "packages/core/*",
     "packages/apps/*",
-    "packages/shared/*"
+    "packages/shared/*",
+    "packages/backends/*"
   ],
   "version": "0.0.3-alpha.0",
   "npmClient": "yarn"

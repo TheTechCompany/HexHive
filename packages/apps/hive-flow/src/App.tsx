@@ -11,14 +11,14 @@ function App() {
   console.log(process.env.PUBLIC_URL)
   return (
     <AuthProvider
-      authorizationServer="https://api.hexhive.io"
+      authorizationServer={process.env.NODE_ENV == 'production' ? "https://api.hexhive.io" : "http://localhost:8090"}
       clientId="hexhive.io"
       clientSecret="tester"
-      redirectUri="https://hexhive.io/dashboard/flow">
+      redirectUri={process.env.NODE_ENV == 'production' ? "https://hexhive.io/dashboard/flow" : "http://localhost:3001/dashboard"}>
         <Grommet 
           themeMode="dark"
           plain 
-          theme={BaseStyle}>
+          theme={BaseStyle}>  
             <Router basename={process.env.PUBLIC_URL}>
                 <div className="App">
                   

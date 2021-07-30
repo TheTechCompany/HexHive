@@ -4,6 +4,7 @@ import {Timeline} from '@hexhive/ui'
 import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
 import { Box } from 'grommet';
+import { useQuery } from '../../gqless';
 
 interface TimelineProps {
 
@@ -36,6 +37,18 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     ])
 
 
+    const query = useQuery({
+        suspense: false,
+        staleWhileRevalidate: true
+    })
+
+    const quotes = query.QuoteMany()?.map((quote) => ({
+        start: new Date(moment(quote?.date).startOf('isoWeek').valueOf()),
+        end: new Date(moment(quote?.date).endOf('isoWeek').valueOf()),
+        ...quote,
+        showLabel: formatter.format((quote as any).price),
+        color: stringToColor(quote?.name || '')
+    }))
 
     useEffect(() => {
         // utils.quote.getAll().then((quotes) => {
@@ -92,7 +105,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     }, [horizon?.start])
 
     const getWeeks = () => {
-        const weeks = filterData().reduce((previous, current) => {
+        const weeks = filterData()?.reduce((previous, current) => {
             console.log(current)
             let start = current.start.getTime();
             if(!previous[start]) previous[start] = 0;
@@ -127,7 +140,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
 
       const filterData = () => {
         if(horizon && horizon.start && horizon.end){
-        return data.filter((item) => {
+        return quotes?.filter((item) => {
             return (item.start < horizon.start && item.end > horizon.end) || (item.start > horizon.start && item.start < horizon.end) || (item.end > horizon.start && item.end < horizon.end);
           });
         }else{

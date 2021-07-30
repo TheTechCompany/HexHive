@@ -41,6 +41,7 @@ export const scalarsEnumsHash: import("gqless").ScalarsEnumsHash = {
   ID: true,
   String: true,
   Date: true,
+  Float: true,
   Boolean: true,
 };
 export const generatedSchema = {
@@ -53,6 +54,11 @@ export const generatedSchema = {
     },
     FileMany: { __type: "[File]" },
     FileByProject: { __type: "[File]", __args: { id: "String" } },
+    QuoteById: { __type: "Quote", __args: { id: "ID" } },
+    QuoteMany: {
+      __type: "[Quote]",
+      __args: { status: "String", startDate: "Date", endDate: "Date" },
+    },
   },
   mutation: {
     __typename: { __type: "String!" },
@@ -102,6 +108,15 @@ export const generatedSchema = {
     id: { __type: "ID" },
     name: { __type: "String" },
   },
+  Quote: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    name: { __type: "String" },
+    customer: { __type: "String" },
+    date: { __type: "Date" },
+    status: { __type: "String" },
+    price: { __type: "Float" },
+  },
   ProjectInput: {
     _id: { __type: "ID" },
     id: { __type: "String" },
@@ -131,6 +146,12 @@ export interface Query {
   FileByProject: (args?: {
     id?: Maybe<Scalars["String"]>;
   }) => Maybe<Array<Maybe<File>>>;
+  QuoteById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Quote>;
+  QuoteMany: (args?: {
+    status?: Maybe<Scalars["String"]>;
+    startDate?: Maybe<Scalars["Date"]>;
+    endDate?: Maybe<Scalars["Date"]>;
+  }) => Maybe<Array<Maybe<Quote>>>;
 }
 
 export interface Mutation {
@@ -189,6 +210,16 @@ export interface User {
   name?: Maybe<ScalarsEnums["String"]>;
 }
 
+export interface Quote {
+  __typename: "Quote" | undefined;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  name?: Maybe<ScalarsEnums["String"]>;
+  customer?: Maybe<ScalarsEnums["String"]>;
+  date?: Maybe<ScalarsEnums["Date"]>;
+  status?: Maybe<ScalarsEnums["String"]>;
+  price?: Maybe<ScalarsEnums["Float"]>;
+}
+
 export interface SchemaObjectTypes {
   Query: Query;
   Mutation: Mutation;
@@ -196,6 +227,7 @@ export interface SchemaObjectTypes {
   Project: Project;
   File: File;
   User: User;
+  Quote: Quote;
 }
 export type SchemaObjectTypesNames =
   | "Query"
@@ -203,7 +235,8 @@ export type SchemaObjectTypesNames =
   | "Subscription"
   | "Project"
   | "File"
-  | "User";
+  | "User"
+  | "Quote";
 
 export interface GeneratedSchema {
   query: Query;

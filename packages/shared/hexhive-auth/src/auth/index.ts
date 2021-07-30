@@ -56,7 +56,7 @@ export class CentralAuthServer {
           
     }
 
-    private whitelist = ['http://localhost:3001', 'http://localhost:3000', 'https://hexhive.io']
+    private whitelist = ['http://localhost:3001', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io']
     private corsOptions = {
         origin: (origin : any, callback: (error: any, result?: any) => void) => {
             console.log(origin)

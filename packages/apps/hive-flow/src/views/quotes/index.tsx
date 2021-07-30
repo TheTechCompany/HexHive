@@ -2,6 +2,7 @@ import { Box, ColumnConfig, DataTable } from 'grommet';
 import React, {
   useEffect, useState
 } from 'react';
+import { useQuery } from '../../gqless';
 
 // import utils from '../../utils';
 import { QuoteHeader } from './header';
@@ -20,7 +21,7 @@ const Quotes: React.FC<any> = (props) => {
   const [direction, setDirection] = useState<"asc" | "desc">()
   const [property, setProperty] = useState<string>()
 
-  const [listData, setListData] = useState<any[]>([])
+  // const [listData, setListData] = useState<any[]>([])
 
   const listKeys : ColumnConfig<{id: string; name: any; price: any;}>[] = [
     { property: 'id', header: 'Quote ID', sortable: true, size: 'small', primary: true },
@@ -28,6 +29,16 @@ const Quotes: React.FC<any> = (props) => {
     { property: 'status', header: 'Status', sortable: true, size: 'small'},
     { property: 'price', header: 'Total Value',  render: (row) => formatter.format(row.price), sortable: true, size: 'small', align: 'start' }
   ]
+
+  const query = useQuery({
+    suspense: false,
+    staleWhileRevalidate: true
+  })
+
+  const listData = query.QuoteMany()?.map((x) => ({
+    ...x,
+    id: parseInt(x?.id || '0')
+  }))
 
   useEffect(() => {
     // utils.quote.getAll().then((quotes) => {
@@ -47,10 +58,7 @@ const Quotes: React.FC<any> = (props) => {
 
   const filterQuotes = (item: any) => {
  
-    
     if (property && direction) {
-      // console.log(sort(items.slice()).asc((u: any) => parseInt(u[property])))
-
       // if(direction == "asc"){
       //   items = sort(items.slice()).asc((u: any) => parseInt(u[property])) //[{[direction]: u => u[property]}])
       // }else if(direction == "desc"){
@@ -73,13 +81,14 @@ const Quotes: React.FC<any> = (props) => {
       // })
     }
 
-    // if(filter.status && filter.status != "All"){
-    //   items = items?.filter((a) => a.status == filter.status)
-    // }
+     if(filter.status && filter.status != "All"){
+       return item.status === filter.status;
+      //  items = items?.filter((a) => a.status == filter.status)
+     }
 
     if (filter.search) {
-        let name = item.name?.toLowerCase() || ''
-        let id = item.id?.toLowerCase() || ''
+        let name = item?.name?.toLowerCase() || ''
+        let id = `${item?.id}`.toLowerCase() || ''
 
         let search = filter.search.toLowerCase() || ''
 
@@ -109,6 +118,7 @@ const Quotes: React.FC<any> = (props) => {
       direction="column"
       flex>
       <QuoteHeader
+        quotes={listData || []}
         filter={filter}
         onFilterChange={(filter) => setFiler(filter)}
       />
@@ -126,7 +136,7 @@ const Quotes: React.FC<any> = (props) => {
           }}
           sort={(property && direction) ? {property, external: true, direction} : undefined}
           columns={listKeys}
-          data={listData.filter(filterQuotes).sort(sortQuotes).map(formatQuote)} />
+          data={listData?.filter(filterQuotes).sort(sortQuotes).map(formatQuote)} />
       </Box>
     </Box>
   );

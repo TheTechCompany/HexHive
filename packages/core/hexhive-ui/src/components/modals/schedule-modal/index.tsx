@@ -21,9 +21,9 @@ export interface ScheduleModalProps {
 
   timestamp?: Date;
 
-  jobs?: any[];
-  people?: any;
-  plants?: any;
+  projects: any[];
+  people: any[];
+  equipment: any[];
 
   scheduledJobs?: any[];
 
@@ -286,7 +286,9 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
         style={{zIndex: 99}}
         onClickOutside={onClose}
         onEsc={onClose}> 
-      <Box pad="small">
+      <Box 
+        width="medium"
+        pad="small">
         <Box
           justify="between"
           align="center"
@@ -318,20 +320,18 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
                     console.log({...item, ..._item})
                     setItem({...item, ..._item})
                   }}
-                  jobs={props.jobs}
-                  plants={props.plants}
+                  jobs={props.projects}
+                  plants={props.equipment}
                   people={props.people} /> 
             )}
         </Box>
         <Box pad={{top: 'small'}} border={{side: 'top', color: 'light-3'}} direction="row" justify="end">
           {joined && renderRemove(stateMode)}
           {joined && renderClone(stateMode)}
-          <Button color="primary" onClick = {onClose}>Close</Button>
-            {(joined || stateMode === "Create") && (<Button color="primary"  onClick={onSave}>
-            {
-              (stateMode === 'Edit' || stateMode === 'Clone') ? ((stateMode == 'Clone') ? "Save Cloned Items" : "Save Changes") : "Create Schedule Item"
-            }
-          </Button>)}
+          <Button label="Close" onClick = {onClose} />
+            {(joined || stateMode === "Create") && (<Button primary onClick={onSave} label= {
+              (stateMode === 'Edit' || stateMode === 'Clone') ? ((stateMode == 'Clone') ? "Save Cloned Items" : "Save Changes") : "Create"
+            } />)}
         </Box>
         </Box>   
       </Layer>

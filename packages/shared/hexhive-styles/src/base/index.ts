@@ -24,12 +24,15 @@ export const BaseStyle = {
             }
         }
     },
-
-    layer: {
-        background: "#003f49"
-    },
     select: {
-      container: {extend: (props: any) => "background:#003f49;"}
+        options: {
+            container: {
+                background: 'accent-2'
+            }
+        }
+    },
+    layer: {
+        background: "neutral-2"
     }
     
   }

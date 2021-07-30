@@ -15,7 +15,7 @@ export const Home : React.FC<any> = (props) => {
             flex>
             <AppPicker 
                 apps={[
-                    { icon: Calendar, text: "Flow", onClick: () => window.location.href = '/dashboard/flow'}, 
+                    { icon: Calendar, text: "Flow", onClick: () => window.location.href = (process.env.NODE_ENV == 'production' ? '/dashboard/flow' : 'http://localhost:3002/dashboard/flow')}, 
                     { icon: Tool, text: "Command", onClick: () => window.location.href = '/dashboard/command'}, 
                     { icon: Tool, text: "3D", onClick: () => window.location.href = '/dashboard/3d-models'},
                     { icon: Tool, text: "Organisation", onClick: () => window.location.href = '/dashboard/organisation'},

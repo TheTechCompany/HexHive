@@ -38,7 +38,7 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
 
   return (
     <Box
-      background="accent-2"
+      background={{color: "accent-2"}}
       elevation="small"
       className={`${props.className} sidebar`}>
       <div className="sidebar-header-image" />

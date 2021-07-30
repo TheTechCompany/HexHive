@@ -4,6 +4,10 @@ import Device from './device';
 import Program, {FlowShard} from './program';
 import Stack from './stack'
 import DNSRecord from './dns'
+import { IProject } from './project';
+import { IUser } from './user';
+import { IFile } from './file';
+import { IQuoteSchedule, ISchedule, IScheduleOrder } from './schedule';
 
 let opts : any = {
     useNewUrlParser: true,
@@ -43,6 +47,12 @@ export {
     FlowShard,
     Program,
     Stack,
-    DNSRecord
+    DNSRecord,
+    IProject as Project,
+    IUser as User,
+    IFile as File,
+    ISchedule as Schedule,
+    IQuoteSchedule as QuoteSchedule,
+    IScheduleOrder as ScheduleOrder
 }
 

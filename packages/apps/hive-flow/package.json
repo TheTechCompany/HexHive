@@ -24,6 +24,7 @@
 		"web-vitals": "^1.0.1"
 	},
 	"scripts": {
+		"generate" : "gqless generate",
 		"start": "react-app-rewired start",
 		"build": "react-app-rewired build"
 	},

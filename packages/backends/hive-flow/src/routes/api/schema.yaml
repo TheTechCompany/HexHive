@@ -1,0 +1,264 @@
+swagger: "2.0"
+info:
+  description: "API schema for PencilIn"
+  version: "1.0.0"
+  title: "PencilIn"
+  contact:
+    email: "admin@workhub.services"
+host: "workhub.services"
+basePath: "/api"
+tags:
+- name: "jobs"
+  description: "Information about jobs"
+- name: "plant"
+  description: "Information about plant"
+- name: "quotes"
+  description: "Information about quotes"
+- name: "schedule"
+  description: "Information about schedule items"
+- name: "staff"
+  description: "Information about staff"
+- name: "users"
+  description: Information about users"
+
+schemes:
+- "https"
+- "http"
+
+paths:
+  /jobs:
+    get:
+      tags:
+      - "jobs"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+  /jobs/{jobID}:
+    get:
+      tags:
+      - "jobs"
+      parameters:
+      - name: "jobID"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+  /jobs/{jobID}/files:
+    get:
+      tags:
+      - "jobs"
+      parameters:
+      - name: "jobID"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+    post:
+      tags:
+      - "jobs"
+      parameters:
+      - name: "jobID"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "files"
+        in: "formData"
+        type: "array"
+        items: {}
+      consumes:
+      - "multipart/form-data"
+      responses:
+        200:
+          description: "Success"
+  /jobs/{jobID}/files/{fileID}:
+    get:
+      tags:
+      - "jobs"
+      parameters:
+      - name: "jobID"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "fileID"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+    delete:
+      tags:
+      - "jobs"
+      parameters:
+      - name: "jobID"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "fileID"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+
+  /plant:
+    get:
+      tags:
+      - "plant"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+
+  /quotes:
+    get:
+      tags:
+      - "quotes"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+
+  /schedule:
+    get:
+      tags:
+      - "schedule"
+      summary: "Returns schedule items"
+      produces:
+      - "application/json"
+      responses:
+        500:
+          description: "Unable to fulfill request"
+  /schedule/{scheduleID}:
+    get:
+      tags:
+      - "schedule"
+      parameters:
+      - name: "scheduleID"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+
+  /staff:
+    get:
+      tags:
+      - "staff"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+  /staff/{staffID}:
+    get:
+      tags:
+      - "staff"
+      parameters:
+      - name: "staffID"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+  /staff/{staffID}/photo:
+    get:
+      tags:
+      - "staff"
+      parameters:
+      - name: "staffID"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+    post:
+      tags:
+      - "staff"
+      parameters:
+      - name: "staffID"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "file"
+        in: "formData"
+        required: true
+        type: "file"
+      produces:
+      - "application/json"
+      consumes:
+      - "multipart/form-data"
+      responses:
+        200:
+          description: "Success"
+  /staff/{staffID}/contact:
+    get:
+      tags:
+      - "staff"
+      parameters:
+      - name: "staffID"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+    post:
+      tags:
+      - "staff"
+      parameters:
+      - name: "staffID"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      consumes:
+      - "multipart/form-data"
+      responses:
+        200:
+          description: "Success"
+
+  /users:
+    get:
+      tags:
+      - "users"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"
+  /users/{userID}:
+    get:
+      tags:
+      - "users"
+      parameters:
+      - name: "userID"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Success"

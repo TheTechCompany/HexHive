@@ -24,7 +24,7 @@ import './index.css';
 import { JobList } from '../jobs/job-list';
 import { SingleJob } from '../jobs/job-one';
 import { StaffList } from '../staff/employee-list';
-import ScheduleView from '../schedule';
+import {Schedule as ScheduleView } from '../schedule';
 import employeeOne from '../staff/employee-one';
 import { PlantList } from '../plant/plant-list';
 import Quotes from '../quotes';

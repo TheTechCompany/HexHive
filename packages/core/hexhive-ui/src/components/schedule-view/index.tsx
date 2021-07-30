@@ -23,7 +23,10 @@ export interface WeekViewProps {
   user?: any
   token?: string;
 
-  jobs: any[];
+  projects: any[];
+  people: any[];
+  equipment: any[]
+
   isLoading: boolean;
 }
 
@@ -162,7 +165,7 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
       return (
         <li style={{ padding: 0 }}>
           <ScheduleCard
-            jobs={props.jobs}
+            jobs={props.projects}
             onClick={() => {
               if (!props.user.readonly) {
 
@@ -216,7 +219,10 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
     var schedJobs = scheduledJobs;
     return (
       <ScheduleModal
-        jobs={props.jobs}
+        projects={props.projects}
+        people={props.people}
+        equipment={props.equipment}
+
         onClose={() => toggleEditorModal(false)}
         open={modalShow}
         timestamp={timestamp}

@@ -1,14 +1,14 @@
 import { IOInput, IOOutput } from "./io";
 
-export interface Stack {
+export interface IStack {
     name?: string;
-    items?: StackItems[]
+    items?: IStackItems[]
     program?: string;
     location?: string;
     _id: string;
   }
   
-  export interface StackItems {
+  export interface IStackItems {
     name?: string;
     key?: string;
     type?: "ui" | "block"
@@ -19,7 +19,7 @@ export interface Stack {
 
     actions?: string;
     ui?: string;
-    ports?: StackItemsPorts[]
+    ports?: IStackItemsPorts[]
 
     inputs:IOInput[],
     outputs: IOOutput[]
@@ -27,7 +27,7 @@ export interface Stack {
     _id?: string;
   }
   
-  export interface StackItemsPorts {
+  export interface IStackItemsPorts {
     name?: string;
     x?: number;
     y?: number;

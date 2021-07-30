@@ -3,7 +3,7 @@ import { Box, TextInput, Select } from 'grommet'
 import { Maybe } from '../../gqless';
 
 export interface QuoteHeaderProps {
-
+    quotes?: any[]
     filter?: {search?: string, status?: string};
     onFilterChange?: (filter: {search?: string, status?: string}) => void;
 }
@@ -24,7 +24,13 @@ export const QuoteHeader : React.FC<QuoteHeaderProps> = (props) => {
           focusIndicator={false}
           plain
           placeholder="Search Quotes" />
-        
+         <Select  
+            value={props.filter?.status}
+            onChange={({option}) => props.onFilterChange?.({search: props.filter?.search, status: option })}
+          plain
+          placeholder="Status"
+          options={["All"].concat(Array.from(new Set(props.quotes?.filter((a) => a != undefined).map((x: any) => x.status || ''))))} 
+          />
       </Box>
     )
 }
