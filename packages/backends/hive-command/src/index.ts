@@ -72,7 +72,7 @@ app.use(cors({
   }, credentials: true}));
   
 app.use('/graphql',
-    /*AuthServer.oauthServer.authenticate(),*/
+    AuthServer.oauthServer.authenticate(),
     graphqlHTTP({
         schema: GeneratedSchema,
         graphiql: true
@@ -88,6 +88,7 @@ app.use('/graphql',
     })
 
     server.listen(80)
+    console.log("LISTENING ON 80")
 // }else{
 
 // //Instantiate new SSL Manager - Takes care of initial config and wraps the serve function of greenlock
