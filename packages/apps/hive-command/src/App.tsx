@@ -10,10 +10,10 @@ import {BaseStyle} from '@hexhive/styles'
 function App() {
   return (
     <AuthProvider   
-      authorizationServer="https://api.hexhive.io"
-      clientId="hexhive.io"
+    authorizationServer={process.env.NODE_ENV == 'production' ? "https://api.hexhive.io" : "http://localhost:8090"}
+    clientId="hexhive.io"
       clientSecret="tester"
-      redirectUri="https://hexhive.io/dashboard/command">
+      redirectUri={process.env.NODE_ENV == 'production' ? "https://hexhive.io/dashboard/command" : "http://localhost:3001/dashboard"}>
       <Grommet
         full
         theme={BaseStyle}
