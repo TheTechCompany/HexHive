@@ -6,6 +6,8 @@
   "scripts": {
     "build-app:command": "npx lerna run build --scope @hexhive-apps/command --include-dependencies",
     "build-app:flow": "npx lerna run build --scope @hexhive-apps/flow --include-dependencies",
+    "start:flow-backend": "npx lerna run start --scope @hexhive-backends/flow",
+    "start:command-backend": "npx lerna run start --scope @hexhive-backends/command",
     "build:landing": "npx lerna run build --scope @hexhive/landing --include-dependencies",
     "build:dashboard": "npx lerna run build --scope @hexhive/dashboard --include-dependencies",
     "test": "echo \"Error: no test specified\" && exit 1"
