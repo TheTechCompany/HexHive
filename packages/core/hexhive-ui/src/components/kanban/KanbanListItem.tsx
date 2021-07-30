@@ -15,7 +15,7 @@ export interface KanbanListItemProps {
 export const KanbanListItem : React.FC<KanbanListItemProps> = (props) => {
     return (
         <Box
-            background="light-1"
+            background="#65695C"
             round="small"
             direction="column"
             pad="small"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Timeline as TimelineGantt} from '@thetechcompany/react-gantt-timeline'
+import {Timeline as TimelineGantt} from '@hexhive/ui'
 //import utils from '../../utils';
 import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
@@ -146,7 +146,7 @@ const Timeline : React.FC<TimelineProps> = (props) => {
             data={getWeeks()}
             date={date}
             onHorizonChange={onHorizonChange}
-            itemheight={30}
+            itemHeight={30}
             />
         </Box>
     )

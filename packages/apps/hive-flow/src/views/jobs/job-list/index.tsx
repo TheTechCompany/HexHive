@@ -84,9 +84,12 @@ export const JobList : React.FC<JobListProps> = (props) => {
       <Box 
         overflow={{vertical: 'auto'}}
         round="xsmall"
-        background="light-1"
+        background="neutral-1"
         className="jobs-page">
         <DataTable
+          background={{
+            header: { color: 'accent-1', opacity: 'strong' },
+          }}
           pin
           onSort={({property, direction}) => {
             setProperty(property)

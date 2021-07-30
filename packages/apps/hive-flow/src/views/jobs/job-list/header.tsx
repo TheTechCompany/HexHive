@@ -19,7 +19,7 @@ export const JobHeader : React.FC<JobHeaderProps> = (props) => {
         round="xsmall"
         height="50px"
         direction="row"
-        background="light-1"
+        background="accent-1"
         >
         <TextInput
             value={props.filter?.search}

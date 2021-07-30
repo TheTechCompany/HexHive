@@ -18,7 +18,7 @@ export interface KanbanColumnProps {
 export const KanbanColumn : React.FC<KanbanColumnProps> = ({
     title = '',
     index = 0,
-    items,
+    items = [{status: 'Issued', name: ''}],
     isCombineEnabled,
     useClone,
     isScrollable,
@@ -26,7 +26,7 @@ export const KanbanColumn : React.FC<KanbanColumnProps> = ({
 }) => {
     return (
             <Box 
-                background="light-4"
+                background="accent-1"
                 round="xsmall"
                 direction="column"
                 width="300px"

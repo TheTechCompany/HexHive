@@ -116,7 +116,7 @@ const Quotes: React.FC<any> = (props) => {
         flex
         overflow={{ vertical: 'auto' }}
         round="xsmall"
-        background="light-1">
+        background="neutral-1">
 
         <DataTable
           pin

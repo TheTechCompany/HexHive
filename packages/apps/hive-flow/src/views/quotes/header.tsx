@@ -16,9 +16,9 @@ export const QuoteHeader : React.FC<QuoteHeaderProps> = (props) => {
         round="xsmall"
         height="50px"
         direction="row"
-        background="light-1"
+        background="accent-1"
         >
-        <TextInput
+        <TextInput 
             value={props.filter?.search}
             onChange={(e: any) => props.onFilterChange?.({search: e.target.value})}
           focusIndicator={false}

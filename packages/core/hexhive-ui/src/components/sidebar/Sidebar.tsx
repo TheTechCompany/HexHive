@@ -38,6 +38,7 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
 
   return (
     <Box
+      background="accent-2"
       elevation="small"
       className={`${props.className} sidebar`}>
       <div className="sidebar-header-image" />
@@ -48,8 +49,8 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
             className={`sidebar-menu-opt ${props.active == "/" + x.label.toLowerCase() ? "active" : ''} ${ix == 0 && props.active == "" ? 'active' : ''}`}
             onClick={() => props.onSelect(x.label)}>
 
-            {React.cloneElement(x.icon, {color: 'white'})}
-            <Text margin={{left: 'small'}}>{x.label}</Text>
+            {React.cloneElement(x.icon, {color: 'neutral-1'})}
+            <Text color={'neutral-1'} margin={{left: 'small'}}>{x.label}</Text>
 
 
           </li>
@@ -165,7 +166,6 @@ export const Sidebar = styled(BaseSidebar)`
 
 &.sidebar{
   user-select: none;
-  background-color: #3f51b5 !important;
   border-radius-top-left: 0px !important;
   border-radius-bottom-left: 0px !important;
   display: flex;
@@ -189,7 +189,6 @@ export const Sidebar = styled(BaseSidebar)`
 }
 
 .sidebar-menu > li{
-  font-family: Roboto;
   cursor: pointer;
   height: 45px;
   display: flex;

@@ -145,7 +145,10 @@ export const Dashboard : React.FC<any> = (props: any) => {
                   props.history.push(path)
                 }}/>
 
-            <Box flex pad="xsmall">
+            <Box 
+              background="neutral-4"
+              flex 
+              pad="xsmall">
             <React.Suspense fallback={(
               <Box 
                 align="center"
@@ -157,12 +160,12 @@ export const Dashboard : React.FC<any> = (props: any) => {
             )}>
             <Switch>
                 <Route path={`/schedule`} component={ScheduleView} />
-                <Route path={`/projects`} component={JobList} />
+                <Route path={`/projects`} exact component={JobList} />
                 <Route path={`/projects/:id`} component={SingleJob} />
-                <Route path={`/quotes`} component={Quotes} />
-                <Route path={`/people`} component={StaffList} />
+                <Route path={`/quotes`} exact component={Quotes} />
+                <Route path={`/people`} exact component={StaffList} />
                 <Route path={`/people/:id`} component={employeeOne} />
-                <Route path={`/equipment`} component={PlantList} />
+                <Route path={`/equipment`} exact component={PlantList} />
                 <Route path={`/timeline`} component={Timeline} />
             </Switch>
               

@@ -1,8 +1,8 @@
 import React, {
-  Component, useEffect, useState 
+  Component, useEffect, useState
 } from 'react';
 
-import {DateSelector} from '../date-selector'
+import { DateSelector } from '../date-selector'
 
 import ScheduleCard from './schedule-card';
 
@@ -28,20 +28,20 @@ export interface WeekViewProps {
 }
 
 
-export const ScheduleView : React.FC<WeekViewProps> = (props) => {
-  const [ modalShow, showModal ] = useState(false)
-  const [ date, setDate ] = useState(moment())
-  const [ params, setParams ] = useState<any[]>([moment().startOf('isoWeek'), moment().endOf('isoWeek')])
+export const ScheduleView: React.FC<WeekViewProps> = (props) => {
+  const [modalShow, showModal] = useState(false)
+  const [date, setDate] = useState(moment())
+  const [params, setParams] = useState<any[]>([moment().startOf('isoWeek'), moment().endOf('isoWeek')])
 
-  const [ scheduleData, setScheduleData ] = useState<any[]>([])
-  
-  const [ scheduledJobs, setScheduledJobs ] = useState<any[]>([]) //figure out where this goes
+  const [scheduleData, setScheduleData] = useState<any[]>([])
 
-  const [ selected, setSelected ] = useState<any>()
+  const [scheduledJobs, setScheduledJobs] = useState<any[]>([]) //figure out where this goes
 
-  const [ currentDay, setCurrentDay ] = useState<any>()
+  const [selected, setSelected] = useState<any>()
 
-  const [ timestamp, setTimestamp ] = useState(new Date())
+  const [currentDay, setCurrentDay] = useState<any>()
+
+  const [timestamp, setTimestamp] = useState(new Date())
 
   // const query = useQuery({
   //   suspense: false,
@@ -75,27 +75,37 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   //     }))
   //   })
   // }, [params])
-  
+
   const changeWeek = (week: Date) => {
     let params = [moment(week).startOf('isoWeek'), moment(week).clone().endOf('isoWeek')]
     setDate(week)
     setParams(params)
+
   }
 
   const renderHeader = () => {
     let dayHeaders = renderDayHeaders();
     return (
-      <Box 
-        direction="column" 
+      <Box
+        overflow="hidden"
+        direction="column"
         className="week-header">
-        <Box align="center" className="week-header__controls">
+        <Box 
+          round={{corner: 'top', size: 'xsmall'}}
+          background="accent-1"
+          align="center"
+          className="week-header__controls">
           <DateSelector
             value={date}
             displayFormat={"MMMM YYYY"}
             stepSize={"week"}
             onChange={changeWeek} />
         </Box>
-        <Box direction="row" className="week-header__days">
+        <Box 
+          pad={{vertical: 'xsmall'}}
+          background={"accent-2"}
+          direction="row" 
+          className="week-header__days">
           {dayHeaders}
         </Box>
       </Box>
@@ -109,13 +119,13 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   }
 
   const updateOrder = (day: number) => {
-    let order : any = {};
+    let order: any = {};
     let schedule = scheduleData[day] || [];
 
-    for(var i = 0; i < schedule.length; i++){
+    for (var i = 0; i < schedule.length; i++) {
       order[schedule[i].id] = i;
     }
-    
+
     let ts = moment(params[0]).add(day, 'days').add(12, 'hours').valueOf();
     _updateOrder(ts, order).then((result) => {
       console.log(result);
@@ -127,7 +137,7 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': "Bearer " + props.token, 
+        'Authorization': "Bearer " + props.token,
       },
       body: JSON.stringify({
         ts: ts,
@@ -137,7 +147,7 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   }
 
   const move = (pos: number, idx: number, day: number) => {
-    if((idx + pos) > -1 && (idx + pos) < scheduleData[day].length){
+    if ((idx + pos) > -1 && (idx + pos) < scheduleData[day].length) {
       let d = scheduleData[day];
       d.splice(idx + pos, 0, d.splice(idx, 1)[0])
       let schedule = scheduleData;
@@ -148,40 +158,40 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   }
 
   const renderSchedule = (i: number) => {
-    return scheduleData[i].map((x: any, ix : number) => {
+    return scheduleData[i].map((x: any, ix: number) => {
       return (
-        <li style={{padding: 0}}>
-        <ScheduleCard
-          jobs={props.jobs}
-          onClick={() => {
-            if(!props.user.readonly){
-              
-                  setScheduledJobs(scheduleData[i])
-                  toggleEditorModal(true, x);
-            
-              }else{
+        <li style={{ padding: 0 }}>
+          <ScheduleCard
+            jobs={props.jobs}
+            onClick={() => {
+              if (!props.user.readonly) {
+
+                setScheduledJobs(scheduleData[i])
+                toggleEditorModal(true, x);
+
+              } else {
                 setScheduledJobs(scheduleData[i])
                 toggleEditorModal(true, x)
               }
-          
-          }}
-          onMove={(dir:number) => move(dir, ix, i)}
-          key={ix} 
-          data={x} />
-      </li>
+
+            }}
+            onMove={(dir: number) => move(dir, ix, i)}
+            key={ix}
+            data={x} />
+        </li>
       );
     });
-  } 
+  }
 
-  const toggleEditorModal = (truthy : boolean, job : any = null) => {
-    console.log(truthy, job);   
+  const toggleEditorModal = (truthy: boolean, job: any = null) => {
+    console.log(truthy, job);
     if (truthy) {
       let update = {
         showModal: true,
         selectedJob: job,
       }
 
-      if(job && job.date) {
+      if (job && job.date) {
         setTimestamp(job.date)
         //update['timestamp'] = job.date;
       }
@@ -193,57 +203,57 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
       // utils.schedule.getScheduleByDate(params).then((schedule) => {
 
       //   setScheduleData(schedule)
-        
+
       //   setSelected(null)
-      
+
       // })
-      if(currentDay) updateOrder(currentDay);
+      if (currentDay) updateOrder(currentDay);
     }
   }
 
 
-   const renderCreateScheduleModal = () => {   
+  const renderCreateScheduleModal = () => {
     var schedJobs = scheduledJobs;
     return (
-      <ScheduleModal 
+      <ScheduleModal
         jobs={props.jobs}
         onClose={() => toggleEditorModal(false)}
-        open={modalShow} 
-        timestamp={timestamp} 
-        scheduledJobs={schedJobs} 
+        open={modalShow}
+        timestamp={timestamp}
+        scheduledJobs={schedJobs}
         item={selected}
-      /> 
+      />
     );
-  } 
+  }
 
   const renderAddScheduleButton = (dayIndex: number) => {
 
-    if(!props.user.readonly){
+    if (!props.user.readonly) {
       return (
-        <Button label="Create" key={dayIndex} className="add-item-button"  onClick = { () => {
-          var day = moment(params[0]).add(dayIndex, 'day')  
+        <Button style={{background: "#A3B696"}} color="accent-2" label="Create" key={dayIndex} className="add-item-button" onClick={() => {
+          var day = moment(params[0]).add(dayIndex, 'day')
           setTimestamp(day)
           setCurrentDay(dayIndex)
           setScheduledJobs(scheduleData[dayIndex])
 
-          
+
           toggleEditorModal(true)
         }
         } />
       );
-    }else{
+    } else {
       return null;
     }
   }
 
   const renderDayHeaders = () => {
     let headers = []
-    for(var i = 0; i < 7; i++){
+    for (var i = 0; i < 7; i++) {
       var today = new Date();
       var currentDay = today.getDate();
       var currentMonth = today.getMonth() + 1;
-      headers.push(( 
-        <Box 
+      headers.push((
+        <Box
           direction="column"
           flex
           className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day-header week-day-header-current' : 'week-day-header'}>
@@ -261,18 +271,18 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
 
   const renderDays = () => {
     var week = [];
-    for(var i = 0; i < 7; i++){
+    for (var i = 0; i < 7; i++) {
       const dayItems = (scheduleData[i]) ? renderSchedule(i) : null;
       var today = new Date();
       var currentDay = today.getDate();
       var currentMonth = today.getMonth() + 1;
       week.push((
-        <Box 
+        <Box
           align="center"
-          flex 
+          flex
           className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day week-day-current' : 'week-day'}>
-          <ul style={{listStyle: 'none', padding: 0}} className = 'week-day-content'>
-            { dayItems }
+          <ul style={{ listStyle: 'none', padding: 0 }} className='week-day-content'>
+            {dayItems}
             {renderAddScheduleButton(i)}
           </ul>
         </Box>
@@ -284,34 +294,36 @@ export const ScheduleView : React.FC<WeekViewProps> = (props) => {
   const renderedDays = renderDays()
   const renderedModal = renderCreateScheduleModal()
 
-    return (
-      <Box 
-        flex 
-        direction="column" 
-        className="week-main">
-        {/*<div className="week-main">*/} 
-          {renderHeader()} 
-          <Box 
-            flex 
-            className="week-container">
-           {props.isLoading ? (
-            <Box
-              flex
-              justify="center"
-              align="center">
-              <Spinner size="medium"/>
-              <Text>Loading schedule ...</Text>
-            </Box>
-           )  : (
-           <Box flex direction="row" className="week-days">
-              {renderedDays}      
-              {renderedModal}
-            </Box>
-            )}
+  return (
+    <Box
+      flex
+      round="xsmall"
+      background="neutral-1"
+      direction="column"
+      className="week-main">
+      {/*<div className="week-main">*/}
+      {renderHeader()}
+      <Box
+        flex
+        className="week-container">
+        {props.isLoading ? (
+          <Box
+            flex
+            justify="center"
+            align="center">
+            <Spinner size="medium" />
+            <Text>Loading schedule ...</Text>
           </Box>
-        </Box>
-    );
-  
+        ) : (
+          <Box flex direction="row" className="week-days">
+            {renderedDays}
+            {renderedModal}
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
+
 }
 
 // export default connect((state: StoreState) => ({
