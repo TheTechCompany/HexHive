@@ -38,7 +38,8 @@ const mockData = [{
 export const DeploymentList : React.FC<DeploymentListProps> = (props) => {
     return (
         <Box 
-            background={'#003f49'}
+            
+            background={'neutral-1'}
             elevation="small"
             flex>
             <DataTable 

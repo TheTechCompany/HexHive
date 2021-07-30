@@ -25,11 +25,10 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
         <Box
             className={props.className}
             elevation="medium"
-            border={{color: 'rgb(35, 75, 83)', side: 'bottom', size: '8px'}}
             align="center"
             justify="between"
             direction="row"
-            background="dark-1" //rgb(30, 62, 72)
+            background="accent-2" //rgb(30, 62, 72)
             height="58px">
             <Box
                 pad="small"
@@ -50,9 +49,9 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
                 {props.tabs?.map((x) => (
                     <Button 
                         hoverIndicator
-                        className={!x.action && matchPath(location.pathname + location.search, {path: `${x.path}`}) !== null ? 'active' : ''}
+                        active={!x.action && matchPath(location.pathname + location.search, {path: `${x.path}`}) !== null}
+                        color={'neutral-1'}
                         onClick={() => props.history.push(`${x.path}`)}
-                        color="gold"
                         plain
                         icon={!x.label && x.icon}
                         label={x.label}/>
@@ -75,7 +74,7 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
 
 export const Header = withRouter(styled(BaseHeader)`
     .tab-menu .active{
-        background-color: rgba(35, 75, 83, 1);
+        background-color: accergba(35, 75, 83, 1);
     }
 
     .tab-menu > button {

@@ -65,8 +65,10 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
 
     return query.$state.isLoading ? <>Loading... </>: (
         <Box
+        round="xsmall"
+        overflow="hidden"
             elevation="small"
-            background="brand"
+            background="neutral-1"
             flex
             direction="column" 
             className="device-list">
@@ -80,13 +82,13 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
                     openModal(false)
                 }} />
             <Box align="center" direction="row" pad="small">
-                <TextInput placeholder="Search" />
+                <TextInput placeholder="Search Devices..." />
                 <Button
                     onClick={() => openModal(true)}
                      margin={{left: 'small'}} 
                      primary 
                      hoverIndicator 
-                     color="light-1"
+                     color="accent-1"
                      label="Add"
                      icon={<Icons.Add />} />
             </Box>

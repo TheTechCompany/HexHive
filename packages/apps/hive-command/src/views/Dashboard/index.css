@@ -1,7 +1,6 @@
 .dashboard{
     flex: 1;
     display: flex;
-    background: linear-gradient(#054c54, #003f49);
     color: #f3b413;
     flex-direction: column;
     height: 100vh;

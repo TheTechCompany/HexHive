@@ -1,4 +1,4 @@
-import DateHelper from '../helpers/DateHelper';
+import DateHelper from './DateHelper';
 const DAY_WIDTH = 24;
 
 describe('Test DateToPixel Fuctionality', () => {

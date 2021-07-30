@@ -12,11 +12,14 @@ export interface NestedListProps {
 export const NestedList : React.FC<NestedListProps> = (props) => {
     return (
         <Box 
+            overflow="hidden"
+            round="xsmall"
             elevation="small"
             flex
-            background={'#003f49'}>
+            background={'neutral-1'}>
             <Box   
                 pad="xsmall"
+                background="accent-1" 
                 justify="between"
                 border={{side: 'bottom', color: '#dfdfdf', size: '1px'}}
                 direction="row">

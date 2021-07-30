@@ -100,6 +100,8 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
                 style={{ display: 'flex', flex: 1 }}>
 
                 <Box
+                    pad='xsmall'
+                    background={'neutral-4'}
                     flex >
                     <React.Suspense fallback={(
                         <Box flex align="center" justify="center">

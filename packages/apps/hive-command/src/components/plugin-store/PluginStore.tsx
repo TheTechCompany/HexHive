@@ -18,6 +18,7 @@ export const PluginStore: React.FC<PluginStoreProps> = (props) => {
     return (
         <Box
         
+            background="neutral-1"
             elevation="small"
             direction="column"
             width={'80vw'}>
@@ -25,7 +26,7 @@ export const PluginStore: React.FC<PluginStoreProps> = (props) => {
             <Box 
                 pad="small"
                 elevation="small"
-                background="dark-2"
+                background="accent-1"
                 align="center"
                 direction="row">
                 <TextInput
@@ -34,7 +35,7 @@ export const PluginStore: React.FC<PluginStoreProps> = (props) => {
                 <Button
                     onClick={props.onCreate} 
                     primary
-                    color="accent-1" 
+                    color="neutral-3" 
                     label="Create"/>
             </Box>
           

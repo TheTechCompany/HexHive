@@ -36,8 +36,10 @@ export const BaseStackList : React.FC<StackListProps> = (props) => {
     
     return query.$state.isLoading  ? (<div>Loading...</div>) : (
         <Box
+            overflow="hidden"
+             background="neutral-1"
             direction="row"
-            elevation="1"
+            elevation="small"
             round="small"
             className={props.className}>
             <StackModal 
@@ -61,6 +63,7 @@ export const BaseStackList : React.FC<StackListProps> = (props) => {
                 pad="small"
                 elevation="small"
                 gap="small"
+                background="neutral-1"
                 direction="column"
                 width={'20vw'}>
                 <Text style={{textDecoration: 'underline'}}>Plugins</Text>
@@ -92,7 +95,6 @@ export const BaseStackList : React.FC<StackListProps> = (props) => {
 export const PluginList = styled(BaseStackList)`
     flex: 1;
     display: flex;
-    padding: 8px;
     position: relative;
 
     .MuiList-root{
