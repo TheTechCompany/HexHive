@@ -15,7 +15,8 @@ import { Server } from 'ws';
 //import { Server } from 'socket.io'
 
 //Datatypes
-import { Models, connect_data } from '@hive-command/data-types'
+import { connect_data } from '@hexhive/types'
+import * as Models from '@hexhive/types/dist/models'
 import { setupProgramGraph, setupStackGraph, buildSchema, convertMongoose } from './graph';
 import { SSLManager } from './ssl';
 
