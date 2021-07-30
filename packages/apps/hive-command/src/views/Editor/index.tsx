@@ -3,7 +3,7 @@ import React, { Suspense, lazy, useEffect, useRef, useState, useCallback } from 
 import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-shards';
 import { Box, Text, Spinner } from 'grommet';
 import { programActions } from '../../actions';
-import { FlowShardNodes, Program } from '../../gqless';
+import { Program } from '../../gqless';
 import Editor from '@hexhive/command-editor'
 import qs from 'qs';
 import { RouteComponentProps } from 'react-router-dom';
@@ -69,7 +69,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 })
                 console.log(program.program.find((a: any) => a._id == program_id))
             }}
-            onUpdateProgramPath={(program_id, path: FlowShardPaths & any) => {
+            onUpdateProgramPath={(program_id, path: IFlowShardPaths & any) => {
                 console.log(path.points)
 
                 const p = Object.assign({}, path)
