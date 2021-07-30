@@ -28,6 +28,9 @@
   "references": [
     {
       "path": "../../shared/hexhive-auth-ui"
+    },
+    {
+      "path": "../../shared/hexhive-styles"
     }
   ]
 }

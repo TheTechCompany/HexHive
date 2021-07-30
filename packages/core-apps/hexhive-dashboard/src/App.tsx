@@ -10,11 +10,13 @@ import { AuthProvider } from '@hexhive/auth-ui'
 import { Organisation } from './views/organisation';
 import { Settigns } from './views/settings';
 
+import { BaseStyle } from '@hexhive/styles'
+
 const NoToken = () => (<div>No token</div>)
 function App() {
 
   return (
-    <Grommet full>
+    <Grommet theme={BaseStyle} plain full>
     <AuthProvider
       clientId="hexhive.io"
       clientSecret="tester"
@@ -23,12 +25,12 @@ function App() {
       {(accessToken: string) => (
       <Router basename={process.env.PUBLIC_URL}>
         <Box 
-          background="light-4"
+          background="neutral-4"
           fill 
           direction="column"
           className="App">
           <BaseHeader />
-          <Route path="/" exact component={!accessToken ? NoToken : Home} />
+          <Route path="/" exact component={Home} />
           <Route path="/organisation" component={Organisation} />
           <Route path={`/settings`} component={Settigns} />
         </Box>

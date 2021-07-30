@@ -25,12 +25,13 @@ export const Organisation  : React.FC<any> = (props) => {
                 <Button label="Invite Members" primary onClick={() => openInvite(true)} />
             </Box>
             <Box 
+            
                 focusIndicator={false}
                 overflow="scroll"
                 round="xsmall"
                 flex 
                 margin="small" 
-                background="light-2">
+                background="neutral-2">
             <List 
                 onClickItem={() => {openUpdate(true)}}
                 data={[
