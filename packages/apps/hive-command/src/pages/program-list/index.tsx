@@ -5,8 +5,8 @@ import './index.css';
 import { useQuery, Program } from '../../gqless'
 import { Box } from 'grommet';
 import { NestedList } from '../../components/ui/nested-list';
-
-export interface ProgramListProps {
+import { RouteComponentProps } from 'react-router-dom'
+export interface ProgramListProps extends RouteComponentProps {
     history: any;
 }
 
@@ -59,7 +59,7 @@ export const ProgramList: React.FC<ProgramListProps> = (props) => {
 
             <NestedList
                 data={programs}
-                onClick={({item}) => props.history.push(`/dashboard/programs/${item._id}`)}
+                onClick={({item}) => props.history.push(`${props.match.url}/${item._id}`)}
                 renderItem={(item) => item.name}
                 onAdd={() => openModal(true)} />
             {/*<PaperList 

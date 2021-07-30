@@ -37,7 +37,7 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
                 justify="start">
                 <Logo 
                     style={{cursor: 'pointer'}}
-                    onClick={() => props.history.push(`/dashboard/command`)}
+                    onClick={() => window.location.href = `/dashboard/command`}
                     height="52px" />
             </Box>
             <Box 

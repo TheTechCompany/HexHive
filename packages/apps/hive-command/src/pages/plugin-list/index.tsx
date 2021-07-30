@@ -81,7 +81,7 @@ export const BaseStackList : React.FC<StackListProps> = (props) => {
             
             <PluginStore
                 onClickRow={(plugin) => {
-                    props.history.push(`/dashboard/plugins/${plugin._id}`)
+                    props.history.push(`${props.match.url}/${plugin._id}`)
                 }}
                 onCreate={() => {
                     openModal(true)
