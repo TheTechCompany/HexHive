@@ -154,14 +154,14 @@ app.use('/graphql',
 // });
 
 
-app.use('/api/*', function (req, res, next) {
-  let token = req.query.access_token;
-  if (token)
-    req.headers.authorization = 'Bearer ' + token;
-  next();
-});
+// app.use('/api/*', function (req, res, next) {
+//   let token = req.query.access_token;
+//   if (token)
+//     req.headers.authorization = 'Bearer ' + token;
+//   next();
+// });
 
-app.use('/api/*', AuthServer.oauthServer.authenticate())
+// app.use('/api/*', AuthServer.oauthServer.authenticate())
 
 // app.use('/api/*', jwt_middleware({algorithms: ["HS256"], secret : config.jwt_secret}));
 

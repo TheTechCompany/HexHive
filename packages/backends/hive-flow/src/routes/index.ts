@@ -1,5 +1,5 @@
 import express from 'express';
-import api from './api';
+// import api from './api';
 import { Connector } from '../connector'
 import { CentralAuthServer } from '@hexhive/auth'
 
@@ -38,7 +38,7 @@ export default function (connector: any, authServer: CentralAuthServer) {
   //   next();
   // });
 
-  router.use('/api', api(connector, authServer));
+  // router.use('/api', api(connector, authServer));
 
   return router;
 };
