@@ -1,5 +1,4 @@
 {
-  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
@@ -11,7 +10,6 @@
     "alwaysStrict": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
-
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -36,9 +34,6 @@
     "noEmit": true,
     "isolatedModules": true
   },
-  "references": [
-    {"path": "../../shared/hexhive-cas-client"}
-  ],
   "exclude": ["./out/**/*", "./node_modules/**/*"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

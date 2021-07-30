@@ -8,7 +8,7 @@
     "build-app:flow": "npx lerna run build --scope @hexhive-apps/flow --include-dependencies",
     "start:flow-backend": "npx lerna run start --scope @hexhive-backends/flow",
     "start:command-backend": "npx lerna run start --scope @hexhive-backends/command",
-    "build:landing": "npx lerna run build --scope @hexhive/landing --include-dependencies",
+    "build:landing": "npx lerna run build --scope @hexhive/cas-client --include-dependencies && cd packages/core-apps/hexhive-landing && yarn build",
     "build:dashboard": "npx lerna run build --scope @hexhive/dashboard --include-dependencies",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
