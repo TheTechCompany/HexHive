@@ -1,9 +1,5 @@
-import { Models } from '@hive-flow/data-types'
+import { User, Project, File } from '@hexhive/types'
 import mongoose from 'mongoose'
-const {
-  User, Project, File
-} = Models;
-
 
 async function create_file(template: any) {
   let owner_id = await User.findOne({id: template.uploader})
