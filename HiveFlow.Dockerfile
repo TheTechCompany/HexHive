@@ -13,6 +13,8 @@ COPY . .
 
 RUN npm install
 
+RUN cd packages/backends/ && npm i
+
 RUN npx lerna bootstrap --scope @hexhive-backends/flow --include-dependencies
 
 RUN npx lerna run build --scope @hexhive-backends/flow --include-dependencies
