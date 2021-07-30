@@ -15,10 +15,13 @@ import {
 
 const queryFetcher: QueryFetcher = async function (query, variables) {
   // Modify "http://localhost:80/graphql" if needed
-  const response = await fetch("http://localhost:80/graphql", {
+  const token = window.sessionStorage.getItem('CREDENTIALS_TOKEN')
+
+  const response = await fetch(process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API != undefined ? `${process.env.REACT_APP_API}/graphql` : '/graphql') : "http://localhost:8080/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + token
     },
     body: JSON.stringify({
       query,

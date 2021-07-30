@@ -1,3 +1,4 @@
+import { useQuery } from '../../../gqless';
 import { DataTable, Box, TextInput, Select } from 'grommet';
 import React, {
   Component, useEffect, useState
@@ -26,12 +27,12 @@ export const JobList : React.FC<JobListProps> = (props) => {
   ])
 
 
-  // const query = useQuery({
-  //   suspense: false,
-  //   staleWhileRevalidate: true
-  // })
+  const query = useQuery({
+    suspense: false,
+    staleWhileRevalidate: true
+  })
 
-  const projects : any[] = [] // query.ProjectMany();
+  const projects = query.ProjectMany();
 
 
   const selectJob = (job : {JobID: string}) => {

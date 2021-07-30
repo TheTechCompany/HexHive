@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Timeline as TimelineGantt} from '@hexhive/ui'
+import {Timeline} from '@hexhive/ui'
 //import utils from '../../utils';
 import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
@@ -14,7 +14,7 @@ var formatter = new Intl.NumberFormat('en-US', {
     currency: 'USD'
   });
 
-const Timeline : React.FC<TimelineProps> = (props) => {
+const BaseTimeline : React.FC<TimelineProps> = (props) => {
     const [ date, setDate ] = useState<Date>(new Date())
     const [ horizon, setHorizon ] = useState<{start: Date, end: Date} | undefined>()
 
@@ -139,7 +139,7 @@ const Timeline : React.FC<TimelineProps> = (props) => {
             overflow="hidden"
             flex 
             round="small">
-        <TimelineGantt 
+        <Timeline 
             resizable
             mode="month"
             links={[]}
@@ -152,4 +152,4 @@ const Timeline : React.FC<TimelineProps> = (props) => {
     )
 }
 
-export default Timeline;
+export default BaseTimeline;
