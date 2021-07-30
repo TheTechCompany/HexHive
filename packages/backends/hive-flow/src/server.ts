@@ -24,8 +24,6 @@ import { AuthServer } from '@hexhive/auth'
 import { connect_data } from '@hexhive/auth/dist/types'
 
 
-var serviceAccountKey = require('./keys/pencil-in-nz-firebase-adminsdk-3eesp-125b1383f0.json')
-
 const BASE_URL = process.env.BASE_URL || 'https://workhub.services'
 
 const app = express()
