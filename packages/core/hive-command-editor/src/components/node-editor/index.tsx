@@ -10,7 +10,7 @@ import * as Icons from 'grommet-icons'
 import { LiveComponent, Tablet, InfiniteCanvas, ZoomControls } from '@thetechcompany/live-ui'
 
 import { NodeEditorContext } from './context';
-import { StackItems, StackItemsPorts } from '@hexhive/types/dist/interfaces';
+import { IStackItems, IStackItemsPorts } from '@hexhive/types';
 import _ from 'lodash';
 
 const svgr = require('@svgr/core').default
@@ -19,11 +19,11 @@ export interface NodeEditorProps {
     className?: string;
     history?: any;
 
-    node?: StackItems;
-    onChange?: (node: StackItems) => void;
+    node?: IStackItems;
+    onChange?: (node: IStackItems) => void;
     onBack?: () => void;
 
-    onSave?: (node?: StackItems) => void;
+    onSave?: (node?: IStackItems) => void;
     edited?: boolean;
 }
 
@@ -46,10 +46,10 @@ const Component = (props) => {
 export default Component;
 `
 
-const formatNode = (node: StackItems) => {
+const formatNode = (node: IStackItems) => {
     let n: any = Object.assign({}, node)
 
-    n.ports = n.ports?.map((x: StackItemsPorts) => pick(x, stack_port_pick ))
+    n.ports = n.ports?.map((x: IStackItemsPorts) => pick(x, stack_port_pick ))
     return pick(n, stack_pick)
 }
 
@@ -58,7 +58,7 @@ const stack_pick = ['_id', 'type', 'name', 'dimensions', 'code', 'ui', 'ports']
 export const BaseNodeEditor: React.FC<NodeEditorProps> = (props) => {
 
 
-    const [node, setNode] = useState<StackItems | undefined>(formatNode(props.node || {} as any) as any)
+    const [node, setNode] = useState<IStackItems | undefined>(formatNode(props.node || {} as any) as any)
 
 
     useEffect(() => {

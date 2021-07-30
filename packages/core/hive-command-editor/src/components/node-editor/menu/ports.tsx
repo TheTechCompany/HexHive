@@ -2,7 +2,7 @@ import React, { useState, useContext }  from 'react';
 
 import { TextInput, Text, Box, Button, Collapsible } from 'grommet';
 import { NodeEditorContext } from '../context';
-import { StackItemsPorts } from '@hexhive/types/dist/interfaces'
+import { IStackItemsPorts } from '@hexhive/types'
 import { SettingsOption } from 'grommet-icons';
 
 /*
@@ -16,7 +16,7 @@ export interface Port {
     name?: string;
 }*/
 
-const PortItem = (props: {port: StackItemsPorts, onChange: (port: StackItemsPorts) => void}) => {
+const PortItem = (props: {port: IStackItemsPorts, onChange: (port: IStackItemsPorts) => void}) => {
 
     const onChange = (key: string, val: any) => {
         let p : any = Object.assign({}, props.port)
@@ -67,7 +67,7 @@ const PortsPane = (props: any) => {
         }
     }
 
-    const updatePort = (ix: number, update: StackItemsPorts) => {
+    const updatePort = (ix: number, update: IStackItemsPorts) => {
         let p = ports?.slice()
         if(p){
         p[ix] = update;
@@ -81,7 +81,7 @@ const PortsPane = (props: any) => {
             flex: 1,
             display: 'flex', flexDirection: 'column'}}>
             <Text style={{textAlign: 'center'}}>Ports</Text>
-            {ports?.map((port : StackItemsPorts | null, ix: number) => port && (
+            {ports?.map((port : IStackItemsPorts | null, ix: number) => port && (
                 <Collapsible style={{
                     display: 'flex',
                     flexDirection: 'column'

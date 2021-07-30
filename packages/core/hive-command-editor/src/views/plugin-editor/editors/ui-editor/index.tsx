@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, List, Button, Tabs, Tab } from 'grommet';
 import { IOSpecEditor } from '../../../../components/io-spec-editor/IOSpecEditor';
-import { StackItems } from '@hexhive/types/dist/interfaces'
+import { IStackItems } from '@hexhive/types'
 import { NodeEditor, CodeEditor } from '../../../../'
 import { TabPane } from '@thetechcompany/live-ui';
 import componentTemplate from '../../templates/code/component'
@@ -9,8 +9,8 @@ import ioTemplate from '../../templates/code/io-bus';
 import _ from 'lodash';
 
 export interface UIEditorProps {
-    plugin: StackItems,
-    onPluginChanged?: (stack: StackItems) => void;
+    plugin: IStackItems,
+    onPluginChanged?: (stack: IStackItems) => void;
 }
 
 export const UIEditor : React.FC<UIEditorProps> = (props) => {

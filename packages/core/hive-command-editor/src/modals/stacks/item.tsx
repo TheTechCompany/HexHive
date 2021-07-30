@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Select, TextInput } from 'grommet';
 import { BaseModal } from '../base';
-import { StackItems } from '@hexhive/types/dist/interfaces';
+import { IStackItems } from '@hexhive/types/dist/interfaces';
 
 export interface StackItemModalProps {
   open: boolean;
@@ -12,7 +12,7 @@ export interface StackItemModalProps {
 
 export const StackItemModal : React.FC<StackItemModalProps> = (props) => {
 
-  const [ item, setItem ] = useState<StackItems & any>()
+  const [ item, setItem ] = useState<IStackItems & any>()
 
   const onClose = () => {
     if(props.onClose){

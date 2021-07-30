@@ -1,4 +1,4 @@
-import { StackItemsPorts } from '@hexhive/types/dist/interfaces';
+import { IStackItemsPorts } from '@hexhive/types';
 import React from 'react';
 
 export interface NodeEditorState {
@@ -6,7 +6,7 @@ export interface NodeEditorState {
     dimensions?: {width: number, height: number};
     setDimensions?: (dimensions: {width: number, height: number}) => void;
 
-    ports?: Array<StackItemsPorts | null>
-    setPorts?: (ports: StackItemsPorts[]) => void;
+    ports?: Array<IStackItemsPorts | null>
+    setPorts?: (ports: IStackItemsPorts[]) => void;
 }
 export const NodeEditorContext = React.createContext<NodeEditorState>({})

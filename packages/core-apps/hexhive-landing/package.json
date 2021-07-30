@@ -3,19 +3,18 @@
   "version": "0.0.3-alpha.0",
   "scripts": {
     "dev": "next dev",
-    "build": "yarn build-prod",
-    "build-next": "next build",
+    "build-prod": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "export": "next export",
     "build-deps": "cd ../hexhive-cas-client && yarn build",
-    "build-prod": "run-s clean build export",
+    "build": "run-s clean build-prod export",
     "clean": "rimraf .next out",
     "lint": "next lint",
     "build-types": "tsc --noEmit --pretty"
   },
   "dependencies": {
-    "@hexhive/cas-client": "^0.0.2",
+    "@hexhive/cas-client": "^0.0.3-alpha.0",
     "classnames": "^2.3.1",
     "grommet": "^2.17.3",
     "next": "^11.0.1",

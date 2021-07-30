@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ProcessModal } from '../modals/process';
-import { FlowShard } from '@hexhive/types/dist/interfaces';
+import { IFlowShard } from '@hexhive/types';
 import { makeTree } from '@hexhive/utils';
 import { useContext } from 'react';
 import { EditorContext } from '../context';
@@ -9,7 +9,7 @@ import { TreeView } from '../components/tree-view'
 import { nanoid } from 'nanoid';
 
 export interface ProgramMenuProps {
-    program_shards?: FlowShard[]
+    program_shards?: IFlowShard[]
     program: string;
 
     onSelect?: (selector: string) => void;

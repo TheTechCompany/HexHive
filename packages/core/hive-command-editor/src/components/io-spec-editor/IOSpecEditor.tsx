@@ -8,10 +8,10 @@ import { useEffect } from 'react';
 import { useContext } from 'react';
 import { EditorContext } from '../../context';
 import { ADD_PLUGIN_INPUT, ADD_PLUGIN_OUTPUT, UPDATE_PLUGIN_ITEM, UPDATE_PLUGIN_KEY } from '../../store/actions';
-import { StackItems } from '@hexhive/types/dist/interfaces';
+import { IStackItems } from '@hexhive/types';
 
 export interface IOSpecEditorProps{
-    plugin: StackItems;
+    plugin: IStackItems;
 }
 
 export const IOSpecEditor : React.FC<IOSpecEditorProps> = (props) => {
@@ -21,7 +21,7 @@ export const IOSpecEditor : React.FC<IOSpecEditorProps> = (props) => {
     const [ modalOpen, openModal ] = useState<boolean>(false)
     const [ ioType, setIOType ] = useState<"input" | "output">()
 
-    const [ plugin, setPlugin ] = useState<StackItems>()
+    const [ plugin, setPlugin ] = useState<IStackItems>()
 
     const [ name, setName ] = useState<string>('')
     const [ key, setKey ] = useState<string>('')

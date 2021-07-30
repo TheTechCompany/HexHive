@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { ProcessModal } from '../modals/process';
-import { FlowShard } from '@hexhive/types/dist/interfaces';
+import { IFlowShard } from '@hexhive/types';
 import { makeTree } from '@hexhive/utils';
 import { useContext } from 'react';
 import { EditorContext } from '../context';
 import { ADD_HMI } from '../store/actions';
 import { TreeView } from '../components/tree-view'
 export interface HMIMenuProps {
-    hmi?: FlowShard[]
+    hmi?: IFlowShard[]
     program?: string;
 
     onSelect?: (hmi_id: string) => void;

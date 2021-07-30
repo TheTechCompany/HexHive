@@ -1,5 +1,5 @@
 import { Dispatch, useRef, useState } from "react";
-import { FlowShard, IO, Stack } from "@hexhive/types/dist/interfaces"
+import { IFlowShard, IO, IStack } from "@hexhive/types"
 import * as actions from './actions'
 import { v4 } from 'uuid';
 import { IEditorProgram } from "../HiveFlowEditor";
@@ -101,7 +101,7 @@ export const useEditorStore = (initialState: EditorState) => {
             if(!action.data._id) return;
             doc.program = {
                 id: action.data._id,
-                program: action.data.program?.slice().map((x: FlowShard) => ({
+                program: action.data.program?.slice().map((x: IFlowShard) => ({
                         ...x,
                         nodes: x.nodes?.slice().map((x) => ({
                             ...x,
@@ -158,7 +158,7 @@ export const useEditorStore = (initialState: EditorState) => {
             let program = doc.program.program[program_ix]
             
             console.log(program.paths?.slice())
-            let path_ix = (program.paths || []).map((a) => a.id).indexOf(action.data.path_id)
+            let path_ix = (program.paths || []).map((a: any) => a.id).indexOf(action.data.path_id)
             if(path_ix == undefined || path_ix < 0 ) return;
 
             console.log("Update path", action.data.path, program_ix, path_ix)
@@ -200,7 +200,7 @@ export const useEditorStore = (initialState: EditorState) => {
 
             let program = doc.program.program[program_ix]
             
-            let node_ix = (program.nodes || []).map((a) => a.id).indexOf(action.data.node_id)
+            let node_ix = (program.nodes || []).map((a: any) => a.id).indexOf(action.data.node_id)
             if(node_ix == undefined && node_ix < 0 ) return;
 
             console.log("Update node", action.data.node, program_ix, node_ix)
@@ -304,7 +304,7 @@ export const EditorReducer = (state: EditorState = {}, action: EditorAction): Ed
                 program: {
                     ...action.data,
                     id: action.data._id,
-                    program: action.data.program.slice().map((x: FlowShard) => ({
+                    program: action.data.program.slice().map((x: IFlowShard) => ({
                         ...x,
                         nodes: x.nodes?.slice().map((x) => ({
                             ...x,

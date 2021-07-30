@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import { GridList, InfiniteCanvas, TabPane } from '@thetechcompany/live-ui'
 import { CodeEditor } from '../../components/code-editor'
-import {  Stack, StackItems } from '@hexhive/types/dist/interfaces';
+import { IStack, IStackItems } from '@hexhive/types';
 
 import componentTemplate from './templates/code/component'
 import ioTemplate from './templates/code/io-bus';
@@ -22,12 +22,12 @@ export interface StackEditorProps {
     className?: string;
     match?: any;
     history?: any;
-    plugin?: Stack & any;
+    plugin?: IStack & any;
     plugin_item?: any;
 
     onSave?: () => void;
 
-    onPluginChanged?: (plugin: Stack) => void;
+    onPluginChanged?: (plugin: IStack) => void;
     onCreateItem?: (pluginItem: {name: string}) => void;
 }
 
@@ -38,7 +38,7 @@ export const BaseStackEditor : React.FC<StackEditorProps> = (props) => {
 
     const [ properties, setProperties ] = useState<{name: string, type: string}[]>([])
 
-    const [ node, setNode ] = useState<StackItems>()
+    const [ node, setNode ] = useState<IStackItems>()
     const [ edited, setEdited ] = useState<boolean>(false)
 
     
@@ -121,19 +121,19 @@ const addPluginItem = (pluginItem: {name: string}) => {
 
 }
 
-const updateItem = (id: string, update: StackItems) => {
+const updateItem = (id: string, update: IStackItems) => {
     console.log("Update Item", id, update)
 
     let plugin = Object.assign({}, props.plugin)
     if(!plugin || !plugin.items) return;
     let items = plugin.items.slice();
-    let ix = items.map((x: StackItems) => x._id).indexOf(id)
+    let ix = items.map((x: IStackItems) => x._id).indexOf(id)
 
     if(ix !== undefined){
         items[ix] = update;
     }
 
-    plugin.items = items.map((x: StackItems) => _.pick(x, ['_id', 'name', 'ui', 'ports', 'key', 'type', 'dimensions']));
+    plugin.items = items.map((x: IStackItems) => _.pick(x, ['_id', 'name', 'ui', 'ports', 'key', 'type', 'dimensions']));
 
     console.log("Update Item", id, update, plugin)
 

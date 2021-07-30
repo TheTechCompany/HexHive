@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { RetractingPort } from "@thetechcompany/live-ui"
-import { StackItemsPorts } from "@hexhive/types/dist/interfaces"
+import { IStackItemsPorts } from "@hexhive/types"
 
 export interface ElementNodeProps {
     className?: string;
@@ -22,7 +22,7 @@ export const BaseElementNode : React.FC<ElementNodeProps> = (props) => {
 
         return (
             <div className={props.className}>
-                {props.asset?.ports.map((port : StackItemsPorts) => (
+                {props.asset?.ports.map((port : IStackItemsPorts) => (
                     <RetractingPort     
                         id={port.name || port._id} 
                         rotation={port?.rotation || 0}

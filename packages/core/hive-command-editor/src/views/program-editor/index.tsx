@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { IconNodeFactory, StartNodeFactory } from '@thetechcompany/live-ui'
-import { FlowShard, IO, Stack } from '@hexhive/types/dist/interfaces';
+import { IFlowShard, IO, IStack } from '@hexhive/types';
 import { ActionNodeFactory } from './nodes/action-node';
 import { FlowEditor } from '../../components/flow-editor';
 import { NodeDropdown } from '../../components/node-dropdown';
@@ -16,9 +16,9 @@ export interface ProgramEditorProps {
     history?: any;
     match?: any;
 
-    program?: FlowShard
+    program?: IFlowShard
 
-    items?: FlowShard[];
+    items?: IFlowShard[];
 
     onChange?: (id?: string, program?: any) => void
 }
@@ -59,7 +59,7 @@ export const ProgramEditor : React.FC<ProgramEditorProps> = (props) => {
         }
     }))
 
-    const getActionableIO = (io_list: IO[], plugins: Stack[]) => {
+    const getActionableIO = (io_list: IO[], plugins: IStack[]) => {
         console.log(plugins)
         return io_list.map((io_dev) => {
             console.log(io_dev)

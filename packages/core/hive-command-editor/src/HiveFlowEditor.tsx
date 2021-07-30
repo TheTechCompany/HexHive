@@ -15,7 +15,7 @@ import { SELECT_HMI, SELECT_PROGRAM, SET_ROOT, UPDATE_HMI, UPDATE_PROGRAM } from
 
 import { Grommet } from 'grommet';
 
-import { FlowShard, Stack, IO, StackItems, FlowShardNodes, FlowShardPaths } from '@hexhive/types/dist/interfaces'
+import { IFlowShard, IStack, IO, IStackItems, IFlowShardNodes, IFlowShardPaths } from '@hexhive/types'
 import _ from 'lodash';
 import { nanoid } from 'nanoid';
 import { InfiniteCanvasNode, InfiniteCanvasPath } from '@thetechcompany/live-ui';
@@ -27,9 +27,9 @@ export interface IEditorProgram {
     id?: string;
     name?: string;
 
-    program?: FlowShard[], //FlowShard
-    hmi?: FlowShard[], //FlowShard
-    plugins?: Stack[], //Stack
+    program?: IFlowShard[], //FlowShard
+    hmi?: IFlowShard[], //FlowShard
+    plugins?: IStack[], //Stack
     io?: IO[] //ProgramIO
 }
 
@@ -42,13 +42,13 @@ export interface EditorProps {
     onPublish?: (program: IEditorProgram) => void;
 
     onAddProgram?: (program: any) => void;
-    onUpdateProgram?: (id: string, program: FlowShard) => void;
+    onUpdateProgram?: (id: string, program: IFlowShard) => void;
 
-    onAddProgramNode?: (id: string, node: FlowShardNodes) => void;
-    onUpdateProgramNode?: (id: string, node: FlowShardNodes) => void;
+    onAddProgramNode?: (id: string, node: IFlowShardNodes) => void;
+    onUpdateProgramNode?: (id: string, node: IFlowShardNodes) => void;
 
-    onAddProgramPath?: (id: string, node: FlowShardPaths) => void;
-    onUpdateProgramPath?: (id: string, path: FlowShardPaths) => void;
+    onAddProgramPath?: (id: string, node: IFlowShardPaths) => void;
+    onUpdateProgramPath?: (id: string, path: IFlowShardPaths) => void;
 }
 
 
@@ -118,7 +118,7 @@ export const HiveFlowEditor: React.FC<EditorProps> = (props) => {
     
      */
 
-    const [activePlugin, setActivePlugin] = useState<StackItems | undefined>()
+    const [activePlugin, setActivePlugin] = useState<IStackItems | undefined>()
 
 
     useEffect(() => {

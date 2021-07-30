@@ -1,6 +1,6 @@
 import React from "react";
 import { AbstractWidgetFactory, PortWidget, RetractingPort } from "@thetechcompany/live-ui"
-import { StackItemsPorts } from "@hexhive/types/dist/interfaces";
+import { IStackItemsPorts } from "@hexhive/types";
 import { NodeBlank } from "./NodeBlank";
 
 export class NodeFactory extends AbstractWidgetFactory {
@@ -35,7 +35,7 @@ export class NodeFactory extends AbstractWidgetFactory {
         return (
             <NodeBlank
                 node={event}>
-                {event.ports?.map((port : StackItemsPorts) => React.cloneElement(this.renderPort(port), {...port}))}
+                {event.ports?.map((port : IStackItemsPorts) => React.cloneElement(this.renderPort(port), {...port}))}
                 {this.assets?.["component"]}
             </NodeBlank>
         )

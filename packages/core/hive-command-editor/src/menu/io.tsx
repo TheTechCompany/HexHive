@@ -3,7 +3,7 @@ import { Box } from 'grommet';
 import React, { useState } from 'react';
 import { IOModal } from '../modals/io';
 
-import { IO, Stack } from '@hexhive/types/dist/interfaces';
+import { IO, IStack } from '@hexhive/types';
 import { useContext } from 'react';
 import { EditorContext } from '../context';
 import { ADD_IO } from '../store/actions';
@@ -27,7 +27,7 @@ const types = [{
 
 export interface IOMenuProps{
     items?: IO[];
-    plugins?: Stack[];
+    plugins?: IStack[];
     program?: string;
 }
 

@@ -1,14 +1,14 @@
 import { createContext } from 'react';
-import { FlowShard, IO, Stack } from '@hexhive/types/dist/interfaces';
+import { IFlowShard, IO, IStack } from '@hexhive/types';
 import { EditorAction, EditorState } from '../store';
 import { InfiniteCanvasNode, InfiniteCanvasPath } from '@thetechcompany/live-ui';
 
 export interface IEditorContext {
     program?: {
-        program?: FlowShard[],
-        hmi?: FlowShard[],
+        program?: IFlowShard[],
+        hmi?: IFlowShard[],
         io?: IO[]
-        plugins?: Stack[] 
+        plugins?: IStack[] 
     },
 
     state?: EditorState;
@@ -16,9 +16,9 @@ export interface IEditorContext {
 
     publishChanges?: () => void;
 
-    onPluginChanged?: (id: string, plugin: Stack) => void;
-    onHMIChanged?: (id: string, flow: FlowShard) => void;
-    onProgramChanged?: (id: string, flow: FlowShard) => void;
+    onPluginChanged?: (id: string, plugin: IStack) => void;
+    onHMIChanged?: (id: string, flow: IFlowShard) => void;
+    onProgramChanged?: (id: string, flow: IFlowShard) => void;
 
     addPath?: (program: string, path: InfiniteCanvasPath) => void
     updatePath?: (id: string, path: InfiniteCanvasPath) => void,

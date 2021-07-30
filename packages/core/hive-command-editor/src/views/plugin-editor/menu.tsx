@@ -5,7 +5,7 @@ import * as Icons from 'grommet-icons'
 import { StackItemModal } from '../../modals/stacks/item'
 import useResizeAware from 'react-resize-aware'
 import { size } from 'lodash';
-import { Stack, StackItems } from '@hexhive/types/dist/interfaces';
+import { IStack, IStackItems } from '@hexhive/types';
 import { TreeView } from '../../components/tree-view';
 
 type TreeNode = Readonly<{
@@ -31,7 +31,7 @@ export interface PluginEditorMenuProps{
     onClick?: (id: any) => void;
     onAdd?: (item: any) => void;
 
-    plugin?: Stack
+    plugin?: IStack
 }
 
 const defaultGapStyle = {marginLeft: 6};

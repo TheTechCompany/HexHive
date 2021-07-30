@@ -4,20 +4,20 @@ import { Box, Spinner } from 'grommet';
 
 import { LiveComponent, StartNodeFactory} from '@thetechcompany/live-ui';
 import { ElementNodeFactory } from './nodes/element-node/factory';
-import { FlowShard,  Stack } from '@hexhive/types/dist/interfaces';
+import { IFlowShard,  IStack } from '@hexhive/types';
 import { camelCase } from 'lodash';
 import { FlowEditor } from '../flow-editor';
 import { NodeDropdown } from '../node-dropdown';
 
 
 export interface HMIEditorProps {
-    hmi?: FlowShard;
+    hmi?: IFlowShard;
 
     onChange?: (hmi: any) => void;
 
     editable?: boolean;
 
-    plugins?: Stack[];
+    plugins?: IStack[];
 }
 
 export const HMIEditor: React.FC<HMIEditorProps> = ({
@@ -29,7 +29,7 @@ export const HMIEditor: React.FC<HMIEditorProps> = ({
     
     const [ selectedTab, setSelectedTab ] = useState<number | null>(null)
 
-   const [ _hmi, setHMI ] = useState<FlowShard>(hmi || {nodes: [], paths: []} as any)
+   const [ _hmi, setHMI ] = useState<IFlowShard>(hmi || {nodes: [], paths: []} as any)
 
    useEffect(() => {
     if(hmi){

@@ -3,13 +3,13 @@ import { Box, List, CheckBox} from 'grommet';
 import React, { useState } from 'react';
 import { StackModal } from '../modals/stacks';
 import { StackItemModal } from '../modals/stacks/item';
-import { Stack, StackItems } from '@hexhive/types/dist/interfaces';
+import { IStack, IStackItems } from '@hexhive/types';
 import { useContext } from 'react';
 import { EditorContext } from '../context';
 import { ADD_PLUGIN, ADD_PLUGIN_ITEM } from '../store/actions';
 
 export interface PluginProps {
-    stacks?: Stack[];
+    stacks?: IStack[];
     plugins?: string[]
     
     onSelect?:(stack_ix?: number, item_ix?: number) => void;
@@ -28,7 +28,7 @@ export const PluginMenu : React.FC<PluginProps> = (props) => {
         dispatch?.({type: ADD_PLUGIN, data: {name: args.name}})
     }
 
-    const addStackItem = (args: {stack_id: string, items: StackItems}) => {
+    const addStackItem = (args: {stack_id: string, items: IStackItems}) => {
         dispatch?.({type: ADD_PLUGIN_ITEM, data: {stack: args.stack_id, items: args.items}})
     }
    

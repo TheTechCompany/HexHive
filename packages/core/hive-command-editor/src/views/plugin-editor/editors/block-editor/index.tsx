@@ -1,13 +1,13 @@
 import { Tabs, Box, Tab } from 'grommet';
 import React, { useEffect, useRef, useState } from 'react';
 import { CodeEditor } from '../../../../'
-import { Stack, StackItems } from '@hexhive/types/dist/interfaces';
+import { IStackItems } from '@hexhive/types';
 import ioTemplate from '../../templates/code/io-bus';
 
 
 export interface BlockEditorProps {
-    onPluginChanged?: (stack: StackItems) => void;
-    plugin?: StackItems;
+    onPluginChanged?: (stack: IStackItems) => void;
+    plugin?: IStackItems;
 }
 
 export const BlockEditor : React.FC<BlockEditorProps> = (props) => {
