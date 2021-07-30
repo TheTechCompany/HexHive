@@ -146,7 +146,7 @@ const Timeline : React.FC<TimelineProps> = (props) => {
             data={getWeeks()}
             date={date}
             onHorizonChange={onHorizonChange}
-            itemHeight={30}
+            itemheight={30}
             />
         </Box>
     )
