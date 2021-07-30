@@ -37,7 +37,7 @@ export const BaseDeploymentInfo : React.FC<DeploymentInfoProps> = (props) => {
             </Box>
             <Button 
                 onClick={() => {
-                    props.history.push(`/dashboard/devices/${props.deployment._id}/controls`)
+                    props.history.push(`${props.match.url}/${props.deployment._id}/controls`)
                 }}
                 margin={{left: 'small', right: 'small'}}
                     primary
