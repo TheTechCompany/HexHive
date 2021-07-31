@@ -57,11 +57,6 @@ export const Dashboard : React.FC<any> = (props: any) => {
                   component: <> </>,
                 },
                 {
-                  icon: <Plan />,
-                  label: "Planner", 
-                  component: <></>
-                },
-                {
                   icon: <SchedulePlay />,
                   label: "Timeline",
                   component: <></>

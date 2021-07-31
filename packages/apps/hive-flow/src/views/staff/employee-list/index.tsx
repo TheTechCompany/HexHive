@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 
-import { Box, Text, TextInput } from 'grommet'
+import { Box, DataTable, Text, TextInput } from 'grommet'
 
 import {
    Search as IoSearch
@@ -8,33 +8,45 @@ import {
 
 import './index.css';
 import { StaffSearchHeader } from './header';
+import { useQuery } from 'apps/hive-flow/src/gqless';
+import { idText } from 'typescript';
 
 
 export const StaffList: React.FC<any> = (props) => {
-   const [employees, setEmployees] = useState<any[]>([])
+   // const [employees, setEmployees] = useState<any[]>([])
    const [search, setSearch] = useState<string>('')
 
+   const query = useQuery({
+      suspense: false,
+      staleWhileRevalidate: true
+   })
 
+   const [direction, setDirection] = useState<"asc" | "desc" | undefined>()
+   const [property, setProperty] = useState<string>()
+
+
+   const people = query.PeopleMany || []
    // componentWillMount(){
    //    utils.staff.getAll().then((res) => {
    //       this.setState({ employees : res});
    //    });
    // }
 
-   const _render = () => {
-      var terms = employees.filter(emp => {
-         if (search == '') return true;
-         return emp.Name.toLowerCase().includes(search.toLowerCase());
-      })
+   const filterPeople = (item: any) => {
+      if (search.length > 0) {
+         return item.name.toLowerCase().includes(search.toLowerCase())
+      }
+      return true;
+   }
 
-      return terms.map((x) => {
-         return (
-            <Box key={x.ID} onClick={() => props.history.push(`${props.match.url}/${x.ID}`)}>
-               <img src={`${process.env.PUBLIC_URL}/api/staff/${x.ID}/photo?access_token=${props.token}`} />
-               <Text>{x.Name}</Text>
-            </Box>
-         );
-      });
+   const sortPeople = (left: any, right: any) => {
+      if (property && direction) {
+         return (direction == 'asc' ?
+            (left[property] == right[property] ? 0 : (left[property] > right[property] ? 1 : -1))
+            : (left[property] == right[property] ? 0 : (left[property] < right[property] ? 1 : -1)))
+      } else {
+         return 0;
+      }
    }
 
    return (
@@ -47,12 +59,31 @@ export const StaffList: React.FC<any> = (props) => {
             onFilterChange={(filter) => setSearch(filter)} />
 
          <Box
+            flex
             round="xsmall"
-            background="neutral-1"
-            className="employees">
-            <Box direction="row" wrap>
-               {_render()}
-            </Box>
+            overflow="scroll"
+            background="neutral-1">
+
+            <DataTable
+               pin
+               onSort={({ property, direction }) => {
+                  setProperty(property)
+                  setDirection(direction)
+               }}
+               columns={[
+                  {
+                     size: 'small',
+                     property: 'id',
+                     header: "ID",
+                     sortable: true
+                  },
+                  {
+                     property: 'name',
+                     header: "Name",
+                     sortable: true
+                  }
+               ]}
+               data={people.filter(filterPeople).sort(sortPeople)} />
          </Box>
       </Box>
 

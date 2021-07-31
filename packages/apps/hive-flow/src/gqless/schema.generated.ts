@@ -59,6 +59,10 @@ export const generatedSchema = {
       __type: "[Quote]",
       __args: { status: "String", startDate: "Date", endDate: "Date" },
     },
+    EquipmentById: { __type: "Equipment", __args: { id: "ID" } },
+    EquipmentMany: { __type: "[Equipment]", __args: { status: "String" } },
+    PeopleById: { __type: "People", __args: { id: "ID" } },
+    PeopleMany: { __type: "[People]" },
   },
   mutation: {
     __typename: { __type: "String!" },
@@ -117,6 +121,18 @@ export const generatedSchema = {
     status: { __type: "String" },
     price: { __type: "Float" },
   },
+  Equipment: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    name: { __type: "String" },
+    registration: { __type: "String" },
+    status: { __type: "String" },
+  },
+  People: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    name: { __type: "String" },
+  },
   ProjectInput: {
     _id: { __type: "ID" },
     id: { __type: "String" },
@@ -152,6 +168,12 @@ export interface Query {
     startDate?: Maybe<Scalars["Date"]>;
     endDate?: Maybe<Scalars["Date"]>;
   }) => Maybe<Array<Maybe<Quote>>>;
+  EquipmentById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Equipment>;
+  EquipmentMany: (args?: {
+    status?: Maybe<Scalars["String"]>;
+  }) => Maybe<Array<Maybe<Equipment>>>;
+  PeopleById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<People>;
+  PeopleMany?: Maybe<Array<Maybe<People>>>;
 }
 
 export interface Mutation {
@@ -220,6 +242,20 @@ export interface Quote {
   price?: Maybe<ScalarsEnums["Float"]>;
 }
 
+export interface Equipment {
+  __typename: "Equipment" | undefined;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  name?: Maybe<ScalarsEnums["String"]>;
+  registration?: Maybe<ScalarsEnums["String"]>;
+  status?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface People {
+  __typename: "People" | undefined;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  name?: Maybe<ScalarsEnums["String"]>;
+}
+
 export interface SchemaObjectTypes {
   Query: Query;
   Mutation: Mutation;
@@ -228,6 +264,8 @@ export interface SchemaObjectTypes {
   File: File;
   User: User;
   Quote: Quote;
+  Equipment: Equipment;
+  People: People;
 }
 export type SchemaObjectTypesNames =
   | "Query"
@@ -236,7 +274,9 @@ export type SchemaObjectTypesNames =
   | "Project"
   | "File"
   | "User"
-  | "Quote";
+  | "Quote"
+  | "Equipment"
+  | "People";
 
 export interface GeneratedSchema {
   query: Query;

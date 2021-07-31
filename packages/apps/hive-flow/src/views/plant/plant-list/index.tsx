@@ -9,6 +9,7 @@ import moment from 'moment';
 import './index.css';
 import { Box, DataTable } from 'grommet';
 import { PlantHeader } from './header';
+import { useQuery } from '../../../gqless';
 
 
 export const PlantList: React.FC<any> = (props) => {
@@ -16,12 +17,51 @@ export const PlantList: React.FC<any> = (props) => {
   const [search, setSearch] = useState<string>('');
 
   const listKeys = [
-    { property: 'ID', header: 'ID', sortable: true },
-    { property: 'Name', header: 'Name', sortable: true },
-    { property: 'Registration', header: 'Registration', sortable: true },
+    { property: 'id', header: 'ID', size: 'small', sortable: true },
+    { property: 'name', header: 'Name', sortable: true },
+    { property: 'registration', header: 'Registration', sortable: true },
     { property: 'status', header: 'Status', sortable: true },
   ]
-  const listData = useState<any[]>([])
+
+  const query = useQuery({
+    suspense: false,
+    staleWhileRevalidate: true
+  });
+
+
+  const [ direction, setDirection ] = useState<"asc" | "desc" | undefined>()
+  const [ property, setProperty ] = useState<string>()
+
+
+  const sortEquipment = (left: any, right: any) => {
+    if(property && direction){
+      return (direction == 'asc' ?
+          (left[property] == right[property] ? 0 : (left[property] > right[property] ? 1 : -1))
+          : (left[property] == right[property] ? 0 : (left[property] < right[property] ? 1 : -1)))
+    }else{
+      return 0;
+    }
+  }
+
+  const filterEquipment = (item: any) => {
+
+    if (search.length > 0) {
+        let name = item?.name?.toLowerCase() || ''
+        let registration = item?.registration?.toLowerCase() || ''
+        let id = `${item?.id}`.toLowerCase() || ''
+
+        let _search = search.toLowerCase() || ''
+
+
+        return registration.indexOf(_search) > -1 || name?.indexOf(_search) > -1 || id?.indexOf(_search) > -1 || `${id} ${name}`.indexOf(_search) > -1
+    }
+
+    return true;
+
+   // return items.map((x) => ({...x, price: formatter.format(x.price)}))
+  }
+
+  const listData = query?.EquipmentMany() || [];
 
   // constructor(props: any){
   //   super(props);
@@ -80,15 +120,19 @@ export const PlantList: React.FC<any> = (props) => {
       <PlantHeader filter={search} onFilterChange={(search) => setSearch(search)} />
       <Box
         round="xsmall"
-        overflow="hidden"
+        overflow="scroll"
         flex
         background="neutral-1"
       >
         <DataTable
-          onSort={() => { }}
+          pin
+          onSort={({property, direction}) => {
+            setProperty(property)
+            setDirection(direction)
+          }}
           onClickRow={selectPlant}
           columns={listKeys}
-          data={listData} />
+          data={listData.filter(filterEquipment).sort(sortEquipment)} />
       </Box>
 
       {/* <SortedList 

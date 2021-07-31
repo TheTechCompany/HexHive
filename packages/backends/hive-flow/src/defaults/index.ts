@@ -1,6 +1,8 @@
 import { Connector } from '../connector'
 import projectQueries from './project'
 import quoteQueries from './quotes'
+import equipmentQueries from './equipment'
+import peopleQueries from './people'
 
 import {
     schemaComposer
@@ -10,14 +12,19 @@ import {
 //schemaComposer.addTypeDefs(projectGraph)
 
 
+const addBlob = (blob: {GraphQueries: any, GraphMutations: any}) => {
+    schemaComposer.Query.addFields(blob.GraphQueries)
+    schemaComposer.Mutation.addFields(blob.GraphMutations)
+}
+
 
 export const schema = (connector: Connector) => {
-    schemaComposer.Query.addFields(projectQueries(connector).GraphQueries)
-    schemaComposer.Mutation.addFields(projectQueries(connector).GraphMutations)
 
-    console.log(quoteQueries(connector).GraphQueries)
-    schemaComposer.Query.addFields(quoteQueries(connector).GraphQueries)
-    schemaComposer.Mutation.addFields(quoteQueries(connector).GraphMutations)
+    addBlob(projectQueries(connector))
+    addBlob(quoteQueries(connector))
+    addBlob(equipmentQueries(connector))
+
+    addBlob(peopleQueries(connector))
 
     return schemaComposer.buildSchema()
 }
