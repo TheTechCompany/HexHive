@@ -25,7 +25,7 @@ export const StaffList: React.FC<any> = (props) => {
    const [property, setProperty] = useState<string>()
 
 
-   const people = query.PeopleMany || []
+   const people = query.PeopleMany() || []
    // componentWillMount(){
    //    utils.staff.getAll().then((res) => {
    //       this.setState({ employees : res});

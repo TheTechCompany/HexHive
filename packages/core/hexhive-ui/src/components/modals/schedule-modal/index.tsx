@@ -6,6 +6,9 @@ import { CloneTab } from './tabs/clone-tab'
 import { AddTab } from './tabs/add-tab'
 
 import { Layer, Button, Anchor, Box, Heading } from 'grommet';
+import { ManagerList } from '../../manager-list';
+import { getManagers } from './utils';
+import { stat } from 'fs';
 
 // import './index.css';
 // import { cloneSchedule, getScheduledDates, isJoined, joinCard, leaveCard, removeSchedule, saveSchedule } from './utils';
@@ -34,6 +37,10 @@ export interface ScheduleModalProps {
   users?: any;
 
   item?: ISchedule
+
+  onSaveItem: (item: any, ts: Date) => void;
+  onCloneItem: (item: any, currentDates: Date[], cloneDates: Date[]) => void;
+  onCreateItem: (item: any, ts: Date) => void;
 }
 
 export interface ISchedule {
@@ -54,10 +61,13 @@ export interface ISchedule {
 
 const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
 
+  const [ mode, setMode ]= useState<string>('create')
+
+  const stateMode : "Clone" | "Edit" | "Create" = (mode === 'clone') ? 'Clone': (mode === 'edit') ? 'Edit' :  'Create';
+
   const [ dialogOpen, setDialogOpen ] = useState<boolean>(false)
 
   const [ tab, setTab ] = useState<number>(0)
-  const [ mode, setMode ]= useState<string>('create')
   const [ date, setDate ] = useState<Date>(new Date())
   
   const [ timestamp, setTimestamp ] = useState<Date>(props.timestamp || new Date())
@@ -235,8 +245,14 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
     if(item){
     
       if(mode === 'clone'){
+        props.onCloneItem(item, existingDates, cloneSelection)
         // await cloneSchedule(item, existingDates, cloneSelection)
       }else{
+        if(stateMode == 'Create'){
+          props.onCreateItem(item, timestamp)
+        }else{
+          props.onSaveItem(item, timestamp)
+        }
         // await saveSchedule(stateMode, item, timestamp)
       }
       onClose()
@@ -278,7 +294,6 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
 
   const joined = false// isJoined(props.user, item || {}, managerList?.add || [], managerList?.remove || [])
 
-  const stateMode = (mode === 'clone') ? 'Clone': (mode === 'edit') ? 'Edit' :  'Create';
   
   
     return props.open ? (
@@ -287,8 +302,10 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
         onClickOutside={onClose}
         onEsc={onClose}> 
       <Box 
-        width="medium"
+        direction="column"
+        width="large"
         pad="small">
+        
         <Box
           justify="between"
           align="center"
@@ -303,12 +320,12 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
           {stateMode == 'Edit' && item?.owner !== props.user.id && renderMemberButton() }
           
           </Box>
-            {/*<ManagerList 
+            <ManagerList 
               users={props.users}
-            managers={getManagers(item?.owner || props.user.id, item?.managers || [], managerList.add, managerList.remove)}/>*/}
+              managers={getManagers(item?.owner || props.user?.id || '', item?.managers || [], managerList.add, managerList.remove)}/>
         </Box>
 
-        <Box margin={{bottom: 'small'}} className="schedule-modal__content MuiDialogContent-root">
+        <Box height={{max: '60vh'}} margin={{bottom: 'small'}}>
             { !(stateMode === 'Edit' || stateMode === 'Create') ? (
                 <CloneTab
                    selected={cloneSelection}

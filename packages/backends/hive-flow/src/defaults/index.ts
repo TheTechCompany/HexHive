@@ -3,6 +3,7 @@ import projectQueries from './project'
 import quoteQueries from './quotes'
 import equipmentQueries from './equipment'
 import peopleQueries from './people'
+import scheduleQueries from './schedule'
 
 import {
     schemaComposer
@@ -23,6 +24,7 @@ export const schema = (connector: Connector) => {
     addBlob(projectQueries(connector))
     addBlob(quoteQueries(connector))
     addBlob(equipmentQueries(connector))
+    addBlob(scheduleQueries(connector))
 
     addBlob(peopleQueries(connector))
 

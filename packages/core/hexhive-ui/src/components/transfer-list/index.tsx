@@ -3,7 +3,8 @@ import React, {
 } from 'react';
 
 import { Button, List, Text, CheckBox, Box } from 'grommet'
-
+import { Next, Previous } from 'grommet-icons'
+import { useMemo } from 'react';
 
 export interface TransferListProps {
   onAdd?: any;
@@ -26,7 +27,7 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
 
 
   const _addToDeselection = (item: any) => {
-    let selected = selectedRight;
+    let selected = selectedRight.slice();
     if(!selected.includes(item)){
       selected.push(item)
     }else{
@@ -37,7 +38,7 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
   }
 
   const _addToSelection = (item: any) => {
-    let selected = selectedLeft;
+    let selected = selectedLeft.slice();
     if(!selected.includes(item)){
       selected.push(item)
     }else{
@@ -107,49 +108,69 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
 
   const _addToOutput = () => {
     props.onAdd?.(selectedLeft);
-    setLeft(selectedLeft)
+    setLeft([])
   }
 
   const _addToInput = () => {
     props.onRemove?.(selectedRight);
-    setRight(selectedRight)
+    setRight([])
   }
 
   const not = (a: any[], b: any[]) => {
-    return a.filter(value => {
-      return b.map((x) => x.ID).indexOf(value.ID) === -1
+    return a.slice().filter(value => {
+      return b.indexOf(value.id) === -1
     });
   }
 
 
     return (
-      <div className="dnd-list">
-        <div className="input-options">
+      <Box 
+        direction="row">
+        <Box flex overflow="scroll">
           <List
+            onClickItem={({item}: any) => _addToSelection(item.id)}
+            data={not(props.options, props.selected)}
+            primaryKey="name"
             >
-            {_renderOptions()}
+            {(item: any) => (
+              <Box direction="row" align="center">
+                <CheckBox checked={selectedLeft.indexOf(item.id) > -1} onChange={(e) => _addToSelection(item.id)} />
+                <Text margin={{left: 'small'}}>{item.name}</Text>
+              </Box>
+            )}
           </List>
-        </div>
-        <div className="dnd-controls">
+        </Box>
+        <Box 
+          justify="center"
+          direction="column">
           <Button 
+            icon={<Next />}
             disabled={selectedLeft.length <= 0} 
             size="small"
-            onClick={_addToOutput.bind(this)}>
-            &gt;
-          </Button>
+            onClick={_addToOutput} />
           <Button 
+            icon={<Previous />}
             disabled={selectedRight.length <= 0} 
             size="small"
-            onClick={_addToInput.bind(this)}>
-            &lt;
-          </Button>
-        </div>
-        <div className="output-options Droppable">
-          <List>
-            {_renderSelection()}
+            onClick={_addToInput} />
+        </Box>
+        <Box flex overflow="scroll">
+          <List
+            primaryKey="name"
+            onClickItem={({item}: any) => _addToDeselection(item.id)}
+            data={props.selected.map((x) => ({
+              id: x,
+              ...props.options.find((a: any) => a.id == x)
+            }))}>
+            {(item: any) => (
+              <Box direction="row" align="center">
+                <CheckBox checked={selectedRight.indexOf(item.id) > -1} onChange={(e) => _addToDeselection(item.id)}/>
+                <Text margin={{left: 'small'}}>{item.name}</Text>
+              </Box>
+            )}
           </List>
-        </div>
-      </div>  
+        </Box>
+      </Box>  
     );
   
 }

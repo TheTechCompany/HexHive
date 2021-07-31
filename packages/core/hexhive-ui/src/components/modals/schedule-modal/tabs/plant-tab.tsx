@@ -1,3 +1,4 @@
+import { Box } from 'grommet';
 import React, {
   Component
 } from 'react';
@@ -24,18 +25,18 @@ export default class PlantTab extends Component<any, any> {
   render(){
     const { inputData, selected } = this.props;
     return (
-      <div className="plant-tab">
+      <Box height="100%">
         <TransferList
           assignedKey={inputData.assigned.key}
           assignedList={inputData.assigned.data}
           labelKey={inputData.labelKey}
-          options={inputData.data.filter((x: any) => x.Name).sort((a: any, b: any) => {
-             return a.Name.localeCompare(b.Name, 'en', { numeric: true }) 
+          options={inputData.data.filter((x: any) => x.name).sort((a: any, b: any) => {
+             return a.name.localeCompare(b.name, 'en', { numeric: true }) 
           })}
           selected={selected} 
           onAdd={this.onAdd.bind(this)}
           onRemove={this.onRemove.bind(this)}/>
-      </div>
+      </Box>
     );
   }
 }

@@ -37,6 +37,15 @@ export interface FileInput {
   mimeType?: Maybe<Scalars["String"]>;
 }
 
+export interface ScheduleItemInput {
+  project?: Maybe<Scalars["String"]>;
+  people?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  equipment?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  notes?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  managers?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  date?: Maybe<Scalars["Date"]>;
+}
+
 export const scalarsEnumsHash: import("gqless").ScalarsEnumsHash = {
   ID: true,
   String: true,
@@ -61,8 +70,10 @@ export const generatedSchema = {
     },
     EquipmentById: { __type: "Equipment", __args: { id: "ID" } },
     EquipmentMany: { __type: "[Equipment]", __args: { status: "String" } },
+    ScheduleById: { __type: "ScheduleItem", __args: { id: "ID" } },
+    ScheduleMany: { __type: "[ScheduleItem]", __args: { status: "String" } },
     PeopleById: { __type: "People", __args: { id: "ID" } },
-    PeopleMany: { __type: "[People]" },
+    PeopleMany: { __type: "[People]", __args: { status: "String" } },
   },
   mutation: {
     __typename: { __type: "String!" },
@@ -84,6 +95,10 @@ export const generatedSchema = {
       __args: { ids: "[String]", status: "String" },
     },
     removeProject: { __type: "Boolean" },
+    createScheduleItem: {
+      __type: "ScheduleItem",
+      __args: { item: "ScheduleItemInput" },
+    },
   },
   subscription: {},
   Project: {
@@ -128,6 +143,16 @@ export const generatedSchema = {
     registration: { __type: "String" },
     status: { __type: "String" },
   },
+  ScheduleItem: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    date: { __type: "Date" },
+    project: { __type: "Project" },
+    people: { __type: "[People]" },
+    managers: { __type: "[User]" },
+    notes: { __type: "[String]" },
+    equipment: { __type: "[Equipment]" },
+  },
   People: {
     __typename: { __type: "String!" },
     id: { __type: "ID" },
@@ -147,6 +172,14 @@ export const generatedSchema = {
     name: { __type: "String" },
     extension: { __type: "String" },
     mimeType: { __type: "String" },
+  },
+  ScheduleItemInput: {
+    project: { __type: "String" },
+    people: { __type: "[String]" },
+    equipment: { __type: "[String]" },
+    notes: { __type: "[String]" },
+    managers: { __type: "[String]" },
+    date: { __type: "Date" },
   },
 } as const;
 
@@ -172,8 +205,14 @@ export interface Query {
   EquipmentMany: (args?: {
     status?: Maybe<Scalars["String"]>;
   }) => Maybe<Array<Maybe<Equipment>>>;
+  ScheduleById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<ScheduleItem>;
+  ScheduleMany: (args?: {
+    status?: Maybe<Scalars["String"]>;
+  }) => Maybe<Array<Maybe<ScheduleItem>>>;
   PeopleById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<People>;
-  PeopleMany?: Maybe<Array<Maybe<People>>>;
+  PeopleMany: (args?: {
+    status?: Maybe<Scalars["String"]>;
+  }) => Maybe<Array<Maybe<People>>>;
 }
 
 export interface Mutation {
@@ -197,6 +236,9 @@ export interface Mutation {
     status?: Maybe<Scalars["String"]>;
   }) => Maybe<Array<Maybe<File>>>;
   removeProject?: Maybe<ScalarsEnums["Boolean"]>;
+  createScheduleItem: (args?: {
+    item?: Maybe<ScheduleItemInput>;
+  }) => Maybe<ScheduleItem>;
 }
 
 export interface Subscription {
@@ -250,6 +292,17 @@ export interface Equipment {
   status?: Maybe<ScalarsEnums["String"]>;
 }
 
+export interface ScheduleItem {
+  __typename: "ScheduleItem" | undefined;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  date?: Maybe<ScalarsEnums["Date"]>;
+  project?: Maybe<Project>;
+  people?: Maybe<Array<Maybe<People>>>;
+  managers?: Maybe<Array<Maybe<User>>>;
+  notes?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
+  equipment?: Maybe<Array<Maybe<Equipment>>>;
+}
+
 export interface People {
   __typename: "People" | undefined;
   id?: Maybe<ScalarsEnums["ID"]>;
@@ -265,6 +318,7 @@ export interface SchemaObjectTypes {
   User: User;
   Quote: Quote;
   Equipment: Equipment;
+  ScheduleItem: ScheduleItem;
   People: People;
 }
 export type SchemaObjectTypesNames =
@@ -276,6 +330,7 @@ export type SchemaObjectTypesNames =
   | "User"
   | "Quote"
   | "Equipment"
+  | "ScheduleItem"
   | "People";
 
 export interface GeneratedSchema {

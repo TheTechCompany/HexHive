@@ -2,6 +2,7 @@ import { ObjectTypeComposerFieldConfigMapDefinition } from "graphql-compose";
 import sql from 'mssql'
 import moment from "moment";
 import { Connector } from "../../connector";
+import { ScheduleItem } from '@hexhive/types'
 
  /*Returns all jobs from vw_Sched_Jobs*/
  /*getJobs(cb){
@@ -29,58 +30,22 @@ import { Connector } from "../../connector";
 
 const Queries = (connector: Connector) => {
     let query :  ObjectTypeComposerFieldConfigMapDefinition<any, any> = {
-    PeopleById: {
-        type: 'People',
+    ScheduleById: {
+        type: 'ScheduleItem',
         args: {
             id: 'ID'
         },
         resolve: async (root, args) => {
-            let query = `select ID as id, Name as name from dbo.vw_Sched_Staff WHERE id=@id`;
-            let request = new sql.Request(connector.pool)
-            request.input('id', sql.Int, parseInt(args.id))
-
-            const result = await request.query(query)
-            console.log(result)
-            return result.recordset
+           return await ScheduleItem.findById(args.id)
         }
     },
-    PeopleMany: {
-        type: '[People]',
+    ScheduleMany: {
+        type: '[ScheduleItem]',
         args: {
-          "status": "String"
+            status: "String"
         },
         resolve: async (root, args) => {
-            //TODO add OR operator to status search
-            let request = new sql.Request(connector.pool)
-
-            let sqlQuery = `SELECT ID as id, Name as name FROM dbo.vw_Sched_Staff`;
-
-            // let whereClauses = [];
-
-            // if(args.status || args.startDate || args.endDate) sqlQuery += " WHERE ";
-            // if(args.status){
-            //     whereClauses.push(`status = @status`)
-            //     request.input('status', sql.VarChar, args.status)
-            // }
-            
-            // if(args.startDate && args.endDate){
-            //     let startDate = moment(new Date(args.startDate)).format("DD/MM/YYYY")
-            //     let endDate = moment(new Date(args.endDate)).format("DD/MM/YYYY");
-
-            //     console.log(startDate, endDate)
-            //     whereClauses.push(`CONVERT(date, StartDate, 103) <= CONVERT(date, @endTime, 103) AND \
-            //     CASE \
-            //         WHEN DurationType = 'Weeks'    THEN DATEADD(DAY, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 7)), CONVERT(date, StartDate, 103)) \
-            //         WHEN DurationType = 'Man Days' THEN DATEADD(HOUR, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 24)), CONVERT(datetime, StartDate, 103)) \
-            //         WHEN DurationType = 'Months'   THEN DATEADD(DAY, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 30)), CONVERT(date, StartDate, 103)) \
-            //     END >= CONVERT(date, @startTime, 103)`)
-            //     request.input('startTime', sql.VarChar, startDate)
-            //     request.input('endTime', sql.VarChar, endDate)
-            // }
-
-            // console.log(sqlQuery + whereClauses.join(' AND '))
-
-            return (await request.query(sqlQuery)).recordset
+            return await ScheduleItem.find({})
         }
     }
 }
@@ -89,6 +54,20 @@ return query;
 
 const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefinition<any, any>  => {
      return {
+        createScheduleItem: {
+            type: 'ScheduleItem',
+            args: {
+                item: "ScheduleItemInput"
+            },
+            resolve: async (root, args) => {
+                let schedule = new ScheduleItem({
+                    ...args.item
+                })
+
+                await schedule.save();
+                return schedule;
+            }
+        }
     // addProject: {
     //     type: 'Project',
     //     args: {
@@ -165,7 +144,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
     // removeProject: {
     //     type: 'Boolean'
     // }
-}
+    }
 }
 
 export {

@@ -7,7 +7,7 @@ import {DNS} from './dns'
 import { IProject } from './project';
 import { IUser } from './user';
 import { File } from './file';
-import { IQuoteSchedule, ISchedule, IScheduleOrder } from './schedule';
+import { QuoteSchedule, ScheduleItem, ScheduleOrder } from './schedule';
 
 let opts : any = {
     useNewUrlParser: true,
@@ -50,8 +50,8 @@ export {
     IProject as Project,
     IUser as User,
     File,
-    ISchedule as Schedule,
-    IQuoteSchedule as QuoteSchedule,
-    IScheduleOrder as ScheduleOrder
+    ScheduleItem,
+    QuoteSchedule,
+    ScheduleOrder
 }
 

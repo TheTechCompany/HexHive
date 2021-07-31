@@ -1,4 +1,4 @@
-import { Anchor, Box, Select, Tab, Tabs } from 'grommet';
+import { Anchor, Box, Button, Select, Tab, Tabs } from 'grommet';
 import { Logout } from 'grommet-icons';
 import React, { useMemo, useState } from 'react';
 import PlantTab from './plant-tab';
@@ -31,17 +31,21 @@ export const AddTab : React.FC<AddTabProps> = ({
 }) => {
     const [ jobSearch, setJobSearch ] = useState<string>('')
     
+    const [selectedTab, setSelectedTab] = useState<string>('People')
+
     const tabs = [
         {
             label: "People",
-            component: ( <StaffTab
-            onChange={(e: any) => onChange?.({...item, employees: e})}
-            inputData={{
-              assigned: {key: 'ID', data: scheduledJobs?.map((x: any) => x.employees)},
-              labelKey: 'Name',
-              data: people
-            }}
-            selected={item?.employees || []}/>)
+            component: ( 
+            <StaffTab
+              onChange={(e: any) => onChange?.({...item, employees: e})}
+              inputData={{
+                assigned: {key: 'ID', data: scheduledJobs?.map((x: any) => x.employees)},
+                labelKey: 'name',
+                data: people
+              }}
+              selected={item?.employees || []}/>
+            )
         },
         {
             label: "Equipment",
@@ -85,14 +89,12 @@ export const AddTab : React.FC<AddTabProps> = ({
 
     console.log(returnSelect(), job_container, item?.job, jobs)
     return (
-        <Box>
+        <Box flex direction="column">
          <Box
-          gap="small"
+          align="center"
           direction="row">
-        <Box 
-          flex
-          style={{position: 'relative', marginBottom: '7px', zIndex: 99}}>
-
+  
+        <Box flex>
           <Select
             onSearch={(search) => setJobSearch(search)}
             placeholder="Select Job..."
@@ -104,28 +106,30 @@ export const AddTab : React.FC<AddTabProps> = ({
                 console.log(option)
                 onChange?.({...item, job: option})
             }} />
-          
         </Box>
-        {(item && item?.job) && <Anchor  
-          title="Go to Job"
-          href={`/dashboard/jobs/${item?.job?.JobID || item?.job.id}`}>
-            <Logout />
-          </Anchor>}
+        {(item && item?.job) && 
+        <Box
+          direction="column"
+          justify='center'>
+          <Button  
+            margin={"none"}
+            hoverIndicator={true}
+            a11yTitle="Go to Job"
+            icon={<Logout />}
+            href={`/dashboard/jobs/${item?.job?.JobID || item?.job.id}`}/>
+        </Box>}
         </Box>
-          <Tabs
-            alignControls="start"
-            style={{zIndex: 2}}>
-            {tabs.map((tab) => (
-                <Tab
-                    title={tab.label}
-                    >
-                    {tab.component}
-                </Tab>
-            ))}
-          
-          </Tabs>
- 
 
+          <Box height={{max: '50vh'}}>
+            <Tabs 
+              alignControls="start">
+              {tabs.map((tab) => (
+                <Tab title={tab.label}>
+                  {tab.component}
+                </Tab>
+              ))} 
+            </Tabs>
+          </Box>
         </Box>
     )
 }

@@ -14,6 +14,11 @@ export const BaseStyle = {
         placeholder: "#383232"
       }
     },
+    tabs: {
+        panel: {
+            extend: (props) => `display: flex; flex-direction: column;`
+        }
+    },
     dataTable: {
         header: {
             background: 'accent-1'

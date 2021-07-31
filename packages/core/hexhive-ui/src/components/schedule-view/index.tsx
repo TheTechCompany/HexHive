@@ -10,10 +10,14 @@ import ScheduleModal from '../modals/schedule-modal';
 // import './index.css';
 
 import { Box, Text, Button, Spinner } from 'grommet';
+import { ScheduleContainer } from './container';
 
 var moment = require('moment');
 
 export interface WeekViewProps {
+  onCreateItem: (item: any, ts: Date) => void;
+
+  
   getJobs?: any;
   getUsers?: any;
   getEmployees?: any;
@@ -28,6 +32,7 @@ export interface WeekViewProps {
   equipment: any[]
 
   isLoading: boolean;
+
 }
 
 
@@ -214,11 +219,25 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
     }
   }
 
+  const createScheduleItem = (item: any, ts: Date) => {
+    console.log("Create", item, date)
+  }
+  const saveScheduleItem = (item: any, ts: Date) => {
+
+  }
+  const cloneScheduleItem = (item: any, current: Date[], clone: Date[]) => {
+
+  }
 
   const renderCreateScheduleModal = () => {
     var schedJobs = scheduledJobs;
     return (
       <ScheduleModal
+
+        onCreateItem={props.onCreateItem}
+        onSaveItem={saveScheduleItem}
+        onCloneItem={cloneScheduleItem}
+
         projects={props.projects}
         people={props.people}
         equipment={props.equipment}
@@ -301,18 +320,9 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
   const renderedModal = renderCreateScheduleModal()
 
   return (
-    <Box
-      flex
-      round="xsmall"
-      background="neutral-1"
-      direction="column"
-      className="week-main">
-      {/*<div className="week-main">*/}
-      {renderHeader()}
-      <Box
-        flex
-        className="week-container">
-        {props.isLoading ? (
+    <ScheduleContainer
+      header={renderHeader()}>
+      {props.isLoading ? (
           <Box
             flex
             justify="center"
@@ -326,8 +336,7 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
             {renderedModal}
           </Box>
         )}
-      </Box>
-    </Box>
+    </ScheduleContainer>
   );
 
 }

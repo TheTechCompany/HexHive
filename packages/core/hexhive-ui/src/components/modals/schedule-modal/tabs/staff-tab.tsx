@@ -1,7 +1,7 @@
 import React, {
   Component
 } from 'react';
-
+import { Box } from 'grommet'
 import {TransferList} from '../../../transfer-list';
 
 export default class StaffTab extends Component<any, any> {
@@ -11,12 +11,12 @@ export default class StaffTab extends Component<any, any> {
   }
   
   onAdd(items: any[]){
-    let selected = this.props.selected;
+    let selected = this.props.selected.slice();
     this.props.onChange(selected.concat(items));
   }
 
   onRemove(items: any[]){
-    let selected = this.props.selected;
+    let selected = this.props.selected.slice();
     this.props.onChange(this.not(selected, items));
   }
 
@@ -24,7 +24,7 @@ export default class StaffTab extends Component<any, any> {
     const { inputData, selected } = this.props;
 
     return (
-      <div className="staff-tab">
+      <Box height="100%">
         <TransferList
           assignedKey={inputData.assigned.key}
           assignedList={inputData.assigned.data}
@@ -33,7 +33,7 @@ export default class StaffTab extends Component<any, any> {
           selected={selected}
           onAdd={this.onAdd.bind(this)}
           onRemove={this.onRemove.bind(this)} />
-      </div>
+      </Box>
     );
   }
 }

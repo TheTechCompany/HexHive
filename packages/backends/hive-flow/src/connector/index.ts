@@ -4,7 +4,7 @@ import async from 'async';
 import moment from 'moment';
 import { v4 } from 'uuid';
 
-import { connect_data, Schedule, ScheduleOrder, QuoteSchedule, Project, User } from '@hexhive/types'
+import { connect_data, ScheduleItem, ScheduleOrder, QuoteSchedule, Project, User } from '@hexhive/types'
 
 import { FileManager } from './files';
 
@@ -260,26 +260,26 @@ export class Connector extends EventEmitter{
   }
 
   async joinScheduleItem(schedule_item_id: string, user: string){
-    const item = await Schedule.findOne({id: schedule_item_id})
+    const item = await ScheduleItem.findOne({id: schedule_item_id})
 
       let managers = item.managers || [];
       if(managers.indexOf(user) > -1){
         return new Error("Already joined")
       }else{
         managers.push(user);
-        return await Schedule.updateOne({id: schedule_item_id}, {$set: {managers}})
+        return await ScheduleItem.updateOne({id: schedule_item_id}, {$set: {managers}})
 
       }
   
   }
 
   async leaveScheduleItem(schedule_item_id: string, user: string){
-    const item = await Schedule.findOne({id: schedule_item_id})
+    const item = await ScheduleItem.findOne({id: schedule_item_id})
 
     let managers = item.managers || [];
       if(managers.indexOf(user) > -1){
         managers.splice(managers.indexOf(user), 1) 
-        return await Schedule.updateOne({id: schedule_item_id}, {$set: {managers}})
+        return await ScheduleItem.updateOne({id: schedule_item_id}, {$set: {managers}})
 
       }else{
         return new Error("User not in managers")
@@ -355,7 +355,7 @@ export class Connector extends EventEmitter{
 
   /*Gets all the scheduled items from the database*/
   async getScheduleItems(){
-    return await Schedule.find({})
+    return await ScheduleItem.find({})
   }
 
   async getScheduleItemsforStaff(emp: any, date: any){
@@ -363,7 +363,7 @@ export class Connector extends EventEmitter{
       'date': {$gte: date.start, $lte: date.end}
     }
 
-    const result = await Schedule.find(query)
+    const result = await ScheduleItem.find(query)
 
       var res = [];
       for(var i = 0; i < result.length; i++){
@@ -383,26 +383,26 @@ export class Connector extends EventEmitter{
       'date' : {$gte : new Date(date.start), $lte : new Date(date.end)}
     };     
 
-    return await Schedule.find(query)
+    return await ScheduleItem.find(query)
   }
 
   async getScheduleItemsByJob(jobId: any){
     var query = {
       'job' : jobId
     };
-    return await Schedule.find(query)
+    return await ScheduleItem.find(query)
   }
 
 
   /*Gets all schedule items with matching job id's*/
   async getScheduleItemsById(id: string){
-    return await Schedule.find({'job.id' : parseInt(id)})
+    return await ScheduleItem.find({'job.id' : parseInt(id)})
   }
 
   /*Inserts a schedule item in the database*/
   async insertScheduleItem(owner: string, jobID: string, employees: never[], plant: never[], notes: never[], dateTS: any){	
 
-    const newSchedule = new Schedule({
+    const newSchedule = new ScheduleItem({
       owner,
       id: v4(),
       job: jobID,
@@ -420,7 +420,7 @@ export class Connector extends EventEmitter{
 
   /*Updates an already existing schedule item in the MongoDB instance*/
   async updateScheduleItem(owner: any, id: any, jobID: any, employees: any, plant: any, notes: any, dateTS: any){
-    const item = await Schedule.findOne({id: id}) 
+    const item = await ScheduleItem.findOne({id: id}) 
 
       if(item && (item.owner == owner || (item.managers || []).indexOf(owner) > -1)){
         var replacement = {
@@ -433,7 +433,7 @@ export class Connector extends EventEmitter{
         };
         console.log(replacement); 
         
-        return await Schedule.updateOne({id : id}, {$set: replacement}) 
+        return await ScheduleItem.updateOne({id : id}, {$set: replacement}) 
       }else{
         return new Error("You lack the permissions to update this item")
       }
@@ -442,10 +442,10 @@ export class Connector extends EventEmitter{
 
   /*Removes the scheduled item from the database*/
   async removeScheduleItem(id: any, user: any){
-    const item = await Schedule.findOne({id: id})
+    const item = await ScheduleItem.findOne({id: id})
 
     if(item && (item.owner == user || item.managers.indexOf(user) > -1)){
-      return await Schedule.remove({id : id})
+      return await ScheduleItem.remove({id : id})
       }else{
         return new Error("You lack the permissions to remove this item")
       }

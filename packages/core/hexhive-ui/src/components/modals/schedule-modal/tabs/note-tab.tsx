@@ -1,7 +1,7 @@
 import React from 'react'
 import { List, Box, Button, TextInput } from 'grommet';
 
-import { Clear, Add } from 'grommet-icons'
+import { Close, Add } from 'grommet-icons'
 
 export interface NoteTabProps {
   data?: any[];
@@ -30,24 +30,27 @@ const NoteTab: React.FC<NoteTabProps> = (props) => {
   }
 
   return (
-    <div className="note-tab">
+    <Box overflow={"scroll"} height={{min: '50vh'}} className="note-tab">
       <List
+        pad={{vertical: 'xsmall'}}
         data={props.data}>
         {(item: any, index: number) => (
-          <Box>
+          <Box direction="row" align="center">
             <TextInput
+              autoFocus
+              focusIndicator={false}
               value={item}
               placeholder="Enter note here..."
               onKeyDown={(e) => { if (e.key == 'Enter') { _insertEmpty() } }}
               onChange={(e) => _onChange(index, e.target.value)}
             />
-            <Button icon={<Clear />} onClick={() => _removeItem(index)} />
+            <Button hoverIndicator icon={<Close />} onClick={() => _removeItem(index)} />
           </Box>
         )}
       </List>
       <Button onClick={_insertEmpty}
         icon={<Add />} label="Add Note" />
-    </div>
+    </Box>
   );
 
 }

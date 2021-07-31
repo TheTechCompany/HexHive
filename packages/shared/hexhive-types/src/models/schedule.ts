@@ -33,18 +33,18 @@ const Plant = new Schema({
     Registration: String
 })
 
-export const Schedule = new Schema<ScheduleInterface>({
+export const ScheduleItemSchema = new Schema<ScheduleInterface>({
     id: String,
     owner: String,
-    job: Job,
-    employees: [Employee],
+    project: String,
+    people: [String],
     managers: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    plant: [Plant],
+    equipment: [String],
     notes: [String],
-    date: Number
+    date: Date
 })
 
-export const QuoteSchedule = new Schema({
+export const QuoteScheduleSchema = new Schema({
     id: String,
     quote: String,
     startDate: Date,
@@ -52,13 +52,13 @@ export const QuoteSchedule = new Schema({
     type: String
   })
 
-export const ScheduleOrder = new Schema({
+export const ScheduleOrderSchema = new Schema({
     ts: Date,
     order: Map
 })
 
-export const IQuoteSchedule = model('QuoteSchedule', QuoteSchedule)
+export const QuoteSchedule = model('QuoteSchedule', QuoteScheduleSchema)
 
-export const IScheduleOrder = model('ScheduleOrder', ScheduleOrder)
+export const ScheduleOrder = model('ScheduleOrder', ScheduleOrderSchema)
 
-export const ISchedule = model('Schedule', Schedule)
+export const ScheduleItem = model('ScheduleItem', ScheduleItemSchema)
