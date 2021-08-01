@@ -25,8 +25,7 @@ UserTC.addResolver({
 const FileTC = schemaComposer.createObjectTC({
     name: "File",
     fields: {
-        _id: "ID",
-        id: "String",
+        id: "ID",
         cid: "String",
         name: "String",
         extension: "String",
@@ -57,6 +56,7 @@ FileTC.addResolver({
     type: 'query',
     name: 'findByProject',
     resolve: async ({root, args, context}: any) => {
+        console.log("findByProject", `Project: ${root.id}`)
         let project = await Project.findOne({id: root.id}).populate('files')
         if(project) return project.files?.map((x: any) => { 
             return x;
@@ -89,6 +89,7 @@ const ProjectTC = schemaComposer.createObjectTC({
         files: {
             type: "[File]",
             resolve: (root, args, context, other) => {
+                console.log(root)
                 return FileTC.getResolver("findByProject").resolve({root: root, context: context, args})
             }
         },

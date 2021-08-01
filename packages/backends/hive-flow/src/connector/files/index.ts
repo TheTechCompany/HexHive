@@ -50,25 +50,27 @@ export const getFilesForJob = async (job: string) => {
 export const addFileToJob = async (
     job_id: string, 
     files: {
-        id: string, 
+        cid: string, 
         name: string, 
         mimetype: string, 
         extension: string
     }[], uploader: {id: string}) => {
 
-    const user = await User.findOne({id: uploader.id})
+    console.log(uploader.id)
+    const user = await User.findById(uploader.id) //{id: uploader.id})
 
     const results  : any[] = await Promise.all(files.map(async (file) => {
         let new_file = new File({
-            cid: file.id,
+            cid: file.cid,
             name: file.name,
             extension: file.extension,
             mimeType: file.mimetype,
-            owner: user._id,
+            owner: uploader.id, //Fix issue of IDP being on a different db user._id,
             timetstamp: new Date()
         })
 
-        return await new_file.save()
+        await new_file.save()
+        return new_file;
     }))
 
     await Project.updateOne({id: job_id}, {$push: {files: results.map((x) => x._id)}}, {upsert: true})

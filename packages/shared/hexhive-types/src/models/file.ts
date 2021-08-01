@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
+import { IFile } from "../interfaces/file";
 
 
-export const FileSchema = new Schema<FileInterface>({
-    id: String,
+export const FileSchema = new Schema<IFile>({
     cid: String,
     name: String,
     mimeType: String,
@@ -12,15 +12,5 @@ export const FileSchema = new Schema<FileInterface>({
     status: String
 })
 
-export interface FileInterface extends Document{
-    _id?: string;
-    id?: string;
-    cid?: string;
-    name?: string;
-    mimeType?: string;
-    extension?: string;
-    timestamp?: Date;
-    status?: string;
-}
 
-export const File = model<FileInterface>("File", FileSchema)
+export const File = model<IFile>("File", FileSchema)

@@ -10,6 +10,7 @@ const ScheduleItemInputTC = schemaComposer.createInputTC({
         equipment: "[String]",
         notes: "[String]",
         managers: "[String]",
+        owner: "String",
         date: "Date"
     }
 })
@@ -28,17 +29,22 @@ const ScheduleItemTC = schemaComposer.createObjectTC({
         id: "ID",
         date: "Date",
         project: {
-            type: "Project"
+            type: "Project",
+            resolve: async (root, args, context, info) => {
+                return await schemaComposer.Query.getField('ProjectById')?.resolve?.({}, {id: root.project}, context, info)
+                console.log(root, args)
+            }
         },
         people: {
-            type: "[People]"
+            type: "[String]"
         },
         managers: {
-            type: "[User]"
+            type: "[String]"
         },
+        owner: "User",
         notes: "[String]",
         equipment: {
-            type: "[Equipment]"
+            type: "[String]"
         }
     }
 })

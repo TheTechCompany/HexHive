@@ -42,7 +42,7 @@ const Queries = (connector: Connector) => {
 
             const result = await request.query(query)
             console.log(result)
-            return result.recordset;
+            return result.recordset[0];
         }
     },
     ProjectMany: {
@@ -160,7 +160,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
         resolve: async (root, args) => {
             let update : any = {
             }
-
+            console.log("updateFile", args.id)
             const file = await File.findById(args.id)
 
             if(file){
@@ -180,8 +180,13 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             status: "String"
         },
         resolve: async (root, args) => {
-            let result = await File.updateMany({_id: {$in: args.ids}}, {$set: {status: args.status}})
-            return result;
+            console.log("UpdateFiles", args.ids)
+            const files = await File.find({_id: {$in: args.ids}})
+            return await Promise.all(files.map(async (file) => {
+                file.status = args.status;
+                await file.save()
+                return file;
+            }))
         }
     },
     removeProject: {

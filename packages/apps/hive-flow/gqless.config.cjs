@@ -7,7 +7,7 @@ const config = {
   introspection: {
     endpoint: "http://localhost:8081/graphql",
     headers: {
-      "Authorization": "Bearer 922bfcc9c6d7e3902b2742516731fbef14c66584"
+      "Authorization": "Bearer 7bd983935a4a5dd3be0344171aa5609df702ae71"
     },
   },
   destination: "./src/gqless/index.ts",

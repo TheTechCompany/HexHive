@@ -1,4 +1,4 @@
-export const getManagers = (owner?: string, managers?: string[], add?: string[], remove?: string[]) => {
+export const getManagers = (owner?: string, managers?: Array<string| undefined | null>, add?: string[], remove?: string[]) => {
     console.log("managers", managers, remove, add)
       let temp = add?.filter((a) => {
           let _removed = !((remove || []).indexOf(a) > -1)
@@ -7,7 +7,7 @@ export const getManagers = (owner?: string, managers?: string[], add?: string[],
       })
       console.log(temp)
   
-      let output = ([owner]).concat(managers || [])
+      let output = ([owner]).concat(managers?.map((a) => `${a}`) || [])
       if(temp){
           output = output.concat(temp)
       }

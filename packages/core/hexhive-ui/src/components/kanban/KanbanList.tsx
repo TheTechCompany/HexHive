@@ -4,14 +4,13 @@ import { Draggable, DraggableProvided, DraggableStateSnapshot, Droppable, Droppa
 import { KanbanListItem } from './KanbanListItem';
 
 export interface KanbanListProps{ 
-    items?: any[];
+    items?: {id: string}[];
     renderCard?: any;
     droppableId?: string;
 }
 
 export const KanbanList :  React.FC<KanbanListProps> = (props) => {
     
-    console.log("ITems", props.items, props.renderCard)
     return <Droppable
             droppableId={props.droppableId || ''}
             type="LIST">
@@ -27,7 +26,7 @@ export const KanbanList :  React.FC<KanbanListProps> = (props) => {
             direction="column"
             flex>
         {props.items?.map((item, index) => 
-            <Draggable key={item._id} draggableId={item._id} index={index}>
+            <Draggable key={item.id} draggableId={item.id} index={index}>
               {(
                 dragProvided: DraggableProvided,
                 dragSnapshot: DraggableStateSnapshot,

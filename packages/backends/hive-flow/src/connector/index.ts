@@ -757,7 +757,7 @@ export class Connector extends EventEmitter{
 
       const upload_result = await this.fileManager?.add(file.buffer)
 
-      _file['id'] = upload_result?.cid.toString();
+      _file['cid'] = upload_result?.cid.toString();
       return _file;
     }))
   }

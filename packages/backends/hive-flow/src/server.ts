@@ -115,17 +115,30 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // AuthServer.oauthServer.authenticate(),
-app.use('/graphql',
-//  AuthServer.oauthServer.authenticate(),
-  graphqlHTTP({
-  schema: graphDefaults(c),
-  rootValue: {
-    Query: {
+if(process.env.NODE_ENV == 'dev-auth' || process.env.NODE_ENV == 'production'){
+  app.use('/graphql', AuthServer.oauthServer.authenticate())
+  app.use('/api/*', AuthServer.oauthServer.authenticate())
+}
 
-    }
-  },
-  graphiql: true
-}))
+app.use('/graphql',
+  //AuthServer.oauthServer.authenticate(),
+  graphqlHTTP({
+    schema: graphDefaults(c),
+    rootValue: {
+      Query: {
+
+      }
+    },
+    graphiql: true 
+  })
+)
+
+app.use(routes);
+
+
+
+init();
+
 
 // app.use('/', express.static(__dirname + '/../ui'));
 
@@ -159,7 +172,7 @@ app.use('/graphql',
 //   next();
 // });
 
-// app.use('/api/*', AuthServer.oauthServer.authenticate())
+//
 
 // app.use('/api/*', jwt_middleware({algorithms: ["HS256"], secret : config.jwt_secret}));
 
@@ -175,10 +188,4 @@ app.use('/graphql',
 
 // /  var pass_hash = crypto.createHash('sha256').update(req.body.password).digest('hex');
 
-
-app.use(routes);
-
-
-
-init();
 

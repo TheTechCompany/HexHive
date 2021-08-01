@@ -50,14 +50,15 @@ export const RobustFileList : React.FC<RobustFileListProps> = (props) => {
   }, [JSON.stringify(props.files), sort])
 
 
-  console.log(sortedFiles, props.files)
-
-
     return props.grid ? (
       <FileGrid 
+        onClick={props.onClick}
+        onDeleteClick={props.onDeleteClick}
         files={props.files} />
     ) : (
       <FileList 
+        onClick={props.onClick}
+        onSelect={props.onSelect}
         files={props.files} />
     )
 }

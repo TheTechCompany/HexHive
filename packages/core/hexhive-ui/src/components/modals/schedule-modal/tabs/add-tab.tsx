@@ -38,26 +38,26 @@ export const AddTab : React.FC<AddTabProps> = ({
             label: "People",
             component: ( 
             <StaffTab
-              onChange={(e: any) => onChange?.({...item, employees: e})}
+              onChange={(e: any) => onChange?.({...item, people: e})}
               inputData={{
-                assigned: {key: 'ID', data: scheduledJobs?.map((x: any) => x.employees)},
+                assigned: {key: 'id', data: scheduledJobs?.map((x: any) => x.people)},
                 labelKey: 'name',
                 data: people
               }}
-              selected={item?.employees || []}/>
+              selected={item?.people || []}/>
             )
         },
         {
             label: "Equipment",
             component: (
                 <PlantTab
-                  onChange={(e: any) => onChange?.({...item, plant: e})}
+                  onChange={(e: any) => onChange?.({...item, equipment: e})}
                   inputData={{
-                    assigned: {key: 'ID', data: todaysSchedule?.map((x) => x.plant)},
-                    labelKey: 'Name',
+                    assigned: {key: 'id', data: todaysSchedule?.map((x) => x.equipment)},
+                    labelKey: 'name',
                     data: plants || []
                   }}
-                  selected={item?.plant || []}/>
+                  selected={item?.equipment || []}/>
             )
         },
         {
@@ -70,24 +70,11 @@ export const AddTab : React.FC<AddTabProps> = ({
         }
     ]
 
-    const job_container : any = item?.job 
-
-    const returnSelect = () => {
-        if(job_container){
-            if(job_container.id){
-                return `${job_container.id}`
-            }  
-            return `${job_container.id}`
-        }
-        return ''
-    }
-
     const memoJobs = useMemo(() => {
         let j = _.map(jobs, _.partialRight(_.pick, ['id', 'name']))
         return j.map((x: any) => ({...x, id: `${x.id}`}))
     }, [JSON.stringify(jobs)])
 
-    console.log(returnSelect(), job_container, item?.job, jobs)
     return (
         <Box flex direction="column">
          <Box
@@ -100,14 +87,14 @@ export const AddTab : React.FC<AddTabProps> = ({
             placeholder="Select Job..."
             labelKey={(opt) => `${opt.id} - ${opt.name}`.substring(0, 42 + 7)}
             options={memoJobs.filter((a: any) => `${a.id} - ${a.name}`.indexOf(jobSearch) > -1)}
-            value={returnSelect()}
+            value={item?.project}
             valueKey={{key: 'id', reduce: true}}
             onChange={({option}) => {
                 console.log(option)
-                onChange?.({...item, job: option})
+                onChange?.({...item, project: option.id})
             }} />
         </Box>
-        {(item && item?.job) && 
+        {(item && item?.project) && 
         <Box
           direction="column"
           justify='center'>
@@ -116,7 +103,7 @@ export const AddTab : React.FC<AddTabProps> = ({
             hoverIndicator={true}
             a11yTitle="Go to Job"
             icon={<Logout />}
-            href={`/dashboard/jobs/${item?.job?.JobID || item?.job.id}`}/>
+            href={`/dashboard/flow/projects/${item?.project}`}/>
         </Box>}
         </Box>
 

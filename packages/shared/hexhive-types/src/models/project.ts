@@ -1,12 +1,12 @@
 import { Schema, model, Document } from 'mongoose';
-import { FileInterface } from './file';
+import { IFile } from '../interfaces/file';
 
 
 export interface ProjectInterface  {
     _id?: string;
     id?: string;
     name?: string;
-    files?: FileInterface[]
+    files?: IFile[]
     startDate?: Date;
     endDate?: Date;
 }

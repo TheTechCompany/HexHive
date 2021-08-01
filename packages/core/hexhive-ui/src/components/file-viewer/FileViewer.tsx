@@ -23,7 +23,7 @@ export const FileViewer: React.FC<FileViewerProps> = ({
 
         let main = mimetype.split('/')[0];
         let sub = mimetype.split('/')[1];
-        console.log(mimetype)
+
         switch (main) {
             case "video":
                 return (

@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useMemo, useState } from 'react';
 
 import {AvatarList} from '../../avatar-list'; 
 
@@ -8,6 +8,7 @@ import { AddTab } from './tabs/add-tab'
 import { Layer, Button, Anchor, Box, Heading } from 'grommet';
 import { ManagerList } from '../../manager-list';
 import { getManagers } from './utils';
+
 import { stat } from 'fs';
 
 // import './index.css';
@@ -45,17 +46,13 @@ export interface ScheduleModalProps {
 
 export interface ISchedule {
   id?: string;
-  employees?: string[],
-  plant?: string[],
-  job: {
-    id?: string;
-    name?: string;
-    JobID: any;
-    JobName: string;
-  },
-  notes: Array<string>,
-  managers?: string[];
-  owner?: string;
+  people?: Array<string | undefined | null>
+  equipment?: Array<string | undefined | null>
+
+  project: {name: string, id: string};
+  notes: Array<string | undefined | null>,
+  managers?: Array<string | undefined | null>;
+  owner?: {id: string, name: string};
   date?: Date;
 }
 
@@ -63,7 +60,9 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
 
   const [ mode, setMode ]= useState<string>('create')
 
-  const stateMode : "Clone" | "Edit" | "Create" = (mode === 'clone') ? 'Clone': (mode === 'edit') ? 'Edit' :  'Create';
+  const stateMode : "Clone" | "Edit" | "Create" = useMemo(() => {
+    return (mode === 'clone') ? 'Clone': (mode === 'edit') ? 'Edit' :  'Create';
+  }, [mode])
 
   const [ dialogOpen, setDialogOpen ] = useState<boolean>(false)
 
@@ -95,6 +94,7 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
   }, [props.item])
 
   useEffect(() => {
+    console.log(props.item)
     if(props.item && props.item.id){
       setMode('edit')
     }
@@ -317,7 +317,7 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
           <Heading level='4' margin='none'>
               {stateMode} Schedule Item for {moment(timestamp).format('DD/MM/YYYY')}
           </Heading>
-          {stateMode == 'Edit' && item?.owner !== props.user.id && renderMemberButton() }
+          {stateMode == 'Edit' && item?.owner !== props.user?.id && renderMemberButton() }
           
           </Box>
             <ManagerList 

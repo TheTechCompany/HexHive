@@ -9,17 +9,19 @@ import moment from 'moment';
 
 import { Button, Text, Select, Heading,  Box, Layer, TextInput} from 'grommet'
 // import './file-dialog.css';
-
+import { IFile as HexFile } from '@hexhive/types'
 import { FileViewer } from '../../file-viewer';
+import { FileContent } from './FileContent';
+import { isEqual } from 'lodash';
 
 
 export interface FileDialogProps {
   open: boolean;
   onClose?: any;
-  onSubmit?: (files: File[]) => void;
+  onSubmit?: (files: HexFile[]) => void;
 
   job?: any;
-  files?: any[];
+  files?: HexFile[];
 
   token?: string;
 
@@ -29,10 +31,10 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
 
   const [ expanded, setExpanded ] = useState<boolean>(true);
 
-  const [ files, setFiles ] = useState<any[]>([])
+  const [ files, setFiles ] = useState<HexFile[]>([])
 
   useEffect(() => {
-    if(props.files){
+    if(props.files && !isEqual(files, props.files)){
       setFiles(props.files)
     }
   }, [props.files])
@@ -97,7 +99,7 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
 
 
   const file = files.length == 1 ? files[0] : {
-    _id: ' ',
+    id: ' ',
     name: "Multiple files",
     mimeType: "Mutliple",
     owner: {name: "Multiple uploaders"},
@@ -124,10 +126,7 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
           flex
           direction="row">
           <div style={{flex: 1, marginRight: 5, display: 'flex', flexDirection: 'column'}}>
-            <div style={{flex: 1}} className="file-dialog__content">
-              <FileViewer files={files} token={props.token} />
-            
-            </div>
+            <FileContent files={files} token={props.token} />
             {files?.length == 1 && expanded ? (
             <Button icon={<CloudDownload />} label="Download" style={{marginTop: '8px'}}  onClick={downloadFile} />
           ) : null}
@@ -160,8 +159,8 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
             </Box>
             <div style={{display: 'flex', flexDirection: 'column'}}> 
               <Text style={{color: 'gray'}}>File type: {file && file.mimeType}</Text>
-              <Text style={{color: 'gray'}}>Uploaded By: {file && file.owner?.name}</Text>
-              {file._id && <Text style={{color: 'gray'}}>Upload Date: {file && moment(/*dateFromObjectID(file._id)*/).format("hh:mma DD/MM/YYYY")}</Text>}
+              <Text style={{color: 'gray'}}>Uploaded By: {file && file.owner && file.owner?.name}</Text>
+              {file.id && <Text style={{color: 'gray'}}>Upload Date: {file && moment(/*dateFromObjectID(file._id)*/).format("hh:mma DD/MM/YYYY")}</Text>}
             </div>
           </div>
 

@@ -36,7 +36,8 @@ const Queries = (connector: Connector) => {
             id: 'ID'
         },
         resolve: async (root, args) => {
-           return await ScheduleItem.findById(args.id)
+           const result = await ScheduleItem.findById(args.id).populate('owner')
+           return result.toJSON({virtuals: true})
         }
     },
     ScheduleMany: {
@@ -45,7 +46,8 @@ const Queries = (connector: Connector) => {
             status: "String"
         },
         resolve: async (root, args) => {
-            return await ScheduleItem.find({})
+            const result = await ScheduleItem.find({}).populate('owner')
+            return result.map((x: any) => x.toJSON({virtuals: true}))
         }
     }
 }
@@ -59,13 +61,34 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             args: {
                 item: "ScheduleItemInput"
             },
-            resolve: async (root, args) => {
+            resolve: async (root, args, context, info) => {
+                console.log(root, args, context, info)
                 let schedule = new ScheduleItem({
-                    ...args.item
+                    ...args.item,
+                    owner: context.user._id
                 })
 
                 await schedule.save();
-                return schedule;
+                return schedule.toJSON({virtuals: true});
+            }
+        },
+        updateScheduleItem: {
+            type: 'ScheduleItem',
+            args: {
+                id: "String",
+                item: "ScheduleItemInput"
+            },
+            resolve: async (root, args, context, info) => {
+                let item = ScheduleItem.findById(args.id);
+
+                if(item){
+                    item.project = args.item.project;
+                    item.people = args.item.people;
+                    item.equipment = args.item.equipment;
+                    item.notes = args.item.notes;
+                    await item.save();
+                }
+                return item.toJSON({virtuals: true});
             }
         }
     // addProject: {

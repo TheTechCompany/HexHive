@@ -2,13 +2,16 @@ import { model, Schema } from "mongoose"
 
 export interface ScheduleInterface {
     id?: string;
-    owner: string;
+    owner: {
+        id: string;
+        name: string
+    };
     job: {
         id?: string;
         name?: string
     }
     employees: {
-        ID?: string;
+        id?: string;
         Name?: string;
     }[]
     managers: string[]
@@ -34,11 +37,10 @@ const Plant = new Schema({
 })
 
 export const ScheduleItemSchema = new Schema<ScheduleInterface>({
-    id: String,
-    owner: String,
     project: String,
     people: [String],
     managers: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    owner: {type: Schema.Types.ObjectId, ref: 'User'},
     equipment: [String],
     notes: [String],
     date: Date

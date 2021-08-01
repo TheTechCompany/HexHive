@@ -5,7 +5,7 @@ export interface FileListProps {
     loading?: string[];
     files?: any[];
     onSelect?: any;
-    onClick?: any;
+    onClick: any;
 }
 
 export const FileList: React.FC<FileListProps> = (props) => {
@@ -14,7 +14,7 @@ export const FileList: React.FC<FileListProps> = (props) => {
 
     const _setChecked = (checked: string[]) => {
         setChecked(checked)
-        props.onSelect?.(checked.map((x) => props.files?.find((a) => a._id == x)))
+        props.onSelect?.(checked.map((x) => props.files?.find((a) => a.id == x)))
     }
 
     const onCheck = (event: React.ChangeEvent<HTMLInputElement>, value: string) => {
@@ -26,21 +26,19 @@ export const FileList: React.FC<FileListProps> = (props) => {
     };
 
     const onCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-        _setChecked(event.target.checked ? (props.files || []).map((datum) => datum._id) : []);
+        _setChecked(event.target.checked ? (props.files || []).map((datum) => datum.id) : []);
     }
-    const sortedFiles = useMemo(() => {
-        if (!sort) return props.files || []
+    const sortFiles = (a: any, b: any) => {
+        if (!sort) return 0; //props.files || []
+        let first = a[sort.property] || ''
+        let next = b[sort.property] || ''
+        return sort.direction == 'asc' ?
+            first == next ? 0 : first > next ? 1 : -1
+            :
+            first == next ? 0 : first < next ? 1 : -1
 
-        return (props.files || []).map((x) => ({ ...x })).sort((a: any, b: any) => {
-            let first = a[sort.property] || ''
-            let next = b[sort.property] || ''
-            return sort.direction == 'asc' ?
-                first == next ? 0 : first > next ? 1 : -1
-                :
-                first == next ? 0 : first < next ? 1 : -1
-        })
 
-    }, [JSON.stringify(props.files), sort])
+    }
 
 
     return (
@@ -49,18 +47,18 @@ export const FileList: React.FC<FileListProps> = (props) => {
             paginate={true}
             onMore={() => console.log("More")}
             pin
-            primaryKey={"_id"}
+            primaryKey={"id"}
             columns={[
                 {
                     property: 'checkbox',
                     render: datum => (
-                        (props.loading || []).indexOf(datum._id) > -1 || !datum.cid ? (
+                        (props.loading || []).indexOf(datum.id) > -1 || !datum.cid ? (
                             <Spinner />
                         ) : (
                             <CheckBox
-                                checked={checked.indexOf(datum._id) > -1}
+                                checked={checked.indexOf(datum.id) > -1}
                                 onChange={(e) => {
-                                    onCheck(e, datum._id)
+                                    onCheck(e, datum.id)
                                     e.preventDefault()
                                     e.stopPropagation()
                                 }} />)
@@ -68,8 +66,8 @@ export const FileList: React.FC<FileListProps> = (props) => {
                     header: (
                         <CheckBox
                             onChange={onCheckAll}
-                            checked={checked.length == sortedFiles.length}
-                            indeterminate={checked.length > 0 && checked.length < sortedFiles.length} />
+                            checked={checked.length == props.files?.length}
+                            indeterminate={checked.length > 0 && checked.length < (props.files?.length || 0)} />
                     ),
                     sortable: false
                 },
@@ -85,7 +83,7 @@ export const FileList: React.FC<FileListProps> = (props) => {
                 }
             ]}
             onSort={({ property, direction }) => setSort({ property, direction })}
-            data={sortedFiles}
+            data={props.files?.sort(sortFiles)}
             onClickRow={({ target, datum }) => {
                 let tag: any = target;
                 if (tag.tagName == "INPUT" && tag.type == "checkbox") {

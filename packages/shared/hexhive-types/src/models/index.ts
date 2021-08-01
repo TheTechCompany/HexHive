@@ -1,4 +1,4 @@
-import {connect, disconnect} from 'mongoose';
+import {connect, disconnect, Schema} from 'mongoose';
 
 export * from './device';
 import Program, {FlowShard} from './program';

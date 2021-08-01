@@ -43,6 +43,7 @@ export interface ScheduleItemInput {
   equipment?: Maybe<Array<Maybe<Scalars["String"]>>>;
   notes?: Maybe<Array<Maybe<Scalars["String"]>>>;
   managers?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  owner?: Maybe<Scalars["String"]>;
   date?: Maybe<Scalars["Date"]>;
 }
 
@@ -99,6 +100,10 @@ export const generatedSchema = {
       __type: "ScheduleItem",
       __args: { item: "ScheduleItemInput" },
     },
+    updateScheduleItem: {
+      __type: "ScheduleItem",
+      __args: { id: "String", item: "ScheduleItemInput" },
+    },
   },
   subscription: {},
   Project: {
@@ -112,8 +117,7 @@ export const generatedSchema = {
   },
   File: {
     __typename: { __type: "String!" },
-    _id: { __type: "ID" },
-    id: { __type: "String" },
+    id: { __type: "ID" },
     cid: { __type: "String" },
     name: { __type: "String" },
     extension: { __type: "String" },
@@ -148,10 +152,11 @@ export const generatedSchema = {
     id: { __type: "ID" },
     date: { __type: "Date" },
     project: { __type: "Project" },
-    people: { __type: "[People]" },
-    managers: { __type: "[User]" },
+    people: { __type: "[String]" },
+    managers: { __type: "[String]" },
+    owner: { __type: "User" },
     notes: { __type: "[String]" },
-    equipment: { __type: "[Equipment]" },
+    equipment: { __type: "[String]" },
   },
   People: {
     __typename: { __type: "String!" },
@@ -179,6 +184,7 @@ export const generatedSchema = {
     equipment: { __type: "[String]" },
     notes: { __type: "[String]" },
     managers: { __type: "[String]" },
+    owner: { __type: "String" },
     date: { __type: "Date" },
   },
 } as const;
@@ -239,6 +245,10 @@ export interface Mutation {
   createScheduleItem: (args?: {
     item?: Maybe<ScheduleItemInput>;
   }) => Maybe<ScheduleItem>;
+  updateScheduleItem: (args?: {
+    id?: Maybe<Scalars["String"]>;
+    item?: Maybe<ScheduleItemInput>;
+  }) => Maybe<ScheduleItem>;
 }
 
 export interface Subscription {
@@ -257,8 +267,7 @@ export interface Project {
 
 export interface File {
   __typename: "File" | undefined;
-  _id?: Maybe<ScalarsEnums["ID"]>;
-  id?: Maybe<ScalarsEnums["String"]>;
+  id?: Maybe<ScalarsEnums["ID"]>;
   cid?: Maybe<ScalarsEnums["String"]>;
   name?: Maybe<ScalarsEnums["String"]>;
   extension?: Maybe<ScalarsEnums["String"]>;
@@ -297,10 +306,11 @@ export interface ScheduleItem {
   id?: Maybe<ScalarsEnums["ID"]>;
   date?: Maybe<ScalarsEnums["Date"]>;
   project?: Maybe<Project>;
-  people?: Maybe<Array<Maybe<People>>>;
-  managers?: Maybe<Array<Maybe<User>>>;
+  people?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
+  managers?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
+  owner?: Maybe<User>;
   notes?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
-  equipment?: Maybe<Array<Maybe<Equipment>>>;
+  equipment?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
 }
 
 export interface People {

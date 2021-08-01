@@ -4,24 +4,23 @@ import React, {
 
 import { DateSelector } from '../date-selector'
 
-import ScheduleCard from './schedule-card';
+import {ScheduleCard} from './card';
 
-import ScheduleModal from '../modals/schedule-modal';
+import ScheduleModal, { ISchedule } from '../modals/schedule-modal';
 // import './index.css';
 
 import { Box, Text, Button, Spinner } from 'grommet';
 import { ScheduleContainer } from './container';
+import { ScheduleViewContext } from './context';
 
 var moment = require('moment');
 
-export interface WeekViewProps {
+export interface ScheduleViewProps {
   onCreateItem: (item: any, ts: Date) => void;
+  onSaveItem: (item: any, ts: Date) => void;
+  onCloneItem: (item: any, current: Date[], newDates: Date[]) => void;
 
-  
-  getJobs?: any;
-  getUsers?: any;
-  getEmployees?: any;
-  getPlant?: any;
+  events: ISchedule[];
 
   users?: any[];
   user?: any
@@ -36,12 +35,12 @@ export interface WeekViewProps {
 }
 
 
-export const ScheduleView: React.FC<WeekViewProps> = (props) => {
+export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
   const [modalShow, showModal] = useState(false)
-  const [date, setDate] = useState(moment())
+  const [date, setDate] = useState(moment().startOf('isoWeek'))
   const [params, setParams] = useState<any[]>([moment().startOf('isoWeek'), moment().endOf('isoWeek')])
 
-  const [scheduleData, setScheduleData] = useState<any[]>([])
+  //const [scheduleData, setScheduleData] = useState<any[]>([])
 
   const [scheduledJobs, setScheduledJobs] = useState<any[]>([]) //figure out where this goes
 
@@ -51,22 +50,14 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
 
   const [timestamp, setTimestamp] = useState(new Date())
 
+  console.log(props.events)
+
   // const query = useQuery({
   //   suspense: false,
   //   staleWhileRevalidate: true
   // })
 
   // const jobs : Project[] = (query.ProjectMany() || []).map((x) => ({...x, __typename: 'Project'}))
-
-  useEffect(() => {
-    // props.getJobs();
-    // props.getUsers();
-    // props.getEmployees();
-    // props.getPlant();
-    /*    utils.user.getAll().then((users) => {
-      this.setState({users: users});
-    })*/
-  }, [])
 
   // useEffect(() => {
   //   utils.schedule.getScheduleByDate(params).then((schedule) => {
@@ -86,7 +77,7 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
 
   const changeWeek = (week: Date) => {
     let params = [moment(week).startOf('isoWeek'), moment(week).clone().endOf('isoWeek')]
-    setDate(week)
+    setDate(moment(week).startOf('isoWeek'))
     setParams(params)
 
   }
@@ -127,17 +118,17 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
   }
 
   const updateOrder = (day: number) => {
-    let order: any = {};
-    let schedule = scheduleData[day] || [];
+    // let order: any = {};
+    // let schedule = scheduleData[day] || [];
 
-    for (var i = 0; i < schedule.length; i++) {
-      order[schedule[i].id] = i;
-    }
+    // for (var i = 0; i < schedule.length; i++) {
+    //   order[schedule[i].id] = i;
+    // }
 
-    let ts = moment(params[0]).add(day, 'days').add(12, 'hours').valueOf();
-    _updateOrder(ts, order).then((result) => {
-      console.log(result);
-    })
+    // let ts = moment(params[0]).add(day, 'days').add(12, 'hours').valueOf();
+    // _updateOrder(ts, order).then((result) => {
+    //   console.log(result);
+    // })
   }
 
   const _updateOrder = (ts: number, order: any) => {
@@ -155,30 +146,35 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
   }
 
   const move = (pos: number, idx: number, day: number) => {
-    if ((idx + pos) > -1 && (idx + pos) < scheduleData[day].length) {
-      let d = scheduleData[day];
-      d.splice(idx + pos, 0, d.splice(idx, 1)[0])
-      let schedule = scheduleData;
-      schedule[day] = d;
-      setScheduleData(schedule)
-      updateOrder(day);
-    }
+    // if ((idx + pos) > -1 && (idx + pos) < scheduleData[day].length) {
+    //   let d = scheduleData[day];
+    //   d.splice(idx + pos, 0, d.splice(idx, 1)[0])
+    //   let schedule = scheduleData;
+    //   schedule[day] = d;
+    //   setScheduleData(schedule)
+    //   updateOrder(day);
+    // }
   }
 
   const renderSchedule = (i: number) => {
-    return scheduleData[i].map((x: any, ix: number) => {
+    let scheduleDay = moment(date).clone().add(i, 'days')
+    console.log("RENDER SCHEDULE", scheduleDay.format("DD/MM/yyyy"))
+    return props.events?.filter((a) => {
+      //console.log(a.date)
+      return moment(a.date).isSame(scheduleDay, 'day')
+    }).map((x: any, ix: number) => {
       return (
-        <li style={{ padding: 0 }}>
+        <li style={{ padding: 0, marginBottom: 4 }}>
           <ScheduleCard
             jobs={props.projects}
             onClick={() => {
               if (!props.user.readonly) {
 
-                setScheduledJobs(scheduleData[i])
+            //    setScheduledJobs(scheduleData[i])
                 toggleEditorModal(true, x);
 
               } else {
-                setScheduledJobs(scheduleData[i])
+            //    setScheduledJobs(scheduleData[i])
                 toggleEditorModal(true, x)
               }
 
@@ -235,8 +231,8 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
       <ScheduleModal
 
         onCreateItem={props.onCreateItem}
-        onSaveItem={saveScheduleItem}
-        onCloneItem={cloneScheduleItem}
+        onSaveItem={props.onSaveItem}
+        onCloneItem={props.onCloneItem}
 
         projects={props.projects}
         people={props.people}
@@ -259,7 +255,7 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
           var day = moment(params[0]).add(dayIndex, 'day')
           setTimestamp(day)
           setCurrentDay(dayIndex)
-          setScheduledJobs(scheduleData[dayIndex])
+       //   setScheduledJobs(scheduleData[dayIndex])
 
 
           toggleEditorModal(true)
@@ -297,16 +293,16 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
   const renderDays = () => {
     var week = [];
     for (var i = 0; i < 7; i++) {
-      const dayItems = (scheduleData[i]) ? renderSchedule(i) : null;
+      const dayItems =  renderSchedule(i);
       var today = new Date();
       var currentDay = today.getDate();
       var currentMonth = today.getMonth() + 1;
       week.push((
         <Box
-          align="center"
+          pad={{horizontal: 'xsmall'}}
           flex
           className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day week-day-current' : 'week-day'}>
-          <ul style={{ listStyle: 'none', padding: 0 }} className='week-day-content'>
+          <ul style={{ flex: 1, listStyle: 'none', padding: 0 }} className='week-day-content'>
             {dayItems}
             {renderAddScheduleButton(i)}
           </ul>
@@ -320,6 +316,12 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
   const renderedModal = renderCreateScheduleModal()
 
   return (
+    <ScheduleViewContext.Provider
+      value={{
+          projects: props.projects,
+          people: props.people,
+          equipment: props.equipment
+      }}>
     <ScheduleContainer
       header={renderHeader()}>
       {props.isLoading ? (
@@ -331,12 +333,13 @@ export const ScheduleView: React.FC<WeekViewProps> = (props) => {
             <Text>Loading schedule ...</Text>
           </Box>
         ) : (
-          <Box flex direction="row" className="week-days">
+          <Box overflow={'scroll'} flex direction="row" className="week-days">
             {renderedDays}
             {renderedModal}
           </Box>
         )}
     </ScheduleContainer>
+    </ScheduleViewContext.Provider>
   );
 
 }

@@ -31,6 +31,9 @@ export interface SharedFileCardProps {
   onView?: (items: any[]) => void;
   onEdit?: (items: any[]) => void;
   onDelete?: (items: any[]) => void;
+
+  onUpload: (files: File[]) => void;
+
   prefs?: any;
   updatePrefs?: (update: any) => void;
 }
@@ -38,6 +41,7 @@ export interface SharedFileCardProps {
 export const SharedFiles : React.FC<SharedFileCardProps> = ({
   files = [],
   onChange,
+  onUpload,
   jobId,
   style,
   onClick,
@@ -50,17 +54,15 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
   uploading
 }) =>  {
 
-  console.log(prefs)
   const [ showFile, setShowFile ] = useState<any>(null)
-  console.log("SHOW FILE", showFile)
 
   const [ selectedFiles, setSelectedFiles ] = useState<any[]>([])
 
   const [ dialogOpen, openDialog ] = useState<boolean>(false)
 
-  const isGrid = prefs.isGrid;
-  const setIsGrid = (val: boolean) => updatePrefs?.({isGrid: val})
- // const [ isGrid, setIsGrid ] = useState<boolean>(false)
+  // const isGrid = prefs.isGrid;
+  // const setIsGrid = (val: boolean) => updatePrefs?.({isGrid: val})
+  const [ isGrid, setIsGrid ] = useState<boolean>(false)
 
 //  const refetch = useRefetch()
 
@@ -74,7 +76,11 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
       uploaded: false
     }))
 
+    onUpload?.(dropped_files)
+
     if(!jobId) return;
+
+
     // utils.job.uploadFiles(jobId, dropped_files).then((r) => {
 
     //   if(r.success){
@@ -95,7 +101,8 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
     //   })*/
     // })
 
-    onChange?.(files?.concat(_files))
+
+   // onChange?.(files?.concat(_files))
   }
 
 
@@ -124,12 +131,15 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
     return (
       <Box 
         flex
+        round="small"
+        overflow="hidden"
         direction="column" 
         style={{...style}}>
         <Box 
           flex
           style={{position: 'relative'}}>
           <Box 
+            background="accent-1"
             direction="row"
             justify="between">
               <Box
@@ -173,9 +183,9 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
           </Box>
             <Dropzone noClick={true} noKeyboard={true} onDrop={filesDropped}>
               {({getRootProps, getInputProps, isDragActive, open}) => (
-                <section style={{flex: 1, display: 'flex', outline: 'none', overflowY: 'scroll'}}>
+                <section style={{flex: 1, display: 'flex', flexDirection: 'column', outline: 'none', overflowY: 'scroll'}}>
                   
-                  <div className={`file-list ${files?.length > 0 ? '' : 'empty'}`} {...getRootProps()}>
+                  <Box flex className={`file-list ${files?.length > 0 ? '' : 'empty'}`} {...getRootProps()}>
                     <input id="file-list__input" {...getInputProps()} />
                     
                     {(files?.length > 0) ? (
@@ -190,18 +200,24 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
                         files={files || []} /> 
                     ) : (
 
-                      <div className="upload-helper">
-                        <CloudUpload /><Text >Drag files here to upload</Text>
-                      </div>
+                      <Box 
+               
+                        flex
+                        align="center"
+                        justify="center"
+                        direction="column" 
+                        className="upload-helper">
+                        <CloudUpload /><Text color={isDragActive ? "blue" : ''}>{isDragActive ? 'Drop' : 'Drag'} files here to upload</Text>
+                      </Box>
                     )}
 
-                  </div>
+                  </Box>
 
                     
-                    <div className={`file-list__drop ${isDragActive ? 'active' : ''}`}>
+                    {/* {files.length > 0 && (<div className={`file-list__drop ${isDragActive ? 'active' : ''}`}>
                       <CloudUpload style={{marginRight: '10px'}}/>
                       <Text >Drop files to upload</Text> 
-                    </div>
+                    </div>)} */}
                   <Button style={{position: 'absolute', right: 10, bottom: 10}} color="primary" onClick={() => {
                     let fileInput = document.createElement('input')
                     fileInput.type = 'file'

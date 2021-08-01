@@ -2,11 +2,12 @@ import React, {
 	Component, useEffect, useState
 } from 'react';
 
-import { Tabs, Text, Tab, Box, Heading, Spinner } from 'grommet';
+import { Tabs, Text, Tab, Box, Heading, Spinner, Button } from 'grommet';
 
 
 // import SharedFiles from '@hexhive/auth-ui';
 
+import { files as fileActions } from '../../../actions'
 
 import moment from 'moment';
 
@@ -15,7 +16,7 @@ import moment from 'moment';
 import './style.css';
 import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
 
-import { useMutation, refetch, useQuery, File } from '../../../gqless';
+import { useMutation, useQuery, File, useRefetch } from '../../../gqless';
 
 export interface FocusedJobProps{
   match?: any;
@@ -25,6 +26,8 @@ const STATUS = [ "Issued", "Workshop", "Finished" ];
 
 
 export const SingleJob : React.FC<FocusedJobProps> = (props) => {
+
+  const [ selectedTab, setSelectedTab ] = useState<number>(0)
 
   const [ loadingFiles, setLoadingFiles ] = useState<any[]>([])
   const [ uploadingFiles, setUploadingFiles ] = useState<any[]>([])
@@ -41,13 +44,15 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
 
   const [ description, setDescription ] = useState<string>('')
 
-  const job_id = props.match.params.job;
+  const job_id = props.match.params.id;
 
 
   const query = useQuery({
     suspense: false,
     staleWhileRevalidate: true
   })
+
+  const refetch = useRefetch();
 
   const [ removeFile, {isLoading}] = useMutation((mutation, args: {id: string, project: string}) => {
     const result = mutation.removeFileFromProject({id: args.id, project: args.project})
@@ -80,6 +85,19 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
     awaitRefetchQueries: true
   })
 
+  const [ updateFiles, filesUpdate] = useMutation((mutation, args: {ids: string[], status?: string}) => {
+    const result = mutation.updateFiles({ids: args.ids, status: args.status})
+    return {
+      item: result?.slice(),
+      error: null
+    }
+  },  {
+    onCompleted(data) {},
+    onError(error) {},
+    refetchQueries: [query.ProjectById({id: job_id})],
+    suspense: false,
+    awaitRefetchQueries: true
+  })
 
   const job = query.ProjectById({id: job_id})
 
@@ -89,7 +107,7 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
       console.log(job.files)
       setFiles(job.files || [])
     }
-  }, [job])
+  }, [JSON.stringify(job)])
 
   const _tabs = [
     {
@@ -111,6 +129,12 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
           }))
 
         }}
+        onUpload={(files) => {
+          fileActions.addFilesToJob(job_id, files).then(async (result) => {
+            console.log("Upload result", result)
+            await refetch(query.ProjectById({id: job_id}))
+          })
+        }}
         onEdit={(files) => {
           openDialog(true)
           setShowFiles(files)
@@ -129,7 +153,7 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
         console.log(result.destination?.droppableId)
         if(result.destination?.droppableId != undefined){
           let f = files.slice()
-          let f_ix = f.map((x) => x._id).indexOf(result.draggableId)
+          let f_ix = f.map((x) => x.id).indexOf(result.draggableId)
           f[f_ix].status = STATUS[parseInt(result.destination?.droppableId || '')]
           setFiles(f)
 
@@ -230,27 +254,51 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
 
   return (
 			<Box
+        gap="xsmall"
         direction="column"
-        background="light-1"
         round="xsmall"
         pad={{horizontal: 'small'}}
         className="job-one-container" style={{flex: 1, display: 'flex'}}>
+          <Box 
+            round="xsmall"
+            background="accent-1"
+            pad={{horizontal: 'small'}}
+            direction="row"
+            justify="between">
+            <Heading level='4' margin="small">{job?.id} - {job?.name || "Job Title"}</Heading>
+            
+            <Box gap="xsmall" direction="row">
+              <Button
+                onClick={() => setSelectedTab(0)}
+                style={{borderBottom: selectedTab == 0 ? '2px solid red' : undefined, padding: 8}}
+                plain
+                 hoverIndicator
+                 label="Files"/>
+              <Button 
+                onClick={() => setSelectedTab(1)}
+                style={{borderBottom: selectedTab == 1 ? '2px solid red' : undefined, padding: 8}}
+                plain
+                hoverIndicator 
+                label="Project board" />
+            </Box>
+          </Box>
           <FileDialog
               open={dialogOpen}
               onSubmit={async (_files: any[]) => {
+                console.log(_files)
                 if(_files.length == 1){
                   let file = _files[0]
 
-                  if(file._id){
-                    const loaded = UseLoading(file._id);
+                  if(file.id){
+                    const loaded = UseLoading(file.id);
 
-                    updateFile({args: {id: file._id, name: file.name || '', status: file.status || ''}}).then(({item}) => {
+                    updateFile({args: {id: file.id, name: file.name || '', status: file.status || ''}}).then(({item}) => {
                       console.log(item)
 
                       let f = files?.slice()
-                      let ix = f.map((x: any) => x.id).indexOf(file._id)
+                      let ix = f.map((x: any) => x.id).indexOf(file.id)
 
-                      item._id = file._id;
+                      item.id = file.id;
 
                       if(ix > -1){
                         f[ix] = {
@@ -277,9 +325,13 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
                     setFiles(f)
                   })*/
                 }else if(_files.length > 1){
-                  const results = await Promise.all(_files.map(async (file :any) => {
-                    await updateFile({args: {id: file._id, status: file.status}})
-                  }))
+                  let ids = _files.map((x) => x.id)
+                  const results = await updateFiles({args: {ids: ids, status: _files[0].status}})
+
+                  console.log(results)
+                  // const results = await Promise.all(_files.map(async (file :any) => {
+                  //   await updateFile({args: {id: file.id, status: file.status}})
+                  // }))
 
                
                 }
@@ -293,37 +345,16 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
               files={showFiles} 
               job={job?.id} />
 
-          <Box 
-            pad={{horizontal: 'small'}}
-            direction="column"
-            align="start">
-            <Heading level='4' margin="small">{job?.id} - {job?.name || "Job Title"}</Heading>
-            
-          </Box>
-        
-          <Tabs
-              alignControls="start"
+
+          <Box round="xsmall" flex background="neutral-1">
+            <Box
+              height="100%"
               flex>
-                {_tabs.map((tab, ix) => (
-                  <Tab
-                    key={`tab-${ix}`}
-                    title={tab.title}>
-                      {query.$state.isLoading ? (
-                      <Box 
-                        flex
-                        justify="center"
-                        align="center">
-                          <Spinner size="medium" />
-                      </Box>
-                    ): (<Box
-                        height="100%"
-                        flex>
-                          {tab.component}
-                        </Box>)}
-                    </Tab>
-                ))}
-          </Tabs>
+            {_tabs[selectedTab].component}
+            </Box>
         
+          </Box>
+         
   
 			</Box>
 		);
