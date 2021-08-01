@@ -81,14 +81,15 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
                     setEditDevice(null)
                     openModal(false)
                 }} />
-            <Box align="center" direction="row" pad="small">
-                <TextInput placeholder="Search Devices..." />
+            <Box background="accent-1" align="center" direction="row" pad="small">
+                <Box flex background="#ffffff42" round="xsmall">
+                <TextInput plain placeholder="Search Devices..." />
+                </Box>
                 <Button
                     onClick={() => openModal(true)}
                      margin={{left: 'small'}} 
                      primary 
                      hoverIndicator 
-                     color="accent-1"
                      label="Add"
                      icon={<Icons.Add />} />
             </Box>

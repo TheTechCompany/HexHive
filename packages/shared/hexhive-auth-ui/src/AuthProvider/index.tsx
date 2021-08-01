@@ -49,7 +49,7 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
                 setToken(token)
                 console.log(token)
             }).catch(() => {
-                window.location.href = 'https://hexhive.io/login'
+                if(process.env.NODE_ENV == 'production') window.location.href = 'https://hexhive.io/login'
             })
         }
 

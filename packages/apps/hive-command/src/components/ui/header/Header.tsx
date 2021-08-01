@@ -28,7 +28,7 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
             align="center"
             justify="between"
             direction="row"
-            background="accent-2" //rgb(30, 62, 72)
+            background="brand" //rgb(30, 62, 72)
             height="58px">
             <Box
                 pad="small"
