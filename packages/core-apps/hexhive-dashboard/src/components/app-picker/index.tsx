@@ -18,7 +18,7 @@ export const AppPicker : React.FC<AppPickerProps> = (props) => {
             tileGap={7}
             tileBorderRadii={9}
             tiles={props.apps?.map(app => {
-                return { icon: app.icon, text: app.text, onClick: app.onClick }
+                return { img: app.icon, onClick: app.onClick }
             })} />
     );
 }   
