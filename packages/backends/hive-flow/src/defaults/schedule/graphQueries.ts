@@ -82,7 +82,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 console.log(root, args, context, info)
                 let schedule = new ScheduleItem({
                     ...args.item,
-                    owner: context.user._id
+               //     owner: context.user._id
                 })
 
                 await schedule.save();

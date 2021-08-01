@@ -48,6 +48,8 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
             client?.loadToken(code || undefined).then((token) => {
                 setToken(token)
                 console.log(token)
+            }).catch(() => {
+                window.location.href = 'https://hexhive.io/login'
             })
         }
 

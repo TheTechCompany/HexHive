@@ -4,7 +4,7 @@ import React, {
 import { Box } from 'grommet'
 import { ScheduleView } from '@hexhive/ui';
 import './index.css';
-import { mutation, useRefetch, useMutation, useQuery } from '../../gqless';
+import { mutation, useRefetch, useMutation, useQuery, resolved } from '../../gqless';
 import moment from 'moment';
 
 export const Schedule : React.FC<any> = (props) =>  {
@@ -18,10 +18,11 @@ export const Schedule : React.FC<any> = (props) =>  {
 
   const query = useQuery({
     suspense: false,
-    staleWhileRevalidate: true
+    staleWhileRevalidate: false,
+  
   })
 
-  const schedule = query.ScheduleMany({startDate: horizon.start, endDate: horizon.end}) //?.map((x) => ({...x, project: x?.project})) || [];
+  const schedule = query.ScheduleMany() //{startDate: horizon.start, endDate: horizon.end}) //?.map((x) => ({...x, project: x?.project})) || [];
 
   const projects = query.ProjectMany()?.map((x) => ({...x})) || [];
   const people = query.PeopleMany()?.map((x) => ({...x})) || [];
@@ -38,10 +39,9 @@ export const Schedule : React.FC<any> = (props) =>  {
       error: null
     }
   }, {
-    noCache: true,
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})],
+    refetchQueries: [query.ScheduleMany()],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -68,12 +68,13 @@ export const Schedule : React.FC<any> = (props) =>  {
       <Box flex className="schedule-container">
         <ScheduleView 
           date={horizon.start}
-          onHorizonChanged={(start, end) => {
+          onHorizonChanged={async (start, end) => {
             console.log("Horizon", start, end)
             setHorizon({start, end})
-            refetch(query.ScheduleMany({startDate: start, endDate: end})).then((info) => {
+            const info = await refetch(query.ScheduleMany({startDate: start, endDate: end}))
+            
               console.log("REFETCH", info)
-            })
+          
           }}
           events={(schedule || []).map((x) => ({
             id: x?.id || '',
@@ -90,9 +91,8 @@ export const Schedule : React.FC<any> = (props) =>  {
               item: {
               ...item,
               date: new Date(ts.valueOf())
-            }}}).then((data) => {
-         
-              console.log(data.item)
+            }}}).then(async (data) => {
+              //await refetch(() => query.ScheduleMany)
             })
           }}
 
