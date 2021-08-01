@@ -20,7 +20,6 @@ export const Project = new Schema<ProjectInterface>({
 })
 
 const LegacyProject = new Schema({
-    id: String,
     name: String,
     files: [{
         id: String,

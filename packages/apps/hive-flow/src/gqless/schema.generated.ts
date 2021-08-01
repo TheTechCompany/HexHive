@@ -62,6 +62,7 @@ export const generatedSchema = {
       __type: "[Project]",
       __args: { status: "String", startDate: "Date", endDate: "Date" },
     },
+    UserMany: { __type: "[User]" },
     FileMany: { __type: "[File]" },
     FileByProject: { __type: "[File]", __args: { id: "String" } },
     QuoteById: { __type: "Quote", __args: { id: "ID" } },
@@ -72,7 +73,10 @@ export const generatedSchema = {
     EquipmentById: { __type: "Equipment", __args: { id: "ID" } },
     EquipmentMany: { __type: "[Equipment]", __args: { status: "String" } },
     ScheduleById: { __type: "ScheduleItem", __args: { id: "ID" } },
-    ScheduleMany: { __type: "[ScheduleItem]", __args: { status: "String" } },
+    ScheduleMany: {
+      __type: "[ScheduleItem]",
+      __args: { status: "String", startDate: "Date", endDate: "Date" },
+    },
     PeopleById: { __type: "People", __args: { id: "ID" } },
     PeopleMany: { __type: "[People]", __args: { status: "String" } },
   },
@@ -197,6 +201,7 @@ export interface Query {
     startDate?: Maybe<Scalars["Date"]>;
     endDate?: Maybe<Scalars["Date"]>;
   }) => Maybe<Array<Maybe<Project>>>;
+  UserMany?: Maybe<Array<Maybe<User>>>;
   FileMany?: Maybe<Array<Maybe<File>>>;
   FileByProject: (args?: {
     id?: Maybe<Scalars["String"]>;
@@ -214,6 +219,8 @@ export interface Query {
   ScheduleById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<ScheduleItem>;
   ScheduleMany: (args?: {
     status?: Maybe<Scalars["String"]>;
+    startDate?: Maybe<Scalars["Date"]>;
+    endDate?: Maybe<Scalars["Date"]>;
   }) => Maybe<Array<Maybe<ScheduleItem>>>;
   PeopleById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<People>;
   PeopleMany: (args?: {

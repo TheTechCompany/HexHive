@@ -43,7 +43,7 @@ export const Content : React.FC<ContentProps> = ({data, users}) => {
       if(items.length > 0){
       return (
          <Box direction="column" className="plant-container">
-            <div style={{fontWeight: 'bold'}} className="plant-container-header">Plant required</div>
+            <Text weight="bold" size="small" className="plant-container-header">Plant required</Text>
             {items.map((item: any) => (
                   <Text size='small'>{item.name}</Text>
             ))}
@@ -73,10 +73,9 @@ export const Content : React.FC<ContentProps> = ({data, users}) => {
      ]
 
      let job = data?.project ? projects?.find((a) => a?.id == data?.project.id) : {files: []}
-     console.log(job, data)
  
      if(job?.files && job?.files.length > 0){
-        content.push(<FileHex height={30} />)
+        content.push(<FileHex height={25} width={25} />)
      }
      return content;
  }

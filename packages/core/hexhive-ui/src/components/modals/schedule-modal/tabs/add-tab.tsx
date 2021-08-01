@@ -87,7 +87,7 @@ export const AddTab : React.FC<AddTabProps> = ({
             placeholder="Select Job..."
             labelKey={(opt) => `${opt.id} - ${opt.name}`.substring(0, 42 + 7)}
             options={memoJobs.filter((a: any) => `${a.id} - ${a.name}`.indexOf(jobSearch) > -1)}
-            value={item?.project}
+            value={item?.project.id || item?.project}
             valueKey={{key: 'id', reduce: true}}
             onChange={({option}) => {
                 console.log(option)
@@ -103,7 +103,7 @@ export const AddTab : React.FC<AddTabProps> = ({
             hoverIndicator={true}
             a11yTitle="Go to Job"
             icon={<Logout />}
-            href={`/dashboard/flow/projects/${item?.project}`}/>
+            href={`/dashboard/flow/projects/${item?.project.id}`}/>
         </Box>}
         </Box>
 

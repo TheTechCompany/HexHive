@@ -34,6 +34,11 @@ export class AuthClient {
         console.log("Set up auth client")
     }
 
+    async getUserInfo(accessToken: string){
+        const result = await this.instance.get('/user', {headers: {'Authorization': 'Bearer ' + accessToken}})
+        return result.data
+    }   
+
     async loadToken(accessCode?: string){
         let token;
       

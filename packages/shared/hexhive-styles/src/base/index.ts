@@ -1,7 +1,7 @@
 export const BaseStyle = {
     global: {
       colors: {
-        "brand": '#054c54',//003f49 //054c54
+        "brand": '#55556B',//003f49 //054c54
         "light-1": "#EAD9CE",
         "dark-1": "#003f49",
         "neutral-1": "#F3E6DC",
@@ -10,7 +10,7 @@ export const BaseStyle = {
         "neutral-4": "#383232",
         "accent-1": "#A3B696",
         "accent-2": "#65695C",
-
+        "accent-3": "",
         placeholder: "#383232"
       }
     },
@@ -19,20 +19,21 @@ export const BaseStyle = {
             extend: (props) => `display: flex; flex-direction: column;`
         }
     },
+
     dataTable: {
         header: {
-            background: 'accent-1'
+            background: 'accent-2'
         },
         pinned: {
             header: {
-                background: 'accent-1'
+                background: 'accent-2'
             }
         }
     },
     select: {
         options: {
             container: {
-                background: 'accent-2'
+                background: '#ffffff69'
             }
         }
     },

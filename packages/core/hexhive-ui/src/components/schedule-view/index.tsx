@@ -32,12 +32,16 @@ export interface ScheduleViewProps {
 
   isLoading: boolean;
 
+  date: Date;
+  onHorizonChanged: (start: Date, end: Date) => void;
 }
 
 
 export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
   const [modalShow, showModal] = useState(false)
-  const [date, setDate] = useState(moment().startOf('isoWeek'))
+  
+  const [date, setDate] = useState(moment(props.date).startOf('isoWeek'))
+
   const [params, setParams] = useState<any[]>([moment().startOf('isoWeek'), moment().endOf('isoWeek')])
 
   //const [scheduleData, setScheduleData] = useState<any[]>([])
@@ -51,6 +55,12 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
   const [timestamp, setTimestamp] = useState(new Date())
 
   console.log(props.events)
+
+  useEffect(() => {
+    if(props.date){
+      setDate(moment(props.date).startOf('isoWeek'))
+    }
+  }, [props.date])
 
   // const query = useQuery({
   //   suspense: false,
@@ -80,6 +90,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
     setDate(moment(week).startOf('isoWeek'))
     setParams(params)
 
+    props.onHorizonChanged(new Date(params[0].valueOf()), new Date(params[1].valueOf()))
   }
 
   const renderHeader = () => {
@@ -167,6 +178,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
         <li style={{ padding: 0, marginBottom: 4 }}>
           <ScheduleCard
             jobs={props.projects}
+            users={props.users}
             onClick={() => {
               if (!props.user.readonly) {
 

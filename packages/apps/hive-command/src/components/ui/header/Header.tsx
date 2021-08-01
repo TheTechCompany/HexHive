@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button } from 'grommet';
 import { RouteComponentProps, useLocation, withRouter , matchPath} from 'react-router-dom'
 
-import {ReactComponent as Logo} from '../../../assets/logo.svg';
+import {ReactComponent as Logo} from './hivecommand.svg'
 import { ReactComponent as LoginIcon } from '../../../assets/profile.svg'
 import styled from 'styled-components';
 
@@ -36,7 +36,8 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
                 direction="row"
                 justify="start">
                 <Logo 
-                    style={{cursor: 'pointer'}}
+                    width="80px"
+                    style={{cursor: 'pointer', filter: 'invert(1)'}}
                     onClick={() => window.location.href = `/dashboard/command`}
                     height="52px" />
             </Box>

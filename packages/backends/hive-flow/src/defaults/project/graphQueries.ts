@@ -1,5 +1,5 @@
 import { ObjectTypeComposerFieldConfigMapDefinition } from "graphql-compose";
-import { File, Project } from '@hexhive/types'
+import { File, Project, User } from '@hexhive/types'
 import sql from 'mssql'
 import moment from "moment";
 import { Connector } from "../../connector";
@@ -84,6 +84,12 @@ const Queries = (connector: Connector) => {
             console.log(sqlQuery + whereClauses.join(' AND '))
 
             return (await request.query(sqlQuery + whereClauses.join(' AND '))).recordset
+        }
+    },
+    UserMany: {
+        type: '[User]',
+        resolve: async () => {
+            return await User.find()
         }
     },
     FileMany: {

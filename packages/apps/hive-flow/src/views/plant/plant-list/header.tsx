@@ -19,14 +19,19 @@ export const PlantHeader : React.FC<PlantHeaderProps> = (props) => {
         direction="row"
         background="accent-1"
         >
+        <Box
+            flex
+            round="xsmall"
+            background={'#ffffff42'}>
         <TextInput
+        
             plain
             value={props.filter}
             onChange={(e: any) => props.onFilterChange?.(e.target.value)}
           focusIndicator={false}
           
           placeholder="Search Equipment..." />
-        
+        </Box>
       </Box>
     )
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Box, Text } from 'grommet';
+import { Box, Button, Text } from 'grommet';
 
 import { User } from 'grommet-icons'
 
 import styled from 'styled-components'
 
 export interface SidebarProps {
-  logo: string
+  logo: any
 
   className?: string;
   user?: {
@@ -16,6 +16,7 @@ export interface SidebarProps {
   }
   menu: any[];
   active: any;
+  onLogoClick?: () => void;
   onSelect: any;
 }
 
@@ -38,24 +39,28 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
 
   return (
     <Box
-      background={{color: "accent-2"}}
+      background={{color: "brand"}}
       elevation="small"
       className={`${props.className} sidebar`}>
-      <div className="sidebar-header-image" />
-      <ul className="sidebar-menu">
+      <Button 
+        onClick={props.onLogoClick}
+        icon={props.logo}
+        className="sidebar-header-image" >
+      </Button>
+      <Box pad={{vertical: 'xsmall'}} className="sidebar-menu">
         {props.menu?.map((x, ix) => (
           <li
             key={`sidebar-${ix}`}
             className={`sidebar-menu-opt ${props.active == "/" + x.label.toLowerCase() ? "active" : ''} ${ix == 0 && props.active == "" ? 'active' : ''}`}
             onClick={() => props.onSelect(x.label)}>
 
-            {React.cloneElement(x.icon, {color: 'neutral-1'})}
+            {React.cloneElement(x.icon, {style: {filter: 'invert(1)', fill: '#F3E6DC', minWidth: '30px', maxWidth: '30px'}})}
             <Text color={'neutral-1'} margin={{left: 'small'}}>{x.label}</Text>
 
 
           </li>
         ))}
-      </ul>
+      </Box>
 
     </Box>
   );

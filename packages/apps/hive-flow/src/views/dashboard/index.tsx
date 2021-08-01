@@ -10,14 +10,14 @@ import { Sidebar} from '@hexhive/ui';
 // import RoutedView from '../../components/primatives/routed-view';
 
 import {
-  Plan,
-  Schedule,
-  SchedulePlay,
-  DocumentConfig,
-  Catalog,
-  Tools,
-  Group
-} from 'grommet-icons'
+  Calendar as Schedule,
+  People,
+  Timeline as TimelineIcon,
+  Estimates,
+  Projects,
+  Equipment,
+  Hiveflow
+} from '../../assets'
 
 import { Box, Spinner, Text } from 'grommet';
 import './index.css';
@@ -57,27 +57,27 @@ export const Dashboard : React.FC<any> = (props: any) => {
                   component: <> </>,
                 },
                 {
-                  icon: <SchedulePlay />,
+                  icon: <TimelineIcon />,
                   label: "Timeline",
                   component: <></>
                 },
                 {
-                  icon: <DocumentConfig />,
+                  icon: <Estimates />,
                   label: "Quotes",
                   component: <></>,
                 },
                 {
-                  icon: <Catalog />,
+                  icon: <Projects />,
                   label: "Projects",
                   component: <></>
                 },
                 {
-                  icon: <Group />,
+                  icon: <People />,
                   label: "People",
                   component: <></>
                 }, 
                 { 
-                  icon: <Tools />,
+                  icon: <Equipment />,
                   label: "Equipment",
                   alerts: alerts.length,
                   component: <></>
@@ -132,7 +132,10 @@ export const Dashboard : React.FC<any> = (props: any) => {
       return (
          <div className="dashboard">
               <Sidebar
-                logo={"/assets/logo.png"}
+                onLogoClick={() => {
+                    window.location.href = "/dashboard";
+                }}
+                logo={<Hiveflow style={{filter: 'invert(1)'}}/>}
                 active={active}
                 menu={views()} 
                 onSelect={(x: any) => {

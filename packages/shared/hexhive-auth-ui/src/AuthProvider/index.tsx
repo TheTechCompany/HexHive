@@ -53,6 +53,16 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
 
     }, [client])
 
+    useEffect(() => {
+        console.log("user info", token)
+
+        if(token){
+            client?.getUserInfo(token).then((info) => {
+                console.log("user info", info)
+            })
+        }
+    }, [token])
+
 
     return (
         <AuthContext.Provider

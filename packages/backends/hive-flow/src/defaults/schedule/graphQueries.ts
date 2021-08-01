@@ -43,10 +43,27 @@ const Queries = (connector: Connector) => {
     ScheduleMany: {
         type: '[ScheduleItem]',
         args: {
-            status: "String"
+            status: "String",
+            startDate: "Date",
+            endDate: "Date"
         },
         resolve: async (root, args) => {
-            const result = await ScheduleItem.find({}).populate('owner')
+            let query : any = {};
+            
+            let dateQuery : any = {};
+            if(args.startDate){
+                dateQuery['$gte'] = args.startDate;
+            }
+
+            if(args.endDate){
+                dateQuery['$lte'] = args.endDate;
+            }
+
+            if(args.startDate || args.endDate){
+                query['date'] = dateQuery;
+            }
+
+            const result = await ScheduleItem.find(query).populate('owner')
             return result.map((x: any) => x.toJSON({virtuals: true}))
         }
     }
@@ -69,7 +86,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 })
 
                 await schedule.save();
-                return schedule.toJSON({virtuals: true});
+                return schedule
             }
         },
         updateScheduleItem: {

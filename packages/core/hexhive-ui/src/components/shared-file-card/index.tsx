@@ -131,7 +131,7 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
     return (
       <Box 
         flex
-        round="small"
+        round="xsmall"
         overflow="hidden"
         direction="column" 
         style={{...style}}>
@@ -143,8 +143,7 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
             direction="row"
             justify="between">
               <Box
-                round={{corner: 'top', size: 'small'}}
-                background="light-3"
+                round={{corner: 'top', size: 'xsmall'}}
                 direction="row">
              {/*   <Button
                   onClick={_onView}
@@ -164,8 +163,7 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
               </Box>
               <Box
                 overflow="hidden"
-                round={{corner: 'top', size: 'small'}}
-                background="light-3"
+                round={{corner: 'top', size: 'xsmall'}}
                 direction="row"
                 elevation="3"
                 gap="small">

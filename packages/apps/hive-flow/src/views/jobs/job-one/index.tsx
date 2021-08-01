@@ -257,12 +257,11 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
         gap="xsmall"
         direction="column"
         round="xsmall"
-        pad={{horizontal: 'small'}}
         className="job-one-container" style={{flex: 1, display: 'flex'}}>
           <Box 
             round="xsmall"
             background="accent-1"
-            pad={{horizontal: 'small'}}
+            pad={{left: 'small'}}
             direction="row"
             justify="between">
             <Heading level='4' margin="small">{job?.id} - {job?.name || "Job Title"}</Heading>
@@ -270,13 +269,13 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
             <Box gap="xsmall" direction="row">
               <Button
                 onClick={() => setSelectedTab(0)}
-                style={{borderBottom: selectedTab == 0 ? '2px solid red' : undefined, padding: 8}}
+                style={{borderBottom: selectedTab == 0 ? '3px solid #E75D3D' : undefined, padding: 8}}
                 plain
                  hoverIndicator
                  label="Files"/>
               <Button 
                 onClick={() => setSelectedTab(1)}
-                style={{borderBottom: selectedTab == 1 ? '2px solid red' : undefined, padding: 8}}
+                style={{borderBottom: selectedTab == 1 ? '3px solid #E75D3D' : undefined, padding: 8}}
                 plain
                 hoverIndicator 
                 label="Project board" />

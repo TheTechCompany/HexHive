@@ -47,7 +47,6 @@ export const ScheduleItemSchema = new Schema<ScheduleInterface>({
 })
 
 export const QuoteScheduleSchema = new Schema({
-    id: String,
     quote: String,
     startDate: Date,
     endDate: Date,

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Avatar} from 'grommet';
+import {Avatar, Text} from 'grommet';
+import { invertColor } from 'shared/hexhive-utils/src/color';
 
 export interface AvatarListProps {
   users?: Array<{name?: string, color?: string}>;
@@ -27,7 +28,11 @@ export const AvatarList : React.FC<AvatarListProps> =  ({
           }
 
           return(
-            <Avatar style={style}>{x.name?.split(' ').map((x) => x[0]).join('')}</Avatar>
+            <Avatar style={style}>
+              <Text size={`${size * (5/8)}px`} color={invertColor(x.color || '')}>
+                {x.name?.split(' ').map((x) => x[0]).join('')}
+              </Text>
+            </Avatar>
           )
         })
         }

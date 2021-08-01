@@ -10,7 +10,6 @@ const SubprocessSchema : Schema = new Schema({
 })
 
 const ProcessNode : Schema = new Schema({
-    id: { type: String },
     label: { type: String },
     ports: {type: Array},
     type: { type: String},
@@ -19,7 +18,6 @@ const ProcessNode : Schema = new Schema({
 })
 
 const ProcessLinkPoint : Schema = new Schema({
-    id: { type: String },
     type: { type: String },
     x: { type: Number },
     y: { type: Number } 
@@ -41,7 +39,6 @@ const ProgramIO = new Schema({
 })
 
 const ProgramHMINode : Schema = new Schema({
-    id: 'String',
     type: 'String',
     extras: Map,
     ports: {type: Map},
@@ -55,7 +52,6 @@ const ProgramHMIPoint : Schema = new Schema({
 })
 
 const ProgramHMIPath : Schema = new Schema({
-    id: 'String',
     type: 'String',
     source: 'String',
     sourceHandle: 'String',
@@ -66,7 +62,6 @@ const ProgramHMIPath : Schema = new Schema({
 
 
 const ProcessSchema : Schema = new Schema({
-    id: String,
     name: {type: String},
     nodes: {type: Array, of: ProgramHMINode, default: []},
     paths: {type: Array, of: ProgramHMIPath, default: []},

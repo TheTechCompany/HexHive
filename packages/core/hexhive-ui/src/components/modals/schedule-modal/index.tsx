@@ -278,7 +278,7 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
       }
     }
     return (
-      <Button onClick={toggle}>{ joined ? "Leave" : "Join"} </Button>
+      <Button hoverIndicator style={{padding: '4px 8px 4px 8px'}} margin={{right: 'small'}} plain onClick={toggle} label={ joined ? "Leave" : "Join"} />
     );
   }
 
@@ -298,18 +298,21 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
   
     return props.open ? (
       <Layer 
-        style={{zIndex: 99}}
+        style={{zIndex: 99, boxShadow: '5px 5px 15px -5px #323a3c', overflow: 'hidden'}}
         onClickOutside={onClose}
         onEsc={onClose}> 
       <Box 
+        round="xxsmall"
+        overflow="hidden"
+        background={"neutral-1"}
         direction="column"
-        width="large"
-        pad="small">
+        width="large">
         
         <Box
+          background="accent-2"
           justify="between"
           align="center"
-          pad={{top: "small", bottom: 'small'}}
+          pad={{top: "small", bottom: 'small', horizontal: 'small'}}
           direction="row">
           <Box
             direction="row"
@@ -317,15 +320,21 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
           <Heading level='4' margin='none'>
               {stateMode} Schedule Item for {moment(timestamp).format('DD/MM/YYYY')}
           </Heading>
-          {stateMode == 'Edit' && item?.owner !== props.user?.id && renderMemberButton() }
           
           </Box>
+          <Box direction="row" align="center">
+            {stateMode == 'Edit' && item?.owner !== props.user?.id && renderMemberButton() }
+
             <ManagerList 
               users={props.users}
               managers={getManagers(item?.owner || props.user?.id || '', item?.managers || [], managerList.add, managerList.remove)}/>
+          </Box>
         </Box>
 
-        <Box height={{max: '60vh'}} margin={{bottom: 'small'}}>
+        <Box 
+  
+          pad="small" 
+          height={{max: '60vh'}} margin={{bottom: 'small'}}>
             { !(stateMode === 'Edit' || stateMode === 'Create') ? (
                 <CloneTab
                    selected={cloneSelection}
@@ -342,7 +351,7 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
                   people={props.people} /> 
             )}
         </Box>
-        <Box pad={{top: 'small'}} border={{side: 'top', color: 'light-3'}} direction="row" justify="end">
+        <Box gap="xsmall" pad={'xsmall'} border={{side: 'top', color: 'light-3'}} direction="row" justify="end">
           {joined && renderRemove(stateMode)}
           {joined && renderClone(stateMode)}
           <Button label="Close" onClick = {onClose} />

@@ -1,23 +1,33 @@
 import React, {
-  Component
+  Component, useState
 } from 'react';
 import { Box } from 'grommet'
 import { ScheduleView } from '@hexhive/ui';
 import './index.css';
-import { mutation, useMutation, useQuery } from '../../gqless';
+import { mutation, useRefetch, useMutation, useQuery } from '../../gqless';
+import moment from 'moment';
 
 export const Schedule : React.FC<any> = (props) =>  {
+
+  const [ horizon, setHorizon ] = useState<{start: Date, end: Date}>({
+    start: new Date( moment(new Date()).startOf('isoWeek').valueOf() ),
+    end: new Date( moment(new Date()).add('1', 'week').valueOf() )
+  })
+
+  const refetch = useRefetch();
 
   const query = useQuery({
     suspense: false,
     staleWhileRevalidate: true
   })
 
-  const schedule = query.ScheduleMany()?.map((x) => ({...x, project: x?.project})) || [];
+  const schedule = query.ScheduleMany({startDate: horizon.start, endDate: horizon.end}) //?.map((x) => ({...x, project: x?.project})) || [];
 
   const projects = query.ProjectMany()?.map((x) => ({...x})) || [];
   const people = query.PeopleMany()?.map((x) => ({...x})) || [];
   const equipment = query.EquipmentMany()?.map((x) => ({...x})) || []
+
+  const users = query.UserMany?.map((x) => ({...x})) || []
 
   const [createItem, info] = useMutation((mutation, args: {item: any}) => {
     const result = mutation.createScheduleItem({item: args.item})
@@ -28,9 +38,10 @@ export const Schedule : React.FC<any> = (props) =>  {
       error: null
     }
   }, {
+    noCache: true,
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.ScheduleMany()],
+    refetchQueries: [query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -46,7 +57,7 @@ export const Schedule : React.FC<any> = (props) =>  {
   }, {
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.ScheduleMany()],
+    refetchQueries: [query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -56,15 +67,23 @@ export const Schedule : React.FC<any> = (props) =>  {
     return (
       <Box flex className="schedule-container">
         <ScheduleView 
-          events={schedule.map((x) => ({
-            id: x.id || '',
-            people: x.people || [],
-            equipment: x.equipment || [],
-            project: {name: x.project?.name?.toString() || '', id: x.project?.id?.toString() || ''},
-            notes: x.notes || [],
-            managers: x.managers || [],
-            date: x.date,
-            owner: {id: x.owner?.id?.toString() || '', name: x.owner?.name?.toString() || ''}
+          date={horizon.start}
+          onHorizonChanged={(start, end) => {
+            console.log("Horizon", start, end)
+            setHorizon({start, end})
+            refetch(query.ScheduleMany({startDate: start, endDate: end})).then((info) => {
+              console.log("REFETCH", info)
+            })
+          }}
+          events={(schedule || []).map((x) => ({
+            id: x?.id || '',
+            people: x?.people || [],
+            equipment: x?.equipment || [],
+            project: {name: x?.project?.name?.toString() || '', id: x?.project?.id?.toString() || ''},
+            notes: x?.notes || [],
+            managers: x?.managers || [],
+            date: x?.date,
+            owner: {id: x?.owner?.id?.toString() || '', name: x?.owner?.name?.toString() || ''}
           }))}
           onCreateItem={(item, ts) => {
             createItem({args: {
@@ -72,6 +91,7 @@ export const Schedule : React.FC<any> = (props) =>  {
               ...item,
               date: new Date(ts.valueOf())
             }}}).then((data) => {
+         
               console.log(data.item)
             })
           }}
@@ -90,6 +110,7 @@ export const Schedule : React.FC<any> = (props) =>  {
           onCloneItem={(item, dates, newDates) => {
           }}
           user={{}}
+          users={users}
           projects={projects || []}
           people={people}
           equipment={equipment}

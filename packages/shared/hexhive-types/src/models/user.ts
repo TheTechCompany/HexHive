@@ -2,7 +2,6 @@
 import { Schema, model, Document } from 'mongoose';
 
 const User = new Schema({
-    id : "String", 
     name : "String",
     email : "String", 
     active : "Boolean", 
