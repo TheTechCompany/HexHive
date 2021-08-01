@@ -16,7 +16,7 @@ export const BaseStyle = {
     },
     tabs: {
         panel: {
-            extend: (props) => `display: flex; flex-direction: column;`
+            extend:  `display: flex; flex-direction: column;`
         }
     },
 
