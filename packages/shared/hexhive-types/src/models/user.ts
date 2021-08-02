@@ -1,7 +1,7 @@
 
 import { Schema, model, Document } from 'mongoose';
 
-const User = new Schema({
+const UserSchema = new Schema({
     name : "String",
     email : "String", 
     active : "Boolean", 
@@ -22,4 +22,5 @@ const Organisation = new Schema({
     "org_pass_hash" : "String", 
     "org_token" : "String"
 })
-export const IUser = model("User", User)
+
+export const User = model("User", UserSchema)

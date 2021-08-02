@@ -5,7 +5,7 @@ import Program, {FlowShard} from './program';
 import Stack from './stack'
 import {DNS} from './dns'
 import { IProject } from './project';
-import { IUser } from './user';
+import { User } from './user';
 import { File } from './file';
 import { QuoteSchedule, ScheduleItem, ScheduleOrder } from './schedule';
 
@@ -48,7 +48,7 @@ export {
     Stack,
     DNS as DNSRecord,
     IProject as Project,
-    IUser as User,
+    User,
     File,
     ScheduleItem,
     QuoteSchedule,

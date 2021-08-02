@@ -3,8 +3,9 @@ import {Timeline} from '@hexhive/ui'
 //import utils from '../../utils';
 import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
-import { Box } from 'grommet';
+import { Box, Select, Text } from 'grommet';
 import { useQuery } from '../../gqless';
+import { TimelineHeader, TimelineView } from './Header';
 
 interface TimelineProps {
 
@@ -16,6 +17,9 @@ var formatter = new Intl.NumberFormat('en-US', {
   });
 
 const BaseTimeline : React.FC<TimelineProps> = (props) => {
+
+    const [ view, setView ] = useState<TimelineView>("Projects");
+
     const [ date, setDate ] = useState<Date>(new Date())
     const [ horizon, setHorizon ] = useState<{start: Date, end: Date} | undefined>()
 
@@ -148,7 +152,15 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
         }   
     }
     return (
+        <Box    
+            flex
+            gap="xsmall" direction="column">
+        <TimelineHeader 
+            view={view}
+            onViewChange={(view) => setView(view)}/>
+
         <Box 
+        
             overflow="hidden"
             flex 
             round="small">
@@ -161,6 +173,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
             onHorizonChange={onHorizonChange}
             itemheight={30}
             />
+        </Box>
         </Box>
     )
 }

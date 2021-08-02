@@ -237,6 +237,8 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
 
   }
 
+  console.log("USER", props.user);
+
   const renderCreateScheduleModal = () => {
     var schedJobs = scheduledJobs;
     return (
@@ -250,6 +252,9 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
         people={props.people}
         equipment={props.equipment}
 
+        user={props.user}
+        users={props.users}
+        
         onClose={() => toggleEditorModal(false)}
         open={modalShow}
         timestamp={timestamp}
@@ -261,7 +266,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
 
   const renderAddScheduleButton = (dayIndex: number) => {
 
-    if (!props.user.readonly) {
+    //if (!props.user.readonly) {
       return (
         <Button style={{background: "#A3B696"}} color="accent-2" label="Create" key={dayIndex} className="add-item-button" onClick={() => {
           var day = moment(params[0]).add(dayIndex, 'day')
@@ -274,9 +279,9 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
         }
         } />
       );
-    } else {
-      return null;
-    }
+    // } else {
+    //   return null;
+    // }
   }
 
   const renderDayHeaders = () => {

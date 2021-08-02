@@ -1,6 +1,6 @@
 import axios from "axios";
 import {fileActions} from './files'
-
+import scheduleActions from './schedule';
 const token = window.sessionStorage.getItem('CREDENTIALS_TOKEN');
 
 const inst = axios.create({
@@ -11,7 +11,9 @@ const inst = axios.create({
 })
 
 const files = fileActions(inst)
+const schedule = scheduleActions(inst)
 
 export {
-    files
+    files,
+    schedule
 }

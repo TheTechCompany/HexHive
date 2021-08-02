@@ -16,10 +16,10 @@ export const ManagerList : React.FC<ManagerListProps> = ({
   console.log(managers, users)
 
     const avatars = managers.map((x, ix) => {
-        //  let user = users.find((a) => a.id == x) || {}
+          let user = users.find((a) => a.id == x) || {}
             return {
-                name: x.name,
-                color: stringToColor(x.id || '')
+                name: user.name,
+                color: stringToColor(user.id || '')
             }
           
         })

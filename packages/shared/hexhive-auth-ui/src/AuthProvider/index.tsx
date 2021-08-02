@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useRef, useState } from "react";
 import { AuthClient } from '@hexhive/cas-client'
 import { useToken } from "../hooks/useToken";
 
-export const AuthContext = createContext<{token?: string, client?: AuthClient}>({})
+export const AuthContext = createContext<{activeUser?: {id?: string, name?: string, email?: string}, token?: string, client?: AuthClient}>({})
 
 export interface AuthProviderProps {
     authorizationServer: string;
@@ -13,6 +13,8 @@ export interface AuthProviderProps {
 
 export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
     
+    const [ activeUser, setActiveUser ] = useState<{id?: string, name?: string, email?: string}>()
+
     const [ token, setToken ] = useToken()
 
     const clientRef = useRef<{client?: AuthClient}>({})
@@ -60,6 +62,9 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
 
         if(token){
             client?.getUserInfo(token).then((info) => {
+                if(info.user){
+                    setActiveUser(info.user)
+                }
                 console.log("user info", info)
             })
         }
@@ -68,7 +73,11 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
 
     return (
         <AuthContext.Provider
-            value={{token: token, client: client}}>
+            value={{
+                token: token, 
+                client: client,
+                activeUser: activeUser
+            }}>
                 {props.children instanceof Function ? props.children(token) : props.children}
         </AuthContext.Provider>
     )

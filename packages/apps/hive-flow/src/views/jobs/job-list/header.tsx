@@ -44,7 +44,7 @@ export const JobHeader : React.FC<JobHeaderProps> = (props) => {
             onChange={({option}) => props.onFilterChange?.({search: props.filter?.search, status: option })}
           plain
           placeholder="Status"
-          options={["All", Array.from(new Set(props.jobs?.map((x: any) => x.status || '')))]} 
+          options={["All"].concat(Array.from(new Set(props.jobs?.map((x: any) => x.status || ''))))} 
           />
         </Box>
       </Box>

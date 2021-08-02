@@ -7,7 +7,7 @@ import { AddTab } from './tabs/add-tab'
 
 import { Layer, Button, Anchor, Box, Heading } from 'grommet';
 import { ManagerList } from '../../manager-list';
-import { getManagers } from './utils';
+import { getManagers, isJoined } from './utils';
 
 import { stat } from 'fs';
 
@@ -292,8 +292,9 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
     setMode('create')
   }
 
-  const joined = false// isJoined(props.user, item || {}, managerList?.add || [], managerList?.remove || [])
+  const joined = isJoined({id: props.user._id}, item || null, managerList?.add || [], managerList?.remove || [])
 
+  console.log(item?.owner, props.user._id)
   
   
     return props.open ? (
@@ -323,11 +324,11 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
           
           </Box>
           <Box direction="row" align="center">
-            {stateMode == 'Edit' && item?.owner !== props.user?.id && renderMemberButton() }
+            {stateMode == 'Edit' && item?.owner?.id !== props.user?._id && renderMemberButton() }
 
             <ManagerList 
               users={props.users}
-              managers={getManagers(item?.owner || props.user?.id || '', item?.managers || [], managerList.add, managerList.remove)}/>
+              managers={getManagers(item?.owner?.id || props.user?._id || '', item?.managers || [], managerList.add, managerList.remove)}/>
           </Box>
         </Box>
 

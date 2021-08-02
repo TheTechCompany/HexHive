@@ -6,8 +6,14 @@ import { ScheduleView } from '@hexhive/ui';
 import './index.css';
 import { mutation, useRefetch, useMutation, useQuery, resolved } from '../../gqless';
 import moment from 'moment';
+import { schedule as scheduleActions } from '../../actions'
+import { useContext } from 'react';
+import { AuthContext } from '@hexhive/auth-ui';
+import { useEffect } from 'react';
 
 export const Schedule : React.FC<any> = (props) =>  {
+
+  const { token, activeUser } = useContext(AuthContext)
 
   const [ horizon, setHorizon ] = useState<{start: Date, end: Date}>({
     start: new Date( moment(new Date()).startOf('isoWeek').valueOf() ),
@@ -22,7 +28,7 @@ export const Schedule : React.FC<any> = (props) =>  {
   
   })
 
-  const schedule = query.ScheduleMany() //{startDate: horizon.start, endDate: horizon.end}) //?.map((x) => ({...x, project: x?.project})) || [];
+  const [schedule, setSchedule] = useState<any[]>([]) //query.ScheduleMany() //{startDate: horizon.start, endDate: horizon.end}) //?.map((x) => ({...x, project: x?.project})) || [];
 
   const projects = query.ProjectMany()?.map((x) => ({...x})) || [];
   const people = query.PeopleMany()?.map((x) => ({...x})) || [];
@@ -41,7 +47,7 @@ export const Schedule : React.FC<any> = (props) =>  {
   }, {
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.ScheduleMany()],
+    refetchQueries: [],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -62,6 +68,13 @@ export const Schedule : React.FC<any> = (props) =>  {
     suspense: false,  
   })
 
+  useEffect(() => {
+    scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+      setSchedule(schedule)
+      console.log("Schedule", schedule);
+    });
+  }, [])
+
   console.log("Schedule view", schedule);
 
     return (
@@ -71,9 +84,15 @@ export const Schedule : React.FC<any> = (props) =>  {
           onHorizonChanged={async (start, end) => {
             console.log("Horizon", start, end)
             setHorizon({start, end})
-            const info = await refetch(query.ScheduleMany({startDate: start, endDate: end}))
+
+            scheduleActions.getScheduleItems({start, end}, token || '').then((schedule) => {
+              setSchedule(schedule)
+              console.log("Schedule", schedule);
+            });
+
+            // const info = await refetch(query.ScheduleMany({startDate: start, endDate: end}))
             
-              console.log("REFETCH", info)
+            //   console.log("REFETCH", info)
           
           }}
           events={(schedule || []).map((x) => ({
@@ -93,6 +112,10 @@ export const Schedule : React.FC<any> = (props) =>  {
               date: new Date(ts.valueOf())
             }}}).then(async (data) => {
               //await refetch(() => query.ScheduleMany)
+              scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+                setSchedule(schedule)
+                console.log("Schedule", schedule);
+              });
             })
           }}
 
@@ -109,7 +132,7 @@ export const Schedule : React.FC<any> = (props) =>  {
           }}
           onCloneItem={(item, dates, newDates) => {
           }}
-          user={{}}
+          user={activeUser}
           users={users}
           projects={projects || []}
           people={people}

@@ -5,4 +5,4 @@ export * from './dns'
 export * from './shard';
 export * from './io'
 export * from './file'
-
+export * from './user'
