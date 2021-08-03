@@ -3,6 +3,7 @@ import { File, Project, User } from '@hexhive/types'
 import sql from 'mssql'
 import moment from "moment";
 import { Connector } from "../../connector";
+import { nanoid } from "nanoid";
 
  /*Returns all jobs from vw_Sched_Jobs*/
  /*getJobs(cb){
@@ -49,6 +50,7 @@ const Queries = (connector: Connector) => {
         type: '[Project]',
         args: {
             status: "String",
+            statusList: "[String]",
             startDate: "Date",
             endDate: "Date"
         },
@@ -60,10 +62,20 @@ const Queries = (connector: Connector) => {
 
             let whereClauses = [];
 
-            if(args.status || args.startDate || args.endDate) sqlQuery += " WHERE ";
-            if(args.status){
+            if(args.status || args.statusList || args.startDate || args.endDate) sqlQuery += " WHERE ";
+
+            if(args.status && !args.statusList){
                 whereClauses.push(`status=@status`)
                 request.input('status', sql.VarChar, args.status)
+            }else if(args.statusList){
+                let multiWhere : any[] = [];
+                args.statusList.forEach((status: string, ix: number) => {
+                    let id = nanoid();
+                    multiWhere.push(`status=@status_${ix}`)
+                    request.input(`status_${ix}`, sql.VarChar, status)
+                })
+
+                whereClauses.push(`( ${multiWhere.join(' OR ')} )`)
             }
             
             if(args.startDate && args.endDate){

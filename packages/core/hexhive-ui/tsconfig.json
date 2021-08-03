@@ -72,6 +72,7 @@
   },
   "references": [
     {"path": "../../shared/hexhive-utils"},
+    {"path": "../../shared/hexhive-styles"},
     {"path": "../../shared/hexhive-types"}
   ]
 }

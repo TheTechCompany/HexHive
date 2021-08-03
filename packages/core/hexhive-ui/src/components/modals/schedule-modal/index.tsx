@@ -292,9 +292,8 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
     setMode('create')
   }
 
-  const joined = isJoined({id: props.user._id}, item || null, managerList?.add || [], managerList?.remove || [])
+  const joined = isJoined({id: props.user?._id}, item || null, managerList?.add || [], managerList?.remove || [])
 
-  console.log(item?.owner, props.user._id)
   
   
     return props.open ? (

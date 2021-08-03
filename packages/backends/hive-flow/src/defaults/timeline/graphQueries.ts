@@ -2,7 +2,7 @@ import { ObjectTypeComposerFieldConfigMapDefinition } from "graphql-compose";
 import sql from 'mssql'
 import moment from "moment";
 import { Connector } from "../../connector";
-import { ScheduleItem } from '@hexhive/types'
+import { TimelineItem } from '@hexhive/types'
 
  /*Returns all jobs from vw_Sched_Jobs*/
  /*getJobs(cb){
@@ -30,20 +30,20 @@ import { ScheduleItem } from '@hexhive/types'
 
 const Queries = (connector: Connector) => {
     let query :  ObjectTypeComposerFieldConfigMapDefinition<any, any> = {
-    ScheduleById: {
-        type: 'ScheduleItem',
+    TimelineItemById: {
+        type: 'TimelineItem',
         args: {
             id: 'ID'
         },
         resolve: async (root, args) => {
-           const result = await ScheduleItem.findById(args.id).populate('owner')
+           const result = await TimelineItem.findById(args.id)
            return result.toJSON({virtuals: true})
         }
     },
-    ScheduleMany: {
-        type: '[ScheduleItem]',
+    TimelineItemMany: {
+        type: '[TimelineItem]',
         args: {
-            status: "String",
+            timeline: "String",
             startDate: "Date",
             endDate: "Date"
         },
@@ -52,18 +52,22 @@ const Queries = (connector: Connector) => {
             
             let dateQuery : any = {};
             if(args.startDate){
-                dateQuery['$gte'] = args.startDate;
+                query['endDate'] = {$gte: args.startDate};
             }
 
             if(args.endDate){
-                dateQuery['$lte'] = args.endDate;
+                query['startDate'] = {$lte: args.endDate};
             }
 
-            if(args.startDate || args.endDate){
-                query['date'] = dateQuery;
+            if(args.timeline){
+                query['timeline'] = args.timeline;
             }
 
-            const result = await ScheduleItem.find(query).populate('owner')
+            // if(args.startDate || args.endDate){
+            //     query['date'] = dateQuery;
+            // }
+
+            const result = await TimelineItem.find(query)
             return result.map((x: any) => x.toJSON({virtuals: true}))
         }
     }
@@ -73,38 +77,38 @@ return query;
 
 const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefinition<any, any>  => {
      return {
-        createScheduleItem: {
-            type: 'ScheduleItem',
+        createTimelineItem: {
+            type: 'TimelineItem',
             args: {
-                item: "ScheduleItemInput"
+                item: "TimelineItemInput"
             },
             resolve: async (root, args, context, info) => {
                 console.log(root, args, context, info)
-                let schedule = new ScheduleItem({
+                let timeline = new TimelineItem({
                     ...args.item,
                //     owner: context.user._id
                 })
 
-                await schedule.save();
-                return schedule
+                await timeline.save();
+                return timeline
             }
         },
-        updateScheduleItem: {
-            type: 'ScheduleItem',
+        updateTimelineItem: {
+            type: 'TimelineItem',
             args: {
                 id: "String",
-                item: "ScheduleItemInput"
+                item: "TimelineItemInput"
             },
             resolve: async (root, args, context, info) => {
-                let item = await ScheduleItem.findById(args.id);
+                let item = await TimelineItem.findById(args.id);
 
                 if(item){
-                    item.project = args.item.project;
-                    item.people = args.item.people;
-                    item.equipment = args.item.equipment;
-                    item.notes = args.item.notes;
+                    console.log("UPDATE TIMELINE", item)
+                    if(args.item.startDate) item.startDate = args.item.startDate;
+                    if(args.item.endDate) item.endDate = args.item.endDate;
                     await item.save();
                 }
+
                 return item.toJSON({virtuals: true});
             }
         }

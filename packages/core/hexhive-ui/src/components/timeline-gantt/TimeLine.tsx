@@ -17,7 +17,7 @@ import { Link, Config as _Config, Task, TimelineStyle } from './types';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { getDayWidth } from './utils';
-import { Box } from 'grommet';
+import { Box, Spinner } from 'grommet';
 import styled from 'styled-components'
 
 
@@ -25,6 +25,7 @@ import styled from 'styled-components'
 export type TimelineProps = {
   className?: string;
   
+  loading?: boolean;
   resizable?: boolean;
 
   nonEditableName?: any;
@@ -39,7 +40,7 @@ export type TimelineProps = {
   date?: Date;
   onDateChange?: (date: Date) => void;
 
-  onUpdateTask?: (task: Task, props: object) => void;
+  onUpdateTask?: (task: Task, position: {start: Date, end: Date}) => void;
   onCreateLink?: (link: Link) => void;
   onSelectItem?: (item: object) => void;
   onHorizonChange?: (start: Date, end: Date) => void;
@@ -47,15 +48,18 @@ export type TimelineProps = {
 };
 
 const BaseTimeline : React.FC<TimelineProps> = (props) => {
+
+  console.log(props.data)
+
   const [ dragging, setDragging ] = useState<boolean>(false)
   const [ draggingPosition, setDraggingPosition ] = useState<number>(0)
-  const [ pxToScroll, setPxToScroll ] = useState<number>(24000)
+  const [ pxToScroll, setPxToScroll ] = useState<number>(1900)
 
   const [ scrollTop, setScrollTop ] = useState<number>(0)
   const [ scrollLeft, setScrollLeft ] = useState<number>(0)
 
-  const [ startRow, setStartRow ] = useState<number>();
-  const [ endRow, setEndRow ] = useState<number>();
+  const [ startRow, setStartRow ] = useState<number>(0);
+  const [ endRow, setEndRow ] = useState<number>(50);
 
   const [ numVisibleRows, setNumVisibleRows ] = useState<number>(40)
   const [ numVisibleDays, setNumVisibleDays ] = useState<number>(60)
@@ -82,8 +86,8 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   const [ scrollData, setScrollData ] = useState<any>()
   const [ headerData, setHeaderData ] = useState<any>()
 
-  const [ data, setData ] = useState<Task[]>([])
-  const [ links, setLinks ] = useState<Link[]>([])
+  const [ data, setData ] = useState<Task[]>(props.data || [])
+  const [ links, setLinks ] = useState<Link[]>(props.links || [])
 
 
   useEffect(() => {
@@ -125,12 +129,12 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     //   initialise = true;
     // }
     setStartEnd();
-    let newNumVisibleRows = Math.ceil(size.height / (props.itemheight||0));
+    let newNumVisibleRows = Math.ceil(size.height / (props.itemheight || 0));
     let newNumVisibleDays = calcNumVisibleDays(size, dayWidth.current);
     let rowInfo = calculateStartEndRows(newNumVisibleRows, props.data || [], scrollTop);
 
     setNumVisibleDays(newNumVisibleDays)
-    console.log("DAYS", newNumVisibleDays)
+    console.log("DAYS", rowInfo, newNumVisibleRows, rowInfo)
     setNumVisibleRows(newNumVisibleRows)
     setStartRow(rowInfo.start)
     setEndRow(rowInfo.end)
@@ -158,7 +162,8 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
 
   const calculateStartEndRows = (numVisibleRows: number, data: Task[], scrollTop: number) => {
     let new_start = Math.trunc(scrollTop / (props.itemheight||0));
-    let new_end = new_start + numVisibleRows >= data.length ? data.length : new_start + numVisibleRows;
+    let new_end = new_start + numVisibleRows >= data.length ? (data.length || numVisibleRows) : new_start + numVisibleRows;
+    console.log(new_start, numVisibleRows, data.length, data.length, new_start )
     return { start: new_start, end: new_end };
   };
 
@@ -173,6 +178,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     let new_endRow = endRow;
 
     //Calculating if we need to roll up the scroll
+    console.log(newScrollLeft, pxToScroll)
     if (newScrollLeft > pxToScroll) {
       //ContenLegnth-viewportLengt
       new_nowposition = nowposition - pxToScroll - 0 //((props.mode == 'month' || props.mode == 'week') ? 8 : 0)//- 1; //+
@@ -202,8 +208,11 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
 
     setCurrentDay(currentIndx)
 
+    console.log("new day idx", currentIndx)
+
     let date = new Date()
     let currentDate = props.date;
+
     date.setHours(0, 0, 0, 0)
     currentDate?.setHours(0, 0,0,0)
 
@@ -218,11 +227,13 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     setStartRow(new_startRow)
     setEndRow(new_endRow)
 
+    console.log(new_nowposition, new_left, new_startRow, new_endRow)
+
   };
 
   const calculateVerticalScrollVariables = (size: { width: number; }) => {
     //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
-    setPxToScroll((1 - size.width / DATA_CONTAINER_WIDTH) * DATA_CONTAINER_WIDTH - 1);
+    // setPxToScroll((1 - size.width / DATA_CONTAINER_WIDTH) * DATA_CONTAINER_WIDTH - 1);
   };
 
   const onHorizonChange = (lowerLimit: any, upLimit: any) => {
@@ -236,8 +247,8 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   const doMouseDown = (e: { clientX: number; }) => {
     setDragging(true)
     setDraggingPosition(e.clientX)
-
   };
+
   const doMouseMove = (e: { clientX: number; }) => {
     if (dragging) {
       let delta = draggingPosition - e.clientX;
@@ -325,7 +336,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   };
 
   const onTaskChanging = (changingTask: any) => {
-    console.log("Changing task", changingTask)
+   // console.log("Changing task", changingTask)
     setChangingTask(changingTask)
     
   };
@@ -382,7 +393,8 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
 
   useEffect(() => {
     if(props.data){
-    setData(props.data)
+      setData(props.data)
+      
     }
   }, [props.data])
 
@@ -404,10 +416,9 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
       console.log(state)
     }*/
 
-    console.log(data, props.data)
     return (
       <TimelineContext.Provider value={{
-        data,
+        data: props.data,
         links,
         style: props.style,
         mode: mode,
@@ -448,6 +459,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
             />
         </Box>
         <Box style={{position: 'absolute', width: '100%', height: 'calc(100% - 60px)', zIndex: 9, top: 60, left: 0}}>
+          {props.loading ? <Box style={{position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, background: "#ffffff42"}} flex align="center" justify="center"><Spinner size="medium" /></Box>: null}
         <DataViewPort
             scrollLeft={scrollLeft}
             scrollTop={scrollTop}

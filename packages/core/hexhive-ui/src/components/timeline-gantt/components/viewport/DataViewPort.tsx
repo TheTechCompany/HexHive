@@ -14,7 +14,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
 
   const dataViewRef = useRef<HTMLDivElement>(null)
 
-  const { mode, style, dayWidth, moveTimeline, scrollLeft } = useContext(TimelineContext)
+  const { data, mode, style, dayWidth, moveTimeline, scrollLeft } = useContext(TimelineContext)
 
   const [ childDragging, setChildDragging ] = useState<boolean>(false) 
   
@@ -38,12 +38,15 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
   const renderRows = () => {
     let result = [];
     for (let i = props.startRow; i < props.endRow + 1; i++) {
-      let item = props.data[i];
+      let item = data?.[i];
       if (!item) break;
       //FIXME PAINT IN BOUNDARIES
 
       let new_position = DateHelper.dateToPixel(item.start, props.nowposition, dayWidth || 0);
       let new_width = DateHelper.dateToPixel(item.end, props.nowposition, dayWidth || 0) - new_position;
+      console.log(new_position)
+      console.log(new_width)
+      
       result.push(
         <DataRow
           isSelected={props.selectedItem == item}

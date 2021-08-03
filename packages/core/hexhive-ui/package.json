@@ -33,6 +33,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "@hexhive/styles": "^1.0.0",
     "@hexhive/types": "^0.0.3-alpha.0",
     "@hexhive/utils": "^0.0.3-alpha.0",
     "moment": "^2.29.1",

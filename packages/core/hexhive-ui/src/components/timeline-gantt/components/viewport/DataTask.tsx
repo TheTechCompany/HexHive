@@ -6,7 +6,11 @@ import Config from '../../helpers/config/Config';
 import { debounce } from 'lodash';
 import { Box } from 'grommet';
 import { Task } from '../../types';
-
+import styled from 'styled-components'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getHostForElement } from '@hexhive/utils';
+import { useRef } from 'react';
 
 export interface DataTaskProps {
   dayWidth?: number;
@@ -24,6 +28,8 @@ export interface DataTaskProps {
   onSelectItem?: any;
   height?: any;
   nowposition?: any;
+
+  className?: string;
 }
 
 export interface DataTaskState {
@@ -33,160 +39,181 @@ export interface DataTaskState {
   mode: any;
 }
 
-export default class DataTask extends Component<DataTaskProps, DataTaskState> {
-  draggingPosition: any;
-  constructor(props: DataTaskProps) {
-    super(props);
-    this.calculateStyle = this.calculateStyle.bind(this);
-    this.state = { dragging: false, left: this.props.left || 0, width: this.props.width || 0, mode: MODE_NONE };
-  }
+export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
 
-  onCreateLinkMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, position: string) => {
+  const draggingPosition = useRef<number>(0)
+
+  const dragging = useRef<boolean>(false);
+  const left = useRef<number>(props.left || 0)
+  const width = useRef<number>(props.width || 0)
+  
+  const mode = useRef<number>(MODE_NONE);
+
+
+  useEffect(() => {
+    if(props.left){
+      left.current = props.left
+    }
+  }, [props.left])
+
+  const onCreateLinkMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, position: string) => {
     if (e.button === 0) {
       e.stopPropagation();
-      this.props.onStartCreateLink?.(this.props.item, position);
+      props.onStartCreateLink?.(props.item, position);
     }
   };
-  onCreateLinkMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, position: any) => {
-    e.stopPropagation();
-    this.props.onFinishCreateLink(this.props.item, position);
-  };
-  onCreateLinkTouchStart = (e: React.TouchEvent<HTMLDivElement>, position: string) => {
-    e.stopPropagation();
-    this.props.onStartCreateLink?.(this.props.item, position);
-  };
-  onCreateLinkTouchEnd = (e: React.TouchEvent<HTMLDivElement>, position: any) => {
-    e.stopPropagation();
-    this.props.onFinishCreateLink(this.props.item, position);
-  };
-
-  componentDidUpdate(props: any, state: { dragging: any; }) {
-    if (this.state.dragging && !state.dragging) {
-      document.addEventListener('mousemove', this.doMouseMove);
-      document.addEventListener('mouseup', this.doMouseUp);
-      document.addEventListener('touchmove', this.doTouchMove);
-      document.addEventListener('touchend', this.doTouchEnd);
-    } else if (!this.state.dragging && state.dragging) {
-      document.removeEventListener('mousemove', this.doMouseMove);
-      document.removeEventListener('mouseup', this.doMouseUp);
-      document.removeEventListener('touchmove', this.doTouchMove);
-      document.removeEventListener('touchend', this.doTouchEnd);
-    }
-  }
-
-  updatePosition(){
-    let new_start_date = DateHelper.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth || 0);
-    let new_end_date = DateHelper.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth || 0);
   
-    this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date });
+  const onCreateLinkMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, position: any) => {
+    e.stopPropagation();
+    props.onFinishCreateLink(props.item, position);
+  };
+
+  const onCreateLinkTouchStart = (e: React.TouchEvent<HTMLDivElement>, position: string) => {
+    e.stopPropagation();
+    props.onStartCreateLink?.(props.item, position);
+  };
+  
+  const onCreateLinkTouchEnd = (e: React.TouchEvent<HTMLDivElement>, position: any) => {
+    e.stopPropagation();
+    props.onFinishCreateLink(props.item, position);
+  };
+
+  const updatePosition = () => {
+    let new_start_date = DateHelper.pixelToDate(left.current, props.nowposition, props.dayWidth || 0);
+    let new_end_date = DateHelper.pixelToDate(left.current + width.current, props.nowposition, props.dayWidth || 0);
+  
+    props.onUpdateTask(props.item, { start: new_start_date, end: new_end_date });
   }
 
-  dragStart(x: any, mode: any) {
-    this.props.onChildDrag(true);
-    this.draggingPosition = x;
-    this.setState({
-      dragging: true,
-      mode: mode,
-      left: this.props.left || 0,
-      width: this.props.width || 0
-    });
-  }
-  dragProcess(x: number) {
-    let delta = this.draggingPosition - x;
-    let newLeft = this.state.left;
-    let newWidth = this.state.width;
+  const dragStart = (x: any, _mode: any) => {
+    props.onChildDrag(true);
+    draggingPosition.current = x;
+    dragging.current = true
+    mode.current = _mode
+    left.current = props.left || 0
+    width.current = props.width || 0
 
-    switch (this.state.mode) {
+  }
+  const dragProcess = (x: number) => {
+    let delta = draggingPosition.current - x;
+    let newLeft = left.current;
+    let newWidth = width.current;
+
+
+    switch (mode.current) {
       case MODE_MOVE:
-        newLeft = this.state.left - delta;
+        newLeft = left.current - delta;
         break;
       case MOVE_RESIZE_LEFT:
-        newLeft = this.state.left - delta;
-        newWidth = this.state.width + delta;
+        newLeft = left.current - delta;
+        newWidth = width.current + delta;
         break;
       case MOVE_RESIZE_RIGHT:
-        newWidth = this.state.width - delta;
+        newWidth = width.current - delta;
         break;
     }
     //the coordinates need to be global
     let changeObj = {
-      item: this.props.item,
-      position: { start: newLeft - this.props.nowposition, end: newLeft + newWidth - this.props.nowposition }
+      item: props.item,
+      position: { start: newLeft - props.nowposition, end: newLeft + newWidth - props.nowposition }
     };
   
-    this.updatePosition()
+    //updatePosition() REMINDER/TODO this will make continuous date updates through props as a node moves, disabled for now to make data linking easier
 
-    this.props.onTaskChanging(changeObj);
-    this.setState({ left: newLeft, width: newWidth });
-    this.draggingPosition = x;
+    props.onTaskChanging(changeObj);
+    draggingPosition.current = x;
+
+    left.current = newLeft;
+    width.current = newWidth
   }
-  dragEnd() {
-    this.props.onChildDrag(false);
-    this.updatePosition()
-    this.setState({ dragging: false, mode: MODE_NONE });
+  
+  const dragEnd = () => {
+    props.onChildDrag(false);
+    updatePosition()
+    dragging.current = false
+    mode.current = MODE_NONE
+
   }
 
-  doMouseDown = (e: React.MouseEvent<HTMLDivElement>, mode: number) => {
-    if (!this.props.onUpdateTask) return;
+  const doMouseDown = (e: React.MouseEvent<HTMLDivElement>, mode: number) => {
+    if (!props.onUpdateTask) return;
+    console.log("doMouseDown")
+
+    let host = getHostForElement(e.target as HTMLElement)
+
     if (e.button === 0) {
       e.stopPropagation();
-      this.dragStart(e.clientX, mode);
+      dragStart(e.clientX, mode);
+
+      const doMouseUp = () => {
+        dragEnd();
+        host.removeEventListener('mousemove', doMouseMove as EventListenerOrEventListenerObject)
+        host.removeEventListener('mouseup', doMouseUp as EventListenerOrEventListenerObject)
+      };
+
+      host.addEventListener('mousemove', doMouseMove as EventListenerOrEventListenerObject)
+      host.addEventListener('mouseup', doMouseUp as EventListenerOrEventListenerObject)
+
     }
-  };
-  doMouseMove = (e: MouseEvent) => {
-    if (this.state.dragging) {
-      e.stopPropagation();
-      this.dragProcess(e.clientX);
-    }
-  };
-  doMouseUp = () => {
-    this.dragEnd();
   };
 
-  doTouchStart = (e: React.TouchEvent<HTMLDivElement>, mode: number) => {
-    if (!this.props.onUpdateTask) return;
+  const doMouseMove = (e: MouseEvent) => {
+    if (dragging) {
+      e.stopPropagation();
+      dragProcess(e.clientX);
+    }
+  };
+
+
+
+  const doTouchStart = (e: React.TouchEvent<HTMLDivElement>, mode: number) => {
+    if (!props.onUpdateTask) return;
     console.log('start');
     e.stopPropagation();
-    this.dragStart(e.touches[0].clientX, mode);
+    dragStart(e.touches[0].clientX, mode);
   };
-  doTouchMove = (e: any) => {
-    if (this.state.dragging) {
+  
+  const doTouchMove = (e: any) => {
+    if (!dragging) {
       console.log('move');
       e.stopPropagation();
-      this.dragProcess(e.changedTouches[0].clientX);
+      dragProcess(e.changedTouches[0].clientX);
     }
-  };
-  doTouchEnd = (e: any) => {
+  }
+  
+  const doTouchEnd = (e: any) => {
     console.log('end');
-    this.dragEnd();
+    dragEnd();
   };
 
-  calculateStyle() {
-    let configStyle = this.props.isSelected ? Config.values.dataViewPort.task.selectedStyle : Config.values.dataViewPort.task.style;
-    let backgroundColor = this.props.color ? this.props.color : configStyle.backgroundColor;
+  const calculateStyle = () => {
+    let configStyle = props.isSelected ? Config.values.dataViewPort.task.selectedStyle : Config.values.dataViewPort.task.style;
+    let backgroundColor = props.color ? props.color : configStyle.backgroundColor;
 
-    if (this.state.dragging) {
+    // if (this.state.dragging) {
       return {
         ...configStyle,
         backgroundColor: backgroundColor,
-        left: this.state.left,
-        width: this.state.width,
-        height: this.props.height - 5,
+        left: left.current,
+        width: width.current,
+        height: props.height - 5,
       };
-    } else {
+    // } 
+    /*else {
       return { ...configStyle, backgroundColor, left: this.props.left, width: this.props.width, height: this.props.height - 5 };
-    }
+    }*/
   }
-  render() {
-    let style = this.calculateStyle();
+
+  const style = calculateStyle();
     return (
       <Box
+        className={`${props.className} ${dragging.current ? 'dragging' : ''}`}
         focusIndicator={false}
         elevation={'medium' /*this.props.isSelected ? 'large': 'none'*/}
-        onMouseDown={(e) => this.doMouseDown(e, MODE_MOVE)}
-        onTouchStart={(e) => this.doTouchStart(e, MODE_MOVE)}
+        onMouseDown={(e) => doMouseDown(e, MODE_MOVE)}
+        onTouchStart={(e) => doTouchStart(e, MODE_MOVE)}
         onClick={(e) => {
-          this.props.onSelectItem(this.props.item);
+          props.onSelectItem(props.item);
         }}
         style={{
           ...style,
@@ -196,32 +223,85 @@ export default class DataTask extends Component<DataTaskProps, DataTaskState> {
       >
         <div
           className="timeLine-main-data-task-side"
-          style={{ top: 0, left: -4, height: style.height }}
-          onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_LEFT)}
-          onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_LEFT)}
+          style={{ top: 0, left: -10, height: style.height }}
+          onMouseDown={(e) => doMouseDown(e, MOVE_RESIZE_LEFT)}
+          onTouchStart={(e) => doTouchStart(e, MOVE_RESIZE_LEFT)}
         >
-          <div
-            className="timeLine-main-data-task-side-linker"
-            onMouseUp={(e) => this.onCreateLinkMouseUp(e, LINK_POS_LEFT)}
-            onTouchEnd={(e) => this.onCreateLinkTouchEnd(e, LINK_POS_LEFT)}
-          />
-        </div>
-        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-            {this.props.item?.showLabel ? ((typeof(this.props.item.showLabel) === 'string') ? this.props.item.showLabel : this.props.item.name) : ''}
+          <div className="task-handle" style={{ right: 0}} />
+          <div className="task-handle-grip" />
+
         </div>
         <div
-          className="timeLine-main-data-task-side"
-          style={{ top: 0, left: style.width - 3, height: style.height }}
-          onMouseDown={(e) => this.doMouseDown(e, MOVE_RESIZE_RIGHT)}
-          onTouchStart={(e) => this.doTouchStart(e, MOVE_RESIZE_RIGHT)}
-        >
-          <div
+            style={{position: 'absolute', left: -4, bottom: 0, top: 0, margin: 'auto 0'}}
             className="timeLine-main-data-task-side-linker"
-            onMouseDown={(e) => this.onCreateLinkMouseDown(e, LINK_POS_RIGHT)}
-            onTouchStart={(e) => this.onCreateLinkTouchStart(e, LINK_POS_RIGHT)}
+            onMouseUp={(e) => onCreateLinkMouseUp(e, LINK_POS_LEFT)}
+            onTouchEnd={(e) => onCreateLinkTouchEnd(e, LINK_POS_LEFT)}
+        />
+
+        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+            {props.item?.showLabel ? ((typeof(props.item?.showLabel) === 'string') ? props.item.showLabel : props.item?.name) : ''}
+        </div>
+        <div
+            style={{position: 'absolute', left: style.width - 4, bottom: 0, top: 0, margin: 'auto 0'}}
+            className="timeLine-main-data-task-side-linker"
+            onMouseDown={(e) => onCreateLinkMouseDown(e, LINK_POS_RIGHT)}
+            onTouchStart={(e) => onCreateLinkTouchStart(e, LINK_POS_RIGHT)}
           />
+        <div
+          className="timeLine-main-data-task-side"
+          style={{ top: 0, left: style.width, height: style.height }}
+          onMouseDown={(e) => doMouseDown(e, MOVE_RESIZE_RIGHT)}
+          onTouchStart={(e) => doTouchStart(e, MOVE_RESIZE_RIGHT)}
+        >
+          <div className="task-handle-grip" />
+          <div className="task-handle" style={{marginLeft: '100%'}} />
         </div>
       </Box>
     );
-  }
+  
 }
+
+
+export default styled(BaseDataTask)`
+
+  .timeLine-main-data-task-side > .task-handle,   .timeLine-main-data-task-side > .task-handle-grip {
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+  }
+
+  &:hover .timeLine-main-data-task-side > .task-handle {
+    opacity: 1;
+    background: blue;
+    width: 3px;
+    height: 100%;
+  }
+
+  &:hover  .timeLine-main-data-task-side > .task-handle-grip{
+    position: absolute;
+    opacity: 1;
+    height: 3px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    width: 100%;
+    background-color: blue;
+  }
+
+  &.dragging .timeLine-main-data-task-side > .task-handle {
+    opacity: 1;
+    background: blue;
+    width: 3px;
+    height: 100%;
+  }
+  
+  &.dragging  .timeLine-main-data-task-side > .task-handle-grip{
+    position: absolute;
+    opacity: 1;
+    height: 3px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    width: 100%;
+    background-color: blue;
+  }
+` 

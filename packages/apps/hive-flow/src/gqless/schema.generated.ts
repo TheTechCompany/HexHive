@@ -47,6 +47,20 @@ export interface ScheduleItemInput {
   date?: Maybe<Scalars["Date"]>;
 }
 
+export interface TimelineItemInput {
+  timeline?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["Date"]>;
+  endDate?: Maybe<Scalars["Date"]>;
+  project?: Maybe<Scalars["String"]>;
+  items?: Maybe<Array<Maybe<TimelineItemItemsInput>>>;
+}
+
+export interface TimelineItemItemsInput {
+  type?: Maybe<Scalars["String"]>;
+  location?: Maybe<Scalars["String"]>;
+  estimate?: Maybe<Scalars["Float"]>;
+}
+
 export const scalarsEnumsHash: import("gqless").ScalarsEnumsHash = {
   ID: true,
   String: true,
@@ -60,7 +74,12 @@ export const generatedSchema = {
     ProjectById: { __type: "Project", __args: { id: "ID" } },
     ProjectMany: {
       __type: "[Project]",
-      __args: { status: "String", startDate: "Date", endDate: "Date" },
+      __args: {
+        status: "String",
+        statusList: "[String]",
+        startDate: "Date",
+        endDate: "Date",
+      },
     },
     UserMany: { __type: "[User]" },
     FileMany: { __type: "[File]" },
@@ -76,6 +95,11 @@ export const generatedSchema = {
     ScheduleMany: {
       __type: "[ScheduleItem]",
       __args: { status: "String", startDate: "Date", endDate: "Date" },
+    },
+    TimelineItemById: { __type: "TimelineItem", __args: { id: "ID" } },
+    TimelineItemMany: {
+      __type: "[TimelineItem]",
+      __args: { timeline: "String", startDate: "Date", endDate: "Date" },
     },
     PeopleById: { __type: "People", __args: { id: "ID" } },
     PeopleMany: { __type: "[People]", __args: { status: "String" } },
@@ -107,6 +131,14 @@ export const generatedSchema = {
     updateScheduleItem: {
       __type: "ScheduleItem",
       __args: { id: "String", item: "ScheduleItemInput" },
+    },
+    createTimelineItem: {
+      __type: "TimelineItem",
+      __args: { item: "TimelineItemInput" },
+    },
+    updateTimelineItem: {
+      __type: "TimelineItem",
+      __args: { id: "String", item: "TimelineItemInput" },
     },
   },
   subscription: {},
@@ -162,6 +194,21 @@ export const generatedSchema = {
     notes: { __type: "[String]" },
     equipment: { __type: "[String]" },
   },
+  TimelineItem: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    timeline: { __type: "String" },
+    startDate: { __type: "Date" },
+    endDate: { __type: "Date" },
+    items: { __type: "[TimelineItemItems]" },
+    project: { __type: "Project" },
+  },
+  TimelineItemItems: {
+    __typename: { __type: "String!" },
+    type: { __type: "String" },
+    location: { __type: "String" },
+    estimate: { __type: "Float" },
+  },
   People: {
     __typename: { __type: "String!" },
     id: { __type: "ID" },
@@ -191,6 +238,18 @@ export const generatedSchema = {
     owner: { __type: "String" },
     date: { __type: "Date" },
   },
+  TimelineItemInput: {
+    timeline: { __type: "String" },
+    startDate: { __type: "Date" },
+    endDate: { __type: "Date" },
+    project: { __type: "String" },
+    items: { __type: "[TimelineItemItemsInput]" },
+  },
+  TimelineItemItemsInput: {
+    type: { __type: "String" },
+    location: { __type: "String" },
+    estimate: { __type: "Float" },
+  },
 } as const;
 
 export interface Query {
@@ -198,6 +257,7 @@ export interface Query {
   ProjectById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Project>;
   ProjectMany: (args?: {
     status?: Maybe<Scalars["String"]>;
+    statusList?: Maybe<Array<Maybe<Scalars["String"]>>>;
     startDate?: Maybe<Scalars["Date"]>;
     endDate?: Maybe<Scalars["Date"]>;
   }) => Maybe<Array<Maybe<Project>>>;
@@ -222,6 +282,14 @@ export interface Query {
     startDate?: Maybe<Scalars["Date"]>;
     endDate?: Maybe<Scalars["Date"]>;
   }) => Maybe<Array<Maybe<ScheduleItem>>>;
+  TimelineItemById: (args?: {
+    id?: Maybe<Scalars["ID"]>;
+  }) => Maybe<TimelineItem>;
+  TimelineItemMany: (args?: {
+    timeline?: Maybe<Scalars["String"]>;
+    startDate?: Maybe<Scalars["Date"]>;
+    endDate?: Maybe<Scalars["Date"]>;
+  }) => Maybe<Array<Maybe<TimelineItem>>>;
   PeopleById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<People>;
   PeopleMany: (args?: {
     status?: Maybe<Scalars["String"]>;
@@ -256,6 +324,13 @@ export interface Mutation {
     id?: Maybe<Scalars["String"]>;
     item?: Maybe<ScheduleItemInput>;
   }) => Maybe<ScheduleItem>;
+  createTimelineItem: (args?: {
+    item?: Maybe<TimelineItemInput>;
+  }) => Maybe<TimelineItem>;
+  updateTimelineItem: (args?: {
+    id?: Maybe<Scalars["String"]>;
+    item?: Maybe<TimelineItemInput>;
+  }) => Maybe<TimelineItem>;
 }
 
 export interface Subscription {
@@ -320,6 +395,23 @@ export interface ScheduleItem {
   equipment?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
 }
 
+export interface TimelineItem {
+  __typename: "TimelineItem" | undefined;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  timeline?: Maybe<ScalarsEnums["String"]>;
+  startDate?: Maybe<ScalarsEnums["Date"]>;
+  endDate?: Maybe<ScalarsEnums["Date"]>;
+  items?: Maybe<Array<Maybe<TimelineItemItems>>>;
+  project?: Maybe<Project>;
+}
+
+export interface TimelineItemItems {
+  __typename: "TimelineItemItems" | undefined;
+  type?: Maybe<ScalarsEnums["String"]>;
+  location?: Maybe<ScalarsEnums["String"]>;
+  estimate?: Maybe<ScalarsEnums["Float"]>;
+}
+
 export interface People {
   __typename: "People" | undefined;
   id?: Maybe<ScalarsEnums["ID"]>;
@@ -336,6 +428,8 @@ export interface SchemaObjectTypes {
   Quote: Quote;
   Equipment: Equipment;
   ScheduleItem: ScheduleItem;
+  TimelineItem: TimelineItem;
+  TimelineItemItems: TimelineItemItems;
   People: People;
 }
 export type SchemaObjectTypesNames =
@@ -348,6 +442,8 @@ export type SchemaObjectTypesNames =
   | "Quote"
   | "Equipment"
   | "ScheduleItem"
+  | "TimelineItem"
+  | "TimelineItemItems"
   | "People";
 
 export interface GeneratedSchema {

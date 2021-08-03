@@ -6,3 +6,4 @@ export * from './shard';
 export * from './io'
 export * from './file'
 export * from './user'
+export * from './timeline'

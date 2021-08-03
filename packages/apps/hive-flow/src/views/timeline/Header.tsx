@@ -1,8 +1,15 @@
-import { Box, Text, Select } from 'grommet';
+import { Box, Text, Select, Button } from 'grommet';
 import React from 'react';
+import { Add } from 'grommet-icons';
+
+export interface TimelineProps{
+    onAdd?: () => void; 
+    view?: TimelineView;
+    onViewChange?: (view: TimelineView) => void;
+}
 
 export type TimelineView = "Projects" | "Estimates";
-export const TimelineHeader : React.FC<{view?: TimelineView, onViewChange?: (view: TimelineView) => void}> = (props) => {
+export const TimelineHeader: React.FC<TimelineProps> = (props) => {
     return (
         <Box
             round="xsmall"
@@ -11,18 +18,19 @@ export const TimelineHeader : React.FC<{view?: TimelineView, onViewChange?: (vie
             direction="row"
             align="center"
             justify="between">
-           <Text weight="bold">
-                Timeline
-            </Text> 
             <Box background="#ffffff42" round="xsmall">
-            <Select 
-                placeholder="View"
-                plain
-                value={props.view || "Projects"}
-                onChange={({option}) => {
-                    props.onViewChange?.(option)
-                }}
-                options={["Projects", "Estimates"]} />
+
+                <Select
+                    placeholder="View"
+                    plain
+                    value={props.view || "Projects"}
+                    onChange={({ option }) => {
+                        props.onViewChange?.(option)
+                    }}
+                    options={["Projects", "Estimates"]} />
+            </Box>
+            <Box background="#ffffff42" round="xsmall">
+                <Button onClick={props.onAdd} icon={<Add />} />
             </Box>
         </Box>
     );

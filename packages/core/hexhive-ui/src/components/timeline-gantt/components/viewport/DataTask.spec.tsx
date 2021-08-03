@@ -1,5 +1,5 @@
 import React from 'react';
-import DataTask from './DataTask';
+import {BaseDataTask as DataTask} from './DataTask';
 import DateHelper from '../../helpers/DateHelper';
 import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../../Const';
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const';
@@ -12,7 +12,7 @@ describe('Testing Firing Events ', function() {
   });
 
   it('Initialise Properly and not null pointer', () => {
-    const wrapper = shallow<DataTask>(<DataTask left={0} item={{}} width={80} color="red" />);
+    const wrapper = shallow<any>(<DataTask left={0} item={{}} width={80} color="red" />);
     let style = wrapper.instance().calculateStyle();
     expect(style.left).toBe(0);
     expect(style.width).toBe(80);
@@ -28,7 +28,7 @@ describe('Testing Firing Events ', function() {
     let dayWidth = 30;
     let nowposition = 0;
     let stopPropagation = jest.fn();
-    const wrapper = shallow<DataTask>(
+    const wrapper = shallow<any>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}
@@ -80,7 +80,7 @@ describe('Testing Firing Events ', function() {
     let item = { name: 'this Item' };
     let dayWidth = 30;
     let nowposition = 0;
-    const wrapper = shallow<DataTask>(
+    const wrapper = shallow<any>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}
@@ -132,7 +132,7 @@ describe('Testing Firing Events ', function() {
     let dayWidth = 30;
     let nowposition = 0;
     let stopPropagation = jest.fn();
-    const wrapper = shallow<DataTask>(
+    const wrapper = shallow<any>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}
@@ -183,7 +183,7 @@ describe('Testing Firing Events ', function() {
     let item = { name: 'this Item' };
     let dayWidth = 30;
     let nowposition = 0;
-    const wrapper = shallow<DataTask>(
+    const wrapper = shallow<any>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}
@@ -206,13 +206,14 @@ describe('Testing Firing Events ', function() {
     expect(onStartCreateLink.mock.calls[0][1]).toBe(LINK_POS_RIGHT);
     expect(stopPropagation.mock.calls.length).toBe(1);
   });
+  
   it('Finishing Creation of Task', () => {
     let onFinishCreateLink = jest.fn();
     let stopPropagation = jest.fn();
     let item = { name: 'this Item' };
     let dayWidth = 30;
     let nowposition = 0;
-    const wrapper = shallow<DataTask>(
+    const wrapper = shallow<any>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}

@@ -6,6 +6,7 @@ import Stack from './stack'
 import {DNS} from './dns'
 import { IProject } from './project';
 import { User } from './user';
+import {TimelineItem} from './timeline'
 import { File } from './file';
 import { QuoteSchedule, ScheduleItem, ScheduleOrder } from './schedule';
 
@@ -52,6 +53,7 @@ export {
     File,
     ScheduleItem,
     QuoteSchedule,
+    TimelineItem,
     ScheduleOrder
 }
 
