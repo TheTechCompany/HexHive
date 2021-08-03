@@ -4,9 +4,11 @@ import { Box, Button, DateInput, Layer, Select, TextInput, Text } from 'grommet'
 import { useState } from 'react';
 import { Add, Close } from 'grommet-icons'
 import moment from 'moment';
+import { useEffect } from 'react';
 
 export interface ERPModalProps {
     open: boolean;
+    selected?: any;
     onClose?: () => void;
     projects?: {
         id?: string | null;
@@ -36,6 +38,14 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
         }[]
 
     }>({items: []})
+
+    useEffect(() => {
+        console.log(props.selected)
+        setPlan(props.selected ? {
+            ...props.selected,
+            project: props.selected.project.id
+        } : {items: []})
+    }, [props.selected])
 
     const [search, setSearch] = useState<string>('')
 
@@ -122,14 +132,14 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                             <Box flex>
                                 <Text alignSelf="start" size="small">Start Date</Text>
                                 <DateInput
-                                    value={plan.startDate ? plan.startDate.toISOString() : ''}
+                                    value={plan.startDate instanceof Date ? plan.startDate.toISOString() : plan.startDate || ''}
                                     onChange={({ value }) => setPlan({ ...plan, startDate: value instanceof Date ? value : new Date(value as string) })}
                                     format="dd/mm/yyyy" />
                             </Box>
                             <Box flex>
                                 <Text alignSelf="start" size="small">End Date</Text>
                                 <DateInput
-                                    value={plan.endDate ? plan.endDate.toISOString() : ''}
+                                    value={plan.endDate instanceof Date ? plan.endDate.toISOString() : plan.endDate || ''}
                                     onChange={({ value }) => setPlan({ ...plan, endDate: value instanceof Date ? value : new Date(value as string) })}
                                     format="dd/mm/yyyy" />
                             </Box>

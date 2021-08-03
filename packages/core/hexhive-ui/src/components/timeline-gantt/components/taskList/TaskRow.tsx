@@ -1,4 +1,4 @@
-import { Box } from "grommet";
+import { Box, Text } from "grommet";
 import React, { Component } from "react";
 import Config from "../../helpers/config/Config";
 import ContentEditable from "../common/ContentEditable";
@@ -20,7 +20,6 @@ export class TaskRow extends Component<any, any> {
             direction="row"
             align="center"
             pad="small"
-            justify="between"
           style={{
             top: this.props.top,
             height: this.props.itemheight + 5
@@ -35,10 +34,10 @@ export class TaskRow extends Component<any, any> {
             marginRight: 8,
             background: this.props.item.color 
         }} />
-  
-          {this.props.nonEditable ? (
-            <Box tabIndex={this.props.index} >
-              {this.props.label}
+  {/* this.props.nonEditable */}
+          {true ? (
+            <Box justify="start" tabIndex={this.props.index} >
+              <Text style={{lineHeight: 1}} size="small">{this.props.label}</Text>
             </Box>
           ) : (
             <ContentEditable value={this.props.label} index={this.props.index} onChange={this.onChange} />

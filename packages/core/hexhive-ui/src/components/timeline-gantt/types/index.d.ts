@@ -18,7 +18,7 @@ export type Task = {
     end?: Date;
     name?: string;
     color?: string;
-
+    collapsibleContent?: any;
     showLabel?: boolean | string;
 };
 

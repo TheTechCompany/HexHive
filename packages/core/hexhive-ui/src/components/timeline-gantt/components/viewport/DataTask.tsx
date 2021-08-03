@@ -4,7 +4,7 @@ import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../..
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const';
 import Config from '../../helpers/config/Config';
 import { debounce } from 'lodash';
-import { Box } from 'grommet';
+import { Box, Collapsible } from 'grommet';
 import { Task } from '../../types';
 import styled from 'styled-components'
 import { useState } from 'react';
@@ -30,6 +30,8 @@ export interface DataTaskProps {
   nowposition?: any;
 
   className?: string;
+
+  onExpansion?: (expanded: boolean) => void;
 }
 
 export interface DataTaskState {
@@ -40,6 +42,8 @@ export interface DataTaskState {
 }
 
 export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
+
+  const [collapsed, setCollapsed] = useState<boolean>(true)
 
   const draggingPosition = useRef<number>(0)
 
@@ -218,7 +222,7 @@ export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
         elevation={'medium' /*this.props.isSelected ? 'large': 'none'*/}
         onMouseDown={(e) => doMouseDown(e, MODE_MOVE)}
         onTouchStart={(e) => doTouchStart(e, MODE_MOVE)}
-        onClick={(e) => {
+        onDoubleClick={(e) => {
           props.onSelectItem(props.item);
         }}
         style={{
@@ -244,8 +248,16 @@ export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
             onTouchEnd={(e) => onCreateLinkTouchEnd(e, LINK_POS_LEFT)}
         />
 
-        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+        <div onClick={() => {
+          props.onExpansion?.(!collapsed)
+          setCollapsed(!collapsed)
+        }} style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column', overflow: 'hidden' }}>
             {props.item?.showLabel ? ((typeof(props.item?.showLabel) === 'string') ? props.item.showLabel : props.item?.name) : ''}
+            {/* {props.item?.collapsibleContent && (
+              <Collapsible open={!collapsed}>
+                {props.item.collapsibleContent}
+              </Collapsible>
+            )} */}
         </div>
         <div
             style={{position: 'absolute', left: style.width - 4, bottom: 0, top: 0, margin: 'auto 0'}}

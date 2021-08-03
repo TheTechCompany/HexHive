@@ -14,6 +14,8 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
 
   const dataViewRef = useRef<HTMLDivElement>(null)
 
+  const [ expanded, setExpanded ] = useState<boolean>(false);
+
   const { data, mode, style, dayWidth, moveTimeline, scrollLeft } = useContext(TimelineContext)
 
   const [ childDragging, setChildDragging ] = useState<boolean>(false) 
@@ -52,8 +54,10 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
            label={item.name} 
            top={i * (props.itemheight + 5)} 
            left={20} 
+           expanded={expanded}
            itemheight={(props.itemheight + 5)}>
           <DataTask
+            onExpansion={(expanded: boolean) => setExpanded(expanded)}
             item={item}
             label={item.name}
             nowposition={props.nowposition}

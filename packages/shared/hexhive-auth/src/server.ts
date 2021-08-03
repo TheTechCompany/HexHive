@@ -2,6 +2,7 @@ import { CentralAuthServer } from "./auth";
 import { isValidObjectId } from "mongoose";
 import { MongooseAdapter } from "./adapters/mongoose";
 import { connect_data, User } from "./types";
+import crypto from 'crypto';
 
 declare global {
     namespace Express {
@@ -29,9 +30,11 @@ connect_data().then(() => {
             if (auth_blob.user && isValidObjectId(auth_blob.user)) {
                 return await User.findById(auth_blob.user).populate('organisation');
             } else {
+                const pass_hash = crypto.createHash('sha256').update(auth_blob.password).digest('hex')
+
                 return await User.findOne({
                     username: auth_blob.username,
-                    password: auth_blob.password
+                    password: pass_hash
                 }).populate('organisation')
             }
         }

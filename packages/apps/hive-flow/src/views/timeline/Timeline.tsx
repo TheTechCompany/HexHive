@@ -20,6 +20,7 @@ var formatter = new Intl.NumberFormat('en-US', {
 
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
+    const [ selected, setSelected ] = useState<string>('')
     const [erpModal, openERP] = useState<boolean>(false);
 
     const [view, setView] = useState<TimelineView>("Projects");
@@ -67,7 +68,16 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     })
 
     const [updateTimelineItem, updateInfo] = useMutation((mutation, args: { id: string, item: TimelineItemInput }) => {
-        const item = mutation.updateTimelineItem({ id: args.id, item: args.item })
+        let items = args.item.items?.map((x) => ({
+            type: x?.type,
+            location: x?.type,
+            estimate: x?.estimate
+        }))
+        let _item = {
+            ...args.item,
+            items
+        }
+        const item = mutation.updateTimelineItem({ id: args.id, item: _item })
 
         return {
             item: {
@@ -107,7 +117,10 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 color: stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
                 showLabel: `${capacity_plan?.items?.reduce((previous: any, current: any) => {
                     return previous += (current?.estimate || 0)
-                }, 0)}hrs`
+                }, 0)}hrs`,
+                collapsibleContent: (
+                    <Text>More</Text>
+                )
             })))
         }
     }, [JSON.stringify(capacity), view])
@@ -256,22 +269,38 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     }
 
-    const createTimelinePlan = (plan: { project?: string, items?: any[], startDate?: Date, endDate?: Date }) => {
-        console.log(plan)
-        createTimelineItem({
-            args: {
-                item: {
-                    timeline: view,
-                    project: plan.project,
-                    startDate: plan.startDate,
-                    endDate: plan.endDate,
-                    items: plan.items || []
+    const createTimelinePlan = (plan: { id?: string, project?: string, items?: any[], startDate?: Date, endDate?: Date }) => {
+        if(plan.id){
+            updateTimelineItem({
+                args: {
+                    id: plan.id,
+                    item: {
+                        project: plan.project,
+                        startDate: plan.startDate,
+                        endDate: plan.endDate,
+                        items: plan.items || []
+                    }
                 }
-            }
-        }).then((data) => {
-            openERP(false);
-            console.log("Create timeline view", data)
-        })
+            }).then(() => {
+                openERP(false)
+            })
+        }else{
+        console.log(plan)
+            createTimelineItem({
+                args: {
+                    item: {
+                        timeline: view,
+                        project: plan.project,
+                        startDate: plan.startDate,
+                        endDate: plan.endDate,
+                        items: plan.items || []
+                    }
+                }
+            }).then((data) => {
+                openERP(false);
+                console.log("Create timeline view", data)
+            })
+        }
     }
 
     const updateTimelinePlan = _.debounce(async (id: string, item: { start: Date, end: Date }) => {
@@ -306,11 +335,14 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     }, 500)
 
+    const selectedItem = capacity?.find((a) => a?.id == selected)
+
     return (
         <Box
             flex
             gap="xsmall" direction="column">
             <ERPModal
+                selected={capacity?.find((a) => a?.id == selected)}
                 onClose={() => openERP(false)}
                 onSubmit={createTimelinePlan}
                 projects={projects || []}
@@ -327,6 +359,11 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
            
                 <Timeline
+                    onSelectItem={(item) => {
+                        openERP(true)
+                        setSelected((item as any).id)
+                        console.log(item)
+                    }}
                     loading={query.$state.isLoading}
                     onHorizonChange={onHorizonChange}
                     resizable
