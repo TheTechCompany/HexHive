@@ -7,14 +7,21 @@
     "dist/"
   ],
   "scripts": {
+    "storybook": "start-storybook -p 6006",
     "demo:install": "cd demo && yarn",
     "demo": "cd demo && yarn run dev",
     "build": "tsc -b",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-storybook": "build-storybook"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@storybook/addon-actions": "^6.3.6",
+    "@storybook/addon-essentials": "^6.3.6",
+    "@storybook/addon-links": "^6.3.6",
+    "@storybook/react": "^6.3.6",
     "@types/enzyme": "^3.10.9",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.171",
@@ -25,6 +32,7 @@
     "@types/react-popover": "^0.5.4",
     "@types/styled-components": "^5.1.11",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
+    "babel-loader": "^8.2.2",
     "enzyme": "^3.11.0",
     "grommet": "^2.17.4",
     "grommet-icons": "^4.6.0",
