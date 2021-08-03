@@ -28,7 +28,7 @@ export const Schedule : React.FC<any> = (props) =>  {
   
   })
 
-  const [schedule, setSchedule] = useState<any[]>([]) //query.ScheduleMany() //{startDate: horizon.start, endDate: horizon.end}) //?.map((x) => ({...x, project: x?.project})) || [];
+  const schedule = query.ScheduleMany({startDate: horizon.start, endDate: horizon.end}) //?.map((x) => ({...x, project: x?.project})) || [];
 
   const projects = query.ProjectMany()?.map((x) => ({...x})) || [];
   const people = query.PeopleMany()?.map((x) => ({...x})) || [];
@@ -47,7 +47,7 @@ export const Schedule : React.FC<any> = (props) =>  {
   }, {
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [],
+    refetchQueries: [query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -68,29 +68,85 @@ export const Schedule : React.FC<any> = (props) =>  {
     suspense: false,  
   })
 
-  useEffect(() => {
-    scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
-      setSchedule(schedule)
-      console.log("Schedule", schedule);
-    });
-  }, [])
+
+  const [joinCard, joinInfo] = useMutation((mutation, args: {id: string}) => {
+    const result = mutation.joinScheduleItem({id: args.id})
+    return {
+      item: result,
+      error: null
+    }
+  }, {
+    onCompleted(data) {},
+    onError(error) {},
+    refetchQueries: [query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})],
+    awaitRefetchQueries: true,
+    suspense: false,  
+  })
+
+
+  const [leaveCard, leaveInfo] = useMutation((mutation, args: {id: string}) => {
+    const result = mutation.leaveScheduleItem({id: args.id})
+    return {
+      item: result,
+      error: null
+    }
+  }, {
+    onCompleted(data) {},
+    onError(error) {},
+    refetchQueries: [query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})],
+    awaitRefetchQueries: true,
+    suspense: false,  
+  })
+
+  const [cloneItem, cloenInfo] = useMutation((mutation, args: {id: string, dates: Date[]}) => {
+    const result = mutation.cloneScheduleItem({id: args.id, cloneTo: args.dates})
+    return {
+      item: result,
+      error: null
+    }
+  }, {
+    onCompleted(data) {},
+    onError(error) {},
+    refetchQueries: [query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})],
+    awaitRefetchQueries: true,
+    suspense: false,  
+  })
+
+  // useEffect(() => {
+  //   scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+  //     setSchedule(schedule)
+  //     console.log("Schedule", schedule);
+  //   });
+  // }, [])
 
   console.log("Schedule view", schedule);
 
     return (
       <Box flex className="schedule-container">
         <ScheduleView 
+          isLoading={query.$state.isLoading}
+          onJoinCard={(card: any) => {
+            joinCard({args: {id: card.id}}).then((resp) => {
+              console.log("JOin", card, resp);
+            })
+
+          }}
+          onLeaveCard={(card: any) => {
+            leaveCard({args: {id: card.id}}).then((resp) => {
+              console.log("JOin", card, resp);
+            })
+          }}
           date={horizon.start}
           onHorizonChanged={async (start, end) => {
             console.log("Horizon", start, end)
             setHorizon({start, end})
 
-            scheduleActions.getScheduleItems({start, end}, token || '').then((schedule) => {
-              setSchedule(schedule)
-              console.log("Schedule", schedule);
-            });
+            // scheduleActions.getScheduleItems({start, end}, token || '').then((schedule) => {
+            //   setSchedule(schedule)
+            //   console.log("Schedule", schedule);
+            // });
 
-            // const info = await refetch(query.ScheduleMany({startDate: start, endDate: end}))
+            const info = await refetch(query.ScheduleMany({startDate: start, endDate: end}))
             
             //   console.log("REFETCH", info)
           
@@ -112,10 +168,11 @@ export const Schedule : React.FC<any> = (props) =>  {
               date: new Date(ts.valueOf())
             }}}).then(async (data) => {
               //await refetch(() => query.ScheduleMany)
-              scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
-                setSchedule(schedule)
-                console.log("Schedule", schedule);
-              });
+             
+              // scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+              //   setSchedule(schedule)
+              //   console.log("Schedule", schedule);
+              // });
             })
           }}
 
@@ -131,13 +188,15 @@ export const Schedule : React.FC<any> = (props) =>  {
             })
           }}
           onCloneItem={(item, dates, newDates) => {
+            cloneItem({args: {id: item.id, dates: newDates}}).then((resp) => {
+              console.log("Clone resp", resp, newDates)
+            })
           }}
           user={activeUser}
           users={users}
           projects={projects || []}
           people={people}
-          equipment={equipment}
-          isLoading={false}/>
+          equipment={equipment}/>
       </Box>
     );
 

@@ -42,6 +42,9 @@ export interface ScheduleModalProps {
   onSaveItem: (item: any, ts: Date) => void;
   onCloneItem: (item: any, currentDates: Date[], cloneDates: Date[]) => void;
   onCreateItem: (item: any, ts: Date) => void;
+
+  onJoinCard?: () => void;
+  onLeaveCard?: () => void;
 }
 
 export interface ISchedule {
@@ -264,12 +267,15 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
   const renderMemberButton = () => {
     const toggle = async () => {
       if(joined && item?.id){
+        props.onLeaveCard?.();
+
         // const {add, remove } = await leaveCard(item?.id, props.user, managerList.add, managerList.remove)
         // setManagerList({
         //   add,
         //   remove
         // })
       }else if(!joined && item?.id){
+        props.onJoinCard?.();
         // const { add, remove } = await joinCard(item?.id, props.user, managerList.add, managerList.remove)
         // setManagerList({
         //   add,
@@ -334,8 +340,8 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
         <Box 
   
           pad="small" 
-          height={{max: '60vh'}} margin={{bottom: 'small'}}>
-            { !(stateMode === 'Edit' || stateMode === 'Create') ? (
+          height={{max: '65vh'}} margin={{bottom: 'small'}}>
+            {(stateMode === 'Edit' || stateMode === 'Create') ? (
                 <CloneTab
                    selected={cloneSelection}
                    onSelect={(dates) => setCloneSelection(dates)} /> 

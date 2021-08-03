@@ -3,6 +3,7 @@ import sql from 'mssql'
 import moment from "moment";
 import { Connector } from "../../connector";
 import { ScheduleItem } from '@hexhive/types'
+import { GraphQLError } from "graphql";
 
  /*Returns all jobs from vw_Sched_Jobs*/
  /*getJobs(cb){
@@ -82,7 +83,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 console.log(root, args, context, info)
                 let schedule = new ScheduleItem({
                     ...args.item,
-               //     owner: context.user._id
+                    owner: context.user._id
                 })
 
                 await schedule.save();
@@ -107,6 +108,77 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 }
                 return item.toJSON({virtuals: true});
             }
+        },
+        removeScheduleItem: {
+            type: "Boolean",
+            args: {
+                id: "String",
+            },
+            resolve: async (root, args, context, info) => {
+                if(args.id){
+                    let result = await ScheduleItem.deleteOne({_id: args.id})
+                    return result.deletedCount;
+                }
+                return false;
+            }
+        },
+        joinScheduleItem: {
+            type: "Boolean",
+            args: {
+                id: "String"
+            },
+            resolve: async (root, args, context, info) => {
+                if(args.id){
+                    let result = await ScheduleItem.updateOne({_id: args.id, owner: {$not: context.user._id}}, {$addToSet: {managers: context.user._id}})
+                    return result.nModified > 0;
+                }
+               return false;
+            }
+        },
+        leaveScheduleItem: {
+            type: "Boolean",
+            args: {
+                id: "String"
+            },
+            resolve: async (root, args, context, info) => {
+                if(args.id){
+                    let result = await ScheduleItem.updateOne({_id: args.id, owner: {$not: context.user._id}}, {$pull: {managers: context.user._id}})
+                    return result.nModified > 0;
+                }
+                return false;
+            }
+        },
+        cloneScheduleItem: {
+            type: "Boolean",
+            args: {
+                id: "String",
+                cloneTo: "[Date]"
+            },
+            resolve: async (root, args, context, info) => {
+                if(args.id && args.cloneTo){
+                    let cloneFrom = await ScheduleItem.findById(args.id);
+
+                    delete cloneFrom._id;
+                    delete cloneFrom.id;
+
+                    if(!cloneFrom) return new GraphQLError("No clonable schedule item found");
+                    let result = await Promise.all(args.cloneTo.map(async (date: Date) => {
+                        
+                        let new_item = new ScheduleItem({
+                            ...cloneFrom,
+                            date: date
+                        })
+                        await new_item.save();
+                        return new_item;
+                    }))
+
+                    if(result.length == args.cloneTo.length){
+                        return true;
+                    }
+                }
+                return false;
+            }
+
         }
     // addProject: {
     //     type: 'Project',

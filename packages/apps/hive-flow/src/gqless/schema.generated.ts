@@ -132,6 +132,13 @@ export const generatedSchema = {
       __type: "ScheduleItem",
       __args: { id: "String", item: "ScheduleItemInput" },
     },
+    removeScheduleItem: { __type: "Boolean", __args: { id: "String" } },
+    joinScheduleItem: { __type: "Boolean", __args: { id: "String" } },
+    leaveScheduleItem: { __type: "Boolean", __args: { id: "String" } },
+    cloneScheduleItem: {
+      __type: "Boolean",
+      __args: { id: "String", cloneTo: "[Date]" },
+    },
     createTimelineItem: {
       __type: "TimelineItem",
       __args: { item: "TimelineItemInput" },
@@ -324,6 +331,19 @@ export interface Mutation {
     id?: Maybe<Scalars["String"]>;
     item?: Maybe<ScheduleItemInput>;
   }) => Maybe<ScheduleItem>;
+  removeScheduleItem: (args?: {
+    id?: Maybe<Scalars["String"]>;
+  }) => Maybe<ScalarsEnums["Boolean"]>;
+  joinScheduleItem: (args?: {
+    id?: Maybe<Scalars["String"]>;
+  }) => Maybe<ScalarsEnums["Boolean"]>;
+  leaveScheduleItem: (args?: {
+    id?: Maybe<Scalars["String"]>;
+  }) => Maybe<ScalarsEnums["Boolean"]>;
+  cloneScheduleItem: (args?: {
+    id?: Maybe<Scalars["String"]>;
+    cloneTo?: Maybe<Array<Maybe<Scalars["Date"]>>>;
+  }) => Maybe<ScalarsEnums["Boolean"]>;
   createTimelineItem: (args?: {
     item?: Maybe<TimelineItemInput>;
   }) => Maybe<TimelineItem>;

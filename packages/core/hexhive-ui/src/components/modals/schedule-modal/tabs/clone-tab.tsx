@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components'
 
-import {Calendar} from "react-multi-date-picker";
+import {Calendar, DateObject} from "react-multi-date-picker";
 
 import moment from 'moment';
 
@@ -58,6 +58,7 @@ const BaseCloneTab : React.FC<CloneTabProps> = ({
         direction="column"
         className={className}>
         <Calendar
+            currentDate={new DateObject()}
             className="calendar-contained"
             multiple
             value={selected.concat(cloneSelected)}

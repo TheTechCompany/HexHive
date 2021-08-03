@@ -16,9 +16,13 @@ import { ScheduleViewContext } from './context';
 var moment = require('moment');
 
 export interface ScheduleViewProps {
+  
   onCreateItem: (item: any, ts: Date) => void;
   onSaveItem: (item: any, ts: Date) => void;
   onCloneItem: (item: any, current: Date[], newDates: Date[]) => void;
+
+  onJoinCard: (item: any) => void;
+  onLeaveCard: (item: any) => void;
 
   events: ISchedule[];
 
@@ -180,15 +184,14 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
             jobs={props.projects}
             users={props.users}
             onClick={() => {
-              if (!props.user.readonly) {
+              // if (!props.user.readonly) {
 
             //    setScheduledJobs(scheduleData[i])
                 toggleEditorModal(true, x);
 
-              } else {
-            //    setScheduledJobs(scheduleData[i])
-                toggleEditorModal(true, x)
-              }
+              // } else {
+                // toggleEditorModal(true, x)
+              // }
 
             }}
             onMove={(dir: number) => move(dir, ix, i)}
@@ -244,6 +247,9 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
     return (
       <ScheduleModal
 
+        onJoinCard={() => props.onJoinCard?.(selected)}
+        onLeaveCard={() => props.onLeaveCard?.(selected)}
+
         onCreateItem={props.onCreateItem}
         onSaveItem={props.onSaveItem}
         onCloneItem={props.onCloneItem}
@@ -254,7 +260,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
 
         user={props.user}
         users={props.users}
-        
+
         onClose={() => toggleEditorModal(false)}
         open={modalShow}
         timestamp={timestamp}
