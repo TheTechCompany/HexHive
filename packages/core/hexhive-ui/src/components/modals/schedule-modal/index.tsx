@@ -252,7 +252,7 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
         output.project = item.project.id;
 
       }
-
+console.log(output)
       if(mode === 'clone'){
         props.onCloneItem(output, existingDates, cloneSelection)
         // await cloneSchedule(item, existingDates, cloneSelection)

@@ -179,10 +179,12 @@ export const Schedule : React.FC<any> = (props) =>  {
           onSaveItem={(item, ts) => {
             updateItem({args: {
               id: item.id,
-              item: {project: item.project,
-              people: item.people,
-              equipment: item.equipment,
-              notes: item.equipment}
+              item: {
+                project: item.project,
+                people: item.people,
+                equipment: item.equipment,
+                notes: item.notes
+             }
             }}).then((data) => {
 
             })
