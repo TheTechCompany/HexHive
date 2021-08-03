@@ -81,9 +81,10 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             },
             resolve: async (root, args, context, info) => {
                 console.log(root, args, context, info)
+                //TODO add org flag here to prevent unhappy customers
                 let schedule = new ScheduleItem({
                     ...args.item,
-                    owner: context.user._id
+                    owner: context.user._id,
                 })
 
                 await schedule.save();

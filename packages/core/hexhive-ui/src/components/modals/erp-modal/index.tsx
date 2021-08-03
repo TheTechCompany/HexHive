@@ -10,6 +10,7 @@ export interface ERPModalProps {
     open: boolean;
     selected?: any;
     onClose?: () => void;
+    onDelete?: () => void;
     projects?: {
         id?: string | null;
         name?: string | null;
@@ -53,6 +54,11 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
         props.onClose?.();
         setSearch('');
         setPlan({items: []})
+    }
+
+    const onDelete = () => {
+        props.onDelete?.();
+        // onClose();
     }
 
     const onSubmit = () => {
@@ -198,6 +204,7 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                 </Box>
                 <Box height={{min: 'min-content'}} pad="xsmall" gap="xsmall" direction="row" justify="end">
                     {/* Actions */}
+                    {props.selected ? (<Button color="red" label="Delete" onClick={onDelete}></Button>) : null}
                     <Button onClick={onClose} label="Close"></Button>
                     <Button primary onClick={onSubmit} label="Save" ></Button>
                 </Box>

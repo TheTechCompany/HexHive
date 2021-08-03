@@ -20,7 +20,7 @@ var formatter = new Intl.NumberFormat('en-US', {
 
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
-    const [ selected, setSelected ] = useState<string>('')
+    const [ selected, setSelected ] = useState<string | undefined>()
     const [erpModal, openERP] = useState<boolean>(false);
 
     const [view, setView] = useState<TimelineView>("Projects");
@@ -57,6 +57,20 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             item: {
                 ...item
             },
+            error: null
+        }
+    }, {
+        onCompleted(data) { },
+        onError(error) { },
+        refetchQueries: [query.TimelineItemMany({ timeline: 'Projects' })],
+        awaitRefetchQueries: true,
+        suspense: false,
+    })
+
+    const [ deleteTimelineItem, deleteInfo ] = useMutation((mutation, args: {id: string}) => {
+        const result = mutation.removeTimelineItem({id: args.id})
+        return {
+            item: result,
             error: null
         }
     }, {
@@ -343,7 +357,16 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             gap="xsmall" direction="column">
             <ERPModal
                 selected={capacity?.find((a) => a?.id == selected)}
-                onClose={() => openERP(false)}
+                onClose={() => {
+                    openERP(false)
+                    setSelected(undefined)
+                }}
+                onDelete={() => {
+                    openERP(false);
+                    if(!selected) return;
+                    deleteTimelineItem({args: {id: selected}})
+                    setSelected(undefined)
+                }}
                 onSubmit={createTimelinePlan}
                 projects={projects || []}
                 open={erpModal} />

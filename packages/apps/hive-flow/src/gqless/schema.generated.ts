@@ -147,6 +147,7 @@ export const generatedSchema = {
       __type: "TimelineItem",
       __args: { id: "String", item: "TimelineItemInput" },
     },
+    removeTimelineItem: { __type: "Boolean", __args: { id: "String" } },
   },
   subscription: {},
   Project: {
@@ -351,6 +352,9 @@ export interface Mutation {
     id?: Maybe<Scalars["String"]>;
     item?: Maybe<TimelineItemInput>;
   }) => Maybe<TimelineItem>;
+  removeTimelineItem: (args?: {
+    id?: Maybe<Scalars["String"]>;
+  }) => Maybe<ScalarsEnums["Boolean"]>;
 }
 
 export interface Subscription {

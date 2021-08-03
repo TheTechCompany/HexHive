@@ -112,6 +112,17 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
 
                 return item.toJSON({virtuals: true});
             }
+        },
+        removeTimelineItem: {
+            type: "Boolean",
+            args: {
+                id: "String"
+            },
+            resolve: async (root, args, context, info) => {
+                let item = await TimelineItem.deleteOne({_id: args.id})
+
+                return item.deletedCount == 1;
+            }
         }
     // addProject: {
     //     type: 'Project',
