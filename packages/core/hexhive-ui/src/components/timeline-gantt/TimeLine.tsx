@@ -396,7 +396,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
       setData(props.data)
       
     }
-  }, [props.data])
+  }, [JSON.stringify(props.data)])
 
   useEffect(() => {
     if(props.links){
