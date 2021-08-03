@@ -129,7 +129,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             },
             resolve: async (root, args, context, info) => {
                 if(args.id){
-                    let result = await ScheduleItem.updateOne({_id: args.id, owner: {$not: context.user._id}}, {$addToSet: {managers: context.user._id}})
+                    let result = await ScheduleItem.updateOne({_id: args.id, owner: {$ne: context.user._id}}, {$addToSet: {managers: context.user._id}})
                     return result.nModified > 0;
                 }
                return false;
@@ -142,7 +142,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             },
             resolve: async (root, args, context, info) => {
                 if(args.id){
-                    let result = await ScheduleItem.updateOne({_id: args.id, owner: {$not: context.user._id}}, {$pull: {managers: context.user._id}})
+                    let result = await ScheduleItem.updateOne({_id: args.id, owner: {$ne: context.user._id}}, {$pull: {managers: context.user._id}})
                     return result.nModified > 0;
                 }
                 return false;

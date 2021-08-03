@@ -341,7 +341,7 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
   
           pad="small" 
           height={{max: '65vh'}} margin={{bottom: 'small'}}>
-            {(stateMode === 'Edit' || stateMode === 'Create') ? (
+            {!(stateMode === 'Edit' || stateMode === 'Create') ? (
                 <CloneTab
                    selected={cloneSelection}
                    onSelect={(dates) => setCloneSelection(dates)} /> 
