@@ -44,9 +44,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
 
       let new_position = DateHelper.dateToPixel(item.start, props.nowposition, dayWidth || 0);
       let new_width = DateHelper.dateToPixel(item.end, props.nowposition, dayWidth || 0) - new_position;
-      console.log(new_position)
-      console.log(new_width)
-      
+
       result.push(
         <DataRow
           isSelected={props.selectedItem == item}

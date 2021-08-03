@@ -137,7 +137,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     console.log("DAYS", rowInfo, newNumVisibleRows, rowInfo)
     setNumVisibleRows(newNumVisibleRows)
     setStartRow(rowInfo.start)
-    setEndRow(rowInfo.end)
+    // setEndRow(rowInfo.end)
     setSize(size)
 
 
@@ -155,7 +155,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
       setScrollTop(scrollTop)
 
       setStartRow(rowInfo.start)
-      setEndRow(rowInfo.end)
+      // setEndRow(rowInfo.end)
 
     }
   };
@@ -178,7 +178,6 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     let new_endRow = endRow;
 
     //Calculating if we need to roll up the scroll
-    console.log(newScrollLeft, pxToScroll)
     if (newScrollLeft > pxToScroll) {
       //ContenLegnth-viewportLengt
       new_nowposition = nowposition - pxToScroll - 0 //((props.mode == 'month' || props.mode == 'week') ? 8 : 0)//- 1; //+
@@ -225,15 +224,13 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     setHeaderData(headerData)
     setScrollLeft(new_left)
     setStartRow(new_startRow)
-    setEndRow(new_endRow)
-
-    console.log(new_nowposition, new_left, new_startRow, new_endRow)
+    // setEndRow(new_endRow)
 
   };
 
   const calculateVerticalScrollVariables = (size: { width: number; }) => {
     //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
-    // setPxToScroll((1 - size.width / DATA_CONTAINER_WIDTH) * DATA_CONTAINER_WIDTH - 1);
+    setPxToScroll((1 - size.width / DATA_CONTAINER_WIDTH) * DATA_CONTAINER_WIDTH - 1);
   };
 
   const onHorizonChange = (lowerLimit: any, upLimit: any) => {

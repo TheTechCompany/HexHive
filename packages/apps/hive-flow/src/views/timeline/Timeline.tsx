@@ -98,10 +98,44 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     const [ timeline, setTimeline ] = useState<any[]>([])
 
     useEffect(() => {
-        if(capacity){
-            setTimeline(capacity)
+        if(capacity && view == "Projects"){
+            setTimeline(capacity.map((capacity_plan, ix) => ({
+                id: capacity_plan?.id || ix,
+                name: capacity_plan?.project?.name || '',
+                start: new Date(capacity_plan?.startDate),
+                end: new Date(capacity_plan?.endDate),
+                color: stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
+                showLabel: `${capacity_plan?.items?.reduce((previous: any, current: any) => {
+                    return previous += (current?.estimate || 0)
+                }, 0)}hrs`
+            })))
         }
-    }, [JSON.stringify(capacity)])
+    }, [JSON.stringify(capacity), view])
+
+    useEffect(() => {
+        if(quotes && view == 'Estimates'){
+            let _weeks : any = {};
+            const weeks = quotes?.reduce((previous, current) => {
+                console.log(current)
+                let start = current.start.getTime();
+                if (!previous[start]) previous[start] = 0;
+                previous[start] += current.price
+                return previous
+            }, _weeks)
+
+            console.log(weeks)
+            setTimeline(Object.keys(weeks).map((start, ix) => {
+                return {
+                    id: `${start}`,
+                    name: `Week ${moment(new Date(parseInt(start))).format("W")}`,
+                    color: stringToColor(moment(new Date(parseInt(start))).format("DD/mm/yyyy")),
+                    start: new Date(parseInt(start)),
+                    end: new Date(moment(new Date(parseInt(start))).add(7, 'days').valueOf()),
+                    showLabel: formatter.format(weeks[start])
+                }
+            }))
+        }
+    }, [JSON.stringify(quotes), view])
 
     useEffect(() => {
         // utils.quote.getAll().then((quotes) => {
@@ -130,7 +164,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         let year = moment(horizon?.start).get('year')
         let oldYear = moment(date).get('year')
         if (year != oldYear) {
-           // if (horizon?.start) setDate(horizon?.start)
+           if (horizon?.start) setDate(horizon?.start)
 
             // utils.quote.fetchMonthQuotes(year).then((quotes) => {
             //     console.log(quotes)
@@ -184,12 +218,12 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const onHorizonChange = (start: Date, end: Date) => {
         //TODO BUFFER DAY Var
-        let adjustedHorizon = {
-            start: moment(start).subtract(30, 'days').toDate(),
-            end: moment(end).add(30, 'days').toDate()
-        }
+        // let adjustedHorizon = {
+        //     start: moment(start).subtract(30, 'days').toDate(),
+        //     end: moment(end).add(30, 'days').toDate()
+        // }
         console.log("Horizon", start, end)
-        setHorizon(adjustedHorizon)
+        setHorizon({start, end})
 
         // let result = DATA.filter((item) => {
         //   return (item.start < start && item.end > end) || (item.start > start && item.start < end) || (item.end > start && item.end < end);
@@ -204,6 +238,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             let horizonStart = horizon.start.getTime();
             let horizonEnd = horizon.end.getTime();
 
+            console.log(horizon.start.getTime() < (item.end?.getTime() || 0))
+
             return (horizonEnd > (item.start?.getTime() || 0) && horizonStart < (item.end?.getTime() || 0))
                 // return (item.start < horizon.start && item.end > horizon.end) || (item.start > horizon.start && item.start < horizon.end) || (item.end > horizon.start && item.end < horizon.end);
             
@@ -214,18 +250,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const getData = () => {
         if (view === 'Estimates') {
-            return getWeeks();
+            return timeline?.filter(filterData);
         } else {
-            return timeline?.map((capacity_plan) => ({
-                id: capacity_plan?.id || '',
-                name: capacity_plan?.project?.name || '',
-                start: new Date(capacity_plan?.startDate),
-                end: new Date(capacity_plan?.endDate),
-                color: stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
-                showLabel: `${capacity_plan?.items?.reduce((previous: any, current: any) => {
-                    return previous += (current?.estimate || 0)
-                }, 0)}hrs`
-            })).filter(filterData)      
+            return timeline?.filter(filterData)      
         }
     }
 

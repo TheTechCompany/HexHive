@@ -30,7 +30,7 @@ export const TimelineHeader: React.FC<TimelineProps> = (props) => {
                     options={["Projects", "Estimates"]} />
             </Box>
             <Box background="#ffffff42" round="xsmall">
-                <Button onClick={props.onAdd} icon={<Add />} />
+                {props.view == "Projects" && <Button onClick={props.onAdd} icon={<Add />} />}
             </Box>
         </Box>
     );
