@@ -44,7 +44,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
                 target={hoverEl}
                 preferPlace={"right"}
                 body={(
-                    <div>
+                    <div style={{background: "white"}}>
                         <ul style={{ listStyle: 'none', paddingLeft: 0 }}>{data.notes.map((x) => (<li>{x}</li>))}</ul>
                     </div>)} >
 

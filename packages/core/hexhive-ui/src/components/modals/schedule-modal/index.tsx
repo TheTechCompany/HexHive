@@ -246,15 +246,21 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
   const onSave = async () => {
     console.log(item, mode)
     if(item){
+      let output : any = Object.assign({}, item)
     
+      if(output?.project?.id){
+        output.project = item.project.id;
+
+      }
+
       if(mode === 'clone'){
-        props.onCloneItem(item, existingDates, cloneSelection)
+        props.onCloneItem(output, existingDates, cloneSelection)
         // await cloneSchedule(item, existingDates, cloneSelection)
       }else{
         if(stateMode == 'Create'){
-          props.onCreateItem(item, timestamp)
+          props.onCreateItem(output, timestamp)
         }else{
-          props.onSaveItem(item, timestamp)
+          props.onSaveItem(output, timestamp)
         }
         // await saveSchedule(stateMode, item, timestamp)
       }
