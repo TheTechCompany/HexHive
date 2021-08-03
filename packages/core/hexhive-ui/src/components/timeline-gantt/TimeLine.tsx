@@ -415,7 +415,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
 
     return (
       <TimelineContext.Provider value={{
-        data: props.data,
+        data: data,
         links,
         style: props.style,
         mode: mode,

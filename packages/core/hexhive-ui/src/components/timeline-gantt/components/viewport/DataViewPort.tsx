@@ -48,7 +48,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
       result.push(
         <DataRow
           isSelected={props.selectedItem == item}
-           key={i} 
+           key={`data-row-${i}`} 
            label={item.name} 
            top={i * (props.itemheight + 5)} 
            left={20} 

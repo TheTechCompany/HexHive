@@ -56,6 +56,12 @@ export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
     }
   }, [props.left])
 
+  useEffect(() => {
+    if(props.width){
+      width.current = props.width
+    } 
+  }, [props.width])
+
   const onCreateLinkMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, position: string) => {
     if (e.button === 0) {
       e.stopPropagation();

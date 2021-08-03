@@ -100,7 +100,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     useEffect(() => {
         if(capacity && view == "Projects"){
             setTimeline(capacity.map((capacity_plan, ix) => ({
-                id: capacity_plan?.id || ix,
+                id: capacity_plan?.id || `capacity-${ix}`,
                 name: capacity_plan?.project?.name || '',
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
@@ -127,7 +127,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             setTimeline(Object.keys(weeks).map((start, ix) => {
                 return {
                     id: `${start}`,
-                    name: `Week ${moment(new Date(parseInt(start))).format("W")}`,
+                    name: `Week ${moment(new Date(parseInt(start))).format("W/yyyy")}`,
                     color: stringToColor(moment(new Date(parseInt(start))).format("DD/mm/yyyy")),
                     start: new Date(parseInt(start)),
                     end: new Date(moment(new Date(parseInt(start))).add(7, 'days').valueOf()),
@@ -332,7 +332,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     resizable
                     mode="month"
                     links={[]}
-                    data={getData()}
+                    data={timeline.filter(filterData)}
                     date={date}
                     itemheight={30}
                     onUpdateTask={async (task, info) => {
