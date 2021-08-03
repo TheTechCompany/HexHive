@@ -265,7 +265,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
         open={modalShow}
         timestamp={timestamp}
         scheduledJobs={schedJobs}
-        item={selected}
+        item={props.events.find((a) => a?.id == selected?.id)}
       />
     );
   }
