@@ -166,7 +166,12 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                         
                         let new_item = new ScheduleItem({
                             ...cloneFrom,
-                            date: date
+                            project: cloneFrom.project.id,
+                            people: cloneFrom.people,
+                            equipment: cloneFrom.equipment,
+                            notes: cloneFrom.notes,
+                            date: date,
+                            owner: context.user._id
                         })
                         await new_item.save();
                         return new_item;
