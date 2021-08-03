@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Box, Heading, Button, TextInput, Form } from 'grommet';
+import { Box, Heading, Button, TextInput, Form, Spinner } from 'grommet';
 import { Meta } from '../../layout/Meta';
 import { AppConfig } from '../../utils/AppConfig';
 import Logo from '../../assets/logo.svg';
 import { useAuth } from '../../hooks/useAuth';
 
 export default () => {
+
+    const [ error, setError ] = useState<boolean>(false)
+    const [ loading, setLoading ] = useState<boolean>(false);
 
     const client = useAuth({
         authorizationServer: process.env.NEXT_PUBLIC_API || 'http://localhost:8090',
@@ -23,6 +26,8 @@ export default () => {
         console.log("Login",email, password)
        // window.location.href = "/dashboard"
        console.log(client)
+       setLoading(true);
+       setError(false)
         client?.getAuthorizationCode(email, password).then((response) => {
 
             if(response && response.code){
@@ -32,10 +37,16 @@ export default () => {
 
                 const url = new URL(response.code.redirectUri)
                 url.searchParams.set('code', response.code.authorizationCode);
+                setLoading(false)
             //   window.navigator.({}, '', url.toString())
                 window.location.href = url.toString()
             }
+        }).catch((err) => {
+            console.log(err);
+            setError(true)
+            setLoading(false)
         })
+
     }
 
     return (
@@ -68,10 +79,12 @@ export default () => {
                     <Box gap="small">
 
                     <TextInput
+                        style={{borderColor: !error ? 'initial' : 'red'}}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="E-Mail" />
                     <TextInput
+                        style={{borderColor: !error ? 'initial' : 'red'}}
                         value={password}
                         onKeyDown={(e) => e.key == 'Enter' && login()}
                         onChange={(e) => setPassword(e.target.value)}
@@ -82,9 +95,12 @@ export default () => {
                         justify="end"
                         direction="row">
                         <Button
+                            disabled={loading}
                             onClick={login}
                             primary
-                            label="Login" />
+                            icon={loading ? <Spinner size="small" />: undefined}
+                            label={"Login"}>
+                        </Button>
                     </Box>
                     </Box>
                 </Form>

@@ -98,7 +98,6 @@ export class AuthClient {
 
     async getAuthorizationCode(username: string, password: string){
         let result;
-        try{
             result = await this.instance.post(`/oauth/authorize`, {
                 client_id: this.clientId,
                 grant_type: 'authorization_code',
@@ -110,10 +109,7 @@ export class AuthClient {
                 
             }, {withCredentials: true})
             result = result.data
-        }catch(e){
-            console.log(e)
-            result = e.response;
-        }
+  
 
         return result
     }
