@@ -10,4 +10,4 @@ EXPOSE 8090
 
 ENV NODE_ENV='production'
 
-CMD [ "npx", "lerna", "run", "--scope", "@hexhive/auth"]
+CMD [ "npx", "lerna", "run", "start", "--scope", "@hexhive/auth"]
