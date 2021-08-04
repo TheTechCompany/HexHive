@@ -29,7 +29,7 @@ export const QuoteHeader : React.FC<QuoteHeaderProps> = (props) => {
             onChange={(e: any) => props.onFilterChange?.({search: e.target.value})}
           focusIndicator={false}
           plain
-          placeholder="Search Quotes" />
+          placeholder="Search Estimates..." />
         </Box>
       <Box 
         round="xsmall"
