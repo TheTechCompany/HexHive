@@ -5,7 +5,7 @@ import { DocViewer } from './DocViewer';
 
 
 export interface FileViewerProps {
-    files: {url: string, mimeType: string, id: string, extension: string}[]
+    files: {url?: string, mimeType?: string, id?: string, extension?: string}[]
 
     token?: string;
 }
