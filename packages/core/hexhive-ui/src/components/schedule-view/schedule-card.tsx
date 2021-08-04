@@ -37,8 +37,6 @@ const ScheduleCard : React.FC<ScheduleCardProps> = (props) => {
    const [ hoverEl, setHoverEl ] = useState<any>()
 
 
-
-
   const moveDown = () => {
     if(props.onMove) props.onMove(1)
   }
