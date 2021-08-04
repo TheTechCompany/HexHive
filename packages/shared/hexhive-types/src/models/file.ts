@@ -8,6 +8,7 @@ export const FileSchema = new Schema<IFile>({
     mimeType: String,
     extension: String,
     owner: {type: Schema.Types.ObjectId, ref: 'User'},
+    organisation: {type: Schema.Types.ObjectId, ref: "Organisation"},
     timestamp: {type: Date, default: Date.now},
     status: String
 })
