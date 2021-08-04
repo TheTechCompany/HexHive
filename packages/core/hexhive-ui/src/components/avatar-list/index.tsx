@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Avatar, Text} from 'grommet';
-import { invertColor } from 'shared/hexhive-utils/src/color';
+import { invertColor } from '@hexhive/utils';
 
 export interface AvatarListProps {
   users?: Array<{name?: string, color?: string}>;

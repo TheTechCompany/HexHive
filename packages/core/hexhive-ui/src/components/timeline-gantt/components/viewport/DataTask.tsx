@@ -9,7 +9,7 @@ import { Task } from '../../types';
 import styled from 'styled-components'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { getHostForElement } from '@hexhive/utils';
+import { getHostForElement, stringToColor } from '@hexhive/utils';
 import { useRef } from 'react';
 
 export interface DataTaskProps {
@@ -196,14 +196,33 @@ export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
     dragEnd();
   };
 
+  const generateStripes = (colors: {color: string, percent: number}[]) => {
+    let c = colors.sort((a, b) => b.percent - a.percent)
+
+    if(c.length <= 0) return stringToColor(`${props.item?.name}`)
+
+    let gradient : any[] = [];
+    let current_stop = 0;
+  
+    c.forEach((x, ix) => {
+        gradient.push(`${x.color} ${current_stop * 100}%`)
+        gradient.push(`${x.color} ${(current_stop * 100) + (x.percent * 100)}%`)
+        current_stop += x.percent;
+    })
+    let output = `linear-gradient(90deg, ${gradient.join(', ')})`
+    return output;
+    console.log(output)
+  }
+
+
   const calculateStyle = () => {
     let configStyle = props.isSelected ? Config.values.dataViewPort.task.selectedStyle : Config.values.dataViewPort.task.style;
-    let backgroundColor = props.color ? props.color : configStyle.backgroundColor;
+    let backgroundColor = props.color ? Array.isArray(props.color) ? generateStripes(props.color) : props.color : configStyle.backgroundColor;
 
     // if (this.state.dragging) {
       return {
         ...configStyle,
-        backgroundColor: backgroundColor,
+        background: backgroundColor,
         left: left.current,
         width: width.current,
         height: props.height - 5,

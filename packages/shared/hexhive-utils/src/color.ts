@@ -10,7 +10,6 @@ export const hashCode = (str: string) => {
 export const moduloHash = (input: number) => {
     const firstMod = Math.abs(input % 144);
      
-    console.log(firstMod, input)
     const hueMod = firstMod % 18;
     const satMod = Math.floor(firstMod / 18);
 

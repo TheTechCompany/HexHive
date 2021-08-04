@@ -18,6 +18,13 @@ var formatter = new Intl.NumberFormat('en-US', {
     currency: 'USD'
 });
 
+const HourTypes : any = {
+    Welder: "#7fc721",
+    TA: "#c721ba",
+    Fabricator: "#21c7c7",
+    "Civil Subcontractor": "#b521c7"
+}
+
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const [ selected, setSelected ] = useState<string | undefined>()
@@ -121,6 +128,26 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const [ timeline, setTimeline ] = useState<any[]>([])
 
+    const getColorBars = (plan: {items?: any[]}) => {
+        let total = plan.items?.reduce((previous: any, current: any) => previous += current.estimate, 0)
+
+        let sum = plan.items?.reduce((previous, current) => {
+        
+            if(!previous[current.type]) previous[current.type] = 0
+            previous[current.type] += current.estimate
+            return previous
+        },{})
+
+        return Object.keys(sum).map((key) => {
+            return {
+                color: HourTypes[key],
+                percent: sum[key] / total
+            }
+        })
+    }
+    
+    //stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
+
     useEffect(() => {
         if(capacity && view == "Projects"){
             setTimeline(capacity.map((capacity_plan, ix) => ({
@@ -128,7 +155,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 name: `${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}`.substring(0, 20) || '',
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
-                color: stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
+                color: getColorBars({items: capacity_plan?.items || []}), 
                 showLabel: `${capacity_plan?.items?.reduce((previous: any, current: any) => {
                     return previous += (current?.estimate || 0)
                 }, 0)}hrs`,
