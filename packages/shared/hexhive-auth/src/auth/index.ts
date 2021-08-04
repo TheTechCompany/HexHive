@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken'
 import cors from 'cors';
 import { Routes } from '../routes';
 import model, { AuthAdapter } from '../model'
-import { Express as OAuthServer } from '@thetechcompany/express-shield'
+import { Express as OAuthServer } from '@hexhive/shield'
 import bodyParser from 'body-parser';
 
 export interface CentralAuthServerOptions {

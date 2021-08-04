@@ -38,7 +38,8 @@ export const BaseStyle = {
         }
     },
     layer: {
-        background: "neutral-2"
+        background: "neutral-2",
+        elevation: 'large'
     }
     
   }

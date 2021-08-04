@@ -115,16 +115,23 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
         >
         <Box 
           height="80vh"
-          width="xlarge" 
-          pad="small">
-        <Box direction="row" justify="between">
-          <Heading level='4' margin={{bottom: 'small', top: 'none'}}>File Details</Heading>
+          width="xlarge" >
+        <Box 
+        pad="small"
+          margin={{bottom: 'small'}}
+          background="accent-2" 
+          align="center" 
+          direction="row" 
+          justify="between">
+          <Heading level='4' margin={{bottom: 'none', top: 'none'}}>File Details</Heading>
           <Button
-            icon={<Expand />}
+            size="small"
+            icon={<Expand size="small"/>}
             onClick={() => setExpanded(!expanded)}
             label="View file" />
         </Box>
         <Box 
+          pad={{horizontal: "xsmall"}}
           flex
           direction="row">
           <div style={{flex: 1, marginRight: 5, display: 'flex', flexDirection: 'column'}}>
@@ -168,7 +175,9 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
           </div>
 
         </Box>
-        <Box gap="xsmall" margin={{top: 'small'}} direction="row" justify="end">
+        <Box 
+          pad="small"
+          gap="xsmall" margin={{bottom: 'xsmall', horizontal: 'xsmall'}} direction="row" justify="end">
           <Button label="Cancel" onClick={onClose} />
           <Button primary label="Save" onClick={onSubmit} />
         </Box>

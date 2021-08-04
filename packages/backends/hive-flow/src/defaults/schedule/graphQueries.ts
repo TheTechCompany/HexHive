@@ -36,8 +36,8 @@ const Queries = (connector: Connector) => {
         args: {
             id: 'ID'
         },
-        resolve: async (root, args) => {
-           const result = await ScheduleItem.findById(args.id).populate('owner')
+        resolve: async (root, args, context) => {
+           const result = await ScheduleItem.findOne({_id: args.id, organisation: context.user.organisation.id}).populate('owner')
            return result.toJSON({virtuals: true})
         }
     },
@@ -48,8 +48,8 @@ const Queries = (connector: Connector) => {
             startDate: "Date",
             endDate: "Date"
         },
-        resolve: async (root, args) => {
-            let query : any = {};
+        resolve: async (root, args, context) => {
+            let query : any = {organisation: context.user.organisation.id};
             
             let dateQuery : any = {};
             if(args.startDate){
@@ -85,6 +85,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 let schedule = new ScheduleItem({
                     ...args.item,
                     owner: context.user._id,
+                    organisation: context.user.organisation.id
                 })
 
                 await schedule.save();
@@ -117,7 +118,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             },
             resolve: async (root, args, context, info) => {
                 if(args.id){
-                    let result = await ScheduleItem.deleteOne({_id: args.id})
+                    let result = await ScheduleItem.deleteOne({_id: args.id, organisation: context.user.organisation.id})
                     return result.deletedCount;
                 }
                 return false;
@@ -130,7 +131,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             },
             resolve: async (root, args, context, info) => {
                 if(args.id){
-                    let result = await ScheduleItem.updateOne({_id: args.id, owner: {$ne: context.user._id}}, {$addToSet: {managers: context.user._id}})
+                    let result = await ScheduleItem.updateOne({_id: args.id, organisation: context.user.organisation.id, owner: {$ne: context.user._id}}, {$addToSet: {managers: context.user._id}})
                     return result.nModified > 0;
                 }
                return false;
@@ -143,7 +144,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             },
             resolve: async (root, args, context, info) => {
                 if(args.id){
-                    let result = await ScheduleItem.updateOne({_id: args.id, owner: {$ne: context.user._id}}, {$pull: {managers: context.user._id}})
+                    let result = await ScheduleItem.updateOne({_id: args.id, organisation: context.user.organisation.id, owner: {$ne: context.user._id}}, {$pull: {managers: context.user._id}})
                     return result.nModified > 0;
                 }
                 return false;
@@ -157,7 +158,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             },
             resolve: async (root, args, context, info) => {
                 if(args.id && args.cloneTo){
-                    let cloneFrom = await ScheduleItem.findById(args.id);
+                    let cloneFrom = await ScheduleItem.findOne({_id: args.id, organisation: context.user.organisation.id});
 
                     delete cloneFrom._id;
                     delete cloneFrom.id;
