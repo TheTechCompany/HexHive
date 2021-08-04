@@ -1,5 +1,9 @@
 export * from './color'
 
+export const dateFromObjectID = function (objectId: any) {
+	return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+};
+
 export const getHostForElement = (element: HTMLElement): Document | ShadowRoot =>
 (element.getRootNode?.() as Document | ShadowRoot) || window?.document;
 
