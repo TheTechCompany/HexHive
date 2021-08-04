@@ -5,14 +5,14 @@ import { Button } from '../button/Button';
 import { HeroOneButton } from '../hero/HeroOneButton';
 import { Section } from '../layout/Section';
 import { NavbarTwoColumns } from '../navigation/NavbarTwoColumns';
-import  Logo from '../assets/logo.svg';
+import  Logo from '../assets/hivesystems.svg';
 
 const Hero = () => (
   <Background color="bg-gray-100">
     <Section yPadding="py-6">
       <NavbarTwoColumns logo={<img src={Logo.src}  width="100px" height="50px"/>}>
         <li>
-          <Link href="https://github.com/TheTechCompany">
+          <Link href="https://github.com/TheTechCompany/hexhive-common">
             <a>GitHub</a>
           </Link>
         </li>

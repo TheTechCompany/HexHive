@@ -2,7 +2,7 @@ import { Box, Button, Form, Heading, TextInput } from 'grommet';
 import React, { useState } from 'react';
 import { Meta } from '../../layout/Meta';
 import { AppConfig } from '../../utils/AppConfig';
-import Logo from '../../assets/logo.svg'
+import Logo from '../../assets/hivesystems.svg'
 
 export default () => {
 
