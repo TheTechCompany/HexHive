@@ -167,6 +167,8 @@ export const Schedule : React.FC<any> = (props) =>  {
               ...item,
               date: new Date(ts.valueOf())
             }}}).then(async (data) => {
+              const info = await refetch(query.ScheduleMany({startDate: horizon.start, endDate: horizon.end}))
+
               //await refetch(() => query.ScheduleMany)
              
               // scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {

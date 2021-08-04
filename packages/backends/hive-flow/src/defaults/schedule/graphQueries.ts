@@ -99,7 +99,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 item: "ScheduleItemInput"
             },
             resolve: async (root, args, context, info) => {
-                let item = await ScheduleItem.findById(args.id);
+                let item = await ScheduleItem.findOne({_id: args.id, organisation: context.user.organisation});
 
                 if(item){
                     item.project = args.item.project;
