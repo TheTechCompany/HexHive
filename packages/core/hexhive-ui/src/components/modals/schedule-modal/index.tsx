@@ -9,8 +9,6 @@ import { Layer, Button, Anchor, Box, Heading } from 'grommet';
 import { ManagerList } from '../../manager-list';
 import { getManagers, isJoined } from './utils';
 
-import { stat } from 'fs';
-
 // import './index.css';
 // import { cloneSchedule, getScheduledDates, isJoined, joinCard, leaveCard, removeSchedule, saveSchedule } from './utils';
 // import { getManagers } from './utils';
