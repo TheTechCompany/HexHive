@@ -28,7 +28,8 @@ export const Schedule : React.FC<any> = (props) =>  {
   
   })
 
-  const schedule = query.ScheduleMany({startDate: horizon.start, endDate: horizon.end}) //?.map((x) => ({...x, project: x?.project})) || [];
+  const [schedule, setSchedule] = useState<any[]>([])//?.map((x) => ({...x, project: x?.project})) || [];
+//query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})
 
   const projects = query.ProjectMany()?.map((x) => ({...x})) || [];
   const people = query.PeopleMany()?.map((x) => ({...x})) || [];
@@ -112,12 +113,12 @@ export const Schedule : React.FC<any> = (props) =>  {
     suspense: false,  
   })
 
-  // useEffect(() => {
-  //   scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
-  //     setSchedule(schedule)
-  //     console.log("Schedule", schedule);
-  //   });
-  // }, [])
+  useEffect(() => {
+    scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+      setSchedule(schedule)
+      console.log("Schedule", schedule);
+    });
+  }, [])
 
   console.log("Schedule view", schedule);
 
@@ -141,12 +142,12 @@ export const Schedule : React.FC<any> = (props) =>  {
             console.log("Horizon", start, end)
             setHorizon({start, end})
 
-            // scheduleActions.getScheduleItems({start, end}, token || '').then((schedule) => {
-            //   setSchedule(schedule)
-            //   console.log("Schedule", schedule);
-            // });
+            scheduleActions.getScheduleItems({start, end}, token || '').then((schedule) => {
+              setSchedule(schedule)
+              console.log("Schedule", schedule);
+            });
 
-            const info = await refetch(query.ScheduleMany({startDate: start, endDate: end}))
+//            const info = await refetch(query.ScheduleMany({startDate: start, endDate: end}))
             
             //   console.log("REFETCH", info)
           
@@ -167,14 +168,14 @@ export const Schedule : React.FC<any> = (props) =>  {
               ...item,
               date: new Date(ts.valueOf())
             }}}).then(async (data) => {
-              const info = await refetch(query.ScheduleMany({startDate: horizon.start, endDate: horizon.end}))
+              //const info = await refetch(query.ScheduleMany({startDate: horizon.start, endDate: horizon.end}))
 
               //await refetch(() => query.ScheduleMany)
              
-              // scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
-              //   setSchedule(schedule)
-              //   console.log("Schedule", schedule);
-              // });
+              scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+                setSchedule(schedule)
+                console.log("Schedule", schedule);
+              });
             })
           }}
 
@@ -188,7 +189,11 @@ export const Schedule : React.FC<any> = (props) =>  {
                 notes: item.notes
              }
             }}).then((data) => {
-
+              scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+                setSchedule(schedule)
+                console.log("Schedule", schedule);
+           
+              })
             })
           }}
           onCloneItem={(item, dates, newDates) => {
