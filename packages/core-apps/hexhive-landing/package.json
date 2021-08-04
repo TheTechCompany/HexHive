@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/landing",
-  "version": "0.0.3-alpha.0",
+  "version": "0.0.4-alpha.0",
   "scripts": {
     "dev": "next dev",
     "build-prod": "next build",
@@ -14,7 +14,7 @@
     "build-types": "tsc --noEmit --pretty"
   },
   "dependencies": {
-    "@hexhive/cas-client": "^0.0.3-alpha.0",
+    "@hexhive/cas-client": "^0.0.4-alpha.0",
     "classnames": "^2.3.1",
     "grommet": "^2.17.3",
     "next": "^11.0.1",

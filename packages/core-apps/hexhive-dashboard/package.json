@@ -1,12 +1,12 @@
 {
 	"name": "@hexhive/dashboard",
-	"version": "0.0.3-alpha.0",
+	"version": "0.0.4-alpha.0",
 	"private": true,
 	"homepage": "/dashboard",
 	"dependencies": {
-		"@hexhive/auth-ui": "^0.0.3-alpha.0",
+		"@hexhive/auth-ui": "^0.0.4-alpha.0",
 		"@hexhive/cas-client": "^0.0.2",
-		"@hexhive/styles": "^1.0.0",
+		"@hexhive/styles": "^0.0.4-alpha.0",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",

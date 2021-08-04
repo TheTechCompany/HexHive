@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-apps/flow-old",
-  "version": "0.0.3-alpha.0",
+  "version": "0.0.4-alpha.0",
   "private": true,
   "homepage": "/dashboard/flow",
   "eslintConfig": {
@@ -12,7 +12,7 @@
     "@babel/core": "7.12.3",
     "@date-io/moment": "^1.3.9",
     "@gqless/react": "^2.0.15",
-    "@hexhive/auth-ui": "^0.0.3-alpha.0",
+    "@hexhive/auth-ui": "^0.0.4-alpha.0",
     "@material-ui/core": "^4.3.1",
     "@material-ui/pickers": "^3.2.2",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
