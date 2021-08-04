@@ -35,6 +35,7 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
   const [ files, setFiles ] = useState<HexFile[]>([])
 
   useEffect(() => {
+    console.log(props.files)
     if(props.files && !isEqual(files, props.files)){
       setFiles(props.files)
     }
@@ -158,15 +159,16 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
                 options={['Issued', 'Workshop', 'Finished']}
                 />
             </Box>
-            <div style={{display: 'flex', flexDirection: 'column'}}> 
-              <Text style={{color: 'gray'}}>File type: {file && file.mimeType}</Text>
+            <div 
+              style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column'}}> 
+              {/* <Text style={{textAlign: 'start', color: 'gray'}}>File type: {file && file.mimeType}</Text> */}
               <Text style={{color: 'gray'}}>Uploaded By: {file && file.owner && file.owner?.name}</Text>
               {file.id && <Text style={{color: 'gray'}}>Upload Date: {file && moment(file.timestamp || dateFromObjectID(file.id)).format("hh:mma DD/MM/YYYY")}</Text>}
             </div>
           </div>
 
         </Box>
-        <Box margin={{top: 'small'}} direction="row" justify="end">
+        <Box gap="xsmall" margin={{top: 'small'}} direction="row" justify="end">
           <Button label="Cancel" onClick={onClose} />
           <Button primary label="Save" onClick={onSubmit} />
         </Box>
