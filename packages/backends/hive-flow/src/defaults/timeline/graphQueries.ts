@@ -35,8 +35,8 @@ const Queries = (connector: Connector) => {
         args: {
             id: 'ID'
         },
-        resolve: async (root, args) => {
-           const result = await TimelineItem.findById(args.id)
+        resolve: async (root, args, context) => {
+           const result = await TimelineItem.findOne({_id: args.id, organisation: context.user.organisation})
            return result.toJSON({virtuals: true})
         }
     },
@@ -47,8 +47,8 @@ const Queries = (connector: Connector) => {
             startDate: "Date",
             endDate: "Date"
         },
-        resolve: async (root, args) => {
-            let query : any = {};
+        resolve: async (root, args, context) => {
+            let query : any = {organisation: context.user.organisation};
             
             let dateQuery : any = {};
             if(args.startDate){
@@ -86,6 +86,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 console.log(root, args, context, info)
                 let timeline = new TimelineItem({
                     ...args.item,
+                    organisation: context.user.organisation
                //     owner: context.user._id
                 })
 
@@ -119,7 +120,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 id: "String"
             },
             resolve: async (root, args, context, info) => {
-                let item = await TimelineItem.deleteOne({_id: args.id})
+                let item = await TimelineItem.deleteOne({_id: args.id, organisation: context.user.organisation})
 
                 return item.deletedCount == 1;
             }
