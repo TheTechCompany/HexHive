@@ -17,7 +17,7 @@
   },
   "scripts": {
     "dev": "NODE_ENV=dev yarn start",
-    "start": "ts-node src/server.ts",
+    "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "build": "tsc -b"
   },
   "devDependencies": {
