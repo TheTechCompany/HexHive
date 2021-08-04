@@ -44,7 +44,7 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
         console.log(props.selected)
         setPlan(props.selected ? {
             ...props.selected,
-            project: props.selected.project.id
+            project: props.selected?.project?.id
         } : {items: []})
     }, [props.selected])
 

@@ -17,7 +17,7 @@ export type Task = {
     start?: Date;
     end?: Date;
     name?: string;
-    color?: string;
+    color?: string | {color: string, percent: number}[];
     collapsibleContent?: any;
     showLabel?: boolean | string;
 };
