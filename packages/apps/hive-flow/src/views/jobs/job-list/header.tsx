@@ -33,7 +33,7 @@ export const JobHeader : React.FC<JobHeaderProps> = (props) => {
             onChange={(e) => props.onFilterChange?.({search: e.target.value, status: props.filter?.status})}
           focusIndicator={false}
           plain
-          placeholder="Search Jobs" />
+          placeholder="Search Projects..." />
         </Box>
         <Box 
             overflow="hidden"
