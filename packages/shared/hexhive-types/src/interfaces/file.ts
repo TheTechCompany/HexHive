@@ -9,6 +9,7 @@ export interface IFile {
     extension?: string;
     timestamp?: Date;
     status?: string;
+    organisation: any;
     owner?: {
         name: string
     }
