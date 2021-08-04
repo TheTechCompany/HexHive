@@ -178,7 +178,7 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                                         onChange={({option}) => updateCapacityItem(ix, 'type', option)}
                                         value={x.type}
                                         placeholder="Type"
-                                        options={["Welder", "Fabricator", "TA"]} />
+                                        options={["Welder", "Fabricator", "Civil Subcontractor", "TA"]} />
                                 </Box>
                                 <Box flex>
                                     <Select 

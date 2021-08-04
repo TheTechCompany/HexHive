@@ -45,17 +45,18 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
       <Button 
         onClick={props.onLogoClick}
         icon={props.logo}
+        style={{padding: '10%'}}
         className="sidebar-header-image" >
       </Button>
-      <Box pad={{vertical: 'xsmall'}} className="sidebar-menu">
+      <Box margin={{top: 'medium'}} pad={{vertical: 'xsmall'}} className="sidebar-menu">
         {props.menu?.map((x, ix) => (
           <li
             key={`sidebar-${ix}`}
             className={`sidebar-menu-opt ${props.active == "/" + x.label.toLowerCase() ? "active" : ''} ${ix == 0 && props.active == "" ? 'active' : ''}`}
             onClick={() => props.onSelect(x.label)}>
 
-            {React.cloneElement(x.icon, {style: {filter: 'invert(1)', fill: '#F3E6DC', minWidth: '30px', maxWidth: '30px'}})}
-            <Text color={'neutral-1'} margin={{left: 'small'}}>{x.label}</Text>
+            {React.cloneElement(x.icon, {style: {filter: 'invert(1)', fill: '#F3E6DC', minWidth: '20px', maxWidth: '20px'}})}
+            <Text size="15px" color={'neutral-1'} margin={{left: 'small'}}>{x.label}</Text>
 
 
           </li>

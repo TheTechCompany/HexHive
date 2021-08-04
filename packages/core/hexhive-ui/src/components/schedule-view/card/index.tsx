@@ -36,7 +36,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
             elevation="small"
             overflow="hidden"
             round="xsmall"
-            background="accent-1">
+            background="neutral-2">
 
             <Popover
                 enterExitTransitionDurationMs={300}
