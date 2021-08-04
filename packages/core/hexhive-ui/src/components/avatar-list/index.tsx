@@ -29,7 +29,7 @@ export const AvatarList : React.FC<AvatarListProps> =  ({
 
           return(
             <Avatar style={style}>
-              <Text size={`${size * (5/8)}px`} >
+              <Text color="white" size={`${size * (5/8)}px`} >
                 {x.name?.split(' ').map((x) => x[0]).join('')}
               </Text>
             </Avatar>
