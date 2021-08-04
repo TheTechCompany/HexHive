@@ -12,10 +12,10 @@ export const BaseHeader : React.FC<any> = (props) => {
             background="accent-2"
             direction="row">
             <Box align="center" direction="row">
-            <HiveLogo  height="30px" width="40px"/>
+            <HiveLogo  height="30px" width="45px"/>
             {/* <Button size="small" hoverIndicator icon={         
 } /> */}
-                <Text margin={{left: 'xsmall'}}>HexHive</Text>
+            
             </Box>
             <Profile height="25px" />
         </Header>
