@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Heading, Button, TextInput, Form, Spinner } from 'grommet';
 import { Meta } from '../../layout/Meta';
 import { AppConfig } from '../../utils/AppConfig';
-import Logo from '../../assets/logo.svg';
+import Logo from '../../assets/hivesystems.svg';
 import { useAuth } from '../../hooks/useAuth';
 
 export default () => {

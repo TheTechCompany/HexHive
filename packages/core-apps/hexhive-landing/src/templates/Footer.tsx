@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Background } from '../background/Background';
 import { CenteredFooter } from '../footer/CenteredFooter';
 import { Section } from '../layout/Section';
-import Logo from '../assets/logo.svg';
+import Logo from '../assets/hivesystems.svg';
 
 const Footer = () => (
   <Background color="bg-gray-100">
