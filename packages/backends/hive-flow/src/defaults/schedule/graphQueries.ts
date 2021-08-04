@@ -80,7 +80,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                 item: "ScheduleItemInput"
             },
             resolve: async (root, args, context, info) => {
-                console.log(root, args, context, info)
+                console.log("Create Schedule Item", context.user.organisation)
                 //TODO add org flag here to prevent unhappy customers
                 let schedule = new ScheduleItem({
                     ...args.item,

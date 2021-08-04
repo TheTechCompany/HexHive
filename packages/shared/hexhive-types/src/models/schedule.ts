@@ -6,6 +6,7 @@ export interface ScheduleInterface {
         id: string;
         name: string
     };
+    organisation: any;
     job: {
         id?: string;
         name?: string
@@ -43,6 +44,7 @@ export const ScheduleItemSchema = new Schema<ScheduleInterface>({
     owner: {type: Schema.Types.ObjectId, ref: 'User'},
     equipment: [String],
     notes: [String],
+    organisation: Schema.Types.ObjectId,
     date: Date
 })
 
