@@ -1,11 +1,13 @@
 import { schemaComposer } from "graphql-compose"
 import { File, Project, User } from '@hexhive/types'
+import conf from '../../conf'
+import jwt from 'jsonwebtoken'
 
 const UserTC = schemaComposer.createObjectTC({
     name: "User",
     fields: {
         id: "ID",
-        name: "String"
+        name: "String",
     }
 })
 
@@ -37,6 +39,19 @@ const FileTC = schemaComposer.createObjectTC({
             resolve: (root, args, context) => {
                 console.log(root, args)
                 return UserTC.getResolver('findById').resolve({args: {id: root.owner}})
+            }
+        },
+        url: {
+            type: "String",
+            resolve: (root, args, context) => {
+                //TODO make url environemntal
+                const presignedToken = jwt.sign({
+                    type: "FILE_ACCESS",
+                    file: root.id,
+                    bearer: context.user._id,
+                }, conf.jwt_secret, {expiresIn: '1 day'})
+
+                return `https://api.hexhive.io/flow/api/files/${root.id}${root.extension}?access_token=${presignedToken}`
             }
         }
     }
