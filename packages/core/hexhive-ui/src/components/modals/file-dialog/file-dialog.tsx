@@ -10,6 +10,7 @@ import moment from 'moment';
 import { Button, Text, Select, Heading,  Box, Layer, TextInput} from 'grommet'
 // import './file-dialog.css';
 import { IFile as HexFile } from '@hexhive/types'
+import { dateFromObjectID } from '@hexhive/utils'
 import { FileViewer } from '../../file-viewer';
 import { FileContent } from './FileContent';
 import { isEqual } from 'lodash';
@@ -160,7 +161,7 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
             <div style={{display: 'flex', flexDirection: 'column'}}> 
               <Text style={{color: 'gray'}}>File type: {file && file.mimeType}</Text>
               <Text style={{color: 'gray'}}>Uploaded By: {file && file.owner && file.owner?.name}</Text>
-              {file.id && <Text style={{color: 'gray'}}>Upload Date: {file && moment(/*dateFromObjectID(file._id)*/).format("hh:mma DD/MM/YYYY")}</Text>}
+              {file.id && <Text style={{color: 'gray'}}>Upload Date: {file && moment(file.timestamp || dateFromObjectID(file.id)).format("hh:mma DD/MM/YYYY")}</Text>}
             </div>
           </div>
 
