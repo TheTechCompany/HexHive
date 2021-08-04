@@ -8,7 +8,7 @@ export const FileSchema = new Schema<IFile>({
     mimeType: String,
     extension: String,
     owner: {type: Schema.Types.ObjectId, ref: 'User'},
-    timestamp: Date,
+    timestamp: {type: Date, default: Date.now},
     status: String
 })
 
