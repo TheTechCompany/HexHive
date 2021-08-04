@@ -40,9 +40,13 @@ export default (connector: Connector) => {
 
     router.get('/:fileID',  async (req, res, next) => {
         let token = req.query.token
-        if(!token) return res.status(400).send({error: "No token provided"});
-
-        let decoded : any = jwt.verify(token.toString(), conf.jwt_secret)
+        if(!token) return res.status(401).send({error: "No token provided"});
+        let decoded : any;
+        try{
+            decoded = jwt.verify(token.toString(), conf.jwt_secret)
+        }catch(e){
+            return res.status(401).send({error: "Invalid token provided"});
+        }
 
         let fileID = req.params.fileID;
 
