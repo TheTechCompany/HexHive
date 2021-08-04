@@ -117,7 +117,7 @@ app.use(bodyParser.json());
 // AuthServer.oauthServer.authenticate(),
 if(process.env.NODE_ENV == 'dev-auth' || process.env.NODE_ENV == 'production'){
   app.use('/graphql', AuthServer.oauthServer.authenticate())
-  app.use('/api/files', AuthServer.oauthServer.authenticate())
+  // app.use('/api/files', )
 }
 
 app.use('/graphql',
