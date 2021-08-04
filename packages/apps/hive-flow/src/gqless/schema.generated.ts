@@ -169,6 +169,7 @@ export const generatedSchema = {
     timestamp: { __type: "Date" },
     status: { __type: "String" },
     owner: { __type: "User" },
+    url: { __type: "String" },
   },
   User: {
     __typename: { __type: "String!" },
@@ -381,6 +382,7 @@ export interface File {
   timestamp?: Maybe<ScalarsEnums["Date"]>;
   status?: Maybe<ScalarsEnums["String"]>;
   owner?: Maybe<User>;
+  url?: Maybe<ScalarsEnums["String"]>;
 }
 
 export interface User {

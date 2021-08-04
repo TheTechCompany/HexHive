@@ -44,9 +44,9 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
                 target={hoverEl}
                 preferPlace={"right"}
                 body={(
-                    <div style={{background: "white"}}>
+                    <Box background={'light-1'} round="xsmall" pad="xsmall">
                         <ul style={{ listStyle: 'none', paddingLeft: 0 }}>{data.notes.map((x) => (<li>{x}</li>))}</ul>
-                    </div>)} >
+                    </Box>)} >
 
                 <Box
                     aria-owns={hoverEl != null ? 'mouse-over-notes' : undefined}

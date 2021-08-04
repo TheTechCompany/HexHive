@@ -14,6 +14,7 @@
   "dependencies": {
     "@hexhive/auth": "^0.0.3-alpha.0",
     "@hexhive/types": "^0.0.3-alpha.0",
+    "express-jwt": "^6.0.0",
     "ipfs-http-client": "^51.0.0"
   },
   "devDependencies": {

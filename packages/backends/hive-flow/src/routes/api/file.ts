@@ -7,6 +7,9 @@ import { PassThrough } from 'stream';
 
 import multer from 'multer'
 import { addFileToJob } from '../../connector/files';
+import conf from '../../conf'
+import jwt from 'jsonwebtoken'
+import { AuthServer } from '@hexhive/auth';
 
 const upload = multer();
 
@@ -15,7 +18,7 @@ const router = Router();
 export default (connector: Connector) => {
 
     //Upload file to hexhive store
-    router.post('/', upload.array('files'), async (req, res) => {
+    router.post('/', AuthServer.oauthServer.authenticate(), upload.array('files'), async (req, res) => {
         let user: any = (req as any).user
       console.log(user)
          let uploader = {
@@ -35,7 +38,12 @@ export default (connector: Connector) => {
         res.send({ success: true, files})
     })
 
-    router.get('/:fileID', async (req, res, next) => {
+    router.get('/:fileID',  async (req, res, next) => {
+        let token = req.query.token
+        if(!token) return res.status(400).send({error: "No token provided"});
+
+        let decoded : any = jwt.verify(token.toString(), conf.jwt_secret)
+
         let fileID = req.params.fileID;
 
         let extension: RegExpMatchArray | null = fileID.match(/\.[0-9a-z]+$/i)
@@ -43,6 +51,9 @@ export default (connector: Connector) => {
         if (extension) {
             fileID = fileID.replace(extension[0], '')
         }
+
+        if(decoded.file != fileID || decoded.type != "FILE_ACCESS") return res.status(400).send({error: "Wrong token provided"});
+
 
         let file = await File.findById(fileID)
 
