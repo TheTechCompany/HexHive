@@ -51,7 +51,7 @@ const FileTC = schemaComposer.createObjectTC({
                     bearer: context.user._id,
                 }, conf.jwt_secret, {expiresIn: '1 day'})
 
-                return `https://api.hexhive.io/flow/api/files/${root.id}${root.extension}?access_token=${presignedToken}`
+                return `https://api.hexhive.io/flow/api/files/${root.id}${root.extension}?token=${presignedToken}`
             }
         }
     }
