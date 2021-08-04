@@ -121,7 +121,7 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
           setShowFiles([item])
           openDialog(true)
         }}
-        files={files.concat(files).concat(files) || []}
+        files={files || []}
         onDelete={async (_files) => {
           console.log(_files)
           await Promise.all(_files.map(async (file) => {
