@@ -54,7 +54,7 @@ export const addFileToJob = async (
         name: string, 
         mimetype: string, 
         extension: string
-    }[], uploader: {id: string}) => {
+    }[], uploader: {id: string, organisation: string}) => {
 
     console.log(uploader.id)
     const user = await User.findById(uploader.id) //{id: uploader.id})
@@ -66,6 +66,7 @@ export const addFileToJob = async (
             extension: file.extension,
             mimeType: file.mimetype,
             owner: uploader.id, //Fix issue of IDP being on a different db user._id,
+            organisation: uploader.organisation,
             timetstamp: new Date()
         })
 
@@ -73,7 +74,7 @@ export const addFileToJob = async (
         return new_file;
     }))
 
-    await Project.updateOne({id: job_id}, {$push: {files: results.map((x) => x._id)}}, {upsert: true})
+    await Project.updateOne({id: job_id, organisation: uploader.organisation}, {$push: {files: results.map((x) => x._id)}}, {upsert: true})
     
     return results;
  
