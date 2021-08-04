@@ -43,8 +43,7 @@ export const FileList: React.FC<FileListProps> = (props) => {
 
     return (
         <DataTable
-            step={50}
-            paginate={true}
+            fill
             onMore={() => console.log("More")}
             pin
             primaryKey={"id"}

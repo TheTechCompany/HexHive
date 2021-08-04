@@ -181,9 +181,8 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
           </Box>
             <Dropzone noClick={true} noKeyboard={true} onDrop={filesDropped}>
               {({getRootProps, getInputProps, isDragActive, open}) => (
-                <section style={{flex: 1, display: 'flex', flexDirection: 'column', outline: 'none', overflowY: 'scroll'}}>
-                  
-                  <Box flex className={`file-list ${files?.length > 0 ? '' : 'empty'}`} {...getRootProps()}>
+                  <Box flex>
+                  <Box overflow="scroll" flex className={`file-list ${files?.length > 0 ? '' : 'empty'}`} {...getRootProps()}>
                     <input id="file-list__input" {...getInputProps()} />
                     
                     {(files?.length > 0) ? (
@@ -233,7 +232,7 @@ export const SharedFiles : React.FC<SharedFileCardProps> = ({
                   }} >
                     <Add style={{stroke: 'white'}} />
                   </Button>
-                </section>
+                  </Box>
               )} 
             </Dropzone>
         
