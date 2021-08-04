@@ -6,6 +6,6 @@ import fileRouter from './file'
 export default (connector: Connector) => {
     const router = Router()
 
-    router.use('/file', fileRouter(connector))
+    router.use('/files', fileRouter(connector))
     return router
 }
