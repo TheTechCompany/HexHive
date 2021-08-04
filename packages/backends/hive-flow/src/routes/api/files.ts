@@ -23,6 +23,7 @@ export default (connector: Connector) => {
       console.log(user)
          let uploader = {
            id: user._id,
+           organisation: user.organisation,
            name: user.name
         };
     

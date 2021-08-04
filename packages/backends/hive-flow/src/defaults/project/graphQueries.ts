@@ -158,8 +158,8 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             project: "String",
             id: "String"
         },
-        resolve: async (root, args) => {
-            let project = await Project.findOne({id: args.project})
+        resolve: async (root, args, context) => {
+            let project = await Project.findOne({id: args.project, organisation: context.user.organisation})
             if(project){
                 project.files?.splice(project.files?.indexOf(args.id), 1)
                 await project.save()
@@ -175,11 +175,11 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             name: "String",
             status: "String"
         }, 
-        resolve: async (root, args) => {
+        resolve: async (root, args, context) => {
             let update : any = {
             }
             console.log("updateFile", args.id)
-            const file = await File.findById(args.id)
+            const file = await File.findOne({_id: args.id, organisation: context.user.organisation})
 
             if(file){
                 if(args.name) file.name = args.name;
@@ -197,9 +197,9 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
             ids: "[String]",
             status: "String"
         },
-        resolve: async (root, args) => {
+        resolve: async (root, args, context) => {
             console.log("UpdateFiles", args.ids)
-            const files = await File.find({_id: {$in: args.ids}})
+            const files = await File.find({_id: {$in: args.ids}, organisation: context.user.organisation})
             return await Promise.all(files.map(async (file) => {
                 file.status = args.status;
                 await file.save()

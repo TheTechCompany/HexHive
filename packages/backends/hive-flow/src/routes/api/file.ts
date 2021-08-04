@@ -30,7 +30,7 @@ router.get('/:fileID',  async (req, res, next) => {
     if(decoded.file != fileID || decoded.type != "FILE_ACCESS") return res.status(400).send({error: "Wrong token provided"});
 
 
-    let file = await File.findById(fileID)
+    let file = await File.findOne({_id: fileID, organisation: decoded.organisation})
 
     if (file) {
         const readStream = new PassThrough();
