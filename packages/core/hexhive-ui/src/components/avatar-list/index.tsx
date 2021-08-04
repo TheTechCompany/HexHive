@@ -29,7 +29,7 @@ export const AvatarList : React.FC<AvatarListProps> =  ({
 
           return(
             <Avatar style={style}>
-              <Text size={`${size * (5/8)}px`} color={invertColor(x.color || '')}>
+              <Text size={`${size * (5/8)}px`} >
                 {x.name?.split(' ').map((x) => x[0]).join('')}
               </Text>
             </Avatar>
@@ -39,3 +39,4 @@ export const AvatarList : React.FC<AvatarListProps> =  ({
     </div>
   )
 }
+//color={invertColor(x.color || '')}

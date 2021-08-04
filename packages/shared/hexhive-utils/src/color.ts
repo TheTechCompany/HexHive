@@ -1,5 +1,5 @@
 
-const hashCode = (str: string) => {
+export const hashCode = (str: string) => {
     var hash = 0;
     for(var i = 0; i < str.length; i++){
         hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -7,6 +7,15 @@ const hashCode = (str: string) => {
     return hash;
 }
 
+export const moduloHash = (input: number) => {
+    const firstMod = Math.abs(input % 144);
+     
+    console.log(firstMod, input)
+    const hueMod = firstMod % 18;
+    const satMod = Math.floor(firstMod / 18);
+
+    return `hsl(${hueMod * 20}, ${satMod* 10}%, 42%)`
+}
 
 const intToRGB = (i: number) => {
     var c = (i & 0x00FFFFFF)
@@ -41,5 +50,5 @@ export const invertColor = (hex: string) => {
     return '#' + padZero(r) + padZero(g) + padZero(b);
 }
 
-export const stringToColor = (string: string) => intToRGB(hashCode(string))
+export const stringToColor = (string: string) => moduloHash(hashCode(string))
 

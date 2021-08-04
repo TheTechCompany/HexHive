@@ -11,8 +11,8 @@ interface HeaderProps {
 }
 
 export const Header : React.FC<HeaderProps> = ({data, moveUp, moveDown}) => {
-    let color = stringToColor(data?.owner?.name || '');
-    let arrowColor = invertColor(color); 
+    let color = stringToColor(`${data.project.id} - ${data.project.name}`) // stringToColor(`${data.owner?.id}` || '');
+    let arrowColor = '' //invertColor(color); 
 
     return (
         <Box 

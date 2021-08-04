@@ -274,7 +274,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
 
     //if (!props.user.readonly) {
       return (
-        <Button style={{background: "#A3B696"}} color="accent-2" label="Create" key={dayIndex} className="add-item-button" onClick={() => {
+        <Button  style={{background: "#A3B696"}} color="accent-2" label="Create" key={dayIndex} className="add-item-button" onClick={() => {
           var day = moment(params[0]).add(dayIndex, 'day')
           setTimestamp(day)
           setCurrentDay(dayIndex)

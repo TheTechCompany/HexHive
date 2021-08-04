@@ -125,7 +125,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         if(capacity && view == "Projects"){
             setTimeline(capacity.map((capacity_plan, ix) => ({
                 id: capacity_plan?.id || `capacity-${ix}`,
-                name: capacity_plan?.project?.name || '',
+                name: `${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}`.substring(0, 20) || '',
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
                 color: stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
@@ -218,45 +218,12 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     }, [horizon?.start])
 
-    const getWeeks = () => {
-        let _weeks : any = {};
-        const weeks = quotes?.filter(filterData).reduce((previous, current) => {
-            console.log(current)
-            let start = current.start.getTime();
-            if (!previous[start]) previous[start] = 0;
-            previous[start] += current.price
-            return previous
-        }, _weeks)
-
-        console.log(weeks)
-        return Object.keys(weeks).map((start, ix) => {
-            return {
-                id: start,
-                name: `Week ${moment(new Date(parseInt(start))).format("W")}`,
-                color: stringToColor(moment(new Date(parseInt(start))).format("DD/mm/yyyy")),
-                start: new Date(parseInt(start)),
-                end: new Date(moment(new Date(parseInt(start))).add(7, 'days').valueOf()),
-                showLabel: formatter.format(weeks[start])
-            }
-        })
-    }
-
-
 
     const onHorizonChange = (start: Date, end: Date) => {
         //TODO BUFFER DAY Var
-        // let adjustedHorizon = {
-        //     start: moment(start).subtract(30, 'days').toDate(),
-        //     end: moment(end).add(30, 'days').toDate()
-        // }
+
         console.log("Horizon", start, end)
         setHorizon({start, end})
-
-        // let result = DATA.filter((item) => {
-        //   return (item.start < start && item.end > end) || (item.start > start && item.start < end) || (item.end > start && item.end < end);
-        // });
-        // console.log('Calculating ');
-        // this.setState({ data: result });
     };
 
     const filterData = (item: {start?: Date, end?: Date} ) => {
