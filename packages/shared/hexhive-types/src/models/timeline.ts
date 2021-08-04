@@ -13,6 +13,7 @@ export const TimelineItemSchema = new Schema<ITimelineItem>({
     startDate: Date,
     endDate: Date,
     project: String,
+    organisation: {type: Schema.Types.ObjectId, ref: "Organisation"},
     items: [TimelineItemElement]
 })
 
