@@ -5,7 +5,7 @@ import React, {
 import {SearchField} from './search-field';
 import { Layer, Button, Text, Heading, Box, Select } from 'grommet'
 
-import ColorDot from '../../color-dot';
+import {ColorDot} from '../../color-dot';
 
 // import DateRange from '../../material-date-range';
 import moment from 'moment';
