@@ -256,7 +256,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
         onSaveItem={props.onSaveItem}
         onCloneItem={props.onCloneItem}
         onDeleteItem={props.onDeleteItem}
-        
+
         projects={props.projects}
         people={props.people}
         equipment={props.equipment}
@@ -359,7 +359,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
             <Text>Loading schedule ...</Text>
           </Box>
         ) : (
-          <Box overflow={'scroll'} flex direction="row" className="week-days">
+          <Box background="neutral-2" overflow={'scroll'} flex direction="row" className="week-days">
             {renderedDays}
             {renderedModal}
           </Box>

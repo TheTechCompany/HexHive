@@ -11,9 +11,9 @@ export const moduloHash = (input: number) => {
     const firstMod = Math.abs(input % 144);
      
     const hueMod = firstMod % 18;
-    const satMod = Math.floor(firstMod / 18);
+    const satMod = Math.floor(firstMod / 24);
 
-    return `hsl(${hueMod * 20}, ${satMod* 10}%, 42%)`
+    return `hsl(${hueMod * 24}, ${satMod * 7}%, 55%)`
 }
 
 const intToRGB = (i: number) => {

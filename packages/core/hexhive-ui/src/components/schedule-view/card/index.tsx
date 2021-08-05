@@ -36,7 +36,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
             elevation="small"
             overflow="hidden"
             round="xsmall"
-            background="neutral-2">
+            background="neutral-1">
 
             <Popover
                 enterExitTransitionDurationMs={300}
@@ -44,7 +44,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
                 target={hoverEl}
                 preferPlace={"right"}
                 body={(
-                    <Box background={'light-1'} round="xsmall" pad="xsmall">
+                    <Box elevation="large" background={'light-1'} round="xsmall" pad="xsmall">
                         <ul style={{ listStyle: 'none', paddingLeft: 0 }}>{data.notes.map((x) => (<li>{x}</li>))}</ul>
                     </Box>)} >
 
@@ -62,7 +62,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
 
                     <Box
                         pad="xsmall"
-                        style={{ paddingBottom: (isEmpty() ? '16px' : undefined), position: 'relative' }} onClick={onClick}>
+                        style={{ paddingBottom: (isEmpty() ? '4px' : undefined), position: 'relative' }} onClick={onClick}>
                         <Text size="small" weight="bold" className="card-title" >{data?.project.name}</Text>
                         <Content
                             users={users || []}
