@@ -3,6 +3,7 @@ import React from "react"
 export const BackgroundStripe = (props: any) => {
     return (
         <Box 
+            border={props.border}
             background={props.background}
             style={{
                 position: 'absolute', 
