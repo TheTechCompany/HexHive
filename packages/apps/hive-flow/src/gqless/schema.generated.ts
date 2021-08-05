@@ -51,8 +51,13 @@ export interface TimelineItemInput {
   timeline?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["Date"]>;
   endDate?: Maybe<Scalars["Date"]>;
-  project?: Maybe<Scalars["String"]>;
+  project?: Maybe<TimelineProjectInput>;
   items?: Maybe<Array<Maybe<TimelineItemItemsInput>>>;
+}
+
+export interface TimelineProjectInput {
+  id?: Maybe<Scalars["ID"]>;
+  type?: Maybe<Scalars["String"]>;
 }
 
 export interface TimelineItemItemsInput {
@@ -210,13 +215,19 @@ export const generatedSchema = {
     startDate: { __type: "Date" },
     endDate: { __type: "Date" },
     items: { __type: "[TimelineItemItems]" },
-    project: { __type: "Project" },
+    project: { __type: "TimelineProject" },
   },
   TimelineItemItems: {
     __typename: { __type: "String!" },
     type: { __type: "String" },
     location: { __type: "String" },
     estimate: { __type: "Float" },
+  },
+  TimelineProject: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    name: { __type: "String" },
+    type: { __type: "String" },
   },
   People: {
     __typename: { __type: "String!" },
@@ -251,9 +262,10 @@ export const generatedSchema = {
     timeline: { __type: "String" },
     startDate: { __type: "Date" },
     endDate: { __type: "Date" },
-    project: { __type: "String" },
+    project: { __type: "TimelineProjectInput" },
     items: { __type: "[TimelineItemItemsInput]" },
   },
+  TimelineProjectInput: { id: { __type: "ID" }, type: { __type: "String" } },
   TimelineItemItemsInput: {
     type: { __type: "String" },
     location: { __type: "String" },
@@ -428,7 +440,7 @@ export interface TimelineItem {
   startDate?: Maybe<ScalarsEnums["Date"]>;
   endDate?: Maybe<ScalarsEnums["Date"]>;
   items?: Maybe<Array<Maybe<TimelineItemItems>>>;
-  project?: Maybe<Project>;
+  project?: Maybe<TimelineProject>;
 }
 
 export interface TimelineItemItems {
@@ -436,6 +448,13 @@ export interface TimelineItemItems {
   type?: Maybe<ScalarsEnums["String"]>;
   location?: Maybe<ScalarsEnums["String"]>;
   estimate?: Maybe<ScalarsEnums["Float"]>;
+}
+
+export interface TimelineProject {
+  __typename: "TimelineProject" | undefined;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  name?: Maybe<ScalarsEnums["String"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
 }
 
 export interface People {
@@ -456,6 +475,7 @@ export interface SchemaObjectTypes {
   ScheduleItem: ScheduleItem;
   TimelineItem: TimelineItem;
   TimelineItemItems: TimelineItemItems;
+  TimelineProject: TimelineProject;
   People: People;
 }
 export type SchemaObjectTypesNames =
@@ -470,6 +490,7 @@ export type SchemaObjectTypesNames =
   | "ScheduleItem"
   | "TimelineItem"
   | "TimelineItemItems"
+  | "TimelineProject"
   | "People";
 
 export interface GeneratedSchema {

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Add, Close } from 'grommet-icons'
 import moment from 'moment';
 import { useEffect } from 'react';
+import { ColorDot } from '../../color-dot';
 
 export interface ERPModalProps {
     open: boolean;
@@ -14,8 +15,9 @@ export interface ERPModalProps {
     projects?: {
         id?: string | null;
         name?: string | null;
+        type?: string;
     }[]
-    onSubmit?: (plan: { project?: string,
+    onSubmit?: (plan: { project?: {id?: string, type?: string},
         startDate?: Date,
         endDate?: Date,
         items?: {
@@ -64,6 +66,10 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
     const onSubmit = () => {
         let submit_plan = {
             ...plan,
+            project: {
+                type: props.projects?.find((a) => a.id == plan.project)?.type,
+                id: plan.project
+            },
             startDate: new Date(moment(plan.startDate).set('hours', 0).valueOf()),
             endDate: new Date(moment(plan.endDate).set('hours', 24).valueOf())
         }
@@ -132,7 +138,14 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                                 value={plan.project}
                                 labelKey={(item) => item.id + ' - ' + item.name}
                                 valueKey={{key: "id", reduce: true}}
-                                options={props.projects?.filter((a) => !search || `${a.id} - ${a.name}`.indexOf(search) > -1) || []} />
+                                options={props.projects?.filter((a) => !search || `${a.id} - ${a.name}`.indexOf(search) > -1) || []}>
+                                {(option) => (
+                                    <Box pad="small" direction="row" align="center">
+                                        <ColorDot color={option.type == "Project" ? '#A3B696': '#edc25c'} size={10}/>
+                                        <Text>{option.id} - {option.name}</Text>
+                                    </Box>
+                                )}
+                            </Select>
                         </Box>
                         <Box gap="xsmall" direction="row">
                             <Box flex>

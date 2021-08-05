@@ -11,14 +11,21 @@ const TimelineItemItemsInput = schemaComposer.createInputTC({
     }
 })
 
+const TimelineProjectInput = schemaComposer.createInputTC({
+    name: 'TimelineProjectInput',
+    fields: {
+        id: 'ID',
+        type: 'String'
+    }
+})
+
 const TimelineItemInput = schemaComposer.createInputTC({
     name: 'TimelineItemInput',
     fields: {
         timeline: "String",
         startDate: "Date",
         endDate: "Date",
-
-        project: "String",
+        project: "TimelineProjectInput",
         items: "[TimelineItemItemsInput]"
     }
 })
@@ -40,6 +47,15 @@ const TimelineItemItems = schemaComposer.createObjectTC({
     }
 })
 
+const TimelineProject = schemaComposer.createObjectTC({
+    name: 'TimelineProject',
+    fields: {
+        id: 'ID',
+        name: 'String',
+        type: 'String'
+    }
+})
+
 const TimelineItemTC = schemaComposer.createObjectTC({
     name: 'TimelineItem',
     fields: {
@@ -49,10 +65,17 @@ const TimelineItemTC = schemaComposer.createObjectTC({
         endDate: "Date",
         items: "[TimelineItemItems]",
         project: {
-            type: "Project",
+            type: "TimelineProject",
             resolve: async (root, args, context, info) => {
-                return await schemaComposer.Query.getField('ProjectById')?.resolve?.({}, {id: root.project}, context, info)
-                console.log(root, args)
+                let project;
+                if(root.project && root.project.type == "Project"){
+                    project = await schemaComposer.Query.getField('ProjectById')?.resolve?.({}, {id: root.project.id}, context, info)
+                    project.type = "Project";
+                }else if(root.project && root.project.type == "Estimate"){
+                    project = await schemaComposer.Query.getField('QuoteById')?.resolve?.({}, {id: root.project.id}, context, info)
+                    project.type = "Estimate";
+                }
+                return project
             }
         }
     }

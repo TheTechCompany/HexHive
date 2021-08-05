@@ -35,13 +35,13 @@ const Queries = (connector: Connector) => {
             id: 'ID'
         },
         resolve: async (root, args) => {
-            let query = `SELECT osqhQuoteID as id, osqhtOther11 as name, osqhStatus as status, osqhCustName as customer,  convert(datetime, osqhDate) as date FROM dbo.vwosQuotes WHERE id=@quoteID`;
+            let query = `SELECT osqhQuoteID as id, osqhtOther11 as name, osqhStatus as status, osqhCustName as customer,  convert(datetime, osqhDate) as date FROM dbo.vwosQuotes WHERE osqhQuoteID=@quoteID`;
             let request = new sql.Request(connector.pool)
             request.input('quoteID', sql.Int, parseInt(args.id))
 
             const result = await request.query(query)
-            console.log(result)
-            return result.recordset
+            console.log(result, args.id)
+            return result.recordset[0]
         }
     },
     QuoteMany: {

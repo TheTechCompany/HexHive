@@ -8,11 +8,16 @@ export const TimelineItemElement = new Schema({
     estimate: Number
 })
 
+export const TimelineProject = new Schema({
+    id: "String",
+    type: "String"
+})
+
 export const TimelineItemSchema = new Schema<ITimelineItem>({
     timeline: String,
     startDate: Date,
     endDate: Date,
-    project: String,
+    project: TimelineProject,
     organisation: Schema.Types.ObjectId,
     items: [TimelineItemElement]
 })
