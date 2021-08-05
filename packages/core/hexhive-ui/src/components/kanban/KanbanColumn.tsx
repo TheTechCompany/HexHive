@@ -75,7 +75,7 @@ export const KanbanColumn : React.FC<KanbanColumnProps> = ({
                  <KanbanList 
                     droppableId={`${index}`}
                     renderCard={renderCard} 
-                    items={items.filter((a) => (!ttl || (Date.now() - dateFromObjectID(a._id).getTime()) < ttl))}/>
+                    items={items.filter((a) => (!ttl || (Date.now() - dateFromObjectID(a.id).getTime()) < ttl))}/>
 
                 </Box>
             </Box>
