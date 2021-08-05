@@ -18,6 +18,7 @@ import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
 
 import { useMutation, useQuery, File, useRefetch } from '../../../gqless';
 import { KanbanModal } from './KanbanModal';
+import { dateFromObjectID } from '@hexhive/utils';
 
 export interface FocusedJobProps{
   match?: any;
@@ -126,7 +127,14 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
           setShowFiles([item])
           openDialog(true)
         }}
-        files={files || []}
+        files={(files || []).filter((a) => {
+          if(a.status == "Finished"){
+            let ttl = 14 * 24 * 60 * 60 * 1000;
+            return Date.now() - dateFromObjectID(a.id).getTime() < ttl;
+          }
+          return true;
+        })
+        }
         onDelete={async (_files) => {
           console.log(_files)
           await Promise.all(_files.map(async (file) => {
