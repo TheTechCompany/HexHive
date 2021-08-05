@@ -10,6 +10,7 @@ export interface TimelineProps{
 
 export type TimelineView = "Projects" | "People" | "Estimates" ;
 export const TimelineHeader: React.FC<TimelineProps> = (props) => {
+    console.log(props.view)
     return (
         <Box
             round="xsmall"
@@ -30,7 +31,7 @@ export const TimelineHeader: React.FC<TimelineProps> = (props) => {
                     options={["Projects", "People", "Estimates"]} />
             </Box>
             <Box background="#ffffff42" round="xsmall">
-                {props.view == "Projects" || props.view == "People" && <Button onClick={props.onAdd} icon={<Add />} />}
+                {(props.view == "Projects" || props.view == "People") && <Button onClick={props.onAdd} icon={<Add />} />}
             </Box>
         </Box>
     );
