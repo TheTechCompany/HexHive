@@ -6,9 +6,11 @@ import { Add, Close } from 'grommet-icons'
 import moment from 'moment';
 import { useEffect } from 'react';
 import { ColorDot } from '../../color-dot';
+import { CapacityItem } from './CapacityItem';
 
 export interface ERPModalProps {
     open: boolean;
+    type: "Projects" | "People" | "Estimates",
     selected?: any;
     onClose?: () => void;
     onDelete?: () => void;
@@ -130,7 +132,7 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                         
                     {/* Content */}
                     <Box height={{min: 'min-content'}} direction="column">
-                        <Box direction="column">
+                        {props.type == "Projects" && <Box direction="column">
                             <Text alignSelf="start" size="small">Project</Text>
                             <Select
                                 onSearch={(searchString) => { setSearch(searchString) }}
@@ -146,7 +148,7 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                                     </Box>
                                 )}
                             </Select>
-                        </Box>
+                        </Box>}
                         <Box gap="xsmall" direction="row">
                             <Box flex>
                                 <Text alignSelf="start" size="small">Start Date</Text>
@@ -174,7 +176,7 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                             direction="row"
                             align="center"
                             justify="between">
-                            <Text margin="none" weight="bold">Planned Capacity</Text>
+                            <Text margin="none" weight="bold">Capacity</Text>
                             <Button
                                 onClick={addCapacityItem}
                                 hoverIndicator 
@@ -185,30 +187,11 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                         height={'min-content'}
                         overflow={'scroll'}>
                         {plan.items?.map((x, ix) => (
-                            <Box key={ix} height={{min: '45px'}} align="center" direction="row">
-                                <Box flex>
-                                     <Select
-                                        onChange={({option}) => updateCapacityItem(ix, 'type', option)}
-                                        value={x.type}
-                                        placeholder="Type"
-                                        options={["Welder", "Fabricator", "Civil Subcontractor", "TA"]} />
-                                </Box>
-                                <Box flex>
-                                    <Select 
-                                        value={x.location}
-                                        onChange={({option}) => updateCapacityItem(ix, 'location', option)}
-                                        placeholder="Location"
-                                        options={["Site", "Workshop"]} />
-                                </Box>
-                                <Box flex>
-                                    <TextInput  
-                                        type="number"
-                                        value={x.estimate}
-                                        onChange={(e) => updateCapacityItem(ix, 'estimate', parseFloat(e.target.value))}
-                                        placeholder="Estimated hours" />
-                                </Box>
-                                <Button onClick={() => removeCapacityItem(ix)} icon={<Close size="small" color="red" />} />
-                            </Box>
+                            <CapacityItem 
+                                item={x}
+                                type={props.type}
+                                removeCapacityItem={() => removeCapacityItem(ix)}
+                                updateCapacityItem={(key, value) => updateCapacityItem(ix, key, value)}/>
                         ))}
                     </Box>
     

@@ -7,6 +7,7 @@ export interface HeaderItemProps{
     width: number;
     label?: string | number;
     mode?: string;
+    background?: any;
 
     className?: string;
   }
@@ -20,6 +21,7 @@ export interface HeaderItemProps{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            background: props.background,
             borderLeft: 'solid 1px rgb(216, 217, 218)',
             position: 'absolute',
             height: 20,
