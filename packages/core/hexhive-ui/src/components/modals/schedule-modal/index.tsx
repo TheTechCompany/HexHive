@@ -40,7 +40,8 @@ export interface ScheduleModalProps {
   onSaveItem: (item: any, ts: Date) => void;
   onCloneItem: (item: any, currentDates: Date[], cloneDates: Date[]) => void;
   onCreateItem: (item: any, ts: Date) => void;
-
+  onDeleteItem: (item: any) => void;
+  
   onJoinCard?: () => void;
   onLeaveCard?: () => void;
 }
@@ -227,12 +228,13 @@ const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
   const renderRemove = (stateMode: string) => {
     if(stateMode === 'Edit'){
       return (
-        <Button color="secondary" onClick={() => {
+        <Button color="red" onClick={() => {
           if(item?.id){
+            props.onDeleteItem?.(item)
             //  removeSchedule(item?.id)
           }
           onClose()
-        }}>Delete</Button>
+        }} label="Delete" />
       );
     }else{
       return null;

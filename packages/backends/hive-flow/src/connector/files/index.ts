@@ -74,7 +74,7 @@ export const addFileToJob = async (
         return new_file;
     }))
 
-    await Project.updateOne({id: job_id, organisation: uploader.organisation}, {$push: {files: results.map((x) => x._id)}}, {upsert: true})
+    await Project.updateOne({id: job_id}, {$push: {files: results.map((x) => x._id)}}, {upsert: true})
     
     return results;
  
