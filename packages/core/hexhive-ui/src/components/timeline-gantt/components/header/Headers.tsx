@@ -148,7 +148,7 @@ const Header : React.FC<HeaderProps> = (props) => {
           result.background.push(stripes)
           result.bottom.push(renderTime(box.left, box.width, bottom, i));
         } else {
-          result.background.push(<BackgroundStripe key={`tile-${i}`} left={box.left} width={box.width} background={i % 2 == 0 ? 'light-1' : 'neutral-1'} />)
+          result.background.push(<BackgroundStripe key={`tile-${i}`} left={box.left} width={box.width} border={{size: !(currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7) && 'xsmall', color: '#00000020'}} background={currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7 ? 'light-1' : 'neutral-1'} />)
           result.bottom.push(<HeaderItem key={i} left={box.left} width={box.width} label={currentBottom} />);
         }
 
