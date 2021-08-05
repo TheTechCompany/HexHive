@@ -19,6 +19,7 @@ import { useRef } from 'react';
 import { getDayWidth } from './utils';
 import { Box, Spinner } from 'grommet';
 import styled from 'styled-components'
+import { Moment } from 'moment';
 
 
 
@@ -45,6 +46,8 @@ export type TimelineProps = {
   onSelectItem?: (item: object) => void;
   onHorizonChange?: (start: Date, end: Date) => void;
   onNeedData?: any;
+
+  dayStatus?: (day: Moment) => any;
 };
 
 const BaseTimeline : React.FC<TimelineProps> = (props) => {
@@ -448,6 +451,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
          
         <Box style={{position: 'absolute', height: '100%', width: '100%', top: 0, left: 0}} className="header-container">
           <Header
+              dayStatus={props.dayStatus}
               headerData={headerData}
               numVisibleDays={numVisibleDays}
               currentday={currentday}

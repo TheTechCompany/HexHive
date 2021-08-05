@@ -70,10 +70,10 @@ const TimelineItemTC = schemaComposer.createObjectTC({
                 let project;
                 if(root.project && root.project.type == "Project"){
                     project = await schemaComposer.Query.getField('ProjectById')?.resolve?.({}, {id: root.project.id}, context, info)
-                    project.type = "Project";
+                    if(project) project.type = "Project";
                 }else if(root.project && root.project.type == "Estimate"){
                     project = await schemaComposer.Query.getField('QuoteById')?.resolve?.({}, {id: root.project.id}, context, info)
-                    project.type = "Estimate";
+                    if(project) project.type = "Estimate";
                 }
                 return project
             }

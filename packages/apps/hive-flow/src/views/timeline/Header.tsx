@@ -8,7 +8,7 @@ export interface TimelineProps{
     onViewChange?: (view: TimelineView) => void;
 }
 
-export type TimelineView = "Projects" | "Estimates";
+export type TimelineView = "Projects" | "People" | "Estimates" ;
 export const TimelineHeader: React.FC<TimelineProps> = (props) => {
     return (
         <Box
@@ -27,10 +27,10 @@ export const TimelineHeader: React.FC<TimelineProps> = (props) => {
                     onChange={({ option }) => {
                         props.onViewChange?.(option)
                     }}
-                    options={["Projects", "Estimates"]} />
+                    options={["Projects", "People", "Estimates"]} />
             </Box>
             <Box background="#ffffff42" round="xsmall">
-                {props.view == "Projects" && <Button onClick={props.onAdd} icon={<Add />} />}
+                {props.view == "Projects" || props.view == "People" && <Button onClick={props.onAdd} icon={<Add />} />}
             </Box>
         </Box>
     );

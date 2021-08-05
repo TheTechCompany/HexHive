@@ -22,6 +22,7 @@ const HourTypes : any = {
     Welder: "#7fc721",
     TA: "#c721ba",
     Fabricator: "#21c7c7",
+    "Skilled Labourer": "#6a23db",
     "Civil Subcontractor": "#c9900a"
 }
 
@@ -51,7 +52,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.TimelineItemMany({ timeline: 'Projects' })],
+        refetchQueries: [query.TimelineItemMany({ timeline: view })],
         awaitRefetchQueries: true,
         suspense: false,
     })
@@ -65,7 +66,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.TimelineItemMany({ timeline: 'Projects' })],
+        refetchQueries: [query.TimelineItemMany({ timeline: view })],
         awaitRefetchQueries: true,
         suspense: false,
     })
@@ -91,7 +92,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.TimelineItemMany({ timeline: 'Projects' })],
+        refetchQueries: [query.TimelineItemMany({ timeline: view })],
         awaitRefetchQueries: true,
         suspense: false,
     })
@@ -107,7 +108,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     const projects = query.ProjectMany({ statusList: ["Job Open", "Handover"] })?.map((x) => ({ ...x }))
     const estimates = query.QuoteMany({status: "Customer has quote"})?.map((x) => ({...x}))
 
-    const capacity = query.TimelineItemMany({ timeline: 'Projects' });
+    const capacity = query.TimelineItemMany({ timeline: view });
+
+    const people = query.TimelineItemMany({timeline: "People"})
 
     const [ timeline, setTimeline ] = useState<any[]>([])
 
@@ -135,7 +138,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     const generateStripes = (colors: {color: string, percent: number}[], hatched?: boolean) => {
         let c = colors.sort((a, b) => b.percent - a.percent)
     
-    //    if(c.length <= 0) return stringToColor(`${props.item?.name}`)
+        if(c.length <= 0) return 'gray' //stringToColor(`${props.item?.name}`)
     
         let gradient : any[] = [];
         let current_stop = 0;
@@ -192,6 +195,23 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     <Text>More</Text>
                 )
             })))
+        }else if(capacity && view == "People"){
+            setTimeline(capacity.map((capacity_plan, ix) => {
+                let weeks = moment(capacity_plan?.endDate).diff(moment(capacity_plan?.startDate), 'weeks')
+                return {
+                    id: capacity_plan?.id || `capacity-${ix}`,
+                    name: `${moment(capacity_plan?.startDate).format("DD/MM/YY")} - ${moment(capacity_plan?.endDate).format("DD/MM/YY")}`.substring(0, 20) || '',
+                    start: new Date(capacity_plan?.startDate),
+                    end: new Date(capacity_plan?.endDate),
+                    color: getColorBars({hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || []}), 
+                    showLabel: `${(capacity_plan?.items?.reduce((previous: any, current: any) => {
+                        return previous += (current?.estimate || 0)
+                    }, 0) * 45)}hrs/week`,
+                    collapsibleContent: (
+                        <Text>More</Text>
+                    )
+                }
+            }))
         }
     }, [JSON.stringify(capacity), view])
 
@@ -284,11 +304,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const filterData = (item: {start?: Date, end?: Date} ) => {
         if (horizon && horizon.start && horizon.end) {
-            console.log(item)
             let horizonStart = horizon.start.getTime();
             let horizonEnd = horizon.end.getTime();
 
-            console.log(horizon.start.getTime() < (item.end?.getTime() || 0))
 
             return (horizonEnd > (item.start?.getTime() || 0) && horizonStart < (item.end?.getTime() || 0))
                 // return (item.start < horizon.start && item.end > horizon.end) || (item.start > horizon.start && item.start < horizon.end) || (item.end > horizon.start && item.end < horizon.end);
@@ -379,6 +397,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             flex
             gap="xsmall" direction="column">
             <ERPModal
+                type={view}
                 selected={capacity?.find((a) => a?.id == selected)}
                 onClose={() => {
                     openERP(false)
@@ -405,6 +424,45 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
            
                 <Timeline
+                    dayStatus={(day) => {
+                        let horizonStart = day.clone().startOf('isoWeek').valueOf()
+                        let horizonEnd = day.clone().endOf('isoWeek').valueOf()
+
+                        let people_power = people?.filter((a) => {
+                            return (horizonEnd > (new Date(a?.startDate).getTime() || 0) && horizonStart < (new Date(a?.endDate).getTime() || 0))
+                        })
+
+                        let job_power = capacity?.filter((a) => {
+                            return (horizonEnd > (new Date(a?.startDate).getTime() || 0) && horizonStart < (new Date(a?.endDate).getTime() || 0))
+                        })
+
+                        let week_power = people_power?.reduce((previous, current) => {
+                            let weeks = moment(current?.endDate).diff(moment(current?.startDate), 'weeks')
+                            let week = current?.items?.reduce((prev, cur) => {
+                                return prev + (cur?.estimate || 0)
+                            }, 0)
+
+                            return previous + ((week || 0) * 45) //((week || 0) / weeks)
+                        }, 0)
+
+                        let job_week = job_power?.reduce((previous, current) => {
+                            let weeks = moment(current?.endDate).diff(moment(current?.startDate), 'weeks') || 1
+
+                            let week = _.reduce(current?.items, (prev, curr) => prev + (curr?.estimate || 0), 0)
+
+                            // let week = (current?.items && current?.items.length > 0) ? (current?.items || []).reduce((prev, cur) => {
+                            //     return prev + (cur?.estimate && !isNaN(cur?.estimate) ? cur?.estimate : 0)
+                            // }, 0) : 0;
+
+                            // if(week != undefined && week > 0) week = week / weeks;
+
+                            return previous + ((week || 0) / weeks) //((week || 0) / weeks)
+                        }, 0)
+
+                        let alarm_level = (job_week || 0) > (week_power || 0) ? ((job_week || 0) / (week_power || 0)) : 0;
+                        let alarm_color = alarm_level < 2 ? `rgba(231, 93, 61, ${alarm_level - 1})` : 'rgb(231, 93, 61)'
+                        return ((job_week || 0) > (week_power || 0) && (day.isoWeekday() != 6 && day.isoWeekday() != 7)) ? alarm_color: 'initial' // ? 'red' : 'initial';
+                    }}  
                     onSelectItem={(item) => {
                         openERP(true)
                         setSelected((item as any).id)

@@ -15,6 +15,7 @@ export interface HeaderProps {
   scrollLeft?: number;
   currentday?: number;
   mode?: string;
+  dayStatus?: (date: moment.Moment) => any;
   dayWidth?: number;
   currentDate?: Date;
   numVisibleDays?: number;
@@ -149,7 +150,7 @@ const Header : React.FC<HeaderProps> = (props) => {
           result.bottom.push(renderTime(box.left, box.width, bottom, i));
         } else {
           result.background.push(<BackgroundStripe key={`tile-${i}`} left={box.left} width={box.width} border={{size: !(currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7) && 'xsmall', color: '#00000020'}} background={currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7 ? 'light-1' : 'neutral-1'} />)
-          result.bottom.push(<HeaderItem key={i} left={box.left} width={box.width} label={currentBottom} />);
+          result.bottom.push(<HeaderItem background={props.dayStatus?.(currentDate)} key={i} left={box.left} width={box.width} label={currentBottom} />);
         }
 
         
