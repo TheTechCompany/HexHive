@@ -44,6 +44,7 @@ const Queries = (connector: Connector) => {
     ScheduleMany: {
         type: '[ScheduleItem]',
         args: {
+            project: "String",
             status: "String",
             startDate: "Date",
             endDate: "Date"
@@ -62,6 +63,10 @@ const Queries = (connector: Connector) => {
 
             if(args.startDate || args.endDate){
                 query['date'] = dateQuery;
+            }
+
+            if(args.project){
+                query['project'] = args.project;
             }
 
             const result = await ScheduleItem.find(query).populate('owner')

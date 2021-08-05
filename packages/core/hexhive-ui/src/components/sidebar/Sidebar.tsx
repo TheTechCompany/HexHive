@@ -52,7 +52,7 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
         {props.menu?.map((x, ix) => (
           <li
             key={`sidebar-${ix}`}
-            className={`sidebar-menu-opt ${props.active == "/" + x.label.toLowerCase() ? "active" : ''} ${ix == 0 && props.active == "" ? 'active' : ''}`}
+            className={`sidebar-menu-opt ${props.active == ix ? "active" : ''} ${ix == 0 && props.active == "" ? 'active' : ''}`}
             onClick={() => props.onSelect(x.label)}>
 
             {React.cloneElement(x.icon, {style: {filter: 'invert(1)', fill: '#F3E6DC', minWidth: '20px', maxWidth: '20px'}})}

@@ -1,6 +1,6 @@
 import React, { Component, useState} from 'react';
 
-import { Switch, Link, Route , generatePath} from 'react-router-dom';
+import { Switch, Link, Route , generatePath, matchPath} from 'react-router-dom';
 
 import logo from '../../logo.svg';
 
@@ -45,7 +45,9 @@ export const Dashboard : React.FC<any> = (props: any) => {
   // const [ alerts, setAlerts ] = useState<string[]>([])
 
   const alerts = []
-  const active = window.location.pathname.replace(props.match.url, '')
+  const active = window.location.pathname.replace(process.env.PUBLIC_URL, '')
+
+  console.log(active)
 
   const views = () => {
     let login_type =  'email' //props.user.login_type;
@@ -54,31 +56,37 @@ export const Dashboard : React.FC<any> = (props: any) => {
       views = [{
                   icon: <Schedule />,
                   label: "Schedule",
+                  path: "/schedule",
                   component: <> </>,
                 },
                 {
                   icon: <TimelineIcon />,
                   label: "Timeline",
+                  path: "/timeline",
                   component: <></>
                 },
                 {
                   icon: <Estimates />,
-                  label: "Quotes",
+                  label: "Estimates",
+                  path: "/estimates",
                   component: <></>,
                 },
                 {
                   icon: <Projects />,
                   label: "Projects",
+                  path: "/projects",
                   component: <></>
                 },
                 {
                   icon: <People />,
                   label: "People",
+                  path: "/people",
                   component: <></>
                 }, 
                 { 
                   icon: <Equipment />,
                   label: "Equipment",
+                  path: "/equipment",
                   alerts: alerts.length,
                   component: <></>
                 }
@@ -88,22 +96,26 @@ export const Dashboard : React.FC<any> = (props: any) => {
           {
             icon: "schedule",
             label: "Schedule",
+            path: "/schedule",
             component: <></>,
           },
           {
             icon: 'check_circle_outline',
             label: "Projects",
+            path: "/projects",
             component: <></>
           },
           {
             icon: 'people',
             label: "People",
+            path: "/people",
             component: <></>
           }, 
           { 
             icon: 'directions_car',
             label: "Equipment",
             alerts: alerts.length,
+            path: "/equipment",
             component: <></>
           }
 
@@ -136,7 +148,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
                     window.location.href = "/dashboard";
                 }}
                 logo={<Hiveflow style={{filter: 'invert(1)'}}/>}
-                active={active}
+                active={views().map((x) => matchPath(active, {path: x.path}) != null ).indexOf(true)}
                 menu={views()} 
                 onSelect={(x: any) => {
                   let path = generatePath(`${props.match.url}:path`, {path: x.toLowerCase()})
@@ -160,7 +172,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
                 <Route path={`/schedule`} component={ScheduleView} />
                 <Route path={`/projects`} exact component={JobList} />
                 <Route path={`/projects/:id`} component={SingleJob} />
-                <Route path={`/quotes`} exact component={Quotes} />
+                <Route path={`/estimates`} exact component={Quotes} />
                 <Route path={`/people`} exact component={StaffList} />
                 <Route path={`/people/:id`} component={employeeOne} />
                 <Route path={`/equipment`} exact component={PlantList} />
