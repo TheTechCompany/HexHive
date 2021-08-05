@@ -17,7 +17,7 @@ export const Schedule : React.FC<any> = (props) =>  {
 
   const [ horizon, setHorizon ] = useState<{start: Date, end: Date}>({
     start: new Date( moment(new Date()).startOf('isoWeek').valueOf() ),
-    end: new Date( moment(new Date()).add('1', 'week').valueOf() )
+    end: new Date( moment(new Date()).endOf('isoWeek').valueOf() )
   })
 
   const refetch = useRefetch();
@@ -127,11 +127,13 @@ export const Schedule : React.FC<any> = (props) =>  {
   })
 
   useEffect(() => {
-    scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
-      setSchedule(schedule)
-      console.log("Schedule", schedule);
-    });
-  }, [])
+    if(token){
+      scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+        setSchedule(schedule)
+        console.log("Schedule", schedule);
+      });
+    }
+  }, [token])
 
   console.log("Schedule view", schedule);
 

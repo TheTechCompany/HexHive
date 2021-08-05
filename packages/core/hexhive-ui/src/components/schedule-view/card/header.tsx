@@ -25,7 +25,7 @@ export const Header : React.FC<HeaderProps> = ({data, moveUp, moveDown}) => {
               alignItems: 'center', 
               paddingLeft: '8px'
            }}>
-          <Text size="small" style={{color: arrowColor}}>{data.project.id}</Text>
+          <Text size="small" style={{color: 'white'}}>{data.project.id}</Text>
           {/* <Box direction="row">
            <Button plain icon={<ArrowUp size="small" />} onClick={moveUp} />
            <Button plain icon={<ArrowDown size="small" />} onClick={moveDown} />
