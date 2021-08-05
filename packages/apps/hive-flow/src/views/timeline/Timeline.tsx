@@ -22,7 +22,7 @@ const HourTypes : any = {
     Welder: "#7fc721",
     TA: "#c721ba",
     Fabricator: "#21c7c7",
-    "Civil Subcontractor": "#b521c7"
+    "Civil Subcontractor": "#c9900a"
 }
 
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
@@ -34,24 +34,6 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const [date, setDate] = useState<Date>(new Date())
     const [horizon, setHorizon] = useState<{ start: Date, end: Date } | undefined>()
-
-    const [data, setData] = useState<any[]>([
-        {
-            id: 3,
-            color: 'purple',
-            name: "Test",
-            start: new Date(2021, 2, 12),
-            end: new Date(2021, 5, 9)
-        },
-        {
-            id: 2,
-            color: 'orange',
-            name: "Test",
-            start: new Date(2021, 7, 12),
-            end: new Date(2021, 12, 9)
-        }
-    ])
-
 
     const query = useQuery({
         suspense: false,
@@ -123,12 +105,13 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     }))
 
     const projects = query.ProjectMany({ statusList: ["Job Open", "Handover"] })?.map((x) => ({ ...x }))
+    const estimates = query.QuoteMany({status: "Customer has quote"})?.map((x) => ({...x}))
 
     const capacity = query.TimelineItemMany({ timeline: 'Projects' });
 
     const [ timeline, setTimeline ] = useState<any[]>([])
 
-    const getColorBars = (plan: {items?: any[]}) => {
+    const getColorBars = (plan: {hatched?: boolean, items?: any[]}) => {
         let total = plan.items?.reduce((previous: any, current: any) => previous += current.estimate, 0)
 
         let sum = plan.items?.reduce((previous, current) => {
@@ -138,14 +121,60 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             return previous
         },{})
 
-        return Object.keys(sum).map((key) => {
+        let gradient = Object.keys(sum).map((key) => {
             return {
                 color: HourTypes[key],
                 percent: sum[key] / total
             }
         })
+
+        return generateStripes(gradient, plan.hatched);
     }
     
+
+    const generateStripes = (colors: {color: string, percent: number}[], hatched?: boolean) => {
+        let c = colors.sort((a, b) => b.percent - a.percent)
+    
+    //    if(c.length <= 0) return stringToColor(`${props.item?.name}`)
+    
+        let gradient : any[] = [];
+        let current_stop = 0;
+      
+        c.forEach((x, ix) => {
+            let start_pos = current_stop * 100
+            let end_pos = start_pos + (x.percent * 100)
+            gradient.push(`${x.color} ${start_pos}%`) //First stop
+
+            if(hatched){
+                let diff = (end_pos - start_pos) / 10
+
+                for(var i = 0; i < diff; i++){
+                    let hatch_start = start_pos + (i * 10);
+                    let hatch_end = hatch_start + 10;
+
+                    // gradient.push(`${i % 2 ? 'gray' : x.color} ${hatch_start}%`)
+                    // gradient.push(`${i % 2 ? 'gray' : x.color} ${hatch_end}%`)
+                }
+
+            }
+
+            gradient.push(`${x.color} ${end_pos}%`) //End stop
+            current_stop += x.percent;
+        })
+
+        let hatched_output = `
+            repeating-linear-gradient(45deg, #ffffff42, #ffffff42 10px, transparent 10px, transparent 20px)
+        `
+        let output = `linear-gradient(${hatched ? '45deg' : '90deg'}, ${gradient.join(', ')})`
+       
+        if(hatched){
+            return `${hatched_output}, ${output}`
+        }else{
+            return output;
+        }
+        console.log(output)
+      }
+
     //stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
 
     useEffect(() => {
@@ -155,7 +184,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 name: `${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}`.substring(0, 20) || '',
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
-                color: getColorBars({items: capacity_plan?.items || []}), 
+                color: getColorBars({hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || []}), 
                 showLabel: `${capacity_plan?.items?.reduce((previous: any, current: any) => {
                     return previous += (current?.estimate || 0)
                 }, 0)}hrs`,
@@ -277,7 +306,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     }
 
-    const createTimelinePlan = (plan: { id?: string, project?: string, items?: any[], startDate?: Date, endDate?: Date }) => {
+    const createTimelinePlan = (plan: { id?: string, project?: {id?: string, type?: string}, items?: any[], startDate?: Date, endDate?: Date }) => {
         if(plan.id){
             updateTimelineItem({
                 args: {
@@ -362,7 +391,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     setSelected(undefined)
                 }}
                 onSubmit={createTimelinePlan}
-                projects={projects || []}
+                projects={projects?.map((x) => ({id: x.id, name: x.name, type: "Project"})).concat(estimates?.map((x) => ({id: x.id, name: x.name, type: "Estimate"})) || []) || []}
                 open={erpModal} />
             <TimelineHeader
                 onAdd={() => openERP(true)}
