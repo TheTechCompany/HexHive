@@ -69,6 +69,19 @@ export const Schedule : React.FC<any> = (props) =>  {
     suspense: false,  
   })
 
+  const [removeItem, infoRemove] = useMutation((mutation, args: {id: string}) => {
+    const result = mutation.removeScheduleItem({id: args.id})
+    return {
+      item: result,
+      error: null
+    }
+  }, {
+    onCompleted(data) {},
+    onError(error) {},
+    refetchQueries: [query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})],
+    awaitRefetchQueries: true,
+    suspense: false,  
+  })
 
   const [joinCard, joinInfo] = useMutation((mutation, args: {id: string}) => {
     const result = mutation.joinScheduleItem({id: args.id})
@@ -199,6 +212,11 @@ export const Schedule : React.FC<any> = (props) =>  {
           onCloneItem={(item, dates, newDates) => {
             cloneItem({args: {id: item.id, dates: newDates}}).then((resp) => {
               console.log("Clone resp", resp, newDates)
+            })
+          }}
+          onDeleteItem={(item) => { 
+            removeItem({args: {id: item.id}}).then((resp) => {
+              console.log("Delete result")
             })
           }}
           user={activeUser}

@@ -20,6 +20,7 @@ export interface ScheduleViewProps {
   onCreateItem: (item: any, ts: Date) => void;
   onSaveItem: (item: any, ts: Date) => void;
   onCloneItem: (item: any, current: Date[], newDates: Date[]) => void;
+  onDeleteItem: (item: any) => void;
 
   onJoinCard: (item: any) => void;
   onLeaveCard: (item: any) => void;
@@ -219,6 +220,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
 
     } else {
       showModal(false)
+      setSelected(null)
       // utils.schedule.getScheduleByDate(params).then((schedule) => {
 
       //   setScheduleData(schedule)
@@ -253,7 +255,8 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
         onCreateItem={props.onCreateItem}
         onSaveItem={props.onSaveItem}
         onCloneItem={props.onCloneItem}
-
+        onDeleteItem={props.onDeleteItem}
+        
         projects={props.projects}
         people={props.people}
         equipment={props.equipment}
