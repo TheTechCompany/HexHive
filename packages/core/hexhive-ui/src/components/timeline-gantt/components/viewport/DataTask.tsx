@@ -258,11 +258,10 @@ const hoverEnd = (e: any) => {
       preferPlace={"above"}
       body={(
           <Box  
-            style={{zIndex: 999999999}}
-            elevation="xlarge" 
+            style={{zIndex: 999999999, boxShadow: '5px 5px 15px -5px #000'}}
+            color="dark"
             background={'neutral-2'} 
-            round="xsmall" 
-            pad="xsmall">
+            round="xsmall" >
               {props.item?.hoverInfo}
           </Box>)} >
 
