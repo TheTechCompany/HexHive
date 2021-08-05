@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ERPModal, Timeline } from '@hexhive/ui'
+import { ColorDot, ERPModal, Timeline } from '@hexhive/ui'
 //import utils from '../../utils';
 import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
@@ -19,10 +19,10 @@ var formatter = new Intl.NumberFormat('en-US', {
 });
 
 const HourTypes: any = {
-    Welder: "#7fc721",
-    TA: "#c721ba",
-    Fabricator: "#21c7c7",
-    "Skilled Labourer": "#6a23db",
+    Welder: stringToColor('Welder'), // "#7fc721",
+    TA: "#a3439b",
+    Fabricator: "#43a3a3",
+    "Skilled Labourer": "#734ab5",
     "Civil Subcontractor": "#c9900a"
 }
 
@@ -189,8 +189,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 end: new Date(capacity_plan?.endDate),
                 color: getColorBars({ hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || [] }),
                 hoverInfo: (
-                    <Box direction="column">
-                        <Box margin={{bottom: 'xsmall'}} direction="row" justify="between">
+                    <Box round="xsmall" overflow="hidden"  direction="column">
+                        <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
                             {/* <Text weight="bold">{capacity_plan?.project?.name?.substring(0, 15)}</Text> */}
                             <Text weight="bold">Total Hours: </Text>
                             <Text>{
@@ -199,12 +199,15 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                                 }, 0)}hrs
                             </Text>
                         </Box>
-                        {capacity_plan?.items?.slice().sort((a, b) => (a?.location || '') > (b?.location || '') ? -1 : 1).map((x) => (
-                            <Box direction="row" justify="between">
-                                <Text>{x?.type}{x?.location ? ` - ${x?.location}` : ''} :</Text>
-                                <Text margin={{left: 'small'}}>{x?.estimate}hrs</Text>
-                            </Box>
-                        ))}
+                        <Box pad="xsmall">
+                            {capacity_plan?.items?.slice().sort((a, b) => (a?.location || '') > (b?.location || '') ? -1 : 1).map((x) => (
+                                <Box align="center" direction="row" justify="between">
+                                    <ColorDot color={HourTypes[x?.type || '']} size={10}/>
+                                    <Text>{x?.type}{x?.location ? ` - ${x?.location}` : ''} :</Text>
+                                    <Text margin={{left: 'small'}}>{x?.estimate}hrs</Text>
+                                </Box>
+                            ))}
+                        </Box>
                     </Box>
                 ),
                 showLabel: `${capacity_plan?.items?.reduce((previous: any, current: any) => {
