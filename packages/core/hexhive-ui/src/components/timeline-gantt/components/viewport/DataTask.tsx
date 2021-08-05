@@ -4,13 +4,14 @@ import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../..
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const';
 import Config from '../../helpers/config/Config';
 import { debounce } from 'lodash';
-import { Box, Collapsible } from 'grommet';
+import { Box, Text, Collapsible } from 'grommet';
 import { Task } from '../../types';
 import styled from 'styled-components'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { getHostForElement, stringToColor } from '@hexhive/utils';
 import { useRef } from 'react';
+import Popover from 'react-popover';
 
 export interface DataTaskProps {
   dayWidth?: number;
@@ -42,6 +43,8 @@ export interface DataTaskState {
 }
 
 export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
+
+  const [hoverEl, setHoverEl] = useState<any>()
 
   const [collapsed, setCollapsed] = useState<boolean>(true)
 
@@ -233,9 +236,39 @@ export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
     }*/
   }
 
+  
+  const hoverStart = (e: any) => {
+    setHoverEl(e.currentTarget)
+
+    //      this.setState({hovering: state})
+}
+
+const hoverEnd = (e: any) => {
+    setHoverEl(null)
+}
+
+
   const style = calculateStyle();
     return (
+      <Popover
+      style={{zIndex: 9999999}}
+      enterExitTransitionDurationMs={300}
+      isOpen={props.item?.hoverInfo && hoverEl != null}
+      target={hoverEl}
+      preferPlace={"above"}
+      body={(
+          <Box  
+            style={{zIndex: 999999999}}
+            elevation="xlarge" 
+            background={'neutral-2'} 
+            round="xsmall" 
+            pad="xsmall">
+              {props.item?.hoverInfo}
+          </Box>)} >
+
       <Box
+                          onMouseEnter={hoverStart}
+                          onMouseLeave={hoverEnd}
         className={`${props.className} ${dragging.current ? 'dragging' : ''}`}
         focusIndicator={false}
         elevation={'medium' /*this.props.isSelected ? 'large': 'none'*/}
@@ -294,6 +327,7 @@ export const BaseDataTask : React.FC<DataTaskProps> = (props) => {
           <div className="task-handle" style={{marginLeft: '100%'}} />
         </div>
       </Box>
+      </Popover>
     );
   
 }

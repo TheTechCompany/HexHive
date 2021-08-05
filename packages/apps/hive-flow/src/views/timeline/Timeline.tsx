@@ -18,7 +18,7 @@ var formatter = new Intl.NumberFormat('en-US', {
     currency: 'USD'
 });
 
-const HourTypes : any = {
+const HourTypes: any = {
     Welder: "#7fc721",
     TA: "#c721ba",
     Fabricator: "#21c7c7",
@@ -28,7 +28,7 @@ const HourTypes : any = {
 
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
-    const [ selected, setSelected ] = useState<string | undefined>()
+    const [selected, setSelected] = useState<any | undefined>()
     const [erpModal, openERP] = useState<boolean>(false);
 
     const [view, setView] = useState<TimelineView>("Projects");
@@ -57,8 +57,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         suspense: false,
     })
 
-    const [ deleteTimelineItem, deleteInfo ] = useMutation((mutation, args: {id: string}) => {
-        const result = mutation.removeTimelineItem({id: args.id})
+    const [deleteTimelineItem, deleteInfo] = useMutation((mutation, args: { id: string }) => {
+        const result = mutation.removeTimelineItem({ id: args.id })
         return {
             item: result,
             error: null
@@ -74,7 +74,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     const [updateTimelineItem, updateInfo] = useMutation((mutation, args: { id: string, item: TimelineItemInput }) => {
         let items = args.item.items?.map((x) => ({
             type: x?.type,
-            location: x?.type,
+            location: x?.location,
             estimate: x?.estimate
         }))
         let _item = {
@@ -106,23 +106,23 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     }))
 
     const projects = query.ProjectMany({ statusList: ["Job Open", "Handover"] })?.map((x) => ({ ...x }))
-    const estimates = query.QuoteMany({status: "Customer has quote"})?.map((x) => ({...x}))
+    const estimates = query.QuoteMany({ status: "Customer has quote" })?.map((x) => ({ ...x }))
 
     const capacity = query.TimelineItemMany({ timeline: view });
 
-    const people = query.TimelineItemMany({timeline: "People"})
+    const people = query.TimelineItemMany({ timeline: "People" })
 
-    const [ timeline, setTimeline ] = useState<any[]>([])
+    const [timeline, setTimeline] = useState<any[]>([])
 
-    const getColorBars = (plan: {hatched?: boolean, items?: any[]}) => {
+    const getColorBars = (plan: { hatched?: boolean, items?: any[] }) => {
         let total = plan.items?.reduce((previous: any, current: any) => previous += current.estimate, 0)
 
         let sum = plan.items?.reduce((previous, current) => {
-        
-            if(!previous[current.type]) previous[current.type] = 0
+
+            if (!previous[current.type]) previous[current.type] = 0
             previous[current.type] += current.estimate
             return previous
-        },{})
+        }, {})
 
         let gradient = Object.keys(sum).map((key) => {
             return {
@@ -133,25 +133,25 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
         return generateStripes(gradient, plan.hatched);
     }
-    
 
-    const generateStripes = (colors: {color: string, percent: number}[], hatched?: boolean) => {
+
+    const generateStripes = (colors: { color: string, percent: number }[], hatched?: boolean) => {
         let c = colors.sort((a, b) => b.percent - a.percent)
-    
-        if(c.length <= 0) return 'gray' //stringToColor(`${props.item?.name}`)
-    
-        let gradient : any[] = [];
+
+        if (c.length <= 0) return 'gray' //stringToColor(`${props.item?.name}`)
+
+        let gradient: any[] = [];
         let current_stop = 0;
-      
+
         c.forEach((x, ix) => {
             let start_pos = current_stop * 100
             let end_pos = start_pos + (x.percent * 100)
             gradient.push(`${x.color} ${start_pos}%`) //First stop
 
-            if(hatched){
+            if (hatched) {
                 let diff = (end_pos - start_pos) / 10
 
-                for(var i = 0; i < diff; i++){
+                for (var i = 0; i < diff; i++) {
                     let hatch_start = start_pos + (i * 10);
                     let hatch_end = hatch_start + 10;
 
@@ -169,25 +169,44 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             repeating-linear-gradient(45deg, #ffffff42, #ffffff42 10px, transparent 10px, transparent 20px)
         `
         let output = `linear-gradient(${hatched ? '45deg' : '90deg'}, ${gradient.join(', ')})`
-       
-        if(hatched){
+
+        if (hatched) {
             return `${hatched_output}, ${output}`
-        }else{
+        } else {
             return output;
         }
         console.log(output)
-      }
+    }
 
     //stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
 
     useEffect(() => {
-        if(capacity && view == "Projects"){
+        if (capacity && view == "Projects") {
             setTimeline(capacity.map((capacity_plan, ix) => ({
                 id: capacity_plan?.id || `capacity-${ix}`,
                 name: `${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}`.substring(0, 20) || '',
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
-                color: getColorBars({hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || []}), 
+                color: getColorBars({ hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || [] }),
+                hoverInfo: (
+                    <Box direction="column">
+                        <Box margin={{bottom: 'xsmall'}} direction="row" justify="between">
+                            {/* <Text weight="bold">{capacity_plan?.project?.name?.substring(0, 15)}</Text> */}
+                            <Text weight="bold">Total Hours: </Text>
+                            <Text>{
+                                capacity_plan?.items?.reduce((previous: any, current: any) => {
+                                    return previous += (current?.estimate || 0)
+                                }, 0)}hrs
+                            </Text>
+                        </Box>
+                        {capacity_plan?.items?.slice().sort((a, b) => (a?.location || '') > (b?.location || '') ? -1 : 1).map((x) => (
+                            <Box direction="row" justify="between">
+                                <Text>{x?.type}{x?.location ? ` - ${x?.location}` : ''} :</Text>
+                                <Text margin={{left: 'small'}}>{x?.estimate}hrs</Text>
+                            </Box>
+                        ))}
+                    </Box>
+                ),
                 showLabel: `${capacity_plan?.items?.reduce((previous: any, current: any) => {
                     return previous += (current?.estimate || 0)
                 }, 0)}hrs`,
@@ -195,7 +214,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     <Text>More</Text>
                 )
             })))
-        }else if(capacity && view == "People"){
+        } else if (capacity && view == "People") {
             setTimeline(capacity.map((capacity_plan, ix) => {
                 let weeks = moment(capacity_plan?.endDate).diff(moment(capacity_plan?.startDate), 'weeks')
                 return {
@@ -203,7 +222,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     name: `${moment(capacity_plan?.startDate).format("DD/MM/YY")} - ${moment(capacity_plan?.endDate).format("DD/MM/YY")}`.substring(0, 20) || '',
                     start: new Date(capacity_plan?.startDate),
                     end: new Date(capacity_plan?.endDate),
-                    color: getColorBars({hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || []}), 
+                    color: getColorBars({ hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || [] }),
                     showLabel: `${(capacity_plan?.items?.reduce((previous: any, current: any) => {
                         return previous += (current?.estimate || 0)
                     }, 0) * 45)}hrs/week`,
@@ -216,8 +235,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     }, [JSON.stringify(capacity), view])
 
     useEffect(() => {
-        if(quotes && view == 'Estimates'){
-            let _weeks : any = {};
+        if (quotes && view == 'Estimates') {
+            let _weeks: any = {};
             const weeks = quotes?.reduce((previous, current) => {
                 console.log(current)
                 let start = current.start.getTime();
@@ -267,7 +286,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         let year = moment(horizon?.start).get('year')
         let oldYear = moment(date).get('year')
         if (year != oldYear) {
-           if (horizon?.start) setDate(horizon?.start)
+            if (horizon?.start) setDate(horizon?.start)
 
             // utils.quote.fetchMonthQuotes(year).then((quotes) => {
             //     console.log(quotes)
@@ -299,18 +318,18 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         //TODO BUFFER DAY Var
 
         console.log("Horizon", start, end)
-        setHorizon({start, end})
+        setHorizon({ start, end })
     };
 
-    const filterData = (item: {start?: Date, end?: Date} ) => {
+    const filterData = (item: { start?: Date, end?: Date }) => {
         if (horizon && horizon.start && horizon.end) {
             let horizonStart = horizon.start.getTime();
             let horizonEnd = horizon.end.getTime();
 
 
             return (horizonEnd > (item.start?.getTime() || 0) && horizonStart < (item.end?.getTime() || 0))
-                // return (item.start < horizon.start && item.end > horizon.end) || (item.start > horizon.start && item.start < horizon.end) || (item.end > horizon.start && item.end < horizon.end);
-            
+            // return (item.start < horizon.start && item.end > horizon.end) || (item.start > horizon.start && item.start < horizon.end) || (item.end > horizon.start && item.end < horizon.end);
+
         } else {
             return true;
         }
@@ -320,12 +339,14 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         if (view === 'Estimates') {
             return timeline?.filter(filterData);
         } else {
-            return timeline?.filter(filterData)      
+            return timeline?.filter(filterData)
         }
     }
 
-    const createTimelinePlan = (plan: { id?: string, project?: {id?: string, type?: string}, items?: any[], startDate?: Date, endDate?: Date }) => {
-        if(plan.id){
+    const createTimelinePlan = (plan: { id?: string, project?: { id?: string, type?: string }, items?: any[], startDate?: Date, endDate?: Date }) => {
+        if (plan.id) {
+            console.log("Update", plan)
+
             updateTimelineItem({
                 args: {
                     id: plan.id,
@@ -339,8 +360,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             }).then(() => {
                 openERP(false)
             })
-        }else{
-        console.log(plan)
+        } else {
+            console.log(plan)
             createTimelineItem({
                 args: {
                     item: {
@@ -363,7 +384,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         let times = timeline.slice();
 
         const old = Object.assign({}, timeline[ix]) //.find((a) => a.id == id)
-        
+
 
         times[ix].startDate = item.start;
         times[ix].endDate = item.end;
@@ -372,7 +393,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         setTimeline(times)
 
         console.log(timeline)
-        try{
+        try {
             const result = await updateTimelineItem({
                 args: {
                     id: id?.toString() || '',
@@ -382,7 +403,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     }
                 }
             })
-        }catch(e){
+        } catch (e) {
             times[ix] = old;
             setTimeline(times)
         }
@@ -398,19 +419,19 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             gap="xsmall" direction="column">
             <ERPModal
                 type={view}
-                selected={capacity?.find((a) => a?.id == selected)}
+                selected={selected}
                 onClose={() => {
                     openERP(false)
                     setSelected(undefined)
                 }}
                 onDelete={() => {
                     openERP(false);
-                    if(!selected) return;
-                    deleteTimelineItem({args: {id: selected}})
+                    if (!selected) return;
+                    deleteTimelineItem({ args: { id: selected } })
                     setSelected(undefined)
                 }}
                 onSubmit={createTimelinePlan}
-                projects={projects?.map((x) => ({id: x.id, name: x.name, type: "Project"})).concat(estimates?.map((x) => ({id: x.id, name: x.name, type: "Estimate"})) || []) || []}
+                projects={projects?.map((x) => ({ id: x.id, name: x.name, type: "Project" })).concat(estimates?.map((x) => ({ id: x.id, name: x.name, type: "Estimate" })) || []) || []}
                 open={erpModal} />
             <TimelineHeader
                 onAdd={() => openERP(true)}
@@ -422,7 +443,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 flex
                 round="small">
 
-           
+
                 <Timeline
                     dayStatus={(day) => {
                         let horizonStart = day.clone().startOf('isoWeek').valueOf()
@@ -461,11 +482,11 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
                         let alarm_level = (job_week || 0) > (week_power || 0) ? ((job_week || 0) / (week_power || 0)) : 0;
                         let alarm_color = alarm_level < 2 ? `rgba(231, 93, 61, ${alarm_level - 1})` : 'rgb(231, 93, 61)'
-                        return ((job_week || 0) > (week_power || 0) && (day.isoWeekday() != 6 && day.isoWeekday() != 7)) ? alarm_color: 'initial' // ? 'red' : 'initial';
-                    }}  
+                        return ((job_week || 0) > (week_power || 0) && (day.isoWeekday() != 6 && day.isoWeekday() != 7)) ? alarm_color : 'initial' // ? 'red' : 'initial';
+                    }}
                     onSelectItem={(item) => {
                         openERP(true)
-                        setSelected((item as any).id)
+                        setSelected(capacity?.find((a) => a?.id == (item as any).id))
                         console.log(item)
                     }}
                     loading={query.$state.isLoading}
@@ -481,13 +502,13 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
                         // let ix = timeline.map((x) => x.id).indexOf(task.id?.toString());
                         // let times = timeline.slice();
-                
+
                         // const old = Object.assign({}, timeline[ix]) //.find((a) => a.id == id)
-                        
-                
+
+
                         // times[ix].startDate = info.start;
                         // times[ix].endDate = info.end;
-                
+
                         // setTimeline(times)
 
                         console.log(task, info)
