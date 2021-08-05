@@ -11,6 +11,8 @@ import { KanbanColumn } from './KanbanColumn';
  export interface KColumn {
     id?: any;
     title?: string;
+    ttl?: number;
+    menu?: {label: string, onClick?: any}[];
     rows?: any[]
  }
 
@@ -68,8 +70,10 @@ export const Kanban : React.FC<BaseKanbanProps> = ({
                        {...provided.droppableProps}>
                     {columns.map((key, index: number) => (
                     <KanbanColumn
+                        ttl={key.ttl}
                         key={key.id}
                         index={index}
+                        menu={key.menu}
                         title={key.title}
                         items={key.rows}
                         isScrollable={withScrollableColumns}

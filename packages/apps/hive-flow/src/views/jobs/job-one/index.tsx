@@ -17,6 +17,7 @@ import './style.css';
 import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
 
 import { useMutation, useQuery, File, useRefetch } from '../../../gqless';
+import { KanbanModal } from './KanbanModal';
 
 export interface FocusedJobProps{
   match?: any;
@@ -26,6 +27,10 @@ const STATUS = [ "Issued", "Workshop", "Finished" ];
 
 
 export const SingleJob : React.FC<FocusedJobProps> = (props) => {
+
+  const [ kanbanMenuVisible, showKanbanMenu ] = useState<boolean>(false);
+
+  const [ selectedColumn, setSelectedColumn ] = useState<any>();
 
   const [ selectedTab, setSelectedTab ] = useState<number>(0)
 
@@ -188,6 +193,14 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
       columns={STATUS.map((x) => ({
         id: x,
         title: x,
+        ttl: x == "Finished" ? 14 * 24 * 60 * 60 * 1000 : undefined,
+        menu: [
+          {label: "Archive all cards", onClick:() => {}},
+          {label: "Column Settings", onClick:() => {
+            showKanbanMenu(true)
+            setSelectedColumn(x)
+          }}
+        ],
         rows: files.filter((a: any) => a.status == x).map((x)=> ({...x}))
       }))} />
     }
@@ -354,6 +367,10 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
         
           </Box>
          
+         <KanbanModal 
+            column={selectedColumn}
+            open={kanbanMenuVisible} 
+            onClose={() => showKanbanMenu(false)}/>
   
 			</Box>
 		);
