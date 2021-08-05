@@ -202,8 +202,10 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                         <Box pad="xsmall">
                             {capacity_plan?.items?.slice().sort((a, b) => (a?.location || '') > (b?.location || '') ? -1 : 1).map((x) => (
                                 <Box align="center" direction="row" justify="between">
-                                    <ColorDot color={HourTypes[x?.type || '']} size={10}/>
-                                    <Text>{x?.type}{x?.location ? ` - ${x?.location}` : ''} :</Text>
+                                        <Box direction="row" align="center">
+                                            <ColorDot color={HourTypes[x?.type || '']} size={10}/>
+                                            <Text>{x?.type}{x?.location ? ` - ${x?.location}` : ''} :</Text>
+                                        </Box>
                                     <Text margin={{left: 'small'}}>{x?.estimate}hrs</Text>
                                 </Box>
                             ))}
@@ -225,6 +227,40 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     name: `${moment(capacity_plan?.startDate).format("DD/MM/YY")} - ${moment(capacity_plan?.endDate).format("DD/MM/YY")}`.substring(0, 20) || '',
                     start: new Date(capacity_plan?.startDate),
                     end: new Date(capacity_plan?.endDate),
+                    hoverInfo: (
+                        <Box round="xsmall" overflow="hidden"  direction="column">
+                            <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
+                                {/* <Text weight="bold">{capacity_plan?.project?.name?.substring(0, 15)}</Text> */}
+                                <Text weight="bold">Total People: </Text>
+                                <Text>{
+                                    capacity_plan?.items?.reduce((previous: any, current: any) => {
+                                        return previous += (current?.estimate || 0)
+                                    }, 0)}
+                                </Text>
+                            </Box>
+
+                            <Box pad="xsmall">
+                                {capacity_plan?.items?.slice().sort((a, b) => (a?.location || '') > (b?.location || '') ? -1 : 1).map((x) => (
+                                    <Box align="center" direction="row" justify="between">
+                                        <Box direction="row" align="center">
+                                        <ColorDot color={HourTypes[x?.type || '']} size={10}/>
+                                        <Text>{x?.type}{x?.location ? ` - ${x?.location}` : ''} :</Text>
+                                        </Box>
+                                        <Text margin={{left: 'small'}}>{x?.estimate}</Text>
+                                    </Box>
+                                ))}
+                            </Box>
+                            <Box pad="xsmall" margin={{bottom: 'xsmall'}} direction="row" justify="between">
+                                {/* <Text weight="bold">{capacity_plan?.project?.name?.substring(0, 15)}</Text> */}
+                                <Text weight="bold">Total Hours: </Text>
+                                <Text>{
+                                    capacity_plan?.items?.reduce((previous: any, current: any) => {
+                                        return previous += (current?.estimate || 0)
+                                    }, 0) * 45}hrs
+                                </Text>
+                            </Box>
+                        </Box>
+                    ),
                     color: getColorBars({ hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || [] }),
                     showLabel: `${(capacity_plan?.items?.reduce((previous: any, current: any) => {
                         return previous += (current?.estimate || 0)
