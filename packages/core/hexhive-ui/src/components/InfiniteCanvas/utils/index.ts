@@ -12,7 +12,7 @@ export const createLine = (path: {x: number, y: number}[]) => {
 }
 
 
-export const bfs_search = (graph: {source: string, target: string, id: string}[], rootNode: string | undefined, targetNode: string, path?: any[]) : any[] => {
+export const bfs_search = (graph: {source: string, target?: string, id: string}[], rootNode: string | undefined, targetNode: string, path?: any[]) : any[] => {
     if(!rootNode) return [];
     if(!path) path = [
         {

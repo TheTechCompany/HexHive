@@ -535,7 +535,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     links={[]}
                     data={timeline.filter(filterData)}
                     date={date}
-                    itemheight={30}
+                    itemHeight={30}
                     onUpdateTask={async (task, info) => {
                         //Task is old state, info is new {start:Date, end: Date}
 
