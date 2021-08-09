@@ -8,7 +8,6 @@ import { RouteComponentProps } from 'react-router-dom';
 
 // import { useQuery } from '../../../gqless';
 import { JobHeader } from './header';
-import './index.css';
 
 export interface JobListProps extends RouteComponentProps {
 }
@@ -83,6 +82,7 @@ export const JobList : React.FC<JobListProps> = (props) => {
         onFilterChange={(filter) => setFiler(filter)}
         jobs={projects || []} />
       <Box 
+        flex
         overflow={{vertical: 'auto'}}
         round="xsmall"
         background="neutral-1"

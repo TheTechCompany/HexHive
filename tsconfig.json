@@ -10,7 +10,11 @@
      "grommet": ["../node_modules/grommet"],
      "styled-components": ["../node_modules/styled-components"],
      "@types/styled-components": ["../node_modules/@types/styled-components"],
+     "@hexhive-apps/3d": ["./apps/hive-3d/src"],
+     "@hexhive/client": ["./core/hexhive-client/src"],
 
+     "@hexhive-apps/flow": ["./apps/hive-flow/src"],
+     "@hexhive-apps/command": ["./apps/hive-command/src"],
      "@types/react": ["../node_modules/@types/react"],
      "@types/react-router-dom": ["../node_modules/@types/react-router-dom"],
      "@types/react-dom": ["../node_modules/@types/react-dom"],

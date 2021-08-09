@@ -1,4 +1,4 @@
-import { IconNodeFactory } from '@thetechcompany/live-ui';
+import { IconNodeFactory } from '@hexhive/ui';
 import { Box } from 'grommet';
 import { FlowEditor } from '@hexhive/command-editor';
 import React from 'react';

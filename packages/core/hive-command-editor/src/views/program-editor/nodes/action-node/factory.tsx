@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbstractWidgetFactory } from "@thetechcompany/live-ui";
+import { AbstractWidgetFactory } from "@hexhive/ui";
 import { ActionNodeWidget } from "./widget";
 
 export interface ActionDevice {

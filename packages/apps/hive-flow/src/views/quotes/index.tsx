@@ -7,8 +7,6 @@ import { useQuery } from '../../gqless';
 // import utils from '../../utils';
 import { QuoteHeader } from './header';
 
-import './index.css';
-
 var formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD'

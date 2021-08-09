@@ -7,7 +7,6 @@ import { Box } from 'grommet'
 // import UploadableImage from '../../../components/primatives/uploadable-image';
 // import EmployeeSchedule from '../../../components/employee-schedule';
 // import utils from '../../../utils';
-import './index.css';
 import { useState } from 'react';
 import { stringToColor } from '@hexhive/utils';
 

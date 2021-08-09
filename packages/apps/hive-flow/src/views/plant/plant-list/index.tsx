@@ -6,7 +6,6 @@ import React, {
 // import utils from '../../../utils';
 import moment from 'moment';
 
-import './index.css';
 import { Box, DataTable } from 'grommet';
 import { PlantHeader } from './header';
 import { useQuery } from '../../../gqless';

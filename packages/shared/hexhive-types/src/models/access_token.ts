@@ -2,13 +2,17 @@ import { model, Types, Document, Model, Schema } from "mongoose";
 
 //import { ProgramSchema } from './program'
 
-const AppSchema : Schema = new Schema({
-    name: String,
-    url: String
+const AccessTokenSchema : Schema = new Schema({
+    accessToken: String,
+    accessTokenExpiresAt: Date,
+    refreshToken: String,
+    refreshTokenExpiresAt: Date,
+    client: {type: Types.ObjectId, ref: 'ClientApp'},
+    user: {type: Types.ObjectId, ref: 'User'}
 })
 
 
-const AppModel =  model<any>('App', AppSchema)
+export const AccessToken =  model<any>('AccessToken', AccessTokenSchema)
 
 
 // const getModel = (model: Model<any>) => {
@@ -24,5 +28,3 @@ const AppModel =  model<any>('App', AppSchema)
 // }
 
 // console.log(getModel(DNSModel), DNSModel.name)
-
-export default AppModel;
