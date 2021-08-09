@@ -2,7 +2,7 @@ name: Build Hexhive Apps (Flow + Command)
 on:
   push:
     branches:
-      - master
+      - staging
 
 jobs:
   build_command:
@@ -32,7 +32,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: Upload new web-build
         run: |
-          aws s3 sync packages/apps/hive-command/build/ s3://${{ secrets.S3_COMMAND_BUCKET }} --delete
+          aws s3 sync packages/apps/hive-command/build/ s3://${{ secrets.S3_STAGING_COMMAND_BUCKET }} --delete
   build_flow:
     runs-on: ubuntu-latest
     strategy: 
@@ -60,7 +60,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: Upload new web-build
         run: |
-          aws s3 sync packages/apps/hive-flow/build/ s3://${{ secrets.S3_FLOW_BUCKET }} --delete
+          aws s3 sync packages/apps/hive-flow/build/ s3://${{ secrets.S3_STAGING_FLOW_BUCKET }} --delete
       
   build_flow_backend:
     runs-on: ubuntu-latest
@@ -89,7 +89,7 @@ jobs:
           context: .
           file: ./HiveFlow.Dockerfile
           push: true
-          tags: thetechcompany/hive-flow:latest-staging
+          tags: thetechcompany/hive-flow:latest-next
           build-args: |
             BUILD_ENV=github
   
@@ -123,7 +123,7 @@ jobs:
           context: .
           file: ./HiveCommand.Dockerfile
           push: true
-          tags: thetechcompany/hive-command:latest-staging
+          tags: thetechcompany/hive-command:latest-next
           build-args: |
             BUILD_ENV=github
   

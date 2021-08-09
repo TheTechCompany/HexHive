@@ -1,5 +1,5 @@
 import React from 'react';
-import { v4 } from 'uuid';
+import { nanoid } from 'nanoid';
 import { InfiniteCanvasNode, InfiniteCanvasPath } from '../types/canvas';
 import * as actions from './actions'
 
@@ -111,7 +111,7 @@ export function reducer(state : StoreState = {nodes: [], paths: []}, action : {t
                 paths: p
             }
         case actions.ADD_PATH:
-            let id = action.data.path.id || v4()
+            let id = action.data.path.id || nanoid()
             action.data.path.id = id;
             return {
                 ...state,

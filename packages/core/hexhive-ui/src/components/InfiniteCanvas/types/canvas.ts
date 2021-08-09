@@ -9,6 +9,8 @@ export interface InfiniteCanvasNode {
     id: string;
     type: string;
     
+    extras?: any;
+
     menu?: any;
 
     direction?: string;
@@ -51,7 +53,7 @@ export interface InfiniteCanvasPath {
     menu?: any;
     source: string;
     sourceHandle?: string;
-    target: string;
+    target?: string;
     targetHandle?: string;
     points: InfiniteCanvasPosition[]
 }
