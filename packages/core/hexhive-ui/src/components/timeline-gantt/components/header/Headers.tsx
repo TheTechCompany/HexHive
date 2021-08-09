@@ -1,5 +1,5 @@
-import React, { PureComponent, useContext, useRef } from 'react';
-import moment from 'moment';
+import React, { PureComponent, useContext, useRef, useState } from 'react';
+import moment, { Moment } from 'moment';
 import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from '../../Const';
 import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from '../../Const';
 import { Box } from 'grommet'
@@ -9,6 +9,11 @@ import { HeaderItem } from './HeaderItem';
 import { TimelineContext } from '../../context';
 import { BackgroundStripe } from './BackgroundStripe'
 import styled from 'styled-components'
+import { useMemo } from 'react';
+import { isEqual, memoize } from 'lodash';
+import memoizeOne from 'memoize-one';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
 
 export interface HeaderProps {
   nowposition?: number;
@@ -27,7 +32,7 @@ export interface HeaderProps {
 const Header : React.FC<HeaderProps> = (props) => {
   const headerRef = useRef<HTMLDivElement>(null)
 
-  const { mode, dayWidth } = useContext(TimelineContext)
+  const { data, mode, dayWidth } = useContext(TimelineContext)
   
   const getFormat = (mode: string, position?: string) => {
     switch (mode) {
@@ -108,6 +113,44 @@ const Header : React.FC<HeaderProps> = (props) => {
     return { left: lastLeft, width: increment };
   }
 
+
+
+  /*
+    - dayStatus: 11/04/21
+    - day
+  */
+
+  const [ status, setDayStatus ] = useState<any>({})
+
+  useEffect(() => {
+    console.log(data)
+      setDayStatus({})
+  }, [data])
+
+  const dayStatuses = useMemo(() => {
+    let _status : any = Object.assign({}, status);
+    let visibleDays = (props.numVisibleDays || 1);
+    for(var i = -visibleDays; i < (visibleDays || 0); i++){
+      let day = moment().add((props.currentday || 0) + i, 'days')
+
+      let dayKey = day.format('DD/MM/yyyy')
+      if(!_status[dayKey]) _status[dayKey] = props.dayStatus?.(day)
+    }
+    if(!isEqual(status, _status)){
+      setDayStatus(_status)
+    }
+    return _status;
+  }, [props.dayStatus, props.currentday, status, props.numVisibleDays])
+
+  const dayStatus = memoizeOne((currentDate: string) => {
+   // console.log(currentDate.toISOString())
+  //  console.log(currentDate)
+    return props.dayStatus?.(moment(currentDate))
+  }, ([newDate], [lastDate]) => {
+    return newDate != lastDate 
+  })
+
+
   //TODO change type to enum of options
   const renderHeaderRows = (top : string, middle: string, bottom: string) => {
     let result : any = { top: [], middle: [], bottom: [], background: [] };
@@ -119,7 +162,7 @@ const Header : React.FC<HeaderProps> = (props) => {
     let box : any = null;
 
     let start = props.currentday;
-    let end =( props.currentday || 0) + (props.numVisibleDays||0);
+    let end = ( props.currentday || 0 ) + (props.numVisibleDays||0);
 
     for (let i = (start||0) - BUFFER_DAYS; i < end + BUFFER_DAYS; i++) {
       //The unit of iteration is day
@@ -150,7 +193,7 @@ const Header : React.FC<HeaderProps> = (props) => {
           result.bottom.push(renderTime(box.left, box.width, bottom, i));
         } else {
           result.background.push(<BackgroundStripe key={`tile-${i}`} left={box.left} width={box.width} border={{size: !(currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7) && 'xsmall', color: '#00000020'}} background={currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7 ? 'light-1' : 'neutral-1'} />)
-          result.bottom.push(<HeaderItem background={props.dayStatus?.(currentDate)} key={i} left={box.left} width={box.width} label={currentBottom} />);
+          result.bottom.push(<HeaderItem background={status[currentDate.format('DD/MM/yyyy')]} key={i} left={box.left} width={box.width} label={currentBottom} />);
         }
 
         

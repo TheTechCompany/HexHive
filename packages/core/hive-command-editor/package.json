@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@hexhive/types": "^0.0.4-alpha.0",
+    "@hexhive/ui": "^0.0.4-alpha.0",
     "@hexhive/utils": "^0.0.4-alpha.0",
     "@monaco-editor/react": "^4.2.1",
     "@svgr/webpack": "^5.5.0",
