@@ -1,32 +1,45 @@
 import React from 'react';
-import logo from './logo.svg';
+
+import { useQuery } from '@hexhive/client'
 
 import { AuthProvider } from '@hexhive/auth-ui'
-import './App.css';
+import { BabylonViewer } from '@hexhive/ui'
+import { Box, List, Text } from 'grommet';
 
 function App() {
+  const query = useQuery({suspense: false, staleWhileRevalidate: true});
+
+  const files = query?.FileMany
+
   return (
     <AuthProvider
+      authorizationServer={process.env.NODE_ENV == 'production' ? "https://api.hexhive.io" : "http://localhost:7000"}
       clientId="hexhive.io"
       clientSecret="tester"
-      authorizationServer="http://localhost:8090"
-      redirectUri="http://localhost:3001/dashboard">
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      redirectUri={process.env.NODE_ENV == 'production' ? "https://hexhive.io/dashboard/3d" : "http://localhost:3001/dashboard"}>
+
+    <Box flex direction="row">
+      <Box
+        overflow="scroll"
+        background="accent-1" 
+        direction="column" 
+        width="medium">
+        <Text weight='bold'>Files</Text>
+        <List
+          data={files || []}
+          primaryKey="name"
+          >
+          {(datum: any) => (
+            <Text style={{textAlign: 'start'}}>{datum.name}</Text>
+          )}
+          </List>
+      </Box>
+    <Box flex>
+      <BabylonViewer
+        data={'2CylinderEngine.glb'}
+        rootUrl={'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/2CylinderEngine/glTF-Binary/'} />
+    </Box>
+    </Box>
     </AuthProvider>
   );
 }

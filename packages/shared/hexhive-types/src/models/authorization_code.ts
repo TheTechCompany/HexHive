@@ -1,16 +1,17 @@
 import { model, Types, Document, Model, Schema } from "mongoose";
-import { AuthClient } from '../auth';
+
 //import { ProgramSchema } from './program'
 
-const ClientApp: Schema = new Schema({
-    clientId: String,
-    clientSecret: String,
-    grants: [String],
-    redirectUris: [String]
+const AuthorizationCodeSchema : Schema = new Schema({
+    authorizationCode: String,
+    expiresAt: Date,
+    client: {type: Types.ObjectId, ref: 'ClientApp'},
+    user: {type: Types.ObjectId, ref: 'User'},
+    redirectUri: String
 })
 
 
-const ClientAppModel =  model<AuthClient>('ClientApp', ClientApp)
+export const AuthorizationCode =  model<any>('AuthorizationCode', AuthorizationCodeSchema)
 
 
 // const getModel = (model: Model<any>) => {
@@ -26,5 +27,3 @@ const ClientAppModel =  model<AuthClient>('ClientApp', ClientApp)
 // }
 
 // console.log(getModel(DNSModel), DNSModel.name)
-
-export default ClientAppModel;

@@ -13,7 +13,6 @@ import moment from 'moment';
 
 // import utils from '../../../utils';
 
-import './style.css';
 import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
 
 import { useMutation, useQuery, File, useRefetch } from '../../../gqless';

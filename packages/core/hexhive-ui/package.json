@@ -41,6 +41,8 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "@babylonjs/core": "5.0.0-alpha.6",
+    "@babylonjs/loaders": "5.0.0-alpha.6",
     "@hexhive/styles": "^0.0.4-alpha.0",
     "@hexhive/types": "^0.0.4-alpha.0",
     "@hexhive/utils": "^0.0.4-alpha.0",

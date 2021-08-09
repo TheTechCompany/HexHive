@@ -7,8 +7,6 @@ import { Header } from '../../components/ui/header'
 import * as Icons from 'grommet-icons';
 import { EditorPage } from '../Editor';
 
-import './index.css';
-
 const PluginEditor = React.lazy(() => import('../../pages/plugin-editor').then((r) => ({default: r.PluginEditorPage})))
 const DeviceControl = React.lazy(() => import('../../pages/device-control').then((r) => ({default: r.DeviceControl})))
 
@@ -89,12 +87,15 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
         return pages;
     }
 
+    console.log(props.match)
+
     return (
-        <Box className="dashboard">
+        <Box flex className="dashboard">
             <Header
                 
                 tabs={getHeaderTabs()} />
             <Box
+                flex
                 direction="row"
                 key={'left'}
                 style={{ display: 'flex', flex: 1 }}>
@@ -110,13 +111,13 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
 
                         <Switch>
                             {pages.map((x, ix) => (
-                                <Route exact path={[x.path].map((x) => `${x}`)} component={x.component} />
+                                <Route exact path={[x.path].map((x) => `${props.match.url}${x}`)} component={x.component} />
                             ))}
-                            <Route path={`/devices/:id/controls`} component={DeviceControl} />
-                            <Route path={`/devices/:id`} component={DeviceSingle} />
-                            <Route path={`/programs/:id`} component={EditorPage} />
-                            <Route path={`/plugins/:id/editor`} exact component={PluginEditor} />
-                            <Route path={`/plugins/:id`} exact component={PluginSingle} />
+                            <Route path={`${props.match.url}/devices/:id/controls`} component={DeviceControl} />
+                            <Route path={`${props.match.url}/devices/:id`} component={DeviceSingle} />
+                            <Route path={`${props.match.url}/programs/:id`} component={EditorPage} />
+                            <Route path={`${props.match.url}/plugins/:id/editor`} exact component={PluginEditor} />
+                            <Route path={`${props.match.url}/plugins/:id`} exact component={PluginSingle} />
                         </Switch>
                     </React.Suspense>
 

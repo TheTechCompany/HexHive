@@ -1,0 +1,19 @@
+{
+  "name": "@hexhive-backends/3d",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hexhive/auth": "^0.0.4-alpha.0",
+    "@hexhive/types": "^0.0.4-alpha.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.2.0"
+  }
+}
