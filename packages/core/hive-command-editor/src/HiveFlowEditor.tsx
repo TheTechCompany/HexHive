@@ -339,10 +339,6 @@ export const HiveFlowEditor: React.FC<EditorProps> = (props) => {
     }
 
     return (
-        <Grommet
-            style={{display: 'flex'}}
-            plain
-            full>
         <EditorContext.Provider value={{
             program: program,
             dispatch,
@@ -394,6 +390,5 @@ export const HiveFlowEditor: React.FC<EditorProps> = (props) => {
 
             </Box>
         </EditorContext.Provider>
-        </Grommet>
     )
 }

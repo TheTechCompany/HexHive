@@ -3,7 +3,7 @@ import React, { Suspense, lazy, useEffect, useRef, useState, useCallback } from 
 import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-shards';
 import { Box, Text, Spinner } from 'grommet';
 import { programActions } from '../../actions';
-import { Program } from '../../gqless';
+import { Program, useQuery as useQLess} from '../../gqless';
 import Editor from '@hexhive/command-editor'
 import qs from 'qs';
 import { RouteComponentProps } from 'react-router-dom';
@@ -21,13 +21,15 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
 
     const [ program, setProgram ] = useAutomergeDoc<{program: Program[]} & any>('Program', props.match.params.id)
 
-    const shardQuery = useQuery(GET_PROGRAM_SHARDS, { variables: { parent: props.match.params.id } })
-    const programQuery = useQuery(GET_PROGRAM, { variables: { id: props.match.params.id } })
-    const stackQuery = useQuery(GET_STACKS)
+    // const shardQuery = useQuery(GET_PROGRAM_SHARDS, { variables: { parent: props.match.params.id } })
+    // const programQuery = useQuery(GET_PROGRAM, { variables: { id: props.match.params.id } })
+    // const stackQuery = useQuery(GET_STACKS)
     
-    const Processes = (shardQuery.data || {}).FlowShardMany || []
-    const program_root = (programQuery.data || {}).ProgramOne;
-    const stacks = ((stackQuery.data || {}).StackMany || [])
+    const gqless = useQLess({suspense: false, staleWhileRevalidate: true})
+
+    // const Processes = (shardQuery.data || {}).FlowShardMany || []
+    // const program_root = (programQuery.data || {}).ProgramOne;
+    const stacks = gqless.StackMany() // ((stackQuery.data || {}).StackMany || [])
 
     console.log("PROGRAM", program)
     
@@ -244,7 +246,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 })) || [],
                 hmi: program.hmi || [],
                 io: [],
-                plugins: stacks
+                plugins: stacks as any
             }} />
         </Suspense>
     )

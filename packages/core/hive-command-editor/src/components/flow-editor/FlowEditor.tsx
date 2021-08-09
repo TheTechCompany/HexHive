@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box, Button, TextInput } from 'grommet';
-import {AbstractWidgetFactory, Block, BlockTray, InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath, InfiniteCanvasPosition } from '@thetechcompany/live-ui'
+import { InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath, InfiniteCanvasPosition } from '@hexhive/ui'
+import {AbstractWidgetFactory, Block, BlockTray } from '@thetechcompany/live-ui'
 import { ZoomControls } from '../zoom-controls'
 import { v4 } from 'uuid';
 import * as Icons from 'grommet-icons'
 import _ from 'lodash';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import { BaseStyle } from '@hexhive/styles';
 
 export interface FlowEditorProps {
     editable?: boolean;
@@ -95,7 +97,7 @@ export const FlowEditor : React.FC<FlowEditorProps> = ({
     return (
        
             <InfiniteCanvas
-
+                style={{background: BaseStyle.global.colors['neutral-4'], lineColor: BaseStyle.global.colors['neutral-1'] + '20' }}
                 contextMenu={contextMenu}
                 grid={{width: 100, height: 100, divisions: 10}}
                 nodes={(program.nodes||[]).map((x) => ({

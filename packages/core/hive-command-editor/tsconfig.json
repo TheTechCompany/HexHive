@@ -75,6 +75,7 @@
   "exclude": ["dist/", "node_modules/"],
   "references": [
     {"path": "../../shared/hexhive-types"},
-    {"path": "../../shared/hexhive-utils"}
+    {"path": "../../shared/hexhive-utils"},
+    {"path": "../hexhive-ui"}
   ]
 }

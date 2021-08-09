@@ -7,7 +7,10 @@ import { NodeFactory } from './node-blank/node-factory';
 import { isEqual, pick, throttle } from 'lodash';
 import { Box, Text, Heading, Button, TextInput } from 'grommet';
 import * as Icons from 'grommet-icons'
-import { LiveComponent, Tablet, InfiniteCanvas, ZoomControls } from '@thetechcompany/live-ui'
+
+import { InfiniteCanvas, ZoomControls } from '@hexhive/ui'
+
+import { LiveComponent, Tablet } from '@thetechcompany/live-ui'
 
 import { NodeEditorContext } from './context';
 import { IStackItems, IStackItemsPorts } from '@hexhive/types';
