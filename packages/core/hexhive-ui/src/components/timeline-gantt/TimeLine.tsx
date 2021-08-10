@@ -20,6 +20,7 @@ import { getDayWidth } from './utils';
 import { Box, Spinner } from 'grommet';
 import styled from 'styled-components'
 import { Moment } from 'moment';
+import { isEqual } from 'lodash';
 
 
 
@@ -32,12 +33,12 @@ export type TimelineProps = {
   nonEditableName?: any;
   style?: TimelineStyle;
   mode?: string;
-  itemheight?: number;
+  itemHeight?: number;
   selectedItem?: any;
   data?: Task[];
   links?: Link[];
   config?: _Config;
-
+  
   date?: Date;
   onDateChange?: (date: Date) => void;
 
@@ -50,9 +51,29 @@ export type TimelineProps = {
   dayStatus?: (day: Moment) => any;
 };
 
-const BaseTimeline : React.FC<TimelineProps> = (props) => {
+const BaseTimeline : React.FC<TimelineProps> = ({
+  itemHeight = 30,
+  data = [],
+  links = [],
+  loading = false,
 
-  console.log(props.data)
+  onDateChange,
+  onUpdateTask,
+  onCreateLink,
+  onSelectItem,
+  onHorizonChange,
+  onNeedData,
+  selectedItem,
+  style,
+  dayStatus,
+  config,
+  nonEditableName,
+  resizable,
+  className,
+  mode = VIEW_MODE_MONTH
+}) => {
+
+  const [ _mode, setMode ] = useState<string>(mode)
 
   const [ dragging, setDragging ] = useState<boolean>(false)
   const [ draggingPosition, setDraggingPosition ] = useState<number>(0)
@@ -71,13 +92,11 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
 
   const [sideStyle, setSideStyle ] = useState<any>({ width: 200 })
 
-  const dayWidth = useRef<number>(getDayWidth(props.mode || 'month'))
+  const dayWidth = useRef<number>(getDayWidth(mode || 'month'))
 
   const [currentday, setCurrentDay ] = useState<number>(0)
 
   const [ interactiveMode, setInteractiveMode ] = useState<boolean>(false)
-
-  const [ mode, setMode ] = useState<string>(props.mode ? props.mode : VIEW_MODE_MONTH)
 
   const [ size, setSize ] = useState<{ width: number, height: number }>({ width: 1, height: 1 })    
 
@@ -89,13 +108,13 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   const [ scrollData, setScrollData ] = useState<any>()
   const [ headerData, setHeaderData ] = useState<any>()
 
-  const [ data, setData ] = useState<Task[]>(props.data || [])
-  const [ links, setLinks ] = useState<Link[]>(props.links || [])
+  const [ _data, setData ] = useState<Task[]>(data)
+  const [ _links, setLinks ] = useState<Link[]>(links)
 
 
   useEffect(() => {
-    dc.current.onHorizonChange = onHorizonChange;
-    Config.load(props.config);
+    dc.current.onHorizonChange = _onHorizonChange;
+    Config.load(config);
 
     dc.current.initialise(
       scrollLeft + nowposition,
@@ -132,9 +151,9 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     //   initialise = true;
     // }
     setStartEnd();
-    let newNumVisibleRows = Math.ceil(size.height / (props.itemheight || 0));
+    let newNumVisibleRows = Math.ceil(size.height / (itemHeight || 0));
     let newNumVisibleDays = calcNumVisibleDays(size, dayWidth.current);
-    let rowInfo = calculateStartEndRows(newNumVisibleRows, props.data || [], scrollTop);
+    let rowInfo = calculateStartEndRows(newNumVisibleRows, data, scrollTop);
 
     setNumVisibleDays(newNumVisibleDays)
     console.log("DAYS", rowInfo, newNumVisibleRows, rowInfo)
@@ -153,7 +172,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   const verticalChange = (scrollTop: any) => {
     if (scrollTop == scrollTop) return;
     //Check if we have scrolling rows
-    let rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
+    let rowInfo = calculateStartEndRows(numVisibleRows, data, scrollTop);
     if (rowInfo.start !== startRow) {
       setScrollTop(scrollTop)
 
@@ -164,7 +183,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   };
 
   const calculateStartEndRows = (numVisibleRows: number, data: Task[], scrollTop: number) => {
-    let new_start = Math.trunc(scrollTop / (props.itemheight||0));
+    let new_start = Math.trunc(scrollTop / (itemHeight||0));
     let new_end = new_start + numVisibleRows >= data.length ? (data.length || numVisibleRows) : new_start + numVisibleRows;
     console.log(new_start, numVisibleRows, data.length, data.length, new_start )
     return { start: new_start, end: new_end };
@@ -199,10 +218,10 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     let currentIndx = Math.trunc((newScrollLeft - nowposition) / dayWidth.current);
 
     //Calculate rows to render
-    new_startRow = Math.trunc(scrollTop / (props.itemheight||0));
+    new_startRow = Math.trunc(scrollTop / (itemHeight||0));
     new_endRow =
-      new_startRow + numVisibleRows >= (props.data || []).length
-        ? (props.data || []).length - 1
+      new_startRow + numVisibleRows >= (data || []).length
+        ? (data || []).length - 1
         : new_startRow + numVisibleRows;
     //If we need updates then change the state and the scroll position
     //Got you
@@ -213,14 +232,14 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     console.log("new day idx", currentIndx)
 
     let date = new Date()
-    let currentDate = props.date;
+    let currentDate = date;
 
     date.setHours(0, 0, 0, 0)
     currentDate?.setHours(0, 0,0,0)
 
     date.setDate(date.getDate() + currentIndx)
-    if(props.date?.getTime() != date.getTime()){
-      props.onDateChange?.(date)
+    if(date?.getTime() != date.getTime()){
+      onDateChange?.(date)
     }
 
     setNowPosition(new_nowposition)
@@ -236,8 +255,8 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
     setPxToScroll((1 - size.width / DATA_CONTAINER_WIDTH) * DATA_CONTAINER_WIDTH - 1);
   };
 
-  const onHorizonChange = (lowerLimit: any, upLimit: any) => {
-    if (props.onHorizonChange) props.onHorizonChange(lowerLimit, upLimit);
+  const _onHorizonChange = (lowerLimit: any, upLimit: any) => {
+    if (onHorizonChange) onHorizonChange(lowerLimit, upLimit);
   };
 
   /////////////////////
@@ -302,8 +321,8 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   //   ITEMS EVENTS  //
   /////////////////////
 
-  const onSelectItem = (item: any) => {
-    if (props.onSelectItem && item != props.selectedItem) props.onSelectItem(item);
+  const _onSelectItem = (item: any) => {
+    if (onSelectItem && item != selectedItem) onSelectItem(item);
   };
 
   const onStartCreateLink = (task: Task, position: any) => {
@@ -314,8 +333,8 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   };
 
   const onFinishCreateLink = (task: Task, position: any) => {
-    console.log(`End Link`, task, taskToCreate, props.onCreateLink);
-    if (props.onCreateLink && task &&
+    console.log(`End Link`, task, taskToCreate, onCreateLink);
+    if (onCreateLink && task &&
       taskToCreate && taskToCreate.task.id != task.id) {
 
         if(!taskToCreate.task.id || !task.id) return;
@@ -328,7 +347,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
           targetHandle: position
         }
         console.log("New link", newLink)
-      props.onCreateLink(newLink);
+      onCreateLink(newLink);
     }
     setInteractiveMode(false)
     setTaskToCreate(undefined)
@@ -348,7 +367,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
 
   const changeMode = (newMode: string) => {
     console.log("Change mode", newMode)
-    if (newMode != mode) {
+    if (newMode != _mode) {
       let newDayWidth = getDayWidth(newMode);
       //to recalculate the now position we have to see how mwny scroll has happen
       //to do so we calculate the diff of days between current day and now
@@ -392,23 +411,23 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
   // };
 
   useEffect(() => {
-    if(props.data){
-      setData(props.data)
+    if(data && !isEqual(data, _data)){
+      setData(data)
       
     }
-  }, [JSON.stringify(props.data)])
+  }, [JSON.stringify(data)])
 
   useEffect(() => {
-    if(props.links){
-    setLinks(props.links)
+    if(links && !isEqual(links, _links)){
+    setLinks(links)
     }
-  }, [props.links])
+  }, [links])
 
   useEffect(() => {
-    if(props.mode){
-      changeMode(props.mode)
+    if(mode && mode != _mode){
+      changeMode(mode)
     }
-  }, [props.mode])
+  }, [mode])
   /*  checkMode();
     checkNeeeData();
     console.log('On render')
@@ -420,30 +439,31 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
       <TimelineContext.Provider value={{
         data: data,
         links,
-        style: props.style,
-        mode: mode,
+        style: style,
+        mode: _mode,
         scrollLeft: scrollLeft,
         moveTimeline: horizontalChange,
         changeMode: changeMode,
         dayWidth: dayWidth.current,
-        itemHeight: props.itemheight
+        itemHeight: itemHeight
       }}>
       <Box 
+        direction="row"
         overflow="hidden"
         round="small" 
-        className={`${props.className} timeLine`} style={{position: 'relative', flex: 1}}>
+        className={`${className} timeLine`} style={{position: 'relative', flex: 1}}>
         <div className="timeLine-side-main" style={sideStyle}>
           <TaskList
             startRow={startRow}
             endRow={endRow}
-            selectedItem={props.selectedItem}
-            onSelectItem={onSelectItem}
-            onUpdateTask={props.onUpdateTask}
+            selectedItem={selectedItem}
+            onSelectItem={_onSelectItem}
+            onUpdateTask={onUpdateTask}
             onScroll={verticalChange}
-            nonEditable={props.nonEditableName}
+            nonEditable={nonEditableName}
           />
           <VerticalSpliter
-            enabled={props.resizable}
+            enabled={resizable}
             onTaskListSizing={onTaskListSizing} />
         </div>
 
@@ -451,7 +471,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
          
         <Box style={{position: 'absolute', height: '100%', width: '100%', top: 0, left: 0}} className="header-container">
           <Header
-              dayStatus={props.dayStatus}
+              dayStatus={dayStatus}
               headerData={headerData}
               numVisibleDays={numVisibleDays}
               currentday={currentday}
@@ -460,16 +480,16 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
             />
         </Box>
         <Box style={{position: 'absolute', width: '100%', height: 'calc(100% - 60px)', zIndex: 9, top: 60, left: 0}}>
-          {props.loading ? <Box style={{position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, background: "#ffffff42"}} flex align="center" justify="center"><Spinner size="medium" /></Box>: null}
+          {loading ? <Box style={{position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, background: "#ffffff42"}} flex align="center" justify="center"><Spinner size="medium" /></Box>: null}
         <DataViewPort
             scrollLeft={scrollLeft}
             scrollTop={scrollTop}
-            itemheight={props.itemheight}
+            itemheight={itemHeight}
             nowposition={nowposition}
             startRow={startRow}
             endRow={endRow}
-            data={props.data}
-            selectedItem={props.selectedItem}
+            data={data}
+            selectedItem={selectedItem}
             onScroll={scrollData}
             onMouseDown={doMouseDown}
             onMouseMove={doMouseMove}
@@ -480,7 +500,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
             onTouchEnd={doTouchEnd}
             onTouchCancel={doTouchCancel}
             onSelectItem={onSelectItem}
-            onUpdateTask={props.onUpdateTask}
+            onUpdateTask={onUpdateTask}
             onTaskChanging={onTaskChanging}
             onStartCreateLink={onStartCreateLink}
             onFinishCreateLink={onFinishCreateLink}
@@ -495,16 +515,16 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
             scrollTop={scrollTop}
             startRow={startRow}
             endRow={endRow}
-            data={props.data || []}
+            data={data || []}
             nowposition={nowposition}
             interactiveMode={interactiveMode}
             taskToCreate={taskToCreate}
             onFinishCreateLink={onFinishCreateLink}
             changingTask={changingTask}
-            selectedItem={props.selectedItem}
+            selectedItem={selectedItem}
             onSelectItem={onSelectItem}
-            itemheight={props.itemheight}
-            links={props.links || []}
+            itemheight={itemHeight}
+            links={links || []}
           />
         </Box>
           
