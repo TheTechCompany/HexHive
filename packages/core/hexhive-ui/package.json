@@ -44,6 +44,7 @@
     "@hexhive/styles": "^0.0.4-alpha.0",
     "@hexhive/types": "^0.0.4-alpha.0",
     "@hexhive/utils": "^0.0.4-alpha.0",
+    "memoize-one": "^5.2.1",
     "moment": "^2.29.1",
     "nanoid": "^3.1.23",
     "react-beautiful-dnd": "^13.1.0",

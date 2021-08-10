@@ -21,7 +21,7 @@ describe('TimeLine Initialization ', function() {
       return data;
     };
     
-    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemHeight={itemheight} onNeedData={onNeedData} />);
     //This needs to be improve
     expect(wrapper.state().currentday).toBe(0);
     expect(wrapper.state().nowposition).toBe(0);
@@ -59,7 +59,7 @@ describe('Timeline Scroll left ', function() {
     let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = mount<any>(<Timeline data={data} itemheight={itemheight} links={[]} onNeedData={onNeedData} />);
+    const wrapper = mount<any>(<Timeline data={data} itemHeight={itemheight} links={[]} onNeedData={onNeedData} />);
     wrapper.instance().onSize({ width: 500, height: 500 });
     expect(wrapper.state().nowposition).toBe(0);
     expect(wrapper.state().scrollLeft).toBe(0);
@@ -112,7 +112,7 @@ describe('Timeline Scroll Up ', function() {
     let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemHeight={itemheight} onNeedData={onNeedData} />);
     wrapper.instance().onSize({ width: 500, height: 500 });
     expect(wrapper.state().nowposition).toBe(0);
     expect(wrapper.state().scrollTop).toBe(0);
@@ -162,7 +162,7 @@ describe('Testing onTaskListSizing ', function() {
     let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemHeight={itemheight} onNeedData={onNeedData} />);
     wrapper.instance().onSize({ width: 500, height: 500 });
     expect(wrapper.state().sideStyle.width).toBe(200);
     wrapper.instance().onTaskListSizing(10);
@@ -185,7 +185,7 @@ describe('Testing Mode change ', function() {
     let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemHeight={itemheight} onNeedData={onNeedData} />);
     wrapper.instance().onSize({ width: 500, height: 500 });
     expect(wrapper.state().nowposition).toBe(0);
     expect(wrapper.state().scrollLeft).toBe(0);
@@ -219,7 +219,7 @@ describe('Testing Mode change ', function() {
     let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemHeight={itemheight} onNeedData={onNeedData} />);
 
     
 
