@@ -3,8 +3,6 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { FileViewer } from "./FileViewer";
 
-const PDF = require("./test.pdf");
-
 export default {
   title: "Example/FileViewer",
   component: FileViewer,
@@ -21,6 +19,8 @@ export const Primary = Template.bind({});
 Primary.args = {
   files: [],
 };
+
+const PDF = require("./test.pdf");
 
 export const WithFiles = Template.bind({});
 WithFiles.args = {
