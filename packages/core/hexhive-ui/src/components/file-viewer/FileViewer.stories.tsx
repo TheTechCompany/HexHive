@@ -28,7 +28,7 @@ WithFiles.args = {
     {
       url: PDF,
       id: "testing",
-      mimeType: "pdf",
+      mimeType: "application/pdf",
     },
   ],
 };
