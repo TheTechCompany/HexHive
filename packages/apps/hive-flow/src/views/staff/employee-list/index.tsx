@@ -5,8 +5,6 @@ import { Box, DataTable, Text, TextInput } from 'grommet'
 import {
    Search as IoSearch
 } from 'grommet-icons'
-
-import './index.css';
 import { StaffSearchHeader } from './header';
 import { useQuery } from 'apps/hive-flow/src/gqless';
 import { idText } from 'typescript';

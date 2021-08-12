@@ -2,8 +2,9 @@ import React from 'react';
 import { Box, Button } from 'grommet';
 import { RouteComponentProps, useLocation, withRouter , matchPath} from 'react-router-dom'
 
-import {ReactComponent as Logo} from './hivecommand.svg'
-import { ReactComponent as LoginIcon } from '../../../assets/profile.svg'
+import ProfileIcon from '../../../assets/Profile'
+
+import HiveCommandLogo from '../../../assets/HiveCommand'
 import styled from 'styled-components';
 
 export interface HeaderProps extends RouteComponentProps<any> {
@@ -35,10 +36,10 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
                 width="20%"
                 direction="row"
                 justify="start">
-                <Logo 
+                <HiveCommandLogo 
                     width="80px"
                     style={{cursor: 'pointer', filter: 'invert(1)'}}
-                    onClick={() => window.location.href = `/dashboard/command`}
+                    onClick={() => window.location.href = `/dashboard/`}
                     height="52px" />
             </Box>
             <Box 
@@ -52,7 +53,7 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
                         hoverIndicator
                         active={!x.action && matchPath(location.pathname + location.search, {path: `${x.path}`}) !== null}
                         color={'neutral-1'}
-                        onClick={() => props.history.push(`${x.path}`)}
+                        onClick={() => props.history.push(`${props.match.url}${x.path}`)}
                         plain
                         icon={!x.label && x.icon}
                         label={x.label}/>
@@ -61,7 +62,7 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
             <Box
                 pad="small"
                 direction="row">
-                <LoginIcon
+                <ProfileIcon
                     style={{marginRight: '8px'}}
                     height="20px" />
                 <Button 

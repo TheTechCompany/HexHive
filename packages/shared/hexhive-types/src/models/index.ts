@@ -5,10 +5,14 @@ import Program, {FlowShard} from './program';
 import Stack from './stack'
 import {DNS} from './dns'
 import { IProject } from './project';
-import { User } from './user';
+import { User, Organisation } from './user';
 import {TimelineItem} from './timeline'
 import { File } from './file';
 import { QuoteSchedule, ScheduleItem, ScheduleOrder } from './schedule';
+import { ClientApp } from './client_app'
+import { AuthorizationCode } from './authorization_code';
+import { AccessToken } from './access_token';
+import { App } from './app';
 
 let opts : any = {
     useNewUrlParser: true,
@@ -46,10 +50,15 @@ export const connect_data = () => {
 export {
     FlowShard,
     Program,
+    AuthorizationCode,
+    AccessToken,
+    App,
     Stack,
     DNS as DNSRecord,
     IProject as Project,
+    ClientApp,
     User,
+    Organisation,
     File,
     ScheduleItem,
     QuoteSchedule,

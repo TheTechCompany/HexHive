@@ -1,7 +1,7 @@
 import { CentralAuthServer } from "./auth";
 import { isValidObjectId } from "mongoose";
 import { MongooseAdapter } from "./adapters/mongoose";
-import { connect_data, User } from "./types";
+import { User, connect_data } from "@hexhive/types";
 import crypto from 'crypto';
 
 declare global {
@@ -42,11 +42,6 @@ connect_data().then(() => {
 
     console.log("Launching Auth Service");
     authServer.startServer(8090)
-
-    authServer.express.get('/test', authServer.oauthServer.authenticate(), (req, res) => {
-        console.log("Auth", req.user)
-        res.send({ success: true, user: req.user, data: "RESULT" })
-    })
 
 
 }).catch((error) => {

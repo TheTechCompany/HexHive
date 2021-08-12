@@ -1,26 +1,21 @@
 
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Types, Document } from 'mongoose';
 
 const UserSchema = new Schema({
     name : "String",
-    email : "String", 
-    active : "Boolean", 
-    organisation : String, //{ type: Schema.Types.ObjectId, ref: 'Organisation'}, 
     readonly : "Boolean", 
-    type: "String" 
+    type: "String",
+    username: String,
+    password: String,
+    organisation: {type: Types.ObjectId, ref: 'Organisation'}
 })
 
-const Organisation = new Schema({
-    "org_id" : "String", 
-    "org_ref_id" : "String", 
-    "name" : "String", 
-    "address" : "String",
-    "contact" : "String", 
-    "email" : "String", 
-    "headcount" : "Number", 
-    "employees" : [{type: Schema.Types.ObjectId, ref: 'User'}], 
-    "org_pass_hash" : "String", 
-    "org_token" : "String"
+const OrganisationSchema = new Schema({
+    name: String,
+    address: String,
+    apps: [{ type: Types.ObjectId, ref: 'App' }],
+    users: [{ type: Types.ObjectId, ref: 'User' }]
 })
 
+export const Organisation = model("Organisation", OrganisationSchema)
 export const User = model("User", UserSchema)

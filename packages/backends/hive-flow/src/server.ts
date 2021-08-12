@@ -21,22 +21,18 @@ import Routes from './routes'
 
 
 import { AuthServer } from '@hexhive/auth'
-import { connect_data } from '@hexhive/auth/dist/types'
 
 
 const BASE_URL = process.env.BASE_URL || 'https://workhub.services'
 
 const app = express()
 
-const SERVER_PORT = process.env.NODE_ENV == 'production' ? 80 : 8081;
+const SERVER_PORT = process.env.NODE_ENV == 'production' ? 80 : 7003;
 
 /* Instantiate a Minio client, its dependency the connector and the
  * connector's dependency, the router
  */
 
-let minioClient: any = {
-  makeBucket: () => { }
-}
 
 // if(config.minio && config.minio.endPoint){
 //   let minio : any = {
@@ -54,33 +50,18 @@ const c = new Connector(config.db,
 
 const routes = Routes(c, AuthServer);
 
-
-
-
 /* Callbacks and auxiliary functions */
 function connector_callback() {
   console.log('Connected to SQL and MongoDB');
 }
 
-function makeBucket_callback(err: any) {
-  if (err) return console.log(err);
-  console.log("Bucket created succesfully");
-}
 
 function start_app() {
-  // if(process.env.NODE_ENV == 'production'){
-  //   greenlock.init({
-  //     packageRoot: path.join(__dirname, '/../../../'), 
-  //     maintainerEmail: 'professional.balbatross@gmail.com',
-  //     configDir: "./greenlock.d",
-  //     cluster: false
-  //   }).serve(app)
-  // }else{
-  connect_data();
+
   app.listen(SERVER_PORT, () => {
     console.log(`Server listening on port: ${SERVER_PORT}`) 
   })
-  // }
+
 }
 
 /* Will be called at end of file */
@@ -92,15 +73,9 @@ function init() {
 /* Configuration */
 c.on('ready', connector_callback);
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccountKey),
-//   databaseURL: "https://pencil-in-nz.firebaseio.com"
-// })
-
 const whitelist = [process.env.BASE_URL, "https://flow-staging.hexhive.io", "https://flow.hexhive.io", "https://hexhive.io", "http://localhost:3000","http://localhost:3002", "http://localhost:8081", "https://view.officeapps.live.com"]
 
 app.set('trust proxy', 1)
-
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -119,6 +94,13 @@ if(process.env.NODE_ENV == 'dev-auth' || process.env.NODE_ENV == 'production'){
   app.use('/graphql', AuthServer.oauthServer.authenticate())
   // app.use('/api/files', )
 }
+
+app.use('/graphql', (req, res, next) => {
+  if(req.body.context){
+    (req as any).user = req.body.context
+  }
+  next();
+})
 
 app.use('/graphql',
   //AuthServer.oauthServer.authenticate(),

@@ -2,6 +2,7 @@ html, body, #root, .App{
   height: 100vh;
   display: flex;
   flex: 1;
+  overflow: hidden;
 }
 .App {
   text-align: center;
