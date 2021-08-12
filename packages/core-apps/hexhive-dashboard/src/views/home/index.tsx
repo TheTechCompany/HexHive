@@ -18,7 +18,32 @@ export const Home : React.FC<any> = (props) => {
     return (
         <>
         <BaseHeader />
-        <HexBoxBackground />
+            <HexBoxBackground 
+                onAction={(item) => {
+                    window.location.href = item.path;
+                }}  
+                actions={[
+                    {
+                        title: 'HiveFlow',
+                        path: '/dashboard/flow'
+                    },
+                    {
+                        title: 'Hive3D',
+                        path: '/dashboard/3d'
+                    },
+                    {
+                        title: 'HiveCommand',
+                        path: '/dashboard/command'
+                    },
+                    {
+                        title: 'HiveFiles',
+                        path: '/dashboard/files'
+                    },
+                    {
+                        title: 'HiveMind',
+                        path: '/dashboard/mind'
+                    }
+                ]}/>
         <Footer />
         </>
     );
