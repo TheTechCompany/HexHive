@@ -31,7 +31,7 @@ function App() {
       {(accessToken: string) => (
       <Router basename={process.env.PUBLIC_URL}>
         <Box 
-          background="neutral-4"
+          background="neutral-1"
           fill 
           flex
           direction="column"
