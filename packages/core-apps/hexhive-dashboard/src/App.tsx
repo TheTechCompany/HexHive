@@ -31,19 +31,20 @@ function App() {
       {(accessToken: string) => (
       <Router basename={process.env.PUBLIC_URL}>
         <Box 
+          overflow="hidden"
           background="neutral-1"
           fill 
           flex
           direction="column"
           className="App">
-          <Box flex direction="column">
-          <Route path="/" exact component={Home} />
-          <Route path="/flow" component={HiveFlow} />
-          <Route path="/command" component={HiveCommand} />
-          <Route path="/3d" component={Hive3D} />
+            <Box flex direction="column">
+            <Route path="/" exact component={Home} />
+            <Route path="/flow" component={HiveFlow} />
+            <Route path="/command" component={HiveCommand} />
+            <Route path="/3d" component={Hive3D} />
 
-          <Route path="/organisation" component={Organisation} />
-          <Route path={`/settings`} component={Settigns} />
+            <Route path="/organisation" component={Organisation} />
+            <Route path={`/settings`} component={Settigns} />
           </Box>
         </Box>
       </Router>)}

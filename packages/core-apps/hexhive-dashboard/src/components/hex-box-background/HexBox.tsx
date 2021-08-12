@@ -2,10 +2,33 @@ import { BaseStyle } from '@hexhive/styles';
 import React from 'react';
 import styled from 'styled-components'
 
+
+const BaseBox = styled.div.attrs((props : any)=> ({
+    style: {
+        cursor: props.onClick ? 'pointer': 'initial',
+        position: 'absolute',
+        left: `${props.left}em`,
+        top: `${props.top}em`,
+        backgroundSize: `${props.size || 3}em ${props.size || 3}em`,
+        height: `${(props.size || 3 )* 2}em`,
+        margin: `-3.5em`,
+        width: `${(props.size || 3) * 2}em`
+    }
+}))`
+-webkit-transform: rotateX(45deg) rotateZ(45deg);
+-webkit-transform-style: preserve-3d;
+z-index: 1;
+
+`
+
 export const BaseHexBox = (props: any) => {
     return (
-        <div className={`${props.className}`}>
+        <BaseBox {...props} onClick={props.onClick} className={`${props.className}`}>
             <div className={`cube ${props.ix % 2 ? 'even': 'odd'}`}>
+            {props.children && <div className={`children-container`}>
+                {props.children}
+
+            </div>}
             <div className="left-container-wrapper">
                 <div className="left-container">
                 </div>
@@ -16,23 +39,24 @@ export const BaseHexBox = (props: any) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </BaseBox>
     );
 }
 
 export const HexBox = styled(BaseHexBox)`
 
-position: absolute;
-left: ${p => p.left}em;
-top: ${p => p.top}em;
-background-size: ${p => p.size || 3}em ${p => p.size || 3}em;
-height: ${p => (p.size || 3 )* 2}em;
-margin: -3.5em;
-width: ${p => (p.size || 3) * 2}em;
--webkit-transform: rotateX(45deg) rotateZ(45deg);
--webkit-transform-style: preserve-3d;
-z-index: 1;
 
+.children-container{
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    -webkit-transform: rotateZ(-45deg) rotateX(-45deg) translateY(${p => (p.size || 3) * 0.375}em)  translateZ(1000px);
+
+}
 
 .right-container-wrapper, .left-container-wrapper {
     position: relative;
@@ -40,11 +64,33 @@ z-index: 1;
     height: 100%;
 }
 
+
+.cube {
+    ${p => p.flatPak ?  `
+        box-shadow: inset 0.5em 0.5em 0 .5em hsla(0,0%,0%,.1),
+                    inset 0.1em 0.1em 0 0.1em hsla(0, 0%, 0%, 1);
+    ` : ''}
+}
+
+.left-container:after {
+    ${p => p.flatPak ?  `
+        box-shadow: inset 0.5em -0.5em 0 .5em hsla(0,0%,0%,.1),
+                    inset 0.1em -0.1em 0 .1em hsla(0, 0%, 0%, 1);;
+    ` : ''}
+}
+
+.right-container:before{
+    ${p => p.flatPak ?  `
+        box-shadow: inset -0.5em 0.5em 0 .5em hsla(0,0%,0%,.1),
+                    inset -0.1em 0.1em 0 .1em hsla(0, 0%, 0%, 1);
+    ` : ''}
+}
 .cube,
 .left-container:after,
 .right-container:before {
     z-index: -10;
-    box-shadow: inset 0 0 0 .25em hsla(0,0%,0%,.1);
+
+    ${p => !p.flatPak ? `box-shadow: inset 0 0 0 .25em hsla(0,0%,0%,.1);` : ''}
     content: '';
     float: left;
     height: ${p => p.size || 3}em;
@@ -69,7 +115,7 @@ z-index: 1;
 }
 
 .left-container-wrapper{
-    -webkit-transform: rotateX(-90deg) translateY(${p => p.size || 3.33}em) translateX(-${p => (p.size || 3) / 2}em);
+    -webkit-transform: rotateX(-90deg) translateY(${p => p.size || 3}em) translateX(-${p => (p.size || 3) / 2}em);
     -webkit-transform-origin: 100% 100%;
 }
 
