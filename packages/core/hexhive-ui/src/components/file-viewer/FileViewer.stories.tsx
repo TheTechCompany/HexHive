@@ -17,17 +17,16 @@ const Template: ComponentStory<typeof FileViewer> = (args) => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-  files: [{ id: "1" }],
+  files: [],
 };
 
 export const WithFiles = Template.bind({});
 WithFiles.args = {
   files: [
     {
-      url: "./DocViewer.tsx",
-      id: "test",
-      extension: "tsx",
+      url: "./test",
+      id: "testing",
+      extension: "pdf",
     },
   ],
-  token: "testToken",
 };
