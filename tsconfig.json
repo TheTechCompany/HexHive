@@ -8,6 +8,9 @@
      "react": ["../node_modules/react"],
      "react-dom": ["../node_modules/react-dom"],
      "grommet": ["../node_modules/grommet"],
+     "gqless": ["../node_modules/gqless"],
+
+     "@gqless/react": ["../node_modules/@gqless/react"],
      "styled-components": ["../node_modules/styled-components"],
      "@types/styled-components": ["../node_modules/@types/styled-components"],
      "@hexhive-apps/3d": ["./apps/hive-3d/src"],
