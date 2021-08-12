@@ -3,6 +3,8 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { FileViewer } from "./FileViewer";
 
+const PDF = require("./test.pdf");
+
 export default {
   title: "Example/FileViewer",
   component: FileViewer,
@@ -24,9 +26,9 @@ export const WithFiles = Template.bind({});
 WithFiles.args = {
   files: [
     {
-      url: "./test",
+      url: PDF,
       id: "testing",
-      extension: "pdf",
+      mimeType: "pdf",
     },
   ],
 };
