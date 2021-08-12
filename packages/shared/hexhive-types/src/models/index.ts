@@ -38,7 +38,7 @@ export const disconnect_data = async () => {
 export const connect_data = () => {
     return new Promise((resolve, reject) => {
     connect(
-        `mongodb://${process.env.MONGO_URL || "localhost:27017"}/${process.env.MONGO_DB || "sudbuster-test"}`, 
+        `mongodb://${process.env.MONGO_URL || "localhost:27018"}/${process.env.MONGO_DB || "sudbuster-test"}`, 
         opts, (err) => {
             if(err) return reject(err);
             resolve(true);
