@@ -4,8 +4,6 @@ import React, {
 
 // import UserList from '../../components/user-list';
 
-import './index.css';
-
 export default class Settings extends Component {
   render(){
     return (

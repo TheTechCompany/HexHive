@@ -20,7 +20,6 @@ import {
 } from '../../assets'
 
 import { Box, Spinner, Text } from 'grommet';
-import './index.css';
 import { JobList } from '../jobs/job-list';
 import { SingleJob } from '../jobs/job-one';
 import { StaffList } from '../staff/employee-list';
@@ -142,7 +141,10 @@ export const Dashboard : React.FC<any> = (props: any) => {
       
 
       return (
-         <div className="dashboard">
+         <Box 
+          direction="row"
+          flex 
+          className="dashboard">
               <Sidebar
                 onLogoClick={() => {
                     window.location.href = "/dashboard";
@@ -151,7 +153,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
                 active={views().map((x) => matchPath(active, {path: x.path}) != null ).indexOf(true)}
                 menu={views()} 
                 onSelect={(x: any) => {
-                  let path = generatePath(`${props.match.url}:path`, {path: x.toLowerCase()})
+                  let path = generatePath(`${props.match.url}/:path`, {path: x.toLowerCase()})
                   props.history.push(path)
                 }}/>
 
@@ -169,14 +171,14 @@ export const Dashboard : React.FC<any> = (props: any) => {
               </Box>
             )}>
             <Switch>
-                <Route path={`/schedule`} component={ScheduleView} />
-                <Route path={`/projects`} exact component={JobList} />
-                <Route path={`/projects/:id`} component={SingleJob} />
-                <Route path={`/estimates`} exact component={Quotes} />
-                <Route path={`/people`} exact component={StaffList} />
-                <Route path={`/people/:id`} component={employeeOne} />
-                <Route path={`/equipment`} exact component={PlantList} />
-                <Route path={`/timeline`} component={Timeline} />
+                <Route path={`${props.match.url}/schedule`} component={ScheduleView} />
+                <Route path={`${props.match.url}/projects`} exact component={JobList} />
+                <Route path={`${props.match.url}/projects/:id`} component={SingleJob} />
+                <Route path={`${props.match.url}/estimates`} exact component={Quotes} />
+                <Route path={`${props.match.url}/people`} exact component={StaffList} />
+                <Route path={`${props.match.url}/people/:id`} component={employeeOne} />
+                <Route path={`${props.match.url}/equipment`} exact component={PlantList} />
+                <Route path={`${props.match.url}/timeline`} component={Timeline} />
             </Switch>
               
             </React.Suspense>
@@ -186,7 +188,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
                 </div>*/}
 
  
-         </div>
+         </Box>
       );
   
 }

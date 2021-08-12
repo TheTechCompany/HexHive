@@ -2,9 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Spinner } from 'grommet';
 
-import { LiveComponent, StartNodeFactory} from '@thetechcompany/live-ui';
+import { LiveComponent } from '@thetechcompany/live-ui';
 import { ElementNodeFactory } from './nodes/element-node/factory';
 import { IFlowShard,  IStack } from '@hexhive/types';
+import { StartNodeFactory } from '@hexhive/ui'
 import { camelCase } from 'lodash';
 import { FlowEditor } from '../flow-editor';
 import { NodeDropdown } from '../node-dropdown';

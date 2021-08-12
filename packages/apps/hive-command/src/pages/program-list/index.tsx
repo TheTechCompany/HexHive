@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { deviceActions, programActions } from '../../actions'
 import { ProgramModal } from '../../components/modals/program';
-import './index.css';
 import { useQuery, Program } from '../../gqless'
 import { Box } from 'grommet';
 import { NestedList } from '../../components/ui/nested-list';
@@ -30,7 +29,7 @@ export const ProgramList: React.FC<ProgramListProps> = (props) => {
         }
     }, [_programs])
     return query.$state.isLoading ? <>Loading...</> : (
-        <div className="program-list">
+        <Box flex className="program-list">
           <ProgramModal 
             selected={selectedProgram}
             open={modalOpen} 
@@ -72,6 +71,6 @@ export const ProgramList: React.FC<ProgramListProps> = (props) => {
                     setSelectedProgram(item);
                     openModal(true)
                 }} />*/}
-        </div>
+        </Box>
     )
 }

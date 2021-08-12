@@ -1,6 +1,5 @@
 import { AuthAdapter, AuthClient } from "../auth";
-import { ClientApp, AccessToken, AuthorizationCode } from "../types";
-import AuthorizationCodeModel from "../types/authorization_code";
+import { ClientApp, AccessToken, AuthorizationCode } from "@hexhive/types";
 
 export class MongooseAdapter extends AuthAdapter {
 

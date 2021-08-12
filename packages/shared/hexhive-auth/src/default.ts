@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose";
 import { MongooseAdapter } from "./adapters/mongoose";
 import { CentralAuthServer } from "./auth";
-import { User } from "./types";
+import { User } from "@hexhive/types";
 
 export const AuthServer = new CentralAuthServer({
     issuer: process.env.NODE_ENV == 'dev' ? 'localhost' : 'hexhive.io',

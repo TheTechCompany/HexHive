@@ -31,6 +31,15 @@
     },
     {
       "path": "../../shared/hexhive-styles"
+    },
+    {
+      "path": "../../apps/hive-command"
+    },
+    {
+      "path": "../../apps/hive-flow"
+    },
+    {
+      "path": "../../apps/hive-3d"
     }
   ]
 }

@@ -1117,6 +1117,22 @@
     "@babel/helper-validator-identifier" "^7.14.8"
     to-fast-properties "^2.0.0"
 
+"@babylonjs/core@5.0.0-alpha.6":
+  version "5.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@babylonjs/core/-/core-5.0.0-alpha.6.tgz#41d71d41e902ad9c802508ffd8c10973d557cbf9"
+  integrity sha512-7Tg/MByT6nUHpV5TjVj1xHsmnbrk1hGMk/jKCui6bydR6YaGrkE0yoLAmJXX5ALGXhhKLIDj+qg3QHWVFsi1lA==
+  dependencies:
+    tslib ">=1.10.0"
+
+"@babylonjs/loaders@5.0.0-alpha.6":
+  version "5.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@babylonjs/loaders/-/loaders-5.0.0-alpha.6.tgz#cb3ea3bf8718422ef75d3630d14f77c8a16c33cc"
+  integrity sha512-mnUkcA2a4Mdo484q7ckw+QxPYM8mfMaZjfSyt4YjwUxXRdOvbQUPyk/ZojrQjXajEFdzpxhqEU5Iu5CZr01w1A==
+  dependencies:
+    "@babylonjs/core" "5.0.0-alpha.6"
+    babylonjs-gltf2interface "5.0.0-alpha.6"
+    tslib ">=1.10.0"
+
 "@base2/pretty-print-object@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@base2/pretty-print-object/-/pretty-print-object-1.0.0.tgz#860ce718b0b73f4009e153541faff2cb6b85d047"
@@ -3159,6 +3175,11 @@ babel-plugin-syntax-jsx@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
   integrity sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY=
+
+babylonjs-gltf2interface@5.0.0-alpha.6:
+  version "5.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/babylonjs-gltf2interface/-/babylonjs-gltf2interface-5.0.0-alpha.6.tgz#8c2437e40c895a0615e8be48d5177bd4c82f0410"
+  integrity sha512-rlsNUn+/anLusgeYwgiRmgo2KtTDA8HmaXTbaAesUHp4lSQfmCmWyl1SpTdGgBeBeG2ZVD9mOrSVamBc+L7YyA==
 
 bail@^1.0.0:
   version "1.0.5"
@@ -6840,7 +6861,7 @@ memfs@^3.1.2:
   dependencies:
     fs-monkey "1.0.3"
 
-memoize-one@^5.1.1:
+memoize-one@^5.1.1, memoize-one@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
   integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
@@ -9652,7 +9673,7 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
-tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.2.0:
+tslib@>=1.10.0, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
   integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==

@@ -54,7 +54,8 @@ const Queries = (connector: Connector) => {
             startDate: "Date",
             endDate: "Date"
         },
-        resolve: async (root, args) => {
+        resolve: async (root, args, context) => {
+            console.log(context.user)
             //TODO add OR operator to status search
             let request = new sql.Request(connector.pool)
 

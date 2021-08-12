@@ -1,0 +1,25 @@
+{
+  "name": "@hexhive/client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/gqless/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "generate": "gqless generate",
+    "build": "tsc -b",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@gqless/react": "^2.0.15",
+    "gqless": "^2.0.14"
+  },
+  "devDependencies": {
+    "@gqless/cli": "^2.0.16",
+    "graphql": "^15.5.1",
+    "typescript": "^4.3.5"
+  }
+}

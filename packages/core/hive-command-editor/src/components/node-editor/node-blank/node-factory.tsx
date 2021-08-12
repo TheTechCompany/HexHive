@@ -1,5 +1,5 @@
 import React from "react";
-import { AbstractWidgetFactory, PortWidget, RetractingPort } from "@thetechcompany/live-ui"
+import { AbstractWidgetFactory, PortWidget, RetractingPort } from "@hexhive/ui"
 import { IStackItemsPorts } from "@hexhive/types";
 import { NodeBlank } from "./NodeBlank";
 
