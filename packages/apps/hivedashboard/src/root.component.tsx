@@ -20,8 +20,8 @@ function App() {
     <AuthProvider
       clientId="hexhive.io"
       clientSecret="tester"
-      authorizationServer={process.env.NODE_ENV == 'production' ? "https://api.hexhive.io" : "http://localhost:7000"}
-      redirectUri={process.env.NODE_ENV == 'production' ? 'https://hexhive.io/dashboard' : "http://localhost:3001/dashboard"}>
+      authorizationServer={process.env.NODE_ENV == 'production' ? process.env.REACT_APP_API : "http://localhost:7000"}
+      redirectUri={process.env.NODE_ENV == 'production' ? 'https://root-staging.hexhive.io/' : "http://localhost:3001/dashboard"}>
       {(accessToken: string) => (
       <Router basename={process.env.PUBLIC_URL}>
         <Box 
