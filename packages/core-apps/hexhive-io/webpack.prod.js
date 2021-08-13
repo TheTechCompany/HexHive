@@ -16,8 +16,8 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
-    mode: "development",
     // modify the webpack config however you'd like to by adding to this object
+    mode: "production",
     devServer :{
       hot: false
     },

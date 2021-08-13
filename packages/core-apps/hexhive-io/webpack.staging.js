@@ -16,8 +16,8 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
-    mode: "development",
     // modify the webpack config however you'd like to by adding to this object
+    mode: "development",
     devServer :{
       hot: false
     },
@@ -33,10 +33,10 @@ module.exports = (webpackConfigEnv, argv) => {
         library: {type: 'var', name: 'hexhive_root'},
         filename: './remoteEntry.js',
         remotes: {
-          'hexhive_hiveflow': 'hexhive_hiveflow',
-          'hexhive_dashboard': 'hexhive_dashboard',
-          'hexhive_hivecommand': 'hexhive_hivecommand',
-          'hexhive_hivemind': 'hexhive_hivemind'
+          'hexhive_hiveflow': 'hexhive_hiveflow@https://flow-staging.hexhive.io/remoteEntry.js',
+          'hexhive_dashboard': 'hexhive_dashboard@https://dashboard-staging.hexhive.io/remoteEntry.js',
+          'hexhive_hivecommand': 'hexhive_hivecommand@https://command-staging.hexhive.io/remoteEntry.js',
+          'hexhive_hivemind': 'hexhive_hivemind@https://mind-staging.hexhive.io/remoteEntry.js'
         },
         shared: {
           "react": {version: '17.0.2'},
