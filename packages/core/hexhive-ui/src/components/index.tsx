@@ -1,4 +1,4 @@
-export * from './sidebar'
+export * from './sidebar/Sidebar'
 export * from './modals'
 export * from './transfer-list'
 export * from './schedule-view'

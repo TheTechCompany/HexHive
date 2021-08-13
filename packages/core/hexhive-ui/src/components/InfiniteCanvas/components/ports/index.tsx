@@ -2,7 +2,7 @@ import React, { RefObject, useContext, useEffect, useRef, useState } from 'react
 import { InfiniteCanvasContext } from '../../context/context';
 
 
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 import { NodeIdContext } from '../../context/nodeid';
 import { isEqual } from 'lodash';
 import { BasePort, usePort } from './base';

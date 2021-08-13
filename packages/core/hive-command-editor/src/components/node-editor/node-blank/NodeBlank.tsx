@@ -1,4 +1,4 @@
-import { InfiniteCanvas } from '@thetechcompany/live-ui';
+// import { InfiniteCanvas } from '@thetechcompany/live-ui';
 import React from 'react';
 import { useContext } from 'react';
 import { getHostForElement } from '@hexhive/utils';

@@ -1,7 +1,6 @@
 import { NodeEditor } from '../../components/node-editor';
 import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
-import { GridList, InfiniteCanvas, TabPane } from '@thetechcompany/live-ui'
 import { CodeEditor } from '../../components/code-editor'
 import { IStack, IStackItems } from '@hexhive/types';
 

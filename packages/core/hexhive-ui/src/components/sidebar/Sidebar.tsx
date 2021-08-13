@@ -2,8 +2,6 @@ import React from 'react';
 
 import { Box, Button, Text } from 'grommet';
 
-import { User } from 'grommet-icons'
-
 import styled from 'styled-components'
 
 export interface SidebarProps {
@@ -67,6 +65,9 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
   );
 }
 
+export interface ID {
+ id: number;
+}
 export const Sidebar = styled(BaseSidebar)`
 @media print{
   .sidebar{
