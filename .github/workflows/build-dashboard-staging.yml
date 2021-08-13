@@ -62,9 +62,9 @@ jobs:
         uses: docker/build-push-action@v2
         with: 
           context: .
-          file: ./Auth.Dockerfile
+          file: ./HiveGateway.Dockerfile
           push: true
-          tags: thetechcompany/hexhive-auth:latest-next
+          tags: thetechcompany/hexhive-gateway:latest-next
           build-args: |
             BUILD_ENV=github
   
