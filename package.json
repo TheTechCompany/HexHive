@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-app:command": "npx lerna run build --scope @hexhive-apps/command --include-dependencies",
-    "build-app:flow": "npx lerna run build --scope @hexhive-apps/flow --include-dependencies",
+    "build:COMMAND": "npx lerna run build --scope @hexhive-apps/command --include-dependencies",
+    "build:FLOW": "npx lerna run build --scope @hexhive-apps/flow --include-dependencies",
     "start:flow-backend": "cd packages/backends/hive-flow && yarn start",
     "start:command-backend": "cd packages/backends/hive-command && yarn start",
     "build:landing": "npx lerna run build --scope @hexhive/cas-client --include-dependencies && cd packages/core-apps/hexhive-landing && yarn build",
-    "build:dashboard": "npx lerna run build --scope @hexhive/dashboard --include-dependencies",
+    "build:DASHBOARD": "npx lerna run build --scope @hexhive/dashboard --include-dependencies",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
