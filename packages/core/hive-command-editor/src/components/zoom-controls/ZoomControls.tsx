@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Button, Box } from 'grommet'
-import { useCanvasControls } from '@thetechcompany/live-ui'
+// import { useCanvasControls } from '@thetechcompany/live-ui'
 import {Zoomin, Zoomout, Publish, Undo} from '../../assets'
 import { EditorContext } from '../../context';
 
@@ -9,7 +9,7 @@ export interface ZoomControlProps {
 }
 
 export const ZoomControls : React.FC<ZoomControlProps> = (props) => {
-    const changeZoom = useCanvasControls()
+    const changeZoom = (ix: number) => {}//useCanvasControls()
     const { publishChanges } = useContext(EditorContext)
 
     return (

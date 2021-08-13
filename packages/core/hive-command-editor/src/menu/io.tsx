@@ -1,4 +1,4 @@
-import { TreeView } from '@thetechcompany/live-ui';
+// import { TreeView } from '@thetechcompany/live-ui';
 import { Box } from 'grommet';
 import React, { useState } from 'react';
 import { IOModal } from '../modals/io';
@@ -68,7 +68,7 @@ export const IOMenu : React.FC<IOMenuProps> = (props) => {
                 onClose={() => openModal(false)}
                 types={getPluginTypes()}
                 open={modalOpen} />
-             <TreeView
+             {/* <TreeView
                     onCreate={(selector) => {
                         setCreateNode(selector)
                         openModal(true)
@@ -82,7 +82,7 @@ export const IOMenu : React.FC<IOMenuProps> = (props) => {
                             label: io.name || ''
                         })) || []
                     }]}
-            />
+            /> */}
         </Box>
     )
 }

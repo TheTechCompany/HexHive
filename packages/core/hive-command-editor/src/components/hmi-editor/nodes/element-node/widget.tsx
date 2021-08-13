@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { RetractingPort } from "@thetechcompany/live-ui"
+import { RetractingPort } from "@hexhive/ui"
 import { IStackItemsPorts } from "@hexhive/types"
 
 export interface ElementNodeProps {

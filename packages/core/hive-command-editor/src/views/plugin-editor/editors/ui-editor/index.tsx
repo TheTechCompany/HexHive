@@ -3,7 +3,6 @@ import { Box, List, Button, Tabs, Tab } from 'grommet';
 import { IOSpecEditor } from '../../../../components/io-spec-editor/IOSpecEditor';
 import { IStackItems } from '@hexhive/types'
 import { NodeEditor, CodeEditor } from '../../../../'
-import { TabPane } from '@thetechcompany/live-ui';
 import componentTemplate from '../../templates/code/component'
 import ioTemplate from '../../templates/code/io-bus';
 import _ from 'lodash';

@@ -1,11 +1,11 @@
 import { Heading } from 'grommet';
 import React from 'react';
 import styled from 'styled-components';
-import { Block } from '@thetechcompany/live-ui';
+// import { Block } from '@thetechcompany/live-ui';
 
 export interface ElementTrayProps {
     className?: string;
-    element?: Block & {dimensions: any}
+    element?: any & {dimensions: any}
 }
 
 export const BaseElementTray : React.FC<ElementTrayProps> = ({
