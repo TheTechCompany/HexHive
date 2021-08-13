@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import VerticalSpliter from './components/taskList/VerticalSpliter';
 import Header from './components/header/Headers';
 import DataViewPort from './components/viewport/DataViewPort';
-import LinkViewPort from './components/links/LinkViewPort';
+import {LinkViewPort} from './components/links/LinkViewPort';
 import TaskList from './components/taskList/TaskList';
 import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from './Const';
 import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from './Const';

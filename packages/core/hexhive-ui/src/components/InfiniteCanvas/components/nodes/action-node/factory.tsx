@@ -1,3 +1,4 @@
+import React from 'react';
 import { AbstractWidgetFactory } from "../../../InfiniteCanvas";
 import { InfiniteCanvasNode } from "../../../types/canvas";
 import { ActionNodeWidget } from "./widget";

@@ -1,12 +1,12 @@
 import { Box, Collapsible, Text, Heading, Button } from 'grommet'
 import React, {useState} from 'react' 
 import * as Icons from 'grommet-icons';
-import { Block, BlockTray } from '@thetechcompany/live-ui';
+import { BlockTray } from '@hexhive/ui';
 import styled from 'styled-components'
 
 export interface NodeDropdownProps {
     title?: string;
-    items: Block & {icon?: any, extras: {icon: any} & any}[];
+    items: any & {icon?: any, extras: {icon: any} & any}[];
     className?: string;
 }
 
