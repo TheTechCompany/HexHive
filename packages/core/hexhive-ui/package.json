@@ -7,11 +7,10 @@
     "dist/"
   ],
   "scripts": {
-    "builder": "rollup -c",
+    "build": "rollup -c",
     "storybook": "start-storybook -p 6006",
     "demo:install": "cd demo && yarn",
     "demo": "cd demo && yarn run dev",
-    "build": "tsc -b",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-storybook": "build-storybook"
   },
