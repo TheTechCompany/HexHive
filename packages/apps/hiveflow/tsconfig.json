@@ -1,0 +1,20 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": "./",
+    "composite": true,
+    "declaration": true,
+    "rootDir": "src/",
+    "outDir": "dist/",
+    "esModuleInterop": true
+  },
+  "references": [
+    {"path": "../../shared/hexhive-auth-ui"},
+    {"path": "../../shared/hexhive-styles"},
+    {"path": "../../core/hexhive-ui"},
+    {"path": "../../shared/hexhive-utils"}
+  ],
+  "include": ["src/**/*", "node_modules/@types"],
+  "exclude": ["src/**/*.test*"]
+}
