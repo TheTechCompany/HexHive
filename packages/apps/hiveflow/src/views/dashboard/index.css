@@ -1,0 +1,19 @@
+.dashboard{
+  height: 100vh;
+  display: flex;
+}
+
+.routed-view{
+  height:100%;
+}
+
+@media (max-width: 600px){
+  .routed-view-body{
+    margin: 0;
+    height: calc(100% - 45px);
+  }
+
+  .dashboard{
+    flex-direction: column-reverse;
+  }
+}
