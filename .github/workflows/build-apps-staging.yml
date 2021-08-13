@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        apps: [DASHBOARD, FLOW, COMMAND]
+        apps: [hivedashboard, hiveflow, hivecommand]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
@@ -35,5 +35,5 @@ jobs:
 
       - name: Upload new web-build
         run: |
-          aws s3 sync packages/apps/hive-command/build/ s3://${{ env.BUCKET_URL }} --delete
+          aws s3 sync packages/apps/${{ matrix.apps }}/build/ s3://${{ env.BUCKET_URL }} --delete
 
