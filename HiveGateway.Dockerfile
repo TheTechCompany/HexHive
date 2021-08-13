@@ -18,4 +18,4 @@ RUN npx lerna bootstrap --scope @hexhive-backends/gateway --include-dependencies
 ENV NODE_ENV="production"
 
 
-CMD ["npx", "lerna", "start", "--scope", "@hexhive-backends/gateway"]
+CMD ["npx", "lerna", "run", "start", "--scope", "@hexhive-backends/gateway"]
