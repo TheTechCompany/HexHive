@@ -61,7 +61,7 @@ jobs:
           aws-region: ap-southeast-2
       
       - name: Make Bucket URL
-        run: echo "BUCKET_URL=S3_STAGING_${{matrix.apps}}_BUCKET" >> $GITHUB_ENV
+        run: echo "BUCKET_URL=S3_STAGING_${{matrix.apps}}_BUCKET" | tr a-z A-Z >> $GITHUB_ENV
 
       - name: Upload new web-build
         run: |
