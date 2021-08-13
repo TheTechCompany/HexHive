@@ -23,6 +23,9 @@ module.exports = (webpackConfigEnv, argv) => {
     devServer: {
       hot: false
     },
+    output: {
+      publicPath: process.env.PUBLIC_PATH || 'http://localhost:8502/'
+    },
     resolve : {
       plugins: [
         new TsConfigPaths()
