@@ -20,4 +20,4 @@ ENV NODE_ENV="production"
 RUN npx lerna run build --scope @hexhive-backends/gateway --include-dependencies
 
 
-CMD ["npx", "lerna", "run", "start", "--scope", "@hexhive-backends/gateway"]
+CMD ["./wait-for-it.sh", "staging-command:80", "--", "npx", "lerna", "run", "start", "--scope", "@hexhive-backends/gateway"]
