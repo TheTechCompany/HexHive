@@ -71,7 +71,7 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
-    build_docker:
+    build_flow_backend:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -102,7 +102,7 @@ jobs:
   
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-    build_docker:
+    build_command_backend:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
