@@ -16,20 +16,4 @@ const Template: ComponentStory<typeof ScheduleView> = (args) => (
 );
 
 export const Primary = Template.bind({});
-Primary.args = {
-  
-  events: ISchedule[];
-
-  users?: any[];
-  user?: any
-  token?: string;
-
-  projects: any[];
-  people: any[];
-  equipment: any[]
-
-  isLoading: boolean;
-
-  date: Date;
-  onHorizonChanged: (start: Date, end: Date) => void;
-};
+Primary.args = {};

@@ -18,7 +18,7 @@ const Template: ComponentStory<typeof TransferList> = (args) => (
 export const Primary = Template.bind({});
 Primary.args = {
   assignedKey: 1,
-  assignedList: [x: 1][y: 1];
+  // assignedList: [x: 1][y: 1],
 
   labelKey: "testLabelKay",
 
