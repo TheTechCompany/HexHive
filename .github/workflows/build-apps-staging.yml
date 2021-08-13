@@ -7,6 +7,9 @@ on:
 jobs:
   build_web:
     runs-on: ubuntu-latest
+    strategy: 
+      matrix:
+        apps: [DASHBOARD, FLOW, COMMAND]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
@@ -18,7 +21,7 @@ jobs:
       - run: lerna bootstrap
 
       - name: Build web
-        run: NODE_ENV=production CI=false REACT_APP_API=https://api.hexhive.io npm run build:dashboard
+        run: NODE_ENV=production CI=false REACT_APP_API=https://api.hexhive.io npm run build:${{ matrix.apps }}
       
       - name: Configure AWS Creds
         uses: aws-actions/configure-aws-credentials@v1
@@ -28,73 +31,5 @@ jobs:
           aws-region: ap-southeast-2
       - name: Upload new web-build
         run: |
-          aws s3 sync packages/apps/hive-command/build/ s3://${{ secrets.S3_STAGING_DASHBOARD_BUCKET }} --delete
+          aws s3 sync packages/apps/hive-command/build/ s3://${{ secrets['S3_STAGING_' + matrix.apps + '_BUCKET']}} --delete
 
-  build_flow_backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - run: ls
-
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
-      
-      - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v1
-      
-      - name: Login to dockerhub
-        uses: docker/login-action@v1
-        with: 
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and push 
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with: 
-          context: .
-          file: ./HiveFlow.Dockerfile
-          push: true
-          tags: thetechcompany/hive-flow:latest-next
-          build-args: |
-            BUILD_ENV=github
-  
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
-      
-  build_command_backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - run: ls
-
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
-      
-      - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v1
-      
-      - name: Login to dockerhub
-        uses: docker/login-action@v1
-        with: 
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and push 
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with: 
-          context: .
-          file: ./HiveCommand.Dockerfile
-          push: true
-          tags: thetechcompany/hive-command:latest-next
-          build-args: |
-            BUILD_ENV=github
-  
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
-      
