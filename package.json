@@ -9,7 +9,7 @@
     "start:flow-backend": "cd packages/backends/hive-flow && yarn start",
     "start:command-backend": "cd packages/backends/hive-command && yarn start",
     "build:landing": "npx lerna run build --scope @hexhive/cas-client --include-dependencies && cd packages/core-apps/hexhive-landing && yarn build",
-    "build:hivedashboard": "npx lerna run build --scope @hexhive-apps/dashboard --include-dependencies",
+    "build:hivedashboard": "npx lerna run build --scope @hexhive-apps/hivedashboard --include-dependencies",
     "build:ROOT": "npx lerna run build --scope @hexhive/root-config --include-dependencies",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
