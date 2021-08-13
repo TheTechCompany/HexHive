@@ -1,3 +1,4 @@
+import React from 'react';
 import { Kanban } from './Kanban'
 import { shallow } from 'enzyme'
 

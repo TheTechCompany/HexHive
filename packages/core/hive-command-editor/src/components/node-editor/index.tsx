@@ -10,13 +10,12 @@ import * as Icons from 'grommet-icons'
 
 import { InfiniteCanvas, ZoomControls } from '@hexhive/ui'
 
-import { LiveComponent, Tablet } from '@thetechcompany/live-ui'
+// import { LiveComponent, Tablet } from '@thetechcompany/live-ui'
 
 import { NodeEditorContext } from './context';
 import { IStackItems, IStackItemsPorts } from '@hexhive/types';
 import _ from 'lodash';
 
-const svgr = require('@svgr/core').default
 
 export interface NodeEditorProps {
     className?: string;
@@ -134,18 +133,18 @@ ${footer}`
         reader.addEventListener('load', (e) => {
             let svgText = e?.target?.result;
 
-            svgr(svgText, {
-                typescript: true
-            }, {
-                componentName: "Test"
-            }).then((js: any) => {
-                let update: any = {
-                    ...node,
-                    ui: formatCode(trimCode(js))
-                }
-                console.log("SVG DRop", update, js)
-                onChange?.(update)
-            })
+            // svgr(svgText, {
+            //     typescript: true
+            // }, {
+            //     componentName: "Test"
+            // }).then((js: any) => {
+            //     let update: any = {
+            //         ...node,
+            //         ui: formatCode(trimCode(js))
+            //     }
+            //     console.log("SVG DRop", update, js)
+            //     onChange?.(update)
+            // })
         })
         reader.readAsText(files[0])
     }, [node])
@@ -183,7 +182,7 @@ ${footer}`
 
     const LiveComponentMemo = useMemo(() => {
 
-        return <LiveComponent code={code} />
+        return null //<LiveComponent code={code} />
     }, [code])
 
     const nodeFactory = useMemo(() => {
@@ -240,7 +239,7 @@ ${footer}`
                             <InfiniteCanvas
                                 nodes={[NODE_TEMPLATE as any]}
                                 assets={{
-                                    component: LiveComponentMemo
+                                    component:<></>// LiveComponentMemo
                                 }}
                                 factories={nodeFactory ? [nodeFactory] : []}>
                                 <ZoomControls

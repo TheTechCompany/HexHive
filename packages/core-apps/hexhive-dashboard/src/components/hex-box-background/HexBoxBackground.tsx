@@ -7,6 +7,14 @@ import { HexButton } from './HexButton';
 const HexagonGrid = require('react-hexagon-grid').default;
 
 
+const COLORSCHEME = [
+    'rgb(113, 114, 137)',
+    'rgb(167, 181, 153)',
+    'rgb(94, 87, 85)',
+    'rgb(209, 185, 169)',
+    'rgb(180, 180, 210)'
+]
+
 export interface BoxBackgroundProps {
     actions: {path: string, title: string}[]
     onAction: (action: {path: string, title: string}) => void;
@@ -44,9 +52,15 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
     }
 
     const CubeMap = useMemo(() => {
-        return Cubes.map((x, ix) => (
-            <HexBox size={size.background} {...getBoxPosition(ix)} />
-        ))
+        return Cubes.map((x, ix) => {
+            let color_ix = ix * 3;
+            let color1 = COLORSCHEME[color_ix % 5];
+            let color2 = COLORSCHEME[(color_ix + 1) % 5];
+            let color3 = COLORSCHEME[(color_ix + 2) % 5];
+
+        return (
+            <HexBox leftColor={color1} topColor={color2} rightColor={color3} size={size.background} {...getBoxPosition(ix)} />
+        )})
     }, [Cubes])
 
     const BUTTON_SIZE = 5;

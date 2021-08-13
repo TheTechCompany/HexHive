@@ -18,7 +18,7 @@ import { Grommet } from 'grommet';
 import { IFlowShard, IStack, IO, IStackItems, IFlowShardNodes, IFlowShardPaths } from '@hexhive/types'
 import _ from 'lodash';
 import { nanoid } from 'nanoid';
-import { InfiniteCanvasNode, InfiniteCanvasPath } from '@thetechcompany/live-ui';
+import { InfiniteCanvasNode, InfiniteCanvasPath } from '@hexhive/ui';
 
 import Automerge from 'automerge'
 
