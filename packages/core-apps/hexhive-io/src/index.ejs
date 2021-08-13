@@ -14,21 +14,18 @@
     <script src="http://localhost:8504/remoteEntry.js"></script>
   
   <% } else { %>
-    <% if (isStaging) { %>
       <script src="http://dashboard-staging.hexhive.io.s3-website-ap-southeast-2.amazonaws.com/remoteEntry.js"></script>
       <script src="http://command-staging.hexhive.io.s3-website-ap-southeast-2.amazonaws.com/remoteEntry.js"></script>
       <script src="http://flow-staging.hexhive.io.s3-website-ap-southeast-2.amazonaws.com/remoteEntry.js"></script>
       <script src="http://mind-staging.hexhive.io.s3-website-ap-southeast-2.amazonaws.com/remoteEntry.js"></script>
       <script src="http://files-staging.hexhive.io.s3-website-ap-southeast-2.amazonaws.com/remoteEntry.js"></script>
       <script src="http://3d-staging.hexhive.io.s3-website-ap-southeast-2.amazonaws.com/remoteEntry.js"></script>
-      <% } else { %>
     <script src="https://dashboard.hexhive.io/remoteEntry.js"></script>
     <script src="https://command.hexhive.io/remoteEntry.js"></script>
     <script src="https://flow.hexhive.io/remoteEntry.js"></script>
     <script src="https://mind.hexhive.io/remoteEntry.js"></script>
     <script src="https://files.hexhive.io/remoteEntry.js"></script>
     <script src="https://3d.hexhive.io/remoteEntry.js"></script>
-    <% } %>
   <% } %>
   <!--
     Remove this if you only support browsers that support async/await.

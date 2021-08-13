@@ -6,7 +6,8 @@
     "test": "cross-env BABEL_ENV=test jest --passWithNoTests",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "build:staging": "webpack --mode=production --env isStaging"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
