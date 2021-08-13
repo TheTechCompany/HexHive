@@ -69,9 +69,9 @@ app.use(cors({
       }
   }, credentials: true}));
   
-if(process.env.NODE_ENV == 'production'){
-  app.use('/graphql',     AuthServer.oauthServer.authenticate())
-}
+// if(process.env.NODE_ENV == 'production'){
+//   app.use('/graphql',     AuthServer.oauthServer.authenticate())
+// }
 
 app.use('/graphql',
     graphqlHTTP({
