@@ -32,7 +32,7 @@ jobs:
 
       - name: Upload new web-build
         run: |
-          aws s3 sync packages/core-apps/hexhive-io/dist/ s3://${{ env.BUCKET_URL }} --delete
+          aws s3 sync packages/core-apps/hexhive-io/dist/ s3://${{ secrets[env.BUCKET_URL] }} --delete
 
 
   build_web:
@@ -65,5 +65,5 @@ jobs:
 
       - name: Upload new web-build
         run: |
-          aws s3 sync packages/apps/${{ matrix.apps }}/dist/ s3://${{ env.BUCKET_URL }} --delete
+          aws s3 sync packages/apps/${{ matrix.apps }}/dist/ s3://${{ secrets[env.BUCKET_URL] }} --delete
 
