@@ -51,7 +51,7 @@ jobs:
       - run: lerna bootstrap --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies
 
       - name: Build web
-        run: NODE_ENV=production CI=false REACT_APP_API=https://api.hexhive.io npm run build:${{ matrix.apps }}
+        run: NODE_ENV=production CI=false REACT_APP_API=https://api.hexhive.io lerna run build:staging --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies
       
       - name: Configure AWS Creds
         uses: aws-actions/configure-aws-credentials@v1
