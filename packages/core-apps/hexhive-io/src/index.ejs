@@ -67,12 +67,19 @@
   <script type="systemjs-importmap">
     {
       "imports": {
-        "@HexHive/root-config": "//localhost:9000/HexHive-root-config.js"
+        "@hexhive/root-config": "//localhost:9000/HexHive-root-config.js"
       }
     }
   </script>
+  <%  } else { %>
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "@hexhive/root-config": "/HexHive-root-config.js"
+        }
+      }
+    </script>
   <% } %>
-
   <!--
     If you need to support Angular applications, uncomment the script tag below to ensure only one instance of ZoneJS is loaded
     Learn more about why at https://single-spa.js.org/docs/ecosystem-angular/#zonejs
@@ -105,7 +112,7 @@
   </noscript>
   <main></main>
   <script>
-    System.import('@HexHive/root-config');
+    System.import('@hexhive/root-config');
   </script>
   <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
