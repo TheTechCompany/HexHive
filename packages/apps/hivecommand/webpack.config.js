@@ -25,7 +25,7 @@ module.exports = (webpackConfigEnv, argv) => {
     },
 
     output: {
-      publicPath: 'http://localhost:8503/'
+      publicPath: process.env.PUBLIC_PATH || 'http://localhost:8503/'
     },
     module: {
       rules: [{
