@@ -14,8 +14,8 @@ const COLORSCHEME = [
 ]
 
 export interface BoxBackgroundProps {
-    actions: {path: string, title: string}[]
-    onAction: (action: {path: string, title: string}) => void;
+    actions: {path: string, logo: any, title: string}[]
+    onAction: (action: {path: string, logo: any, title: string}) => void;
     size?: {background: number, actions: number};
     className?: string;
 }
@@ -79,6 +79,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                 <HexButton 
                     onClick={() => onAction(item)}
                     top={top}
+                    logo={item.logo}
                     left={mid + i}
                     size={size.actions}
                     text={item.title} />)

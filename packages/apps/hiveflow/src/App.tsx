@@ -7,7 +7,7 @@ import {Dashboard} from './views/dashboard';
 import { BaseStyle } from '@hexhive/styles'
 
 function App(props: any) {
-
+console.log("FLOW", window.location, process.env)
   return (
     <AuthProvider
       authorizationServer={process.env.NODE_ENV == 'production' ? "https://api.hexhive.io" : "http://localhost:8090"}

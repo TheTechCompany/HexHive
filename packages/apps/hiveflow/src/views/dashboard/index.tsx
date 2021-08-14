@@ -1,6 +1,6 @@
 import React, { Component, useState} from 'react';
 
-import { Switch, Link, Route , generatePath, matchPath} from 'react-router-dom';
+import { Switch, Link, Route , generatePath, matchPath, withRouter} from 'react-router-dom';
 
 import logo from '../../logo.svg';
 
@@ -38,7 +38,7 @@ const Timeline = React.lazy(() => import('../timeline/Timeline'))
 // const Plant = React.lazy(() => import('../plant'))
 
 
-export const Dashboard : React.FC<any> = (props: any) => { 
+export const Dashboard = withRouter((props: any) => { 
 
   //  const [ view, setView ] = React.useState('schedule')
   // const [ alerts, setAlerts ] = useState<string[]>([])
@@ -139,6 +139,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
   //     //there is dashboard information for organizations
   //  }
       
+  console.log(props.match.url)
 
       return (
          <Box 
@@ -153,7 +154,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
                 active={views().map((x) => matchPath(active, {path: x.path}) != null ).indexOf(true)}
                 menu={views()} 
                 onSelect={(x: any) => {
-                  let path = generatePath(`${props.match.url}/:path`, {path: x.toLowerCase()})
+                  let path = generatePath(`:path`, {path: x.toLowerCase()})
                   props.history.push(path)
                 }}/>
 
@@ -171,14 +172,14 @@ export const Dashboard : React.FC<any> = (props: any) => {
               </Box>
             )}>
             <Switch>
-                <Route path={`${props.match.url}/schedule`} component={ScheduleView} />
-                <Route path={`${props.match.url}/projects`} exact component={JobList} />
-                <Route path={`${props.match.url}/projects/:id`} component={SingleJob} />
-                <Route path={`${props.match.url}/estimates`} exact component={Quotes} />
-                <Route path={`${props.match.url}/people`} exact component={StaffList} />
-                <Route path={`${props.match.url}/people/:id`} component={employeeOne} />
-                <Route path={`${props.match.url}/equipment`} exact component={PlantList} />
-                <Route path={`${props.match.url}/timeline`} component={Timeline} />
+                <Route path={`/schedule`} component={ScheduleView} />
+                <Route path={`/projects`} exact component={JobList} />
+                <Route path={`/projects/:id`} component={SingleJob} />
+                <Route path={`/estimates`} exact component={Quotes} />
+                <Route path={`/people`} exact component={StaffList} />
+                <Route path={`/people/:id`} component={employeeOne} />
+                <Route path={`/equipment`} exact component={PlantList} />
+                <Route path={`/timeline`} component={Timeline} />
             </Switch>
               
             </React.Suspense>
@@ -191,7 +192,7 @@ export const Dashboard : React.FC<any> = (props: any) => {
          </Box>
       );
   
-}
+})
 
 /*
 <RoutedView 
