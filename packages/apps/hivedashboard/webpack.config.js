@@ -35,6 +35,11 @@ module.exports = (webpackConfigEnv, argv) => {
       new webpack.ProvidePlugin({
         process: 'process/browser',
       }),
+      new webpack.DefinePlugin({
+        'process.env.REACT_APP_API': JSON.stringify(process.env.REACT_APP_API),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.DEBUG': JSON.stringify(process.env.DEBUG),
+      }),      
         new ModuleFederationPlugin({
         name: 'hexhive_dashboard',
         library: {type: 'var', name: 'hexhive_dashboard'},

@@ -14,6 +14,8 @@ import { Dashboard } from './dashboard';
 import { Login } from './views/login';
 
 const NoToken = () => (<div>No token</div>)
+
+console.log(process.env)
 function App() {
 
   return (
