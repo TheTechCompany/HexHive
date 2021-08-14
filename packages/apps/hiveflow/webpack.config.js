@@ -41,6 +41,7 @@ module.exports = (webpackConfigEnv, argv) => {
           'react': {version: '17.0.2', singleton: true}, 
           'react-dom': {version: '17.0.2'}, 
           'styled-components': {version: '5.0.3', singleton: true},
+          "grommet": {version: '2.17.4'},
 
           'single-spa-react': {eager: true}
         },
