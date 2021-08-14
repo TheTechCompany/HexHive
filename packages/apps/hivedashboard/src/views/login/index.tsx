@@ -9,10 +9,10 @@ export const Login = () => {
     const [ loading, setLoading ] = useState<boolean>(false);
 
     const client = useAuth({
-        authorizationServer: process.env.NEXT_PUBLIC_API || 'http://localhost:7000',
+        authorizationServer: process.env.REACT_APP_API || 'http://localhost:7000',
         clientId: process.env.NEXT_PUBLIC_CLIENT_ID || 'hexhive.io',
         clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET || 'tester',
-        redirectUri: new URL('/dashboard', `${(typeof(window) != 'undefined' && process.env.NEXT_PUBLIC_API) ? window.location.href : 'http://localhost:3001'}`).toString()
+        redirectUri: new URL('/dashboard', `${(typeof(window) != 'undefined' && process.env.REACT_APP_API) ? window.location.href : 'http://localhost:3001'}`).toString()
     });
 
     // const { client } = useContext(AuthContext)
