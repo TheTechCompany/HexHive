@@ -37,7 +37,6 @@ module.exports = (webpackConfigEnv, argv) => {
       }),
       new webpack.DefinePlugin({
         'process.env.REACT_APP_API': JSON.stringify(process.env.REACT_APP_API),
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'process.env.DEBUG': JSON.stringify(process.env.DEBUG),
       }),      
         new ModuleFederationPlugin({
