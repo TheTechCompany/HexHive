@@ -15,10 +15,17 @@ import {  registerApplication, start } from "single-spa";
 // console.log(item)
 
 registerApplication({
+  name: "hexhive_dashboard",
+  //@ts-ignore
+  app: () => import("hexhive_dashboard"),
+  activeWhen: (location) => location.pathname == '/' || location.pathname == '/dashboard'
+})
+
+registerApplication({
   name: "hexhive_hiveflow",
   //@ts-ignore
   app: () => import("hexhive_hiveflow"),
-  activeWhen: ["/flow"]
+  activeWhen: ["/dashboard/flow"]
 })
 
 
@@ -26,22 +33,16 @@ registerApplication({
   name: "hexhive_hivecommand",
   //@ts-ignore
   app: () => import("hexhive_hivecommand"),
-  activeWhen: ["/command"]
+  activeWhen: ["/dashboard/command"]
 })
 
 registerApplication({
   name: "hexhive_hivemind",
   //@ts-ignore
   app: () => import("hexhive_hivemind"),
-  activeWhen: ["/mind"]
+  activeWhen: ["/dashboard/mind"]
 })
 
-registerApplication({
-  name: "hexhive_dashboard",
-  //@ts-ignore
-  app: () => import("hexhive_dashboard"),
-  activeWhen: ["/"]
-})
 // registerApplication({
 //   name: "@HexHive/navbar",
 //   app: () => System.import("@HexHive/navbar"),

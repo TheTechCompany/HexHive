@@ -14,6 +14,8 @@ import { BaseHeader } from '../../components/header';
 import { HexBoxBackground } from '../../components/hex-box-background/HexBoxBackground';
 import { Footer } from '../../components/footer';
 
+import { Hivecommand, Hivefiles, Hiveflow, Hivemind, Svg3D } from '../../assets';
+
 export const Home : React.FC<any> = (props) => {
     return (
         <Box style={{height: '100%', overflow: 'hidden'}}>
@@ -25,22 +27,27 @@ export const Home : React.FC<any> = (props) => {
                 actions={[
                     {
                         title: 'HiveFlow',
+                        logo: <Hiveflow />,
                         path: '/dashboard/flow'
                     },
                     {
                         title: 'Hive3D',
+                        logo: <Svg3D />,
                         path: '/dashboard/3d'
                     },
                     {
                         title: 'HiveCommand',
+                        logo: <Hivecommand/>,
                         path: '/dashboard/command'
                     },
                     {
                         title: 'HiveFiles',
+                        logo: <Hivefiles />,
                         path: '/dashboard/files'
                     },
                     {
                         title: 'HiveMind',
+                        logo: <Hivemind />,
                         path: '/dashboard/mind'
                     }
                 ]}/>
