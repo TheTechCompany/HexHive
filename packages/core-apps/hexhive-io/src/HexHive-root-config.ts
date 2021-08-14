@@ -25,7 +25,7 @@ registerApplication({
   name: "hexhive_hiveflow",
   //@ts-ignore
   app: () => import("hexhive_hiveflow"),
-  activeWhen: ["/dashboard/flow"]
+  activeWhen: (location) => location.pathname.indexOf('/dashboard/flow') > -1
 })
 
 
@@ -33,14 +33,14 @@ registerApplication({
   name: "hexhive_hivecommand",
   //@ts-ignore
   app: () => import("hexhive_hivecommand"),
-  activeWhen: ["/dashboard/command"]
+  activeWhen: (location) => location.pathname.indexOf('/dashboard/command') > -1
 })
 
 registerApplication({
   name: "hexhive_hivemind",
   //@ts-ignore
   app: () => import("hexhive_hivemind"),
-  activeWhen: ["/dashboard/mind"]
+  activeWhen: (location) => location.pathname.indexOf('/dashboard/mind') > -1
 })
 
 // registerApplication({
