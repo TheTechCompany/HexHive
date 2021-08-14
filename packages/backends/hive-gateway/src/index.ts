@@ -55,7 +55,7 @@ const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
     if(process.env.NODE_ENV == 'production'){
         if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
         greenlock.init({
-            packageRoot: __dirname,
+            packageRoot: __dirname + '/../',
             configDir: "./greenlock.d",
      
             // contact for security and critical bug notices
