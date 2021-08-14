@@ -40,6 +40,7 @@ module.exports = (webpackConfigEnv, argv) => {
         },
         shared: {
           "react": {version: '17.0.2'},
+          "grommet": {version: '2.17.4'},
           "react-dom": {version: '17.0.2'},
           'styled-components': {version: '5.3.0', singleton: true},
           'single-spa-react': {eager: true}

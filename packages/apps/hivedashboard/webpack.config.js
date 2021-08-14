@@ -46,7 +46,9 @@ module.exports = (webpackConfigEnv, argv) => {
           'react': {eager: true, singleton: true}, 
           'react-dom': {version: '17.0.2'}, 
           'styled-components': {version: '5.3.0', singleton: true},
-          'single-spa-react': {eager: true}
+          'single-spa-react': {eager: true},
+          "grommet": {version: '2.17.4'},
+
         },
                 remotes: {
           'hexhive_root': 'hexhive_root'
