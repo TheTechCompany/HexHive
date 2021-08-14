@@ -1,29 +1,28 @@
 import React from 'react';
 import logo from './logo.svg';
-import Editor from "rich-markdown-editor";
-import { Box } from 'grommet';
+import { Box, Grommet } from 'grommet';
+import { BaseHeader } from './components/header';
+import { BaseStyle } from '@hexhive/styles';
+import { HiveMindEditor } from './components/editor';
+import { Sidebar } from './components/sidebar';
 
 function App() {
 
-  const searchWiki = (search: string) => {
-    return fetch(`http://13.210.13.198/pages?search=${search}`).then((r) => r.json())
-  }
+
 
   return (
+    <Grommet style={{display: "flex"}} full theme={BaseStyle}>
     <Box 
       direction="column"
-      pad="medium" fill flex>
-      <Editor 
-        onSearchLink={async (term) => {
-          const searchResults = await searchWiki(term)
-          return searchResults.map((x: {_id: string, title: string}) => ({
-            title: x._id,
-            subtitle: "Wikipedia",
-            url: `https://en.wikipedia.org/wiki/${x._id}`
-          })) || [{title: "Test", subtitle: "Sub", url: "Link"}];
-        }}
-        defaultValue="## Hello World" />
+      flex>
+        <BaseHeader />
+
+      <Box direction="row" flex>
+        <Sidebar />
+        <HiveMindEditor  />
+      </Box>
     </Box>
+    </Grommet>
   );
 }
 
