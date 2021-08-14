@@ -18,7 +18,7 @@ function App() {
 
   return (
     <React.Suspense fallback={() => <Spinner />} >
-    <Grommet theme={BaseStyle} plain full>
+    <Grommet theme={BaseStyle} plain full> 
   
       <Router basename={process.env.PUBLIC_URL}>
         <Box 

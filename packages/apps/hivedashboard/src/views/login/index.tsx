@@ -50,7 +50,6 @@ export const Login = () => {
     return (
         <Box
             background="light-4"
-            fill
             flex
             direction="row"
             align="center"
@@ -69,7 +68,7 @@ export const Login = () => {
             >
                 <Box direction="row" align="center" justify="between">
                     <img width={70} src={Logo} />
-                    <Heading size='small'>Login</Heading>
+                    <Heading margin="none" size='small'>Login</Heading>
                 </Box>
 
                 <Form onSubmit={login} >
