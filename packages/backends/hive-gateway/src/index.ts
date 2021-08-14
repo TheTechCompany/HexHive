@@ -12,6 +12,7 @@ import { REMOTE_SCHEMA } from './remotes';
 import { DefaultRouter } from './routes';
 import { isValidObjectId } from 'mongoose';
 
+const greenlock = require('greenlock-express')
 const app = express();
 
 const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
@@ -51,7 +52,21 @@ const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
         graphiql: true
     }))
 
-    app.listen(PORT, () => {
-        console.log(`🚀 Server ready at :${PORT}`);
-    })
+    if(process.env.NODE_ENV == 'production'){
+        if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
+        greenlock.init({
+            packageRoot: __dirname,
+            configDir: "./greenlock.d",
+     
+            // contact for security and critical bug notices
+            maintainerEmail: process.env.MAINTAINER_EMAIL,
+     
+            // whether or not to run at cloudscale
+            cluster: false
+        }).serve(app)
+    }else{
+        app.listen(PORT, () => {
+            console.log(`🚀 Server ready at :${PORT}`);
+        })
+    }
 })()
