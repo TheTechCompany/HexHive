@@ -10,7 +10,7 @@ function App(props: any) {
 console.log("FLOW", window.location, process.env)
   return (
     <AuthProvider
-      authorizationServer={process.env.NODE_ENV == 'production' ? "https://api.hexhive.io" : "http://localhost:8090"}
+      authorizationServer={process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API || 'https://staging-api.hexhive.io') : "http://localhost:8090"}
       clientId="hexhive.io"
       clientSecret="tester"
       redirectUri={process.env.NODE_ENV == 'production' ? "https://hexhive.io/dashboard/flow" : "http://localhost:3001/dashboard"}>
