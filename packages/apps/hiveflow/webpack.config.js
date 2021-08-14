@@ -23,7 +23,7 @@ module.exports = (webpackConfigEnv, argv) => {
       hot: false
     },
     output: {
-      publicPath: 'http://localhost:8500/'
+      publicPath: process.env.PUBLIC_PATH || 'http://localhost:8500/'
     },
     plugins: [
       new webpack.ProvidePlugin({
