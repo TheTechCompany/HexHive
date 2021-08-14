@@ -6,7 +6,7 @@
     "dist/"
   ],
   "scripts": {
-    "start": "webpack serve",
+    "start": "webpack serve --port 8500",
     "start:standalone": "webpack serve --env standalone",
     "build": "webpack --mode=production",
     "build:staging": "webpack --mode=production --env isStaging",
