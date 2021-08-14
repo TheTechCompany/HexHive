@@ -10,6 +10,8 @@ import { Organisation } from './views/organisation';
 import { Settigns } from './views/settings';
 
 import { BaseStyle } from '@hexhive/styles'
+import { Dashboard } from './dashboard';
+import { Login } from './views/login';
 
 const NoToken = () => (<div>No token</div>)
 function App() {
@@ -17,12 +19,7 @@ function App() {
   return (
     <React.Suspense fallback={() => <Spinner />} >
     <Grommet theme={BaseStyle} plain full>
-    <AuthProvider
-      clientId="hexhive.io"
-      clientSecret="tester"
-      authorizationServer={process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API || 'https://staging-api.hexhive.io') : "http://localhost:7000"}
-      redirectUri={process.env.NODE_ENV == 'production' ? 'https://root-staging.hexhive.io/' : "http://localhost:3001/dashboard"}>
-      {(accessToken: string) => (
+  
       <Router basename={process.env.PUBLIC_URL}>
         <Box 
           style={{height: '100vh'}}
@@ -33,15 +30,12 @@ function App() {
           direction="column"
           className="App">
             <Box flex direction="column">
-            <Route path="/" exact component={Home} />
-  
-            <Route path="/organisation" component={Organisation} />
-            <Route path={`/settings`} component={Settigns} />
+            <Route path="/" exact component={Login} />
+            <Route path="/dashboard" component={Dashboard} />
           </Box>
         </Box>
-      </Router>)}
-    </AuthProvider>
-    </Grommet>
+      </Router>
+      </Grommet>
     </React.Suspense>
   );
 }
