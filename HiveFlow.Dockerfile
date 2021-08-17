@@ -22,6 +22,7 @@ ENV NODE_ENV="production"
 
 RUN npx lerna run build --scope @hexhive-backends/flow --include-dependencies
 
+WORKDIR /app/packages/backends/hive-flow
 
-CMD ["npm", "run", "start:flow-backend"]
+CMD ["yarn", "run", "start:prod"]
 

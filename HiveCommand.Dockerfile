@@ -19,5 +19,5 @@ ENV NODE_ENV="production"
 
 RUN npx lerna run build --scope @hexhive-backends/command --include-dependencies
 
-
-CMD ["npm", "run", "start:command-backend"]
+WORKDIR /app/packages/backends/hive-command
+CMD ["yarn", "run", "start:prod"]

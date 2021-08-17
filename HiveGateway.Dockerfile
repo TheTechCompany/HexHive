@@ -19,5 +19,6 @@ ENV NODE_ENV="production"
 
 RUN npx lerna run build --scope @hexhive-backends/gateway --include-dependencies
 
+WORKDIR /app/packages/backends/hive-gateway
 
-CMD ["./wait-for-it.sh", "staging-command:80", "--", "npx", "lerna", "run", "start", "--scope", "@hexhive-backends/gateway"]
+CMD ["./wait-for-it.sh", "staging-command:80", "--", "yarn", "run", "start:prod"]
