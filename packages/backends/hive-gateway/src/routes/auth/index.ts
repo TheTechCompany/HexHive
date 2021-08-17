@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { CentralAuthServer } from '@hexhive/auth';
 
-export const AuthRouter = (cas : CentralAuthServer, methods: any) => {
+export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
     const router = Router();
 
     

@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 
 const whitelist = ['http://localhost:3001', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io']
 
-export const DefaultRouter = (cas : CentralAuthServer, methods: any) => {
+export const DefaultRouter = (cas : CentralAuthServer, methods: any) : Router => {
     const router = Router();
     
     const corsOptions = {
