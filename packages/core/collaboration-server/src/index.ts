@@ -69,7 +69,7 @@ export default class AutomergeServer {
 
             this.docSet.setDoc(msg.data.id, object)
             console.log("Doc changed by ", ws.id)
-            console.log("Doc value", Object.keys(object.program).map((x) => object.program[x].paths))
+            console.log("Doc value", object)
 
             if(ws.id)  this.broadcast('automerge', {changes: msg.data.changes, id: msg.data.id}, [ws.id])
 

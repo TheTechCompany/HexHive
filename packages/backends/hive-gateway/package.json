@@ -13,13 +13,16 @@
   "dependencies": {
     "@graphql-tools/stitch": "^8.0.8",
     "@hexhive/auth": "^0.0.4-alpha.0",
+    "@hexhive/collaboration-server": "^0.0.3-alpha.0",
     "@hexhive/types": "^0.0.4-alpha.0",
     "cookie-parser": "^1.4.5",
     "cross-fetch": "^3.1.4",
-    "greenlock-express": "^4.0.3"
+    "greenlock-express": "^4.0.3",
+    "ws": "^8.1.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
+    "@types/ws": "^7.4.7",
     "ts-node": "^10.2.0"
   }
 }

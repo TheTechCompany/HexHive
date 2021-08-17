@@ -4,6 +4,7 @@ const { ModuleFederationPlugin } = require('webpack').container;
 const TsConfigPaths = require('tsconfig-paths-webpack-plugin')
 const TerserPlugin = require("terser-webpack-plugin");
 const glob = require("glob");
+const webpack = require('webpack')
 
 module.exports = {
     // modify the webpack config however you'd like to by adding to this object,
@@ -52,6 +53,9 @@ module.exports = {
       ]
     },
     plugins: [
+      new webpack.ProvidePlugin({
+        process: 'process/browser',
+      }),
         new ModuleFederationPlugin({
         name: 'hexhive_ui',
         library: {type: 'var', name: 'hexhive_ui'},

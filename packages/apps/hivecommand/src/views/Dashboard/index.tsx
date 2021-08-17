@@ -111,13 +111,13 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
 
                         <Switch>
                             {pages.map((x, ix) => (
-                                <Route exact path={[x.path].map((x) => `${props.match.url}${x}`)} component={x.component} />
+                                <Route exact path={[x.path].map((x) => `${x}`)} component={x.component} />
                             ))}
-                            <Route path={`${props.match.url}/devices/:id/controls`} component={DeviceControl} />
-                            <Route path={`${props.match.url}/devices/:id`} component={DeviceSingle} />
-                            <Route path={`${props.match.url}/programs/:id`} component={EditorPage} />
-                            <Route path={`${props.match.url}/plugins/:id/editor`} exact component={PluginEditor} />
-                            <Route path={`${props.match.url}/plugins/:id`} exact component={PluginSingle} />
+                            <Route path={`/devices/:id/controls`} component={DeviceControl} />
+                            <Route path={`/devices/:id`} component={DeviceSingle} />
+                            <Route path={`/programs/:id`} component={EditorPage} />
+                            <Route path={`/plugins/:id/editor`} exact component={PluginEditor} />
+                            <Route path={`/plugins/:id`} exact component={PluginSingle} />
                         </Switch>
                     </React.Suspense>
 

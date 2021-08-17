@@ -1,11 +1,13 @@
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json'
 import pkg from './package.json';
 import resolve from '@rollup/plugin-node-resolve';
 import copy from 'rollup-plugin-copy';
 import ts from 'typescript';
 import postcss from 'rollup-plugin-postcss'
+import nodeGlobals from 'rollup-plugin-node-globals'
 import babel from "@rollup/plugin-babel";
 import _ from 'lodash';
 import rename from 'rollup-plugin-rename';
@@ -25,7 +27,9 @@ export default {
   plugins: [
       postcss(),
     resolve(),
+    nodeGlobals(),
     commonjs(),
+    json(),
     // babel({
     //     extensions: [".ts", ".tsx"],
     //     babelHelpers: 'runtime',
@@ -53,6 +57,7 @@ export default {
           sourceMap: true,
           declaration: true,
           allowSyntheticDefaultImports: true,
+          skipLibCheck: true,
             rootDir: 'src/',
             outDir: 'dist/',
             module: 'es6',

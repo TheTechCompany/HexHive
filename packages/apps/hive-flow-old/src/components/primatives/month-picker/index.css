@@ -1,9 +1,0 @@
-.month-picker__display{
-  width: 160px;
-}
-
-.month-picker{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}

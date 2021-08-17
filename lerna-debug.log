@@ -6,9 +6,9 @@
 0 silly argv   globs: [],
 0 silly argv   lernaVersion: '4.0.0',
 0 silly argv   '$0': '/Users/the-kid/work/contract-work/hexhive-common/node_modules/.bin/lerna',
-0 silly argv   pkg: '@types/babel__runtime'
+0 silly argv   pkg: '@types/megadraft'
 0 silly argv }
 1 notice cli v4.0.0
 2 verbose rootPath /Users/the-kid/work/contract-work/hexhive-common
-3 error HttpErrorGeneral: 404 Not Found - GET https://registry.npmjs.org/@types%2fbabel__runtime - Not found
+3 error HttpErrorGeneral: 404 Not Found - GET https://registry.npmjs.org/@types%2fmegadraft - Not found
 3 error     at /Users/the-kid/work/contract-work/hexhive-common/node_modules/npm-registry-fetch/check-response.js:95:15

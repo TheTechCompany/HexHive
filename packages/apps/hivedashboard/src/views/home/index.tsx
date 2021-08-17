@@ -31,24 +31,20 @@ export const Home : React.FC<any> = (props) => {
                         path: '/dashboard/flow'
                     },
                     {
-                        title: 'Hive3D',
-                        logo: <Svg3D />,
-                        path: '/dashboard/3d'
-                    },
-                    {
                         title: 'HiveCommand',
                         logo: <Hivecommand/>,
                         path: '/dashboard/command'
                     },
                     {
+                        title: 'Hive3D',
+                        logo: <Svg3D />,
+                        path: '/dashboard/3d'
+                    },
+
+                    {
                         title: 'HiveFiles',
                         logo: <Hivefiles />,
                         path: '/dashboard/files'
-                    },
-                    {
-                        title: 'HiveMind',
-                        logo: <Hivemind />,
-                        path: '/dashboard/mind'
                     }
                 ]}/>
         <Footer />

@@ -43,7 +43,7 @@ module.exports = (webpackConfigEnv, argv) => {
         library: {type: 'var', name: 'hexhive_dashboard'},
         filename: './remoteEntry.js',
         shared: {
-          'react': {eager: true, singleton: true}, 
+          'react': {eager: true,version: '17.0.2', singleton: true}, 
           'react-dom': {version: '17.0.2'}, 
           'styled-components': {version: '5.3.0', singleton: true},
           'single-spa-react': {eager: true},

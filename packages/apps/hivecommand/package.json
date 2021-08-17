@@ -6,7 +6,7 @@
     "dist/"
   ],
   "scripts": {
-    "start": "webpack serve",
+    "start": "PUBLIC_URL=/dashboard/command webpack serve --port 8503",
     "start:standalone": "webpack serve --env standalone",
     "build:staging": "webpack --mode=production --env isStaging",
     "build": "PUBLIC_URL=/dashboard/command webpack --mode=production",
@@ -28,6 +28,7 @@
     "@babel/runtime": "^7.14.6",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
+    "@types/react": "^17.0.18",
     "@types/testing-library__jest-dom": "^5.14.0",
     "babel-jest": "^27.0.5",
     "concurrently": "^6.2.0",

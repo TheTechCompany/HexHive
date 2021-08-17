@@ -79,7 +79,7 @@ export class AutomergeClient {
                     // return cb(null, "Connected")
                 }
                 this.connection.onerror = (error) => {
-                    console.log("Socket Error")
+                    console.log("Socket Error", error.target)
                  //   this.socketError(error);
                 //   return reject(error)
                 }
@@ -126,6 +126,7 @@ export class AutomergeClient {
     }
 
     sendDocChanges(collection: string, docId: string, changes: Automerge.BinaryChange[]){
+        console.log("SEND DOC CHANGES")
         this.connection?.send(JSON.stringify({action: 'automerge', data: {changes, collection, id: docId}}))
     }
 
