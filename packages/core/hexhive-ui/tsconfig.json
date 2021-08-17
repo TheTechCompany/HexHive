@@ -81,7 +81,6 @@
   "references": [
     {"path": "../../shared/hexhive-utils"},
     {"path": "../../shared/hexhive-styles"},
-    {"path": "../slate-collaboration"},
     {"path": "../../shared/hexhive-types"}
   ]
 }
