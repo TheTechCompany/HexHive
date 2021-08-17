@@ -67,7 +67,8 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
     let HALF_HEIGHT = Math.floor(MAX_HEIGHT / 2)
 
     const renderActions = () => {
-        let top = (HALF_HEIGHT - 1.74) / (size.actions / size.background);
+        //1.74
+        let top = (HALF_HEIGHT - 1.2) / (size.actions / size.background);
         let mid = (HALF_WIDTH + 0.28 ) /(size.actions / size.background)
 
         let action_length = actions.length;

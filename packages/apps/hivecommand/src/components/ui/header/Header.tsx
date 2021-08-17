@@ -53,7 +53,7 @@ export const BaseHeader : React.FC<HeaderProps> = (props) => {
                         hoverIndicator
                         active={!x.action && matchPath(location.pathname + location.search, {path: `${x.path}`}) !== null}
                         color={'neutral-1'}
-                        onClick={() => props.history.push(`${props.match.url}${x.path}`)}
+                        onClick={() => props.history.push(`${x.path}`)}
                         plain
                         icon={!x.label && x.icon}
                         label={x.label}/>

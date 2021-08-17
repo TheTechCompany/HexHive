@@ -13,6 +13,7 @@ import { ClientApp } from './client_app'
 import { AuthorizationCode } from './authorization_code';
 import { AccessToken } from './access_token';
 import { App } from './app';
+import { HiveDoc } from './document';
 
 let opts : any = {
     useNewUrlParser: true,
@@ -53,6 +54,7 @@ export {
     AuthorizationCode,
     AccessToken,
     App,
+    HiveDoc,
     Stack,
     DNS as DNSRecord,
     IProject as Project,

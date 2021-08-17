@@ -12,19 +12,39 @@ import { REMOTE_SCHEMA } from './remotes';
 import { DefaultRouter } from './routes';
 import { isValidObjectId } from 'mongoose';
 
+import { createServer } from 'http';
+import { Server as WebSocketServer } from 'ws';
+import { CollaborationServer } from './collaboration';
+
 const greenlock = require('greenlock-express')
+
 const app = express();
+
+const server = createServer(app);
+const wss = new WebSocketServer({ server, perMessageDeflate: false });
+
 
 const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
 
 (async () => {
 
+    const collaborationServer = new CollaborationServer();
+         
     await connect_data()
 
     const subschemas = await SubSchema(REMOTE_SCHEMA)
     const schema = stitchSchemas({
         subschemas: subschemas
     })
+
+    wss.on('connection', (socket) => {
+        collaborationServer.handleConnection(socket)
+    })
+    // server.on('upgrade', (request, socket, head) => {
+    //     wss.handleUpgrade(request, socket , head, (ws) => {
+    //         wss.emit('connection', ws, request, {})
+    //     })
+    // })
 
     app.use(DefaultRouter(AuthServer, {
         findUser: async (auth_blob: any) => {
@@ -63,9 +83,9 @@ const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
      
             // whether or not to run at cloudscale
             cluster: false
-        }).serve(app)
+        }).serve(server)
     }else{
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`🚀 Server ready at :${PORT}`);
         })
     }

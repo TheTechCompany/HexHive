@@ -41,7 +41,7 @@ export const PluginSingle = styled((props: any) => {
                 direction="row">
                     <Box 
                         direction="row">
-                        <Button onClick={() => props.history.push(`/dashboard/plugins`)}>
+                        <Button onClick={() => props.history.push(`/plugins`)}>
                             <Icons.Previous />
                         </Button>
                         <Title 
@@ -56,7 +56,7 @@ export const PluginSingle = styled((props: any) => {
                         direction="row"
                         align="center">
                         <Button 
-                            onClick={() => props.history.push(`/dashboard/plugins/${props.match.params.id}/editor`)}
+                            onClick={() => props.history.push(`/plugins/${props.match.params.id}/editor`)}
                             size="small"
                             color="accent-1" 
                             label="Editor" primary></Button>

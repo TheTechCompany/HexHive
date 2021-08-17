@@ -7,6 +7,7 @@ import Dashboard from './views/Dashboard';
 import {BaseStyle} from '@hexhive/styles'
 
 function App(props: any) {
+  console.log(JSON.stringify(process.env))
   return (
     <AuthProvider   
     authorizationServer={process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API || 'https://staging-api.hexhive.io') : "http://localhost:7000"}
@@ -19,7 +20,7 @@ function App(props: any) {
         theme={BaseStyle}
         plain>
       
-          <Router basename={process.env.PUBLIC_URL}>
+          <Router basename={process.env.PUBLIC_URL || '/dashboard/command'}>
             <Box
               fill
               height="full"

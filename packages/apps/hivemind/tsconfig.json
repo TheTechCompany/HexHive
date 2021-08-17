@@ -6,7 +6,9 @@
     "paths": {
       "styled-components": ["../../../node_modules/styled-components"],
       "@hexhive/styles": ["../../shared/hexhive-styles/src"],
-      "@hexhive/auth-ui": ["../../shared/hexhive-auth-ui/src"]
+      "@hexhive/collaboration-client": ["../../core/collaboration-client/src"],
+      "@hexhive/auth-ui": ["../../shared/hexhive-auth-ui/src"],
+      "@hexhive/ui": ["../../core/hexhive-ui/src"]
     },
     "composite": true,
     "declaration": true,
@@ -18,6 +20,9 @@
   "exclude": ["src/**/*.test*"],
   "references": [
     {"path": "../../shared/hexhive-styles"},
-    {"path": "../../shared/hexhive-auth-ui"}
+    {"path": "../../shared/hexhive-auth-ui"},
+    {"path": "../../core/collaboration-client"},
+    {"path": "../../core/hexhive-ui"}
+
   ]
 }
