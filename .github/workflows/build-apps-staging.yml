@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        apps: [hivedashboard, hiveflow, hivemind, hivecommand]
+        apps: [hivedashboard, hiveflow, hivecommand]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
