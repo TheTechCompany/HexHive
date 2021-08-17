@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_hexhive_docs=self.webpackChunk_hexhive_docs||[]).push([[535],{5641:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome","permalink":"/hexhive-common/blog/welcome"},{"title":"Hello","permalink":"/hexhive-common/blog/hello-world"},{"title":"Hola","permalink":"/hexhive-common/blog/hola"}]}')}}]);
