@@ -13,7 +13,7 @@ import { DefaultRouter } from './routes';
 import { isValidObjectId } from 'mongoose';
 
 import { createServer } from 'http';
-import { Server as WebSocketServer } from 'ws';
+import WebSocket, { Server as WebSocketServer } from 'ws';
 import { CollaborationServer } from './collaboration';
 
 const greenlock = require('greenlock-express')
@@ -25,6 +25,8 @@ const wss = new WebSocketServer({ server, perMessageDeflate: false });
 
 
 const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
+
+
 
 (async () => {
 
@@ -73,6 +75,18 @@ const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
     }))
 
     if(process.env.NODE_ENV == 'production'){
+        const httpsWorker = (glx: any)  => {
+            var server = glx.httpsServer();
+            var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
+            ws.on("connection", function(ws: WebSocket, req: any) {
+                // inspect req.headers.authorization (or cookies) for session info
+                collaborationServer.handleConnection(ws)
+            });
+        
+            // servers a node app that proxies requests to a localhost
+            glx.serveApp(app);
+        }
+
         if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
         greenlock.init({
             packageRoot: __dirname + '/../',
@@ -83,7 +97,7 @@ const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
      
             // whether or not to run at cloudscale
             cluster: false
-        }).serve(server)
+        }).ready(httpsWorker)
     }else{
         server.listen(PORT, () => {
             console.log(`🚀 Server ready at :${PORT}`);
