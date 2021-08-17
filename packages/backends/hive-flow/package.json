@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:prod": "node dist/server.js",
     "build": "tsc -b",
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "dev": "ts-node -r tsconfig-paths/register src/server.ts",
