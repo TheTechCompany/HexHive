@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { CentralAuthServer } from '@hexhive/auth';
 
-export const UserRouter = (cas: CentralAuthServer, methods: {findUserById: (id: string) => any}) => {
+export const UserRouter  = (cas: CentralAuthServer, methods: {findUserById: (id: string) => any}) : Router => {
     const router = Router();
 
     router.get('/', cas.oauthServer.authenticate(), (req, res) => {
