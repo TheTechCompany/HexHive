@@ -5,8 +5,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 module.exports = {
   title: 'HexHive',
   tagline: 'Integrations are cool',
-  url: 'https://thetechcompany.github.io/',
-  baseUrl: '/hexhive-common/',
+  url: 'https://docs.hexhive.io/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
