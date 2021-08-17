@@ -18,7 +18,7 @@ registerApplication({
   name: "hexhive_dashboard",
   //@ts-ignore
   app: () => import("hexhive_dashboard"),
-  activeWhen: (location) => location.pathname == '/' || location.pathname == '/dashboard'
+  activeWhen: (location) => location.pathname == '/' || location.pathname == '/dashboard' || location.pathname == '/dashboard/'
 })
 
 registerApplication({
