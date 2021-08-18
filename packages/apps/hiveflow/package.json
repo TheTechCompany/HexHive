@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-apps/hiveflow",
-  "version": "1.0.0",
+  "version": "0.0.5-alpha.0",
   "main": "dist/HexHive-HiveFlow.js",
   "files": [
     "dist/"
@@ -53,10 +53,10 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@hexhive/auth-ui": "^0.0.4-alpha.0",
+    "@hexhive/auth-ui": "^0.0.5-alpha.0",
     "@hexhive/styles": "^0.0.4-alpha.0",
-    "@hexhive/ui": "^0.0.4-alpha.0",
-    "@hexhive/utils": "^0.0.4-alpha.0",
+    "@hexhive/ui": "^0.0.5-alpha.0",
+    "@hexhive/utils": "^0.0.5-alpha.0",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",

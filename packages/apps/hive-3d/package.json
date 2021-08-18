@@ -1,15 +1,15 @@
 {
   "name": "@hexhive-apps/3d",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.5-alpha.0",
   "private": true,
   "main": "dist/App.js",
   "files": [
     "dist/"
   ],
   "dependencies": {
-    "@hexhive/auth-ui": "^0.0.4-alpha.0",
-    "@hexhive/client": "^1.0.0",
-    "@hexhive/ui": "^0.0.4-alpha.0",
+    "@hexhive/auth-ui": "^0.0.5-alpha.0",
+    "@hexhive/client": "^0.0.5-alpha.0",
+    "@hexhive/ui": "^0.0.5-alpha.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
