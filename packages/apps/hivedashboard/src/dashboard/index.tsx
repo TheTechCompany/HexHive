@@ -25,7 +25,7 @@ export const Dashboard = (props: any) => {
       {(accessToken: string) => (
       <Switch>
         <Box 
-          style={{height: '100vh'}}
+          style={{height: '100vh', width: '100vw', overflow: 'hidden'}}
           overflow="hidden"
           background="neutral-1"
           fill 

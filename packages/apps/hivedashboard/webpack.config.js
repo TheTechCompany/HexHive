@@ -50,7 +50,7 @@ module.exports = (webpackConfigEnv, argv) => {
           "grommet": {version: '2.17.4'},
 
         },
-                remotes: {
+        remotes: {
           'hexhive_root': 'hexhive_root'
         },
         exposes: {

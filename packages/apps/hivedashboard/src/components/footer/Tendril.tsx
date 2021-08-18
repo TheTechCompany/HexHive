@@ -12,16 +12,16 @@ export const BaseTendril = (props: any) => {
 
 export const Tendril = styled(BaseTendril)`
     height: ${p => p.height || '100%'};
-    width: 8px;
+    width: 4px;
     background: ${BaseStyle.global.colors['accent-1']};
     position: relative;
     
     .termination {
         position: absolute;
-        top: -10px;
-        left: -4px;
-        width: 15px;
-        height: 15px;
+        top: -4px;
+        left: -3px;
+        width: 10px;
+        height: 10px;
         background: ${BaseStyle.global.colors['accent-1']};
         border-radius: 10px;
     }

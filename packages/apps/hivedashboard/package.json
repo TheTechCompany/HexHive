@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "start": "webpack serve --port 8502",
-    "start:standalone": "webpack serve --env standalone",
+    "start:standalone": "webpack serve --env standalone --port 8502",
     "build": "webpack --mode=production",
     "build:staging": "webpack --mode=production --env isStaging",
     "analyze": "webpack --mode=production --env analyze",
