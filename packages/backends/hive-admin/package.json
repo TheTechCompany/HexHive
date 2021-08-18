@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-backends/admin",
-  "version": "1.0.0",
+  "version": "0.0.5-alpha.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hexhive/types": "^0.0.4-alpha.0"
+    "@hexhive/types": "^0.0.5-alpha.0"
   }
 }

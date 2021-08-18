@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-apps/hivecommand",
-  "version": "1.0.0",
+  "version": "0.0.5-alpha.0",
   "main": "dist/HexHive-HiveFlow.js",
   "files": [
     "dist/"
@@ -55,12 +55,12 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.7",
-    "@hexhive/auth-ui": "^0.0.4-alpha.0",
-    "@hexhive/collaboration-client": "^0.0.4-alpha.0",
-    "@hexhive/command-editor": "^0.0.4-alpha.0",
+    "@hexhive/auth-ui": "^0.0.5-alpha.0",
+    "@hexhive/collaboration-client": "^0.0.5-alpha.0",
+    "@hexhive/command-editor": "^0.0.5-alpha.0",
     "@hexhive/styles": "^0.0.4-alpha.0",
-    "@hexhive/types": "^0.0.4-alpha.0",
-    "@hexhive/ui": "^0.0.4-alpha.0",
+    "@hexhive/types": "^0.0.5-alpha.0",
+    "@hexhive/ui": "^0.0.5-alpha.0",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
