@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { CentralAuthServer } from '@hexhive/auth';
-import { User } from 'shared/hexhive-types/src/models';
+import { User } from '@hexhive/types';
 import crypto from 'crypto'
 
 export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
