@@ -99,6 +99,35 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
       console.log("IDENT", req.body)
     })
 
+
+    router.get('/matrix_profile/:type', async (req, res) => {
+      console.log("PROFILE", req.params.type, req.query)
+      // const user = await User.findOne({_id: req.body.localpart}) //.populate('organisation')
+      // if(!user) return res.send({profile: {}})
+
+      // let returnValue : any = {
+      //   profile: {
+
+      //   }
+      // }
+
+      // switch(req.params.type){
+      //   case 'displayName':
+      //     returnValue.profile.display_name = user.name;
+      //     break;
+      //   case 'threepids':
+      //     returnValue.profile.threepids = [{medium: 'email', address: user.username}]
+      //     break;
+      //   case 'roles':
+      //     returnValue.profile.roles = ["DomainUsers", "HexHive"]
+      //     break;
+      //   default:
+      //     break;
+      // }
+      // console.log(returnValue)
+      // return res.send(returnValue)
+    })
+
     router.post('/matrix_profile/:type', async (req, res) => {
       const user = await User.findOne({_id: req.body.localpart}) //.populate('organisation')
       if(!user) return res.send({profile: {}})
