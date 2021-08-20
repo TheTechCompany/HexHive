@@ -10,7 +10,7 @@ const UserSchema = new Schema({
     organisation: {type: Types.ObjectId, ref: 'Organisation'}
 })
 
-UserSchema.index({name: 1, username: 1})
+UserSchema.index({name: 'text', username: 'text'})
 
 const OrganisationSchema = new Schema({
     name: String,
