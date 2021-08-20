@@ -17,8 +17,8 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
 
       const pwd_hash = crypto.createHash('sha256').update(auth.password).digest('hex')
 
-
-      const user = await User.findOne({id: auth.localpart, password: pwd_hash})
+      console.log("matrix auth", auth, pwd_hash)
+      const user = await User.findOne({_id: auth.localpart, password: pwd_hash})
 
       if(!user) return res.send({auth: {success: false}})
 
