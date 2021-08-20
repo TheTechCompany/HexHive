@@ -16,6 +16,10 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
       console.log("Matrix auth request", auth)
     })
 
+    router.post('/matrix_ident', (req, res) => {
+      console.log("IDENT", req.body)
+    })
+
     router.post('/authorize', async (req, res, next) => {
         const user = await methods.findUser(req.body)
 
