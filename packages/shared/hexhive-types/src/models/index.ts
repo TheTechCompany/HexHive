@@ -7,7 +7,7 @@ import {DNS} from './dns'
 import { IProject } from './project';
 import { User, Organisation } from './user';
 import {TimelineItem} from './timeline'
-import { File } from './file';
+import { File, FileConversion, FileConversionPipeline } from './file';
 import { QuoteSchedule, ScheduleItem, ScheduleOrder } from './schedule';
 import { ClientApp } from './client_app'
 import { AuthorizationCode } from './authorization_code';
@@ -62,6 +62,8 @@ export {
     User,
     Organisation,
     File,
+    FileConversion,
+    FileConversionPipeline,
     ScheduleItem,
     QuoteSchedule,
     TimelineItem,
