@@ -17,7 +17,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
       return res.send({
         limited: false,
         results: users.map((x: any) => ({
-          displayname: x.name,
+          display_name: x.name,
           user_id: x.id
         }))
       })
@@ -46,7 +46,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
             value: auth.localpart
           },
           profile: {
-            displayname: user.name,
+            display_name: user.name,
             three_pids: [
               {
                 medium: 'email',
@@ -64,7 +64,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
             value: auth.localpart
           },
           profile: {
-            displayname: user.name,
+            display_name: user.name,
             three_pids: [
               {
                 medium: 'email',
@@ -112,7 +112,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
       // }
 
       // switch(req.params.type){
-      //   case 'displayName':
+      //   case 'display_name':
       //     returnValue.profile.display_name = user.name;
       //     break;
       //   case 'threepids':
@@ -142,7 +142,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
 
       switch(req.params.type){
         case 'displayName':
-          returnValue.profile.displayname = user.name;
+          returnValue.profile.display_name = user.name;
           break;
         case 'threepids':
           returnValue.profile.threepids = [{medium: 'email', address: user.username}]
