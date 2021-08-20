@@ -6,6 +6,22 @@ import crypto from 'crypto'
 export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
     const router = Router();
 
+    router.post('/matrix_directory', async (req, res) => {
+      let search = {
+        by: req.body.by,
+        term: req.body.search_term
+      }
+      let query : any = {}
+      query[search.by == 'name' ? 'name' : 'username'] = search.term
+      const users = await User.find(query)
+      return res.send({
+        limited: false,
+        results: users.map((x: any) => ({
+          display_name: x.name,
+          user_id: x.id
+        }))
+      })
+    })
     
     router.post('/matrix_auth', async (req, res, next) => {
       let auth = {
