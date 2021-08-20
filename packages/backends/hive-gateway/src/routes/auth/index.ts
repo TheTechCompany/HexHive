@@ -106,6 +106,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
         default:
           break;
       }
+      console.log(returnValue)
       return res.send(returnValue)
     })
 
