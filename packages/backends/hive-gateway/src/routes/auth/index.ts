@@ -140,19 +140,10 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
         }
       }
 
-      switch(req.params.type){
-        case 'displayName':
           returnValue.profile.display_name = user.name;
-          break;
-        case 'threepids':
           returnValue.profile.threepids = [{medium: 'email', address: user.username}]
-          break;
-        case 'roles':
           returnValue.profile.roles = ["DomainUsers", "HexHive"]
-          break;
-        default:
-          break;
-      }
+  
       console.log(returnValue)
       return res.send(returnValue)
     })
