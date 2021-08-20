@@ -45,6 +45,10 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
 
     router.post('/matrix_ident', async (req, res) => {
       const user = await User.findOne({username: req.body.lookup.address})
+      
+      const users = await User.find()
+      console.log(users, req.body)
+
       if(!user){
         return res.send({})
       }else{
