@@ -40,7 +40,24 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
           }
         }
       })
-      console.log("Matrix auth request", auth)
+      console.log("Matrix auth request", {
+        auth: {
+          success: true,
+          id: {
+            type: 'localpart',
+            value: auth.localpart
+          },
+          profile: {
+            display_name: user.name,
+            three_pids: [
+              {
+                medium: 'email',
+                address: user.username
+              }
+            ]
+          }
+        }
+      })
     })
 
     router.post('/matrix_ident', async (req, res) => {
