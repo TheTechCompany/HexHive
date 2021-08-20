@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import { CentralAuthServer } from '@hexhive/auth';
+import { User } from 'shared/hexhive-types/src/models';
+import crypto from 'crypto'
 
 export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
     const router = Router();
 
     
-    router.post('/matrix_auth', (req, res, next) => {
+    router.post('/matrix_auth', async (req, res, next) => {
       let auth = {
         mxid: req.body.auth.mxid,
         localpart: req.body.auth.localpart,
@@ -13,10 +15,50 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
         password: req.body.auth.password
       }
 
+      const pwd_hash = crypto.createHash('sha256').update(auth.password).digest('hex')
+
+
+      const user = await User.findOne({id: auth.localpart, password: pwd_hash})
+
+      if(!user) return res.send({auth: {success: false}})
+
+      res.send({
+        auth: {
+          success: true,
+          id: {
+            type: 'localpart',
+            value: auth.localpart
+          },
+          profile: {
+            display_name: user.name,
+            three_pids: [
+              {
+                medium: 'email',
+                address: user.username
+              }
+            ]
+          }
+        }
+      })
       console.log("Matrix auth request", auth)
     })
 
-    router.post('/matrix_ident', (req, res) => {
+    router.post('/matrix_ident', async (req, res) => {
+      const user = await User.findOne({username: req.body.lookup.address})
+      if(!user){
+        return res.send({})
+      }else{
+        res.send({
+          lookup: {
+            medium: 'email',
+            address: req.body.lookup.address,
+            id: {
+              type: 'mxid',
+              value: `@${user.id}:matrix.hexhive.io`
+            }
+          }
+        })  
+      }
       console.log("IDENT", req.body)
     })
 
