@@ -102,9 +102,13 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
 
     router.get('/matrix_profile/:type', async (req, res) => {
       console.log("PROFILE", req.params.type, req.query)
-      // const user = await User.findOne({_id: req.body.localpart}) //.populate('organisation')
-      // if(!user) return res.send({profile: {}})
 
+      let localPart = req.params.type.split(':')[0].replace('@', '')
+
+      const user = await User.findOne({_id: localPart}) //.populate('organisation')
+      if(!user) return res.send({profile: {}})
+
+      res.send({profile: {displayname}})
       // let returnValue : any = {
       //   profile: {
 
