@@ -17,7 +17,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
       return res.send({
         limited: false,
         results: users.map((x: any) => ({
-          display_name: x.name,
+          displayname: x.name,
           user_id: x.id
         }))
       })
@@ -46,7 +46,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
             value: auth.localpart
           },
           profile: {
-            display_name: user.name,
+            displayname: user.name,
             three_pids: [
               {
                 medium: 'email',
@@ -64,7 +64,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
             value: auth.localpart
           },
           profile: {
-            display_name: user.name,
+            displayname: user.name,
             three_pids: [
               {
                 medium: 'email',
@@ -129,6 +129,8 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
     })
 
     router.post('/matrix_profile/:type', async (req, res) => {
+      console.log("PROFILE", req.params.type, req.query)
+
       const user = await User.findOne({_id: req.body.localpart}) //.populate('organisation')
       if(!user) return res.send({profile: {}})
 
@@ -140,7 +142,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
 
       switch(req.params.type){
         case 'displayName':
-          returnValue.profile.display_name = user.name;
+          returnValue.profile.displayname = user.name;
           break;
         case 'threepids':
           returnValue.profile.threepids = [{medium: 'email', address: user.username}]
