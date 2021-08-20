@@ -108,7 +108,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
       const user = await User.findOne({_id: localPart}) //.populate('organisation')
       if(!user) return res.send({profile: {}})
 
-      res.send({profile: {displayname}})
+      res.send({profile: {displayname: user.name, display_name: user.name + '_'}})
       // let returnValue : any = {
       //   profile: {
 
