@@ -8,11 +8,11 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
 
     router.post('/matrix_directory', async (req, res) => {
       let search = {
-        by: req.body.by,
         term: req.body.search_term
       }
-      let query : any = {}
-      query[search.by == 'name' ? 'name' : 'username'] = search.term
+      let query : any = {$text: {$search: search.term}}
+
+      // query[search.by == 'name' ? 'name' : 'username'] = search.term
       const users = await User.find(query)
       return res.send({
         limited: false,
