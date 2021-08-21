@@ -65,7 +65,7 @@ const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next
                 client_id: 'matrix',
                 client_secret: 'matrix_secret',
                 redirect_uris: ['https://matrix.hexhive.io/_synapse/client/oidc/callback'],
-                response_types: ['id_token'],
+                response_types: ['id_token', 'code'],
                 grant_types: ['implicit'],
                 token_endpoint_auth_method: 'none'
             }
