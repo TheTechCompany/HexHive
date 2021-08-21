@@ -1,9 +1,11 @@
 import express from 'express'
 import crypto from 'crypto';
 
+import {Provider} from 'oidc-provider';
+
+
 import { graphqlHTTP } from 'express-graphql'; // ES6
 
-import { AuthServer, CentralAuthServer } from '@hexhive/auth';
 import { connect_data, User } from '@hexhive/types'
 
 import { stitchSchemas } from '@graphql-tools/stitch';
@@ -15,6 +17,8 @@ import { isValidObjectId } from 'mongoose';
 import { createServer } from 'http';
 import WebSocket, { Server as WebSocketServer } from 'ws';
 import { CollaborationServer } from './collaboration';
+import { Account } from './Account';
+import helmet from 'helmet';
 
 const greenlock = require('greenlock-express')
 
@@ -23,9 +27,8 @@ const app = express();
 const server = createServer(app);
 const wss = new WebSocketServer({ server, perMessageDeflate: false });
 
-
-const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
-
+const {NODE_ENV} = process.env
+const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next.hexhive.io/login', ISSUER = `http://localhost:${PORT}` } = process.env;
 
 
 (async () => {
@@ -48,7 +51,49 @@ const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
     //     })
     // })
 
-    app.use(DefaultRouter(AuthServer, {
+    const oidc = new Provider(ISSUER, {
+        clients: [
+            {
+            client_id: 'foo',
+            client_secret: 'bar',
+            redirect_uris: ['https://jwt.io'], // using jwt.io as redirect_uri to show the ID Token contents
+            response_types: ['id_token'],
+            grant_types: ['implicit'],
+            token_endpoint_auth_method: 'none',
+            },
+            {
+                client_id: 'matrix',
+                client_secret: 'matrix_secret',
+                redirect_uris: ['https://matrix.hexhive.io/element/#/home'],
+                response_types: ['id_token'],
+                grant_types: ['implicit'],
+                token_endpoint_auth_method: 'none'
+            }
+        ],
+        findAccount: Account.findAccount,
+        claims: {
+            openid: ['sub'],
+            email: ['email', 'email_verified'],
+        },
+        interactions: {
+            url(ctx, interaction) {
+              return `${AUTH_SITE}/interaction/${interaction.uid}`;
+            },
+        },
+        features: {
+            // disable the packaged interactions
+            devInteractions: { enabled: false },
+        },
+        cookies: {
+            keys: ['testkey'],
+        },
+    });
+
+    app.use(helmet())
+
+
+    app.use(DefaultRouter(oidc)) 
+    /*AuthServer, {
         findUser: async (auth_blob: any) => {
             console.log("AUTH BLOB", auth_blob)
             if(!auth_blob) return;
@@ -63,16 +108,25 @@ const PORT = process.env.NODE_ENV == 'production' ? 80 : 7000;
                 }).populate('organisation')
             }
         }
-    }))
+    }))*/
+    const { constructor: { errors: { SessionNotFound } } } = oidc as any;
+
 
     if (process.env.NODE_ENV == 'production') {
-        app.use('/graphql', AuthServer.oauthServer.authenticate())
+        app.use('/graphql', (err: any, req: any, res: any, next: any) => {
+            if(err instanceof SessionNotFound){
+                return res.send({error: "No authentication found"})
+            }
+            next(err);
+        }) //AuthServer.oauthServer.authenticate())
     }
 
     app.use('/graphql', graphqlHTTP({
         schema: schema,
         graphiql: true
     }))
+
+    app.use(oidc.callback())
 
     if(process.env.NODE_ENV == 'production'){
         const httpsWorker = (glx: any)  => {
