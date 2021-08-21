@@ -74,7 +74,7 @@ const jwks = require('./jwks/jwks.json');
                 redirect_uris: ['https://matrix.hexhive.io/_synapse/client/oidc/callback'],
                 response_types: ['id_token', 'code'],
                 grant_types: ['implicit', 'authorization_code'],
-                token_endpoint_auth_method: 'none'
+                token_endpoint_auth_method: 'client_secret_post'
             }
         ],
         findAccount: Account.findAccount,
