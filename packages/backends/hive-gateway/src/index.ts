@@ -53,7 +53,7 @@ const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next
 
     const oidc = new Provider(ISSUER, {
         pkce: {
-            required: false
+            required: () => false
         },
         clients: [
             {
