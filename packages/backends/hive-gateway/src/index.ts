@@ -31,7 +31,7 @@ const {NODE_ENV} = process.env
 
 const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next.hexhive.io', ISSUER = `http://localhost:${PORT}` } = process.env;
 
-const jwks = require('./jwks.json');
+const jwks = require('./jwks/jwks.json');
 
 (async () => {
 
