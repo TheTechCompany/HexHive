@@ -81,7 +81,7 @@ const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next
         },
         interactions: {
             url(ctx, interaction) {
-              return `${AUTH_SITE}/interaction/${interaction.uid}`;
+              return `${AUTH_SITE}?token=${interaction.uid}`;
             },
         },
         features: {

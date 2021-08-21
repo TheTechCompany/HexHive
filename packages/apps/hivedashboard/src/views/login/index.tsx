@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Heading, Button, TextInput, Form, Spinner } from 'grommet';
 import Logo from '../../assets/hivelogo.svg';
 import { useAuth } from '../../hooks/useAuth';
+import qs from 'qs';
 
 export const Login = () => {
 
@@ -47,6 +48,9 @@ export const Login = () => {
 
     }
 
+
+
+
     return (
         <Box
             background="light-4"
@@ -71,28 +75,33 @@ export const Login = () => {
                     <Heading margin="none" size='small'>Login</Heading>
                 </Box>
 
-                <Form onSubmit={login} >
+                <Form method="POST" action={`${(process.env.REACT_APP_API || "https://staging-api.hexhive.io")}/interaction/${qs.parse(window.location.search,{ignoreQueryPrefix: true}).token}/login`} >
                     <Box gap="small">
 
                     <TextInput
+                        required 
+                        type="email" 
+                        name="email" 
                         style={{borderColor: !error ? 'initial' : 'red'}}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="E-Mail" />
                     <TextInput
+                        required 
+                        type="password"
+                        name="password"
                         style={{borderColor: !error ? 'initial' : 'red'}}
                         value={password}
                         onKeyDown={(e) => e.key == 'Enter' && login()}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                        type="password" />
+                        placeholder="Password" />
                     
                     <Box
                         justify="end"
                         direction="row">
                         <Button
+                            type="submit"
                             disabled={loading}
-                            onClick={login}
                             primary
                             icon={loading ? <Spinner size="small" />: undefined}
                             label={"Login"}>
@@ -100,6 +109,11 @@ export const Login = () => {
                     </Box>
                     </Box>
                 </Form>
+                <Box>
+                    <a href={`${process.env.REACT_APP_API}/interaction/${qs.parse(window.location.search, {ignoreQueryPrefix:true}).token}/abort`}>[ Cancel ]</a>
+                    <a href={`/tos`}>[ Terms of Service ]</a>
+                    <a href={`/privacy-policy`}>[ Privacy Policy ]</a>
+                </Box>
             </Box>
         </Box>
     );
