@@ -2,10 +2,11 @@ import assert from 'assert';
 import { Router } from 'express'
 import { Provider } from 'oidc-provider';
 import { Account } from '../../Account';
-
+import bodyParser from 'body-parser';
 
 export const InteractionRouter = (oidc: Provider) : Router => {
     const router = Router();
+    const parse = bodyParser.urlencoded({ extended: false });
     
     function setNoCache(req: any, res: any, next: any) {
         res.set('Pragma', 'no-cache');
@@ -49,7 +50,7 @@ export const InteractionRouter = (oidc: Provider) : Router => {
         }
     });
 
-    router.post('/:uid/login', setNoCache, async (req, res, next) => {
+    router.post('/:uid/login', setNoCache, parse, async (req, res, next) => {
         try {
             const { uid, prompt, params } = await oidc.interactionDetails(req, res);
             assert.strictEqual(prompt.name, 'login');
@@ -82,7 +83,7 @@ export const InteractionRouter = (oidc: Provider) : Router => {
         }
     });
 
-    router.post('/:uid/confirm', setNoCache, async (req, res, next) => {
+    router.post('/:uid/confirm', setNoCache, parse, async (req, res, next) => {
         try {
             const interactionDetails: any = await oidc.interactionDetails(req, res);
             const { prompt: { name, details }, params, session: { accountId } } = interactionDetails;
