@@ -7,10 +7,11 @@ import { UserRouter } from './user'
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { Provider } from 'oidc-provider';
 
 const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io']
 
-export const DefaultRouter = (cas : CentralAuthServer, methods: any) : Router => {
+export const DefaultRouter = (oidc: Provider) : Router => {
     const router = Router();
     
     const corsOptions = {
@@ -30,7 +31,7 @@ export const DefaultRouter = (cas : CentralAuthServer, methods: any) : Router =>
 
     router.use(cors(corsOptions))
 
-    router.use('/oauth', AuthRouter(cas, methods))
-    router.use('/user', UserRouter(cas, methods))
+    // router.use('/oauth', AuthRouter(cas, methods))
+    // router.use('/user', UserRouter(cas, methods))
     return router;
 }

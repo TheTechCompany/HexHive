@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import { CentralAuthServer } from '@hexhive/auth';
+import { Provider } from 'oidc-provider';
 
-export const UserRouter  = (cas: CentralAuthServer, methods: {findUserById: (id: string) => any}) : Router => {
+export const UserRouter  = (oidc: Provider) : Router => {
     const router = Router();
 
-    router.get('/', cas.oauthServer.authenticate(), (req, res) => {
+    router.get('/', (req, res) => {
         res.send({user: (req as any).user})
         // methods.findUserById()
     })
