@@ -64,7 +64,7 @@ const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next
             {
                 client_id: 'matrix',
                 client_secret: 'matrix_secret',
-                redirect_uris: ['https://matrix.hexhive.io/element/#/home'],
+                redirect_uris: ['https://matrix.hexhive.io/element/'],
                 response_types: ['id_token'],
                 grant_types: ['implicit'],
                 token_endpoint_auth_method: 'none'
