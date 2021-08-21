@@ -23,24 +23,27 @@ export const InteractionRouter = (oidc: Provider) : Router => {
 
             const client = await oidc.Client.find(params.client_id as string);
 
-            if (prompt.name === 'login') {
-                return res.render('login', {
-                    client,
-                    uid,
-                    details: prompt.details,
-                    params,
-                    title: 'Sign-in',
-                    flash: undefined,
-                });
-            }
 
-            return res.render('interaction', {
-                client,
-                uid,
-                details: prompt.details,
-                params,
-                title: 'Authorize',
-            });
+            return res.send({type: prompt.name, params, details: prompt.details, client})
+
+            // if (prompt.name === 'login') {
+            //     return res.render('login', {
+            //         client,
+            //         uid,
+            //         details: prompt.details,
+            //         params,
+            //         title: 'Sign-in',
+            //         flash: undefined,
+            //     });
+            // }
+
+            // return res.render('interaction', {
+            //     client,
+            //     uid,
+            //     details: prompt.details,
+            //     params,
+            //     title: 'Authorize',
+            // });
         } catch (err) {
             return next(err);
         }
