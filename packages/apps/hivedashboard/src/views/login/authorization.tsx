@@ -33,7 +33,13 @@ export const AuthorizationScreen = (props: any) => {
             }),
             redirect: 'follow'
         }).then((resp) => {
+            if (resp.redirected) {
+                window.location.href = resp.url;
+                props.onConsent();
+            }
+            
             if(resp.status == 303){
+              
                 props.onConsent()
             }
             // console.log(asd)
