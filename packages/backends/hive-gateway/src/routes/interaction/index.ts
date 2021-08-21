@@ -4,7 +4,7 @@ import { Provider } from 'oidc-provider';
 import { Account } from '../../Account';
 
 
-export const InteractionRouter = (oidc: Provider) => {
+export const InteractionRouter = (oidc: Provider) : Router => {
     const router = Router();
     
     function setNoCache(req: any, res: any, next: any) {
