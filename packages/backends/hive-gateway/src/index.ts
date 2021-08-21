@@ -80,7 +80,9 @@ const jwks = require('./jwks/jwks.json');
         findAccount: Account.findAccount,
         claims: {
             openid: ['sub'],
-            email: ['email', 'email_verified'],
+            email: ['email', 'name', 'email_verified', 'login'],
+            name: ['name'],
+            id: ['name', 'email', 'login'] 
         },
         interactions: {
             url(ctx, interaction) {
