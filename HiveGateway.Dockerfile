@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:14.15.0-alpine
 
 ARG BUILD_ENV=github
 
