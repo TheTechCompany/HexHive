@@ -17,7 +17,7 @@ export const Login = () => {
         redirectUri: new URL('/dashboard', `${(typeof(window) != 'undefined' && process.env.REACT_APP_API) ? window.location.href : 'http://localhost:3001'}`).toString()
     });
 
-    const url = `${process.env.REACT_APP_API || "https://staging-api.hexhive.io"}/interaction/${qs.parse(window.location.search, {ignoreQueryPrefix: true})}`
+    const url = `${process.env.REACT_APP_API || "https://staging-api.hexhive.io"}/interaction/${qs.parse(window.location.search, {ignoreQueryPrefix: true}).token}`
     const getInfo = () => {
         return fetch(`${url}`, {credentials: 'include'}).then((r) => r.json())
     }
