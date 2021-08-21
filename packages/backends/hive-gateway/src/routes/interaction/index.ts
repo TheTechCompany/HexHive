@@ -13,7 +13,7 @@ export const InteractionRouter = (oidc: Provider) : Router => {
         next();
     }
 
-    router.get('/interaction/:uid', setNoCache, async (req, res, next) => {
+    router.get('/:uid', setNoCache, async (req, res, next) => {
         try {
             const details = await oidc.interactionDetails(req, res);
             console.log('see what else is available to you for interaction views', details);
@@ -46,7 +46,7 @@ export const InteractionRouter = (oidc: Provider) : Router => {
         }
     });
 
-    router.post('/interaction/:uid/login', setNoCache, async (req, res, next) => {
+    router.post('/:uid/login', setNoCache, async (req, res, next) => {
         try {
             const { uid, prompt, params } = await oidc.interactionDetails(req, res);
             assert.strictEqual(prompt.name, 'login');
@@ -79,7 +79,7 @@ export const InteractionRouter = (oidc: Provider) : Router => {
         }
     });
 
-    router.post('/interaction/:uid/confirm', setNoCache, async (req, res, next) => {
+    router.post('/:uid/confirm', setNoCache, async (req, res, next) => {
         try {
             const interactionDetails: any = await oidc.interactionDetails(req, res);
             const { prompt: { name, details }, params, session: { accountId } } = interactionDetails;
@@ -130,7 +130,7 @@ export const InteractionRouter = (oidc: Provider) : Router => {
         }
     });
 
-    router.get('/interaction/:uid/abort', setNoCache, async (req, res, next) => {
+    router.get('/:uid/abort', setNoCache, async (req, res, next) => {
         try {
             const result = {
                 error: 'access_denied',
