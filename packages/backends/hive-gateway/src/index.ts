@@ -28,8 +28,10 @@ const server = createServer(app);
 const wss = new WebSocketServer({ server, perMessageDeflate: false });
 
 const {NODE_ENV} = process.env
+
 const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next.hexhive.io', ISSUER = `http://localhost:${PORT}` } = process.env;
 
+const jwks = require('./jwks.json');
 
 (async () => {
 
@@ -56,6 +58,7 @@ const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next
             methods: ['S256'],
             required: () => false
         },
+        jwks,
         clients: [
             {
             client_id: 'foo',
@@ -89,9 +92,12 @@ const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next
             devInteractions: { enabled: false },
         },
         cookies: {
-            keys: ['testkey'],
+            keys: (process.env.SECURE_KEY || 'test,old-test').split(','),
         },
     });
+
+    app.set('trust proxy', true);
+
 
     app.use(helmet())
 
