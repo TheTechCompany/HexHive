@@ -4,7 +4,7 @@ import { User } from '@hexhive/types'
 export class Account {
     static async findAccount(ctx: any, id: string){
         console.log(ctx, id)
-        const user = await User.findById(id);
+        const user = await User.findById(id).populate('organisation');
 
         if(!user) return;
 
@@ -13,6 +13,8 @@ export class Account {
             async claims(){
                 return {
                     sub: user.id,
+                    login: user.id,
+                    name: user.name,
                     email: user.username,
                     email_verified: user.username
                 }
