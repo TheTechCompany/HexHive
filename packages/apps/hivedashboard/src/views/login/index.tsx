@@ -35,6 +35,9 @@ export const Login = () => {
 
        fetch(`${(process.env.REACT_APP_API || "https://staging-api.hexhive.io")}/interaction/${qs.parse(window.location.search,{ignoreQueryPrefix: true}).token}/login`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 email,
                 password  
