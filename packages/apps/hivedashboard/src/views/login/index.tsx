@@ -30,12 +30,15 @@ export const Login = () => {
 
        let fd = new FormData();
 
-       fd.append('username', email)
+       fd.append('email', email)
        fd.append('password', password)
 
        fetch(`${(process.env.REACT_APP_API || "https://staging-api.hexhive.io")}/interaction/${qs.parse(window.location.search,{ignoreQueryPrefix: true}).token}/login`, {
             method: 'POST',
-            body: fd,
+            body: JSON.stringify({
+                email,
+                password  
+            }),
             redirect: 'follow'
         }).then((asd) => {
             console.log(asd)
