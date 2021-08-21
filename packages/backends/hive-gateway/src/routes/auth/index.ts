@@ -18,7 +18,7 @@ export const AuthRouter = (cas : CentralAuthServer, methods: any) : Router => {
         limited: false,
         results: users.map((x: any) => ({
           display_name: x.name,
-          user_id: `@${x.id}:matrix.hexhive.io`
+          user_id: x.id
         }))
       })
     })
