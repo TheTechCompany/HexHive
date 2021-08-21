@@ -17,6 +17,7 @@
     "@hexhive/auth": "^0.0.5-alpha.0",
     "@hexhive/collaboration-server": "^0.0.5-alpha.0",
     "@hexhive/types": "^0.0.5-alpha.0",
+    "assert": "^2.0.0",
     "cookie-parser": "^1.4.5",
     "cross-fetch": "^3.1.4",
     "greenlock-express": "^4.0.3",
