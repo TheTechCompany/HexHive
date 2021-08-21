@@ -27,24 +27,37 @@ export const Login = () => {
        console.log(client)
        setLoading(true);
        setError(false)
-        client?.getAuthorizationCode(email, password).then((response) => {
 
-            if(response && response.code){
-                const params = new URLSearchParams()
-                params.set('code', response.code.authorizationCode);
+       let fd = new FormData();
 
+       fd.append('username', email)
+       fd.append('password', password)
 
-                const url = new URL(response.code.redirectUri)
-                url.searchParams.set('code', response.code.authorizationCode);
-                setLoading(false)
-            //   window.navigator.({}, '', url.toString())
-                window.location.href = url.toString()
-            }
-        }).catch((err) => {
-            console.log(err);
-            setError(true)
-            setLoading(false)
+       fetch(`${(process.env.REACT_APP_API || "https://staging-api.hexhive.io")}/interaction/${qs.parse(window.location.search,{ignoreQueryPrefix: true}).token}/login`, {
+            method: 'POST',
+            body: fd,
+            redirect: 'follow'
+        }).then((asd) => {
+            console.log(asd)
         })
+        // client?.getAuthorizationCode(email, password).then((response) => {
+
+        //     if(response && response.code){
+        //         const params = new URLSearchParams()
+        //         params.set('code', response.code.authorizationCode);
+
+
+        //         const url = new URL(response.code.redirectUri)
+        //         url.searchParams.set('code', response.code.authorizationCode);
+        //         setLoading(false)
+        //     //   window.navigator.({}, '', url.toString())
+        //         window.location.href = url.toString()
+        //     }
+        // }).catch((err) => {
+        //     console.log(err);
+        //     setError(true)
+        //     setLoading(false)
+        // })
 
     }
 
@@ -75,7 +88,7 @@ export const Login = () => {
                     <Heading margin="none" size='small'>Login</Heading>
                 </Box>
 
-                <Form method="POST" action={`${(process.env.REACT_APP_API || "https://staging-api.hexhive.io")}/interaction/${qs.parse(window.location.search,{ignoreQueryPrefix: true}).token}/login`} >
+                <Form  onSubmit={login} >
                     <Box gap="small">
 
                     <TextInput
@@ -100,6 +113,7 @@ export const Login = () => {
                         justify="end"
                         direction="row">
                         <Button
+                            onClick={login}
                             type="submit"
                             disabled={loading}
                             primary
