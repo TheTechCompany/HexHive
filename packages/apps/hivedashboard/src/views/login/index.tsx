@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { ConsentScreen } from './consent';
 import { AuthorizationScreen } from './authorization';
 
-export const Login = () => {
+export const Login = (props: any) => {
 
     const [ stage, setStage ] = useState<'login' | 'consent'>('login')
     const client = useAuth({

@@ -10,6 +10,7 @@ import { Organisation } from '../views/organisation';
 import { Settigns } from '../views/settings';
 
 import { BaseStyle } from '@hexhive/styles'
+import { IFrameAppliance } from '../components/iframe-appliance';
 
 const NoToken = () => (<div>No token</div>)
 export const Dashboard = (props: any) => {
@@ -35,6 +36,7 @@ export const Dashboard = (props: any) => {
             <Box flex direction="column">
             <Route path={`${props.match.url}/`} exact component={Home} />
 
+            <Route path={`${props.match.url}/matrix`} component={IFrameAppliance} />
             <Route path={`${props.match.url}/organisation`} component={Organisation} />
             <Route path={`${props.match.url}/settings`} component={Settigns} />
           </Box>
