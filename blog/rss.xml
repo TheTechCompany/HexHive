@@ -4,9 +4,16 @@
         <title>HexHive Blog</title>
         <link>https://docs.hexhive.io/blog</link>
         <description>HexHive Blog</description>
-        <lastBuildDate>Thu, 30 May 2019 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 22 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[HexHive Supports Matrix]]></title>
+            <link>https://docs.hexhive.io/blog/matrix-support</link>
+            <guid>matrix-support</guid>
+            <pubDate>Sun, 22 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[With the recent lockdown in New Zealand remote collaboration is at the forefront of everyone's minds again, HexHive has been in the process of pivoting to focus on integrations so it seemed like a perfect time to integrate with one of the best open source products out there, Matrix.]]></description>
+        </item>
         <item>
             <title><![CDATA[Welcome]]></title>
             <link>https://docs.hexhive.io/blog/welcome</link>
