@@ -73,11 +73,12 @@ const jwks = require('./jwks/jwks.json');
                 client_secret: 'matrix_secret',
                 redirect_uris: ['https://matrix.hexhive.io/_synapse/client/oidc/callback'],
                 response_types: ['id_token', 'code'],
-                scopes: ['email', 'openid', 'id'],
-                grant_types: ['implicit', 'authorization_code'],
+                scopes: ['email', 'openid', 'profile', 'id'],
+                grant_types: ['implicit', 'authorization_code', 'refresh_token'],
                 token_endpoint_auth_method: 'client_secret_post'
             }
         ],
+        
         findAccount: Account.findAccount,
         claims: {
             openid: ['sub'],
@@ -97,6 +98,8 @@ const jwks = require('./jwks/jwks.json');
         features: {
             // disable the packaged interactions
             devInteractions: { enabled: false },
+            introspection: { enabled: true },
+            revocation: { enabled: true },
         },
         cookies: {
             keys: (process.env.SECURE_KEY || 'test,old-test').split(','),
