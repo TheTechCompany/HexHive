@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import { Home } from './views/home';
 import { BaseHeader } from './components/header';
 import { Box, Grommet, Spinner } from 'grommet';
@@ -35,7 +35,8 @@ function App() {
             <Box flex direction="column">
             <Route path="/" exact render={(props) => {
               if (!qs.parse(window.location.search, {ignoreQueryPrefix: true}).token){
-                
+                window.location.href = `${process.env.REACT_APP_API}/auth?client_id=hexhive.io&response_type=code&redirect_uri=https://next.hexhive.io/dashboard&scope=openid email&nonce=foobar`
+                return null;
               }else{
                 return <Login {...props} />
               }
