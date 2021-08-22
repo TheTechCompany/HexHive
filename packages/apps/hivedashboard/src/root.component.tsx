@@ -34,7 +34,7 @@ function App() {
           className="App">
             <Box flex direction="column">
             <Route path="/" exact render={(props) => {
-              if (!qs.parse(window.location.search, {ignoreQueryPrefix: true}).token){
+              if (process.env.NODE_ENV == 'production' && !qs.parse(window.location.search, {ignoreQueryPrefix: true}).token){
                 window.location.href = `${process.env.REACT_APP_API}/auth?client_id=hexhive.io&response_type=code&redirect_uri=https://next.hexhive.io/dashboard&scope=openid email&nonce=foobar`
                 return null;
               }else{

@@ -82,12 +82,12 @@ export const AuthorizationScreen = (props: any) => {
             <Heading margin="none" size='small'>Login</Heading>
         </Box>
 
-        <Form  onSubmit={login} >
+        <form  action={`${(process.env.REACT_APP_API || "https://staging-api.hexhive.io")}/interaction/${qs.parse(window.location.search,{ignoreQueryPrefix: true}).token}/login`} method="POST" >
             <Box gap="small">
 
             <TextInput
                 required 
-                type="email" 
+                type="text" 
                 name="email" 
                 style={{borderColor: !error ? 'initial' : 'red'}}
                 value={email}
@@ -99,7 +99,6 @@ export const AuthorizationScreen = (props: any) => {
                 name="password"
                 style={{borderColor: !error ? 'initial' : 'red'}}
                 value={password}
-                onKeyDown={(e) => e.key == 'Enter' && login()}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password" />
             
@@ -107,7 +106,6 @@ export const AuthorizationScreen = (props: any) => {
                 justify="end"
                 direction="row">
                 <Button
-                    onClick={login}
                     type="submit"
                     disabled={loading}
                     primary
@@ -116,7 +114,7 @@ export const AuthorizationScreen = (props: any) => {
                 </Button>
             </Box>
             </Box>
-        </Form>
+        </form>
         <Box>
             <a href={`${process.env.REACT_APP_API}/interaction/${qs.parse(window.location.search, {ignoreQueryPrefix:true}).token}/abort`}>[ Cancel ]</a>
             <a href={`/tos`}>[ Terms of Service ]</a>
