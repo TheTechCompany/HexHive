@@ -1,16 +1,14 @@
 0 silly argv {
 0 silly argv   _: [ 'add' ],
-0 silly argv   scope: '@hexhive-backends/gateway',
+0 silly argv   D: true,
+0 silly argv   dev: true,
+0 silly argv   scope: '@hexhive/types',
 0 silly argv   globs: [],
 0 silly argv   lernaVersion: '4.0.0',
 0 silly argv   '$0': 'node_modules/.bin/lerna',
-0 silly argv   pkg: 'jose@2'
+0 silly argv   pkg: '@types/mongoose-fuzzy-searching'
 0 silly argv }
 1 notice cli v4.0.0
 2 verbose rootPath /Users/the-kid/work/contract-work/hexhive-common
-3 error TypeError: Cannot read property 'replace' of null
-3 error     at /Users/the-kid/work/contract-work/hexhive-common/node_modules/@lerna/package-graph/index.js:65:49
-3 error     at Array.forEach (<anonymous>)
-3 error     at /Users/the-kid/work/contract-work/hexhive-common/node_modules/@lerna/package-graph/index.js:60:38
-3 error     at Map.forEach (<anonymous>)
-3 error     at new PackageGraph (/Users/the-kid/work/contract-work/hexhive-common/node_modules/@lerna/package-graph/index.js:49:10)
+3 error HttpErrorGeneral: 404 Not Found - GET https://registry.npmjs.org/@types%2fmongoose-fuzzy-searching - Not found
+3 error     at /Users/the-kid/work/contract-work/hexhive-common/node_modules/npm-registry-fetch/check-response.js:95:15

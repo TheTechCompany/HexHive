@@ -16,8 +16,12 @@ export const AuthRouter = (oidc: Provider) : Router => {
       }
       let query : any = {$text: {$search: search.term}}
 
+      const users = await (User as any).fuzzySearch(query, {})
       // query[search.by == 'name' ? 'name' : 'username'] = search.term
-      const users = await User.find(query)
+      
+      
+      // const users = await User.find(query)
+
       return res.send({
         limited: false,
         results: users.map((x: any) => ({
@@ -27,134 +31,7 @@ export const AuthRouter = (oidc: Provider) : Router => {
       })
     })
     
-    router.post('/matrix_auth', async (req, res, next) => {
-      let auth = {
-        mxid: req.body.auth.mxid,
-        localpart: req.body.auth.localpart,
-        domain: req.body.auth.domain,
-        password: req.body.auth.password
-      }
-
-      const pwd_hash = crypto.createHash('sha256').update(auth.password).digest('hex')
-
-      console.log("matrix auth", auth, pwd_hash)
-      const user = await User.findOne({_id: auth.localpart, password: pwd_hash})
-
-      if(!user) return res.send({auth: {success: false}})
-
-      res.send({
-        auth: {
-          success: true,
-          id: {
-            type: 'localpart',
-            value: auth.localpart
-          },
-          profile: {
-            display_name: user.name,
-            three_pids: [
-              {
-                medium: 'email',
-                address: user.username
-              }
-            ]
-          }
-        }
-      })
-      console.log("Matrix auth request", {
-        auth: {
-          success: true,
-          id: {
-            type: 'localpart',
-            value: auth.localpart
-          },
-          profile: {
-            display_name: user.name,
-            three_pids: [
-              {
-                medium: 'email',
-                address: user.username
-              }
-            ]
-          }
-        }
-      })
-    })
-
-    router.post('/matrix_ident', async (req, res) => {
-      const user = await User.findOne({username: req.body.lookup.address})
-      
-      const users = await User.find()
-      console.log(users, req.body)
-
-      if(!user){
-        return res.send({})
-      }else{
-        res.send({
-          lookup: {
-            medium: 'email',
-            address: req.body.lookup.address,
-            id: {
-              type: 'mxid',
-              value: `@${user.id}:matrix.hexhive.io`
-            }
-          }
-        })  
-      }
-      console.log("IDENT", req.body)
-    })
-
-
-    router.get('/matrix_profile/:type', async (req, res) => {
-      console.log("PROFILE", req.params.type, req.query)
-
-      let localPart = req.params.type.split(':')[0].replace('@', '')
-
-      const user = await User.findOne({_id: localPart}) //.populate('organisation')
-      if(!user) return res.send({profile: {}})
-
-      res.send({displayname: user.name, display_name: user.name + '_'})
-      // let returnValue : any = {
-      //   profile: {
-
-      //   }
-      // }
-
-      // switch(req.params.type){
-      //   case 'display_name':
-      //     returnValue.profile.display_name = user.name;
-      //     break;
-      //   case 'threepids':
-      //     returnValue.profile.threepids = [{medium: 'email', address: user.username}]
-      //     break;
-      //   case 'roles':
-      //     returnValue.profile.roles = ["DomainUsers", "HexHive"]
-      //     break;
-      //   default:
-      //     break;
-      // }
-      // console.log(returnValue)
-      // return res.send(returnValue)
-    })
-
-    router.post('/matrix_profile/:type', async (req, res) => {
-      console.log("PROFILE", req.params.type, req.query)
-
-      const user = await User.findOne({_id: req.body.localpart}) //.populate('organisation')
-      if(!user) return res.send({profile: {}})
-
-      let returnValue : any = {
-        profile: {
-
-        }
-      }
-
-          returnValue.profile.display_name = user.name;
-          returnValue.profile.threepids = [{medium: 'email', address: user.username}]
-          returnValue.profile.roles = ["DomainUsers", "HexHive"]
-  
-      console.log(returnValue)
-      return res.send(returnValue)
-    })
+    
 
     // router.post('/authorize', async (req, res, next) => {
     //     const user = await methods.findUser(req.body)

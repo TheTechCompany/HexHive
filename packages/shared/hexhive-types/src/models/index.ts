@@ -17,7 +17,9 @@ import { HiveDoc } from './document';
 
 let opts : any = {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
 }
 
 if(process.env.MONGO_USER){
