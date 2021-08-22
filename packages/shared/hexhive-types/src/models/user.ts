@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     organisation: {type: Types.ObjectId, ref: 'Organisation'}
 })
 
-UserSchema.plugin(mongoose_fuzzy_searching, { fields: ['name', 'username', 'organisation'] });
+// UserSchema.plugin(mongoose_fuzzy_searching, { fields: ['name', 'username', 'organisation'] });
 
 // UserSchema.index({name: 'text', username: 'text'})
 

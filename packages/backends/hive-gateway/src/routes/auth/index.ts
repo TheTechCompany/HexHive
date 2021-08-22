@@ -14,9 +14,11 @@ export const AuthRouter = (oidc: Provider) : Router => {
       let search = {
         term: req.body.search_term
       }
-      let query : any = {$text: {$search: search.term}}
+      let regex = new RegExp(`/${search.term}/i`)
 
-      const users = await (User as any).fuzzySearch(query, {})
+      let query : any = {$or: [{name: regex}, {username: regex}]}
+
+      const users = await User.find(query)
       // query[search.by == 'name' ? 'name' : 'username'] = search.term
       
       
