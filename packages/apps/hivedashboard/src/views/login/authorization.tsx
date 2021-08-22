@@ -31,7 +31,7 @@ export const AuthorizationScreen = (props: any) => {
                 email,
                 password  
             }),
-            redirect: 'manual'
+            redirect: 'follow'
         }).then((resp) => {
             if (resp.redirected) {
                 window.location.href = resp.url;
