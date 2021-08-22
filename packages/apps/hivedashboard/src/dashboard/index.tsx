@@ -18,12 +18,7 @@ export const Dashboard = (props: any) => {
   return (
     <React.Suspense fallback={() => <Spinner />} >
     <Grommet theme={BaseStyle} plain full>
-    <AuthProvider
-      clientId="hexhive.io"
-      clientSecret="tester"
-      authorizationServer={process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API || 'https://staging-api.hexhive.io') : "http://localhost:7000"}
-      redirectUri={process.env.NODE_ENV == 'production' ? 'https://root-staging.hexhive.io/' : "http://localhost:3001/dashboard"}>
-      {(accessToken: string) => (
+
       <Switch>
         <Box 
           style={{height: '100vh', width: '100vw', overflow: 'hidden'}}
@@ -41,8 +36,7 @@ export const Dashboard = (props: any) => {
             <Route path={`${props.match.url}/settings`} component={Settigns} />
           </Box>
         </Box>
-      </Switch>)}
-    </AuthProvider>
+      </Switch>
     </Grommet>
     </React.Suspense>
   );
