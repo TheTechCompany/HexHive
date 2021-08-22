@@ -16,12 +16,12 @@ export const AuthRouter = (oidc: Provider) : Router => {
       }
       let regex = new RegExp(`/${search.term}/i`)
 
-      let query : any = {$or: [{name: regex}, {username: regex}]}
+      let query : any = {}
 
-      const users = await User.find(query)
+      let users = await User.find(query)
       // query[search.by == 'name' ? 'name' : 'username'] = search.term
       
-      
+      users = users.filter((a: any) => a.name.indexOf(search.term) > -1 || a.username.indexOf(search.term) > -1)
       // const users = await User.find(query)
 
       return res.send({
