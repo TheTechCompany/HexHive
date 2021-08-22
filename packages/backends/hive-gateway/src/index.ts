@@ -100,6 +100,9 @@ const jwks = require('./jwks/jwks.json');
             devInteractions: { enabled: false },
             introspection: { enabled: true },
             revocation: { enabled: true },
+            userinfo: { enabled: true },
+          jwtUserinfo: { enabled: false },
+
         },
         cookies: {
             keys: (process.env.SECURE_KEY || 'test,old-test').split(','),
