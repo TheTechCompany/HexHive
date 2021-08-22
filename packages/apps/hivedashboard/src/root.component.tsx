@@ -12,6 +12,7 @@ import { Settigns } from './views/settings';
 import { BaseStyle } from '@hexhive/styles'
 import { Dashboard } from './dashboard';
 import { Login } from './views/login';
+import qs from 'qs';
 
 const NoToken = () => (<div>No token</div>)
 
@@ -32,7 +33,13 @@ function App() {
           direction="column"
           className="App">
             <Box flex direction="column">
-            <Route path="/" exact component={Login} />
+            <Route path="/" exact render={(props) => {
+              if (!qs.parse(window.location.search, {ignoreQueryPrefix: true}).token){
+                
+              }else{
+                return <Login {...props} />
+              }
+            }} />
             <Route path="/dashboard" component={Dashboard} />
           </Box>
         </Box>

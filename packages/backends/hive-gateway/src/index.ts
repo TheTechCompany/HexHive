@@ -76,6 +76,15 @@ const jwks = require('./jwks/jwks.json');
                 scopes: ['email', 'openid', 'profile', 'id'],
                 grant_types: ['implicit', 'authorization_code', 'refresh_token'],
                 token_endpoint_auth_method: 'client_secret_post'
+            },
+            {
+                client_id: 'hexhive.io',
+                client_secret: 'hexhive_secret',
+                redirect_uris: ['https://next.hexhive.io/dashboard'],
+                response_types: [ 'code'],
+                scopes: ['email', 'openid', 'profile', 'id'],
+                grant_types: ['implicit', 'authorization_code', 'refresh_token'],
+                token_endpoint_auth_method: 'client_secret_post'
             }
         ],
         
