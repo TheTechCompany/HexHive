@@ -33,7 +33,7 @@ export const DefaultRouter = (oidc: Provider) : Router => {
     router.use(cors(corsOptions))
 
     router.use('/interaction', InteractionRouter(oidc))
-    // router.use('/oauth', AuthRouter(cas, methods))
+    router.use('/oauth', AuthRouter(oidc))
     // router.use('/user', UserRouter(cas, methods))
     return router;
 }
