@@ -1,1 +1,1 @@
-export * from './SplitScreen'
+export * from './AsymmetricSplitScreen'

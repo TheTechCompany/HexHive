@@ -9,12 +9,7 @@ import { BaseStyle } from '@hexhive/styles'
 function App(props: any) {
 
   return (
-    <AuthProvider
-      authorizationServer={process.env.NODE_ENV == 'production' ? "https://api.hexhive.io" : "http://localhost:8090"}
-      clientId="hexhive.io"
-      clientSecret="tester"
-      redirectUri={process.env.NODE_ENV == 'production' ? "https://hexhive.io/dashboard/flow" : "http://localhost:3001/dashboard"}>
-        <Grommet  
+ <Grommet  
           full
           style={{display: 'flex'}}
           themeMode="dark"
@@ -27,7 +22,6 @@ function App(props: any) {
                 </Box>
               </Router>
         </Grommet>
-    </AuthProvider>
   );
 }
 
