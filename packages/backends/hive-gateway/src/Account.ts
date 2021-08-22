@@ -13,6 +13,8 @@ export class Account {
             async claims(){
                 return {
                     sub: user.id,
+                    login: user.id,
+                    name: user.name,
                     userinfo:{
                         login: user.id,
                         email: user.username,
