@@ -8,11 +8,11 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { Provider } from 'oidc-provider';
-import { InteractionRouter } from './interaction';
+// import { InteractionRouter } from './interaction';
 
 const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io']
 
-export const DefaultRouter = (oidc: Provider) : Router => {
+export const DefaultRouter = () : Router => {
     const router = Router();
     
     const corsOptions = {
@@ -33,8 +33,8 @@ export const DefaultRouter = (oidc: Provider) : Router => {
 
     router.use(cors(corsOptions))
 
-    router.use('/interaction', InteractionRouter(oidc))
-    router.use('/oauth', AuthRouter(oidc))
+    // router.use('/interaction', InteractionRouter())
+    router.use('/oauth', AuthRouter())
     // router.use('/user', UserRouter(cas, methods))
     return router;
 }

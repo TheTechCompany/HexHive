@@ -72,14 +72,22 @@ const jwks = require('./jwks/jwks.json');
             {
                 client_id: 'hexhive.io',
                 client_secret: 'hexhive_secret',
-                redirect_uris: ['https://next.hexhive.io/dashboard'],
+                redirect_uris: ['https://dashboard.hexhive.io/callback'],
+                response_types: [ 'code'],
+                scopes: ['email', 'openid', 'profile', 'id'],
+                grant_types: ['implicit', 'authorization_code', 'refresh_token'],
+                token_endpoint_auth_method: 'client_secret_post'
+            },
+            {
+                client_id: 'staging-hexhive.io',
+                client_secret: 'staging-hexhive_secret',
+                redirect_uris: ['https://next.hexhive.io/callback'],
                 response_types: [ 'code'],
                 scopes: ['email', 'openid', 'profile', 'id'],
                 grant_types: ['implicit', 'authorization_code', 'refresh_token'],
                 token_endpoint_auth_method: 'client_secret_post'
             }
         ],
-        
         findAccount: Account.findAccount,
         claims: {
             openid: ['sub'],
@@ -90,11 +98,6 @@ const jwks = require('./jwks/jwks.json');
             profile: ['birthdate', 'family_name', 'gender', 'given_name', 'locale', 'middle_name', 'name',
       'nickname', 'picture', 'preferred_username', 'profile', 'updated_at', 'website', 'zoneinfo'],
             id: ['name', 'email', 'login'] 
-        },
-        interactions: {
-            url(ctx, interaction) {
-              return `${AUTH_SITE}?token=${interaction.uid}`;
-            },
         },
         features: {
             // disable the packaged interactions
