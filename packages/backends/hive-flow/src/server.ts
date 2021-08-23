@@ -96,6 +96,8 @@ app.use(bodyParser.json());
 // }
 
 app.use('/graphql', (req, res, next) => {
+  console.log(req.body.context)
+
   if(req.body.context){
     (req as any).user = req.body.context
   }

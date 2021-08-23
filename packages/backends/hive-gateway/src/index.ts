@@ -41,7 +41,7 @@ const config : ConfigParams = {
     auth0Logout: false,
     authorizationParams: {
         response_type: 'code',
-        scope: 'email openid',
+        scope: 'email profile name groups openid',
         redirect_uri: 'https://next.hexhive.io/dashboard'
     },
     clientAuthMethod: 'client_secret_post',
@@ -177,9 +177,8 @@ const config : ConfigParams = {
             const user = await req.oidc.fetchUserInfo(); 
 
             (req as any).user = {
-                id: user.sub,
-                name: user.name,
-                email: user.email
+                _id: user.sub,
+                ...user
             }
             console.log("OIDC", (req as any).user);
 
