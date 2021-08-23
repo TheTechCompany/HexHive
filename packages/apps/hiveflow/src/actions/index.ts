@@ -7,7 +7,8 @@ const inst = axios.create({
     baseURL: process.env.REACT_APP_API || 'http://localhost:8081',
     headers: {
         'Authorization': 'Bearer ' + token
-    }
+    },
+    withCredentials: true
 })
 
 const files = fileActions(inst)

@@ -10,7 +10,7 @@ export const fileActions = (axios: AxiosInstance) => {
             fd.append('files', file)
         })
 
-        const result = await axios.post(`/api/files?job=${job_id}`, fd, {headers: {'Authorization': 'Bearer '+ token}})
+        const result = await axios.post(`/api/files?job=${job_id}`, fd, {headers: {'Authorization': 'Bearer '+ token}, withCredentials: true})
         return result.data
     }
 
@@ -23,7 +23,7 @@ export const fileActions = (axios: AxiosInstance) => {
             fd.append('files', file)
         })
 
-        const result = await axios.post(`/api/files/`, fd, {headers: {'Authorization': 'Bearer ' + token}})
+        const result = await axios.post(`/api/files/`, fd, {headers: {'Authorization': 'Bearer ' + token}, withCredentials: true})
         return result.data
     }
 

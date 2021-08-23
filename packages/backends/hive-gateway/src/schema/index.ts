@@ -4,7 +4,6 @@ import { print } from 'graphql';
 
  const remoteExecutor = (url: string) => {
     return async ({ document, variables, context }: any) => {
-        console.log(context)
         const query = print(document);
 
         const fetchResult = await fetch(url, {

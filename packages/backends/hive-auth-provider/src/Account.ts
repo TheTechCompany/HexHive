@@ -15,11 +15,7 @@ export class Account {
                     sub: user.id,
                     login: user.id,
                     name: user.name,
-                    userinfo:{
-                        login: user.id,
-                        email: user.username,
-                        name: user.name,
-                    },
+                    organisation: user.organisation._id,
                     email: user.username,
                     email_verified: user.username
                 }

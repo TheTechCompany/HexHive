@@ -20,7 +20,7 @@ import { CollaborationServer } from './collaboration';
 import { Account } from './Account';
 import helmet from 'helmet';
 
-import { auth, ConfigParams } from 'express-openid-connect';
+import { auth, ConfigParams , requiresAuth} from 'express-openid-connect';
 
 const greenlock = require('greenlock-express')
 
@@ -39,11 +39,18 @@ const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next
 const config : ConfigParams = {
     authRequired: false,
     auth0Logout: false,
-    baseURL: 'https://next.hexhive.io',
-    clientID: 'hexhive.io',
+    authorizationParams: {
+        response_type: 'code',
+        scope: 'email openid',
+        redirect_uri: 'https://next.hexhive.io/dashboard'
+    },
+    clientAuthMethod: 'client_secret_post',
+    baseURL: 'http://localhost:7000' ||`https://${NODE_ENV == 'production' ? 'dashboard': 'next'}.hexhive.io`,
+    clientID: 'test' || `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,
     issuerBaseURL: "https://auth.hexhive.io",
-    secret: 'hexhive_secret'
-  };
+    secret: 'JWT_SECRET',
+    clientSecret:  `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive_secret`
+};
 
   
 (async () => {
@@ -140,6 +147,12 @@ const config : ConfigParams = {
 
 
     app.use(DefaultRouter()) 
+
+    app.get('/profile', requiresAuth(), async (req, res) => {
+        const userInfo = await req.oidc.fetchUserInfo();
+
+        res.send({user: req.oidc.user, info: userInfo})
+    })  
     /*AuthServer, {
         findUser: async (auth_blob: any) => {
             console.log("AUTH BLOB", auth_blob)
@@ -160,12 +173,18 @@ const config : ConfigParams = {
 
 
     // if (process.env.NODE_ENV == 'production') {
-    //     app.use('/graphql', (err: any, req: any, res: any, next: any) => {
-    //         if(err instanceof SessionNotFound){
-    //             return res.send({error: "No authentication found"})
-    //         }
-    //         next(err);
-    //     }) //AuthServer.oauthServer.authenticate())
+        app.use('/graphql', requiresAuth(), async (req, res, next) => {
+            const user = await req.oidc.fetchUserInfo(); 
+
+            (req as any).user = {
+                id: user.sub,
+                name: user.name,
+                email: user.email
+            }
+            console.log("OIDC", (req as any).user);
+
+            next();
+        })
     // }
 
     app.use('/graphql', graphqlHTTP({
