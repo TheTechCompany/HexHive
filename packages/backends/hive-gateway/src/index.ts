@@ -20,6 +20,8 @@ import { CollaborationServer } from './collaboration';
 import { Account } from './Account';
 import helmet from 'helmet';
 
+import { auth, ConfigParams } from 'express-openid-connect';
+
 const greenlock = require('greenlock-express')
 
 const app = express();
@@ -31,8 +33,19 @@ const {NODE_ENV} = process.env
 
 const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next.hexhive.io', ISSUER = `http://localhost:${PORT}` } = process.env;
 
-const jwks = require('./jwks/jwks.json');
+// const jwks = require('./jwks/jwks.json');
 
+
+const config : ConfigParams = {
+    authRequired: false,
+    auth0Logout: false,
+    baseURL: 'https://next.hexhive.io',
+    clientID: 'hexhive.io',
+    issuerBaseURL: "https://auth.hexhive.io",
+    secret: 'hexhive_secret'
+  };
+
+  
 (async () => {
 
     const collaborationServer = new CollaborationServer();
@@ -53,78 +66,80 @@ const jwks = require('./jwks/jwks.json');
     //     })
     // })
 
-    const oidc = new Provider(ISSUER, {
-        pkce: {
-            methods: ['S256'],
-            required: () => false
-        },
-        jwks,
-        clients: [
-            {
-            client_id: 'foo',
-            client_secret: 'bar',
-            redirect_uris: ['https://jwt.io'], // using jwt.io as redirect_uri to show the ID Token contents
-            response_types: ['id_token'],
-            grant_types: ['implicit'],
-            token_endpoint_auth_method: 'none',
-            },
-            {
-                client_id: 'matrix',
-                client_secret: 'matrix_secret',
-                redirect_uris: ['https://matrix.hexhive.io/_synapse/client/oidc/callback'],
-                response_types: ['id_token', 'code'],
-                scopes: ['email', 'openid', 'profile', 'id'],
-                grant_types: ['implicit', 'authorization_code', 'refresh_token'],
-                token_endpoint_auth_method: 'client_secret_post'
-            },
-            {
-                client_id: 'hexhive.io',
-                client_secret: 'hexhive_secret',
-                redirect_uris: ['https://next.hexhive.io/dashboard'],
-                response_types: [ 'code'],
-                scopes: ['email', 'openid', 'profile', 'id'],
-                grant_types: ['implicit', 'authorization_code', 'refresh_token'],
-                token_endpoint_auth_method: 'client_secret_post'
-            }
-        ],
+    // const oidc = new Provider(ISSUER, {
+    //     pkce: {
+    //         methods: ['S256'],
+    //         required: () => false
+    //     },
+    //     jwks,
+    //     clients: [
+    //         {
+    //         client_id: 'foo',
+    //         client_secret: 'bar',
+    //         redirect_uris: ['https://jwt.io'], // using jwt.io as redirect_uri to show the ID Token contents
+    //         response_types: ['id_token'],
+    //         grant_types: ['implicit'],
+    //         token_endpoint_auth_method: 'none',
+    //         },
+    //         {
+    //             client_id: 'matrix',
+    //             client_secret: 'matrix_secret',
+    //             redirect_uris: ['https://matrix.hexhive.io/_synapse/client/oidc/callback'],
+    //             response_types: ['id_token', 'code'],
+    //             scopes: ['email', 'openid', 'profile', 'id'],
+    //             grant_types: ['implicit', 'authorization_code', 'refresh_token'],
+    //             token_endpoint_auth_method: 'client_secret_post'
+    //         },
+    //         {
+    //             client_id: 'hexhive.io',
+    //             client_secret: 'hexhive_secret',
+    //             redirect_uris: ['https://next.hexhive.io/dashboard'],
+    //             response_types: [ 'code'],
+    //             scopes: ['email', 'openid', 'profile', 'id'],
+    //             grant_types: ['implicit', 'authorization_code', 'refresh_token'],
+    //             token_endpoint_auth_method: 'client_secret_post'
+    //         }
+    //     ],
         
-        findAccount: Account.findAccount,
-        claims: {
-            openid: ['sub'],
-            email: ['email', 'userinfo', 'name', 'email_verified', 'login'],
-            name: ['name'],
-            address: ['address'],
-            phone: ['phone_number', 'phone_number_verified'],
-            profile: ['birthdate', 'family_name', 'gender', 'given_name', 'locale', 'middle_name', 'name',
-      'nickname', 'picture', 'preferred_username', 'profile', 'updated_at', 'website', 'zoneinfo'],
-            id: ['name', 'email', 'login'] 
-        },
-        interactions: {
-            url(ctx, interaction) {
-              return `${AUTH_SITE}?token=${interaction.uid}`;
-            },
-        },
-        features: {
-            // disable the packaged interactions
-            devInteractions: { enabled: false },
-            introspection: { enabled: true },
-            revocation: { enabled: true },
-            userinfo: { enabled: true },
-          jwtUserinfo: { enabled: false },
+    //     findAccount: Account.findAccount,
+    //     claims: {
+    //         openid: ['sub'],
+    //         email: ['email', 'userinfo', 'name', 'email_verified', 'login'],
+    //         name: ['name'],
+    //         address: ['address'],
+    //         phone: ['phone_number', 'phone_number_verified'],
+    //         profile: ['birthdate', 'family_name', 'gender', 'given_name', 'locale', 'middle_name', 'name',
+    //   'nickname', 'picture', 'preferred_username', 'profile', 'updated_at', 'website', 'zoneinfo'],
+    //         id: ['name', 'email', 'login'] 
+    //     },
+    //     interactions: {
+    //         url(ctx, interaction) {
+    //           return `${AUTH_SITE}?token=${interaction.uid}`;
+    //         },
+    //     },
+    //     features: {
+    //         // disable the packaged interactions
+    //         devInteractions: { enabled: false },
+    //         introspection: { enabled: true },
+    //         revocation: { enabled: true },
+    //         userinfo: { enabled: true },
+    //       jwtUserinfo: { enabled: false },
 
-        },
-        cookies: {
-            keys: (process.env.SECURE_KEY || 'test,old-test').split(','),
-        },
-    });
+    //     },
+    //     cookies: {
+    //         keys: (process.env.SECURE_KEY || 'test,old-test').split(','),
+    //     },
+    // });
 
     app.set('trust proxy', true);
     
 
     app.use(helmet())
 
+    app.use(auth(config));
 
-    app.use(DefaultRouter(oidc)) 
+
+    app.use(DefaultRouter()) 
     /*AuthServer, {
         findUser: async (auth_blob: any) => {
             console.log("AUTH BLOB", auth_blob)
@@ -141,24 +156,24 @@ const jwks = require('./jwks/jwks.json');
             }
         }
     }))*/
-    const { constructor: { errors: { SessionNotFound } } } = oidc as any;
+    // const { constructor: { errors: { SessionNotFound } } } = oidc as any;
 
 
-    if (process.env.NODE_ENV == 'production') {
-        app.use('/graphql', (err: any, req: any, res: any, next: any) => {
-            if(err instanceof SessionNotFound){
-                return res.send({error: "No authentication found"})
-            }
-            next(err);
-        }) //AuthServer.oauthServer.authenticate())
-    }
+    // if (process.env.NODE_ENV == 'production') {
+    //     app.use('/graphql', (err: any, req: any, res: any, next: any) => {
+    //         if(err instanceof SessionNotFound){
+    //             return res.send({error: "No authentication found"})
+    //         }
+    //         next(err);
+    //     }) //AuthServer.oauthServer.authenticate())
+    // }
 
     app.use('/graphql', graphqlHTTP({
         schema: schema,
         graphiql: true
     }))
 
-    app.use(oidc.callback())
+    // app.use(oidc.callback())
 
     if(process.env.NODE_ENV == 'production'){
         const httpsWorker = (glx: any)  => {

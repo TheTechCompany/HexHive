@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import { Account } from '../../Account';
 import assert from 'assert';
 
-export const AuthRouter = (oidc: Provider) : Router => {
+export const AuthRouter = () : Router => {
     const router = Router();
 
     router.post('/matrix_directory', async (req, res) => {

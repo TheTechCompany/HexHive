@@ -20,6 +20,7 @@
     "assert": "^2.0.0",
     "cookie-parser": "^1.4.5",
     "cross-fetch": "^3.1.4",
+    "express-openid-connect": "^2.5.0",
     "greenlock-express": "^4.0.3",
     "helmet": "^4.6.0",
     "jose": "2",
