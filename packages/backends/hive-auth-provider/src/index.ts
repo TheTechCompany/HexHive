@@ -4,49 +4,40 @@ import crypto from 'crypto';
 import {Provider} from 'oidc-provider';
 
 
-import { graphqlHTTP } from 'express-graphql'; // ES6
-
 import { connect_data, User } from '@hexhive/types'
 
-import { stitchSchemas } from '@graphql-tools/stitch';
-import SubSchema from './schema'
-import { REMOTE_SCHEMA } from './remotes';
 import { DefaultRouter } from './routes';
-import { isValidObjectId } from 'mongoose';
+import { isValidObjectId, mongo } from 'mongoose';
 
 import { createServer } from 'http';
-import WebSocket, { Server as WebSocketServer } from 'ws';
-import { CollaborationServer } from './collaboration';
 import { Account } from './Account';
 import helmet from 'helmet';
+import { MongoAdapter } from './adapters/mongodb';
 
+import generateKeys from './generateKeys';
+import path from 'path';
 const greenlock = require('greenlock-express')
 
 const app = express();
 
 const server = createServer(app);
-const wss = new WebSocketServer({ server, perMessageDeflate: false });
 
 const {NODE_ENV} = process.env
 
 const { PORT = (NODE_ENV == 'production' ? 80 : 7000), AUTH_SITE = 'https://next.hexhive.io', ISSUER = `http://localhost:${PORT}` } = process.env;
 
+generateKeys('./jwks', './jwks.json').then(() => {
+
 const jwks = require('./jwks/jwks.json');
 
 (async () => {
 
-    const collaborationServer = new CollaborationServer();
-         
+    // const mongoAdapter = new MongoAdapter('oidc-auth-provider')
+
+    await MongoAdapter.connect(process.env.MONGO_URL || 'mongodb://localhost', process.env.MONGO_DB || 'oidc-provider')
+
     await connect_data()
 
-    const subschemas = await SubSchema(REMOTE_SCHEMA)
-    const schema = stitchSchemas({
-        subschemas: subschemas
-    })
-
-    wss.on('connection', (socket) => {
-        collaborationServer.handleConnection(socket)
-    })
     // server.on('upgrade', (request, socket, head) => {
     //     wss.handleUpgrade(request, socket , head, (ws) => {
     //         wss.emit('connection', ws, request, {})
@@ -54,6 +45,7 @@ const jwks = require('./jwks/jwks.json');
     // })
 
     const oidc = new Provider(ISSUER, {
+        adapter: MongoAdapter,
         pkce: {
             methods: ['S256'],
             required: () => false
@@ -106,7 +98,7 @@ const jwks = require('./jwks/jwks.json');
         },
         features: {
             // disable the packaged interactions
-            devInteractions: { enabled: false },
+            devInteractions: { enabled: true },
             introspection: { enabled: true },
             revocation: { enabled: true },
             userinfo: { enabled: true },
@@ -119,56 +111,26 @@ const jwks = require('./jwks/jwks.json');
     });
 
     app.set('trust proxy', true);
-    
+
+    app.set('view engine', 'ejs');
+    app.set('views', path.resolve(__dirname, './views'));
 
     app.use(helmet())
 
 
     app.use(DefaultRouter(oidc)) 
-    /*AuthServer, {
-        findUser: async (auth_blob: any) => {
-            console.log("AUTH BLOB", auth_blob)
-            if(!auth_blob) return;
-            if (auth_blob.user && isValidObjectId(auth_blob.user)) {
-                return await User.findById(auth_blob.user).populate('organisation');
-            } else {
-                const pass_hash = crypto.createHash('sha256').update(auth_blob.password).digest('hex')
 
-                return await User.findOne({
-                    username: auth_blob.username,
-                    password: pass_hash
-                }).populate('organisation')
-            }
-        }
-    }))*/
     const { constructor: { errors: { SessionNotFound } } } = oidc as any;
 
 
-    if (process.env.NODE_ENV == 'production') {
-        app.use('/graphql', (err: any, req: any, res: any, next: any) => {
-            if(err instanceof SessionNotFound){
-                return res.send({error: "No authentication found"})
-            }
-            next(err);
-        }) //AuthServer.oauthServer.authenticate())
-    }
 
-    app.use('/graphql', graphqlHTTP({
-        schema: schema,
-        graphiql: true
-    }))
 
     app.use(oidc.callback())
 
     if(process.env.NODE_ENV == 'production'){
         const httpsWorker = (glx: any)  => {
             var server = glx.httpsServer();
-            var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
-            ws.on("connection", function(ws: WebSocket, req: any) {
-                // inspect req.headers.authorization (or cookies) for session info
-                collaborationServer.handleConnection(ws)
-            });
-        
+      
             // servers a node app that proxies requests to a localhost
             glx.serveApp(app);
         }
@@ -190,3 +152,5 @@ const jwks = require('./jwks/jwks.json');
         })
     }
 })()
+
+})

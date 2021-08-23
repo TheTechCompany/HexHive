@@ -13,3 +13,5 @@ dist/
 .vscode
 *.env
 .env
+
+jwks.json
