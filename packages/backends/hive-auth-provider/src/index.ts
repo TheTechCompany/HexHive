@@ -65,7 +65,7 @@ const jwks = require('./jwks/jwks.json');
                 client_secret: 'matrix_secret',
                 redirect_uris: ['https://matrix.hexhive.io/_synapse/client/oidc/callback'],
                 response_types: ['id_token', 'code'],
-                scopes: ['email', 'openid', 'profile', 'id'],
+                scopes: ['email', 'openid', 'groups', 'name', 'profile', 'id'],
                 grant_types: ['implicit', 'authorization_code', 'refresh_token'],
                 token_endpoint_auth_method: 'client_secret_post'
             },
@@ -74,7 +74,7 @@ const jwks = require('./jwks/jwks.json');
                 client_secret: 'hexhive_secret',
                 redirect_uris: ['https://dashboard.hexhive.io/callback'],
                 response_types: [ 'code'],
-                scopes: ['email', 'openid', 'profile', 'id'],
+                scopes: ['email', 'openid', 'groups', 'name', 'profile', 'id'],
                 grant_types: ['implicit', 'authorization_code', 'refresh_token'],
                 token_endpoint_auth_method: 'client_secret_post'
             },
@@ -83,7 +83,7 @@ const jwks = require('./jwks/jwks.json');
                 client_secret: 'staging-hexhive_secret',
                 redirect_uris: ['https://next.hexhive.io/callback'],
                 response_types: [ 'code'],
-                scopes: ['email', 'openid', 'profile', 'id'],
+                scopes: ['email', 'openid', 'groups', 'name', 'profile', 'id'],
                 grant_types: ['implicit', 'authorization_code', 'refresh_token'],
                 token_endpoint_auth_method: 'client_secret_post'
             }
@@ -91,7 +91,8 @@ const jwks = require('./jwks/jwks.json');
         findAccount: Account.findAccount,
         claims: {
             openid: ['sub'],
-            email: ['email', 'userinfo', 'name', 'email_verified', 'login'],
+            email: ['email', 'email_verified'],
+            groups: ['organisation'],
             name: ['name'],
             address: ['address'],
             phone: ['phone_number', 'phone_number_verified'],

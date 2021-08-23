@@ -3,7 +3,7 @@ import { User } from '@hexhive/types'
 
 export class Account {
     static async findAccount(ctx: any, id: string){
-        console.log(ctx, id)
+        // console.log(ctx, id)
         const user = await User.findById(id).populate('organisation');
 
         if(!user) return;
