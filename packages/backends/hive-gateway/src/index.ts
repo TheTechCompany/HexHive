@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import express from 'express'
 import crypto from 'crypto';
 
@@ -42,19 +44,20 @@ const config : ConfigParams = {
     auth0Logout: false,
     authorizationParams: {
         response_type: 'code',
-        scope: 'openid email name groups',
-        redirect_uri: 'https://staging-api.hexhive.io/callback' || 'http://localhost:7000/callback' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io/dashboard`
+        scope: process.env.SCOPE || 'openid email name groups',
+        redirect_uri: process.env.REDIRECT_URI || 'https://staging-api.hexhive.io/callback' || 'http://localhost:7000/callback' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io/dashboard`
     },
     clientAuthMethod: 'client_secret_basic',
-    baseURL: 'https://staging-api.hexhive.io' || 'http://localhost:7000' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io`,
+    baseURL: process.env.BASE_URL || 'https://staging-api.hexhive.io' || 'http://localhost:7000' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io`,
     afterCallback: (req, res, session, decodedState) => {
-        res.redirect('https://next.hexhive.io/dashboard')
+        // res.redirect(process.env.UI_URL || 'https://next.hexhive.io/dashboard')
+        (req as any).openidState.returnTo = process.env.UI_URL || 'https://next.hexhive.io/dashboard'
         return session;
     },
-    clientID: 'test' || `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,
-    issuerBaseURL: "https://auth.hexhive.io",
+    clientID: process.env.CLIENT_ID || 'test' || `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,
+    issuerBaseURL: process.env.AUTH_SERVER || "https://auth.hexhive.io",
     secret: 'JWT_SECRET',
-    clientSecret: `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive_secret`
+    clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive_secret`
 };
 
   
