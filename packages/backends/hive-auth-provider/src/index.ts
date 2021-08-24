@@ -72,7 +72,7 @@ const jwks = require('./jwks/jwks.json');
             {
                 client_id: 'hexhive.io',
                 client_secret: 'hexhive_secret',
-                redirect_uris: ['https://dashboard.hexhive.io/callback'],
+                redirect_uris: ['https://dashboard.hexhive.io/callback', 'https://next.hexhive.io/dashboard'],
                 response_types: [ 'code'],
                 scopes: ['email', 'openid', 'groups', 'name', 'profile', 'id'],
                 grant_types: ['implicit', 'authorization_code', 'refresh_token'],
