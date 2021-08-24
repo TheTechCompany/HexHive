@@ -117,7 +117,6 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
             onChange={changeWeek} />
         </Box>
         <Box 
-          pad={{vertical: 'xsmall'}}
           background={"accent-2"}
           direction="row" 
           className="week-header__days">
@@ -301,8 +300,12 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
       var currentMonth = today.getMonth() + 1;
       headers.push((
         <Box
+        pad={{vertical: 'xsmall'}}
+
           direction="column"
           flex
+          align="center"
+          background={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? 'rgba(255, 255, 255, 0.2)' : ''}
           className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day-header week-day-header-current' : 'week-day-header'}>
           <Box>
             {renderTime(i, 'ddd')}
