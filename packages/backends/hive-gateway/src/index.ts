@@ -42,7 +42,7 @@ const config : ConfigParams = {
     authorizationParams: {
         response_type: 'code',
         scope: 'email profile name groups openid',
-        redirect_uri: 'https://next.hexhive.io/dashboard'
+        redirect_uri: `https://${NODE_ENV == 'production' ? 'dashboard': 'next'}.hexhive.io/dashboard`
     },
     clientAuthMethod: 'client_secret_post',
     baseURL: `https://${NODE_ENV == 'production' ? 'dashboard': 'next'}.hexhive.io`,
