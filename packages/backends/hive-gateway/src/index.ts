@@ -43,7 +43,7 @@ const config : ConfigParams = {
     authorizationParams: {
         response_type: 'code',
         scope: 'openid email name groups',
-        redirect_uri: 'https://staging-api.hexhive.io' || 'http://localhost:7000/callback' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io/dashboard`
+        redirect_uri: 'https://staging-api.hexhive.io/callback' || 'http://localhost:7000/callback' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io/dashboard`
     },
     clientAuthMethod: 'client_secret_basic',
     baseURL: 'https://staging-api.hexhive.io' || 'http://localhost:7000' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io`,
