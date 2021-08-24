@@ -19,6 +19,7 @@ import WebSocket, { Server as WebSocketServer } from 'ws';
 import { CollaborationServer } from './collaboration';
 import { Account } from './Account';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 
 import { auth, ConfigParams , requiresAuth} from 'express-openid-connect';
 
@@ -41,12 +42,16 @@ const config : ConfigParams = {
     auth0Logout: false,
     authorizationParams: {
         response_type: 'code',
-        scope: 'email profile name groups openid',
-        redirect_uri: `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io/dashboard`
+        scope: 'openid email name groups',
+        redirect_uri: 'https://staging-api.hexhive.io' || 'http://localhost:7000/callback' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io/dashboard`
     },
-    clientAuthMethod: 'client_secret_post',
-    baseURL: `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io`,
-    clientID: `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,
+    clientAuthMethod: 'client_secret_basic',
+    baseURL: 'https://staging-api.hexhive.io' || 'http://localhost:7000' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io`,
+    afterCallback: (req, res, session, decodedState) => {
+        res.redirect('https://next.hexhive.io/dashboard')
+        return session;
+    },
+    clientID: 'test' || `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,
     issuerBaseURL: "https://auth.hexhive.io",
     secret: 'JWT_SECRET',
     clientSecret: `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive_secret`
@@ -140,11 +145,10 @@ const config : ConfigParams = {
 
     app.set('trust proxy', true);
     
-
+    app.use(cookieParser())
     app.use(helmet())
 
     app.use(auth(config));
-
 
     app.use(DefaultRouter()) 
 

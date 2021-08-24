@@ -106,7 +106,7 @@ const jwks = require('./jwks/jwks.json');
             introspection: { enabled: true },
             revocation: { enabled: true },
             userinfo: { enabled: true },
-          jwtUserinfo: { enabled: false },
+            jwtUserinfo: { enabled: false },
 
         },
         cookies: {
