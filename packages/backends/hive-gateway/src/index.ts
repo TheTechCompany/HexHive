@@ -45,11 +45,11 @@ const config : ConfigParams = {
         redirect_uri: 'https://next.hexhive.io/dashboard'
     },
     clientAuthMethod: 'client_secret_post',
-    baseURL: 'http://localhost:7000' ||`https://${NODE_ENV == 'production' ? 'dashboard': 'next'}.hexhive.io`,
-    clientID: 'test' || `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,
+    baseURL: `https://${NODE_ENV == 'production' ? 'dashboard': 'next'}.hexhive.io`,
+    clientID: `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,
     issuerBaseURL: "https://auth.hexhive.io",
     secret: 'JWT_SECRET',
-    clientSecret:  `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive_secret`
+    clientSecret: `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive_secret`
 };
 
   
