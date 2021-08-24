@@ -20,8 +20,7 @@ const queryFetcher: QueryFetcher = async function (query, variables) {
   const response = await fetch(process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API != undefined ? `${process.env.REACT_APP_API}/graphql` : '/graphql') : "http://localhost:7000/graphql", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      'Authorization': 'Bearer ' + token
+      "Content-Type": "application/json"
     },
     credentials: 'include',
     body: JSON.stringify({
