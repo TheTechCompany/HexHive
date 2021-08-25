@@ -1,16 +1,43 @@
-import { Box } from 'grommet';
-import React from 'react';
+import { Box, Text, Spinner } from 'grommet';
+import React, { useState } from 'react';
 import { BaseHeader } from '../header';
 
 export const IFrameAppliance = () => {
+    const [ loading, setLoading ] = useState<boolean>(false);
+    
+    const onLoad = () => {
+        setLoading(false);
+    }
+
     return (
         <Box 
             direction="column"
             flex>
             <BaseHeader />
-            <iframe style={{flex: 1}} src="https://matrix.hexhive.io/element/#/home" >
+            <Box 
+                flex 
+                direction="column">
+                {loading ? (
+                    <Box 
+                        direction="column"
+                        align="center"
+                        justify="center"
+                        style={{
+                            background: 'rgba(255, 255, 255, 0.2)',
+                            position: 'absolute', 
+                            top: 0, 
+                            left: 0, 
+                            width: '100%', 
+                            height: '100%'}}>
+                        <Spinner size="medium" />
+                        <Text>Loading ...</Text>
+                    </Box>
+                ) : null}
+                <iframe style={{flex: 1}} onLoad={onLoad} src="https://matrix.hexhive.io/element/#/home" >
 
-            </iframe>
+                </iframe>
+            </Box>
+     
         </Box>
 
     );
