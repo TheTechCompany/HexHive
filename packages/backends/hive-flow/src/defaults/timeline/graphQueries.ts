@@ -108,6 +108,7 @@ const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefin
                     if(args.item.startDate) item.startDate = args.item.startDate;
                     if(args.item.endDate) item.endDate = args.item.endDate;
                     if(args.item.items) item.items = args.item.items;
+                    if(args.item.notes) item.notes = args.item.notes;
                     await item.save();
                 }
 

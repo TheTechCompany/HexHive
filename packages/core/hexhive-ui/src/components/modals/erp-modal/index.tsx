@@ -81,7 +81,6 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                 type: props.projects?.find((a) => a.id == plan.project)?.type,
                 id: plan.project
             },
-            notes: plan.notes,
             startDate: new Date(moment(plan.startDate).set('hours', 0).valueOf()),
             endDate: new Date(moment(plan.endDate).set('hours', 24).valueOf())
         }
