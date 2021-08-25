@@ -50,6 +50,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
                     </Box>)} >
 
                 <Box
+                    flex
                     aria-owns={hoverEl != null ? 'mouse-over-notes' : undefined}
                     aria-haspopup="true"
                     onMouseEnter={hoverStart}
