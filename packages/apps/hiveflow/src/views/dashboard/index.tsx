@@ -154,7 +154,7 @@ export const Dashboard = withRouter((props: any) => {
                 active={views().map((x) => matchPath(active, {path: x.path}) != null ).indexOf(true)}
                 menu={views()} 
                 onSelect={(x: any) => {
-                  let path = generatePath(`:path`, {path: x.toLowerCase()})
+                  let path = generatePath(`/:path`, {path: x.toLowerCase()})
                   props.history.push(path)
                 }}/>
 
