@@ -33,9 +33,6 @@
       "path": "../../shared/hexhive-auth-ui"
     },
     {
-      "path": "../../shared/hexhive-cas-client"
-    },
-    {
       "path": "../../shared/hexhive-utils"
     },
     {
