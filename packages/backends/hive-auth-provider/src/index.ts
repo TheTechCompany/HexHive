@@ -124,7 +124,7 @@ const jwks = require('./jwks/jwks.json');
         contentSecurityPolicy: {
             useDefaults: true,
             directives: {
-                'frame-ancestors': ["'self'", "next.hexhive.io", "hexhive.io"]
+                'frame-ancestors': ["'self'", "next.hexhive.io", "go.hexhive.io", "hexhive.io"]
             }
         }
     }
