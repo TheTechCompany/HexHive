@@ -28,17 +28,17 @@ export const Home : React.FC<any> = (props) => {
                         logo: <Hivecommand/>,
                         path: '/dashboard/command'
                     },
-                    {
-                        title: 'Hive3D',
-                        logo: <Svg3D />,
-                        path: '/dashboard/3d'
-                    },
+                    // {
+                    //     title: 'Hive3D',
+                    //     logo: <Svg3D />,
+                    //     path: '/dashboard/3d'
+                    // },
 
-                    {
-                        title: 'HiveFiles',
-                        logo: <Hivefiles />,
-                        path: '/dashboard/files'
-                    },
+                    // {
+                    //     title: 'HiveFiles',
+                    //     logo: <Hivefiles />,
+                    //     path: '/dashboard/files'
+                    // },
                     {
                         title: 'Matrix',
                         logo: <MatrixLogo />,

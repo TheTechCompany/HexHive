@@ -6,6 +6,7 @@
     "dist/"
   ],
   "scripts": {
+    "generate": "npx gqless generate",
     "start": "webpack serve --port 8500",
     "start:standalone": "webpack serve --env standalone",
     "build": "export PUBLIC_URL=/dashboard/flow; webpack --mode=production",
@@ -54,6 +55,7 @@
   },
   "dependencies": {
     "@hexhive/auth-ui": "^0.0.5-alpha.0",
+    "@hexhive/client": "^0.0.5-alpha.0",
     "@hexhive/styles": "^0.0.4-alpha.0",
     "@hexhive/ui": "^0.0.5-alpha.0",
     "@hexhive/utils": "^0.0.5-alpha.0",

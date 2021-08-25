@@ -23,6 +23,7 @@ const queryFetcher: QueryFetcher = async function (query, variables) {
       'Authorization': 'Bearer '+ token,
       "Content-Type": "application/json",
     },
+    credentials: 'include',
     body: JSON.stringify({
       query,
       variables,

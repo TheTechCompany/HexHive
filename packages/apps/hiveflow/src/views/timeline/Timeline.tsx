@@ -5,7 +5,7 @@ import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
 import { Box, Button, Select, Spinner, Text } from 'grommet';
 import { Add } from 'grommet-icons';
-import { TimelineItem, TimelineItemInput, useMutation, useQuery } from '../../gqless';
+import { TimelineItem, TimelineItemInput, useMutation, useQuery } from '@hexhive/client';
 import { TimelineHeader, TimelineView } from './Header';
 import _, { filter, toUpper } from 'lodash';
 
@@ -382,7 +382,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     }
 
-    const createTimelinePlan = (plan: { id?: string, project?: { id?: string, type?: string }, items?: any[], startDate?: Date, endDate?: Date }) => {
+    const createTimelinePlan = (plan: { id?: string, project?: { id?: string, type?: string }, notes?: string, items?: any[], startDate?: Date, endDate?: Date }) => {
         if (plan.id) {
             console.log("Update", plan)
 
@@ -393,6 +393,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                         project: plan.project,
                         startDate: plan.startDate,
                         endDate: plan.endDate,
+                        notes: plan.notes,
                         items: plan.items || []
                     }
                 }
@@ -408,6 +409,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                         project: plan.project,
                         startDate: plan.startDate,
                         endDate: plan.endDate,
+                        notes: plan.notes,
                         items: plan.items || []
                     }
                 }
@@ -418,7 +420,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     }
 
-    const updateTimelinePlan = _.debounce(async (id: string, item: { start: Date, end: Date }) => {
+    const updateTimelinePlan = _.debounce(async (id: string, item: { notes: string, start: Date, end: Date }) => {
         let ix = timeline.map((x) => x.id).indexOf(id);
         let times = timeline.slice();
 
@@ -438,7 +440,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     id: id?.toString() || '',
                     item: {
                         startDate: item.start,
-                        endDate: item.end
+                        endDate: item.end,
+                        notes: item.notes
                     }
                 }
             })

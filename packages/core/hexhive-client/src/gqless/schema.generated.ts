@@ -55,6 +55,7 @@ export interface TimelineItemInput {
   timeline?: Maybe<Scalars["String"]>;
   startDate?: Maybe<Scalars["Date"]>;
   endDate?: Maybe<Scalars["Date"]>;
+  notes?: Maybe<Scalars["String"]>;
   project?: Maybe<TimelineProjectInput>;
   items?: Maybe<Array<Maybe<TimelineItemItemsInput>>>;
 }
@@ -3082,6 +3083,7 @@ export const generatedSchema = {
     timeline: { __type: "String" },
     startDate: { __type: "Date" },
     endDate: { __type: "Date" },
+    notes: { __type: "String" },
     items: { __type: "[TimelineItemItems]" },
     project: { __type: "TimelineProject" },
   },
@@ -3130,6 +3132,7 @@ export const generatedSchema = {
     timeline: { __type: "String" },
     startDate: { __type: "Date" },
     endDate: { __type: "Date" },
+    notes: { __type: "String" },
     project: { __type: "TimelineProjectInput" },
     items: { __type: "[TimelineItemItemsInput]" },
   },
@@ -6428,6 +6431,7 @@ export interface TimelineItem {
   timeline?: Maybe<ScalarsEnums["String"]>;
   startDate?: Maybe<ScalarsEnums["Date"]>;
   endDate?: Maybe<ScalarsEnums["Date"]>;
+  notes?: Maybe<ScalarsEnums["String"]>;
   items?: Maybe<Array<Maybe<TimelineItemItems>>>;
   project?: Maybe<TimelineProject>;
 }
