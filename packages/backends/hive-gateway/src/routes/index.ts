@@ -37,6 +37,10 @@ export const DefaultRouter = () : Router => {
     // router.use('/interaction', InteractionRouter())
     router.use('/oauth', AuthRouter())
 
+    router.get('/login', (req, res) => {
+        res.oidc.login({ returnTo: req.query.returnTo?.toString() || 'https://next.hexhive.io/dashboard' })
+    })
+
     router.get('/me', requiresAuth(), async (req, res) => {
         const userinfo = await req.oidc.fetchUserInfo();
         res.send({...userinfo})
