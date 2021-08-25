@@ -15,10 +15,7 @@ jobs:
           node-version: 15.x
 
       - run: npm i
-      - run: lerna bootstrap --scope @hexhive/cas-client
-
-      - run: lerna run build --scope @hexhive/cas-client
-
+      
       - run: lerna bootstrap --scope @hexhive/landing --include-dependencies
 
       - run: NEXT_PUBLIC_CLIENT_ID='hexhive.io' NEXT_PUBLIC_API='https://api.hexhive.io' npm run build:landing
