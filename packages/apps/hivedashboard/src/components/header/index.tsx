@@ -4,8 +4,11 @@ import React from 'react';
 import { BaseStyle } from '@hexhive/styles';
 
 import {Hivelogo, Profile} from '../../assets';
+import { useAuth } from '@hexhive/auth-ui';
 
 export const BaseHeader : React.FC<any> = (props) => {
+    const  {activeUser} = useAuth();
+
     return (
         <Header 
             elevation="medium"
@@ -22,7 +25,11 @@ export const BaseHeader : React.FC<any> = (props) => {
 } /> */}
             
             </Box>
-            <Profile height="25px" />
+            <Box align="center" gap="xsmall" direction="row">
+                {activeUser?.name}
+                <Profile height="25px" />
+
+            </Box>
         </Header>
     )
 }

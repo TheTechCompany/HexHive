@@ -51,7 +51,7 @@ const config : ConfigParams = {
     baseURL: process.env.BASE_URL || 'https://staging-api.hexhive.io' || 'http://localhost:7000' || `https://${NODE_ENV != 'production' ? 'dashboard': 'next'}.hexhive.io`,
     afterCallback: (req, res, session, decodedState) => {
         // res.redirect(process.env.UI_URL || 'https://next.hexhive.io/dashboard')
-        (req as any).openidState.returnTo = process.env.UI_URL || 'https://next.hexhive.io/dashboard'
+        (req as any).openidState.returnTo = (req as any).openidState.returnTo || process.env.UI_URL || 'https://next.hexhive.io/dashboard'
         return session;
     },
     clientID: process.env.CLIENT_ID || 'test' || `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,

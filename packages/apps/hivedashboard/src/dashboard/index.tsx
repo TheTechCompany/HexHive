@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Home } from '../views/home';
 import { BaseHeader } from '../components/header';
 import { Box, Grommet, Spinner } from 'grommet';
-import { useToken } from '../hooks/useBrowserContext';
 
 import { AuthProvider } from '@hexhive/auth-ui'
 import { Organisation } from '../views/organisation';
