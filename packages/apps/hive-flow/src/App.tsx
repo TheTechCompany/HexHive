@@ -9,7 +9,11 @@ import { BaseStyle } from '@hexhive/styles'
 function App(props: any) {
 
   return (
- <Grommet  
+      <AuthProvider
+        authorizationServer={process.env.REACT_APP_API || "https://staging-api.hexhive.io"}
+        returnTo={process.env.PUBLIC_URL || 'https://next.hexhive.io/dashboard/flow'}
+        clientId={process.env.CLIENT_ID || 'test'}>
+        <Grommet  
           full
           style={{display: 'flex'}}
           themeMode="dark"
@@ -22,6 +26,7 @@ function App(props: any) {
                 </Box>
               </Router>
         </Grommet>
+      </AuthProvider>
   );
 }
 

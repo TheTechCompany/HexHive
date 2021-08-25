@@ -8,6 +8,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { Provider } from 'oidc-provider';
+import { requiresAuth } from 'express-openid-connect';
 // import { InteractionRouter } from './interaction';
 
 const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io']
@@ -35,6 +36,11 @@ export const DefaultRouter = () : Router => {
 
     // router.use('/interaction', InteractionRouter())
     router.use('/oauth', AuthRouter())
+
+    router.get('/me', requiresAuth(), async (req, res) => {
+        const userinfo = await req.oidc.fetchUserInfo();
+        res.send({...userinfo})
+    })
     // router.use('/user', UserRouter(cas, methods))
     return router;
 }

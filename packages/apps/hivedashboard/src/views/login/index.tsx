@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Heading, Button, TextInput, Form, Spinner } from 'grommet';
 import Logo from '../../assets/hivelogo.svg';
-import { useAuth } from '../../hooks/useAuth';
 import qs from 'qs';
 import { useEffect } from 'react';
 import { ConsentScreen } from './consent';

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import { Home } from './views/home';
 import { BaseHeader } from './components/header';
 import { Box, Grommet, Spinner } from 'grommet';
-import { useToken } from './hooks/useBrowserContext';
 
 import { AuthProvider } from '@hexhive/auth-ui'
 import { Organisation } from './views/organisation';
@@ -19,7 +18,12 @@ const NoToken = () => (<div>No token</div>)
 console.log(process.env)
 function App() {
 
+  const { NODE_ENV, REACT_APP_API, PUBLIC_URL } = process.env;
+
   return (
+    <AuthProvider
+      authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
+      returnTo={NODE_ENV == 'production' ? (PUBLIC_URL || 'https://next.hexhive.io/dashboard/flow') : 'http://localhost:3000/dashboard'}>
     <React.Suspense fallback={() => <Spinner />} >
     <Grommet theme={BaseStyle} plain full> 
   
@@ -44,6 +48,7 @@ function App() {
       </Router>
       </Grommet>
     </React.Suspense>
+    </AuthProvider>
   );
 }
 
