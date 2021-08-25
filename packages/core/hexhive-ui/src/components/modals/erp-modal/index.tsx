@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { ReducerAction } from 'react';
 
 import { Box, Button, DateInput, Layer, Select, TextInput, Text } from 'grommet'
 import { useState } from 'react';
-import { Add, Close } from 'grommet-icons'
+import { Capacity, Notes, Add, Close } from 'grommet-icons'
 import moment from 'moment';
 import { useEffect } from 'react';
 import { ColorDot } from '../../color-dot';
 import { CapacityItem } from './CapacityItem';
+import {CapacityTab} from './tabs/capacity'
+import {NoteTab} from './tabs/notes'
 
 export interface ERPModalProps {
     open: boolean;
@@ -19,9 +21,11 @@ export interface ERPModalProps {
         name?: string | null;
         type?: string;
     }[]
-    onSubmit?: (plan: { project?: {id?: string, type?: string},
+    onSubmit?: (plan: { 
+        project?: {id?: string, type?: string},
         startDate?: Date,
         endDate?: Date,
+        notes?: string,
         items?: {
             location?: string;
             type?: string;
@@ -29,12 +33,17 @@ export interface ERPModalProps {
         }[]}) => void;
 }
 
+const tab_options = [<Capacity />, <Notes />]
+
 export const ERPModal: React.FC<ERPModalProps> = (props) => {
+
+    const [ tab, setTab ] = useState<number>(0);
 
     const [plan, setPlan] = useState<{
         project?: string,
         startDate?: Date,
         endDate?: Date,
+        notes?: string,
         items?: {
             [key: string]: any;
             location: string;
@@ -72,6 +81,7 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                 type: props.projects?.find((a) => a.id == plan.project)?.type,
                 id: plan.project
             },
+            notes: plan.notes,
             startDate: new Date(moment(plan.startDate).set('hours', 0).valueOf()),
             endDate: new Date(moment(plan.endDate).set('hours', 24).valueOf())
         }
@@ -101,6 +111,30 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
         setPlan({...plan, items: items})
     }
 
+    const updateNotes = (e: any) => {
+        setPlan({...plan, notes: e.target.value})
+    }
+
+
+    const renderTab = () => {
+        switch(tab){
+            case 0:
+                return (
+                    <CapacityTab
+                    addCapacityItem={addCapacityItem}
+                    plan={plan}
+                    removeCapacityItem={removeCapacityItem}
+                    updateCapacityItem={updateCapacityItem}
+                    type={props.type}/>
+                    );
+            case 1:
+                return (
+                    <NoteTab
+                        notes={plan.notes}
+                        updateNotes={updateNotes} />
+                )
+        }
+    }
 
     return !props.open ? null : (
         <Layer
@@ -108,7 +142,7 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
             onEsc={onClose}>
             <Box
                 height={{ min: '50vh', max: '80vh' }}
-                round="xsmall"
+                round="xxsmall"
                 overflow={"hidden"}
                 background="neutral-1"
                 width="large"
@@ -166,36 +200,25 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                             </Box>
                         </Box>
                     </Box>
-                    <Box style={{ width: '100%', height: '1px', background: 'black' }} />
+                    <Box 
+                        height="100%"
+                        direction="row" >
+                        <Box background="accent-1" direction="column">
+                            {tab_options.map((x, ix) => <Button icon={x} active={ix == tab} onClick={() => setTab(ix)} />)}
+                            
+                        </Box>
                     <Box
-                        height={"100%"}
+                        margin={{left: 'xsmall'}}
+                        flex
+                        overflow={"scroll"}
+                        height={{min: '30vh', max: "100%"}}
                         gap="xsmall" 
                         direction="column">
-                        <Box
-                            height={{min: 'min-content'}}
-                            direction="row"
-                            align="center"
-                            justify="between">
-                            <Text margin="none" weight="bold">Capacity</Text>
-                            <Button
-                                onClick={addCapacityItem}
-                                hoverIndicator 
-                                icon={<Add size="small" />} />
-                        </Box>
-                    <Box 
-                        gap="xsmall"
-                        height={'min-content'}
-                        overflow={'scroll'}>
-                        {plan.items?.map((x, ix) => (
-                            <CapacityItem 
-                                item={x}
-                                type={props.type}
-                                removeCapacityItem={() => removeCapacityItem(ix)}
-                                updateCapacityItem={(key, value) => updateCapacityItem(ix, key, value)}/>
-                        ))}
-                    </Box>
-    
+                       
+                       {renderTab()}
+      
 
+                    </Box>
                     </Box>
                 </Box>
                 <Box height={{min: 'min-content'}} pad="xsmall" gap="xsmall" direction="row" justify="end">

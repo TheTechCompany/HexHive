@@ -182,7 +182,7 @@ const config : ConfigParams = {
     // const { constructor: { errors: { SessionNotFound } } } = oidc as any;
 
 
-    // if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV == 'production') {
         app.use('/graphql', requiresAuth(), async (req, res, next) => {
             const user = await req.oidc.fetchUserInfo(); 
 
@@ -194,7 +194,7 @@ const config : ConfigParams = {
 
             next();
         })
-    // }
+    }
 
     app.use('/graphql', graphqlHTTP({
         schema: schema,
