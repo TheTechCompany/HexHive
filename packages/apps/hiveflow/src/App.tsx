@@ -14,7 +14,7 @@ const { REACT_APP_API, PUBLIC_URL, NODE_ENV } = process.env;
   return (
     <AuthProvider
     authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
-    returnTo={NODE_ENV == 'production' ? (PUBLIC_URL || 'https://next.hexhive.io/dashboard/flow') : 'http://localhost:3000/dashboard/flow'}>
+    returnTo={NODE_ENV == 'production' ? ('https://next.hexhive.io/dashboard/flow') : 'http://localhost:3000/dashboard/flow'}>
  <Grommet  
           full
           style={{display: 'flex'}}
