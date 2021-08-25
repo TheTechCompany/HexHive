@@ -211,6 +211,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                                 </Box>
                             ))}
                         </Box>
+                        <Text size="small">
+                            {capacity_plan?.notes}
+                        </Text>
                     </Box>
                 ),
                 showLabel: `${capacity_plan?.items?.reduce((previous: any, current: any) => {
