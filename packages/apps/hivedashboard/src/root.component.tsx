@@ -37,7 +37,7 @@ function App() {
           direction="column"
           className="App">
           <Box flex direction="column">
-            <Route path="/" render={(props) => <Redirect to="/dashboard" />} />
+            <Route path="/" exact render={(props) => <Redirect to="/dashboard" />} />
             <Route path="/dashboard" component={Dashboard} />
           </Box>
         </Box>
