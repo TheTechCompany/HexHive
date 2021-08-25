@@ -185,6 +185,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             setTimeline(capacity.map((capacity_plan, ix) => ({
                 id: capacity_plan?.id || `capacity-${ix}`,
                 name: `${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}`.substring(0, 20) || '',
+                notes: capacity_plan.notes,
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
                 color: getColorBars({ hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || [] }),
@@ -227,6 +228,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     name: `${moment(capacity_plan?.startDate).format("DD/MM/YY")} - ${moment(capacity_plan?.endDate).format("DD/MM/YY")}`.substring(0, 20) || '',
                     start: new Date(capacity_plan?.startDate),
                     end: new Date(capacity_plan?.endDate),
+                    notes: capacity_plan.notes,
                     hoverInfo: (
                         <Box round="xsmall" overflow="hidden"  direction="column">
                             <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
