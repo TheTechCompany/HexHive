@@ -11,9 +11,7 @@ function App(props: any) {
   return (
     <AuthProvider   
     authorizationServer={process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API || 'https://staging-api.hexhive.io') : "http://localhost:7000"}
-    clientId="hexhive.io"
-      clientSecret="tester"
-      redirectUri={process.env.NODE_ENV == 'production' ? "https://hexhive.io/dashboard/command" : "http://localhost:3001/dashboard"}>
+      returnTo={process.env.NODE_ENV == 'production' ? "https://next.hexhive.io/dashboard/command" : "http://localhost:3000/dashboard/command"}>
       <Grommet
         style={{display: 'flex'}}
         full
