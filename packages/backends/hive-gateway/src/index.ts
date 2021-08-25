@@ -54,6 +54,9 @@ const config : ConfigParams = {
         (req as any).openidState.returnTo = (req as any).openidState.returnTo || process.env.UI_URL || 'https://next.hexhive.io/dashboard'
         return session;
     },
+    routes: {
+        login: false
+    },
     clientID: process.env.CLIENT_ID || 'test' || `${NODE_ENV != 'production' ? 'staging-' : ''}hexhive.io`,
     issuerBaseURL: process.env.AUTH_SERVER || "https://auth.hexhive.io",
     secret: 'JWT_SECRET',
