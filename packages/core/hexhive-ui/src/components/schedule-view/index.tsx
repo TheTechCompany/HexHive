@@ -331,7 +331,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
           pad={{horizontal: 'xsmall'}}
           flex
           className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day week-day-current' : 'week-day'}>
-          <ul style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', listStyle: 'none', padding: 0 }} className='week-day-content'>
+          <ul style={{ display: 'flex', flexDirection: 'column', listStyle: 'none', padding: 0 }} className='week-day-content'>
             {dayItems}
             {renderAddScheduleButton(i)}
           </ul>
