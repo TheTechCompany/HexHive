@@ -17,7 +17,7 @@ const queryFetcher: QueryFetcher = async function (query, variables) {
   // Modify "http://localhost:7000/graphql" if needed
   const token = window.sessionStorage.getItem('CREDENTIALS_TOKEN') || ''
 
-  const response = await fetch("http://localhost:7000/graphql", {
+  const response = await fetch(process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API != undefined ? `${process.env.REACT_APP_API}/graphql` : '/graphql') : "http://localhost:7000/graphql", {
     method: "POST",
     headers: {
       'Authorization': 'Bearer '+ token,
