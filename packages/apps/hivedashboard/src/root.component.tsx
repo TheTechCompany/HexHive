@@ -18,12 +18,12 @@ const NoToken = () => (<div>No token</div>)
 console.log(process.env)
 function App() {
 
-  const { NODE_ENV, REACT_APP_API, PUBLIC_URL } = process.env;
+  const { NODE_ENV, REACT_APP_API, REACT_APP_URL, PUBLIC_URL } = process.env;
 
   return (
     <AuthProvider
       authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
-      returnTo={NODE_ENV == 'production' ? ('https://next.hexhive.io/dashboard') : 'http://localhost:3000/dashboard'}>
+      returnTo={NODE_ENV == 'production' ? (`${REACT_APP_URL}/dashboard`) : 'http://localhost:3000/dashboard'}>
     <React.Suspense fallback={() => <Spinner />} >
     <Grommet theme={BaseStyle} plain full> 
   
