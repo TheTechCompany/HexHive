@@ -9,12 +9,12 @@ import { BaseStyle } from '@hexhive/styles'
 function App(props: any) {
 console.log("FLOW", window.location, process.env)
 
-const { REACT_APP_API, PUBLIC_URL, NODE_ENV } = process.env;
+const { REACT_APP_API, PUBLIC_URL, REACT_APP_URL, NODE_ENV } = process.env;
 
   return (
     <AuthProvider
     authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
-    returnTo={NODE_ENV == 'production' ? ('https://next.hexhive.io/dashboard/flow') : 'http://localhost:3000/dashboard/flow'}>
+    returnTo={NODE_ENV == 'production' ? (`${REACT_APP_URL}/dashboard/flow`) : 'http://localhost:3000/dashboard/flow'}>
  <Grommet  
           full
           style={{display: 'flex'}}

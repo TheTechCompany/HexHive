@@ -51,10 +51,11 @@ jobs:
       - run: lerna bootstrap --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies
 
       - run: export REACT_APP_API="https://api.hexhive.io"
+      - run: export REACT_APP_URL="https://go.hexhive.io"
       - run: export PUBLIC_PATH="https://apps.hexhive.io/${{matrix.apps}}"
       
       - name: Build web
-        run: (export PUBLIC_PATH="https://apps.hexhive.io/${{matrix.apps}}" REACT_APP_API="https://api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies)
+        run: (export PUBLIC_PATH="https://apps.hexhive.io/${{matrix.apps}}" REACT_APP_URL="https://go.hexhive.io" REACT_APP_API="https://api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies)
       
       - name: Configure AWS Creds
         uses: aws-actions/configure-aws-credentials@v1
