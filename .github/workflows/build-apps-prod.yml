@@ -1,0 +1,72 @@
+name: Build Hexhive Apps (Flow + Command)
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  build_root:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.x
+      - run: npm i
+
+      - run: lerna bootstrap --scope @hexhive/root-config --include-dependencies
+
+      - name: Build web
+        run: NODE_ENV=production CI=false REACT_APP_API=https://api.hexhive.io; npm run build:ROOT
+      
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with: 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+      
+      - name: Make Bucket URL
+        run: echo "BUCKET_URL=S3_ROOT_BUCKET" >> $GITHUB_ENV
+
+      - name: Upload new web-build
+        run: |
+          aws s3 sync packages/core-apps/hexhive-io/dist/ s3://${{ secrets[env.BUCKET_URL] }} --delete
+
+
+  build_web:
+    runs-on: ubuntu-latest
+    strategy: 
+      matrix:
+        apps: [hivedashboard, hiveflow, hivecommand]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.x
+      - run: npm i
+
+      - run: lerna bootstrap --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies
+
+      - run: export REACT_APP_API="https://api.hexhive.io"
+      - run: export PUBLIC_PATH="https://apps.hexhive.io/${{matrix.apps}}"
+      
+      - name: Build web
+        run: (export PUBLIC_PATH="https://apps.hexhive.io/${{matrix.apps}}" REACT_APP_API="https://api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies)
+      
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with: 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+      
+      - name: Make Bucket URL
+        run: echo "BUCKET_URL=S3_STAGING_${{matrix.apps}}_BUCKET" | tr a-z A-Z >> $GITHUB_ENV
+
+      - name: Upload new web-build
+        run: |
+          aws s3 sync packages/apps/${{ matrix.apps }}/dist/ s3://${{ secrets.APP_BUCKET }}/${{matrix.apps}} --delete
+
