@@ -15,9 +15,6 @@ jobs:
           node-version: 15.x
 
       - run: npm i
-      - run: lerna bootstrap --scope @hexhive/cas-client
-
-      - run: lerna run build --scope @hexhive/cas-client
 
       - run: lerna bootstrap --scope @hexhive/landing --include-dependencies
 
