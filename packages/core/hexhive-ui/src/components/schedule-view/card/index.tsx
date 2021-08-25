@@ -65,7 +65,11 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
                     <Box
                         pad="xsmall"
                         style={{ paddingBottom: (isEmpty() ? '4px' : undefined), position: 'relative' }} onClick={onClick}>
-                        <Text size="small" weight="bold" className="card-title" >{data?.project.name}</Text>
+                        <Text 
+                            textAlign="center"
+                            size="small" 
+                            weight="bold" 
+                            className="card-title" >{data?.project.name}</Text>
                         <Content
                             users={users || []}
                             data={data} />
