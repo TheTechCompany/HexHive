@@ -119,7 +119,17 @@ const jwks = require('./jwks/jwks.json');
     app.set('view engine', 'ejs');
     app.set('views', path.resolve(__dirname, './views'));
 
-    app.use(helmet())
+
+    const helmetOptions = {
+        contentSecurityPolicy: {
+            useDefaults: true,
+            directives: {
+                'frame-ancestors': ["'self'", "next.hexhive.io", "hexhive.io"]
+            }
+        }
+    }
+
+    app.use(helmet(helmetOptions))
 
 
     app.use(DefaultRouter(oidc)) 
