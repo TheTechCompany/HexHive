@@ -23,7 +23,7 @@ function App() {
   return (
     <AuthProvider
       authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
-      returnTo={NODE_ENV == 'production' ? (PUBLIC_URL || 'https://next.hexhive.io/dashboard/flow') : 'http://localhost:3000/dashboard'}>
+      returnTo={NODE_ENV == 'production' ? ('https://next.hexhive.io/dashboard') : 'http://localhost:3000/dashboard'}>
     <React.Suspense fallback={() => <Spinner />} >
     <Grommet theme={BaseStyle} plain full> 
   

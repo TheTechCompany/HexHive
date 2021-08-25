@@ -41,9 +41,9 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
     const signIn = () => {//?returnTo=${props.returnTo}
         let url = `${props.authorizationServer}/login`
         console.log("RETURN TO", props.returnTo)
-        // if(props.returnTo){
-        //     url += `?returnTo=${props.returnTo}`
-        // }
+        if(props.returnTo){
+            url += `?returnTo=${props.returnTo}`
+        }
         window.location.href = url;
     }
 
