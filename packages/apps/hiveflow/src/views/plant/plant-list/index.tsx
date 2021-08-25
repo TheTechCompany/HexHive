@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import { Box, DataTable } from 'grommet';
 import { PlantHeader } from './header';
-import { useQuery } from '../../../gqless';
+import { useQuery } from '@hexhive/client';
 
 
 export const PlantList: React.FC<any> = (props) => {

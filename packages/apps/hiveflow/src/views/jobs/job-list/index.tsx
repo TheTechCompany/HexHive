@@ -1,4 +1,4 @@
-import { useQuery } from '../../../gqless';
+import { useQuery } from '@hexhive/client';
 import { DataTable, Box, TextInput, Select } from 'grommet';
 import React, {
   Component, useEffect, useState

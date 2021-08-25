@@ -15,7 +15,7 @@ import moment from 'moment';
 
 import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
 
-import { useMutation, useQuery, File, useRefetch } from '../../../gqless';
+import { useMutation, useQuery, File, useRefetch } from '@hexhive/client';
 import { KanbanModal } from './KanbanModal';
 import { dateFromObjectID } from '@hexhive/utils';
 

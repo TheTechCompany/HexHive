@@ -2,7 +2,7 @@ import { Box, ColumnConfig, DataTable } from 'grommet';
 import React, {
   useEffect, useState
 } from 'react';
-import { useQuery } from '../../gqless';
+import { useQuery } from '@hexhive/client';
 
 // import utils from '../../utils';
 import { QuoteHeader } from './header';

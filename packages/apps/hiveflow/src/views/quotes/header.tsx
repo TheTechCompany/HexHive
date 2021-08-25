@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, TextInput, Select } from 'grommet'
-import { Maybe } from '../../gqless';
+import { Maybe } from '@hexhive/client';
 
 export interface QuoteHeaderProps {
     quotes?: any[]

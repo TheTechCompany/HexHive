@@ -6,7 +6,7 @@ import {
    Search as IoSearch
 } from 'grommet-icons'
 import { StaffSearchHeader } from './header';
-import { useQuery } from '../../../gqless';
+import { useQuery } from '@hexhive/client';
 import { idText } from 'typescript';
 
 

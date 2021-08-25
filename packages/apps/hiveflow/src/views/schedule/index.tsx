@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { Box } from 'grommet'
 import { ScheduleView } from '@hexhive/ui';
-import { mutation, useRefetch, useMutation, useQuery, resolved } from '../../gqless';
+import { mutation, useRefetch, useMutation, useQuery, resolved } from '@hexhive/client';
 import moment from 'moment';
 import { schedule as scheduleActions } from '../../actions'
 import { useContext } from 'react';
