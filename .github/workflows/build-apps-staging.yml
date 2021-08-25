@@ -68,5 +68,5 @@ jobs:
 
       - name: Upload new web-build
         run: |
-          aws s3 sync packages/apps/${{ matrix.apps }}/dist/ s3://${{ secrets[env.APP_BUCKET] }}/${{matrix.apps}} --delete
+          aws s3 sync packages/apps/${{ matrix.apps }}/dist/ s3://${{ secrets[env.STAGING_APP_BUCKET] }}/${{matrix.apps}} --delete
 
