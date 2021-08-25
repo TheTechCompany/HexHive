@@ -39,9 +39,9 @@ export const DefaultRouter = () : Router => {
     // router.use('/interaction', InteractionRouter())
     router.use('/oauth', AuthRouter())
 
-    router.use('/api/file', FileRouter(fileManager))
+    router.use('/api/files', FileRouter(fileManager))
     router.get('/login', (req, res) => {
-        res.oidc.login({ returnTo: req.query.returnTo?.toString() || 'https://next.hexhive.io/dashboard' })
+        res.oidc.login({ returnTo: req.query.returnTo?.toString() || process.env.UI_URL || 'https://next.hexhive.io/dashboard' })
     })
 
     router.get('/me', requiresAuth(), async (req, res) => {
