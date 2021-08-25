@@ -4,7 +4,7 @@ import scheduleActions from './schedule';
 const token = window.sessionStorage.getItem('CREDENTIALS_TOKEN');
 
 const inst = axios.create({
-    baseURL: process.env.REACT_APP_API || 'http://localhost:8081',
+    baseURL: process.env.REACT_APP_API || 'http://localhost:7000',
     headers: {
         'Authorization': 'Bearer ' + token
     },

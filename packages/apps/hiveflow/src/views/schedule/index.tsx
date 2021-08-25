@@ -7,12 +7,12 @@ import { mutation, useRefetch, useMutation, useQuery, resolved } from '../../gql
 import moment from 'moment';
 import { schedule as scheduleActions } from '../../actions'
 import { useContext } from 'react';
-import { AuthContext } from '@hexhive/auth-ui';
+import { AuthContext, useAuth } from '@hexhive/auth-ui';
 import { useEffect } from 'react';
 
 export const Schedule : React.FC<any> = (props) =>  {
 
-  const { token, activeUser } = useContext(AuthContext)
+  const { activeUser } = useAuth()
 
   const [ horizon, setHorizon ] = useState<{start: Date, end: Date}>({
     start: new Date( moment(new Date()).startOf('isoWeek').valueOf() ),
@@ -126,13 +126,12 @@ export const Schedule : React.FC<any> = (props) =>  {
   })
 
   useEffect(() => {
-    if(token){
-      scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+      scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, '').then((schedule) => {
         setSchedule(schedule)
         console.log("Schedule", schedule);
       });
-    }
-  }, [token])
+    
+  }, [])
 
   console.log("Schedule view", schedule);
 
@@ -156,7 +155,7 @@ export const Schedule : React.FC<any> = (props) =>  {
             console.log("Horizon", start, end)
             setHorizon({start, end})
 
-            scheduleActions.getScheduleItems({start, end}, token || '').then((schedule) => {
+            scheduleActions.getScheduleItems({start, end}, '').then((schedule) => {
               setSchedule(schedule)
               console.log("Schedule", schedule);
             });
@@ -186,7 +185,7 @@ export const Schedule : React.FC<any> = (props) =>  {
 
               //await refetch(() => query.ScheduleMany)
              
-              scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+              scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, '').then((schedule) => {
                 setSchedule(schedule)
                 console.log("Schedule", schedule);
               });
@@ -203,7 +202,7 @@ export const Schedule : React.FC<any> = (props) =>  {
                 notes: item.notes
              }
             }}).then((data) => {
-              scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, token || '').then((schedule) => {
+              scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, '').then((schedule) => {
                 setSchedule(schedule)
                 console.log("Schedule", schedule);
            
