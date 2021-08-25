@@ -18,8 +18,6 @@
   "exclude": ["src/**/*.test*"],
   "references": [
     {"path": "../../shared/hexhive-styles"},
-    {"path": "../../shared/hexhive-auth-ui"},
-    {"path": "../../shared/hexhive-cas-client"}
-
+    {"path": "../../shared/hexhive-auth-ui"}
   ]
 }
