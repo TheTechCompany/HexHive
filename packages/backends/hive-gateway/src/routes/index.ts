@@ -11,7 +11,7 @@ import { Provider } from 'oidc-provider';
 import { requiresAuth } from 'express-openid-connect';
 // import { InteractionRouter } from './interaction';
 
-const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io']
+const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io', 'https://go.hexhive.io']
 
 export const DefaultRouter = () : Router => {
     const router = Router();
