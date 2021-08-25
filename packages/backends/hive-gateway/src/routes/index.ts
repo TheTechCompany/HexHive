@@ -3,18 +3,20 @@ import { CentralAuthServer } from '@hexhive/auth';
 
 import { AuthRouter } from './auth';
 import { UserRouter } from './user'
-
+import FileRouter from './files'
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { Provider } from 'oidc-provider';
 import { requiresAuth } from 'express-openid-connect';
+import { FileManager } from './files/util';
 // import { InteractionRouter } from './interaction';
 
 const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io', 'https://go.hexhive.io']
 
 export const DefaultRouter = () : Router => {
     const router = Router();
+    const fileManager = new FileManager({url: process.env.IPFS_URL || ''})
     
     const corsOptions = {
         origin: (origin : any, callback: (error: any, result?: any) => void) => {
@@ -37,6 +39,7 @@ export const DefaultRouter = () : Router => {
     // router.use('/interaction', InteractionRouter())
     router.use('/oauth', AuthRouter())
 
+    router.use('/api/file', FileRouter(fileManager))
     router.get('/login', (req, res) => {
         res.oidc.login({ returnTo: req.query.returnTo?.toString() || 'https://next.hexhive.io/dashboard' })
     })

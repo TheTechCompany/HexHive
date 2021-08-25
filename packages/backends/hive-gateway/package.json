@@ -23,6 +23,8 @@
     "express-openid-connect": "^2.5.0",
     "greenlock-express": "^4.0.3",
     "helmet": "^4.6.0",
+    "ipfs-core-types": "^0.7.0",
+    "ipfs-http-client": "^52.0.1",
     "jose": "2",
     "oidc-provider": "^7.6.0",
     "ws": "^8.1.0"
