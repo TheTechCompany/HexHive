@@ -33,7 +33,11 @@ export const IFrameAppliance = () => {
                         <Text>Loading ...</Text>
                     </Box>
                 ) : null}
-                <iframe style={{flex: 1}} onLoad={onLoad} src="https://apps.hexhive.io/element-v1.8.1/#/home" >
+                <iframe 
+                    style={{flex: 1}} 
+                    onLoad={onLoad} 
+                    allow="camera;microphone"
+                    src="https://apps.hexhive.io/element-v1.8.1/#/home" >
 
                 </iframe>
             </Box>
