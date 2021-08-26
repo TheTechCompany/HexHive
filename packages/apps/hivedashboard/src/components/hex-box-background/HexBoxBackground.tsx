@@ -6,11 +6,20 @@ import useResizeAware from 'react-resize-aware';
 import { HexButton } from './HexButton';
 
 const COLORSCHEME = [
-    'rgb(113, 114, 137)',
-    'rgb(167, 181, 153)',
-    'rgb(94, 87, 85)',
-    'rgb(209, 185, 169)',
-    'rgb(180, 180, 210)'
+    'rgb(201, 210, 189)',
+    'rgb(190, 198, 178)',
+    'rgb(179, 187, 163)',
+    'rgb(201, 210, 189)',
+    'rgb(179, 187, 163)',
+    'rgb(190, 198, 178)',
+    'rgb(201, 210, 189)',
+    'rgb(190, 198, 178)',
+    'rgb(179, 187, 163)'
+    // 'rgb(113, 114, 137)',
+    // 'rgb(167, 181, 153)',
+    // 'rgb(94, 87, 85)',
+    // 'rgb(209, 185, 169)',
+    // 'rgb(180, 180, 210)'
 ]
 
 export interface BoxBackgroundProps {
@@ -68,8 +77,8 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
 
     const renderActions = () => {
         //1.74
-        let top = (HALF_HEIGHT - 1.2) / (size.actions / size.background);
-        let mid = (HALF_WIDTH + 0.28 ) /(size.actions / size.background)
+        let top = (HALF_HEIGHT - 2.1) / (size.actions / size.background);
+        let mid = (HALF_WIDTH + 0.42) /(size.actions / size.background)
 
         let action_length = actions.length;
 
@@ -110,21 +119,18 @@ export const HexBoxBackground = styled(BaseBoxBackground)`
 
 position: absolute;
 z-index: 0;
-top: 0;
+top: 60px;
 right: 0;
 left: 0;
 bottom: 0;
-padding-top: 20vh;
-padding-bottom: 20vh;
-padding-left: 15vw;
-padding-right: 15vw;
 
 
 .action-container {
     -webkit-transform-style: preserve-3d;
 
     top: 0;
-    left: 0;
+    left: -10%;
+    right: -10%;
     position: absolute;
     width: 100%;
     height: 100%;

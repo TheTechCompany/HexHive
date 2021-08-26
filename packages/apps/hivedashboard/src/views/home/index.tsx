@@ -45,7 +45,6 @@ export const Home : React.FC<any> = (props) => {
                         path: '/dashboard/matrix'
                     }   
                 ]}/>
-        <Footer />
         </Box>
     );
 }
