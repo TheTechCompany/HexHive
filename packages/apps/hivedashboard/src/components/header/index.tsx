@@ -5,12 +5,14 @@ import { BaseStyle } from '@hexhive/styles';
 
 import {Hivelogo, Profile} from '../../assets';
 import { useAuth } from '@hexhive/auth-ui';
+import { UserDropdown } from '../user-dropdown';
 
 export const BaseHeader : React.FC<any> = (props) => {
     const  {activeUser} = useAuth();
 
     return (
-        <Header 
+        <Header     
+            style={{zIndex: 9}}
             elevation="medium"
             pad={{ vertical: "xsmall", horizontal: 'xsmall'}}
             background="brand"
@@ -25,11 +27,7 @@ export const BaseHeader : React.FC<any> = (props) => {
 } /> */}
             
             </Box>
-            <Box align="center" gap="xsmall" direction="row">
-                {activeUser?.name}
-                <Profile height="25px" />
-
-            </Box>
+            <UserDropdown />
         </Header>
     )
 }

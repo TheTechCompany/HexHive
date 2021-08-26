@@ -102,7 +102,7 @@ const jwks = require('./jwks/jwks.json');
         },
         features: {
             // disable the packaged interactions
-            devInteractions: { enabled: true },
+            devInteractions: { enabled: false },
             introspection: { enabled: true },
             revocation: { enabled: true },
             userinfo: { enabled: true },

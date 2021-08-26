@@ -1,3 +1,4 @@
+import { BaseStyle } from '@hexhive/styles';
 import { Box, Text } from 'grommet';
 import React from 'react';
 import { HexBox } from './HexBox';
@@ -21,7 +22,7 @@ export const HexButton = (props: any) => {
             size={HEX_SIZE} 
             top={props.top * TOP_MULTIPLIER} 
             left={props.left * WIDTH_MULTIPLIER + (props.top % 2 == 0 ? ROW_OFFSET : 0)} 
-            color="white" >
+            color={BaseStyle.global.colors['neutral-1']}>
             {/* <Text weight="bold" color="neutral-4">{props.text}</Text> */}
             {props.logo}
         </HexBox>

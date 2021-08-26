@@ -16,7 +16,8 @@ const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http:/
 
 export const DefaultRouter = () : Router => {
     const router = Router();
-    const fileManager = new FileManager({url: process.env.IPFS_URL || ''})
+    let fileManager
+    if(process.env.IPFS_URL) fileManager = new FileManager({url: process.env.IPFS_URL || ''})
     
     const corsOptions = {
         origin: (origin : any, callback: (error: any, result?: any) => void) => {
@@ -39,7 +40,7 @@ export const DefaultRouter = () : Router => {
     // router.use('/interaction', InteractionRouter())
     router.use('/oauth', AuthRouter())
 
-    router.use('/api/files', FileRouter(fileManager))
+    if(fileManager) router.use('/api/files', FileRouter(fileManager))
     router.get('/login', (req, res) => {
         res.oidc.login({ returnTo: req.query.returnTo?.toString() || process.env.UI_URL || 'https://next.hexhive.io/dashboard' })
     })
