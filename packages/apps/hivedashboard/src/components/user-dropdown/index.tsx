@@ -7,6 +7,7 @@ export const UserDropdown = () => {
     const { activeUser } = useAuth()
     const [ open, setOpen ] = useState<boolean>(false);
     
+    console.log("user dropdown", activeUser)
     return (
         <Box 
             focusIndicator={false}
@@ -19,7 +20,7 @@ export const UserDropdown = () => {
         gap="xsmall" 
         direction="row">
         
-        {activeUser?.name || process.env.NODE_ENV == 'production' ? '' : 'Test User'}
+        {activeUser?.name || process.env.NODE_ENV == 'production' ? activeUser?.name : 'Test User'}
         <Profile height="25px" />
         
         {/* <Box 
