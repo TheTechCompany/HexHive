@@ -34,11 +34,11 @@ export const Home : React.FC<any> = (props) => {
                     //     path: '/dashboard/3d'
                     // },
 
-                    // {
-                    //     title: 'HiveFiles',
-                    //     logo: <Hivefiles />,
-                    //     path: '/dashboard/files'
-                    // },
+                    {
+                        title: 'HiveFiles',
+                        logo: <Hivefiles />,
+                        path: '/dashboard/files'
+                    },
                     {
                         title: 'Matrix',
                         logo: <MatrixLogo />,
