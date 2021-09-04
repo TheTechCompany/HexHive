@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BaseHeader } from '../header';
 
 export const IFrameAppliance = () => {
-    const [ loading, setLoading ] = useState<boolean>(false);
+    const [ loading, setLoading ] = useState<boolean>(true);
     
     const onLoad = () => {
         setLoading(false);
