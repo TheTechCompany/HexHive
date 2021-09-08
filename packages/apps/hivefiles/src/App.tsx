@@ -13,7 +13,6 @@ import { Workflows } from "./views/workflows";
 
 export const App = (props: any)  => {
 
-console.l
   return (
    
   <Box height={'100vh'} width={'100vw'} flex direction="column">
