@@ -425,7 +425,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     }
 
-    const updateTimelinePlan = _.debounce(async (id: string, item: { notes: string, start: Date, end: Date }) => {
+    const updateTimelinePlan = _.debounce(async (id: string, item: { notes?: string, start: Date, end: Date }) => {
         let ix = timeline.map((x) => x.id).indexOf(id);
         let times = timeline.slice();
 
