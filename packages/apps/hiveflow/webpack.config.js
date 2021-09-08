@@ -25,6 +25,16 @@ module.exports = (webpackConfigEnv, argv) => {
     output: {
       publicPath: process.env.PUBLIC_PATH || 'http://localhost:8500/'
     },
+    module: {
+      rules: [
+        {
+          test: /\.m?js/,
+          resolve: {
+              fullySpecified: false,
+          },
+        }
+      ]
+    },
     plugins: [
       new webpack.ProvidePlugin({
         process: 'process/browser',
