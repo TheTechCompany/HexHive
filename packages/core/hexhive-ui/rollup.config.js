@@ -16,7 +16,7 @@ console.log(pkg.peerDependencies)
 
 export default {
   input: './src/index.tsx',
-  external: ['react', 'react-dom', 'lodash', 'react-big-ccalendar', 'style-inject', ...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
+  external: ['react', 'react-dom', 'lodash', '@babylonjs/core', 'react-big-calendar', 'style-inject', ...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
   output: [
     {
       dir: `./dist/`,

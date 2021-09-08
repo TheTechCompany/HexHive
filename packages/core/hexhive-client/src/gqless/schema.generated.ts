@@ -24,6 +24,363 @@ export interface Scalars {
   MongoID: any;
 }
 
+export enum SortDirection {
+  /** Sort by field values in ascending order. */
+  ASC = "ASC",
+  /** Sort by field values in descending order. */
+  DESC = "DESC",
+}
+
+export interface FileSystemConnectInput {
+  files?: Maybe<Array<FileSystemFilesConnectFieldInput>>;
+}
+
+export interface FileSystemConnectWhere {
+  node: FileSystemWhere;
+}
+
+export interface FileSystemCreateInput {
+  name: Scalars["String"];
+  files?: Maybe<FileSystemFilesFieldInput>;
+}
+
+export interface FileSystemDeleteInput {
+  files?: Maybe<Array<FileSystemFilesDeleteFieldInput>>;
+}
+
+export interface FileSystemDisconnectInput {
+  files?: Maybe<Array<FileSystemFilesDisconnectFieldInput>>;
+}
+
+export interface FileSystemFilesConnectFieldInput {
+  where?: Maybe<HiveFileConnectWhere>;
+  connect?: Maybe<Array<HiveFileConnectInput>>;
+}
+
+export interface FileSystemFilesConnectionSort {
+  node?: Maybe<HiveFileSort>;
+}
+
+export interface FileSystemFilesConnectionWhere {
+  AND?: Maybe<Array<FileSystemFilesConnectionWhere>>;
+  OR?: Maybe<Array<FileSystemFilesConnectionWhere>>;
+  node?: Maybe<HiveFileWhere>;
+  node_NOT?: Maybe<HiveFileWhere>;
+}
+
+export interface FileSystemFilesCreateFieldInput {
+  node: HiveFileCreateInput;
+}
+
+export interface FileSystemFilesDeleteFieldInput {
+  where?: Maybe<FileSystemFilesConnectionWhere>;
+  delete?: Maybe<HiveFileDeleteInput>;
+}
+
+export interface FileSystemFilesDisconnectFieldInput {
+  where?: Maybe<FileSystemFilesConnectionWhere>;
+  disconnect?: Maybe<HiveFileDisconnectInput>;
+}
+
+export interface FileSystemFilesFieldInput {
+  create?: Maybe<Array<FileSystemFilesCreateFieldInput>>;
+  connect?: Maybe<Array<FileSystemFilesConnectFieldInput>>;
+}
+
+export interface FileSystemFilesUpdateConnectionInput {
+  node?: Maybe<HiveFileUpdateInput>;
+}
+
+export interface FileSystemFilesUpdateFieldInput {
+  where?: Maybe<FileSystemFilesConnectionWhere>;
+  update?: Maybe<FileSystemFilesUpdateConnectionInput>;
+  connect?: Maybe<Array<FileSystemFilesConnectFieldInput>>;
+  disconnect?: Maybe<Array<FileSystemFilesDisconnectFieldInput>>;
+  create?: Maybe<Array<FileSystemFilesCreateFieldInput>>;
+  delete?: Maybe<Array<FileSystemFilesDeleteFieldInput>>;
+}
+
+export interface FileSystemOptions {
+  /** Specify one or more FileSystemSort objects to sort FileSystems by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<FileSystemSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface FileSystemRelationInput {
+  files?: Maybe<Array<FileSystemFilesCreateFieldInput>>;
+}
+
+/** Fields to sort FileSystems by. The order in which sorts are applied is not guaranteed when specifying many fields in one FileSystemSort object. */
+export interface FileSystemSort {
+  name?: Maybe<SortDirection>;
+}
+
+export interface FileSystemUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  files?: Maybe<Array<FileSystemFilesUpdateFieldInput>>;
+}
+
+export interface FileSystemWhere {
+  OR?: Maybe<Array<FileSystemWhere>>;
+  AND?: Maybe<Array<FileSystemWhere>>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  files?: Maybe<HiveFileWhere>;
+  files_NOT?: Maybe<HiveFileWhere>;
+  filesConnection?: Maybe<FileSystemFilesConnectionWhere>;
+  filesConnection_NOT?: Maybe<FileSystemFilesConnectionWhere>;
+}
+
+export interface HiveFileChildrenConnectFieldInput {
+  where?: Maybe<HiveFileConnectWhere>;
+  connect?: Maybe<Array<HiveFileConnectInput>>;
+}
+
+export interface HiveFileChildrenConnectionSort {
+  node?: Maybe<HiveFileSort>;
+}
+
+export interface HiveFileChildrenConnectionWhere {
+  AND?: Maybe<Array<HiveFileChildrenConnectionWhere>>;
+  OR?: Maybe<Array<HiveFileChildrenConnectionWhere>>;
+  node?: Maybe<HiveFileWhere>;
+  node_NOT?: Maybe<HiveFileWhere>;
+}
+
+export interface HiveFileChildrenCreateFieldInput {
+  node: HiveFileCreateInput;
+}
+
+export interface HiveFileChildrenDeleteFieldInput {
+  where?: Maybe<HiveFileChildrenConnectionWhere>;
+  delete?: Maybe<HiveFileDeleteInput>;
+}
+
+export interface HiveFileChildrenDisconnectFieldInput {
+  where?: Maybe<HiveFileChildrenConnectionWhere>;
+  disconnect?: Maybe<HiveFileDisconnectInput>;
+}
+
+export interface HiveFileChildrenFieldInput {
+  create?: Maybe<Array<HiveFileChildrenCreateFieldInput>>;
+  connect?: Maybe<Array<HiveFileChildrenConnectFieldInput>>;
+}
+
+export interface HiveFileChildrenUpdateConnectionInput {
+  node?: Maybe<HiveFileUpdateInput>;
+}
+
+export interface HiveFileChildrenUpdateFieldInput {
+  where?: Maybe<HiveFileChildrenConnectionWhere>;
+  update?: Maybe<HiveFileChildrenUpdateConnectionInput>;
+  connect?: Maybe<Array<HiveFileChildrenConnectFieldInput>>;
+  disconnect?: Maybe<Array<HiveFileChildrenDisconnectFieldInput>>;
+  create?: Maybe<Array<HiveFileChildrenCreateFieldInput>>;
+  delete?: Maybe<Array<HiveFileChildrenDeleteFieldInput>>;
+}
+
+export interface HiveFileConnectInput {
+  fs?: Maybe<HiveFileFsConnectFieldInput>;
+  parent?: Maybe<HiveFileParentConnectFieldInput>;
+  children?: Maybe<Array<HiveFileChildrenConnectFieldInput>>;
+}
+
+export interface HiveFileConnectWhere {
+  node: HiveFileWhere;
+}
+
+export interface HiveFileCreateInput {
+  name: Scalars["String"];
+  isFolder?: Maybe<Scalars["Boolean"]>;
+  fs?: Maybe<HiveFileFsFieldInput>;
+  parent?: Maybe<HiveFileParentFieldInput>;
+  children?: Maybe<HiveFileChildrenFieldInput>;
+}
+
+export interface HiveFileDeleteInput {
+  fs?: Maybe<HiveFileFsDeleteFieldInput>;
+  parent?: Maybe<HiveFileParentDeleteFieldInput>;
+  children?: Maybe<Array<HiveFileChildrenDeleteFieldInput>>;
+}
+
+export interface HiveFileDisconnectInput {
+  fs?: Maybe<HiveFileFsDisconnectFieldInput>;
+  parent?: Maybe<HiveFileParentDisconnectFieldInput>;
+  children?: Maybe<Array<HiveFileChildrenDisconnectFieldInput>>;
+}
+
+export interface HiveFileFsConnectFieldInput {
+  where?: Maybe<FileSystemConnectWhere>;
+  connect?: Maybe<FileSystemConnectInput>;
+}
+
+export interface HiveFileFsConnectionSort {
+  node?: Maybe<FileSystemSort>;
+}
+
+export interface HiveFileFsConnectionWhere {
+  AND?: Maybe<Array<HiveFileFsConnectionWhere>>;
+  OR?: Maybe<Array<HiveFileFsConnectionWhere>>;
+  node?: Maybe<FileSystemWhere>;
+  node_NOT?: Maybe<FileSystemWhere>;
+}
+
+export interface HiveFileFsCreateFieldInput {
+  node: FileSystemCreateInput;
+}
+
+export interface HiveFileFsDeleteFieldInput {
+  where?: Maybe<HiveFileFsConnectionWhere>;
+  delete?: Maybe<FileSystemDeleteInput>;
+}
+
+export interface HiveFileFsDisconnectFieldInput {
+  where?: Maybe<HiveFileFsConnectionWhere>;
+  disconnect?: Maybe<FileSystemDisconnectInput>;
+}
+
+export interface HiveFileFsFieldInput {
+  create?: Maybe<HiveFileFsCreateFieldInput>;
+  connect?: Maybe<HiveFileFsConnectFieldInput>;
+}
+
+export interface HiveFileFsUpdateConnectionInput {
+  node?: Maybe<FileSystemUpdateInput>;
+}
+
+export interface HiveFileFsUpdateFieldInput {
+  where?: Maybe<HiveFileFsConnectionWhere>;
+  update?: Maybe<HiveFileFsUpdateConnectionInput>;
+  connect?: Maybe<HiveFileFsConnectFieldInput>;
+  disconnect?: Maybe<HiveFileFsDisconnectFieldInput>;
+  create?: Maybe<HiveFileFsCreateFieldInput>;
+  delete?: Maybe<HiveFileFsDeleteFieldInput>;
+}
+
+export interface HiveFileOptions {
+  /** Specify one or more HiveFileSort objects to sort HiveFiles by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<HiveFileSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface HiveFileParentConnectFieldInput {
+  where?: Maybe<HiveFileConnectWhere>;
+  connect?: Maybe<HiveFileConnectInput>;
+}
+
+export interface HiveFileParentConnectionSort {
+  node?: Maybe<HiveFileSort>;
+}
+
+export interface HiveFileParentConnectionWhere {
+  AND?: Maybe<Array<HiveFileParentConnectionWhere>>;
+  OR?: Maybe<Array<HiveFileParentConnectionWhere>>;
+  node?: Maybe<HiveFileWhere>;
+  node_NOT?: Maybe<HiveFileWhere>;
+}
+
+export interface HiveFileParentCreateFieldInput {
+  node: HiveFileCreateInput;
+}
+
+export interface HiveFileParentDeleteFieldInput {
+  where?: Maybe<HiveFileParentConnectionWhere>;
+  delete?: Maybe<HiveFileDeleteInput>;
+}
+
+export interface HiveFileParentDisconnectFieldInput {
+  where?: Maybe<HiveFileParentConnectionWhere>;
+  disconnect?: Maybe<HiveFileDisconnectInput>;
+}
+
+export interface HiveFileParentFieldInput {
+  create?: Maybe<HiveFileParentCreateFieldInput>;
+  connect?: Maybe<HiveFileParentConnectFieldInput>;
+}
+
+export interface HiveFileParentUpdateConnectionInput {
+  node?: Maybe<HiveFileUpdateInput>;
+}
+
+export interface HiveFileParentUpdateFieldInput {
+  where?: Maybe<HiveFileParentConnectionWhere>;
+  update?: Maybe<HiveFileParentUpdateConnectionInput>;
+  connect?: Maybe<HiveFileParentConnectFieldInput>;
+  disconnect?: Maybe<HiveFileParentDisconnectFieldInput>;
+  create?: Maybe<HiveFileParentCreateFieldInput>;
+  delete?: Maybe<HiveFileParentDeleteFieldInput>;
+}
+
+export interface HiveFileRelationInput {
+  fs?: Maybe<HiveFileFsCreateFieldInput>;
+  parent?: Maybe<HiveFileParentCreateFieldInput>;
+  children?: Maybe<Array<HiveFileChildrenCreateFieldInput>>;
+}
+
+/** Fields to sort HiveFiles by. The order in which sorts are applied is not guaranteed when specifying many fields in one HiveFileSort object. */
+export interface HiveFileSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  isFolder?: Maybe<SortDirection>;
+}
+
+export interface HiveFileUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  isFolder?: Maybe<Scalars["Boolean"]>;
+  fs?: Maybe<HiveFileFsUpdateFieldInput>;
+  parent?: Maybe<HiveFileParentUpdateFieldInput>;
+  children?: Maybe<Array<HiveFileChildrenUpdateFieldInput>>;
+}
+
+export interface HiveFileWhere {
+  OR?: Maybe<Array<HiveFileWhere>>;
+  AND?: Maybe<Array<HiveFileWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  isFolder?: Maybe<Scalars["Boolean"]>;
+  isFolder_NOT?: Maybe<Scalars["Boolean"]>;
+  fs?: Maybe<FileSystemWhere>;
+  fs_NOT?: Maybe<FileSystemWhere>;
+  parent?: Maybe<HiveFileWhere>;
+  parent_NOT?: Maybe<HiveFileWhere>;
+  children?: Maybe<HiveFileWhere>;
+  children_NOT?: Maybe<HiveFileWhere>;
+  fsConnection?: Maybe<HiveFileFsConnectionWhere>;
+  fsConnection_NOT?: Maybe<HiveFileFsConnectionWhere>;
+  parentConnection?: Maybe<HiveFileParentConnectionWhere>;
+  parentConnection_NOT?: Maybe<HiveFileParentConnectionWhere>;
+  childrenConnection?: Maybe<HiveFileChildrenConnectionWhere>;
+  childrenConnection_NOT?: Maybe<HiveFileChildrenConnectionWhere>;
+}
+
 export interface ProjectInput {
   _id?: Maybe<Scalars["ID"]>;
   id?: Maybe<Scalars["String"]>;
@@ -2188,13 +2545,14 @@ export interface FilterRemoveManyStack_idOperatorsInput {
 }
 
 export const scalarsEnumsHash: import("gqless").ScalarsEnumsHash = {
+  Int: true,
   ID: true,
   String: true,
+  Boolean: true,
+  SortDirection: true,
   Date: true,
   Float: true,
-  Boolean: true,
   JSON: true,
-  Int: true,
   MongoID: true,
   SortFindByIdsDeviceInput: true,
   SortFindOneDeviceInput: true,
@@ -2235,6 +2593,16 @@ export const scalarsEnumsHash: import("gqless").ScalarsEnumsHash = {
 export const generatedSchema = {
   query: {
     __typename: { __type: "String!" },
+    fileSystems: {
+      __type: "[FileSystem!]!",
+      __args: { where: "FileSystemWhere", options: "FileSystemOptions" },
+    },
+    fileSystemsCount: { __type: "Int!", __args: { where: "FileSystemWhere" } },
+    hiveFiles: {
+      __type: "[HiveFile!]!",
+      __args: { where: "HiveFileWhere", options: "HiveFileOptions" },
+    },
+    hiveFilesCount: { __type: "Int!", __args: { where: "HiveFileWhere" } },
     ProjectById: { __type: "Project", __args: { id: "ID" } },
     ProjectMany: {
       __type: "[Project]",
@@ -2710,6 +3078,44 @@ export const generatedSchema = {
   },
   mutation: {
     __typename: { __type: "String!" },
+    createFileSystems: {
+      __type: "CreateFileSystemsMutationResponse!",
+      __args: { input: "[FileSystemCreateInput!]!" },
+    },
+    deleteFileSystems: {
+      __type: "DeleteInfo!",
+      __args: { where: "FileSystemWhere", delete: "FileSystemDeleteInput" },
+    },
+    updateFileSystems: {
+      __type: "UpdateFileSystemsMutationResponse!",
+      __args: {
+        where: "FileSystemWhere",
+        update: "FileSystemUpdateInput",
+        connect: "FileSystemConnectInput",
+        disconnect: "FileSystemDisconnectInput",
+        create: "FileSystemRelationInput",
+        delete: "FileSystemDeleteInput",
+      },
+    },
+    createHiveFiles: {
+      __type: "CreateHiveFilesMutationResponse!",
+      __args: { input: "[HiveFileCreateInput!]!" },
+    },
+    deleteHiveFiles: {
+      __type: "DeleteInfo!",
+      __args: { where: "HiveFileWhere", delete: "HiveFileDeleteInput" },
+    },
+    updateHiveFiles: {
+      __type: "UpdateHiveFilesMutationResponse!",
+      __args: {
+        where: "HiveFileWhere",
+        update: "HiveFileUpdateInput",
+        connect: "HiveFileConnectInput",
+        disconnect: "HiveFileDisconnectInput",
+        create: "HiveFileRelationInput",
+        delete: "HiveFileDeleteInput",
+      },
+    },
     addProject: { __type: "Project", __args: { project: "ProjectInput" } },
     updateProject: {
       __type: "Project",
@@ -3024,6 +3430,431 @@ export const generatedSchema = {
     },
   },
   subscription: {},
+  CreateFileSystemsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    fileSystems: { __type: "[FileSystem!]!" },
+  },
+  CreateHiveFilesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    hiveFiles: { __type: "[HiveFile!]!" },
+  },
+  CreateInfo: {
+    __typename: { __type: "String!" },
+    bookmark: { __type: "String" },
+    nodesCreated: { __type: "Int!" },
+    relationshipsCreated: { __type: "Int!" },
+  },
+  DeleteInfo: {
+    __typename: { __type: "String!" },
+    bookmark: { __type: "String" },
+    nodesDeleted: { __type: "Int!" },
+    relationshipsDeleted: { __type: "Int!" },
+  },
+  FileSystem: {
+    __typename: { __type: "String!" },
+    name: { __type: "String!" },
+    files: {
+      __type: "[HiveFile!]!",
+      __args: { where: "HiveFileWhere", options: "HiveFileOptions" },
+    },
+    filesConnection: {
+      __type: "FileSystemFilesConnection!",
+      __args: {
+        where: "FileSystemFilesConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[FileSystemFilesConnectionSort!]",
+      },
+    },
+  },
+  FileSystemFilesConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[FileSystemFilesRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  FileSystemFilesRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveFile!" },
+  },
+  HiveFile: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    name: { __type: "String!" },
+    isFolder: { __type: "Boolean" },
+    path_id: { __type: "String" },
+    path: { __type: "String" },
+    fs: {
+      __type: "FileSystem",
+      __args: { where: "FileSystemWhere", options: "FileSystemOptions" },
+    },
+    parent: {
+      __type: "HiveFile",
+      __args: { where: "HiveFileWhere", options: "HiveFileOptions" },
+    },
+    children: {
+      __type: "[HiveFile]",
+      __args: { where: "HiveFileWhere", options: "HiveFileOptions" },
+    },
+    fsConnection: {
+      __type: "HiveFileFsConnection!",
+      __args: {
+        where: "HiveFileFsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HiveFileFsConnectionSort!]",
+      },
+    },
+    parentConnection: {
+      __type: "HiveFileParentConnection!",
+      __args: {
+        where: "HiveFileParentConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HiveFileParentConnectionSort!]",
+      },
+    },
+    childrenConnection: {
+      __type: "HiveFileChildrenConnection!",
+      __args: {
+        where: "HiveFileChildrenConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HiveFileChildrenConnectionSort!]",
+      },
+    },
+  },
+  HiveFileChildrenConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HiveFileChildrenRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HiveFileChildrenRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveFile!" },
+  },
+  HiveFileFsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HiveFileFsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HiveFileFsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "FileSystem!" },
+  },
+  HiveFileParentConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HiveFileParentRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HiveFileParentRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveFile!" },
+  },
+  PageInfo: {
+    __typename: { __type: "String!" },
+    hasNextPage: { __type: "Boolean!" },
+    hasPreviousPage: { __type: "Boolean!" },
+    startCursor: { __type: "String" },
+    endCursor: { __type: "String" },
+  },
+  UpdateFileSystemsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    fileSystems: { __type: "[FileSystem!]!" },
+  },
+  UpdateHiveFilesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    hiveFiles: { __type: "[HiveFile!]!" },
+  },
+  UpdateInfo: {
+    __typename: { __type: "String!" },
+    bookmark: { __type: "String" },
+    nodesCreated: { __type: "Int!" },
+    nodesDeleted: { __type: "Int!" },
+    relationshipsCreated: { __type: "Int!" },
+    relationshipsDeleted: { __type: "Int!" },
+  },
+  FileSystemConnectInput: {
+    files: { __type: "[FileSystemFilesConnectFieldInput!]" },
+  },
+  FileSystemConnectWhere: { node: { __type: "FileSystemWhere!" } },
+  FileSystemCreateInput: {
+    name: { __type: "String!" },
+    files: { __type: "FileSystemFilesFieldInput" },
+  },
+  FileSystemDeleteInput: {
+    files: { __type: "[FileSystemFilesDeleteFieldInput!]" },
+  },
+  FileSystemDisconnectInput: {
+    files: { __type: "[FileSystemFilesDisconnectFieldInput!]" },
+  },
+  FileSystemFilesConnectFieldInput: {
+    where: { __type: "HiveFileConnectWhere" },
+    connect: { __type: "[HiveFileConnectInput!]" },
+  },
+  FileSystemFilesConnectionSort: { node: { __type: "HiveFileSort" } },
+  FileSystemFilesConnectionWhere: {
+    AND: { __type: "[FileSystemFilesConnectionWhere!]" },
+    OR: { __type: "[FileSystemFilesConnectionWhere!]" },
+    node: { __type: "HiveFileWhere" },
+    node_NOT: { __type: "HiveFileWhere" },
+  },
+  FileSystemFilesCreateFieldInput: { node: { __type: "HiveFileCreateInput!" } },
+  FileSystemFilesDeleteFieldInput: {
+    where: { __type: "FileSystemFilesConnectionWhere" },
+    delete: { __type: "HiveFileDeleteInput" },
+  },
+  FileSystemFilesDisconnectFieldInput: {
+    where: { __type: "FileSystemFilesConnectionWhere" },
+    disconnect: { __type: "HiveFileDisconnectInput" },
+  },
+  FileSystemFilesFieldInput: {
+    create: { __type: "[FileSystemFilesCreateFieldInput!]" },
+    connect: { __type: "[FileSystemFilesConnectFieldInput!]" },
+  },
+  FileSystemFilesUpdateConnectionInput: {
+    node: { __type: "HiveFileUpdateInput" },
+  },
+  FileSystemFilesUpdateFieldInput: {
+    where: { __type: "FileSystemFilesConnectionWhere" },
+    update: { __type: "FileSystemFilesUpdateConnectionInput" },
+    connect: { __type: "[FileSystemFilesConnectFieldInput!]" },
+    disconnect: { __type: "[FileSystemFilesDisconnectFieldInput!]" },
+    create: { __type: "[FileSystemFilesCreateFieldInput!]" },
+    delete: { __type: "[FileSystemFilesDeleteFieldInput!]" },
+  },
+  FileSystemOptions: {
+    sort: { __type: "[FileSystemSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  FileSystemRelationInput: {
+    files: { __type: "[FileSystemFilesCreateFieldInput!]" },
+  },
+  FileSystemSort: { name: { __type: "SortDirection" } },
+  FileSystemUpdateInput: {
+    name: { __type: "String" },
+    files: { __type: "[FileSystemFilesUpdateFieldInput!]" },
+  },
+  FileSystemWhere: {
+    OR: { __type: "[FileSystemWhere!]" },
+    AND: { __type: "[FileSystemWhere!]" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    files: { __type: "HiveFileWhere" },
+    files_NOT: { __type: "HiveFileWhere" },
+    filesConnection: { __type: "FileSystemFilesConnectionWhere" },
+    filesConnection_NOT: { __type: "FileSystemFilesConnectionWhere" },
+  },
+  HiveFileChildrenConnectFieldInput: {
+    where: { __type: "HiveFileConnectWhere" },
+    connect: { __type: "[HiveFileConnectInput!]" },
+  },
+  HiveFileChildrenConnectionSort: { node: { __type: "HiveFileSort" } },
+  HiveFileChildrenConnectionWhere: {
+    AND: { __type: "[HiveFileChildrenConnectionWhere!]" },
+    OR: { __type: "[HiveFileChildrenConnectionWhere!]" },
+    node: { __type: "HiveFileWhere" },
+    node_NOT: { __type: "HiveFileWhere" },
+  },
+  HiveFileChildrenCreateFieldInput: {
+    node: { __type: "HiveFileCreateInput!" },
+  },
+  HiveFileChildrenDeleteFieldInput: {
+    where: { __type: "HiveFileChildrenConnectionWhere" },
+    delete: { __type: "HiveFileDeleteInput" },
+  },
+  HiveFileChildrenDisconnectFieldInput: {
+    where: { __type: "HiveFileChildrenConnectionWhere" },
+    disconnect: { __type: "HiveFileDisconnectInput" },
+  },
+  HiveFileChildrenFieldInput: {
+    create: { __type: "[HiveFileChildrenCreateFieldInput!]" },
+    connect: { __type: "[HiveFileChildrenConnectFieldInput!]" },
+  },
+  HiveFileChildrenUpdateConnectionInput: {
+    node: { __type: "HiveFileUpdateInput" },
+  },
+  HiveFileChildrenUpdateFieldInput: {
+    where: { __type: "HiveFileChildrenConnectionWhere" },
+    update: { __type: "HiveFileChildrenUpdateConnectionInput" },
+    connect: { __type: "[HiveFileChildrenConnectFieldInput!]" },
+    disconnect: { __type: "[HiveFileChildrenDisconnectFieldInput!]" },
+    create: { __type: "[HiveFileChildrenCreateFieldInput!]" },
+    delete: { __type: "[HiveFileChildrenDeleteFieldInput!]" },
+  },
+  HiveFileConnectInput: {
+    fs: { __type: "HiveFileFsConnectFieldInput" },
+    parent: { __type: "HiveFileParentConnectFieldInput" },
+    children: { __type: "[HiveFileChildrenConnectFieldInput!]" },
+  },
+  HiveFileConnectWhere: { node: { __type: "HiveFileWhere!" } },
+  HiveFileCreateInput: {
+    name: { __type: "String!" },
+    isFolder: { __type: "Boolean" },
+    fs: { __type: "HiveFileFsFieldInput" },
+    parent: { __type: "HiveFileParentFieldInput" },
+    children: { __type: "HiveFileChildrenFieldInput" },
+  },
+  HiveFileDeleteInput: {
+    fs: { __type: "HiveFileFsDeleteFieldInput" },
+    parent: { __type: "HiveFileParentDeleteFieldInput" },
+    children: { __type: "[HiveFileChildrenDeleteFieldInput!]" },
+  },
+  HiveFileDisconnectInput: {
+    fs: { __type: "HiveFileFsDisconnectFieldInput" },
+    parent: { __type: "HiveFileParentDisconnectFieldInput" },
+    children: { __type: "[HiveFileChildrenDisconnectFieldInput!]" },
+  },
+  HiveFileFsConnectFieldInput: {
+    where: { __type: "FileSystemConnectWhere" },
+    connect: { __type: "FileSystemConnectInput" },
+  },
+  HiveFileFsConnectionSort: { node: { __type: "FileSystemSort" } },
+  HiveFileFsConnectionWhere: {
+    AND: { __type: "[HiveFileFsConnectionWhere!]" },
+    OR: { __type: "[HiveFileFsConnectionWhere!]" },
+    node: { __type: "FileSystemWhere" },
+    node_NOT: { __type: "FileSystemWhere" },
+  },
+  HiveFileFsCreateFieldInput: { node: { __type: "FileSystemCreateInput!" } },
+  HiveFileFsDeleteFieldInput: {
+    where: { __type: "HiveFileFsConnectionWhere" },
+    delete: { __type: "FileSystemDeleteInput" },
+  },
+  HiveFileFsDisconnectFieldInput: {
+    where: { __type: "HiveFileFsConnectionWhere" },
+    disconnect: { __type: "FileSystemDisconnectInput" },
+  },
+  HiveFileFsFieldInput: {
+    create: { __type: "HiveFileFsCreateFieldInput" },
+    connect: { __type: "HiveFileFsConnectFieldInput" },
+  },
+  HiveFileFsUpdateConnectionInput: {
+    node: { __type: "FileSystemUpdateInput" },
+  },
+  HiveFileFsUpdateFieldInput: {
+    where: { __type: "HiveFileFsConnectionWhere" },
+    update: { __type: "HiveFileFsUpdateConnectionInput" },
+    connect: { __type: "HiveFileFsConnectFieldInput" },
+    disconnect: { __type: "HiveFileFsDisconnectFieldInput" },
+    create: { __type: "HiveFileFsCreateFieldInput" },
+    delete: { __type: "HiveFileFsDeleteFieldInput" },
+  },
+  HiveFileOptions: {
+    sort: { __type: "[HiveFileSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  HiveFileParentConnectFieldInput: {
+    where: { __type: "HiveFileConnectWhere" },
+    connect: { __type: "HiveFileConnectInput" },
+  },
+  HiveFileParentConnectionSort: { node: { __type: "HiveFileSort" } },
+  HiveFileParentConnectionWhere: {
+    AND: { __type: "[HiveFileParentConnectionWhere!]" },
+    OR: { __type: "[HiveFileParentConnectionWhere!]" },
+    node: { __type: "HiveFileWhere" },
+    node_NOT: { __type: "HiveFileWhere" },
+  },
+  HiveFileParentCreateFieldInput: { node: { __type: "HiveFileCreateInput!" } },
+  HiveFileParentDeleteFieldInput: {
+    where: { __type: "HiveFileParentConnectionWhere" },
+    delete: { __type: "HiveFileDeleteInput" },
+  },
+  HiveFileParentDisconnectFieldInput: {
+    where: { __type: "HiveFileParentConnectionWhere" },
+    disconnect: { __type: "HiveFileDisconnectInput" },
+  },
+  HiveFileParentFieldInput: {
+    create: { __type: "HiveFileParentCreateFieldInput" },
+    connect: { __type: "HiveFileParentConnectFieldInput" },
+  },
+  HiveFileParentUpdateConnectionInput: {
+    node: { __type: "HiveFileUpdateInput" },
+  },
+  HiveFileParentUpdateFieldInput: {
+    where: { __type: "HiveFileParentConnectionWhere" },
+    update: { __type: "HiveFileParentUpdateConnectionInput" },
+    connect: { __type: "HiveFileParentConnectFieldInput" },
+    disconnect: { __type: "HiveFileParentDisconnectFieldInput" },
+    create: { __type: "HiveFileParentCreateFieldInput" },
+    delete: { __type: "HiveFileParentDeleteFieldInput" },
+  },
+  HiveFileRelationInput: {
+    fs: { __type: "HiveFileFsCreateFieldInput" },
+    parent: { __type: "HiveFileParentCreateFieldInput" },
+    children: { __type: "[HiveFileChildrenCreateFieldInput!]" },
+  },
+  HiveFileSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    isFolder: { __type: "SortDirection" },
+  },
+  HiveFileUpdateInput: {
+    name: { __type: "String" },
+    isFolder: { __type: "Boolean" },
+    fs: { __type: "HiveFileFsUpdateFieldInput" },
+    parent: { __type: "HiveFileParentUpdateFieldInput" },
+    children: { __type: "[HiveFileChildrenUpdateFieldInput!]" },
+  },
+  HiveFileWhere: {
+    OR: { __type: "[HiveFileWhere!]" },
+    AND: { __type: "[HiveFileWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    isFolder: { __type: "Boolean" },
+    isFolder_NOT: { __type: "Boolean" },
+    fs: { __type: "FileSystemWhere" },
+    fs_NOT: { __type: "FileSystemWhere" },
+    parent: { __type: "HiveFileWhere" },
+    parent_NOT: { __type: "HiveFileWhere" },
+    children: { __type: "HiveFileWhere" },
+    children_NOT: { __type: "HiveFileWhere" },
+    fsConnection: { __type: "HiveFileFsConnectionWhere" },
+    fsConnection_NOT: { __type: "HiveFileFsConnectionWhere" },
+    parentConnection: { __type: "HiveFileParentConnectionWhere" },
+    parentConnection_NOT: { __type: "HiveFileParentConnectionWhere" },
+    childrenConnection: { __type: "HiveFileChildrenConnectionWhere" },
+    childrenConnection_NOT: { __type: "HiveFileChildrenConnectionWhere" },
+  },
   Project: {
     __typename: { __type: "String!" },
     id: { __type: "ID" },
@@ -3276,13 +4107,6 @@ export const generatedSchema = {
     count: { __type: "Int!" },
     pageInfo: { __type: "PageInfo!" },
     edges: { __type: "[DeviceEdge!]!" },
-  },
-  PageInfo: {
-    __typename: { __type: "String!" },
-    hasNextPage: { __type: "Boolean!" },
-    hasPreviousPage: { __type: "Boolean!" },
-    startCursor: { __type: "String" },
-    endCursor: { __type: "String" },
   },
   DeviceEdge: {
     __typename: { __type: "String!" },
@@ -5271,6 +6095,20 @@ export const generatedSchema = {
 
 export interface Query {
   __typename: "Query" | undefined;
+  fileSystems: (args?: {
+    where?: Maybe<FileSystemWhere>;
+    options?: Maybe<FileSystemOptions>;
+  }) => Array<FileSystem>;
+  fileSystemsCount: (args?: {
+    where?: Maybe<FileSystemWhere>;
+  }) => ScalarsEnums["Int"];
+  hiveFiles: (args?: {
+    where?: Maybe<HiveFileWhere>;
+    options?: Maybe<HiveFileOptions>;
+  }) => Array<HiveFile>;
+  hiveFilesCount: (args?: {
+    where?: Maybe<HiveFileWhere>;
+  }) => ScalarsEnums["Int"];
   ProjectById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Project>;
   ProjectMany: (args?: {
     status?: Maybe<Scalars["String"]>;
@@ -5892,6 +6730,36 @@ export interface Query {
 
 export interface Mutation {
   __typename: "Mutation" | undefined;
+  createFileSystems: (args: {
+    input: Array<FileSystemCreateInput>;
+  }) => CreateFileSystemsMutationResponse;
+  deleteFileSystems: (args?: {
+    where?: Maybe<FileSystemWhere>;
+    delete?: Maybe<FileSystemDeleteInput>;
+  }) => DeleteInfo;
+  updateFileSystems: (args?: {
+    where?: Maybe<FileSystemWhere>;
+    update?: Maybe<FileSystemUpdateInput>;
+    connect?: Maybe<FileSystemConnectInput>;
+    disconnect?: Maybe<FileSystemDisconnectInput>;
+    create?: Maybe<FileSystemRelationInput>;
+    delete?: Maybe<FileSystemDeleteInput>;
+  }) => UpdateFileSystemsMutationResponse;
+  createHiveFiles: (args: {
+    input: Array<HiveFileCreateInput>;
+  }) => CreateHiveFilesMutationResponse;
+  deleteHiveFiles: (args?: {
+    where?: Maybe<HiveFileWhere>;
+    delete?: Maybe<HiveFileDeleteInput>;
+  }) => DeleteInfo;
+  updateHiveFiles: (args?: {
+    where?: Maybe<HiveFileWhere>;
+    update?: Maybe<HiveFileUpdateInput>;
+    connect?: Maybe<HiveFileConnectInput>;
+    disconnect?: Maybe<HiveFileDisconnectInput>;
+    create?: Maybe<HiveFileRelationInput>;
+    delete?: Maybe<HiveFileDeleteInput>;
+  }) => UpdateHiveFilesMutationResponse;
   addProject: (args?: { project?: Maybe<ProjectInput> }) => Maybe<Project>;
   updateProject: (args?: {
     id?: Maybe<Scalars["String"]>;
@@ -6366,6 +7234,182 @@ export interface Subscription {
   __typename: "Subscription" | undefined;
 }
 
+export interface CreateFileSystemsMutationResponse {
+  __typename: "CreateFileSystemsMutationResponse" | undefined;
+  info: CreateInfo;
+  fileSystems: Array<FileSystem>;
+}
+
+export interface CreateHiveFilesMutationResponse {
+  __typename: "CreateHiveFilesMutationResponse" | undefined;
+  info: CreateInfo;
+  hiveFiles: Array<HiveFile>;
+}
+
+export interface CreateInfo {
+  __typename: "CreateInfo" | undefined;
+  bookmark?: Maybe<ScalarsEnums["String"]>;
+  nodesCreated: ScalarsEnums["Int"];
+  relationshipsCreated: ScalarsEnums["Int"];
+}
+
+export interface DeleteInfo {
+  __typename: "DeleteInfo" | undefined;
+  bookmark?: Maybe<ScalarsEnums["String"]>;
+  nodesDeleted: ScalarsEnums["Int"];
+  relationshipsDeleted: ScalarsEnums["Int"];
+}
+
+export interface FileSystem {
+  __typename: "FileSystem" | undefined;
+  name: ScalarsEnums["String"];
+  files: (args?: {
+    where?: Maybe<HiveFileWhere>;
+    options?: Maybe<HiveFileOptions>;
+  }) => Array<HiveFile>;
+  filesConnection: (args?: {
+    where?: Maybe<FileSystemFilesConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<FileSystemFilesConnectionSort>>;
+  }) => FileSystemFilesConnection;
+}
+
+export interface FileSystemFilesConnection {
+  __typename: "FileSystemFilesConnection" | undefined;
+  edges: Array<FileSystemFilesRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface FileSystemFilesRelationship {
+  __typename: "FileSystemFilesRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: HiveFile;
+}
+
+export interface HiveFile {
+  __typename: "HiveFile" | undefined;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  name: ScalarsEnums["String"];
+  isFolder?: Maybe<ScalarsEnums["Boolean"]>;
+  path_id?: Maybe<ScalarsEnums["String"]>;
+  path?: Maybe<ScalarsEnums["String"]>;
+  fs: (args?: {
+    where?: Maybe<FileSystemWhere>;
+    options?: Maybe<FileSystemOptions>;
+  }) => Maybe<FileSystem>;
+  parent: (args?: {
+    where?: Maybe<HiveFileWhere>;
+    options?: Maybe<HiveFileOptions>;
+  }) => Maybe<HiveFile>;
+  children: (args?: {
+    where?: Maybe<HiveFileWhere>;
+    options?: Maybe<HiveFileOptions>;
+  }) => Maybe<Array<Maybe<HiveFile>>>;
+  fsConnection: (args?: {
+    where?: Maybe<HiveFileFsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HiveFileFsConnectionSort>>;
+  }) => HiveFileFsConnection;
+  parentConnection: (args?: {
+    where?: Maybe<HiveFileParentConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HiveFileParentConnectionSort>>;
+  }) => HiveFileParentConnection;
+  childrenConnection: (args?: {
+    where?: Maybe<HiveFileChildrenConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HiveFileChildrenConnectionSort>>;
+  }) => HiveFileChildrenConnection;
+}
+
+export interface HiveFileChildrenConnection {
+  __typename: "HiveFileChildrenConnection" | undefined;
+  edges: Array<HiveFileChildrenRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HiveFileChildrenRelationship {
+  __typename: "HiveFileChildrenRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: HiveFile;
+}
+
+export interface HiveFileFsConnection {
+  __typename: "HiveFileFsConnection" | undefined;
+  edges: Array<HiveFileFsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HiveFileFsRelationship {
+  __typename: "HiveFileFsRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: FileSystem;
+}
+
+export interface HiveFileParentConnection {
+  __typename: "HiveFileParentConnection" | undefined;
+  edges: Array<HiveFileParentRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HiveFileParentRelationship {
+  __typename: "HiveFileParentRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: HiveFile;
+}
+
+/**
+ * Information about pagination in a connection.
+ */
+export interface PageInfo {
+  __typename: "PageInfo" | undefined;
+  /**
+   * When paginating forwards, are there more items?
+   */
+  hasNextPage: ScalarsEnums["Boolean"];
+  /**
+   * When paginating backwards, are there more items?
+   */
+  hasPreviousPage: ScalarsEnums["Boolean"];
+  /**
+   * When paginating backwards, the cursor to continue.
+   */
+  startCursor?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * When paginating forwards, the cursor to continue.
+   */
+  endCursor?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface UpdateFileSystemsMutationResponse {
+  __typename: "UpdateFileSystemsMutationResponse" | undefined;
+  info: UpdateInfo;
+  fileSystems: Array<FileSystem>;
+}
+
+export interface UpdateHiveFilesMutationResponse {
+  __typename: "UpdateHiveFilesMutationResponse" | undefined;
+  info: UpdateInfo;
+  hiveFiles: Array<HiveFile>;
+}
+
+export interface UpdateInfo {
+  __typename: "UpdateInfo" | undefined;
+  bookmark?: Maybe<ScalarsEnums["String"]>;
+  nodesCreated: ScalarsEnums["Int"];
+  nodesDeleted: ScalarsEnums["Int"];
+  relationshipsCreated: ScalarsEnums["Int"];
+  relationshipsDeleted: ScalarsEnums["Int"];
+}
+
 export interface Project {
   __typename: "Project" | undefined;
   id?: Maybe<ScalarsEnums["ID"]>;
@@ -6562,29 +7606,6 @@ export interface DeviceConnection {
    * Information to aid in pagination.
    */
   edges: Array<DeviceEdge>;
-}
-
-/**
- * Information about pagination in a connection.
- */
-export interface PageInfo {
-  __typename: "PageInfo" | undefined;
-  /**
-   * When paginating forwards, are there more items?
-   */
-  hasNextPage: ScalarsEnums["Boolean"];
-  /**
-   * When paginating backwards, are there more items?
-   */
-  hasPreviousPage: ScalarsEnums["Boolean"];
-  /**
-   * When paginating backwards, the cursor to continue.
-   */
-  startCursor?: Maybe<ScalarsEnums["String"]>;
-  /**
-   * When paginating forwards, the cursor to continue.
-   */
-  endCursor?: Maybe<ScalarsEnums["String"]>;
 }
 
 /**
@@ -7562,6 +8583,24 @@ export interface SchemaObjectTypes {
   Query: Query;
   Mutation: Mutation;
   Subscription: Subscription;
+  CreateFileSystemsMutationResponse: CreateFileSystemsMutationResponse;
+  CreateHiveFilesMutationResponse: CreateHiveFilesMutationResponse;
+  CreateInfo: CreateInfo;
+  DeleteInfo: DeleteInfo;
+  FileSystem: FileSystem;
+  FileSystemFilesConnection: FileSystemFilesConnection;
+  FileSystemFilesRelationship: FileSystemFilesRelationship;
+  HiveFile: HiveFile;
+  HiveFileChildrenConnection: HiveFileChildrenConnection;
+  HiveFileChildrenRelationship: HiveFileChildrenRelationship;
+  HiveFileFsConnection: HiveFileFsConnection;
+  HiveFileFsRelationship: HiveFileFsRelationship;
+  HiveFileParentConnection: HiveFileParentConnection;
+  HiveFileParentRelationship: HiveFileParentRelationship;
+  PageInfo: PageInfo;
+  UpdateFileSystemsMutationResponse: UpdateFileSystemsMutationResponse;
+  UpdateHiveFilesMutationResponse: UpdateHiveFilesMutationResponse;
+  UpdateInfo: UpdateInfo;
   Project: Project;
   File: File;
   User: User;
@@ -7581,7 +8620,6 @@ export interface SchemaObjectTypes {
   ProgramIo: ProgramIo;
   Device: Device;
   DeviceConnection: DeviceConnection;
-  PageInfo: PageInfo;
   DeviceEdge: DeviceEdge;
   DevicePagination: DevicePagination;
   PaginationInfo: PaginationInfo;
@@ -7652,6 +8690,24 @@ export type SchemaObjectTypesNames =
   | "Query"
   | "Mutation"
   | "Subscription"
+  | "CreateFileSystemsMutationResponse"
+  | "CreateHiveFilesMutationResponse"
+  | "CreateInfo"
+  | "DeleteInfo"
+  | "FileSystem"
+  | "FileSystemFilesConnection"
+  | "FileSystemFilesRelationship"
+  | "HiveFile"
+  | "HiveFileChildrenConnection"
+  | "HiveFileChildrenRelationship"
+  | "HiveFileFsConnection"
+  | "HiveFileFsRelationship"
+  | "HiveFileParentConnection"
+  | "HiveFileParentRelationship"
+  | "PageInfo"
+  | "UpdateFileSystemsMutationResponse"
+  | "UpdateHiveFilesMutationResponse"
+  | "UpdateInfo"
   | "Project"
   | "File"
   | "User"
@@ -7671,7 +8727,6 @@ export type SchemaObjectTypesNames =
   | "ProgramIo"
   | "Device"
   | "DeviceConnection"
-  | "PageInfo"
   | "DeviceEdge"
   | "DevicePagination"
   | "PaginationInfo"
@@ -7756,6 +8811,7 @@ export type MakeNullable<T> = {
 };
 
 export interface ScalarsEnums extends MakeNullable<Scalars> {
+  SortDirection: SortDirection | undefined;
   SortFindByIdsDeviceInput: SortFindByIdsDeviceInput | undefined;
   SortFindOneDeviceInput: SortFindOneDeviceInput | undefined;
   SortFindManyDeviceInput: SortFindManyDeviceInput | undefined;

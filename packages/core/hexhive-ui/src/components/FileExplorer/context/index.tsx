@@ -6,7 +6,9 @@ import { IFile } from '../types/file';
 export interface IFileExplorerContext {
     files?: IFile[]
     location?: string;
-    selectFile?: (file?: IFile) => void;
+    selected?: string[];
+    clickFile?: (file: IFile) => void;
+    selectFile?: (file?: string, checked?: boolean) => void;
     view?: string;
     setView?: (view: string) => void;
 

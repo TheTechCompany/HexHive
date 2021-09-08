@@ -1,5 +1,5 @@
 {
-  "name": "@hexhive-apps/3d",
+  "name": "@hexhive-apps/hivefiles-old",
   "version": "0.0.5-alpha.0",
   "private": true,
   "main": "dist/App.js",

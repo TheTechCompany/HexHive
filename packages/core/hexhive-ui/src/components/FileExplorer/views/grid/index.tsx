@@ -8,15 +8,15 @@ export interface GridViewProps {
 }
 
 export const GridView : React.FC<GridViewProps> = (props) => {
-    const { files } = useFileExplorer()
+    const { files, selectFile, selected } = useFileExplorer()
 
     return (
         <Box>
             <Grid
                 gap={'xsmall'}
-                rows={'xsmall'}
-                columns={'xsmall'}>
-                {files?.map((file) => (<GridCard data={file} />))}
+                rows={'small'}
+                columns={'small'}>
+                {files?.map((file) => (<GridCard onClick={() => selectFile?.(file.id, !((selected || []).indexOf(file.id || '') > -1))} data={file} />))}
             </Grid>
         </Box>
     )

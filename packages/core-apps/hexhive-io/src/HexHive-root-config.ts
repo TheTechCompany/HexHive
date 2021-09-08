@@ -43,6 +43,22 @@ registerApplication({
   activeWhen: (location) => location.pathname.indexOf('/dashboard/mind') > -1
 })
 
+
+registerApplication({
+  name: "hexhive_hivefiles",
+  //@ts-ignore
+  app: () => import("hexhive_hivefiles"),
+  activeWhen: (location) => location.pathname.indexOf('/dashboard/files') > -1
+})
+
+registerApplication({
+  name: "hexhive_hive3d",
+  //@ts-ignore
+  app: () => import("hexhive_hive3d"),
+  activeWhen: (location) => location.pathname.indexOf('/dashboard/3d') > -1
+})
+
+
 // registerApplication({
 //   name: "@HexHive/navbar",
 //   app: () => System.import("@HexHive/navbar"),

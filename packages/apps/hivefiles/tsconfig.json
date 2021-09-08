@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "declarationDir": "dist",
+    "esModuleInterop": true
+  },
+  "references": [
+    {"path": "../../shared/hexhive-styles"},
+    {"path": "../../core/hexhive-ui"},
+    {"path": "../../core/hexhive-client"}
+  ],
+  "files": ["src/HexHive-HiveFiles.tsx"],
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test*"]
+}
