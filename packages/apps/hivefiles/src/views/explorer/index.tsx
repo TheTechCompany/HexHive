@@ -274,7 +274,7 @@ export const Explorer: React.FC<any> = (props) => {
                 onDrop={onDrop}
                 onBreadcrumbClick={(crumb) => {
                     if (crumb.id != "null") {
-                        props.history.push(`/${crumb.id}`)
+                        props.history.push(`/explore/${crumb.id}`)
                     } else {
                         props.history.push(`/`)
                     }
@@ -283,7 +283,7 @@ export const Explorer: React.FC<any> = (props) => {
                 breadcrumbs={breadcrumbs}
                 onClick={(file) => {
                     setSelected([])
-                    props.history.push(`/${file.id}`)
+                    props.history.push(`/explore/${file.id}`)
                 }}
                 files={files} />
                 <SidePane
