@@ -30,7 +30,10 @@ module.exports = (webpackConfigEnv, argv) => {
     module: {
       rules: [{
            test: /\.m?js/, type: "javascript/auto",         
-           exclude: /node_modules/
+           exclude: /node_modules/,
+           resolve: {
+            fullySpecified: false,
+            },
       }]
     },
     resolve: {
