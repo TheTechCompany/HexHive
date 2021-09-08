@@ -30,11 +30,15 @@ module.exports = (webpackConfigEnv, argv) => {
     module: {
       rules: [{
            test: /\.m?js/, type: "javascript/auto",         
-           exclude: /node_modules/,
-           resolve: {
-            fullySpecified: false,
-            },
-      }]
+           exclude: /node_modules/
+          },
+            {
+              test: /\.m?js/,
+              resolve: {
+                fullySpecified: false,
+                },
+            }
+      ]
     },
     resolve: {
       plugins: [new TsConfigPaths()]
