@@ -18,7 +18,7 @@ module.exports = (webpackConfigEnv, argv) => {
   return merge(defaultConfig, {
     // modify the webpack config however you'd like to by adding to this object,
     entry: './src/HexHive-Hive3D.tsx',
-    externals: ['recharts'],
+    externals: [],
     devServer: {
       hot: false
     },
@@ -50,6 +50,7 @@ module.exports = (webpackConfigEnv, argv) => {
         shared: {
           'react': {version: '17.0.2', singleton: true}, 
           'react-dom': {version: '17.0.2'}, 
+          'recharts': {version: '2.1.2'},
           'styled-components': {version: '5.0.3', singleton: true},
           "grommet": {version: '2.17.4'},
 
