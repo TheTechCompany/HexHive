@@ -29,7 +29,7 @@ export const ActionHeader : React.FC<ActionHeaderProps> = (props) => {
                     <Button icon={mode.icon} onClick={() => setView?.(mode.key)} active={view == mode.key}/>)}
             </Box> 
             <Box direction="row">
-                {actions?.map((action) => <Button disabled={action.disabled instanceof Function ? action.disabled(context) : action.disabled} hoverIndicator icon={action?.icon} title={action.key} />)}
+                {actions?.map((action) => <Button onClick={action.onClick} disabled={action.disabled instanceof Function ? action.disabled(context) : action.disabled} hoverIndicator icon={action?.icon} title={action.key} />)}
             </Box>
         </Box>
     )

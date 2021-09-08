@@ -9,12 +9,15 @@ import jwt from 'jsonwebtoken'
 import { AuthServer } from '@hexhive/auth';
 import { FileManager } from './util';
 import { requiresAuth } from 'express-openid-connect';
+import { Driver, Result, Session } from 'neo4j-driver';
+import { result } from 'lodash';
+import { nanoid } from 'nanoid';
 
 const upload = multer();
 
 const router = Router();
 
-export default (fileManager: FileManager) => {
+export default (fileManager: FileManager, neo: Session) => {
 
     const uploadFiles = async (files: any[]) => {
         return Promise.all(files.map(async (file) => {
@@ -39,6 +42,39 @@ export default (fileManager: FileManager) => {
                return _file;
         }))
     }
+
+    router.post('/file-graph', upload.array('files'), async (req, res) => {
+        let files = await uploadFiles(req.files as any[])
+
+        let cwd = req.body.cwd;
+        console.log("CWD", cwd, files)
+        let resp : any;
+
+            resp = await neo.writeTransaction(async (tx) => {
+                return await Promise.all(files.map(async (file) => {
+                
+                    let query = ``;
+                    query += cwd ? 'MATCH (parent:HiveFile {id: $id})' : 'MATCH (fs:FileSystem {name: $fs})'
+                    query += `
+                        CREATE (file:HiveFile {id: $newId, name: $name, cid: $cid})
+                        CREATE (${cwd ? 'parent' : 'fs'})-[rel:CONTAINS]->(file)
+                        RETURN file
+                    `
+                    const result = await tx.run(query, {
+                        fs: "Shared FS",
+                        newId: nanoid(),
+                        name: file.name,
+                        cid: file.cid,
+                        id: cwd
+                    })
+                    return result.records.map((x) => x.get(0))
+                }))
+            })
+       
+            
+        console.log(resp)
+        res.send({files})
+    })
 
     //Upload file to hexhive store
     router.post('/', requiresAuth(), upload.array('files'), async (req, res) => {

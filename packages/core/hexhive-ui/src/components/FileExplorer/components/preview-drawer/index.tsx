@@ -17,6 +17,7 @@ export const PreviewDrawer = (props: any) => {
                         width="30vw"
                         height="100vh">
                         <Box 
+                            background="accent-2"
                             align="center"
                             direction="row">
                             <Button 

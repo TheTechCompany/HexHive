@@ -5,12 +5,15 @@ import crypto from 'crypto';
 
 import {Provider} from 'oidc-provider';
 
+import neo4j from "neo4j-driver";
 
 import { graphqlHTTP } from 'express-graphql'; // ES6
 
 import { connect_data, User } from '@hexhive/types'
 
 import { stitchSchemas } from '@graphql-tools/stitch';
+import { mergeSchemas } from '@graphql-tools/merge';
+
 import SubSchema from './schema'
 import { REMOTE_SCHEMA } from './remotes';
 import { DefaultRouter } from './routes';
@@ -22,6 +25,8 @@ import { CollaborationServer } from './collaboration';
 import { Account } from './Account';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
+import hiveSchema from './schema/hive'
+import printerSchema from './schema/3d'
 
 import { auth, ConfigParams , requiresAuth} from 'express-openid-connect';
 
@@ -65,6 +70,12 @@ const config : ConfigParams = {
 
   
 (async () => {
+
+    const driver = neo4j.driver(
+        process.env.NEO4J_URI || 'localhost',
+        neo4j.auth.basic(process.env.NEO4J_USER || 'neo4j', process.env.NEO4J_PASSWORD || 'test')
+    );
+    
 
     const collaborationServer = new CollaborationServer();
          
@@ -156,7 +167,7 @@ const config : ConfigParams = {
 
     app.use(auth(config));
 
-    app.use(DefaultRouter()) 
+    app.use(DefaultRouter(driver)) 
 
     app.get('/profile', requiresAuth(), async (req, res) => {
         const userInfo = await req.oidc.fetchUserInfo();
@@ -196,8 +207,10 @@ const config : ConfigParams = {
         })
     }
 
+
+
     app.use('/graphql', graphqlHTTP({
-        schema: schema,
+        schema: mergeSchemas({schemas: [printerSchema, hiveSchema(driver), schema]}),
         graphiql: true
     }))
 

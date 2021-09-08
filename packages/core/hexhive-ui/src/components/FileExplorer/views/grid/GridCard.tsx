@@ -4,10 +4,13 @@ import { IFile } from '../../types/file';
 
 export interface GridCardProps {
     data?: IFile;
+    onClick?: () => void;
 }
 export const GridCard : React.FC<GridCardProps> = (props) => {
     return (
         <Box
+            style={{cursor: 'pointer'}}
+            onClick={props.onClick}
             round="xsmall"
             background="neutral-1"
             elevation="small">

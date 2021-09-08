@@ -10,11 +10,12 @@ export interface ThumbnailCardProps {
 }
 
 export const ThumbnailCard : React.FC<ThumbnailCardProps> = (props) => {
-    const { selectFile } = useFileExplorer()
+    const { selectFile, selected } = useFileExplorer()
 
     return (
         <Box
-            onClick={() => props.data && selectFile?.(props.data)}
+         style={{cursor: 'pointer'}}
+         onClick={() => selectFile?.(props.data?.id, !((selected || []).indexOf(props.data?.id || '') > -1))}
             round="xsmall"
             background="neutral-1"
             elevation="small">

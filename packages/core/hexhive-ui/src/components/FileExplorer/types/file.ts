@@ -1,5 +1,7 @@
 export interface IFile {
+    id?: string;
     icon?: any;
-    name: string;
+    name?: string;
     size?: number;
+    isFolder?: boolean;
 }

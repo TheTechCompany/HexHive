@@ -1,7 +1,7 @@
 import { off } from 'process';
 import React, { createRef,  useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import styled from 'styled-components'
-import { isEqual, throttle, update, xor } from 'lodash'
+import { isBuffer, isEqual, throttle, update, xor } from 'lodash'
 import { PortWidget } from './components/ports'
 import { getHostForElement } from './utils';
 import { InfiniteCanvasContext } from './context/context';
@@ -142,6 +142,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         portRef.current = ports;
         _setPorts(ports)
     }
+    const isDragging = useRef<{dragging: boolean}>({dragging: false});
 
     const [ menuPos, setMenuPos ] = useState<{x?: number, y?: number}>()
 
@@ -230,9 +231,13 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         setMenuPos(undefined)
         if (evt.button == 0) {
             //Left
+            isDragging.current.dragging = true
             onDrag(evt, (evt, position, lastPos, finished) => {
-                if(!finished && position && lastPos){
+                if(!finished && isDragging && position && lastPos){
                     updateOffset(position, lastPos)
+                }
+                if(finished){
+                    isDragging.current.dragging = false
                 }
             })
         } else if (evt.button == 2) {
@@ -445,6 +450,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
             let data = JSON.parse(e.dataTransfer.getData('infinite-canvas'))
             let pos = getRelativeCanvasPos(canvasRef, {offset: _offset, zoom: _zoom}, {x: e.clientX, y: e.clientY})
             onDrop(pos, data)
+            isDragging.current.dragging = false
         }
     }
 
