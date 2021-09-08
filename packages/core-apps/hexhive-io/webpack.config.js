@@ -24,10 +24,14 @@ module.exports = (webpackConfigEnv, argv) => {
     resolve: {
       plugins: [new TsPathsPlugin()]
     },
+    
     plugins: [
       new webpack.ProvidePlugin({
         process: 'process/browser',
       }),
+      new webpack.EnvironmentPlugin({
+        ...process.env,
+      }),  
       new ModuleFederationPlugin({
         name: 'hexhive_root',
         library: {type: 'var', name: 'hexhive_root'},

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>HexHive Systems</title>
-
+  <%= process.env.REACT_APP_API %>
   <% if (isLocal) { %>
     <script src="http://localhost:8500/remoteEntry.js"></script>
     <script src="http://localhost:8501/remoteEntry.js"></script>
@@ -17,12 +17,19 @@
 
   
   <% } else { %>
+    <% if(process.env.NODE_ENV == 'production') { %>
       <script defer="defer" src="https://apps.hexhive.io/hivedashboard/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hivecommand/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hiveflow/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hivefiles/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hive3d/remoteEntry.js"></script>
-   
+    <% } else { %> 
+      <script defer="defer" src="https://staging-apps.hexhive.io/hivedashboard/remoteEntry.js"></script>
+      <script defer="defer" src="https://staging-apps.hexhive.io/hivecommand/remoteEntry.js"></script>
+      <script defer="defer" src="https://staging-apps.hexhive.io/hiveflow/remoteEntry.js"></script>
+      <script defer="defer" src="https://staging-apps.hexhive.io/hivefiles/remoteEntry.js"></script>
+      <script defer="defer" src="https://staging-apps.hexhive.io/hive3d/remoteEntry.js"></script>
+    <% } %>
   <% } %>
   <!--
     Remove this if you only support browsers that support async/await.
