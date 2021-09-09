@@ -2,7 +2,8 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "declarationDir": "dist"
+    "declarationDir": "dist",
+    "esModuleInterop": true
   },
   "files": ["src/HexHive-HiveMarket.tsx"],
   "include": ["src/**/*"],
