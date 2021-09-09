@@ -5,7 +5,7 @@ import React from 'react'
 import { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-export interface AppSingleProps extends RouteComponentProps {
+export interface AppSingleProps extends RouteComponentProps<{id?: string}> {
     
 }
 
