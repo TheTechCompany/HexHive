@@ -14,6 +14,39 @@ export default (driver: Driver) => {
         convertFiles(files: [ID]): HiveFileProcess
     }
 
+    type HiveOrganisation {
+        id: ID! @id
+        name: String
+        appliances: [HiveIntegration] @relationship(type: "CAN_ACCESS", direction: OUT)
+    }
+
+    type HiveService {
+        id: ID!
+        name: String
+    }
+
+    union HiveIntegration = HiveService | HiveAppliance
+
+    type HivePermission {
+        id: ID! @id
+        name: String
+        create: [HiveIntegration]
+        read: [HiveIntegration]
+        update: [HiveIntegration]
+        remove: [HiveIntegration]
+    }
+
+    type HiveAppliance {
+        id: ID! @id
+        name: String!
+        description: String
+        
+        permissions: [HivePermission] @relationship(type: "USES", direction: OUT)
+        services: [HiveService] @relationship(type: "USES", direction: OUT)
+        brand_image: HiveFile @relationship(type: "USES", direction: OUT)
+
+    }
+
     type FileSystem {
         name: String!
         files: [HiveFile!]! @relationship(type: "CONTAINS", direction: OUT)

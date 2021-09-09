@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { BaseStyle } from '@hexhive/styles';
 import styled from 'styled-components';
+import { Add } from 'grommet-icons';
 import { HexBox } from './HexBox';
 import useResizeAware from 'react-resize-aware';
 import { HexButton } from './HexButton';
+import { HexCell } from './HexCell';
 
 const COLORSCHEME = [
     'rgb(201, 210, 189)',
@@ -22,10 +24,21 @@ const COLORSCHEME = [
     // 'rgb(180, 180, 210)'
 ]
 
+export interface BoxAction {
+    top?: number,
+    left?: number,
+    path?: string, 
+    icon?: any, 
+    title?: string
+}
 export interface BoxBackgroundProps {
-    actions: {path: string, logo: any, title: string}[]
-    onAction: (action: {path: string, logo: any, title: string}) => void;
+    apps?: any[];
+    edit?: boolean;
+    actions?: BoxAction[]
+    onAction?: (action: BoxAction) => void;
+    onAdd?: () => void;
     size?: {background: number, actions: number};
+    onActionsChanged: (actions: BoxAction[]) => void,
     className?: string;
 }
 
@@ -33,8 +46,14 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
     className,
     onAction,
     size = { background: 3, actions: 6},
-    actions
+    actions,
+    onActionsChanged,
+    onAdd,
+    children,
+    edit,
+    apps
 }) => {
+
     const [ resizeListener, sizes ] = useResizeAware();
 
 
@@ -66,7 +85,13 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
             let color3 = COLORSCHEME[(color_ix + 2) % 5];
 
         return (
-            <HexBox leftColor={color1} topColor={color2} rightColor={color3} size={size.background} {...getBoxPosition(ix)} />
+            <HexBox 
+                flatPak={false}
+                leftColor={color1} 
+                topColor={color2} 
+                rightColor={color3} 
+                size={size.background} 
+                {...getBoxPosition(ix)} />
         )})
     }, [Cubes])
 
@@ -75,8 +100,38 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
     let HALF_WIDTH = Math.floor(MAX_WIDTH / 2)
     let HALF_HEIGHT = Math.floor(MAX_HEIGHT / 2)
 
+    let ratio = (size.actions / size.background);
+
+
+    const changeCell = (pos: {x: number, y: number}, item: any) => {
+        let a = actions.slice()
+
+        console.log(pos, item, "CHANGE CELL")
+
+        let cell = a.find((a) => a.left == pos.x && a.top == pos.y)
+        if(cell){
+            console.log("Update cell")
+
+            let ix = actions.map((x) => x.path).indexOf(cell.path)
+
+            a[ix]['title'] = item;
+        
+        }else{
+            console.log("Add cell")
+            a.push({
+                icon: <Add />,
+                left: pos.x,
+                top: pos.y,
+                path: item,
+                title: item
+            })
+        }
+        onActionsChanged?.(a)
+    }
+
     const renderActions = () => {
         //1.74
+        
         let top = (HALF_HEIGHT - 2.1) / (size.actions / size.background);
         let mid = (HALF_WIDTH + 0.42) /(size.actions / size.background)
 
@@ -89,13 +144,45 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                 <HexButton 
                     onClick={() => onAction(item)}
                     top={top}
-                    logo={item.logo}
+                    logo={item.icon}
                     left={mid + i}
                     size={size.actions}
                     text={item.title} />)
         }
         return action_elements;
     }
+
+    const renderEditor = () => {
+        let elems = [];
+        console.log(MAX_WIDTH, MAX_HEIGHT, actions)
+        for(var i = 0; i < MAX_WIDTH / ratio; i++){
+                for(var o = 0; o < MAX_HEIGHT / ratio; o++){
+                    
+                    let action = actions.find((a) => a.top == o && a.left == i)
+                    if(action) {
+                        elems.push(
+                <HexButton 
+                    onClick={() => onAction(action)}
+                    top={action.top}
+                    left={action.left}
+                    size={size.actions}
+                    text={action.title} />
+                        )
+                    }else{
+                        const left = i;
+                        const top = o;
+                        elems.push(<HexCell apps={apps} top={o} left={i} onSelect={(item) => {
+                            changeCell({x: left, y: top}, item)
+                        }} size={size.actions} />)
+                    }
+                }
+        }
+        return elems
+    }
+
+    
+    let top = (HALF_HEIGHT - 2.1) / (size.actions / size.background);
+    let mid = (HALF_WIDTH + 0.42) /(size.actions / size.background)
 
     return (
         <div className={className}>
@@ -104,10 +191,19 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
 
             <div className="action-container">
           
-            {renderActions()}
-           
-            </div>           
+                {/* {children} */}
+                {edit != undefined && edit != null ? renderEditor() : renderActions()}
+            </div>
+            {/* {renderActions()}
+            {onAdd ? <HexButton
+                onClick={onAdd}
+                top={top + 0.84}
+                left={mid + 1}
+                logo={<Add />}
+                size={size.actions} /> : null}
 
+            </div>            */}
+         
             {resizeListener}
             {CubeMap}
             </div>
@@ -129,8 +225,7 @@ bottom: 0;
     -webkit-transform-style: preserve-3d;
 
     top: 0;
-    left: -10%;
-    right: -10%;
+
     position: absolute;
     width: 100%;
     height: 100%;

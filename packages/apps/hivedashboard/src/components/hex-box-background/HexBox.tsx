@@ -90,7 +90,7 @@ export const HexBox = styled(BaseHexBox)`
 .right-container:before {
     z-index: -10;
 
-    ${p => !p.flatPak ? `box-shadow: inset 0 0 0 .25em hsla(0,0%,0%,.1);` : ''}
+    ${p => !p.flatPak ? `box-shadow: inset 0 0 0 .20em hsla(0,0%,0%,.1);` : ''}
     content: '';
     float: left;
     height: ${p => p.size || 3}em;

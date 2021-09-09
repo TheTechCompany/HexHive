@@ -6,6 +6,7 @@ import { BaseStyle } from '@hexhive/styles';
 import {Hivelogo, Profile} from '../../assets';
 import { useAuth } from '@hexhive/auth-ui';
 import { UserDropdown } from '../user-dropdown';
+import { matchPath } from 'react-router-dom';
 
 export const BaseHeader : React.FC<any> = (props) => {
     const  {activeUser} = useAuth();
@@ -17,9 +18,20 @@ export const BaseHeader : React.FC<any> = (props) => {
             pad={{ vertical: "xsmall", horizontal: 'xsmall'}}
             background="brand"
             direction="row">
-            <Box align="center" direction="row">
+            <Box 
+                hoverIndicator
+                align="center" direction="row">
+                
             <Hivelogo 
-                 onClick={() => window.location.href = "/dashboard" }
+                 onClick={() => {
+                    const match = matchPath(window.location.pathname, {path: '/dashboard'}) 
+                    if(match?.isExact){
+                        props.onMenu?.()
+                    }else{
+                        window.location.href = "/dashboard" 
+                    }
+
+                 }}
                  height="40px" 
                  width="80px" 
                  style={{cursor: 'pointer', fill: BaseStyle.global.colors['accent-1']}}/>
