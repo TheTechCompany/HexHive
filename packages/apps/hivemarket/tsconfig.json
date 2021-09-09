@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "declarationDir": "dist"
+  },
+  "files": ["src/HexHive-HiveMarket.tsx"],
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test*"],
+  "references": [
+    {"path": "../../shared/hexhive-icons"},
+    {"path": "../../shared/hexhive-styles"},
+    {"path": "../../core/hexhive-ui"}
+
+  ]
+}

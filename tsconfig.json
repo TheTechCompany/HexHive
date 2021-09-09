@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+   "jsx": "react",
    "baseUrl": "./packages/",
    "target": "ESNext",
    "declaration": true,
@@ -15,6 +16,7 @@
      "@types/styled-components": ["../node_modules/@types/styled-components"],
      "@hexhive-apps/3d": ["./apps/hive-3d/src"],
      "@hexhive/client": ["./core/hexhive-client/src/gqless"],
+     "@hexhive/icons": ["./shared/hexhive-icons/src"],
 
      "@hexhive-apps/flow": ["./apps/hive-flow/src"],
      "@hexhive-apps/command": ["./apps/hive-command/src"],

@@ -59,6 +59,19 @@ registerApplication({
 })
 
 
+registerApplication({
+  name: "hexhive_hivemarket",
+  //@ts-ignore
+  app: () => import("hexhive_hivemarket"),
+  activeWhen: (location) => location.pathname.indexOf('/dashboard/market') > -1
+})
+
+registerApplication({
+  name: "hexhive_hivebuild",
+  //@ts-ignore
+  app: () => import("hexhive_hivebuild"),
+  activeWhen: (location) => location.pathname.indexOf('/dashboard/build') > -1
+})
 // registerApplication({
 //   name: "@HexHive/navbar",
 //   app: () => System.import("@HexHive/navbar"),
