@@ -3,7 +3,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "declarationDir": "dist",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "files": ["src/HexHive-HiveMarket.tsx"],
   "include": ["src/**/*"],
