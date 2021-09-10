@@ -1,14 +1,32 @@
-import { Box, Button, Header, Text } from 'grommet';
+import { Box, Button, Header as GrommetHeader, Text } from 'grommet';
 import { Menu, Folder, System } from 'grommet-icons'
 import React from 'react';
 import { BaseStyle } from '@hexhive/styles';
 
 import {Hivelogo, Profile} from '../../assets';
+import { matchPath, withRouter } from 'react-router-dom';
 
 export const BaseHeader : React.FC<any> = (props) => {
 
+    const views = [
+        {
+            path: '/',
+            label: "Explorer"
+        },
+        {
+            path: '/workflows',
+            label: "Workflows"
+        },
+        {
+            path: '/tasks',
+            label: "Tasks"
+        }
+    ]
+
+    console.log(props.match, window.location)
+
     return (
-        <Header     
+        <GrommetHeader     
             style={{zIndex: 9}}
             elevation="medium"
             pad={{ vertical: "xsmall", horizontal: 'xsmall'}}
@@ -24,11 +42,26 @@ export const BaseHeader : React.FC<any> = (props) => {
 } /> */}
             
             </Box>
+            <Box 
+                height="100%"
+                gap="small" direction="row">
+                {views.map((view) => (
+                    <Button 
+                        active={matchPath(window.location.pathname, {path: `${process.env.PUBLIC_URL}${view.path}`, exact: true}) != null}
+                        style={{borderRadius: 4, paddingLeft: 8, paddingRight: 8}} 
+                        hoverIndicator 
+                        plain 
+                        onClick={() => props.history.push(view.path)}
+                        label={view.label}></Button>
+                ))}
+            </Box>
             <Button 
                 onClick={() => props.onActionClick?.(props.path)}
                 style={{borderRadius: 7}}
                 hoverIndicator
                 icon={props.path == "/" ? <Folder /> : <System />} />
-        </Header>
+        </GrommetHeader>
     )
 }
+
+export const Header = withRouter(BaseHeader)

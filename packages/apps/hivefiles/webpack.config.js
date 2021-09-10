@@ -2,6 +2,9 @@ const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 const { ModuleFederationPlugin } = require('webpack').container;
 const webpack = require('webpack')
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const path = require("path")
+const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 
 module.exports = (webpackConfigEnv, argv) => {
   // webpackConfigEnv.standalone = true;
@@ -29,13 +32,29 @@ module.exports = (webpackConfigEnv, argv) => {
           resolve: {
               fullySpecified: false,
           },
-        }
+        },
+          {
+            test: /\.css$/i,
+            exclude: /node_modules/,
+            use: ["style-loader", "css-loader"],
+          },
+          {
+            test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+            // More information here https://webpack.js.org/guides/asset-modules/
+            type: "asset",
+          },
+        
       ]
     },
     output: {
       publicPath: process.env.PUBLIC_PATH || 'http://localhost:8509/'
     },
     plugins: [
+      new MonacoWebpackPlugin({
+        // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        languages: ['yaml', 'json'],
+        publicPath: process.env.PUBLIC_PATH || 'http://localhost:8509/'
+      }),
       new webpack.ProvidePlugin({
         process: 'process/browser',
       }),
@@ -52,6 +71,7 @@ module.exports = (webpackConfigEnv, argv) => {
           'react-dom': {version: '17.0.2'}, 
           'styled-components': {version: '5.0.3', singleton: true},
           "grommet": {version: '2.17.4'},
+          'monaco-editor': {version: '0.27.0'},
 
           'single-spa-react': {eager: true}
         },
