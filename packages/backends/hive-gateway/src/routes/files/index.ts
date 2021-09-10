@@ -43,6 +43,54 @@ export default (fileManager: FileManager, neo: Session) => {
         }))
     }
 
+
+router.get('/graph/:fileID',  async (req, res, next) => {
+    let token = req.query.token
+    // if(!token) return res.status(401).send({error: "No token provided"});
+    let decoded : any;
+    // try{
+    //     decoded = jwt.verify(token.toString(), conf.jwt_secret)
+    // }catch(e){
+    //     return res.status(401).send({error: "Invalid token provided"});
+    // }
+
+    let fileID = req.params.fileID;
+
+    let extension: RegExpMatchArray | null = fileID.match(/\.[0-9a-z]+$/i)
+
+    if (extension) {
+        fileID = fileID.replace(extension[0], '')
+    }
+
+    // if(decoded.file != fileID || decoded.type != "FILE_ACCESS") return res.status(400).send({error: "Wrong token provided"});
+
+
+    const file = await neo.readTransaction(async (tx) => {
+        const result = await tx.run(`
+            MATCH (file:HiveFile {id: $id})
+            RETURN file
+        `, {
+            id: fileID
+        })
+        return result.records?.[0]?.get(0).properties
+    })
+   
+    if (file) {
+        console.log(file)
+        const readStream = new PassThrough();
+
+        const file_result = await fileManager.get(file.cid || file.id)
+
+        readStream.end(file_result);
+        console.log("Get file ", file_result, file.cid)
+        res.setHeader('Content-Type', file.mimeType || 'application/octet-stream')
+        readStream.pipe(res);
+    } else {
+        res.send({ error: "No file found" })
+    }
+
+})
+
     router.post('/file-graph', upload.array('files'), async (req, res) => {
         let files = await uploadFiles(req.files as any[])
 

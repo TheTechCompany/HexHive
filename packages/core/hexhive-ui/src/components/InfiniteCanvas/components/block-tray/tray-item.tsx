@@ -22,7 +22,6 @@ const BaseTrayItem : React.FC<TrayItemProps> = (props) => {
 }
 
 export const TrayItem = styled(BaseTrayItem)`
-    padding: 8px;
     border-color: white;
     border-radius: 3px;
     border: 1px solid white;

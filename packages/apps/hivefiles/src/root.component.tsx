@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Explorer } from "./views/explorer";
-import { Workflows } from "./views/workflows";
+import { Workflows } from "./views/workflow-editor";
 import {App} from "./App";
 
 const client = new ApolloClient({

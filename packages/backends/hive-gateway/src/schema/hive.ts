@@ -11,7 +11,7 @@ export default (driver: Driver) => {
     const typeDefs = gql`
 
     type Mutation {
-        convertFiles(files: [ID]): HiveFileProcess
+        convertFiles(files: [ID], pipeline: String): HiveFileProcess
     }
 
     type HiveOrganisation {
@@ -52,11 +52,62 @@ export default (driver: Driver) => {
         files: [HiveFile!]! @relationship(type: "CONTAINS", direction: OUT)
     }
 
+
+    type HivePipelineNode {
+        id: ID! @id
+        runner: HiveProcess @relationship(type: "USES_TASK", direction: OUT)
+        x: Float
+        y: Float
+
+        pipeline: HivePipeline @relationship(type: "HAS_NODE", direction: IN)
+        caller: [HivePipelineNode] @relationship(type: "RUN_NEXT", properties: "HivePipelineFlowPath", direction: IN) 
+        next: [HivePipelineNode] @relationship(type: "RUN_NEXT", properties: "HivePipelineFlowPath", direction: OUT)
+    }
+
+    interface HivePipelineFlowPath @relationshipProperties {
+        id: ID @id
+        source: String
+        target: String
+    }
    
+    type HivePipeline {
+        id: ID! @id
+        name: String
+        first: HivePipelineNode @relationship(type: "FIRST_NODE", properties: "HivePipelineFlowPath", direction: OUT)
+        nodes: [HivePipelineNode] @relationship(type: "HAS_NODE", direction: OUT)
+    }
+
+    type HiveProcessPort {
+        id: ID! @id
+        process: HiveProcess @relationship(type: "HAS_PORT", direction: IN)
+        direction: String
+        name: String
+        type: String
+    }
+
+    type HiveProcess {
+        id: ID! @id
+        name: String
+        ports: [HiveProcessPort] @relationship(type: "HAS_PORT", direction: OUT)
+        task: String
+    }
+
+    type HiveProcessResult {
+        id: ID! @id
+        completedAt: DateTime @timestamp
+        process: HiveFileProcess @relationship(type: "RESULT_OF", direction: OUT)
+        results: String
+    }
+
     type HiveFileProcess @exclude {
         id: ID!
         createdAt: DateTime @timestamp(operations: [CREATE])
         completedAt: DateTime
+        
+        pipeline: HivePipeline @relationship(type: "ACTIVE_PIPELINE", direction: OUT)
+
+        result: HiveProcessResult @relationship(type: "RESULT_OF", direction: IN)
+
         inputs: [HiveFile] @relationship(type: "CONVERTING", direction: OUT)
         outputs: [HiveFile] @relationship(type: "CONVERTED", direction: OUT)
     }
@@ -131,15 +182,18 @@ export default (driver: Driver) => {
             // }
         },
         Mutation: {
-            convertFiles: async (root: any, args: any, context: any) => {
+            convertFiles: async (root: any, args: {pipeline: string, files: string[]}, context: any) => {
                 let id = nanoid()
                 const writeResult = await session.writeTransaction(async (tx) => {
 
                     const result = await tx.run(`
+                    MATCH (pipeline:HivePipeline {id: $pipeline})
                     CREATE (process:HiveFileProcess {id: $id, createdAt: $date})
+                    CREATE (process)-[:ACTIVE_PIPELINE]->(pipeline)
                     RETURN process
                     `, {
                         id: id,
+                        pipeline: args.pipeline,
                         date: new Date().toISOString()
                     })
 

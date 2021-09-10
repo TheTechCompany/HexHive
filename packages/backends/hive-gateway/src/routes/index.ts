@@ -4,6 +4,8 @@ import { CentralAuthServer } from '@hexhive/auth';
 import { AuthRouter } from './auth';
 import { UserRouter } from './user'
 import FileRouter from './files'
+import PipelineRouter from './pipelines'
+
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -44,6 +46,7 @@ export const DefaultRouter = (neo4j : Driver) : Router => {
     router.use('/oauth', AuthRouter())
 
     if(fileManager) router.use('/api/files', FileRouter(fileManager, neo_session))
+    if(fileManager) router.use('/api/pipelines', PipelineRouter(neo_session))
 
     router.get('/login', (req, res) => {
         res.oidc.login({ returnTo: req.query.returnTo?.toString() || process.env.UI_URL || 'https://next.hexhive.io/dashboard' })

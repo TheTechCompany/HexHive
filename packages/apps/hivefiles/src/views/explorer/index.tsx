@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, Box } from 'grommet'
 import { FileExplorer } from '@hexhive/ui';
 import { gql, useQuery, useApolloClient } from '@apollo/client';
-import { useMutation } from '@hexhive/client';
+import { mutation, useMutation } from '@hexhive/client';
 import { useMemo } from 'react';
 import { uploadFiles } from '../../actions';
 import { Folder, Download, CloudComputer } from 'grommet-icons';
@@ -104,6 +104,22 @@ export const Explorer: React.FC<any> = (props) => {
             awaitRefetchQueries: true,
             suspense: false,
         })
+
+    const [ runWorkflow, runInfo ] = useMutation((mutation, args: {files: string[], pipeline: string}) => {
+        const item = mutation.convertFiles({
+            files: args.files,
+            pipeline: args.pipeline
+        })
+        return {
+            item: {
+                ...item
+            },
+            err: null
+        }
+    }, {
+        suspense: false,
+        awaitRefetchQueries: true
+    })
 
     let query;
 
@@ -251,7 +267,13 @@ export const Explorer: React.FC<any> = (props) => {
                 open={folderModal} />
             <ConvertModal
                 onSubmit={(folder) => {
-
+                    console.log(folder)
+                    runWorkflow({args: {
+                        files: selected,
+                        pipeline: folder.workflow
+                    }}).then(() => {
+                        openConvertModal(false)
+                    })
                 }}
                 files={files?.filter((a) => selected?.indexOf(a.id) > -1)}
                 onClose={() => openConvertModal(false)}
