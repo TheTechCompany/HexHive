@@ -35,7 +35,7 @@ const parseEvent = (event: HiveEvent) => {
 const submitFileEvent = async (event: HiveEvent) => {
     const r = await axios({
         method: "POST",
-        url: WEBHOOK_URL,
+        url: `http://${WEBHOOK_URL}`,
         responseType: 'json',
         headers: {
             "HexHive-Job": nanoid()
@@ -57,7 +57,7 @@ const main = async () => {
     //             event: "convert_files",
     //             data: {
     //                 inputs: ["123"]
-    //             }
+    //             }c
     //         })}
     //     ]
     // })
