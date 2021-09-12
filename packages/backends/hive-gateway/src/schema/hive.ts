@@ -4,10 +4,17 @@ import neo4j, { Driver } from "neo4j-driver";
 import gql from 'graphql-tag';
 import {OGM} from '@neo4j/graphql-ogm'
 import { nanoid } from "nanoid";
+import apps from './subschema/apps'
+import automate from './subschema/automate'
+import files from './subschema/files'
+import { TaskRegistry } from "../task-registry";
 
 require("dotenv").config();
 
 export default (driver: Driver) => {
+
+    const taskRegistry = new TaskRegistry()
+
     const typeDefs = gql`
 
     type Mutation {
@@ -20,13 +27,6 @@ export default (driver: Driver) => {
         appliances: [HiveIntegration] @relationship(type: "CAN_ACCESS", direction: OUT)
     }
 
-    type HiveService {
-        id: ID!
-        name: String
-    }
-
-    union HiveIntegration = HiveService | HiveAppliance
-
     type HivePermission {
         id: ID! @id
         name: String
@@ -36,114 +36,11 @@ export default (driver: Driver) => {
         remove: [HiveIntegration]
     }
 
-    type HiveAppliance {
-        id: ID! @id
-        name: String!
-        description: String
-        
-        permissions: [HivePermission] @relationship(type: "USES", direction: OUT)
-        services: [HiveService] @relationship(type: "USES", direction: OUT)
-        brand_image: HiveFile @relationship(type: "USES", direction: OUT)
+    ${apps}
+    ${files}
+    ${automate}
 
-    }
-
-    type FileSystem {
-        name: String!
-        files: [HiveFile!]! @relationship(type: "CONTAINS", direction: OUT)
-    }
-
-
-    type HivePipelineNode {
-        id: ID! @id
-        runner: HiveProcess @relationship(type: "USES_TASK", direction: OUT)
-        x: Float
-        y: Float
-
-        pipeline: HivePipeline @relationship(type: "HAS_NODE", direction: IN)
-        caller: [HivePipelineNode] @relationship(type: "RUN_NEXT", properties: "HivePipelineFlowPath", direction: IN) 
-        next: [HivePipelineNode] @relationship(type: "RUN_NEXT", properties: "HivePipelineFlowPath", direction: OUT)
-    }
-
-    interface HivePipelineFlowPath @relationshipProperties {
-        id: ID @id
-        source: String
-        target: String
-    }
-   
-    type HivePipeline {
-        id: ID! @id
-        name: String
-        first: HivePipelineNode @relationship(type: "FIRST_NODE", properties: "HivePipelineFlowPath", direction: OUT)
-        nodes: [HivePipelineNode] @relationship(type: "HAS_NODE", direction: OUT)
-    }
-
-    type HiveProcessPort {
-        id: ID! @id
-        process: HiveProcess @relationship(type: "HAS_PORT", direction: IN)
-        direction: String
-        name: String
-        type: String
-    }
-
-    type HiveProcess {
-        id: ID! @id
-        name: String
-        ports: [HiveProcessPort] @relationship(type: "HAS_PORT", direction: OUT)
-        task: String
-    }
-
-    type HiveProcessResult {
-        id: ID! @id
-        completedAt: DateTime @timestamp
-        process: HiveFileProcess @relationship(type: "RESULT_OF", direction: OUT)
-        results: String
-    }
-
-    type HiveFileProcess @exclude {
-        id: ID!
-        createdAt: DateTime @timestamp(operations: [CREATE])
-        completedAt: DateTime
-        
-        pipeline: HivePipeline @relationship(type: "ACTIVE_PIPELINE", direction: OUT)
-
-        result: HiveProcessResult @relationship(type: "RESULT_OF", direction: IN)
-
-        inputs: [HiveFile] @relationship(type: "CONVERTING", direction: OUT)
-        outputs: [HiveFile] @relationship(type: "CONVERTED", direction: OUT)
-    }
-
-    type HiveFile {
-        id: ID! @id
-        name: String!
-        path_id: String
-            @cypher(
-                statement: """
-                MATCH path = (root:FileSystem)-[:CONTAINS *1..]->(m:HiveFile)
-                WHERE m.id = this.id AND NOT ()-[:CONTAINS]->(root)
-                WITH [node in nodes(path) | node.id] as trailNames
-                RETURN COALESCE(\\"/\\" + apoc.text.join(trailNames, \\"/\\"), \\"/\\") 
-                """
-            )
-        path: String
-            @cypher(
-                statement: """
-                MATCH path = (root:FileSystem)-[:CONTAINS *1..]->(m:HiveFile)
-                WHERE m.id = this.id AND NOT ()-[:CONTAINS]->(root)
-                WITH [node in nodes(path) | node.name] as trailNames
-                RETURN COALESCE(\\"/\\" + apoc.text.join(trailNames, \\"/\\"), \\"/\\") 
-                """
-            )
-        fs: FileSystem @relationship(type: "CONTAINS", direction: IN)
-        isFolder: Boolean
-        parent: HiveFile @relationship(type: "CONTAINS", direction: IN)
-        children: [HiveFile] @relationship(type: "CONTAINS", direction: OUT)
-
-        conversions: [HiveFileProcess] @relationship(type: "CONVERTING", direction: IN)
-        convertedBy: HiveFileProcess @relationship(type: "CONVERTED", direction: IN)
-
-        convertedFrom: HiveFile @relationship(type: "CONVERSION", direction: IN)
-        convertedTo: [HiveFile] @relationship(type: "CONVERSION", direction: OUT)
-    }
+ 
     `;
     // MATCH path = (root:File)-[:HAS_CHILD]->(m:File)
     // WHERE m.name = \\"File\\" AND NOT ()-[:HAS_CHILD]->(root)
@@ -156,6 +53,8 @@ export default (driver: Driver) => {
     const ogm = new OGM({typeDefs, driver})
 
     const HiveFileProcess = ogm.model('HiveFileProcess')
+
+    const HivePipeline = ogm.model('HivePipeline')
 
     HiveFileProcess.setSelectionSet(`
         {
@@ -182,6 +81,31 @@ export default (driver: Driver) => {
             // }
         },
         Mutation: {
+            updateHivePipelines: async (root: any, args: any, context: any) => {
+                const hivePipeline =  await HivePipeline.update({where: args.where, update: args.update, rootValue: root, args, context})
+                const tasks = await HivePipeline.find({where: args.where, selectionSet: `{
+                    nodes{
+                        runner{
+                            id
+                            name
+                        }
+                    }
+                }`})
+                console.log(tasks[0].nodes)
+                if(args.update.nodes[0].create){
+                    console.log("Create new container", args.update.nodes[0].create)
+                    const result = await taskRegistry.updateTask('TestTask', tasks[0].nodes.map((x: any) => ({
+                        name: x.runner.id,
+                        image: 'alpine:edge',
+                        mountPoints: [{
+                            sourceVolume: 'TaskFiles',
+                            containerPath: '/runner/files'
+                        }]
+                    })))
+                }
+                // console.log("Update Hive Pipeline", args.update, hivePipeline)
+                return hivePipeline
+            },
             convertFiles: async (root: any, args: {pipeline: string, files: string[]}, context: any) => {
                 let id = nanoid()
                 const writeResult = await session.writeTransaction(async (tx) => {

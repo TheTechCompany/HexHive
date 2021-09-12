@@ -20,6 +20,7 @@
     "@neo4j/graphql": "^2.1.0",
     "@neo4j/graphql-ogm": "^2.1.0",
     "assert": "^2.0.0",
+    "aws-sdk": "^2.987.0",
     "cookie-parser": "^1.4.5",
     "cross-fetch": "^3.1.4",
     "express-openid-connect": "^2.5.0",
@@ -32,7 +33,6 @@
     "jose": "2",
     "neo4j-driver": "^4.3.3",
     "node-fetch": "^3.0.0",
-    "oidc-provider": "^7.6.0",
     "ws": "^8.1.0"
   },
   "devDependencies": {

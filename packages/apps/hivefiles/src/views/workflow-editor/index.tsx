@@ -46,14 +46,7 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
         query Q {
             hivePipelines(where: {id: "${props.match.params.id}"}){
                 name
-                first{
-                    id
-                }
-                firstConnection {
-                    edges{
-                        target
-                      }
-                }
+
                 nodes {
                     id
                     x
@@ -165,17 +158,7 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
         }
     })
 
-    const [ setFirstNode, firstNodeInfo ] = useMutation((mutation, args: {id: string, target: string}) => {
-        const item = mutation.updateHivePipelines({where: {id: props.match.params.id}, update: {
-            first: {connect: {where: {node: {id: args.id}}, edge: {target: args.target}}}
-        }})
-        return {
-            item: {
-                ...item.hivePipelines[0],
-            },
-            err: null
-        }
-    })
+
 
 
     useEffect(() => {
@@ -279,13 +262,6 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
 
                     if(path.source && path.target){
 
-                        if(path.source == 'entry'){
-                            //Set first
-                            setFirstNode({args: {
-                                id: path.target,
-                                target: path.targetHandle
-                            }})
-                        }else{
                             connectWorkflowNodes({args: {
                                 id: path.source, 
                                 to: path.target,
@@ -294,7 +270,7 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                             }}).then(() => {
 
                             })
-                        }
+                        
                     }
                     updateRef.current.updatePath(path)
                     // let p = paths.slice()
