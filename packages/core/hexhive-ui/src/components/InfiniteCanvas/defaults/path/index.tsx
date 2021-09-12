@@ -90,10 +90,16 @@ export const BaseFlowPath : React.FC<FlowPathProps> = (props) => {
 
     return props.editable ? (
         <g className={`${props.className} ${props.selected ? 'selected': ''}`}>
-        
+          <defs>
+            <marker id='head' orient='auto' markerWidth='16' markerHeight='32'
+                    refX='12' refY='5'>
+                <path d='M 0 0 L 10 5 L 0 10 z' fill='gray' />
+            </marker>
+        </defs>  
         {generateLine(props.points, (points, ix) => (
             <FlowPathSegment 
                 onContextMenu={props.onContextMenu}
+                arrow={ix == props.points.length}
                 onMouseDown={(e) => segmentClick(ix, e)} points={points} />
         ))}
         {generateHandles(props.points, (location, ix) => (
@@ -107,6 +113,8 @@ export const BaseFlowPath : React.FC<FlowPathProps> = (props) => {
         </g>) : (
             <g className={`${props.className} ${props.selected ? 'selected': ''}`}>
             <FlowPathSegment 
+                arrow={true}
+
                 onContextMenu={props.onContextMenu}
                 onMouseDown={(e) => segmentClick(0, e)} points={props.points} />
                 </g>

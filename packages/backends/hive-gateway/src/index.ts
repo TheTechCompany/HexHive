@@ -3,8 +3,6 @@ require('dotenv').config()
 import express from 'express'
 import crypto from 'crypto';
 
-import {Provider} from 'oidc-provider';
-
 import neo4j from "neo4j-driver";
 
 import { graphqlHTTP } from 'express-graphql'; // ES6
