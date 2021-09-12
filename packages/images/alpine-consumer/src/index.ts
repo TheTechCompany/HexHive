@@ -45,22 +45,22 @@ const submitFileEvent = async (event: HiveEvent) => {
 }
 
 const main = async () => {
-    const producer = kafka.producer()
+    // const producer = kafka.producer()
 
-    await producer.connect()
+    // await producer.connect()
 
-    await producer.send({
-        topic: TOPIC,
-        messages: [
-            {value: JSON.stringify({
-                service: "Files",
-                event: "convert_files",
-                data: {
-                    inputs: ["123"]
-                }
-            })}
-        ]
-    })
+    // await producer.send({
+    //     topic: TOPIC,
+    //     messages: [
+    //         {value: JSON.stringify({
+    //             service: "Files",
+    //             event: "convert_files",
+    //             data: {
+    //                 inputs: ["123"]
+    //             }
+    //         })}
+    //     ]
+    // })
 
     const consumer = kafka.consumer({groupId: 'worker'})
 
