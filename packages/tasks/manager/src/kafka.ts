@@ -41,23 +41,23 @@ const main = async () => {
         ]
     })
 
-    const consumer = kafka.consumer({groupId: 'worker'})
+    // const consumer = kafka.consumer({groupId: 'worker'})
 
-    await consumer.connect()
+    // await consumer.connect()
 
-    await consumer.subscribe({topic: TOPIC, fromBeginning: true})
+    // await consumer.subscribe({topic: TOPIC, fromBeginning: true})
 
-    await consumer.run({
-        eachMessage: async ({topic, partition, message}) => {
-            let json = JSON.parse(message.value?.toString() || '{}')
+    // await consumer.run({
+    //     eachMessage: async ({topic, partition, message}) => {
+    //         let json = JSON.parse(message.value?.toString() || '{}')
             
-            parseEvent(json)
+    //         parseEvent(json)
 
-        }
-    })
+    //     }
+    // })
 
     // await consumer.disconnect()
-    // await producer.disconnect()
+    await producer.disconnect()
 }
 
 main()
