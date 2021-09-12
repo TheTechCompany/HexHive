@@ -38,7 +38,11 @@ const submitFileEvent = async (event: HiveEvent) => {
         url: `http://${WEBHOOK_URL}`,
         responseType: 'json',
         headers: {
+            "Content-Type": "application/json",
             "HexHive-Job": nanoid()
+        },
+        data: {
+            id: nanoid()
         }
     });
     return await r.data;
