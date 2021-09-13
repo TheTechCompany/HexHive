@@ -43,6 +43,13 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             title: "Command",
             left: 6,
             path: '/command'
+        },
+        {
+            icon: <Folder size="large" />,
+            top: 3,
+            title: "Automate",
+            left: 7,
+            path: '/automate'
         }
     ])
 
@@ -92,7 +99,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
                         let action = actions.find((a) => a.top == pos.y && a.left == pos.x)
 
                         if(action){
-                            props.history?.push(`${props.match.url}${action.path}`)
+                            window.location.href = `${props.match.url}${action.path}`
                         }
                     }
                 }}
