@@ -37,29 +37,34 @@ export interface BoxBackgroundProps {
     actions?: BoxAction[]
     onAction?: (action: BoxAction) => void;
     onAdd?: () => void;
-    size?: {background: number, actions: number};
+    size?: {background?: number, actions: number};
     onActionsChanged: (actions: BoxAction[]) => void,
     className?: string;
+    noBackground?: boolean;
+
+    onClick?: (item: any) => void;
 }
 
 const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
     className,
     onAction,
+    noBackground = false,
     size = { background: 3, actions: 6},
     actions,
     onActionsChanged,
     onAdd,
     children,
     edit,
-    apps
+    apps,
+    onClick
 }) => {
 
     const [ resizeListener, sizes ] = useResizeAware();
 
 
     console.log(sizes)
-    const MAX_WIDTH = Math.floor((sizes.width || (window.innerWidth / 1.8)) / (60 * (size.background / 3)));
-    const MAX_HEIGHT = Math.floor((sizes.height ||( window.innerHeight / 2)) / (50 * (size.background / 3)));
+    const MAX_WIDTH = Math.floor((sizes.width || (window.innerWidth / 1.8)) / (60 * ((size.background || 3) / 3)));
+    const MAX_HEIGHT = Math.floor((sizes.height ||( window.innerHeight / 2)) / (50 * ((size.background || 3) / 3)));
 
 
     const Cubes = useMemo(() => {
@@ -162,7 +167,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                     if(action) {
                         elems.push(
                 <HexButton 
-                    onClick={() => onAction(action)}
+                    onClick={() => onClick(action)}
                     top={action.top}
                     left={action.left}
                     size={size.actions}
@@ -171,8 +176,8 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                     }else{
                         const left = i;
                         const top = o;
-                        elems.push(<HexCell apps={apps} top={o} left={i} onSelect={(item) => {
-                            changeCell({x: left, y: top}, item)
+                        elems.push(<HexCell apps={apps} top={o} left={i} onClick={() => {
+                            onClick(action)
                         }} size={size.actions} />)
                     }
                 }
@@ -205,7 +210,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
             </div>            */}
          
             {resizeListener}
-            {CubeMap}
+            {!noBackground && CubeMap}
             </div>
         </div>
     );

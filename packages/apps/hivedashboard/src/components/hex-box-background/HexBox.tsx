@@ -110,7 +110,7 @@ export const HexBox = styled(BaseHexBox)`
     z-index: 99999;
 }
 &:hover .cube{
-    ${p => p.onClick ? `-webkit-transform: translateZ(${(p.size || 3) + 1}em) translateX(${(p.size || 3) / 1.}em) translateY(${(p.size || 3) / 1.}em);` : ''}
+    ${p => false ? `-webkit-transform: translateZ(${(p.size || 3) + 1}em) translateX(${(p.size || 3) / 1.}em) translateY(${(p.size || 3) / 1.}em);` : ''}
     -webkit-transition: .25s;
 }
 

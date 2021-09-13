@@ -1,21 +1,16 @@
 {
-  "name": "@hexhive-apps/hivedashboard",
-  "version": "0.0.5-alpha.0",
-  "main": "dist/HexHive-HiveFlow.js",
-  "files": [
-    "dist/"
-  ],
+  "name": "@hexhive/header",
   "scripts": {
-    "start": "webpack serve --port 8502",
-    "start:standalone": "webpack serve --env standalone --port 8502",
+    "start": "webpack serve",
+    "start:standalone": "webpack serve --env standalone",
     "build": "webpack --mode=production",
-    "build:staging": "webpack --mode=production --env isStaging",
     "analyze": "webpack --mode=production --env analyze",
     "lint": "eslint src --ext js,ts,tsx",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "test": "cross-env BABEL_ENV=test jest",
     "watch-tests": "cross-env BABEL_ENV=test jest --watch",
+    "prepare": "husky install",
     "coverage": "cross-env BABEL_ENV=test jest --coverage"
   },
   "devDependencies": {
@@ -28,7 +23,6 @@
     "@babel/runtime": "^7.14.6",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
-    "@types/qs": "^6.9.7",
     "@types/testing-library__jest-dom": "^5.14.0",
     "babel-jest": "^27.0.5",
     "concurrently": "^6.2.0",
@@ -55,24 +49,16 @@
   },
   "dependencies": {
     "@hexhive/auth-ui": "^0.0.5-alpha.0",
-    "@hexhive/client": "^0.0.5-alpha.0",
+    "@hexhive/icons": "^1.0.0",
     "@hexhive/styles": "^0.0.4-alpha.0",
-    "@hexhive/ui": "^0.0.5-alpha.0",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
     "@types/systemjs": "^6.1.0",
     "@types/webpack-env": "^1.16.0",
-    "grommet": "^2.17.4",
-    "process": "^0.11.10",
-    "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hexagon": "^1.1.3",
-    "react-resize-aware": "^3.1.0",
-    "react-router-dom": "^5.2.0",
-    "single-spa-react": "^4.2.0",
-    "styled-components": "^5.3.0",
-    "tiled-hexagons": "^1.0.2"
+    "react-router-dom": "^5.3.0",
+    "single-spa-react": "^4.2.0"
   }
 }

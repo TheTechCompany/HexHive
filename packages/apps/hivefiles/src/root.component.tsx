@@ -23,8 +23,8 @@ export default function Root(props) {
 
   return (
     <Grommet  
-    full
-    style={{display: 'flex'}}
+    
+    style={{display: 'flex', height: '100%', width: '100%'}}
     themeMode="dark"
     plain 
     theme={BaseStyle}>  

@@ -29,7 +29,6 @@ function App() {
   
       <Router basename={process.env.PUBLIC_URL}>
         <Box 
-          style={{height: '100vh'}}
           overflow="hidden"
           background="neutral-1"
           fill 

@@ -1,14 +1,17 @@
 import { BaseStyle } from '@hexhive/styles';
 import { Box, Text, Layer, List, Button } from 'grommet';
 import React, { useRef, useState } from 'react';
+import { Hexagon } from './Hexagon';
+import { HexagonBorder } from './HexagonBorder';
 import { HexBox } from './HexBox';
-
+const { TiledHexagon } = require('tiled-hexagons')
 
 export interface HexCellProps {
     top?: number;
     size?: number;
     left?: number;
     apps?: any[];
+    onClick?: () => void;
     onSelect?: (item: any) => void;
 }
 
@@ -18,27 +21,28 @@ export const HexCell : React.FC<HexCellProps> = (props) => {
 
     const HEX_SIZE = props.size || 3;
 
-    const TOP_MULTIPLIER = HEX_SIZE * 1.2;
-    const WIDTH_MULTIPLIER = HEX_SIZE * 1.4;
-    const ROW_OFFSET = HEX_SIZE * 0.7;
+    const TOP_MULTIPLIER = HEX_SIZE * 1.05;
+    const WIDTH_MULTIPLIER = HEX_SIZE * 1.2;
+    const ROW_OFFSET = HEX_SIZE * 0.6;
 
     return (
-        <HexBox
-           
-            onClick={() => setSelected(!selected)}
-            flatPak 
-            size={HEX_SIZE} 
+        <div ref={hexRef}>
+        <Hexagon
+            selected={selected}
+            onClick={() => props.onClick()}
+            size={HEX_SIZE + 1} 
             top={(props.top * TOP_MULTIPLIER) - 0.8} 
             left={-0.8 + (props.left * WIDTH_MULTIPLIER + (props.top % 2 == 0 ? ROW_OFFSET : 0))}
-            color={selected ? "rgba(127, 127, 127, 0.3)" : "transparent"} >
+            color={selected ? "rgba(127, 127, 127, 0.3)" : BaseStyle.global.colors['neutral-2']} >
             {/* <Text weight="bold" color="neutral-4">{props.text}</Text> */}
-            <div  ref={hexRef} />
-            {selected && <Layer
+           
+        </Hexagon>
+         {/* {selected && <Layer
                 style={{
                     position: 'relative'
                 }}
                     position="right"
-                modal={false}
+                    modal={false}
                     onClickOutside={() => setSelected(false)}
                     onEsc={() => setSelected(false)}
                     target={hexRef.current}>
@@ -71,8 +75,7 @@ export const HexCell : React.FC<HexCellProps> = (props) => {
 
 
                         </Box>
-                </Layer>}
-        </HexBox>
-
+                </Layer>} */}
+        </div>
     );
 }   

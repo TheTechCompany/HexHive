@@ -15,10 +15,7 @@ export const Home : React.FC<any> = (props) => {
 
     return (
         <Box style={{height: '100%', overflow: 'hidden'}}>
-            <BaseHeader  
-                onMenu={() => {
-                    setDrawer(!drawer) 
-                }} />
+        
             {drawer && 
             <ThemeContext.Extend
                 value={{
