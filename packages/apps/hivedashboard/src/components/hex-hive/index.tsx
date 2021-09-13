@@ -1,24 +1,48 @@
 import { Box } from 'grommet';
-import { Add } from 'grommet-icons'
+import { Add, Shop, Document, Folder} from 'grommet-icons'
 import React, { useState } from 'react';
 import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
 import { useQuery } from '@hexhive/client';
 import { AppModal } from '../app-modal';
-export interface HexHiveProps {
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+export interface HexHiveProps extends RouteComponentProps {
     edit?: boolean;
 }
 
-export const HexHive : React.FC<HexHiveProps> = (props) => {
+export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
 
+    const [ selectedPos, setSelectedPos ] = useState<{x?: number, y?: number}>({})
     const [ modalOpen, openModal ] = useState<boolean>(false);
 
     const [ actions, setActions ] = useState<any[]>([
         {
-            icon: <Add />,
+            icon: <Shop size="large" />,
+            title: "Market",
             top: 3,
             left: 3,
-            path: '/add'
+            path: '/market'
+        },
+        {
+            icon: <Document size="large" />,
+            title: "Files",
+            top: 3,
+            left: 4,
+            path: '/files'
+        },
+        {
+            icon: <Folder size="large" />,
+            top: 3,
+            title: "Flow",
+            left: 5,
+            path: '/flow'
+        },
+        {
+            icon: <Folder size="large" />,
+            top: 3,
+            title: "Command",
+            left: 6,
+            path: '/command'
         }
     ])
 
@@ -30,14 +54,47 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
         <Box overflow="hidden">
             <AppModal   
                 open={modalOpen} 
+                onSubmit={(app: {name: string, path: string}) => {
+                    console.log(app)
+                    let a = actions.slice()
+                    
+                    let ix = a.map((x) => `${x.top},${x.left}`).indexOf(`${selectedPos.y},${selectedPos.x}`)
+                    
+                    if(ix > -1){
+                        a[ix] = {
+                            title: app.name,
+                            top: selectedPos.y,
+                            left: selectedPos.x,
+                        }
+                    }else{
+                        a.push({
+                            icon: <Add />,
+                            top: selectedPos.y,
+                            left: selectedPos.x,
+                            title: app.name,
+                            path: app.path
+                        })
+                    }
+                    setActions(a)
+                    openModal(false)
+                }}
                 onClose={() => openModal(false)} />
             <HexBoxBackground
                 onActionsChanged={(actions) => {
                     setActions(actions)
                     console.log(actions)
                 }}
-                onClick={() => {
-                    openModal(true)
+                onClick={(pos) => {
+                    if(props.edit){
+                        setSelectedPos(pos)
+                        openModal(true)
+                    }else{
+                        let action = actions.find((a) => a.top == pos.y && a.left == pos.x)
+
+                        if(action){
+                            props.history?.push(`${props.match.url}${action.path}`)
+                        }
+                    }
                 }}
                 noBackground
                 edit={props.edit}
@@ -50,3 +107,5 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
         </Box>
     )
 }
+
+export const HexHive = withRouter(BaseHexHive)

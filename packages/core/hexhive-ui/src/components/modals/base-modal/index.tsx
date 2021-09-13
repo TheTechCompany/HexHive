@@ -4,6 +4,7 @@ import React from 'react';
 export interface BaseModalProps {
     open: boolean;
     onClose?: () => void;
+    onSubmit?: () => void;
     title?: string;
     width?: string;
 }
@@ -38,7 +39,7 @@ export const BaseModal : React.FC<BaseModalProps> = (props) => {
                     direction="row"
                     gap='xsmall'>
                     <Button onClick={props.onClose} label="Cancel" />
-                    <Button primary label="Save" />
+                    <Button onClick={props.onSubmit} primary label="Save" />
                 </Box>
             </Box>
         </Layer>

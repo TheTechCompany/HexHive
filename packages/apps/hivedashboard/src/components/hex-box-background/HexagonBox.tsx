@@ -18,23 +18,27 @@ export const HexagonBox = styled(BaseHexagon)`
 
     .hexagon-container{
         position: absolute;
+        width: 100%;
+        height: 100%;
     }
+
+   
 
     position: absolute;
     top: ${p => p.top}em;
     left: ${p => p.left}em;
     width: ${p => p.size - (p.selected ? p.size / 30 : 0) || '300'}em; 
     height: ${p => p.size / 1.7320016165 || '173.21'}em;
-    background-color: #64C7CC;
+    background-color: ${p => p.color || '#64C7CC'};
     margin: ${p => p.size / 3.4642032333 || 86.6}em 0;
     ${p => p.selected ? `
     border-left: solid ${p.size / 60}em #333333;
     border-right: solid ${p.size / 60}em #333333;
     ` : ''}
 
-    &:hover, &:hover > *, .hexagon-container {
+    &:hover {
+      filter: drop-shadow(0px 0px 3px gray);
         ${p => p.onClick ? 'cursor: pointer;' : ''}
-        ${p => p.onClick ? 'box-shadow: 0px 5px 10px -4px gray;' : ''}
     }
 
     ${p => p.selected ? `
@@ -48,7 +52,7 @@ export const HexagonBox = styled(BaseHexagon)`
   -webkit-transform: scaleY(0.5774) rotate(-45deg);
   -ms-transform: scaleY(0.5774) rotate(-45deg);
   transform: scaleY(0.5774) rotate(-45deg);
-  background-color: inherit;
+  background-color: ${p.color || '#64C7CC'};
   left: ${p.size / 7.7053475112 || '38.9340'}em;
 }
 
@@ -76,13 +80,13 @@ export const HexagonBox = styled(BaseHexagon)`
 
   &:before {
     bottom: 100%;
-    border-bottom: ${p.size / 3.4642032333 || 86.6}em solid #64C7CC;
+    border-bottom: ${p.size / 3.4642032333 || 86.6}em solid ${p.color || '#64C7CC'};
   }
   
   &:after {
     top: 100%;
     width: 0;
-    border-top: ${p.size / 3.4642032333 || 86.6}em solid #64C7CC;
+    border-top: ${p.size / 3.4642032333 || 86.6}em solid ${p.color || '#64C7CC'};;
   }
     `}
 
