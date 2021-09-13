@@ -91,9 +91,7 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
 
     return (
         <Box flex className="dashboard">
-            <Header
-                
-                tabs={getHeaderTabs()} />
+       
             <Box
                 flex
                 direction="row"

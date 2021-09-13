@@ -15,6 +15,7 @@
     <script src="http://localhost:8510/remoteEntry.js"></script>
     <script src="http://localhost:8511/remoteEntry.js"></script>
     <script src="http://localhost:8513/remoteEntry.js"></script>
+    <script src="http://localhost:8515/remoteEntry.js"></script>
 
   
   <% } else { %>
@@ -114,17 +115,31 @@
         overflow: hidden;
       }
       body{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
         margin: 0;
       }
       body {
         font-family: 'Roboto', sans-serif;
       }
+
+
+      .app-header{
+        background-color: #55556B;
+      }
+
+      body > div[id*="single-spa-application"]:not(#single-spa-application\:hexhive_hiveheader){
+        flex: 1;
+      }
     </style>
+
 </head>
 <body>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
+
   <main></main>
   <script>
     System.import('@hexhive/root-config');

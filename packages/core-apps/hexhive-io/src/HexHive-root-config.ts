@@ -1,6 +1,10 @@
 import { lazy } from "react";
 import {  registerApplication, start } from "single-spa";
-
+import {
+  constructRoutes,
+  constructApplications,
+  constructLayoutEngine,
+} from 'single-spa-layout'
 // registerApplication({
 //   name: "@single-spa/welcome",
 //   app: () =>
@@ -13,6 +17,31 @@ import {  registerApplication, start } from "single-spa";
 // //@ts-ignore
 // const item = lazy(() => import('HiveFlow').then((r) => ({default: r})) )
 // console.log(item)
+
+// const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
+//   props: {},
+//   loaders: {
+//     topNav: "<h1>Loading topnav</h1>",
+//   },
+//   errors: {
+//     topNav: "<h1>Failed to load topnav</h1>",
+//   },
+// });
+
+// const applications = constructApplications({
+//   routes,
+//   loadApp: ({ name }) => System.import(name),
+// });
+
+// const layoutEngine = constructLayoutEngine({
+//   routes,
+//   applications,
+//   active: false,
+// });
+
+
+// applications.forEach(registerApplication);
+
 
 registerApplication({
   name: "hexhive_dashboard",
@@ -72,12 +101,13 @@ registerApplication({
   app: () => import("hexhive_hivebuild"),
   activeWhen: (location) => location.pathname.indexOf('/dashboard/build') > -1
 })
-// registerApplication({
-//   name: "@HexHive/navbar",
-//   app: () => System.import("@HexHive/navbar"),
-//   activeWhen: ["/"]
-// });
+registerApplication({
+  name: "hexhive_hiveheader",
+  //@ts-ignore
+  app: () => import("hexhive_hiveheader"),
+  activeWhen: (location) => true
+});
 
 start({
   urlRerouteOnly: true,
-});
+})

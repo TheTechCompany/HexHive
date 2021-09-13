@@ -18,14 +18,8 @@ export const App = (props: any)  => {
 
   return (
    
-  <Box background="neutral-2" height={'100vh'} width={'100vw'} flex direction="column">
-    <Header
-      
-    path={!matchPath(window.location.pathname, {path: '/dashboard/files/workflows'}) ? "/workflows" : "/"}
-    onActionClick={(path) => {
-        console.log("ACTION")
-        props.history.push(path)
-    }} />
+  <Box background="neutral-2" height={'100%'} width={'100%'} flex direction="column">
+
     <Switch>
       <Route path={"/"} exact render={(props) => <Explorer {...props} />} />
       <Route path={"/workflows"} exact component={WorkflowList} />

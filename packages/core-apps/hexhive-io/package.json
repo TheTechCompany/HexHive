@@ -45,6 +45,7 @@
     "@types/webpack-env": "^1.16.0",
     "grommet": "^2.17.4",
     "process": "^0.11.10",
-    "single-spa": "^5.9.3"
+    "single-spa": "^5.9.3",
+    "single-spa-layout": "^1.6.0"
   }
 }
