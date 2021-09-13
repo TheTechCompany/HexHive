@@ -13,6 +13,7 @@ export interface HexCellProps {
     apps?: any[];
     onClick?: () => void;
     onSelect?: (item: any) => void;
+    background?: boolean;
 }
 
 export const HexCell : React.FC<HexCellProps> = (props) => {
@@ -33,7 +34,7 @@ export const HexCell : React.FC<HexCellProps> = (props) => {
             size={HEX_SIZE + 1} 
             top={(props.top * TOP_MULTIPLIER) - 0.8} 
             left={-0.8 + (props.left * WIDTH_MULTIPLIER + (props.top % 2 == 0 ? ROW_OFFSET : 0))}
-            color={selected ? "rgba(127, 127, 127, 0.3)" : BaseStyle.global.colors['neutral-2']} >
+            color={props.background ? "rgba(127, 127, 127, 0.3)" : BaseStyle.global.colors['neutral-2']} >
             {/* <Text weight="bold" color="neutral-4">{props.text}</Text> */}
            
         </Hexagon>

@@ -42,7 +42,7 @@ export interface BoxBackgroundProps {
     className?: string;
     noBackground?: boolean;
 
-    onClick?: (item: any) => void;
+    onClick?: (item: {x: number, y: number}) => void;
 }
 
 const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
@@ -148,36 +148,46 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
             action_elements.push(
                 <HexButton 
                     onClick={() => onAction(item)}
-                    top={top}
+                    top={item.top}
                     logo={item.icon}
-                    left={mid + i}
+                    left={item.left}
                     size={size.actions}
                     text={item.title} />)
         }
         return action_elements;
     }
 
-    const renderEditor = () => {
+    const renderEditor = (edit: boolean) => {
         let elems = [];
         console.log(MAX_WIDTH, MAX_HEIGHT, actions)
         for(var i = 0; i < MAX_WIDTH / ratio; i++){
                 for(var o = 0; o < MAX_HEIGHT / ratio; o++){
+
+                    const x = i;
+                    const y = o;
                     
                     let action = actions.find((a) => a.top == o && a.left == i)
                     if(action) {
                         elems.push(
                 <HexButton 
-                    onClick={() => onClick(action)}
+                    onClick={() => onClick({x, y})}
                     top={action.top}
                     left={action.left}
+                    logo={action.icon}
                     size={size.actions}
                     text={action.title} />
                         )
                     }else{
                         const left = i;
                         const top = o;
-                        elems.push(<HexCell apps={apps} top={o} left={i} onClick={() => {
-                            onClick(action)
+                        elems.push(
+                        <HexCell 
+                            background={!edit}
+                            apps={apps} 
+                            top={o} 
+                            left={i} 
+                            onClick={() => {
+                            onClick({x, y})
                         }} size={size.actions} />)
                     }
                 }
@@ -197,7 +207,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
             <div className="action-container">
           
                 {/* {children} */}
-                {edit != undefined && edit != null ? renderEditor() : renderActions()}
+                {edit != undefined && edit != null && edit ? renderEditor(true) : renderEditor(false)}
             </div>
             {/* {renderActions()}
             {onAdd ? <HexButton

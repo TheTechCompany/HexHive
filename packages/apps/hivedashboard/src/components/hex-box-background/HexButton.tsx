@@ -2,11 +2,23 @@ import { BaseStyle } from '@hexhive/styles';
 import { Box, Text } from 'grommet';
 import React from 'react';
 import { Hexagon } from './Hexagon';
+import { HexagonBorder } from './HexagonBorder';
+import { HexagonBox } from './HexagonBox';
 import { HexagonImage } from './HexagonImage';
 import { HexBox } from './HexBox';
 
-export const HexButton = (props: any) => {
-    console.log(props.top)
+export interface HexButtonProps {
+    onClick: () => void;
+    size?: number;
+    top: number;
+    left: number;
+
+    logo: any;
+    text: string;
+    color?: string;
+}
+
+export const HexButton : React.FC<HexButtonProps> = (props) => {
 
     const HEX_SIZE = props.size || 3;
 
@@ -15,16 +27,25 @@ export const HexButton = (props: any) => {
     const ROW_OFFSET = HEX_SIZE * 0.6;
 
     return (
-        <HexagonImage
+        <HexagonBox
             onClick={props.onClick || (() => { console.log("Click") })}
             size={HEX_SIZE + 1} 
             top={(props.top * TOP_MULTIPLIER) - 0.8} 
             left={-0.8 + (props.left * WIDTH_MULTIPLIER + (props.top % 2 == 0 ? ROW_OFFSET : 0))} 
-            color={BaseStyle.global.colors['neutral-1']}>
+            color={props.color}>
             {/* <Text weight="bold" color="neutral-4">{props.text}</Text> */}
-            {props.logo}
-            TEXT
-        </HexagonImage>
+            <Box
+                height="100%"
+                width="100%"
+                direction='column'
+                align="center"
+                justify="center"
+                >
+                {props.logo}
+                <Text>{props.text}</Text>
+            </Box>
+    
+        </HexagonBox>
 
     );
 }   
