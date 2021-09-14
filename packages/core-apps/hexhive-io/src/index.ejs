@@ -15,6 +15,8 @@
     <script src="http://localhost:8510/remoteEntry.js"></script>
     <script src="http://localhost:8511/remoteEntry.js"></script>
     <script src="http://localhost:8513/remoteEntry.js"></script>
+    <script src="http://localhost:8514/remoteEntry.js"></script>
+
     <script src="http://localhost:8515/remoteEntry.js"></script>
 
   
@@ -31,6 +33,8 @@
       <script defer="defer" src="https://staging-apps.hexhive.io/hivebuild/remoteEntry.js"></script>
       <script defer="defer" src="https://staging-apps.hexhive.io/hivemarket/remoteEntry.js"></script>
       <script defer="defer" src="https://staging-apps.hexhive.io/header/remoteEntry.js"></script>
+      
+      <script defer="defer" src="https://staging-apps.hexhive.io/hiveautomate/remoteEntry.js"></script>
 
       <script defer="defer" src="https://staging-apps.hexhive.io/hiveflow/remoteEntry.js"></script>
       <script defer="defer" src="https://staging-apps.hexhive.io/hivefiles/remoteEntry.js"></script>
@@ -130,11 +134,12 @@
         background-color: #55556B;
       }
 
-      body > div[id*="single-spa-application"]:not(#single-spa-application\:hexhive_hiveheader){
+      body > .main-content, .main-content > div{
         flex: 1;
+        display: flex;
       }
     </style>
-
+  
 </head>
 <body>
   <noscript>
