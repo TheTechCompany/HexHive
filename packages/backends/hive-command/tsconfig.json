@@ -71,7 +71,6 @@
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
   "references": [
-    {"path": "../../shared/hexhive-auth"},
     {"path": "../../core/collaboration-server"},
     {"path": "../../shared/hexhive-types"}
   ]
