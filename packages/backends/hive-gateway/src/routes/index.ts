@@ -53,8 +53,13 @@ export const DefaultRouter = (neo4j : Driver) : Router => {
     })
 
     router.get('/me', requiresAuth(), async (req, res) => {
-        const userinfo = await req.oidc.fetchUserInfo();
-        res.send({...userinfo})
+        try{
+            const userinfo = await req.oidc.fetchUserInfo();
+            res.send({...userinfo})
+        }catch(e){
+            res.status(400).send({error: e})
+        }
+
     })
     // router.use('/user', UserRouter(cas, methods))
     return router;
