@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { CentralAuthServer } from '@hexhive/auth';
 
 import { AuthRouter } from './auth';
 import { UserRouter } from './user'
