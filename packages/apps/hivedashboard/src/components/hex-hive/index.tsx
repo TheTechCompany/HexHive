@@ -1,5 +1,5 @@
 import { Box } from 'grommet';
-import { Add, Shop, Document, Folder} from 'grommet-icons'
+import { Add, Shop, Spa, Robot, Command, Document, Folder} from 'grommet-icons'
 import React, { useState } from 'react';
 import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
@@ -31,21 +31,21 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             path: '/files'
         },
         {
-            icon: <Folder size="large" />,
+            icon: <Spa size="large" />,
             top: 3,
             title: "Flow",
             left: 5,
             path: '/flow'
         },
         {
-            icon: <Folder size="large" />,
+            icon: <Command size="large" />,
             top: 3,
             title: "Command",
             left: 6,
             path: '/command'
         },
         {
-            icon: <Folder size="large" />,
+            icon: <Robot size="large" />,
             top: 3,
             title: "Automate",
             left: 7,

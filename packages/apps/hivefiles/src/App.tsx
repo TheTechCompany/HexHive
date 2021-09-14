@@ -8,10 +8,6 @@ import { useEffect } from "react";
 import { BrowserRouter as Router, matchPath, Route, Switch } from 'react-router-dom';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Explorer } from "./views/explorer";
-import { Workflows } from "./views/workflow-editor";
-import { WorkflowList } from "./views/workflow-list";
-import { TaskEditor } from "./views/task-editor";
-import {TaskList} from "./views/task-list";
 
 
 export const App = (props: any)  => {
@@ -22,10 +18,7 @@ export const App = (props: any)  => {
 
     <Switch>
       <Route path={"/"} exact render={(props) => <Explorer {...props} />} />
-      <Route path={"/workflows"} exact component={WorkflowList} />
-      <Route path={"/workflows/:id"} exact component={Workflows} />
-      <Route path={"/tasks"} exact component={TaskList} />
-      <Route path={"/tasks/:id"} component={TaskEditor} />
+  
       <Route path={"/explore/:id"} render={(props) => <Explorer {...props} />}  />
       </Switch>
 

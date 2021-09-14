@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 import { RetractingPort } from "@hexhive/ui"
-import { IStackItemsPorts } from "@hexhive/types"
 import { PortWidget } from "@hexhive/ui"
 import { Box, Text } from "grommet"
 
