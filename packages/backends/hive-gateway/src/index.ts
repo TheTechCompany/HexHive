@@ -193,15 +193,19 @@ const config : ConfigParams = {
 
     if (process.env.NODE_ENV == 'production') {
         app.use('/graphql', requiresAuth(), async (req, res, next) => {
-            const user = await req.oidc.fetchUserInfo(); 
+            try {
+                const user = await req.oidc.fetchUserInfo(); 
 
-            (req as any).user = {
-                _id: user.sub,
-                ...user
+                (req as any).user = {
+                    _id: user.sub,
+                    ...user
+                }
+                console.log("OIDC", (req as any).user);
+
+                next();
+            }catch(e){
+                next("No user info found")
             }
-            console.log("OIDC", (req as any).user);
-
-            next();
         })
     }
 
