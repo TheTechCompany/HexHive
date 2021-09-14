@@ -1,5 +1,5 @@
 import { mutation, useMutation  } from '@hexhive/client';
-import { gql,useQuery  } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { ActionNodeFactory, BlockTray, IconNodeFactory, InfiniteCanvas, StartNodeFactory } from '@hexhive/ui';
 import { Box, List } from 'grommet';
 import _, { debounce } from 'lodash';
