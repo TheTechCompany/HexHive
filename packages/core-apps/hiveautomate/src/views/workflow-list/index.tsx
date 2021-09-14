@@ -35,7 +35,6 @@ export const WorkflowList : React.FC<WorkflowListProps> = (props) => {
             flex
             round="small"
             background="neutral-1"
-            margin="small" 
             elevation="small">
             <WorkflowModal 
                 open={modalOpen} 

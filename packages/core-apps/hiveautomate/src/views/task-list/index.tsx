@@ -36,7 +36,6 @@ export const TaskList : React.FC<TaskListProps> = (props) => {
             background="neutral-1"
             flex
             round="small"
-            margin="small" 
             elevation="small">
            <TaskModal   
             open={modalOpen}

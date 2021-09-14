@@ -1,7 +1,7 @@
 import { mutation, useMutation  } from '@hexhive/client';
 import { gql, useQuery } from '@apollo/client';
 import { ActionNodeFactory, BlockTray, IconNodeFactory, InfiniteCanvas, StartNodeFactory } from '@hexhive/ui';
-import { Box, List } from 'grommet';
+import { Box, Text, List } from 'grommet';
 import _, { debounce } from 'lodash';
 import { nanoid } from 'nanoid';
 import React, { useRef, useState } from 'react';
@@ -208,108 +208,117 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
     // const items = [{blockType: 'multiport-node', label: "STP->GLTF", extras: {title: 'STP->GLB', runner: 'thetechcompany/cae-stp2glb'}},{blockType: 'multiport-node', label: "GLTF->GLTF+fix", extras: {title: 'GLTF->GLTF Fix', runner: 'thetechcompany/cae-gltffix'}}, {blockType: 'multiport-node', label: "GLTF->GLTFPack", extras: {title: 'GLTFPack', runner: 'thetechcompany/cae-gtlfpack'}}]
 
     return (
-        <Box flex direction="row">
-    
-            <InfiniteCanvas 
-                editable={true}
-                nodes={nodes}
-                paths={paths.current.p}
-             
-                factories={[new MultiportNodeFactory(),new ActionNodeFactory(), new IconNodeFactory(), new StartNodeFactory()]}
-                onDrop={(position, data) => {
-                    console.log("DROP", position, data)
-                    let node = {
-                        id: nanoid(),
-                        type: data.type,
-                        extras: {
-                            ...data.extras
-                        },
-                        x: position.x,
-                        y: position.y,
-                    }
+        <Box round="small" flex direction="column">
+            <Box 
+                pad="xsmall"
+                background="accent-1" 
+                direction="row">
+                <Text>Workflow name</Text>
+            </Box>
+            <Box flex direction="row">
+                
+                <InfiniteCanvas 
+                    editable={true}
+                    nodes={nodes}
+                    paths={paths.current.p}
+                
+                    factories={[new MultiportNodeFactory(),new ActionNodeFactory(), new IconNodeFactory(), new StartNodeFactory()]}
+                    onDrop={(position, data) => {
+                        console.log("DROP", position, data)
+                        let node = {
+                            id: nanoid(),
+                            type: data.type,
+                            extras: {
+                                ...data.extras
+                            },
+                            x: position.x,
+                            y: position.y,
+                        }
 
-                    addWorkflowNode({args: { 
-                        runner: data.extras.runner,
-                        x: position.x,
-                        y: position.y
-                    }})
+                        addWorkflowNode({args: { 
+                            runner: data.extras.runner,
+                            x: position.x,
+                            y: position.y
+                        }})
 
-                    setNodes([...nodes, node])
-            
-                }}
-                onNodeUpdate={(node) => {
-                    console.log(node, nodes)
-                     let ix = nodes.map((x) => x.id).indexOf(node.id)
-                     let n = nodes.slice()
-                     n[ix] = node;
+                        setNodes([...nodes, node])
+                
+                    }}
+                    onNodeUpdate={(node) => {
+                        console.log(node, nodes)
+                        let ix = nodes.map((x) => x.id).indexOf(node.id)
+                        let n = nodes.slice()
+                        n[ix] = node;
 
-                    debounce(() =>{
-                        updateWorkflowNode({args: {id: node.id, x: node.x, y: node.y}}).then(() => {
-                         
-                        })
-                    }, 1000)()
-          
-
-                    setNodes(n)
-                }}
-                onPathCreate={(path) => {
-                    console.log("PATH CREATE", path, paths)
-                    updateRef.current.addPath(path)
-                    // setPaths([...paths, path])
-                }}
-                onPathUpdate={(path) => {
-                    console.log("Path Update", path, paths)
-
-                    if(path.source && path.target){
-
-                            connectWorkflowNodes({args: {
-                                id: path.source, 
-                                to: path.target,
-                                source: path.sourceHandle,
-                                target: path.targetHandle
-                            }}).then(() => {
-
+                        debounce(() =>{
+                            updateWorkflowNode({args: {id: node.id, x: node.x, y: node.y}}).then(() => {
+                            
                             })
-                        
-                    }
-                    updateRef.current.updatePath(path)
-                    // let p = paths.slice()
-                    // let ix = p.map((x) => x.id).indexOf(path.id)
-                    // p[ix] = path;
-                    // setPaths(p)
-                }}
-                onPathsChanged={(paths) => {
-                    console.log("Path Change", paths)
-                }}
-                onNodesChanged={(nodes) => console.log(nodes)}
-                >
-               
+                        }, 1000)()
+            
 
-            <Box
-                style={{zIndex:99}}
-                onMouseDown={(e) => {
-                    console.log("Box click")
-                    e.stopPropagation()
-                }}
-             elevation="small" background="neutral-1" width="small">
-               
-                    <BlockTray 
-                        renderItem={(block : any) => (
-                        <Box  
-                            round="small"
-                            style={{cursor: 'pointer'}}
-                            pad="xsmall"
-                            background="accent-1"
-                            justify={block.dimensions ? "center" : 'start'}
-                            align="center"
-                            direction="row">
-                            {block.icon}
-                            <Box 
-                                style={block.dimensions || {marginLeft: 8}}>{block.content || block.label}</Box>
-                        </Box>)}
-                        blocks={items as any} />
-               </Box>
-            </InfiniteCanvas>
+                        setNodes(n)
+                    }}
+                    onPathCreate={(path) => {
+                        console.log("PATH CREATE", path, paths)
+                        updateRef.current.addPath(path)
+                        // setPaths([...paths, path])
+                    }}
+                    onPathUpdate={(path) => {
+                        console.log("Path Update", path, paths)
+
+                        if(path.source && path.target){
+
+                                connectWorkflowNodes({args: {
+                                    id: path.source, 
+                                    to: path.target,
+                                    source: path.sourceHandle,
+                                    target: path.targetHandle
+                                }}).then(() => {
+
+                                })
+                            
+                        }
+                        updateRef.current.updatePath(path)
+                        // let p = paths.slice()
+                        // let ix = p.map((x) => x.id).indexOf(path.id)
+                        // p[ix] = path;
+                        // setPaths(p)
+                    }}
+                    onPathsChanged={(paths) => {
+                        console.log("Path Change", paths)
+                    }}
+                    onNodesChanged={(nodes) => console.log(nodes)}
+                    >
+                
+
+                <Box
+                    style={{zIndex:99}}
+                    onMouseDown={(e) => {
+                        console.log("Box click")
+                        e.stopPropagation()
+                    }}
+                elevation="small" background="neutral-1" width="small">
+                
+                        <BlockTray 
+                            renderItem={(block : any) => (
+                            <Box  
+                                round="small"
+                                style={{cursor: 'pointer'}}
+                                pad="xsmall"
+                                background="accent-1"
+                                justify={block.dimensions ? "center" : 'start'}
+                                align="center"
+                                direction="row">
+                                {block.icon}
+                                <Box 
+                                    style={block.dimensions || {marginLeft: 8}}>{block.content || block.label}</Box>
+                            </Box>)}
+                            blocks={items as any} />
+                </Box>
+                </InfiniteCanvas>
+            </Box>
         </Box>
+        
     )
 }
