@@ -6,7 +6,6 @@ import { PassThrough } from 'stream';
 import multer from 'multer'
 import { addFileToJob } from './util';
 import jwt from 'jsonwebtoken'
-import { AuthServer } from '@hexhive/auth';
 import { FileManager } from './util';
 import { requiresAuth } from 'express-openid-connect';
 import { Driver, Result, Session } from 'neo4j-driver';

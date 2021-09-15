@@ -39,7 +39,7 @@ const submitFileEvent = async (event: HiveEvent) => {
         responseType: 'json',
         headers: {
             "Content-Type": "application/json",
-            "HexHive-Job": nanoid()
+            "JobID": nanoid()
         },
         data: {
             id: nanoid()

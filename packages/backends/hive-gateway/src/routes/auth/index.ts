@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { CentralAuthServer } from '@hexhive/auth';
 import { User } from '@hexhive/types';
 import crypto from 'crypto'
 import { Provider } from 'oidc-provider';
