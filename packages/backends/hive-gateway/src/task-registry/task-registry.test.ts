@@ -1,5 +1,7 @@
 import {TaskRegistry} from '.'
 
+import { apply } from './k8s'
+
 const tr = new TaskRegistry()
 
 const td = tr.formatTaskDefinition(`test-task`,`
@@ -20,4 +22,14 @@ const td = tr.formatTaskDefinition(`test-task`,`
     }
 ])
 
-console.log(td)
+const pd = tr.formatPipelineDefinition(`test-pipeline`, [
+    {
+        task: 'test-task',
+        name: 'test',
+        inputs: [{source: 'origin', sourceHandle: 'output', targetHandle: 'input'}]
+    }
+], [])
+
+apply(td).then((resp) => {
+    console.log(resp)
+})

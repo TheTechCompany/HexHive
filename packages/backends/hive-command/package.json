@@ -15,6 +15,7 @@
     "@hexhive/auth": "^0.0.5-alpha.0",
     "@hexhive/collaboration-server": "^0.0.5-alpha.0",
     "@hexhive/types": "^0.0.5-alpha.0",
+     
     "graphql-compose-mongoose": "^9.5.2"
   },
   "devDependencies": {

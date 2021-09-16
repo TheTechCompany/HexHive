@@ -17,9 +17,31 @@ export default `
 type HivePipeline {
     id: ID! @id
     name: String
+    inputs: [HivePipelineResource] @relationship(type: "CAN_USE", direction: OUT)
     nodes: [HivePipelineNode] @relationship(type: "HAS_NODE", direction: OUT)
 }
 
+type HivePipelineResource {
+    key: String
+    type: String
+    urn: String
+}
+
+type HivePipelineRun {
+    id: ID! @id
+    createdAt: DateTime @timestamp(operations: [CREATE])
+    completedAt: DateTime
+
+    pipeline: HivePipeline @relationship(type: "ACTIVE_PIPELINE", direction: OUT)
+    inputs: [HivePipelineResource] @relationship(type: "USES", direction: OUT)
+}
+
+type HivePipelineStepResult {
+    id: ID! @id
+    run: HivePipelineRun @relationship(type: "ACTIVE_RUN", direction: OUT)
+    step: String
+    artifacts: [HivePipelineResource] @relationship(type: "PROVIDED", direction: OUT)
+}
 
 type HivePipelineNode {
     id: ID! @id

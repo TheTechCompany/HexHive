@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@hexhive/auth": "^0.0.5-alpha.0",
-    "@hexhive/types": "^0.0.5-alpha.0"
+    "@hexhive/types": "^0.0.5-alpha.0",
+    "@kubernetes/client-node": "^0.15.1"
   },
   "devDependencies": {
     "ts-node": "^10.2.0"

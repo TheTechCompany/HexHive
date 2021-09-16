@@ -208,7 +208,7 @@ export const PathLayer : React.FC<PathLayerProps> = (props) => {
                 {paths.map((path) => 
                 (
                     <>
-                    {context.selected?.type == 'path' && context.selected.id == path.id && path.menu && (
+                    {/* {context.selected?.type == 'path' && context.selected.id == path.id && path.menu && (
                         <Box 
                             onMouseDown={(e) => e.stopPropagation()}
                             flex
@@ -221,10 +221,10 @@ export const PathLayer : React.FC<PathLayerProps> = (props) => {
                                 {path.menu}
                             </Box>
                         </Box>
-                    )}
+                    )} */}
                           <FlowPath
                             onContextMenu={(e) => context.openContextMenu?.({x: e.clientX, y: e.clientY}, {type: "path", id: path.id})}
-                            selected={context.selected?.type == 'path' && context.selected.id == path.id}
+                            selected={context.selected?.find((a) => a.key == 'path' && a.id == path.id) != null}
                             path={path}
                             editable={context.editable}
                             onLinked={(nodeId, handleId) => linkPath(path.id, nodeId, handleId)}

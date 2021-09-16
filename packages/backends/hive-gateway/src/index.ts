@@ -18,8 +18,8 @@ import { DefaultRouter } from './routes';
 import { isValidObjectId } from 'mongoose';
 
 import { createServer } from 'http';
-import WebSocket, { Server as WebSocketServer } from 'ws';
-import { CollaborationServer } from './collaboration';
+// import WebSocket, { Server as WebSocketServer } from 'ws';
+// import { CollaborationServer } from './collaboration';
 import { Account } from './Account';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
@@ -27,13 +27,14 @@ import hiveSchema from './schema/hive'
 import printerSchema from './schema/3d'
 
 import { auth, ConfigParams , requiresAuth} from 'express-openid-connect';
+import { TaskRegistry } from './task-registry';
 
 const greenlock = require('greenlock-express')
 
 const app = express();
 
 const server = createServer(app);
-const wss = new WebSocketServer({ server, perMessageDeflate: false });
+// const wss = new WebSocketServer({ server, perMessageDeflate: false });
 
 const {NODE_ENV} = process.env
 
@@ -69,13 +70,15 @@ const config : ConfigParams = {
   
 (async () => {
 
+    const taskRegistry = new TaskRegistry()
+
     const driver = neo4j.driver(
         process.env.NEO4J_URI || 'localhost',
         neo4j.auth.basic(process.env.NEO4J_USER || 'neo4j', process.env.NEO4J_PASSWORD || 'test')
     );
     
 
-    const collaborationServer = new CollaborationServer();
+    // const collaborationServer = new CollaborationServer();
          
     await connect_data()
 
@@ -84,9 +87,9 @@ const config : ConfigParams = {
         subschemas: subschemas
     })
 
-    wss.on('connection', (socket) => {
-        collaborationServer.handleConnection(socket)
-    })
+    // wss.on('connection', (socket) => {
+    //     collaborationServer.handleConnection(socket)
+    // })
     // server.on('upgrade', (request, socket, head) => {
     //     wss.handleUpgrade(request, socket , head, (ws) => {
     //         wss.emit('connection', ws, request, {})
@@ -165,7 +168,7 @@ const config : ConfigParams = {
 
     app.use(auth(config));
 
-    app.use(DefaultRouter(driver)) 
+    app.use(DefaultRouter(driver, taskRegistry)) 
 
     app.get('/profile', requiresAuth(), async (req, res) => {
         const userInfo = await req.oidc.fetchUserInfo();
@@ -212,7 +215,7 @@ const config : ConfigParams = {
 
 
     app.use('/graphql', graphqlHTTP({
-        schema: mergeSchemas({schemas: [printerSchema, hiveSchema(driver), schema]}),
+        schema: mergeSchemas({schemas: [printerSchema, hiveSchema(driver,taskRegistry), schema]}),
         graphiql: true
     }))
 
@@ -221,11 +224,11 @@ const config : ConfigParams = {
     if(process.env.NODE_ENV == 'production'){
         const httpsWorker = (glx: any)  => {
             var server = glx.httpsServer();
-            var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
-            ws.on("connection", function(ws: WebSocket, req: any) {
-                // inspect req.headers.authorization (or cookies) for session info
-                collaborationServer.handleConnection(ws)
-            });
+            // var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
+            // ws.on("connection", function(ws: WebSocket, req: any) {
+            //     // inspect req.headers.authorization (or cookies) for session info
+            //     collaborationServer.handleConnection(ws)
+            // });
         
             // servers a node app that proxies requests to a localhost
             glx.serveApp(app);

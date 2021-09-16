@@ -21,7 +21,6 @@ export interface MultiportNodeProps {
 
 export const BaseMultiportNode : React.FC<MultiportNodeProps> = (props) => {
  
-    console.log("NODE", props)
 
         return (
             <Box 

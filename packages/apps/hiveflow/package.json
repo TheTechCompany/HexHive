@@ -59,6 +59,7 @@
     "@hexhive/styles": "^0.0.4-alpha.0",
     "@hexhive/ui": "^0.0.5-alpha.0",
     "@hexhive/utils": "^0.0.5-alpha.0",
+     
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",

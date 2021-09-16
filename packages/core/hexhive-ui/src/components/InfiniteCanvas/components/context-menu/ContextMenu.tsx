@@ -40,9 +40,9 @@ export const BaseContextMenu: React.FC<ContextMenuProps> = (props) => {
                 {props.menu?.map((datum) => (
                     <Box
                         onClick={() => {
-                            if(context.selected?.type && context.selected.id){
-                                datum.onClick?.(context.selected?.type, context.selected?.id)
-                            }
+                            // if(context.selected?.type && context.selected.id){
+                            //     datum.onClick?.(context.selected?.type, context.selected?.id)
+                            // }
                         }}
                         round={"xxsmall"}
                         align="center"

@@ -7,6 +7,7 @@
     },
     "dependencies": {
         "@hexhive/types": "^0.0.5-alpha.0",
+         
         "aws-sdk": "^2.970.0",
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hexhive/types": "^0.0.5-alpha.0"
+    "@hexhive/types": "^0.0.5-alpha.0",
+    "@kubernetes/client-node": "^0.15.1"
   }
 }

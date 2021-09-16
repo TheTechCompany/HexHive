@@ -32,6 +32,7 @@
     "@hexhive/types": "^0.0.5-alpha.0",
     "@hexhive/ui": "^0.0.5-alpha.0",
     "@hexhive/utils": "^0.0.5-alpha.0",
+     
     "@monaco-editor/react": "^4.2.1",
     "automerge": "^1.0.1-preview.3",
     "buffer": "^6.0.3",
