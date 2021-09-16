@@ -11,9 +11,8 @@ import { TaskRegistry } from "../task-registry";
 
 require("dotenv").config();
 
-export default (driver: Driver) => {
+export default (driver: Driver, taskRegistry: TaskRegistry) => {
 
-    const taskRegistry = new TaskRegistry()
 
     const typeDefs = gql`
 
@@ -108,43 +107,52 @@ export default (driver: Driver) => {
             },
             convertFiles: async (root: any, args: {pipeline: string, files: string[]}, context: any) => {
                 let id = nanoid()
-                const writeResult = await session.writeTransaction(async (tx) => {
+                // const writeResult = await session.writeTransaction(async (tx) => {
 
-                    const result = await tx.run(`
-                    MATCH (pipeline:HivePipeline {id: $pipeline})
-                    CREATE (process:HiveFileProcess {id: $id, createdAt: $date})
-                    CREATE (process)-[:ACTIVE_PIPELINE]->(pipeline)
-                    RETURN process
-                    `, {
-                        id: id,
-                        pipeline: args.pipeline,
-                        date: new Date().toISOString()
-                    })
+                //     const input_query = await tx.run(`
+                //         MATCH (pipeline:HivePipeline {id: $id})-[:CAN_USE]->(resource:HivePipelineResource)
+                //         RETURN resource
+                //     `)
 
-                    const process = result.records[0].get(0).properties
-                    console.log("Process", process)
+                //     const inputs = input_query.records.map((x) => x.get(0).properties)
 
-                    await Promise.all(args.files.map(async (file: string) => {
-                        const result = await tx.run(`
-                        MATCH (process:HiveFileProcess {id: $id})
-                        MATCH (file:HiveFile {id: $file})
-                        CREATE (process)-[rel:CONVERTING]->(file)
-                        RETURN rel
-                        `, {
-                            id: process.id,
-                            file: file
-                        })
-                        return result.records
-                    }))
+                //     const result = await tx.run(`
+                //     MATCH (pipeline:HivePipeline {id: $pipeline})
+                //     CREATE (process:HivePipelineRun {id: $id, createdAt: $date})
+                //     CREATE (process)-[:ACTIVE_PIPELINE]->(pipeline)
+                //     RETURN process
+                //     `, {
+                //         id: id,
+                //         pipeline: args.pipeline,
+                //         date: new Date().toISOString()
+                //     })
+
+                //     const process = result.records[0].get(0).properties
+                //     console.log("Process", process)
+
+                //     await Promise.all(args.files.map(async (file: string) => {
+                //         const result = await tx.run(`
+                //         MATCH (process:HivePipelineRun {id: $id})
+                //         MATCH (file:HiveFile {id: $file})
+                //         CREATE (res:HivePipelineResource {key: $key, urn: $urn})
+                //         CREATE (process)-[rel:USES]->(res)
+                //         RETURN rel
+                //         `, {
+                //             id: process.id,
+                //             file: file,
+                //             key: 
+                //         })
+                //         return result.records
+                //     }))
                 
 
-                    return process;
-                })   
+                //     return process;
+                // })   
 
-                const [info] = await HiveFileProcess.find({where: {id: id}, context})
-                console.log(info)
+                // const [info] = await HiveFileProcess.find({where: {id: id}, context})
+                // console.log(info)
 
-                return info
+                // return info
             }
         }
     }

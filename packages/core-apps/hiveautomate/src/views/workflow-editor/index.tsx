@@ -15,7 +15,10 @@ export interface WorkflowsProps extends RouteComponentProps<{id: string}> {
 }
 
 export const Workflows : React.FC<WorkflowsProps> = (props) => {
+    const [ shift, setShift ] = useState<boolean>(false)
     const paths = useRef<{p?: any[]}>({p: []})
+
+    const [ selected, setSelected ] = useState<any[]>([])
 
     const [process, setProcess] = useState<any>() 
 
@@ -139,6 +142,32 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
         suspense: false
     })
 
+
+    const [ removeWorkflowNode, removeNodeInfo ] = useMutation((mutation, args: {id: string}) => {
+
+
+
+        const item = mutation.updateHivePipelines({where: {id: props.match.params.id}, update: {
+            nodes: [{
+                where: {node: {id: args.id}},
+                delete: [{
+                    where: {node: {id: args.id}},
+                
+            }]}]
+        
+        }})
+        return {
+            item: {
+                ...item.hivePipelines[0],
+            },
+            err: null
+        }
+    }, {
+        awaitRefetchQueries: true,
+        refetchQueries: [  ],
+        suspense: false
+    })
+
     const [ connectWorkflowNodes, connectInfo ] = useMutation((mutation, args: {id: string, to: string, source: string, target: string}) => {
         const item = mutation.updateHivePipelines({where: {id: props.match.params.id}, update: {
             nodes: [{
@@ -208,14 +237,40 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
     // const items = [{blockType: 'multiport-node', label: "STP->GLTF", extras: {title: 'STP->GLB', runner: 'thetechcompany/cae-stp2glb'}},{blockType: 'multiport-node', label: "GLTF->GLTF+fix", extras: {title: 'GLTF->GLTF Fix', runner: 'thetechcompany/cae-gltffix'}}, {blockType: 'multiport-node', label: "GLTF->GLTFPack", extras: {title: 'GLTFPack', runner: 'thetechcompany/cae-gtlfpack'}}]
 
     return (
-        <Box round="small" flex direction="column">
+        <Box 
+         
+            round="small" flex direction="column">
             <Box 
                 pad="xsmall"
-                background="accent-1" 
+                background="accent-2" 
                 direction="row">
                 <Text>Workflow name</Text>
             </Box>
-            <Box flex direction="row">
+            <Box 
+                tabIndex={0}
+                onKeyUp={(e) => {
+                    if(!e.shiftKey){
+                        setShift(false)
+                    }
+                }}
+                onKeyDown={(e) => {
+                    console.log(e)
+                    if(e.shiftKey){
+                        setShift(true)
+                    }
+                    if(e.key == "Delete" || e.key == "Backspace"){
+                        let n = nodes.slice()
+                        let s=  selected.map((x) => x.id)
+
+                        selected.forEach((node) => {
+                            removeWorkflowNode({args: {id: node.id}})
+                        })
+                        
+                        setNodes(n.filter((a) => s.indexOf(a.id) < 0))
+                        setSelected([])
+                    }
+                }}
+                flex direction="row">
                 
                 <InfiniteCanvas 
                     editable={true}
@@ -245,7 +300,7 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                 
                     }}
                     onNodeUpdate={(node) => {
-                        console.log(node, nodes)
+                        console.log("Node update", node, nodes)
                         let ix = nodes.map((x) => x.id).indexOf(node.id)
                         let n = nodes.slice()
                         n[ix] = node;
@@ -258,6 +313,9 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
             
 
                         setNodes(n)
+                    }}
+                    onNodeRemove={(node) => {
+                        console.log("Remove node", node)
                     }}
                     onPathCreate={(path) => {
                         console.log("PATH CREATE", path, paths)
@@ -289,6 +347,26 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                         console.log("Path Change", paths)
                     }}
                     onNodesChanged={(nodes) => console.log(nodes)}
+                    onSelect={(key, id) => {
+                        console.log("Select", key, id)
+                        if(shift){
+                            let s = selected.slice()
+                            let ix = selected.map((x) => x.id).indexOf(id);
+                            if(ix > -1){
+                                s.splice(ix, 1)
+                            }else{
+                                s.push({key, id})
+                            }
+                            setSelected(s)
+                        }else{
+                            if(selected?.[0]?.id == id){
+                                setSelected([])
+                            }else{
+                                setSelected([{key, id}])
+                            }
+                        }
+                    }}
+                    selected={selected}
                     >
                 
 

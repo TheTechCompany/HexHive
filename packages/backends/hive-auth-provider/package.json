@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@hexhive/types": "^0.0.5-alpha.0",
+     
     "cookie-parser": "^1.4.5",
     "greenlock-express": "^4.0.3",
     "helmet": "^4.6.0",

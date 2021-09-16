@@ -66,6 +66,7 @@
     "@hexhive/styles": "^0.0.4-alpha.0",
     "@hexhive/types": "^0.0.5-alpha.0",
     "@hexhive/utils": "^0.0.5-alpha.0",
+     
     "@remirror/core-utils": "^1.1.0",
     "@remirror/pm": "^1.0.1",
     "@remirror/react": "^1.0.2",

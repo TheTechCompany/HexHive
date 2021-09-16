@@ -9,7 +9,7 @@ import { graphqlHTTP } from 'express-graphql'
 import cors from 'cors'
 import http from 'http';
 
-import { Server } from 'ws';
+// import { Server } from 'ws';
 
 //Alternate transports
 //import { Server } from 'socket.io'
@@ -81,11 +81,11 @@ app.use('/graphql',
 
     const server = http.createServer(app)
 
-    const wss = new Server({server: server})
+    // const wss = new Server({server: server})
 
-    wss.on('connection', (socket) => {
-        mergeServer.handleWebsocket(socket)
-    })
+    // wss.on('connection', (socket) => {
+    //     mergeServer.handleWebsocket(socket)
+    // })
 
     server.listen(PORT, () => {
       console.log(`LISTENING ON ${PORT}`)

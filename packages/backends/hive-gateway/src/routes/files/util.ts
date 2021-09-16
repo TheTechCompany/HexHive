@@ -15,6 +15,7 @@ export class FileManager {
         console.log("Get CID", cid)
         let chunks : Uint8Array = Uint8Array.from([]);
         for await (const chunk of this.ipfs.cat(cid)){
+            console.log("Chunked...")
             chunks = Uint8Array.from([...chunks, ...chunk]) 
         }
         console.log("Get CID Done", cid)

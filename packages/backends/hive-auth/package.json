@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@hexhive/types": "^0.0.5-alpha.0",
+     
     "ejs": "^3.1.6",
     "oidc-provider": "^7.6.0"
   },

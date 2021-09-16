@@ -13,7 +13,6 @@ export class MultiportNodeFactory extends AbstractWidgetFactory {
     }
 
     parseModel(model: any){
-        console.log(model)
         return {
             ...model,
             ports: model.ports ? model.ports : this.assets?.[model.extras.asset].ports
@@ -21,7 +20,6 @@ export class MultiportNodeFactory extends AbstractWidgetFactory {
     }
 
     generateWidget(event: any){
-        console.log(event)
         return <MultiportNodeWidget node={event} asset={this.assets?.[event.extras ? event.extras.asset : '']} />
     }
 }

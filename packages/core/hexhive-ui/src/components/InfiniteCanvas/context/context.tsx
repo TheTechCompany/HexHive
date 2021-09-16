@@ -49,7 +49,7 @@ export interface IInfiniteCanvasContext {
     selectNode?: (node: string) => void;
     selectPath?: (path: string) => void;
 
-    selected?: {type?: "node" | "path", id?: string}
+    selected?: {key?: "node" | "path", id?: string}[]
 
     moveNode?: (node: string, position: InfiniteCanvasPosition) => void;
     changeZoom?: (zoom: number) => void;

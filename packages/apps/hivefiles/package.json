@@ -54,6 +54,7 @@
     "@hexhive/client": "^0.0.5-alpha.0",
     "@hexhive/styles": "^0.0.4-alpha.0",
     "@hexhive/ui": "^0.0.5-alpha.0",
+     
     "@monaco-editor/react": "^4.2.2",
     "@types/jest": "^27.0.1",
     "@types/react": "^17.0.19",

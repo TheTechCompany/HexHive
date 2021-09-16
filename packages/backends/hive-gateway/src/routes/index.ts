@@ -12,11 +12,12 @@ import { Provider } from 'oidc-provider';
 import { requiresAuth } from 'express-openid-connect';
 import { FileManager } from './files/util';
 import { Driver } from 'neo4j-driver';
+import { TaskRegistry } from '../task-registry';
 // import { InteractionRouter } from './interaction';
 
 const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io', 'https://go.hexhive.io']
 
-export const DefaultRouter = (neo4j : Driver) : Router => {
+export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Router => {
     const neo_session = neo4j.session()
 
     const router = Router();
@@ -45,7 +46,7 @@ export const DefaultRouter = (neo4j : Driver) : Router => {
     router.use('/oauth', AuthRouter())
 
     if(fileManager) router.use('/api/files', FileRouter(fileManager, neo_session))
-    if(fileManager) router.use('/api/pipelines', PipelineRouter(neo_session))
+    if(fileManager) router.use('/api/pipelines', PipelineRouter(neo_session, fileManager, taskRegistry))
 
     router.get('/login', (req, res) => {
         res.oidc.login({ returnTo: req.query.returnTo?.toString() || process.env.UI_URL || 'https://next.hexhive.io/dashboard' })
