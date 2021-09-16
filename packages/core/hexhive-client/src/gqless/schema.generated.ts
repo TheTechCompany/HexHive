@@ -8,10 +8,12 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export interface Scalars {
   ID: string;
@@ -1458,6 +1460,7 @@ export interface HivePermissionWhere {
 }
 
 export interface HivePipelineConnectInput {
+  inputs?: Maybe<Array<HivePipelineInputsConnectFieldInput>>;
   nodes?: Maybe<Array<HivePipelineNodesConnectFieldInput>>;
 }
 
@@ -1467,14 +1470,17 @@ export interface HivePipelineConnectWhere {
 
 export interface HivePipelineCreateInput {
   name?: Maybe<Scalars["String"]>;
+  inputs?: Maybe<HivePipelineInputsFieldInput>;
   nodes?: Maybe<HivePipelineNodesFieldInput>;
 }
 
 export interface HivePipelineDeleteInput {
+  inputs?: Maybe<Array<HivePipelineInputsDeleteFieldInput>>;
   nodes?: Maybe<Array<HivePipelineNodesDeleteFieldInput>>;
 }
 
 export interface HivePipelineDisconnectInput {
+  inputs?: Maybe<Array<HivePipelineInputsDisconnectFieldInput>>;
   nodes?: Maybe<Array<HivePipelineNodesDisconnectFieldInput>>;
 }
 
@@ -1527,6 +1533,51 @@ export interface HivePipelineFlowPathWhere {
   target_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   target_ENDS_WITH?: Maybe<Scalars["String"]>;
   target_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+}
+
+export interface HivePipelineInputsConnectFieldInput {
+  where?: Maybe<HivePipelineResourceConnectWhere>;
+}
+
+export interface HivePipelineInputsConnectionSort {
+  node?: Maybe<HivePipelineResourceSort>;
+}
+
+export interface HivePipelineInputsConnectionWhere {
+  AND?: Maybe<Array<HivePipelineInputsConnectionWhere>>;
+  OR?: Maybe<Array<HivePipelineInputsConnectionWhere>>;
+  node?: Maybe<HivePipelineResourceWhere>;
+  node_NOT?: Maybe<HivePipelineResourceWhere>;
+}
+
+export interface HivePipelineInputsCreateFieldInput {
+  node: HivePipelineResourceCreateInput;
+}
+
+export interface HivePipelineInputsDeleteFieldInput {
+  where?: Maybe<HivePipelineInputsConnectionWhere>;
+}
+
+export interface HivePipelineInputsDisconnectFieldInput {
+  where?: Maybe<HivePipelineInputsConnectionWhere>;
+}
+
+export interface HivePipelineInputsFieldInput {
+  create?: Maybe<Array<HivePipelineInputsCreateFieldInput>>;
+  connect?: Maybe<Array<HivePipelineInputsConnectFieldInput>>;
+}
+
+export interface HivePipelineInputsUpdateConnectionInput {
+  node?: Maybe<HivePipelineResourceUpdateInput>;
+}
+
+export interface HivePipelineInputsUpdateFieldInput {
+  where?: Maybe<HivePipelineInputsConnectionWhere>;
+  update?: Maybe<HivePipelineInputsUpdateConnectionInput>;
+  connect?: Maybe<Array<HivePipelineInputsConnectFieldInput>>;
+  disconnect?: Maybe<Array<HivePipelineInputsDisconnectFieldInput>>;
+  create?: Maybe<Array<HivePipelineInputsCreateFieldInput>>;
+  delete?: Maybe<Array<HivePipelineInputsDeleteFieldInput>>;
 }
 
 export interface HivePipelineNodeCallerConnectFieldInput {
@@ -1900,7 +1951,255 @@ export interface HivePipelineOptions {
 }
 
 export interface HivePipelineRelationInput {
+  inputs?: Maybe<Array<HivePipelineInputsCreateFieldInput>>;
   nodes?: Maybe<Array<HivePipelineNodesCreateFieldInput>>;
+}
+
+export interface HivePipelineResourceConnectWhere {
+  node: HivePipelineResourceWhere;
+}
+
+export interface HivePipelineResourceCreateInput {
+  key?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  urn?: Maybe<Scalars["String"]>;
+}
+
+export interface HivePipelineResourceOptions {
+  /** Specify one or more HivePipelineResourceSort objects to sort HivePipelineResources by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<HivePipelineResourceSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+/** Fields to sort HivePipelineResources by. The order in which sorts are applied is not guaranteed when specifying many fields in one HivePipelineResourceSort object. */
+export interface HivePipelineResourceSort {
+  key?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+  urn?: Maybe<SortDirection>;
+}
+
+export interface HivePipelineResourceUpdateInput {
+  key?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  urn?: Maybe<Scalars["String"]>;
+}
+
+export interface HivePipelineResourceWhere {
+  OR?: Maybe<Array<HivePipelineResourceWhere>>;
+  AND?: Maybe<Array<HivePipelineResourceWhere>>;
+  key?: Maybe<Scalars["String"]>;
+  key_NOT?: Maybe<Scalars["String"]>;
+  key_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  key_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  key_CONTAINS?: Maybe<Scalars["String"]>;
+  key_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  key_STARTS_WITH?: Maybe<Scalars["String"]>;
+  key_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  key_ENDS_WITH?: Maybe<Scalars["String"]>;
+  key_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  urn?: Maybe<Scalars["String"]>;
+  urn_NOT?: Maybe<Scalars["String"]>;
+  urn_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  urn_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  urn_CONTAINS?: Maybe<Scalars["String"]>;
+  urn_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  urn_STARTS_WITH?: Maybe<Scalars["String"]>;
+  urn_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  urn_ENDS_WITH?: Maybe<Scalars["String"]>;
+  urn_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+}
+
+export interface HivePipelineRunConnectInput {
+  pipeline?: Maybe<HivePipelineRunPipelineConnectFieldInput>;
+  inputs?: Maybe<Array<HivePipelineRunInputsConnectFieldInput>>;
+}
+
+export interface HivePipelineRunConnectWhere {
+  node: HivePipelineRunWhere;
+}
+
+export interface HivePipelineRunCreateInput {
+  completedAt?: Maybe<Scalars["DateTime"]>;
+  pipeline?: Maybe<HivePipelineRunPipelineFieldInput>;
+  inputs?: Maybe<HivePipelineRunInputsFieldInput>;
+}
+
+export interface HivePipelineRunDeleteInput {
+  pipeline?: Maybe<HivePipelineRunPipelineDeleteFieldInput>;
+  inputs?: Maybe<Array<HivePipelineRunInputsDeleteFieldInput>>;
+}
+
+export interface HivePipelineRunDisconnectInput {
+  pipeline?: Maybe<HivePipelineRunPipelineDisconnectFieldInput>;
+  inputs?: Maybe<Array<HivePipelineRunInputsDisconnectFieldInput>>;
+}
+
+export interface HivePipelineRunInputsConnectFieldInput {
+  where?: Maybe<HivePipelineResourceConnectWhere>;
+}
+
+export interface HivePipelineRunInputsConnectionSort {
+  node?: Maybe<HivePipelineResourceSort>;
+}
+
+export interface HivePipelineRunInputsConnectionWhere {
+  AND?: Maybe<Array<HivePipelineRunInputsConnectionWhere>>;
+  OR?: Maybe<Array<HivePipelineRunInputsConnectionWhere>>;
+  node?: Maybe<HivePipelineResourceWhere>;
+  node_NOT?: Maybe<HivePipelineResourceWhere>;
+}
+
+export interface HivePipelineRunInputsCreateFieldInput {
+  node: HivePipelineResourceCreateInput;
+}
+
+export interface HivePipelineRunInputsDeleteFieldInput {
+  where?: Maybe<HivePipelineRunInputsConnectionWhere>;
+}
+
+export interface HivePipelineRunInputsDisconnectFieldInput {
+  where?: Maybe<HivePipelineRunInputsConnectionWhere>;
+}
+
+export interface HivePipelineRunInputsFieldInput {
+  create?: Maybe<Array<HivePipelineRunInputsCreateFieldInput>>;
+  connect?: Maybe<Array<HivePipelineRunInputsConnectFieldInput>>;
+}
+
+export interface HivePipelineRunInputsUpdateConnectionInput {
+  node?: Maybe<HivePipelineResourceUpdateInput>;
+}
+
+export interface HivePipelineRunInputsUpdateFieldInput {
+  where?: Maybe<HivePipelineRunInputsConnectionWhere>;
+  update?: Maybe<HivePipelineRunInputsUpdateConnectionInput>;
+  connect?: Maybe<Array<HivePipelineRunInputsConnectFieldInput>>;
+  disconnect?: Maybe<Array<HivePipelineRunInputsDisconnectFieldInput>>;
+  create?: Maybe<Array<HivePipelineRunInputsCreateFieldInput>>;
+  delete?: Maybe<Array<HivePipelineRunInputsDeleteFieldInput>>;
+}
+
+export interface HivePipelineRunOptions {
+  /** Specify one or more HivePipelineRunSort objects to sort HivePipelineRuns by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<HivePipelineRunSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface HivePipelineRunPipelineConnectFieldInput {
+  where?: Maybe<HivePipelineConnectWhere>;
+  connect?: Maybe<HivePipelineConnectInput>;
+}
+
+export interface HivePipelineRunPipelineConnectionSort {
+  node?: Maybe<HivePipelineSort>;
+}
+
+export interface HivePipelineRunPipelineConnectionWhere {
+  AND?: Maybe<Array<HivePipelineRunPipelineConnectionWhere>>;
+  OR?: Maybe<Array<HivePipelineRunPipelineConnectionWhere>>;
+  node?: Maybe<HivePipelineWhere>;
+  node_NOT?: Maybe<HivePipelineWhere>;
+}
+
+export interface HivePipelineRunPipelineCreateFieldInput {
+  node: HivePipelineCreateInput;
+}
+
+export interface HivePipelineRunPipelineDeleteFieldInput {
+  where?: Maybe<HivePipelineRunPipelineConnectionWhere>;
+  delete?: Maybe<HivePipelineDeleteInput>;
+}
+
+export interface HivePipelineRunPipelineDisconnectFieldInput {
+  where?: Maybe<HivePipelineRunPipelineConnectionWhere>;
+  disconnect?: Maybe<HivePipelineDisconnectInput>;
+}
+
+export interface HivePipelineRunPipelineFieldInput {
+  create?: Maybe<HivePipelineRunPipelineCreateFieldInput>;
+  connect?: Maybe<HivePipelineRunPipelineConnectFieldInput>;
+}
+
+export interface HivePipelineRunPipelineUpdateConnectionInput {
+  node?: Maybe<HivePipelineUpdateInput>;
+}
+
+export interface HivePipelineRunPipelineUpdateFieldInput {
+  where?: Maybe<HivePipelineRunPipelineConnectionWhere>;
+  update?: Maybe<HivePipelineRunPipelineUpdateConnectionInput>;
+  connect?: Maybe<HivePipelineRunPipelineConnectFieldInput>;
+  disconnect?: Maybe<HivePipelineRunPipelineDisconnectFieldInput>;
+  create?: Maybe<HivePipelineRunPipelineCreateFieldInput>;
+  delete?: Maybe<HivePipelineRunPipelineDeleteFieldInput>;
+}
+
+export interface HivePipelineRunRelationInput {
+  pipeline?: Maybe<HivePipelineRunPipelineCreateFieldInput>;
+  inputs?: Maybe<Array<HivePipelineRunInputsCreateFieldInput>>;
+}
+
+/** Fields to sort HivePipelineRuns by. The order in which sorts are applied is not guaranteed when specifying many fields in one HivePipelineRunSort object. */
+export interface HivePipelineRunSort {
+  id?: Maybe<SortDirection>;
+  createdAt?: Maybe<SortDirection>;
+  completedAt?: Maybe<SortDirection>;
+}
+
+export interface HivePipelineRunUpdateInput {
+  completedAt?: Maybe<Scalars["DateTime"]>;
+  pipeline?: Maybe<HivePipelineRunPipelineUpdateFieldInput>;
+  inputs?: Maybe<Array<HivePipelineRunInputsUpdateFieldInput>>;
+}
+
+export interface HivePipelineRunWhere {
+  OR?: Maybe<Array<HivePipelineRunWhere>>;
+  AND?: Maybe<Array<HivePipelineRunWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt_NOT?: Maybe<Scalars["DateTime"]>;
+  createdAt_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  createdAt_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  createdAt_LT?: Maybe<Scalars["DateTime"]>;
+  createdAt_LTE?: Maybe<Scalars["DateTime"]>;
+  createdAt_GT?: Maybe<Scalars["DateTime"]>;
+  createdAt_GTE?: Maybe<Scalars["DateTime"]>;
+  completedAt?: Maybe<Scalars["DateTime"]>;
+  completedAt_NOT?: Maybe<Scalars["DateTime"]>;
+  completedAt_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  completedAt_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  completedAt_LT?: Maybe<Scalars["DateTime"]>;
+  completedAt_LTE?: Maybe<Scalars["DateTime"]>;
+  completedAt_GT?: Maybe<Scalars["DateTime"]>;
+  completedAt_GTE?: Maybe<Scalars["DateTime"]>;
+  pipeline?: Maybe<HivePipelineWhere>;
+  pipeline_NOT?: Maybe<HivePipelineWhere>;
+  inputs?: Maybe<HivePipelineResourceWhere>;
+  inputs_NOT?: Maybe<HivePipelineResourceWhere>;
+  pipelineConnection?: Maybe<HivePipelineRunPipelineConnectionWhere>;
+  pipelineConnection_NOT?: Maybe<HivePipelineRunPipelineConnectionWhere>;
+  inputsConnection?: Maybe<HivePipelineRunInputsConnectionWhere>;
+  inputsConnection_NOT?: Maybe<HivePipelineRunInputsConnectionWhere>;
 }
 
 /** Fields to sort HivePipelines by. The order in which sorts are applied is not guaranteed when specifying many fields in one HivePipelineSort object. */
@@ -1909,8 +2208,182 @@ export interface HivePipelineSort {
   name?: Maybe<SortDirection>;
 }
 
+export interface HivePipelineStepResultArtifactsConnectFieldInput {
+  where?: Maybe<HivePipelineResourceConnectWhere>;
+}
+
+export interface HivePipelineStepResultArtifactsConnectionSort {
+  node?: Maybe<HivePipelineResourceSort>;
+}
+
+export interface HivePipelineStepResultArtifactsConnectionWhere {
+  AND?: Maybe<Array<HivePipelineStepResultArtifactsConnectionWhere>>;
+  OR?: Maybe<Array<HivePipelineStepResultArtifactsConnectionWhere>>;
+  node?: Maybe<HivePipelineResourceWhere>;
+  node_NOT?: Maybe<HivePipelineResourceWhere>;
+}
+
+export interface HivePipelineStepResultArtifactsCreateFieldInput {
+  node: HivePipelineResourceCreateInput;
+}
+
+export interface HivePipelineStepResultArtifactsDeleteFieldInput {
+  where?: Maybe<HivePipelineStepResultArtifactsConnectionWhere>;
+}
+
+export interface HivePipelineStepResultArtifactsDisconnectFieldInput {
+  where?: Maybe<HivePipelineStepResultArtifactsConnectionWhere>;
+}
+
+export interface HivePipelineStepResultArtifactsFieldInput {
+  create?: Maybe<Array<HivePipelineStepResultArtifactsCreateFieldInput>>;
+  connect?: Maybe<Array<HivePipelineStepResultArtifactsConnectFieldInput>>;
+}
+
+export interface HivePipelineStepResultArtifactsUpdateConnectionInput {
+  node?: Maybe<HivePipelineResourceUpdateInput>;
+}
+
+export interface HivePipelineStepResultArtifactsUpdateFieldInput {
+  where?: Maybe<HivePipelineStepResultArtifactsConnectionWhere>;
+  update?: Maybe<HivePipelineStepResultArtifactsUpdateConnectionInput>;
+  connect?: Maybe<Array<HivePipelineStepResultArtifactsConnectFieldInput>>;
+  disconnect?: Maybe<
+    Array<HivePipelineStepResultArtifactsDisconnectFieldInput>
+  >;
+  create?: Maybe<Array<HivePipelineStepResultArtifactsCreateFieldInput>>;
+  delete?: Maybe<Array<HivePipelineStepResultArtifactsDeleteFieldInput>>;
+}
+
+export interface HivePipelineStepResultConnectInput {
+  run?: Maybe<HivePipelineStepResultRunConnectFieldInput>;
+  artifacts?: Maybe<Array<HivePipelineStepResultArtifactsConnectFieldInput>>;
+}
+
+export interface HivePipelineStepResultCreateInput {
+  step?: Maybe<Scalars["String"]>;
+  run?: Maybe<HivePipelineStepResultRunFieldInput>;
+  artifacts?: Maybe<HivePipelineStepResultArtifactsFieldInput>;
+}
+
+export interface HivePipelineStepResultDeleteInput {
+  run?: Maybe<HivePipelineStepResultRunDeleteFieldInput>;
+  artifacts?: Maybe<Array<HivePipelineStepResultArtifactsDeleteFieldInput>>;
+}
+
+export interface HivePipelineStepResultDisconnectInput {
+  run?: Maybe<HivePipelineStepResultRunDisconnectFieldInput>;
+  artifacts?: Maybe<Array<HivePipelineStepResultArtifactsDisconnectFieldInput>>;
+}
+
+export interface HivePipelineStepResultOptions {
+  /** Specify one or more HivePipelineStepResultSort objects to sort HivePipelineStepResults by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<HivePipelineStepResultSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface HivePipelineStepResultRelationInput {
+  run?: Maybe<HivePipelineStepResultRunCreateFieldInput>;
+  artifacts?: Maybe<Array<HivePipelineStepResultArtifactsCreateFieldInput>>;
+}
+
+export interface HivePipelineStepResultRunConnectFieldInput {
+  where?: Maybe<HivePipelineRunConnectWhere>;
+  connect?: Maybe<HivePipelineRunConnectInput>;
+}
+
+export interface HivePipelineStepResultRunConnectionSort {
+  node?: Maybe<HivePipelineRunSort>;
+}
+
+export interface HivePipelineStepResultRunConnectionWhere {
+  AND?: Maybe<Array<HivePipelineStepResultRunConnectionWhere>>;
+  OR?: Maybe<Array<HivePipelineStepResultRunConnectionWhere>>;
+  node?: Maybe<HivePipelineRunWhere>;
+  node_NOT?: Maybe<HivePipelineRunWhere>;
+}
+
+export interface HivePipelineStepResultRunCreateFieldInput {
+  node: HivePipelineRunCreateInput;
+}
+
+export interface HivePipelineStepResultRunDeleteFieldInput {
+  where?: Maybe<HivePipelineStepResultRunConnectionWhere>;
+  delete?: Maybe<HivePipelineRunDeleteInput>;
+}
+
+export interface HivePipelineStepResultRunDisconnectFieldInput {
+  where?: Maybe<HivePipelineStepResultRunConnectionWhere>;
+  disconnect?: Maybe<HivePipelineRunDisconnectInput>;
+}
+
+export interface HivePipelineStepResultRunFieldInput {
+  create?: Maybe<HivePipelineStepResultRunCreateFieldInput>;
+  connect?: Maybe<HivePipelineStepResultRunConnectFieldInput>;
+}
+
+export interface HivePipelineStepResultRunUpdateConnectionInput {
+  node?: Maybe<HivePipelineRunUpdateInput>;
+}
+
+export interface HivePipelineStepResultRunUpdateFieldInput {
+  where?: Maybe<HivePipelineStepResultRunConnectionWhere>;
+  update?: Maybe<HivePipelineStepResultRunUpdateConnectionInput>;
+  connect?: Maybe<HivePipelineStepResultRunConnectFieldInput>;
+  disconnect?: Maybe<HivePipelineStepResultRunDisconnectFieldInput>;
+  create?: Maybe<HivePipelineStepResultRunCreateFieldInput>;
+  delete?: Maybe<HivePipelineStepResultRunDeleteFieldInput>;
+}
+
+/** Fields to sort HivePipelineStepResults by. The order in which sorts are applied is not guaranteed when specifying many fields in one HivePipelineStepResultSort object. */
+export interface HivePipelineStepResultSort {
+  id?: Maybe<SortDirection>;
+  step?: Maybe<SortDirection>;
+}
+
+export interface HivePipelineStepResultUpdateInput {
+  step?: Maybe<Scalars["String"]>;
+  run?: Maybe<HivePipelineStepResultRunUpdateFieldInput>;
+  artifacts?: Maybe<Array<HivePipelineStepResultArtifactsUpdateFieldInput>>;
+}
+
+export interface HivePipelineStepResultWhere {
+  OR?: Maybe<Array<HivePipelineStepResultWhere>>;
+  AND?: Maybe<Array<HivePipelineStepResultWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  step?: Maybe<Scalars["String"]>;
+  step_NOT?: Maybe<Scalars["String"]>;
+  step_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  step_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  step_CONTAINS?: Maybe<Scalars["String"]>;
+  step_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  step_STARTS_WITH?: Maybe<Scalars["String"]>;
+  step_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  step_ENDS_WITH?: Maybe<Scalars["String"]>;
+  step_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  run?: Maybe<HivePipelineRunWhere>;
+  run_NOT?: Maybe<HivePipelineRunWhere>;
+  artifacts?: Maybe<HivePipelineResourceWhere>;
+  artifacts_NOT?: Maybe<HivePipelineResourceWhere>;
+  runConnection?: Maybe<HivePipelineStepResultRunConnectionWhere>;
+  runConnection_NOT?: Maybe<HivePipelineStepResultRunConnectionWhere>;
+  artifactsConnection?: Maybe<HivePipelineStepResultArtifactsConnectionWhere>;
+  artifactsConnection_NOT?: Maybe<HivePipelineStepResultArtifactsConnectionWhere>;
+}
+
 export interface HivePipelineUpdateInput {
   name?: Maybe<Scalars["String"]>;
+  inputs?: Maybe<Array<HivePipelineInputsUpdateFieldInput>>;
   nodes?: Maybe<Array<HivePipelineNodesUpdateFieldInput>>;
 }
 
@@ -1937,8 +2410,12 @@ export interface HivePipelineWhere {
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  inputs?: Maybe<HivePipelineResourceWhere>;
+  inputs_NOT?: Maybe<HivePipelineResourceWhere>;
   nodes?: Maybe<HivePipelineNodeWhere>;
   nodes_NOT?: Maybe<HivePipelineNodeWhere>;
+  inputsConnection?: Maybe<HivePipelineInputsConnectionWhere>;
+  inputsConnection_NOT?: Maybe<HivePipelineInputsConnectionWhere>;
   nodesConnection?: Maybe<HivePipelineNodesConnectionWhere>;
   nodesConnection_NOT?: Maybe<HivePipelineNodesConnectionWhere>;
 }
@@ -4678,6 +5155,39 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "HivePipelineWhere" },
     },
+    hivePipelineResources: {
+      __type: "[HivePipelineResource!]!",
+      __args: {
+        where: "HivePipelineResourceWhere",
+        options: "HivePipelineResourceOptions",
+      },
+    },
+    hivePipelineResourcesCount: {
+      __type: "Int!",
+      __args: { where: "HivePipelineResourceWhere" },
+    },
+    hivePipelineRuns: {
+      __type: "[HivePipelineRun!]!",
+      __args: {
+        where: "HivePipelineRunWhere",
+        options: "HivePipelineRunOptions",
+      },
+    },
+    hivePipelineRunsCount: {
+      __type: "Int!",
+      __args: { where: "HivePipelineRunWhere" },
+    },
+    hivePipelineStepResults: {
+      __type: "[HivePipelineStepResult!]!",
+      __args: {
+        where: "HivePipelineStepResultWhere",
+        options: "HivePipelineStepResultOptions",
+      },
+    },
+    hivePipelineStepResultsCount: {
+      __type: "Int!",
+      __args: { where: "HivePipelineStepResultWhere" },
+    },
     hivePipelineNodes: {
       __type: "[HivePipelineNode!]!",
       __args: {
@@ -5198,6 +5708,9 @@ export const generatedSchema = {
       __type: "HiveFileProcess",
       __args: { files: "[ID]", pipeline: "String" },
     },
+    publishHivePipeline: { __type: "String", __args: { id: "ID" } },
+    publishHiveTask: { __type: "String", __args: { id: "ID" } },
+    runWorkflow: { __type: "HivePipelineRun", __args: { id: "ID" } },
     createHiveOrganisations: {
       __type: "CreateHiveOrganisationsMutationResponse!",
       __args: { input: "[HiveOrganisationCreateInput!]!" },
@@ -5324,6 +5837,65 @@ export const generatedSchema = {
         disconnect: "HivePipelineDisconnectInput",
         create: "HivePipelineRelationInput",
         delete: "HivePipelineDeleteInput",
+      },
+    },
+    createHivePipelineResources: {
+      __type: "CreateHivePipelineResourcesMutationResponse!",
+      __args: { input: "[HivePipelineResourceCreateInput!]!" },
+    },
+    deleteHivePipelineResources: {
+      __type: "DeleteInfo!",
+      __args: { where: "HivePipelineResourceWhere" },
+    },
+    updateHivePipelineResources: {
+      __type: "UpdateHivePipelineResourcesMutationResponse!",
+      __args: {
+        where: "HivePipelineResourceWhere",
+        update: "HivePipelineResourceUpdateInput",
+      },
+    },
+    createHivePipelineRuns: {
+      __type: "CreateHivePipelineRunsMutationResponse!",
+      __args: { input: "[HivePipelineRunCreateInput!]!" },
+    },
+    deleteHivePipelineRuns: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "HivePipelineRunWhere",
+        delete: "HivePipelineRunDeleteInput",
+      },
+    },
+    updateHivePipelineRuns: {
+      __type: "UpdateHivePipelineRunsMutationResponse!",
+      __args: {
+        where: "HivePipelineRunWhere",
+        update: "HivePipelineRunUpdateInput",
+        connect: "HivePipelineRunConnectInput",
+        disconnect: "HivePipelineRunDisconnectInput",
+        create: "HivePipelineRunRelationInput",
+        delete: "HivePipelineRunDeleteInput",
+      },
+    },
+    createHivePipelineStepResults: {
+      __type: "CreateHivePipelineStepResultsMutationResponse!",
+      __args: { input: "[HivePipelineStepResultCreateInput!]!" },
+    },
+    deleteHivePipelineStepResults: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "HivePipelineStepResultWhere",
+        delete: "HivePipelineStepResultDeleteInput",
+      },
+    },
+    updateHivePipelineStepResults: {
+      __type: "UpdateHivePipelineStepResultsMutationResponse!",
+      __args: {
+        where: "HivePipelineStepResultWhere",
+        update: "HivePipelineStepResultUpdateInput",
+        connect: "HivePipelineStepResultConnectInput",
+        disconnect: "HivePipelineStepResultDisconnectInput",
+        create: "HivePipelineStepResultRelationInput",
+        delete: "HivePipelineStepResultDeleteInput",
       },
     },
     createHivePipelineNodes: {
@@ -5805,10 +6377,25 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     hivePipelineNodes: { __type: "[HivePipelineNode!]!" },
   },
+  CreateHivePipelineResourcesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    hivePipelineResources: { __type: "[HivePipelineResource!]!" },
+  },
+  CreateHivePipelineRunsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    hivePipelineRuns: { __type: "[HivePipelineRun!]!" },
+  },
   CreateHivePipelinesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
     hivePipelines: { __type: "[HivePipeline!]!" },
+  },
+  CreateHivePipelineStepResultsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    hivePipelineStepResults: { __type: "[HivePipelineStepResult!]!" },
   },
   CreateHiveProcessesMutationResponse: {
     __typename: { __type: "String!" },
@@ -6275,11 +6862,27 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     name: { __type: "String" },
+    inputs: {
+      __type: "[HivePipelineResource]",
+      __args: {
+        where: "HivePipelineResourceWhere",
+        options: "HivePipelineResourceOptions",
+      },
+    },
     nodes: {
       __type: "[HivePipelineNode]",
       __args: {
         where: "HivePipelineNodeWhere",
         options: "HivePipelineNodeOptions",
+      },
+    },
+    inputsConnection: {
+      __type: "HivePipelineInputsConnection!",
+      __args: {
+        where: "HivePipelineInputsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HivePipelineInputsConnectionSort!]",
       },
     },
     nodesConnection: {
@@ -6291,6 +6894,17 @@ export const generatedSchema = {
         sort: "[HivePipelineNodesConnectionSort!]",
       },
     },
+  },
+  HivePipelineInputsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HivePipelineInputsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HivePipelineInputsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HivePipelineResource!" },
   },
   HivePipelineNode: {
     __typename: { __type: "String!" },
@@ -6416,6 +7030,128 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "HivePipelineNode!" },
+  },
+  HivePipelineResource: {
+    __typename: { __type: "String!" },
+    key: { __type: "String" },
+    type: { __type: "String" },
+    urn: { __type: "String" },
+  },
+  HivePipelineRun: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    createdAt: { __type: "DateTime" },
+    completedAt: { __type: "DateTime" },
+    pipeline: {
+      __type: "HivePipeline",
+      __args: { where: "HivePipelineWhere", options: "HivePipelineOptions" },
+    },
+    inputs: {
+      __type: "[HivePipelineResource]",
+      __args: {
+        where: "HivePipelineResourceWhere",
+        options: "HivePipelineResourceOptions",
+      },
+    },
+    pipelineConnection: {
+      __type: "HivePipelineRunPipelineConnection!",
+      __args: {
+        where: "HivePipelineRunPipelineConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HivePipelineRunPipelineConnectionSort!]",
+      },
+    },
+    inputsConnection: {
+      __type: "HivePipelineRunInputsConnection!",
+      __args: {
+        where: "HivePipelineRunInputsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HivePipelineRunInputsConnectionSort!]",
+      },
+    },
+  },
+  HivePipelineRunInputsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HivePipelineRunInputsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HivePipelineRunInputsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HivePipelineResource!" },
+  },
+  HivePipelineRunPipelineConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HivePipelineRunPipelineRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HivePipelineRunPipelineRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HivePipeline!" },
+  },
+  HivePipelineStepResult: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    step: { __type: "String" },
+    run: {
+      __type: "HivePipelineRun",
+      __args: {
+        where: "HivePipelineRunWhere",
+        options: "HivePipelineRunOptions",
+      },
+    },
+    artifacts: {
+      __type: "[HivePipelineResource]",
+      __args: {
+        where: "HivePipelineResourceWhere",
+        options: "HivePipelineResourceOptions",
+      },
+    },
+    runConnection: {
+      __type: "HivePipelineStepResultRunConnection!",
+      __args: {
+        where: "HivePipelineStepResultRunConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HivePipelineStepResultRunConnectionSort!]",
+      },
+    },
+    artifactsConnection: {
+      __type: "HivePipelineStepResultArtifactsConnection!",
+      __args: {
+        where: "HivePipelineStepResultArtifactsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HivePipelineStepResultArtifactsConnectionSort!]",
+      },
+    },
+  },
+  HivePipelineStepResultArtifactsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HivePipelineStepResultArtifactsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HivePipelineStepResultArtifactsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HivePipelineResource!" },
+  },
+  HivePipelineStepResultRunConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HivePipelineStepResultRunRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HivePipelineStepResultRunRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HivePipelineRun!" },
   },
   HiveProcess: {
     __typename: { __type: "String!" },
@@ -6556,10 +7292,25 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     hivePipelineNodes: { __type: "[HivePipelineNode!]!" },
   },
+  UpdateHivePipelineResourcesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    hivePipelineResources: { __type: "[HivePipelineResource!]!" },
+  },
+  UpdateHivePipelineRunsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    hivePipelineRuns: { __type: "[HivePipelineRun!]!" },
+  },
   UpdateHivePipelinesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     hivePipelines: { __type: "[HivePipeline!]!" },
+  },
+  UpdateHivePipelineStepResultsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    hivePipelineStepResults: { __type: "[HivePipelineStepResult!]!" },
   },
   UpdateHiveProcessesMutationResponse: {
     __typename: { __type: "String!" },
@@ -7769,17 +8520,21 @@ export const generatedSchema = {
     name_NOT_ENDS_WITH: { __type: "String" },
   },
   HivePipelineConnectInput: {
+    inputs: { __type: "[HivePipelineInputsConnectFieldInput!]" },
     nodes: { __type: "[HivePipelineNodesConnectFieldInput!]" },
   },
   HivePipelineConnectWhere: { node: { __type: "HivePipelineWhere!" } },
   HivePipelineCreateInput: {
     name: { __type: "String" },
+    inputs: { __type: "HivePipelineInputsFieldInput" },
     nodes: { __type: "HivePipelineNodesFieldInput" },
   },
   HivePipelineDeleteInput: {
+    inputs: { __type: "[HivePipelineInputsDeleteFieldInput!]" },
     nodes: { __type: "[HivePipelineNodesDeleteFieldInput!]" },
   },
   HivePipelineDisconnectInput: {
+    inputs: { __type: "[HivePipelineInputsDisconnectFieldInput!]" },
     nodes: { __type: "[HivePipelineNodesDisconnectFieldInput!]" },
   },
   HivePipelineFlowPathCreateInput: {
@@ -7828,6 +8583,42 @@ export const generatedSchema = {
     target_NOT_STARTS_WITH: { __type: "String" },
     target_ENDS_WITH: { __type: "String" },
     target_NOT_ENDS_WITH: { __type: "String" },
+  },
+  HivePipelineInputsConnectFieldInput: {
+    where: { __type: "HivePipelineResourceConnectWhere" },
+  },
+  HivePipelineInputsConnectionSort: {
+    node: { __type: "HivePipelineResourceSort" },
+  },
+  HivePipelineInputsConnectionWhere: {
+    AND: { __type: "[HivePipelineInputsConnectionWhere!]" },
+    OR: { __type: "[HivePipelineInputsConnectionWhere!]" },
+    node: { __type: "HivePipelineResourceWhere" },
+    node_NOT: { __type: "HivePipelineResourceWhere" },
+  },
+  HivePipelineInputsCreateFieldInput: {
+    node: { __type: "HivePipelineResourceCreateInput!" },
+  },
+  HivePipelineInputsDeleteFieldInput: {
+    where: { __type: "HivePipelineInputsConnectionWhere" },
+  },
+  HivePipelineInputsDisconnectFieldInput: {
+    where: { __type: "HivePipelineInputsConnectionWhere" },
+  },
+  HivePipelineInputsFieldInput: {
+    create: { __type: "[HivePipelineInputsCreateFieldInput!]" },
+    connect: { __type: "[HivePipelineInputsConnectFieldInput!]" },
+  },
+  HivePipelineInputsUpdateConnectionInput: {
+    node: { __type: "HivePipelineResourceUpdateInput" },
+  },
+  HivePipelineInputsUpdateFieldInput: {
+    where: { __type: "HivePipelineInputsConnectionWhere" },
+    update: { __type: "HivePipelineInputsUpdateConnectionInput" },
+    connect: { __type: "[HivePipelineInputsConnectFieldInput!]" },
+    disconnect: { __type: "[HivePipelineInputsDisconnectFieldInput!]" },
+    create: { __type: "[HivePipelineInputsCreateFieldInput!]" },
+    delete: { __type: "[HivePipelineInputsDeleteFieldInput!]" },
   },
   HivePipelineNodeCallerConnectFieldInput: {
     where: { __type: "HivePipelineNodeConnectWhere" },
@@ -8137,14 +8928,377 @@ export const generatedSchema = {
     offset: { __type: "Int" },
   },
   HivePipelineRelationInput: {
+    inputs: { __type: "[HivePipelineInputsCreateFieldInput!]" },
     nodes: { __type: "[HivePipelineNodesCreateFieldInput!]" },
+  },
+  HivePipelineResourceConnectWhere: {
+    node: { __type: "HivePipelineResourceWhere!" },
+  },
+  HivePipelineResourceCreateInput: {
+    key: { __type: "String" },
+    type: { __type: "String" },
+    urn: { __type: "String" },
+  },
+  HivePipelineResourceOptions: {
+    sort: { __type: "[HivePipelineResourceSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  HivePipelineResourceSort: {
+    key: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+    urn: { __type: "SortDirection" },
+  },
+  HivePipelineResourceUpdateInput: {
+    key: { __type: "String" },
+    type: { __type: "String" },
+    urn: { __type: "String" },
+  },
+  HivePipelineResourceWhere: {
+    OR: { __type: "[HivePipelineResourceWhere!]" },
+    AND: { __type: "[HivePipelineResourceWhere!]" },
+    key: { __type: "String" },
+    key_NOT: { __type: "String" },
+    key_IN: { __type: "[String]" },
+    key_NOT_IN: { __type: "[String]" },
+    key_CONTAINS: { __type: "String" },
+    key_NOT_CONTAINS: { __type: "String" },
+    key_STARTS_WITH: { __type: "String" },
+    key_NOT_STARTS_WITH: { __type: "String" },
+    key_ENDS_WITH: { __type: "String" },
+    key_NOT_ENDS_WITH: { __type: "String" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    urn: { __type: "String" },
+    urn_NOT: { __type: "String" },
+    urn_IN: { __type: "[String]" },
+    urn_NOT_IN: { __type: "[String]" },
+    urn_CONTAINS: { __type: "String" },
+    urn_NOT_CONTAINS: { __type: "String" },
+    urn_STARTS_WITH: { __type: "String" },
+    urn_NOT_STARTS_WITH: { __type: "String" },
+    urn_ENDS_WITH: { __type: "String" },
+    urn_NOT_ENDS_WITH: { __type: "String" },
+  },
+  HivePipelineRunConnectInput: {
+    pipeline: { __type: "HivePipelineRunPipelineConnectFieldInput" },
+    inputs: { __type: "[HivePipelineRunInputsConnectFieldInput!]" },
+  },
+  HivePipelineRunConnectWhere: { node: { __type: "HivePipelineRunWhere!" } },
+  HivePipelineRunCreateInput: {
+    completedAt: { __type: "DateTime" },
+    pipeline: { __type: "HivePipelineRunPipelineFieldInput" },
+    inputs: { __type: "HivePipelineRunInputsFieldInput" },
+  },
+  HivePipelineRunDeleteInput: {
+    pipeline: { __type: "HivePipelineRunPipelineDeleteFieldInput" },
+    inputs: { __type: "[HivePipelineRunInputsDeleteFieldInput!]" },
+  },
+  HivePipelineRunDisconnectInput: {
+    pipeline: { __type: "HivePipelineRunPipelineDisconnectFieldInput" },
+    inputs: { __type: "[HivePipelineRunInputsDisconnectFieldInput!]" },
+  },
+  HivePipelineRunInputsConnectFieldInput: {
+    where: { __type: "HivePipelineResourceConnectWhere" },
+  },
+  HivePipelineRunInputsConnectionSort: {
+    node: { __type: "HivePipelineResourceSort" },
+  },
+  HivePipelineRunInputsConnectionWhere: {
+    AND: { __type: "[HivePipelineRunInputsConnectionWhere!]" },
+    OR: { __type: "[HivePipelineRunInputsConnectionWhere!]" },
+    node: { __type: "HivePipelineResourceWhere" },
+    node_NOT: { __type: "HivePipelineResourceWhere" },
+  },
+  HivePipelineRunInputsCreateFieldInput: {
+    node: { __type: "HivePipelineResourceCreateInput!" },
+  },
+  HivePipelineRunInputsDeleteFieldInput: {
+    where: { __type: "HivePipelineRunInputsConnectionWhere" },
+  },
+  HivePipelineRunInputsDisconnectFieldInput: {
+    where: { __type: "HivePipelineRunInputsConnectionWhere" },
+  },
+  HivePipelineRunInputsFieldInput: {
+    create: { __type: "[HivePipelineRunInputsCreateFieldInput!]" },
+    connect: { __type: "[HivePipelineRunInputsConnectFieldInput!]" },
+  },
+  HivePipelineRunInputsUpdateConnectionInput: {
+    node: { __type: "HivePipelineResourceUpdateInput" },
+  },
+  HivePipelineRunInputsUpdateFieldInput: {
+    where: { __type: "HivePipelineRunInputsConnectionWhere" },
+    update: { __type: "HivePipelineRunInputsUpdateConnectionInput" },
+    connect: { __type: "[HivePipelineRunInputsConnectFieldInput!]" },
+    disconnect: { __type: "[HivePipelineRunInputsDisconnectFieldInput!]" },
+    create: { __type: "[HivePipelineRunInputsCreateFieldInput!]" },
+    delete: { __type: "[HivePipelineRunInputsDeleteFieldInput!]" },
+  },
+  HivePipelineRunOptions: {
+    sort: { __type: "[HivePipelineRunSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  HivePipelineRunPipelineConnectFieldInput: {
+    where: { __type: "HivePipelineConnectWhere" },
+    connect: { __type: "HivePipelineConnectInput" },
+  },
+  HivePipelineRunPipelineConnectionSort: {
+    node: { __type: "HivePipelineSort" },
+  },
+  HivePipelineRunPipelineConnectionWhere: {
+    AND: { __type: "[HivePipelineRunPipelineConnectionWhere!]" },
+    OR: { __type: "[HivePipelineRunPipelineConnectionWhere!]" },
+    node: { __type: "HivePipelineWhere" },
+    node_NOT: { __type: "HivePipelineWhere" },
+  },
+  HivePipelineRunPipelineCreateFieldInput: {
+    node: { __type: "HivePipelineCreateInput!" },
+  },
+  HivePipelineRunPipelineDeleteFieldInput: {
+    where: { __type: "HivePipelineRunPipelineConnectionWhere" },
+    delete: { __type: "HivePipelineDeleteInput" },
+  },
+  HivePipelineRunPipelineDisconnectFieldInput: {
+    where: { __type: "HivePipelineRunPipelineConnectionWhere" },
+    disconnect: { __type: "HivePipelineDisconnectInput" },
+  },
+  HivePipelineRunPipelineFieldInput: {
+    create: { __type: "HivePipelineRunPipelineCreateFieldInput" },
+    connect: { __type: "HivePipelineRunPipelineConnectFieldInput" },
+  },
+  HivePipelineRunPipelineUpdateConnectionInput: {
+    node: { __type: "HivePipelineUpdateInput" },
+  },
+  HivePipelineRunPipelineUpdateFieldInput: {
+    where: { __type: "HivePipelineRunPipelineConnectionWhere" },
+    update: { __type: "HivePipelineRunPipelineUpdateConnectionInput" },
+    connect: { __type: "HivePipelineRunPipelineConnectFieldInput" },
+    disconnect: { __type: "HivePipelineRunPipelineDisconnectFieldInput" },
+    create: { __type: "HivePipelineRunPipelineCreateFieldInput" },
+    delete: { __type: "HivePipelineRunPipelineDeleteFieldInput" },
+  },
+  HivePipelineRunRelationInput: {
+    pipeline: { __type: "HivePipelineRunPipelineCreateFieldInput" },
+    inputs: { __type: "[HivePipelineRunInputsCreateFieldInput!]" },
+  },
+  HivePipelineRunSort: {
+    id: { __type: "SortDirection" },
+    createdAt: { __type: "SortDirection" },
+    completedAt: { __type: "SortDirection" },
+  },
+  HivePipelineRunUpdateInput: {
+    completedAt: { __type: "DateTime" },
+    pipeline: { __type: "HivePipelineRunPipelineUpdateFieldInput" },
+    inputs: { __type: "[HivePipelineRunInputsUpdateFieldInput!]" },
+  },
+  HivePipelineRunWhere: {
+    OR: { __type: "[HivePipelineRunWhere!]" },
+    AND: { __type: "[HivePipelineRunWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    createdAt: { __type: "DateTime" },
+    createdAt_NOT: { __type: "DateTime" },
+    createdAt_IN: { __type: "[DateTime]" },
+    createdAt_NOT_IN: { __type: "[DateTime]" },
+    createdAt_LT: { __type: "DateTime" },
+    createdAt_LTE: { __type: "DateTime" },
+    createdAt_GT: { __type: "DateTime" },
+    createdAt_GTE: { __type: "DateTime" },
+    completedAt: { __type: "DateTime" },
+    completedAt_NOT: { __type: "DateTime" },
+    completedAt_IN: { __type: "[DateTime]" },
+    completedAt_NOT_IN: { __type: "[DateTime]" },
+    completedAt_LT: { __type: "DateTime" },
+    completedAt_LTE: { __type: "DateTime" },
+    completedAt_GT: { __type: "DateTime" },
+    completedAt_GTE: { __type: "DateTime" },
+    pipeline: { __type: "HivePipelineWhere" },
+    pipeline_NOT: { __type: "HivePipelineWhere" },
+    inputs: { __type: "HivePipelineResourceWhere" },
+    inputs_NOT: { __type: "HivePipelineResourceWhere" },
+    pipelineConnection: { __type: "HivePipelineRunPipelineConnectionWhere" },
+    pipelineConnection_NOT: {
+      __type: "HivePipelineRunPipelineConnectionWhere",
+    },
+    inputsConnection: { __type: "HivePipelineRunInputsConnectionWhere" },
+    inputsConnection_NOT: { __type: "HivePipelineRunInputsConnectionWhere" },
   },
   HivePipelineSort: {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
   },
+  HivePipelineStepResultArtifactsConnectFieldInput: {
+    where: { __type: "HivePipelineResourceConnectWhere" },
+  },
+  HivePipelineStepResultArtifactsConnectionSort: {
+    node: { __type: "HivePipelineResourceSort" },
+  },
+  HivePipelineStepResultArtifactsConnectionWhere: {
+    AND: { __type: "[HivePipelineStepResultArtifactsConnectionWhere!]" },
+    OR: { __type: "[HivePipelineStepResultArtifactsConnectionWhere!]" },
+    node: { __type: "HivePipelineResourceWhere" },
+    node_NOT: { __type: "HivePipelineResourceWhere" },
+  },
+  HivePipelineStepResultArtifactsCreateFieldInput: {
+    node: { __type: "HivePipelineResourceCreateInput!" },
+  },
+  HivePipelineStepResultArtifactsDeleteFieldInput: {
+    where: { __type: "HivePipelineStepResultArtifactsConnectionWhere" },
+  },
+  HivePipelineStepResultArtifactsDisconnectFieldInput: {
+    where: { __type: "HivePipelineStepResultArtifactsConnectionWhere" },
+  },
+  HivePipelineStepResultArtifactsFieldInput: {
+    create: { __type: "[HivePipelineStepResultArtifactsCreateFieldInput!]" },
+    connect: { __type: "[HivePipelineStepResultArtifactsConnectFieldInput!]" },
+  },
+  HivePipelineStepResultArtifactsUpdateConnectionInput: {
+    node: { __type: "HivePipelineResourceUpdateInput" },
+  },
+  HivePipelineStepResultArtifactsUpdateFieldInput: {
+    where: { __type: "HivePipelineStepResultArtifactsConnectionWhere" },
+    update: { __type: "HivePipelineStepResultArtifactsUpdateConnectionInput" },
+    connect: { __type: "[HivePipelineStepResultArtifactsConnectFieldInput!]" },
+    disconnect: {
+      __type: "[HivePipelineStepResultArtifactsDisconnectFieldInput!]",
+    },
+    create: { __type: "[HivePipelineStepResultArtifactsCreateFieldInput!]" },
+    delete: { __type: "[HivePipelineStepResultArtifactsDeleteFieldInput!]" },
+  },
+  HivePipelineStepResultConnectInput: {
+    run: { __type: "HivePipelineStepResultRunConnectFieldInput" },
+    artifacts: {
+      __type: "[HivePipelineStepResultArtifactsConnectFieldInput!]",
+    },
+  },
+  HivePipelineStepResultCreateInput: {
+    step: { __type: "String" },
+    run: { __type: "HivePipelineStepResultRunFieldInput" },
+    artifacts: { __type: "HivePipelineStepResultArtifactsFieldInput" },
+  },
+  HivePipelineStepResultDeleteInput: {
+    run: { __type: "HivePipelineStepResultRunDeleteFieldInput" },
+    artifacts: { __type: "[HivePipelineStepResultArtifactsDeleteFieldInput!]" },
+  },
+  HivePipelineStepResultDisconnectInput: {
+    run: { __type: "HivePipelineStepResultRunDisconnectFieldInput" },
+    artifacts: {
+      __type: "[HivePipelineStepResultArtifactsDisconnectFieldInput!]",
+    },
+  },
+  HivePipelineStepResultOptions: {
+    sort: { __type: "[HivePipelineStepResultSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  HivePipelineStepResultRelationInput: {
+    run: { __type: "HivePipelineStepResultRunCreateFieldInput" },
+    artifacts: { __type: "[HivePipelineStepResultArtifactsCreateFieldInput!]" },
+  },
+  HivePipelineStepResultRunConnectFieldInput: {
+    where: { __type: "HivePipelineRunConnectWhere" },
+    connect: { __type: "HivePipelineRunConnectInput" },
+  },
+  HivePipelineStepResultRunConnectionSort: {
+    node: { __type: "HivePipelineRunSort" },
+  },
+  HivePipelineStepResultRunConnectionWhere: {
+    AND: { __type: "[HivePipelineStepResultRunConnectionWhere!]" },
+    OR: { __type: "[HivePipelineStepResultRunConnectionWhere!]" },
+    node: { __type: "HivePipelineRunWhere" },
+    node_NOT: { __type: "HivePipelineRunWhere" },
+  },
+  HivePipelineStepResultRunCreateFieldInput: {
+    node: { __type: "HivePipelineRunCreateInput!" },
+  },
+  HivePipelineStepResultRunDeleteFieldInput: {
+    where: { __type: "HivePipelineStepResultRunConnectionWhere" },
+    delete: { __type: "HivePipelineRunDeleteInput" },
+  },
+  HivePipelineStepResultRunDisconnectFieldInput: {
+    where: { __type: "HivePipelineStepResultRunConnectionWhere" },
+    disconnect: { __type: "HivePipelineRunDisconnectInput" },
+  },
+  HivePipelineStepResultRunFieldInput: {
+    create: { __type: "HivePipelineStepResultRunCreateFieldInput" },
+    connect: { __type: "HivePipelineStepResultRunConnectFieldInput" },
+  },
+  HivePipelineStepResultRunUpdateConnectionInput: {
+    node: { __type: "HivePipelineRunUpdateInput" },
+  },
+  HivePipelineStepResultRunUpdateFieldInput: {
+    where: { __type: "HivePipelineStepResultRunConnectionWhere" },
+    update: { __type: "HivePipelineStepResultRunUpdateConnectionInput" },
+    connect: { __type: "HivePipelineStepResultRunConnectFieldInput" },
+    disconnect: { __type: "HivePipelineStepResultRunDisconnectFieldInput" },
+    create: { __type: "HivePipelineStepResultRunCreateFieldInput" },
+    delete: { __type: "HivePipelineStepResultRunDeleteFieldInput" },
+  },
+  HivePipelineStepResultSort: {
+    id: { __type: "SortDirection" },
+    step: { __type: "SortDirection" },
+  },
+  HivePipelineStepResultUpdateInput: {
+    step: { __type: "String" },
+    run: { __type: "HivePipelineStepResultRunUpdateFieldInput" },
+    artifacts: { __type: "[HivePipelineStepResultArtifactsUpdateFieldInput!]" },
+  },
+  HivePipelineStepResultWhere: {
+    OR: { __type: "[HivePipelineStepResultWhere!]" },
+    AND: { __type: "[HivePipelineStepResultWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    step: { __type: "String" },
+    step_NOT: { __type: "String" },
+    step_IN: { __type: "[String]" },
+    step_NOT_IN: { __type: "[String]" },
+    step_CONTAINS: { __type: "String" },
+    step_NOT_CONTAINS: { __type: "String" },
+    step_STARTS_WITH: { __type: "String" },
+    step_NOT_STARTS_WITH: { __type: "String" },
+    step_ENDS_WITH: { __type: "String" },
+    step_NOT_ENDS_WITH: { __type: "String" },
+    run: { __type: "HivePipelineRunWhere" },
+    run_NOT: { __type: "HivePipelineRunWhere" },
+    artifacts: { __type: "HivePipelineResourceWhere" },
+    artifacts_NOT: { __type: "HivePipelineResourceWhere" },
+    runConnection: { __type: "HivePipelineStepResultRunConnectionWhere" },
+    runConnection_NOT: { __type: "HivePipelineStepResultRunConnectionWhere" },
+    artifactsConnection: {
+      __type: "HivePipelineStepResultArtifactsConnectionWhere",
+    },
+    artifactsConnection_NOT: {
+      __type: "HivePipelineStepResultArtifactsConnectionWhere",
+    },
+  },
   HivePipelineUpdateInput: {
     name: { __type: "String" },
+    inputs: { __type: "[HivePipelineInputsUpdateFieldInput!]" },
     nodes: { __type: "[HivePipelineNodesUpdateFieldInput!]" },
   },
   HivePipelineWhere: {
@@ -8170,8 +9324,12 @@ export const generatedSchema = {
     name_NOT_STARTS_WITH: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
+    inputs: { __type: "HivePipelineResourceWhere" },
+    inputs_NOT: { __type: "HivePipelineResourceWhere" },
     nodes: { __type: "HivePipelineNodeWhere" },
     nodes_NOT: { __type: "HivePipelineNodeWhere" },
+    inputsConnection: { __type: "HivePipelineInputsConnectionWhere" },
+    inputsConnection_NOT: { __type: "HivePipelineInputsConnectionWhere" },
     nodesConnection: { __type: "HivePipelineNodesConnectionWhere" },
     nodesConnection_NOT: { __type: "HivePipelineNodesConnectionWhere" },
   },
@@ -10842,6 +12000,27 @@ export interface Query {
   hivePipelinesCount: (args?: {
     where?: Maybe<HivePipelineWhere>;
   }) => ScalarsEnums["Int"];
+  hivePipelineResources: (args?: {
+    where?: Maybe<HivePipelineResourceWhere>;
+    options?: Maybe<HivePipelineResourceOptions>;
+  }) => Array<HivePipelineResource>;
+  hivePipelineResourcesCount: (args?: {
+    where?: Maybe<HivePipelineResourceWhere>;
+  }) => ScalarsEnums["Int"];
+  hivePipelineRuns: (args?: {
+    where?: Maybe<HivePipelineRunWhere>;
+    options?: Maybe<HivePipelineRunOptions>;
+  }) => Array<HivePipelineRun>;
+  hivePipelineRunsCount: (args?: {
+    where?: Maybe<HivePipelineRunWhere>;
+  }) => ScalarsEnums["Int"];
+  hivePipelineStepResults: (args?: {
+    where?: Maybe<HivePipelineStepResultWhere>;
+    options?: Maybe<HivePipelineStepResultOptions>;
+  }) => Array<HivePipelineStepResult>;
+  hivePipelineStepResultsCount: (args?: {
+    where?: Maybe<HivePipelineStepResultWhere>;
+  }) => ScalarsEnums["Int"];
   hivePipelineNodes: (args?: {
     where?: Maybe<HivePipelineNodeWhere>;
     options?: Maybe<HivePipelineNodeOptions>;
@@ -11495,6 +12674,13 @@ export interface Mutation {
     files?: Maybe<Array<Maybe<Scalars["ID"]>>>;
     pipeline?: Maybe<Scalars["String"]>;
   }) => Maybe<HiveFileProcess>;
+  publishHivePipeline: (args?: {
+    id?: Maybe<Scalars["ID"]>;
+  }) => Maybe<ScalarsEnums["String"]>;
+  publishHiveTask: (args?: {
+    id?: Maybe<Scalars["ID"]>;
+  }) => Maybe<ScalarsEnums["String"]>;
+  runWorkflow: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<HivePipelineRun>;
   createHiveOrganisations: (args: {
     input: Array<HiveOrganisationCreateInput>;
   }) => CreateHiveOrganisationsMutationResponse;
@@ -11590,6 +12776,46 @@ export interface Mutation {
     create?: Maybe<HivePipelineRelationInput>;
     delete?: Maybe<HivePipelineDeleteInput>;
   }) => UpdateHivePipelinesMutationResponse;
+  createHivePipelineResources: (args: {
+    input: Array<HivePipelineResourceCreateInput>;
+  }) => CreateHivePipelineResourcesMutationResponse;
+  deleteHivePipelineResources: (args?: {
+    where?: Maybe<HivePipelineResourceWhere>;
+  }) => DeleteInfo;
+  updateHivePipelineResources: (args?: {
+    where?: Maybe<HivePipelineResourceWhere>;
+    update?: Maybe<HivePipelineResourceUpdateInput>;
+  }) => UpdateHivePipelineResourcesMutationResponse;
+  createHivePipelineRuns: (args: {
+    input: Array<HivePipelineRunCreateInput>;
+  }) => CreateHivePipelineRunsMutationResponse;
+  deleteHivePipelineRuns: (args?: {
+    where?: Maybe<HivePipelineRunWhere>;
+    delete?: Maybe<HivePipelineRunDeleteInput>;
+  }) => DeleteInfo;
+  updateHivePipelineRuns: (args?: {
+    where?: Maybe<HivePipelineRunWhere>;
+    update?: Maybe<HivePipelineRunUpdateInput>;
+    connect?: Maybe<HivePipelineRunConnectInput>;
+    disconnect?: Maybe<HivePipelineRunDisconnectInput>;
+    create?: Maybe<HivePipelineRunRelationInput>;
+    delete?: Maybe<HivePipelineRunDeleteInput>;
+  }) => UpdateHivePipelineRunsMutationResponse;
+  createHivePipelineStepResults: (args: {
+    input: Array<HivePipelineStepResultCreateInput>;
+  }) => CreateHivePipelineStepResultsMutationResponse;
+  deleteHivePipelineStepResults: (args?: {
+    where?: Maybe<HivePipelineStepResultWhere>;
+    delete?: Maybe<HivePipelineStepResultDeleteInput>;
+  }) => DeleteInfo;
+  updateHivePipelineStepResults: (args?: {
+    where?: Maybe<HivePipelineStepResultWhere>;
+    update?: Maybe<HivePipelineStepResultUpdateInput>;
+    connect?: Maybe<HivePipelineStepResultConnectInput>;
+    disconnect?: Maybe<HivePipelineStepResultDisconnectInput>;
+    create?: Maybe<HivePipelineStepResultRelationInput>;
+    delete?: Maybe<HivePipelineStepResultDeleteInput>;
+  }) => UpdateHivePipelineStepResultsMutationResponse;
   createHivePipelineNodes: (args: {
     input: Array<HivePipelineNodeCreateInput>;
   }) => CreateHivePipelineNodesMutationResponse;
@@ -12217,10 +13443,28 @@ export interface CreateHivePipelineNodesMutationResponse {
   hivePipelineNodes: Array<HivePipelineNode>;
 }
 
+export interface CreateHivePipelineResourcesMutationResponse {
+  __typename: "CreateHivePipelineResourcesMutationResponse" | undefined;
+  info: CreateInfo;
+  hivePipelineResources: Array<HivePipelineResource>;
+}
+
+export interface CreateHivePipelineRunsMutationResponse {
+  __typename: "CreateHivePipelineRunsMutationResponse" | undefined;
+  info: CreateInfo;
+  hivePipelineRuns: Array<HivePipelineRun>;
+}
+
 export interface CreateHivePipelinesMutationResponse {
   __typename: "CreateHivePipelinesMutationResponse" | undefined;
   info: CreateInfo;
   hivePipelines: Array<HivePipeline>;
+}
+
+export interface CreateHivePipelineStepResultsMutationResponse {
+  __typename: "CreateHivePipelineStepResultsMutationResponse" | undefined;
+  info: CreateInfo;
+  hivePipelineStepResults: Array<HivePipelineStepResult>;
 }
 
 export interface CreateHiveProcessesMutationResponse {
@@ -12674,16 +13918,39 @@ export interface HivePipeline {
   __typename: "HivePipeline" | undefined;
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
+  inputs: (args?: {
+    where?: Maybe<HivePipelineResourceWhere>;
+    options?: Maybe<HivePipelineResourceOptions>;
+  }) => Maybe<Array<Maybe<HivePipelineResource>>>;
   nodes: (args?: {
     where?: Maybe<HivePipelineNodeWhere>;
     options?: Maybe<HivePipelineNodeOptions>;
   }) => Maybe<Array<Maybe<HivePipelineNode>>>;
+  inputsConnection: (args?: {
+    where?: Maybe<HivePipelineInputsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HivePipelineInputsConnectionSort>>;
+  }) => HivePipelineInputsConnection;
   nodesConnection: (args?: {
     where?: Maybe<HivePipelineNodesConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<HivePipelineNodesConnectionSort>>;
   }) => HivePipelineNodesConnection;
+}
+
+export interface HivePipelineInputsConnection {
+  __typename: "HivePipelineInputsConnection" | undefined;
+  edges: Array<HivePipelineInputsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HivePipelineInputsRelationship {
+  __typename: "HivePipelineInputsRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: HivePipelineResource;
 }
 
 export interface HivePipelineNode {
@@ -12804,6 +14071,118 @@ export interface HivePipelineNodesRelationship {
   __typename: "HivePipelineNodesRelationship" | undefined;
   cursor: ScalarsEnums["String"];
   node: HivePipelineNode;
+}
+
+export interface HivePipelineResource {
+  __typename: "HivePipelineResource" | undefined;
+  key?: Maybe<ScalarsEnums["String"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
+  urn?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface HivePipelineRun {
+  __typename: "HivePipelineRun" | undefined;
+  id: ScalarsEnums["ID"];
+  createdAt?: Maybe<ScalarsEnums["DateTime"]>;
+  completedAt?: Maybe<ScalarsEnums["DateTime"]>;
+  pipeline: (args?: {
+    where?: Maybe<HivePipelineWhere>;
+    options?: Maybe<HivePipelineOptions>;
+  }) => Maybe<HivePipeline>;
+  inputs: (args?: {
+    where?: Maybe<HivePipelineResourceWhere>;
+    options?: Maybe<HivePipelineResourceOptions>;
+  }) => Maybe<Array<Maybe<HivePipelineResource>>>;
+  pipelineConnection: (args?: {
+    where?: Maybe<HivePipelineRunPipelineConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HivePipelineRunPipelineConnectionSort>>;
+  }) => HivePipelineRunPipelineConnection;
+  inputsConnection: (args?: {
+    where?: Maybe<HivePipelineRunInputsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HivePipelineRunInputsConnectionSort>>;
+  }) => HivePipelineRunInputsConnection;
+}
+
+export interface HivePipelineRunInputsConnection {
+  __typename: "HivePipelineRunInputsConnection" | undefined;
+  edges: Array<HivePipelineRunInputsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HivePipelineRunInputsRelationship {
+  __typename: "HivePipelineRunInputsRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: HivePipelineResource;
+}
+
+export interface HivePipelineRunPipelineConnection {
+  __typename: "HivePipelineRunPipelineConnection" | undefined;
+  edges: Array<HivePipelineRunPipelineRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HivePipelineRunPipelineRelationship {
+  __typename: "HivePipelineRunPipelineRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: HivePipeline;
+}
+
+export interface HivePipelineStepResult {
+  __typename: "HivePipelineStepResult" | undefined;
+  id: ScalarsEnums["ID"];
+  step?: Maybe<ScalarsEnums["String"]>;
+  run: (args?: {
+    where?: Maybe<HivePipelineRunWhere>;
+    options?: Maybe<HivePipelineRunOptions>;
+  }) => Maybe<HivePipelineRun>;
+  artifacts: (args?: {
+    where?: Maybe<HivePipelineResourceWhere>;
+    options?: Maybe<HivePipelineResourceOptions>;
+  }) => Maybe<Array<Maybe<HivePipelineResource>>>;
+  runConnection: (args?: {
+    where?: Maybe<HivePipelineStepResultRunConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HivePipelineStepResultRunConnectionSort>>;
+  }) => HivePipelineStepResultRunConnection;
+  artifactsConnection: (args?: {
+    where?: Maybe<HivePipelineStepResultArtifactsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HivePipelineStepResultArtifactsConnectionSort>>;
+  }) => HivePipelineStepResultArtifactsConnection;
+}
+
+export interface HivePipelineStepResultArtifactsConnection {
+  __typename: "HivePipelineStepResultArtifactsConnection" | undefined;
+  edges: Array<HivePipelineStepResultArtifactsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HivePipelineStepResultArtifactsRelationship {
+  __typename: "HivePipelineStepResultArtifactsRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: HivePipelineResource;
+}
+
+export interface HivePipelineStepResultRunConnection {
+  __typename: "HivePipelineStepResultRunConnection" | undefined;
+  edges: Array<HivePipelineStepResultRunRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HivePipelineStepResultRunRelationship {
+  __typename: "HivePipelineStepResultRunRelationship" | undefined;
+  cursor: ScalarsEnums["String"];
+  node: HivePipelineRun;
 }
 
 export interface HiveProcess {
@@ -12962,10 +14341,28 @@ export interface UpdateHivePipelineNodesMutationResponse {
   hivePipelineNodes: Array<HivePipelineNode>;
 }
 
+export interface UpdateHivePipelineResourcesMutationResponse {
+  __typename: "UpdateHivePipelineResourcesMutationResponse" | undefined;
+  info: UpdateInfo;
+  hivePipelineResources: Array<HivePipelineResource>;
+}
+
+export interface UpdateHivePipelineRunsMutationResponse {
+  __typename: "UpdateHivePipelineRunsMutationResponse" | undefined;
+  info: UpdateInfo;
+  hivePipelineRuns: Array<HivePipelineRun>;
+}
+
 export interface UpdateHivePipelinesMutationResponse {
   __typename: "UpdateHivePipelinesMutationResponse" | undefined;
   info: UpdateInfo;
   hivePipelines: Array<HivePipeline>;
+}
+
+export interface UpdateHivePipelineStepResultsMutationResponse {
+  __typename: "UpdateHivePipelineStepResultsMutationResponse" | undefined;
+  info: UpdateInfo;
+  hivePipelineStepResults: Array<HivePipelineStepResult>;
 }
 
 export interface UpdateHiveProcessesMutationResponse {
@@ -14187,7 +15584,10 @@ export interface SchemaObjectTypes {
   CreateHiveOrganisationsMutationResponse: CreateHiveOrganisationsMutationResponse;
   CreateHivePermissionsMutationResponse: CreateHivePermissionsMutationResponse;
   CreateHivePipelineNodesMutationResponse: CreateHivePipelineNodesMutationResponse;
+  CreateHivePipelineResourcesMutationResponse: CreateHivePipelineResourcesMutationResponse;
+  CreateHivePipelineRunsMutationResponse: CreateHivePipelineRunsMutationResponse;
   CreateHivePipelinesMutationResponse: CreateHivePipelinesMutationResponse;
+  CreateHivePipelineStepResultsMutationResponse: CreateHivePipelineStepResultsMutationResponse;
   CreateHiveProcessesMutationResponse: CreateHiveProcessesMutationResponse;
   CreateHiveProcessPortsMutationResponse: CreateHiveProcessPortsMutationResponse;
   CreateHiveProcessResultsMutationResponse: CreateHiveProcessResultsMutationResponse;
@@ -14233,6 +15633,8 @@ export interface SchemaObjectTypes {
   HiveOrganisationAppliancesRelationship: HiveOrganisationAppliancesRelationship;
   HivePermission: HivePermission;
   HivePipeline: HivePipeline;
+  HivePipelineInputsConnection: HivePipelineInputsConnection;
+  HivePipelineInputsRelationship: HivePipelineInputsRelationship;
   HivePipelineNode: HivePipelineNode;
   HivePipelineNodeCallerConnection: HivePipelineNodeCallerConnection;
   HivePipelineNodeCallerRelationship: HivePipelineNodeCallerRelationship;
@@ -14244,6 +15646,17 @@ export interface SchemaObjectTypes {
   HivePipelineNodeRunnerRelationship: HivePipelineNodeRunnerRelationship;
   HivePipelineNodesConnection: HivePipelineNodesConnection;
   HivePipelineNodesRelationship: HivePipelineNodesRelationship;
+  HivePipelineResource: HivePipelineResource;
+  HivePipelineRun: HivePipelineRun;
+  HivePipelineRunInputsConnection: HivePipelineRunInputsConnection;
+  HivePipelineRunInputsRelationship: HivePipelineRunInputsRelationship;
+  HivePipelineRunPipelineConnection: HivePipelineRunPipelineConnection;
+  HivePipelineRunPipelineRelationship: HivePipelineRunPipelineRelationship;
+  HivePipelineStepResult: HivePipelineStepResult;
+  HivePipelineStepResultArtifactsConnection: HivePipelineStepResultArtifactsConnection;
+  HivePipelineStepResultArtifactsRelationship: HivePipelineStepResultArtifactsRelationship;
+  HivePipelineStepResultRunConnection: HivePipelineStepResultRunConnection;
+  HivePipelineStepResultRunRelationship: HivePipelineStepResultRunRelationship;
   HiveProcess: HiveProcess;
   HiveProcessPort: HiveProcessPort;
   HiveProcessPortProcessConnection: HiveProcessPortProcessConnection;
@@ -14261,7 +15674,10 @@ export interface SchemaObjectTypes {
   UpdateHiveOrganisationsMutationResponse: UpdateHiveOrganisationsMutationResponse;
   UpdateHivePermissionsMutationResponse: UpdateHivePermissionsMutationResponse;
   UpdateHivePipelineNodesMutationResponse: UpdateHivePipelineNodesMutationResponse;
+  UpdateHivePipelineResourcesMutationResponse: UpdateHivePipelineResourcesMutationResponse;
+  UpdateHivePipelineRunsMutationResponse: UpdateHivePipelineRunsMutationResponse;
   UpdateHivePipelinesMutationResponse: UpdateHivePipelinesMutationResponse;
+  UpdateHivePipelineStepResultsMutationResponse: UpdateHivePipelineStepResultsMutationResponse;
   UpdateHiveProcessesMutationResponse: UpdateHiveProcessesMutationResponse;
   UpdateHiveProcessPortsMutationResponse: UpdateHiveProcessPortsMutationResponse;
   UpdateHiveProcessResultsMutationResponse: UpdateHiveProcessResultsMutationResponse;
@@ -14369,7 +15785,10 @@ export type SchemaObjectTypesNames =
   | "CreateHiveOrganisationsMutationResponse"
   | "CreateHivePermissionsMutationResponse"
   | "CreateHivePipelineNodesMutationResponse"
+  | "CreateHivePipelineResourcesMutationResponse"
+  | "CreateHivePipelineRunsMutationResponse"
   | "CreateHivePipelinesMutationResponse"
+  | "CreateHivePipelineStepResultsMutationResponse"
   | "CreateHiveProcessesMutationResponse"
   | "CreateHiveProcessPortsMutationResponse"
   | "CreateHiveProcessResultsMutationResponse"
@@ -14415,6 +15834,8 @@ export type SchemaObjectTypesNames =
   | "HiveOrganisationAppliancesRelationship"
   | "HivePermission"
   | "HivePipeline"
+  | "HivePipelineInputsConnection"
+  | "HivePipelineInputsRelationship"
   | "HivePipelineNode"
   | "HivePipelineNodeCallerConnection"
   | "HivePipelineNodeCallerRelationship"
@@ -14426,6 +15847,17 @@ export type SchemaObjectTypesNames =
   | "HivePipelineNodeRunnerRelationship"
   | "HivePipelineNodesConnection"
   | "HivePipelineNodesRelationship"
+  | "HivePipelineResource"
+  | "HivePipelineRun"
+  | "HivePipelineRunInputsConnection"
+  | "HivePipelineRunInputsRelationship"
+  | "HivePipelineRunPipelineConnection"
+  | "HivePipelineRunPipelineRelationship"
+  | "HivePipelineStepResult"
+  | "HivePipelineStepResultArtifactsConnection"
+  | "HivePipelineStepResultArtifactsRelationship"
+  | "HivePipelineStepResultRunConnection"
+  | "HivePipelineStepResultRunRelationship"
   | "HiveProcess"
   | "HiveProcessPort"
   | "HiveProcessPortProcessConnection"
@@ -14443,7 +15875,10 @@ export type SchemaObjectTypesNames =
   | "UpdateHiveOrganisationsMutationResponse"
   | "UpdateHivePermissionsMutationResponse"
   | "UpdateHivePipelineNodesMutationResponse"
+  | "UpdateHivePipelineResourcesMutationResponse"
+  | "UpdateHivePipelineRunsMutationResponse"
   | "UpdateHivePipelinesMutationResponse"
+  | "UpdateHivePipelineStepResultsMutationResponse"
   | "UpdateHiveProcessesMutationResponse"
   | "UpdateHiveProcessPortsMutationResponse"
   | "UpdateHiveProcessResultsMutationResponse"

@@ -213,11 +213,13 @@ const config : ConfigParams = {
     }
 
 
-
-    app.use('/graphql', graphqlHTTP({
-        schema: mergeSchemas({schemas: [printerSchema, hiveSchema(driver,taskRegistry), schema]}),
-        graphiql: true
-    }))
+    hiveSchema(driver, taskRegistry).then((hive) => {
+        app.use('/graphql', graphqlHTTP({
+            schema: mergeSchemas({schemas: [printerSchema, hive, schema]}),
+            graphiql: true
+        }))
+    })
+ 
 
     // app.use(oidc.callback())
 

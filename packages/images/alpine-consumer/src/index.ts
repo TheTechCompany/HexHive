@@ -15,6 +15,8 @@ const kafka = new Kafka({
 const TOPIC = 'the-topic';
 
 interface HiveEvent {
+    id: string;
+    pipeline: string;
     service: "Files" | "Messages" | "Flow" | "Command" | "Design",
     event: "convert_files" | "uploaded_files",
     data: any
@@ -39,10 +41,8 @@ const submitFileEvent = async (event: HiveEvent) => {
         responseType: 'json',
         headers: {
             "Content-Type": "application/json",
-            "JobID": nanoid()
-        },
-        data: {
-            id: nanoid()
+            "JobID": event.id,
+            "Pipeline": event.pipeline,
         }
     });
     return await r.data;
