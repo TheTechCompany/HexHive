@@ -33,6 +33,7 @@
     "ipfs-core-types": "^0.7.0",
     "ipfs-http-client": "^52.0.1",
     "jose": "2",
+    "kafkajs": "^1.15.0",
     "neo4j-driver": "^4.3.3",
     "node-fetch": "^3.0.0",
     "tar": "^6.1.11",

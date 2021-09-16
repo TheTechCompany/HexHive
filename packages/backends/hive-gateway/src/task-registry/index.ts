@@ -1,6 +1,13 @@
 import ECS from 'aws-sdk/clients/ecs'
 import tar from 'tar';
+import EKS from 'aws-sdk/clients/eks';
+
+const eks = new EKS({region: 'ap-southeast-2'})
+
 const ecs = new ECS({region: 'ap-southeast-2'})
+
+
+// eks.()
 
 export interface Task {
   id?: string;
@@ -50,26 +57,33 @@ export class TaskRegistry {
 
         const params = inputs.concat([{name: 'JOB_ID', type: 'string'}]).map((input) => {
             return `    - name: ${input.name}\n      type: string`
-        })
+        }).join(`\n`)
 
         const tasks = steps.map((step) => {
             const STEP_ID = step.id;
-            const params = step.inputs.map((x) => `      ${x.targetHandle}: $(task.${x.source}.results.${x.sourceHandle})`).join(`\n`)
+
+const params = step.inputs.map((x) => `      
+        - name: ${x.targetHandle}
+          value: $(tasks.${x.source}.results.${x.sourceHandle})
+`).join(`\n`)
+
             const runAfter = [...new Set(step.inputs.map((x) => x.source))].map((x) => `      - ${x}`).join(`\n`)
             return `
     - name: ${step.name}
       taskRef: 
         name: ${step.task}
       params: 
-        STEP_ID: "${STEP_ID}"
-        JOB_ID: $(params.JOB_ID)
+        - name: STEP_ID
+          value: "${STEP_ID}"
+        - name: JOB_ID
+          value: $(params.JOB_ID)
   ${params}
     ${runAfter.length > 0 ? `
       runAfter:
   ${runAfter}
     ` : ''}
       `
-        })
+        }).join(`\n`)
 
         return `
 apiVersion: tekton.dev/v1beta1

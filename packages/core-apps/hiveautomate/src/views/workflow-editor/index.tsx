@@ -1,14 +1,15 @@
 import { mutation, useMutation  } from '@hexhive/client';
 import { gql, useQuery } from '@apollo/client';
 import { ActionNodeFactory, BlockTray, IconNodeFactory, InfiniteCanvas, StartNodeFactory } from '@hexhive/ui';
-import { Box, Text, List } from 'grommet';
+import { Box, Text, List, Button } from 'grommet';
 import _, { debounce } from 'lodash';
 import { nanoid } from 'nanoid';
 import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { MultiportNodeFactory } from './nodes/multi-port/factory';
 import { useEffect } from 'react';
-import { Add } from 'grommet-icons';
+import { Add, Play } from 'grommet-icons';
+
 
 export interface WorkflowsProps extends RouteComponentProps<{id: string}> {
 
@@ -97,6 +98,20 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
         return {
             item: {
                 ...item.hivePipelines[0],
+            },
+            err: null
+        }
+    }, {
+        awaitRefetchQueries: true,
+        refetchQueries: [ ],
+        suspense: false
+    })
+
+    const [ runWorkflowNode, runNodeInfo ] = useMutation((mutation, args: {id: string}) => {
+        const item = mutation.runWorkflow({id: args.id})
+        return {
+            item: {
+                ...item
             },
             err: null
         }
@@ -241,10 +256,18 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
          
             round="small" flex direction="column">
             <Box 
+                
+                justify="between"
+                align="center"
                 pad="xsmall"
                 background="accent-2" 
                 direction="row">
                 <Text>Workflow name</Text>
+
+                <Button 
+                    onClick={() => runWorkflowNode({args: {id: props.match.params.id}})}
+                    hoverIndicator
+                    icon={<Play />} />
             </Box>
             <Box 
                 tabIndex={0}
