@@ -39,6 +39,9 @@ const submitFileEvent = async (event: HiveEvent) => {
         method: "POST",
         url: `http://${WEBHOOK_URL}`,
         responseType: 'json',
+        data: {
+            pipeline: event.pipeline
+        },
         headers: {
             "Content-Type": "application/json",
             "JobID": event.id,
