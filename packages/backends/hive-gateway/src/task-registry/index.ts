@@ -35,10 +35,10 @@ export class TaskRegistry {
         const file = inputs.filter((a) => a.type == "file").map((input) => {
             return `curl ${url}/$(params.JOB_ID)/$(params.STEP_ID) > /workspace/$(params.STEP_ID).tgz`
         })
-        return `
+        return file.length > 0 ? `
           ${file.join(`\n`)}
           tar -xvf /workspace/$(params.STEP_ID).tgz
-        `
+        ` : ''
     }
 
     getPostResults(url: string, outputs: TaskOutput[]){
@@ -50,7 +50,7 @@ export class TaskRegistry {
                     return `-F "${output.name}=$(cat $(results.${output.name}.path))"`
             }
         })
-        return `curl -XPOST ${files.join(' ')} ${url}`
+        return files.length > 0 ? `curl -XPOST ${files.join(' ')} ${url}` : ''
     }
 
     formatPipelineDefinition(id: string, steps: Task[], inputs: TaskInput[]){
