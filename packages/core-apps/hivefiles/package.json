@@ -1,5 +1,5 @@
 {
-  "name": "@hexhive-apps/hivefiles",
+  "name": "@hexhive-coreapps/hivefiles",
   "scripts": {
     "start": "webpack serve --port 8509",
     "start:standalone": "webpack serve --env standalone",
