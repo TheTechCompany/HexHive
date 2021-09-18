@@ -1,26 +1,37 @@
 import { File, User, Project } from "@hexhive/types"
-
+import axios from 'axios';
 import { IPFS } from 'ipfs-core-types';
 import {create} from 'ipfs-http-client'
 
 export class FileManager {
     private ipfs : IPFS;
 
-    constructor(opts: {url: string}){
+    private opts: {gateway?: string, url: string}
+
+    constructor(opts: {gateway?: string, url: string}){
         this.ipfs = create({url: opts.url})    
+        this.opts = opts;
         console.log(`Connecting to IPFS : ${opts.url}`)
     }
 
     async get(cid: string){
         console.log("Get CID", cid)
-        let chunks : Uint8Array = Uint8Array.from([]);
-        for await (const chunk of this.ipfs.cat(cid)){
-            console.log("Chunked...")
-            chunks = Uint8Array.from([...chunks, ...chunk]) 
-        }
-        console.log("Get CID Done", cid)
 
-        return chunks
+        const response = await axios({
+            url: `${this.opts.gateway}/ipfs/${cid}`,
+            method: "GET",
+            responseType: 'blob'
+        })
+
+        return response.data
+        // let chunks : Uint8Array = Uint8Array.from([]);
+        // for await (const chunk of this.ipfs.cat(cid)){
+        //     console.log("Chunked...")
+        //     chunks = Uint8Array.from([...chunks, ...chunk]) 
+        // }
+        // console.log("Get CID Done", cid)
+
+        // return chunks
     }
 
     async add(file: Buffer){
