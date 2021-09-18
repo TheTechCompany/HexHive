@@ -645,6 +645,7 @@ export interface HiveFileConvertedToUpdateFieldInput {
 
 export interface HiveFileCreateInput {
   name: Scalars["String"];
+  cid?: Maybe<Scalars["String"]>;
   isFolder?: Maybe<Scalars["Boolean"]>;
   fs?: Maybe<HiveFileFsFieldInput>;
   parent?: Maybe<HiveFileParentFieldInput>;
@@ -1088,11 +1089,13 @@ export interface HiveFileRelationInput {
 export interface HiveFileSort {
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
+  cid?: Maybe<SortDirection>;
   isFolder?: Maybe<SortDirection>;
 }
 
 export interface HiveFileUpdateInput {
   name?: Maybe<Scalars["String"]>;
+  cid?: Maybe<Scalars["String"]>;
   isFolder?: Maybe<Scalars["Boolean"]>;
   fs?: Maybe<HiveFileFsUpdateFieldInput>;
   parent?: Maybe<HiveFileParentUpdateFieldInput>;
@@ -1126,6 +1129,16 @@ export interface HiveFileWhere {
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  cid?: Maybe<Scalars["String"]>;
+  cid_NOT?: Maybe<Scalars["String"]>;
+  cid_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  cid_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  cid_CONTAINS?: Maybe<Scalars["String"]>;
+  cid_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  cid_STARTS_WITH?: Maybe<Scalars["String"]>;
+  cid_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  cid_ENDS_WITH?: Maybe<Scalars["String"]>;
+  cid_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   isFolder?: Maybe<Scalars["Boolean"]>;
   isFolder_NOT?: Maybe<Scalars["Boolean"]>;
   fs?: Maybe<FileSystemWhere>;
@@ -6829,6 +6842,7 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     name: { __type: "String!" },
+    cid: { __type: "String" },
     isFolder: { __type: "Boolean" },
     path_id: { __type: "String" },
     path: { __type: "String" },
@@ -8148,6 +8162,7 @@ export const generatedSchema = {
   },
   HiveFileCreateInput: {
     name: { __type: "String!" },
+    cid: { __type: "String" },
     isFolder: { __type: "Boolean" },
     fs: { __type: "HiveFileFsFieldInput" },
     parent: { __type: "HiveFileParentFieldInput" },
@@ -8507,10 +8522,12 @@ export const generatedSchema = {
   HiveFileSort: {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
+    cid: { __type: "SortDirection" },
     isFolder: { __type: "SortDirection" },
   },
   HiveFileUpdateInput: {
     name: { __type: "String" },
+    cid: { __type: "String" },
     isFolder: { __type: "Boolean" },
     fs: { __type: "HiveFileFsUpdateFieldInput" },
     parent: { __type: "HiveFileParentUpdateFieldInput" },
@@ -8543,6 +8560,16 @@ export const generatedSchema = {
     name_NOT_STARTS_WITH: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
+    cid: { __type: "String" },
+    cid_NOT: { __type: "String" },
+    cid_IN: { __type: "[String]" },
+    cid_NOT_IN: { __type: "[String]" },
+    cid_CONTAINS: { __type: "String" },
+    cid_NOT_CONTAINS: { __type: "String" },
+    cid_STARTS_WITH: { __type: "String" },
+    cid_NOT_STARTS_WITH: { __type: "String" },
+    cid_ENDS_WITH: { __type: "String" },
+    cid_NOT_ENDS_WITH: { __type: "String" },
     isFolder: { __type: "Boolean" },
     isFolder_NOT: { __type: "Boolean" },
     fs: { __type: "FileSystemWhere" },
@@ -14233,6 +14260,7 @@ export interface HiveFile {
   __typename: "HiveFile" | undefined;
   id: ScalarsEnums["ID"];
   name: ScalarsEnums["String"];
+  cid?: Maybe<ScalarsEnums["String"]>;
   isFolder?: Maybe<ScalarsEnums["Boolean"]>;
   path_id?: Maybe<ScalarsEnums["String"]>;
   path?: Maybe<ScalarsEnums["String"]>;

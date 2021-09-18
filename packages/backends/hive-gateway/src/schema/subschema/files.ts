@@ -8,6 +8,7 @@ type FileSystem {
 type HiveFile {
     id: ID! @id
     name: String!
+    cid: String
     path_id: String
         @cypher(
             statement: """

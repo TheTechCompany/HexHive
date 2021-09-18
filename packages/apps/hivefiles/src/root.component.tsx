@@ -11,7 +11,7 @@ import { Explorer } from "./views/explorer";
 import {App} from "./App";
 
 const client = new ApolloClient({
-  uri: `${process.env.REACT_APP_API}/graphql` || 'http://localhost:7000/graphql',
+  uri: process.env.REACT_APP_API ?  `${process.env.REACT_APP_API}/graphql` : 'http://localhost:7000/graphql',
   cache: new InMemoryCache(),
   credentials: 'include'
 })
