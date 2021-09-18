@@ -43,7 +43,7 @@ export const App = (props) => {
             direction="row" width="100%" height="100%">
             <Box 
                 focusIndicator={false}
-                width="small" elevation="small" background="neutral-1"> 
+                width="small" elevation="small" background="brand"> 
                 <List 
                     pad={'none'}
                     onClickItem={({item}) => changeView(item.path)}
