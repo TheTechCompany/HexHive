@@ -13,6 +13,7 @@ import path from "path";
 import { apply } from "../task-registry/k8s";
 
 import { Kafka } from 'kafkajs';
+import { createTask, createWorkflow } from "../task-registry/yml-templater";
 
 const TOPIC = 'the-topic';
 
@@ -152,7 +153,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
                     steps = steps.replace(regex, `$(params.${port.id})`)
                 })
 
-                const definition = taskRegistry.formatTaskDefinition(
+                const definition = createTask(
                     task.id, 
                     steps, 
                     task.ports.filter((a: any) => a.direction == 'input').map((x: any) => ({name: x.id, type: x.type})), 
@@ -220,7 +221,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
                     }
                 })
 
-                const definition = taskRegistry.formatPipelineDefinition(pipeline[0].id, tasks, [])
+                const definition = createWorkflow(pipeline[0].id, tasks, [])
                 console.log(definition)
 
                 await apply(definition)

@@ -13,7 +13,7 @@ export interface Task {
   id?: string;
     name: string;
     task: string;
-    inputs: [{source: string, sourceHandle: string, targetHandle: string}]
+    inputs?: {source: string, sourceHandle: string, targetHandle: string}[]
 }
 
 export interface TaskInput {
@@ -31,116 +31,9 @@ export class TaskRegistry {
     //URL should be the base artifact url for job
     //Creates curl requests for the specified files e.g. $(steps.$step_id.output.$id)
     //curl requests map to {source:, sourceHandle:, targetHandle}
-    getPullJob(url: string, inputs: TaskInput[]){
-        const file = inputs.filter((a) => a.type.toLowerCase() == "file").map((input) => {
-            return `curl ${url}/$(params.JOB_ID)/$(params.STEP_ID) > /workspace/$(params.STEP_ID).tgz`
-        })
-        return file.length > 0 ? `
-          ${file.join(`\n`)}
-          tar -xvf /workspace/$(params.STEP_ID).tgz
-        ` : ''
-    }
+   
 
-    getPostResults(url: string, outputs: TaskOutput[]){
-        const files = outputs.map((output) => {
-            switch(output.type.toLowerCase()){
-                case 'file':
-                   return `-F "files=@$(cat $(results.${output.name}.path))"`
-                default:
-                    return `-F "${output.name}=$(cat $(results.${output.name}.path))"`
-            }
-        })
-        return files.length > 0 ? `curl -XPOST ${files.join(' ')} ${url}` : ''
-    }
-
-    formatPipelineDefinition(id: string, steps: Task[], inputs: TaskInput[]){
-
-        const params = inputs.concat([{name: 'JOB_ID', type: 'string'}]).map((input) => {
-            return `    - name: ${input.name}\n      type: string`
-        }).join(`\n`)
-
-        const tasks = steps.map((step) => {
-            const STEP_ID = step.id;
-
-const params = step.inputs.map((x) => `      
-        - name: ${x.targetHandle}
-          value: $(tasks.${x.source}.results.${x.sourceHandle})
-`).join(`\n`)
-
-            const runAfter = [...new Set(step.inputs.map((x) => x.source))].map((x) => `      - ${x}`).join(`\n`)
-            return `
-    - name: ${step.name}
-      taskRef: 
-        name: ${step.task}
-      params: 
-        - name: STEP_ID
-          value: "${STEP_ID}"
-        - name: JOB_ID
-          value: $(params.JOB_ID)
-  ${params}
-    ${runAfter.length > 0 ? `
-      runAfter:
-  ${runAfter}
-    ` : ''}
-      `
-        }).join(`\n`)
-
-        return `
-apiVersion: tekton.dev/v1beta1
-kind: Pipeline
-metadata:
-  name: ${id}
-spec:
-${params.length > 0 ? `
-  params:
-${params}` : ''}
-  tasks:
-${tasks}
-`
-    }
-
-    formatTaskDefinition(id: string, steps: string, inputs: TaskInput[], outputs: TaskOutput[]){
-
-        const params = inputs.concat([
-          {name: 'JOB_ID', type: 'string'},
-          {name: 'STEP_ID', type: 'string'}
-        ]).map((input) => {
-            return `    - name: ${input.name}\n      type: string\n      default: empty`
-        }).join(`\n`)
-
-        const results = outputs.map((output) => {
-            return `    - name: ${output.name}`
-        }).join(`\n`)
-
-        return `
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: ${id}
-spec:
-${params.length > 0 ? `
-  params:
-${params}` : ''}
-${results.length > 0 ? `
-  results:
-${results}
-` : ''}
-  steps:
-    - name: pull-job
-      image: curlimages/curl:latest
-      script: |
-        #!/usr/bin/env sh
-
-        ${this.getPullJob('https://staging-api.hexhive.io/api/pipelines', inputs)}
-${steps}
-    - name: push-results
-      image: curlimages/curl:latest
-      script: |
-        #!/usr/bin/env sh
-
-        ${this.getPostResults('https://staging-api.hexhive.io/api/pipelines', outputs)}
-`
-    }
+    
 
     updateTask(id: string, containers: ECS.ContainerDefinition[]){
         return new Promise<ECS.RegisterTaskDefinitionResponse>((resolve, reject) => {
