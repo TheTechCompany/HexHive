@@ -8,7 +8,9 @@ import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { MultiportNodeFactory } from './nodes/multi-port/factory';
 import { useEffect } from 'react';
-import { Add, Play } from 'grommet-icons';
+import { Add, Upload, Play } from 'grommet-icons';
+import { EditorPane } from '../../components/editor-pane/EditorPane';
+import { RunModal } from '../../modals/run-modal';
 
 
 export interface WorkflowsProps extends RouteComponentProps<{id: string}> {
@@ -16,6 +18,12 @@ export interface WorkflowsProps extends RouteComponentProps<{id: string}> {
 }
 
 export const Workflows : React.FC<WorkflowsProps> = (props) => {
+    
+    const [ runParams, setRunParams ] = useState<any[]>([])
+
+    const [ runModal, openRun ] = useState<boolean>(false);
+    const [ triggers, setTriggers ] = useState<any[]>([])
+    const [editorView, setEditorView] = useState<string>('nodes');
     const [ shift, setShift ] = useState<boolean>(false)
     const paths = useRef<{p?: any[]}>({p: []})
 
@@ -56,13 +64,24 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                     x
                     y
                     runner{
-                        id
-                        name
-                        ports {
-                            direction
-                            type
-                            name
+                      
+                        ... on HiveProcess {
                             id
+                            name
+    
+                            ports {
+                                direction
+                                type
+                                name
+                                id
+                            }
+                        }
+
+                        ... on HivePipelineTrigger {
+                            produces {
+                                id
+                                name
+                            }
                         }
                     }
                     next {
@@ -74,9 +93,20 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                           target
                         }
                     }
+                    callerConnection {
+                        edges {
+                            source
+                            target
+                        }
+                    }
                 }
             }
             hiveProcesses{
+                id
+                name
+            }
+
+            hivePipelineTriggers{
                 id
                 name
             }
@@ -87,10 +117,17 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
 
     // const workflow = query.hivePipelineNodes({where: {pipeline: {id: props.match.params.id}}})
 
-    const [ addWorkflowNode, addNodeInfo ] = useMutation((mutation, args: {runner: string, x: number, y: number}) => {
+    const [ addWorkflowNode, addNodeInfo ] = useMutation((mutation, args: {runner: string, kind: string, x: number, y: number}) => {
+        let runner : any = {};
+
+        if(args.kind == "Trigger"){
+            runner = {HivePipelineTrigger : {connect: {where: {node: {id: args.runner}}}}}
+        }else {
+            runner = {HiveProcess : {connect: {where: {node: {id: args.runner}}}}}
+        }
         const item = mutation.updateHivePipelines({where: {id: props.match.params.id}, update: {
             nodes: [{create: [{node: {
-                runner: {connect: {where: {node: {id: args.runner}}}}, // args.runner ,
+                runner: runner, // args.runner ,
                 x: args.x,
                 y: args.y,
             }}]}]
@@ -107,8 +144,8 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
         suspense: false
     })
 
-    const [ runWorkflowNode, runNodeInfo ] = useMutation((mutation, args: {id: string}) => {
-        const item = mutation.runWorkflow({id: args.id})
+    const [ runWorkflow, runNodeInfo ] = useMutation((mutation, args: {id: string, params: {key: string, type: string, urn: string}[]}) => {
+        const item = mutation.runWorkflow({id: args.id, params: args.params})
         return {
             item: {
                 ...item
@@ -127,6 +164,23 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                 y: args.y,
             }}]}]
 */
+
+
+const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: string}) => {
+    
+    const item = mutation.publishHivePipeline({id:args.id})
+    return {
+        item: {
+            success: true
+        },
+        err: null
+    }
+}, {
+    awaitRefetchQueries: true,
+    refetchQueries: [  ],
+    suspense: false
+})
+
 
     const [ updateWorkflowNode, updateNodeInfo ] = useMutation((mutation, args: {id: string, runner?: string, x: number, y: number}) => {
         let node : any = {
@@ -207,10 +261,26 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
 
     useEffect(() => {
         console.log(data)
+
+    
+        const starters = data?.hivePipelines?.[0]?.nodes?.filter((node) => {
+            return node.callerConnection.edges.length < 1
+        }) 
+
+        console.log(starters)
+        
+        // console.log()
+
+        setRunParams(starters?.reduce((prev, curr) => {
+            let new_items = curr?.runner?.ports?.filter((a) => a.direction == 'input')
+            if(new_items && new_items.length > 0) prev = (prev || []).concat(new_items)
+            return prev
+        }, []) || [])
+
         setNodes( data?.hivePipelines?.[0]?.nodes?.map((x) => ({
             ...x, 
             id: x?.id  || nanoid(), 
-            extras: {title: x?.runner?.name}, 
+            extras: {title: x?.runner?.name || x?.id}, 
             type: 'multiport-node'
         })) || [])
         setPaths( data?.hivePipelines?.[0]?.nodes?.filter((a) => a.next).map((x) => {
@@ -237,10 +307,18 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
         ]))
 
         console.log(data?.hiveProcesses)
+
+        setTriggers(data?.hivePipelineTriggers?.map((x) => ({
+            ...x,
+            label: x.name,
+            extras: {kind: 'Trigger', title: x.name, runner: x.id},
+            blockType: 'multiport-node'
+        })) || [])
+
         setItems(data?.hiveProcesses?.map((x) => ({
             ...x, 
             label: x.name, 
-            extras: {title: x.name, runner: x.id}, 
+            extras: {kind: 'Action', title: x.name, runner: x.id}, 
             blockType: 'multiport-node'
         })) || [])
 
@@ -264,11 +342,43 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                 direction="row">
                 <Text>Workflow name</Text>
 
+                <Box direction="row">
                 <Button 
-                    onClick={() => runWorkflowNode({args: {id: props.match.params.id}})}
+                    onClick={() => publishWorkflow({args: {id: props.match.params.id}})}
+                    hoverIndicator
+                    icon={<Upload />} />
+                <Button 
+                    onClick={() =>  {
+                        openRun(true)
+                        //  runWorkflowNode({args: {id: props.match.params.id}})
+                    }}
                     hoverIndicator
                     icon={<Play />} />
+                </Box>
             </Box>
+            <RunModal 
+                params={runParams}
+                open={runModal} 
+                onSubmit={(state) => {
+                    console.log(state)
+                    openRun(false)
+
+                    let params : any[] = [];
+                    for(var k in state){
+                        state[k].map((x) => {
+                            params.push({
+                                key: k,
+                                type: "File",
+                                urn: `ipfs://${x.cid}`
+                            })
+                        })
+                    }
+                    runWorkflow({args: {
+                        id: props.match.params.id,
+                        params: params
+                    }})
+                }}
+                onClose={() => openRun(false)}/>
             <Box 
                 tabIndex={0}
                 onKeyUp={(e) => {
@@ -295,6 +405,10 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                 }}
                 flex direction="row">
                 
+                <EditorPane
+                    view={editorView}
+                    onViewChange={(view) => setEditorView(view)}
+                    >
                 <InfiniteCanvas 
                     editable={true}
                     nodes={nodes}
@@ -314,6 +428,7 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                         }
 
                         addWorkflowNode({args: { 
+                            kind: data.extras.kind,
                             runner: data.extras.runner,
                             x: position.x,
                             y: position.y
@@ -394,30 +509,36 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                 
 
                 <Box
-                    style={{zIndex:99}}
+                
+                    style={{zIndex:20}}
                     onMouseDown={(e) => {
                         console.log("Box click")
                         e.stopPropagation()
                     }}
                 elevation="small" background="neutral-1" width="small">
-                
+                    {editorView == 'nodes' ? (
                         <BlockTray 
+                            groupBy="__typename"
                             renderItem={(block : any) => (
                             <Box  
                                 round="small"
                                 style={{cursor: 'pointer'}}
                                 pad="xsmall"
                                 background="accent-1"
-                                justify={block.dimensions ? "center" : 'start'}
+                                justify={ "center"}
                                 align="center"
                                 direction="row">
-                                {block.icon}
                                 <Box 
-                                    style={block.dimensions || {marginLeft: 8}}>{block.content || block.label}</Box>
+                                    style={{marginLeft: 8}}>{block.content || block.label}</Box>
                             </Box>)}
-                            blocks={items as any} />
+                            blocks={triggers.concat(items) as any} /> ) : (
+                                <Box>
+                                    Inputs
+                                </Box>
+                            )}
                 </Box>
                 </InfiniteCanvas>
+                </EditorPane>
             </Box>
         </Box>
         

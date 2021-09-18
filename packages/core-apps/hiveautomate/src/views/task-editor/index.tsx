@@ -8,7 +8,7 @@ import "ace-builds/src-noconflict/theme-github";
 import { mutation, useMutation, useQuery } from '@hexhive/client';
 import { RouteComponentProps } from 'react-router-dom';
 import { useEffect } from 'react';
-import { Add } from 'grommet-icons';
+import { Add, Upload } from 'grommet-icons';
 import { PortModal } from '../../modals/port-modal';
 
 export interface TaskEditorProps extends RouteComponentProps<{id: string}> {
@@ -34,6 +34,17 @@ export const TaskEditor : React.FC<TaskEditorProps> = (props) => {
             err: null
         }
     })
+
+    const [ publishTask, publishInfo ] = useMutation((mutation, args: {id: string}) => {
+        const item = mutation.publishHiveTask({id: args.id})  
+        return {
+            item: {
+                success: true
+            },
+            err: null
+        }
+    })
+
 
     const [ addTaskPort, portInfo ] = useMutation((mutation, args: {name: string, direction: string, type: string}) => {
         const create = [{
@@ -87,6 +98,14 @@ export const TaskEditor : React.FC<TaskEditorProps> = (props) => {
             flex>
             <Box align="center" justify="between" elevation="small" pad="xsmall" direction="row">
                 <Text>{task?.[0]?.name}</Text>
+                
+                <Box direction="row">
+                    <Button 
+                        onClick={() => {
+                            publishTask({args: {id: props.match.params.id}})
+                        }}
+                        hoverIndicator
+                        icon={<Upload />} />
                 <Button 
                     onClick={() => {
                         setSaving(true)
@@ -97,6 +116,8 @@ export const TaskEditor : React.FC<TaskEditorProps> = (props) => {
                     style={{borderRadius: 7}} 
                     hoverIndicator 
                     icon={saving ? <Spinner /> : <Save />} />
+                </Box>
+                
             </Box>
             <Box
                 flex
