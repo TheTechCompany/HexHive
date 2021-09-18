@@ -9,7 +9,7 @@ import { Folder, Download, CloudComputer } from 'grommet-icons';
 import { FolderModal } from '../../components/folder-modal';
 import { ConvertModal } from '../../components/convert-modal';
 import { SidePane } from './side-pane';
-
+import {  GLBPreview } from './previews/GLB'
 export const Explorer: React.FC<any> = (props) => {
 
     const client = useApolloClient()
@@ -145,8 +145,10 @@ export const Explorer: React.FC<any> = (props) => {
     `, { fetchPolicy: 'no-cache' })
 
     const files = useMemo(() => {
-        return props.match.params.id ? data?.hiveFiles?.[0]?.children || [] : data?.hiveFiles
+        return props.match.params.id ? ( data?.hiveFiles?.[0]?.isFolder ? data?.hiveFiles?.[0]?.children || [] : data?.hiveFiles?.[0] ? [data?.hiveFiles?.[0]] : []) : data?.hiveFiles
     }, [data, props.match.params.id])
+
+    const isFolder = data?.hiveFiles?.[0]?.isFolder;
 
     console.log(data)
     const fetchFiles = () => {
@@ -277,7 +279,7 @@ export const Explorer: React.FC<any> = (props) => {
                         openConvertModal(false)
                     })
                 }}
-                files={files?.filter((a) => selected?.indexOf(a.id) > -1)}
+                files={files?.filter((a) => selected?.indexOf(a?.id) > -1)}
                 onClose={() => openConvertModal(false)}
                 open={convertModal} />
             <Box
@@ -285,6 +287,9 @@ export const Explorer: React.FC<any> = (props) => {
                 flex
                 direction="row">
             <FileExplorer
+                previewEngines={[
+                    {filetype: 'glb', component: GLBPreview}
+                ]}
                 selected={selected}
                 onSelect={(id) => {
                     setSelected([...selected, id])
@@ -305,13 +310,14 @@ export const Explorer: React.FC<any> = (props) => {
                     setSelected([])
                 }}
                 breadcrumbs={breadcrumbs}
+    
                 onClick={(file) => {
                     setSelected([])
                     props.history.push(`/explore/${file.id}`)
                 }}
                 files={files} />
                 <SidePane
-                    selected={files?.filter((a) => selected.indexOf(a.id) > -1)} />
+                    selected={files?.filter((a) => selected.indexOf(a?.id) > -1)} />
             </Box>
          
             {/* <BabylonViewer

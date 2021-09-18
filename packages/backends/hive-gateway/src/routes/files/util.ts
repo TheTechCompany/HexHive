@@ -20,7 +20,7 @@ export class FileManager {
         const response = await axios({
             url: `${this.opts.gateway}/ipfs/${cid}`,
             method: "GET",
-            responseType: 'blob'
+            responseType: 'arraybuffer' //arraybuffer | document | blob
         })
 
         return response.data

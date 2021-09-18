@@ -16,14 +16,18 @@ import { ListView } from './views/list'
 import { ThumbnailView } from './views/thumbnail'
 
 import { useDropzone } from 'react-dropzone'
+import { MissingPreview } from './components/missing-preview'
 
 export interface FileExplorerProps {
     files?: IFile[]
+
+    previewEngines?: {filetype: string, component: React.FC<{file: any}>}[];
     breadcrumbs: {name: string, id: string}[]
+    actions?: IAction[];
+    
     onDrop: (files: File[]) => void;
     onBreadcrumbClick: (crumb: {name: string, id: string}) => void;
     onClick?: (item: IFile) => void;
-    actions?: IAction[];
 
     selected?: string[];
     onSelect?: (id: string) => void;
@@ -32,6 +36,7 @@ export interface FileExplorerProps {
 
 export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
     const [ view, setView ] = useState<string>('list');
+
     const views : {[key: string]: JSX.Element} = {
         list: <ListView />,
         grid: <GridView />,
@@ -89,7 +94,7 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                     background="inherit"
                     flex>
                     <input {...getInputProps()} />
-                    {views[view]}
+                    {props.files?.length == 1 && !props.files?.[0]?.isFolder ? props.previewEngines?.find((a) => a.filetype == props.files?.[0]?.name?.split('.')[1])?.component({file: props.files?.[0]}) || <MissingPreview file={props.files?.[0]} /> : views[view]}
                 </Box>
                 {preview ? (<PreviewDrawer data={preview} />) : null}
             </Box>
