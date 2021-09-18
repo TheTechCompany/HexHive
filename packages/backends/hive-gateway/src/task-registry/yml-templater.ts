@@ -1,14 +1,19 @@
 import { dump, load } from 'js-yaml'
 import { Task, TaskInput, TaskOutput } from '.'
 
+console.log(load(`
+script: |2-
+    #!/usr/bin/env sh
+    astasddas
+`))
+
 const getPullJob = (url: string, inputs: TaskInput[]) => {
     const file = inputs.filter((a) => a.type.toLowerCase() == "file").map((input) => {
-        return `curl ${url}/$(params.JOB_ID)/$(params.STEP_ID) > /workspace/$(params.STEP_ID).tgz`
+        return `curl "${url}/$(params.JOB_ID)/$(params.STEP_ID)" > "/workspace/$(params.STEP_ID).tgz";`
     })
-    return file.length > 0 ? `
-      ${file.join(`\n`)}
-      tar -xvf /workspace/$(params.STEP_ID).tgz
-    ` : ''
+    return file.length > 0 ? `${file.join(`\n`)}
+cd /workspace/;
+tar -xvf "/workspace/$(params.STEP_ID).tgz"` : ''
 }
 
 const getPostResults = (url: string, outputs: TaskOutput[]) => {
@@ -20,7 +25,7 @@ const getPostResults = (url: string, outputs: TaskOutput[]) => {
                 return `-F "${output.name}=$(cat $(results.${output.name}.path))"`
         }
     })
-    return files.length > 0 ? `curl -XPOST ${files.join(' ')} ${url}` : ''
+    return files.length > 0 ? `curl -XPOST ${files.join(' ')} ${url}/$(params.JOB_ID)/$(params.STEP_ID)` : ''
 }
 
 export const createTask = (id: string, steps: string, inputs: TaskInput[], outputs: TaskOutput[]) => {
@@ -52,21 +57,15 @@ export const createTask = (id: string, steps: string, inputs: TaskInput[], outpu
                 {
                     name: 'pull-job',
                     image: 'curlimages/curl:latest',
-                    script: `
-                    #!/usr/bin/env sh
-
-                    ${getPullJob('https://staging-api.hexhive.io/api/pipelines', inputs)}
-                    `
+                    script: `#!/usr/bin/env sh
+${getPullJob('https://staging-api.hexhive.io/api/pipelines', inputs)}`
                 },
                 ...step_yaml as any[],
                 {
                     name: 'push-results',
                     image: 'curlimages/curl:latest',
-                    script: `
-                    #!/usr/bin/env sh
-
-                    ${getPostResults('https://staging-api.hexhive.io/api/pipelines', outputs)}
-                    `
+                    script: `#!/usr/bin/env sh
+${getPostResults('https://staging-api.hexhive.io/api/pipelines', outputs)}`
                 }
             ]
         }

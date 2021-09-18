@@ -151,7 +151,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
                     let regex = new RegExp(name, 'g')
                     console.log(name, steps.match(regex))
                     if(port.type.toLowerCase() == 'file'){
-                        steps = steps.replace(regex, `/workspace/${port.name}`)
+                        steps = steps.replace(regex, `"/workspace/${port.name}"`)
                     }else{
                         steps = steps.replace(regex, `$(params.${port.id})`)
                     }

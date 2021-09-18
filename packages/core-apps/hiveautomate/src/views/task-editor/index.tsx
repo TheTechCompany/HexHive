@@ -85,6 +85,8 @@ export const TaskEditor : React.FC<TaskEditorProps> = (props) => {
     }
     return (
         <Box 
+            round="xsmall"
+            overflow="hidden"
             onKeyDown={(e) => {
                 if((e.metaKey || e.ctrlKey) && e.keyCode == 83){
                     e.stopPropagation()
@@ -96,7 +98,9 @@ export const TaskEditor : React.FC<TaskEditorProps> = (props) => {
                 }
             }}
             flex>
-            <Box align="center" justify="between" elevation="small" pad="xsmall" direction="row">
+            <Box
+                background="accent-2"
+                align="center" justify="between" elevation="small" pad="xsmall" direction="row">
                 <Text>{task?.[0]?.name}</Text>
                 
                 <Box direction="row">

@@ -109,6 +109,8 @@ export const TriggerEditor : React.FC<TriggerEditorProps> = (props) => {
     }
     return (
         <Box 
+            round="xsmall"
+            overflow="hidden"
             onKeyDown={(e) => {
                 if((e.metaKey || e.ctrlKey) && e.keyCode == 83){
                     e.stopPropagation()
