@@ -35,6 +35,7 @@ export const TriggerList : React.FC<TriggerListProps> = (props) => {
         <Box
             background="neutral-1"
             flex
+            overflow="hidden"
             round="small"
             elevation="small">
            <TaskModal   
@@ -45,7 +46,7 @@ export const TriggerList : React.FC<TriggerListProps> = (props) => {
                     openModal(false)
                 })
             }} />
-            <Box direction="row" justify="end">
+            <Box  background="accent-2" direction="row" justify="end">
                 <Button onClick={() => openModal(true)} icon={<Add />} />
             </Box>
             <List 

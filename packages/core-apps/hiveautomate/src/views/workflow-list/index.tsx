@@ -33,6 +33,7 @@ export const WorkflowList : React.FC<WorkflowListProps> = (props) => {
     return (
         <Box
             flex
+            overflow="hidden"
             round="small"
             background="neutral-1"
             elevation="small">
@@ -44,7 +45,7 @@ export const WorkflowList : React.FC<WorkflowListProps> = (props) => {
                     })
                 }}
                 onClose={() => openModal(false)} />
-            <Box direction="row" justify="end">
+            <Box background="accent-2" direction="row" justify="end">
                 <Button onClick={() => openModal(true)} icon={<Add />} />
             </Box>
             <List 
