@@ -6,6 +6,8 @@ import { TaskList } from './views/task-list';
 import { Workflows } from './views/workflow-editor';
 import { WorkflowList } from './views/workflow-list';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { TriggerList } from './views/trigger-list';
+import { TriggerEditor } from './views/trigger-editor';
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_API || 'http://localhost:7000/graphql',
@@ -25,6 +27,10 @@ export const App = (props) => {
         {
             label: "Tasks",
             path: "/tasks"
+        },
+        {
+            label: "Triggers",
+            path: '/triggers'
         }
     ]
 
@@ -63,6 +69,8 @@ export const App = (props) => {
                     <Route path={"/workflows/:id"} exact component={Workflows} />
                     <Route path={"/tasks"} exact component={TaskList} />
                     <Route path={"/tasks/:id"} component={TaskEditor} />
+                    <Route path={`/triggers`} exact component={TriggerList} />
+                    <Route path={`/triggers/:id`} exact component={TriggerEditor} />
                 </Switch>
             </Box>
 

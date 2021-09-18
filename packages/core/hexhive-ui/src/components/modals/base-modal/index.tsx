@@ -7,6 +7,7 @@ export interface BaseModalProps {
     onSubmit?: () => void;
     title?: string;
     width?: string;
+    height?: any;
 }
 
 export const BaseModal : React.FC<BaseModalProps> = (props) => {
@@ -20,8 +21,9 @@ export const BaseModal : React.FC<BaseModalProps> = (props) => {
             onEsc={onClose}
             onClickOutside={onClose}>
             <Box
+                flex
                 direction="column"
-                width={props.width || "medium"}>
+           >
                 <Box 
                     pad="xsmall"
                     background="accent-2"

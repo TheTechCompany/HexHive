@@ -5,8 +5,9 @@
     "esModuleInterop": true
   },
   "references": [
-    {"path": "../../core/hexhive-ui"}
+    {"path": "../../core/hexhive-ui"},
+    {"path": "../../core/hexhive-client"},
   ],
   "include": ["src/**/*", "node_modules/@types"],
-  "exclude": ["src/**/*.test*"]
+  "exclude": ["src/**/*.test*"],
 }

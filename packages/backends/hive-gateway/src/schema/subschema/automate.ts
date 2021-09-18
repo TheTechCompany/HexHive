@@ -27,6 +27,20 @@ type HivePipelineResource {
     urn: String
 }
 
+input HivePipelineResourceInput {
+    key: String
+    type: String
+    urn: String
+}
+type HivePipelineTrigger {
+    id: ID! @id
+    name: String
+    createdAt: DateTime @timestamp(operations: [CREATE])
+    
+    event: String
+    produces: [HiveProcessPort] @relationship(type: "HAS_PORT", direction: OUT)
+}
+
 type HivePipelineRun {
     id: ID! @id
     createdAt: DateTime @timestamp(operations: [CREATE])
@@ -43,9 +57,11 @@ type HivePipelineStepResult {
     artifacts: [HivePipelineResource] @relationship(type: "PROVIDED", direction: OUT)
 }
 
+union HivePipelineRunner = HiveProcess | HivePipelineTrigger
+
 type HivePipelineNode {
     id: ID! @id
-    runner: HiveProcess @relationship(type: "USES_TASK", direction: OUT)
+    runner: HivePipelineRunner @relationship(type: "USES_TASK", direction: OUT)
     x: Float
     y: Float
 

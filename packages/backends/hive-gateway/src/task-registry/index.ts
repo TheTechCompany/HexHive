@@ -32,7 +32,7 @@ export class TaskRegistry {
     //Creates curl requests for the specified files e.g. $(steps.$step_id.output.$id)
     //curl requests map to {source:, sourceHandle:, targetHandle}
     getPullJob(url: string, inputs: TaskInput[]){
-        const file = inputs.filter((a) => a.type == "file").map((input) => {
+        const file = inputs.filter((a) => a.type.toLowerCase() == "file").map((input) => {
             return `curl ${url}/$(params.JOB_ID)/$(params.STEP_ID) > /workspace/$(params.STEP_ID).tgz`
         })
         return file.length > 0 ? `
@@ -43,9 +43,9 @@ export class TaskRegistry {
 
     getPostResults(url: string, outputs: TaskOutput[]){
         const files = outputs.map((output) => {
-            switch(output.type){
+            switch(output.type.toLowerCase()){
                 case 'file':
-                   return `-F "${output.name}=@$(cat $(results.${output.name}.path))"`
+                   return `-F "files=@$(cat $(results.${output.name}.path))"`
                 default:
                     return `-F "${output.name}=$(cat $(results.${output.name}.path))"`
             }
@@ -105,7 +105,7 @@ ${tasks}
           {name: 'JOB_ID', type: 'string'},
           {name: 'STEP_ID', type: 'string'}
         ]).map((input) => {
-            return `    - name: ${input.name}\n      type: string`
+            return `    - name: ${input.name}\n      type: string\n      default: empty`
         }).join(`\n`)
 
         const results = outputs.map((output) => {

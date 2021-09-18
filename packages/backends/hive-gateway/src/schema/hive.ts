@@ -52,7 +52,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
         convertFiles(files: [ID], pipeline: String): HiveFileProcess
         publishHivePipeline(id: ID): String
         publishHiveTask(id: ID): String
-        runWorkflow(id: ID): HivePipelineRun
+        runWorkflow(id: ID, params: [HivePipelineResourceInput]): HivePipelineRun
     }
 
     type HiveOrganisation {
@@ -251,9 +251,10 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
                 // console.log("Update Hive Pipeline", args.update, hivePipeline)
                 return hivePipeline
             },
-            runWorkflow: async (root: any, args: any) => {
+            runWorkflow: async (root: any, args: {id: string, params: {key: string, type: string, urn: string}[]}) => {
                 let id = nanoid()
 
+                
                 const workflow = await session.writeTransaction(async (tx) => {
                     const new_workflow = await tx.run(`
                         MATCH (pipeline:HivePipeline {id: $id})
@@ -264,6 +265,23 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
                         pipeline_id: id,
                         id: args.id
                     })
+
+                    await Promise.all(args.params.map(async (param) => {
+                        const new_resources = await tx.run(`
+                            MATCH (run:HivePipelineRun {id: $id})
+                            CREATE (res:HivePipelineResource {id: $res_id, key: $key, type: $type, urn: $urn})
+                            CREATE (run)-[:USES]->(res)
+                            RETURN res
+                        `, {
+                            id: id,
+                            res_id: nanoid(),
+                            key: param.key,
+                            type: param.type,
+                            urn: param.urn
+                        })
+                        return new_resources.records?.[0]?.get(0).properties
+                    }))
+             
 
                     return new_workflow.records?.[0].get(0).properties
                 })
