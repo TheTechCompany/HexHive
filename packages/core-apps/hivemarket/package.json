@@ -1,5 +1,5 @@
 {
-  "name": "@hexhive-apps/hivemarket",
+  "name": "@hexhive-coreapps/hivemarket",
   "scripts": {
     "start": "webpack serve --port 8511",
     "start:standalone": "webpack serve --env standalone",

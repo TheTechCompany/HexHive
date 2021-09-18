@@ -1,5 +1,5 @@
 {
-  "name": "@hexhive-apps/hivedashboard",
+  "name": "@hexhive-coreapps/hivedashboard",
   "version": "0.0.5-alpha.0",
   "main": "dist/HexHive-HiveFlow.js",
   "files": [
