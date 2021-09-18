@@ -69,10 +69,12 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
         }}>
             <FolderModal open={false} />
             <Box 
+                overflow={"hidden"}
+                elevation="small"
                 focusIndicator={false}
                 round={'xsmall'}
                 flex
-                background="neutral-2"
+                background="neutral-1"
                 direction="column">
                 <ActionHeader />
                 <Breadcrumbs 
@@ -84,7 +86,7 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                     border={isDragActive ? {size: 'small', color: 'accent-2'} : undefined}
                     overflow="scroll"
                     pad="xsmall"
-                    background="neutral-2"
+                    background="inherit"
                     flex>
                     <input {...getInputProps()} />
                     {views[view]}

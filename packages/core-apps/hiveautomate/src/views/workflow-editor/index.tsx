@@ -331,8 +331,10 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
 
     return (
         <Box 
-         
-            round="small" flex direction="column">
+            overflow="hidden"
+            round="xsmall" 
+            flex 
+            direction="column">
             <Box 
                 
                 justify="between"
@@ -346,14 +348,14 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
                 <Button 
                     onClick={() => publishWorkflow({args: {id: props.match.params.id}})}
                     hoverIndicator
-                    icon={<Upload />} />
+                    icon={<Upload size={"20px"} />} />
                 <Button 
                     onClick={() =>  {
                         openRun(true)
                         //  runWorkflowNode({args: {id: props.match.params.id}})
                     }}
                     hoverIndicator
-                    icon={<Play />} />
+                    icon={<Play size={"20px"} />} />
                 </Box>
             </Box>
             <RunModal 
@@ -373,10 +375,12 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
                             })
                         })
                     }
+
                     runWorkflow({args: {
                         id: props.match.params.id,
                         params: params
                     }})
+                    
                 }}
                 onClose={() => openRun(false)}/>
             <Box 

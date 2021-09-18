@@ -105,10 +105,10 @@ export const Explorer: React.FC<any> = (props) => {
             suspense: false,
         })
 
-    const [ runWorkflow, runInfo ] = useMutation((mutation, args: {files: string[], pipeline: string}) => {
-        const item = mutation.convertFiles({
-            files: args.files,
-            pipeline: args.pipeline
+    const [ runWorkflow, runInfo ] = useMutation((mutation, args: {files: any[], pipeline: string}) => {
+        const item = mutation.runWorkflow({
+            id: args.pipeline,
+            params: [{key: 'STP File', type: 'file', urn: `ipfs://${args.files[0]?.cid}`}]
         })
         return {
             item: {
@@ -131,11 +131,13 @@ export const Explorer: React.FC<any> = (props) => {
             path
             isFolder
             path_id
+            cid
             children {
                 id
                 name
                 isFolder
                 path
+                cid
             }
         }
 
@@ -269,7 +271,7 @@ export const Explorer: React.FC<any> = (props) => {
                 onSubmit={(folder) => {
                     console.log(folder)
                     runWorkflow({args: {
-                        files: selected,
+                        files: files?.filter((a) => selected?.indexOf(a.id) > -1),
                         pipeline: folder.workflow
                     }}).then(() => {
                         openConvertModal(false)
@@ -282,7 +284,7 @@ export const Explorer: React.FC<any> = (props) => {
                 round="xsmall"
                 flex
                 direction="row">
-   <FileExplorer
+            <FileExplorer
                 selected={selected}
                 onSelect={(id) => {
                     setSelected([...selected, id])
