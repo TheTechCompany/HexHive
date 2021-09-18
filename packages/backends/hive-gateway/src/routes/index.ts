@@ -22,7 +22,7 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 
     const router = Router();
     let fileManager
-    if(process.env.IPFS_URL) fileManager = new FileManager({url: process.env.IPFS_URL || ''})
+    if(process.env.IPFS_URL) fileManager = new FileManager({url: process.env.IPFS_URL || '', gateway: process.env.IPFS_GATEWAY})
     
     const corsOptions = {
         origin: (origin : any, callback: (error: any, result?: any) => void) => {
