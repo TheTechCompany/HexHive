@@ -7,7 +7,7 @@ export const uploadFiles = (files: File[], cwd?: string) => {
 
     fd.append('cwd', cwd)
 
-    return fetch('http://localhost:7000/api/files/file-graph', {
+    return fetch(`${process.env.REACT_APP_API || 'http://localhost:7000'}/api/files/file-graph`, {
         method: "POST",
         body: fd
     }).then((r) => r.json())
