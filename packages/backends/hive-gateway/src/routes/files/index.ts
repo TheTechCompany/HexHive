@@ -42,7 +42,17 @@ export default (fileManager: FileManager, neo: Session) => {
         }))
     }
 
+    router.get('/ipfs/:cid', async (req, res) => {
+        const readStream = new PassThrough();
+        
+        const file_result = await fileManager.get(req.params.cid)
 
+        readStream.end(file_result);
+        console.log("Get file ", file_result, req.params.cid)
+        res.setHeader('Content-Type', 'application/octet-stream')
+        readStream.pipe(res);
+    })
+    
 router.get('/graph/:fileID',  async (req, res, next) => {
     let token = req.query.token
     // if(!token) return res.status(401).send({error: "No token provided"});
@@ -82,7 +92,7 @@ router.get('/graph/:fileID',  async (req, res, next) => {
 
         readStream.end(file_result);
         console.log("Get file ", file_result, file.cid)
-        res.setHeader('Content-Type', file.mimeType || 'application/octet-stream')
+        // res.setHeader('Content-Type', file.mimeType || 'application/octet-stream')
         readStream.pipe(res);
     } else {
         res.send({ error: "No file found" })

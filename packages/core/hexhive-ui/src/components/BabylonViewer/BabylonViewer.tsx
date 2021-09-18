@@ -50,6 +50,8 @@ export const BabylonViewer : React.FC<BabylonViewerProps> = (props) => {
 
       SceneLoader.ImportMesh(null, props.rootUrl, props.data, sceneRef.current, (e) => {
         console.log(e)
+        e[0].normalizeToUnitCube(true)
+        e[0].position = Vector3.Zero()
       }, null, null, ".glb")
 
       camera.attachControl(canvasRef.current, false);
