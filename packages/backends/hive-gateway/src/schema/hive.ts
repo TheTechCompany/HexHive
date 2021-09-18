@@ -260,7 +260,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
                     const new_workflow = await tx.run(`
                         MATCH (pipeline:HivePipeline {id: $id})
                         CREATE (run:HivePipelineRun {id: $pipeline_id})
-                        CREATE (run)-[:ACTIVE_PIPELINE]->(run)
+                        CREATE (run)-[:ACTIVE_PIPELINE]->(pipeline)
                         RETURN run
                     `, {
                         pipeline_id: id,
