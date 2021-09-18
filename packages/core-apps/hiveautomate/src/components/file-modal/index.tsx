@@ -28,11 +28,13 @@ export const FileModal : React.FC<FileModalProps> = (props) => {
                     name
                     isFolder
                     path
+                    cid
                     children {
                         id
                         name
                         isFolder
                         path
+                        cid
                     }
                 }
             }
