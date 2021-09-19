@@ -5,6 +5,7 @@ import { IFile } from '../types/file';
 
 export interface IFileExplorerContext {
     files?: IFile[]
+    uploading?: {name?: string, percent?: number}[]
     location?: string;
     selected?: string[];
     clickFile?: (file: IFile) => void;

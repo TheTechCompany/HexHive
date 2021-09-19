@@ -147,10 +147,6 @@ export const Dashboard = withRouter((props: any) => {
           flex 
           className="dashboard">
               <Sidebar
-                onLogoClick={() => {
-                    window.location.href = "/dashboard";
-                }}
-                logo={<Hiveflow style={{filter: 'invert(1)'}}/>}
                 active={views().map((x) => matchPath(active, {path: x.path}) != null ).indexOf(true)}
                 menu={views()} 
                 onSelect={(x: any) => {

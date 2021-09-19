@@ -1,4 +1,6 @@
-export const uploadFiles = (files: File[], cwd?: string) => {
+import axios from 'axios';
+
+export const uploadFiles = async (files: File[], progress_indicator: (progress: number) => void, cwd?: string) => {
     let fd = new FormData()
 
     files.forEach((file) => {
@@ -7,9 +9,20 @@ export const uploadFiles = (files: File[], cwd?: string) => {
 
     fd.append('cwd', cwd)
 
-    return fetch(`${process.env.REACT_APP_API || 'http://localhost:7000'}/api/files/file-graph`, {
+    const result = await axios.request({
+        url: `${process.env.REACT_APP_API || 'http://localhost:7000'}/api/files/file-graph`,
         method: "POST",
-        body: fd,
-        credentials: 'include'
-    }).then((r) => r.json())
+        data: fd,
+        withCredentials: true,
+        onUploadProgress: (p) => {
+            progress_indicator?.(p.loaded / p.total)
+        }
+    })
+    progress_indicator?.(1)
+    return result.data
+    // return fetch(`${process.env.REACT_APP_API || 'http://localhost:7000'}/api/files/file-graph`, {
+    //     method: "POST",
+    //     body: fd,
+    //     credentials: 'include'
+    // }).then((r) => r.json())
 }
