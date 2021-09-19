@@ -8,6 +8,7 @@ import { Add } from 'grommet-icons';
 import { TimelineItem, TimelineItemInput, useMutation, useQuery } from '@hexhive/client';
 import { TimelineHeader, TimelineView } from './Header';
 import _, { filter, toUpper } from 'lodash';
+import { BaseStyle } from '@hexhive/styles';
 
 interface TimelineProps {
 
@@ -24,6 +25,13 @@ const HourTypes: any = {
     Fabricator: "#43a3a3",
     "Skilled Labourer": "#734ab5",
     "Civil Subcontractor": "#c9900a"
+}
+
+const StatusTypes : any = {
+    Won: 'green',
+    Lost: 'red',
+    "Customer has quote": '#8fb7cf',
+    "Open": '#EEBC1D' 
 }
 
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
@@ -113,6 +121,24 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     const people = query.TimelineItemMany({ timeline: "People" })
 
     const [timeline, setTimeline] = useState<any[]>([])
+
+    const getWonLost = (total: number, item: any, default_color: string) => {
+        let gradient = [];
+
+        for(var k in item){
+            gradient.push({color: StatusTypes[k], percent: item[k] / total})
+        }
+        
+        // console.log(item, lostPercent, wonPercent, 1 - (lostPercent + wonPercent))
+
+        //  gradient.push({color: 'red', percent: lostPercent})
+        // gradient.push({color: 'green', percent: wonPercent})
+        // gradient.push({color: default_color, percent: 1 - (lostPercent + wonPercent)})
+
+        // for()
+
+        return generateStripes(gradient, false)
+    }
 
     const getColorBars = (plan: { hatched?: boolean, items?: any[] }) => {
         let total = plan.items?.reduce((previous: any, current: any) => previous += current.estimate, 0)
@@ -282,22 +308,56 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         if (quotes && view == 'Estimates') {
             let _weeks: any = {};
             const weeks = quotes?.reduce((previous, current) => {
-                console.log(current)
                 let start = current.start.getTime();
-                if (!previous[start]) previous[start] = 0;
-                previous[start] += current.price
+                console.log(current)
+                if (!previous[start]) previous[start] = {
+                    value: 0
+                };
+                previous[start].value += current.price
+
+                if(!previous[start][current.status]) previous[start][current.status] = 0;
+                previous[start][current.status] += current.price
+                
                 return previous
             }, _weeks)
 
             console.log(weeks)
             setTimeline(Object.keys(weeks).map((start, ix) => {
+                let value = weeks[start].value;
+                delete weeks[start].value;
                 return {
                     id: `${start}`,
                     name: `Week ${moment(new Date(parseInt(start))).format("W/yyyy")}`,
-                    color: stringToColor(moment(new Date(parseInt(start))).format("DD/mm/yyyy")),
+                    color: getWonLost(value, weeks[start], stringToColor(moment(new Date(parseInt(start))).format("DD/mm/yyyy"))),
                     start: new Date(parseInt(start)),
                     end: new Date(moment(new Date(parseInt(start))).add(7, 'days').valueOf()),
-                    showLabel: formatter.format(weeks[start])
+                    showLabel: formatter.format(value),
+                    hoverInfo: (
+                        <Box round="xsmall" overflow="hidden"  direction="column">
+                            <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
+                                {/* <Text weight="bold">{capacity_plan?.project?.name?.substring(0, 15)}</Text> */}
+                                <Text>
+                                    {formatter.format(value)}
+                                </Text>
+                            </Box>
+                            <Box pad="xsmall">
+                                {Object.keys(weeks[start]).map((x) => {
+                                    let item = weeks[start][x]
+                                    return (
+                                    <Box align="center" direction="row" justify="between">
+                                            <Box direction="row" align="center">
+                                                <ColorDot color={StatusTypes[x || '']} size={10}/>
+                                                <Text>{x}</Text>
+                                            </Box>
+                                        <Text margin={{left: 'small'}}>{formatter.format(item)}</Text>
+                                    </Box>
+                                    )
+                                }
+                                )}
+                            </Box>
+                     
+                        </Box>
+                    ),
                 }
             }))
         }
