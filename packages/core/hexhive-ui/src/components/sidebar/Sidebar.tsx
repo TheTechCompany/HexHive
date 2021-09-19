@@ -5,7 +5,7 @@ import { Box, Button, Text } from 'grommet';
 import styled from 'styled-components'
 
 export interface SidebarProps {
-  logo: any
+  logo?: any
 
   className?: string;
   user?: {

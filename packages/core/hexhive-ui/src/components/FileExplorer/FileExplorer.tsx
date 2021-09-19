@@ -17,9 +17,12 @@ import { ThumbnailView } from './views/thumbnail'
 
 import { useDropzone } from 'react-dropzone'
 import { MissingPreview } from './components/missing-preview'
+import { UploadDrawer } from './components/upload-drawer'
 
 export interface FileExplorerProps {
     files?: IFile[]
+
+    uploading?: {name?: string, percent?: number}[]
 
     previewEngines?: {filetype: string, component: React.FC<{file: any}>}[];
     breadcrumbs: {name: string, id: string}[]
@@ -65,6 +68,7 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
     return (
         <FileExplorerContext.Provider value={{
             files: props.files?.map(formatFile) || [],
+            uploading: props.uploading || [],
             selected: props.selected,
             clickFile: props.onClick,
             selectFile: (id, checked) => id && ((checked) ? props.onSelect?.(id) : props.onDeselect?.(id)),
@@ -79,12 +83,13 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                 focusIndicator={false}
                 round={'xsmall'}
                 flex
+                style={{position: 'relative'}}
                 background="neutral-1"
                 direction="column">
                 <ActionHeader />
                 <Breadcrumbs 
                     onBreadcrumbClick={props.onBreadcrumbClick}
-                    breadcrumbs={props.breadcrumbs} />
+                    breadcrumbs={props.breadcrumbs || []} />
                 <Box 
                     focusIndicator={false}
                     {...getRootProps()}
@@ -96,6 +101,8 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                     <input {...getInputProps()} />
                     {props.files?.length == 1 && !props.files?.[0]?.isFolder ? props.previewEngines?.find((a) => a.filetype == props.files?.[0]?.name?.split('.')[1])?.component({file: props.files?.[0]}) || <MissingPreview file={props.files?.[0]} /> : views[view]}
                 </Box>
+                {(props.uploading || []).length > 0 && <UploadDrawer />}
+
                 {preview ? (<PreviewDrawer data={preview} />) : null}
             </Box>
         </FileExplorerContext.Provider>

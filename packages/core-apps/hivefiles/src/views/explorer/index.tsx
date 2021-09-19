@@ -10,6 +10,8 @@ import { FolderModal } from '../../components/folder-modal';
 import { ConvertModal } from '../../components/convert-modal';
 import { SidePane } from './side-pane';
 import {  GLBPreview } from './previews/GLB'
+import { nanoid } from 'nanoid';
+import { useRef } from 'react';
 export const Explorer: React.FC<any> = (props) => {
 
     const client = useApolloClient()
@@ -42,6 +44,14 @@ export const Explorer: React.FC<any> = (props) => {
     const [breadcrumb, setBreadcrumb] = useState<{ ids: string, names: string }>({ ids: '', names: '' })
     // const files = query.hiveFiles({where: {fs: {name: 'Shared FS'}}})
 
+    const uploading = useRef<{loading?: {id?: string, name?: string, percent?: number}[]}>({loading: []})
+
+    const [ _uploading, _setUploading ] = useState<any[]>();
+
+    const setUploading = (items: any[]) => {
+        uploading.current.loading = items;
+        _setUploading(items)
+    }
 
     const [moveFile, moveInfo] = useMutation((mutation) => {
         const fs = mutation.updateHiveFiles({
@@ -244,10 +254,25 @@ export const Explorer: React.FC<any> = (props) => {
         return []
     }, [data])
 
-    const onDrop = (files) => {
+    const onDrop = (files: File[]) => {
             let ids = breadcrumb.ids.split('/')
             console.log(ids)
-            uploadFiles(files, props.match.params.id).then((response) => {
+            let uploads = uploading.current.loading.slice()
+            
+            let id = nanoid();
+            uploads = uploads.concat(files.map((x) => ({id: id, name: x.name, percent: 0})))
+
+            setUploading(uploads)
+            uploadFiles(files, (progress) => {
+                 let u = uploading.current.loading.slice()
+                 u = u.map((x) => {
+                     if(x.id === id){
+                         x.percent = progress * 100;
+                     }
+                     return x;
+                 })
+                 setUploading(u)
+            }, props.match.params.id).then((response) => {
                 console.log(response)
                 fetchFiles()
             })
@@ -287,6 +312,7 @@ export const Explorer: React.FC<any> = (props) => {
                 flex
                 direction="row">
             <FileExplorer
+                uploading={_uploading}
                 previewEngines={[
                     {filetype: 'glb', component: GLBPreview}
                 ]}
