@@ -12,6 +12,7 @@ import { SidePane } from './side-pane';
 import {  GLBPreview } from './previews/GLB'
 import { nanoid } from 'nanoid';
 import { useRef } from 'react';
+import { PDFPreview } from './previews/PDF';
 export const Explorer: React.FC<any> = (props) => {
 
     const client = useApolloClient()
@@ -314,7 +315,8 @@ export const Explorer: React.FC<any> = (props) => {
             <FileExplorer
                 uploading={_uploading}
                 previewEngines={[
-                    {filetype: 'glb', component: GLBPreview}
+                    {filetype: 'glb', component: GLBPreview},
+                    {filetype: 'pdf', component: PDFPreview}
                 ]}
                 selected={selected}
                 onSelect={(id) => {

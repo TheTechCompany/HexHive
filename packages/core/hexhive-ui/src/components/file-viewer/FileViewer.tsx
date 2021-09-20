@@ -33,6 +33,8 @@ export const FileViewer: React.FC<FileViewerProps> = ({
             case "application":
                 switch (sub) {
                     case "pdf":
+                    case "word":
+                    case "spreadsheet":
                     case "vnd.openxmlformats-officedocument.wordprocessingml.document":
                     case "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
                         console.log(url, `${main}/${sub}`)
