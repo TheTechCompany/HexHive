@@ -73,6 +73,7 @@
   "references": [
     {"path": "../../shared/hexhive-types"},
     {"path": "../../core/collaboration-server"},
-    {"path": "../../core/hexhive-mq"}
+    {"path": "../../core/hexhive-mq"},
+    {"path": "../../core/hexhive-events"}
   ]
 }

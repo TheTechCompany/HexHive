@@ -78,6 +78,9 @@ const submitFileEvent = async (event: {id: string, pipeline: string}) => {
         method: "POST",
         url: `http://${WEBHOOK_URL}`,
         responseType: 'json',
+        data: {
+            event
+        },
         headers: {
             "Content-Type": "application/json",
             "JobID": event.id,

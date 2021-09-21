@@ -11,12 +11,13 @@ import { requiresAuth } from 'express-openid-connect';
 import { Driver, Result, Session } from 'neo4j-driver';
 import { result } from 'lodash';
 import { nanoid } from 'nanoid';
+import { HiveEvents } from '@hexhive/events-client';
 
 const upload = multer();
 
 const router = Router();
 
-export default (fileManager: FileManager, neo: Session) => {
+export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session) => {
 
     const uploadFiles = async (files: any[]) => {
         return Promise.all(files.map(async (file) => {
@@ -127,8 +128,19 @@ router.get('/graph/:fileID',  async (req, res, next) => {
                     return result.records.map((x) => x.get(0))
                 }))
             })
+
+        eventClient.eventRequest('UPLOAD_FILE', {file: resp})
+        // mq.post('UPLOAD_FILE')
        
-            
+        // eventRequest({
+        //     key: '123456789',
+        //     secret: 'secret1'
+        // }, 'UPLOAD_FILE', {
+        //     eventInfo: 'stuff'
+        // }).then((resp) => {
+        //     console.log(resp)
+        // })
+
         console.log(resp)
         res.send({files})
     })

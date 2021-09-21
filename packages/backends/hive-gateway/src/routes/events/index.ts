@@ -43,7 +43,7 @@ export default (neo: Session) => {
         router.route('/:TOPIC')
         .post(async (req, res) => {
             let message = {
-              client: (req as any).credentials.id,
+              appliance: (req as any).credentials.id,
               routingKey: req.params.TOPIC, 
               queuedAt: Date.now(),
               data: req.body
