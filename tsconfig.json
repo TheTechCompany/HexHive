@@ -18,6 +18,7 @@
      "@hexhive/client": ["./core/hexhive-client/src/gqless"],
      "@hexhive/icons": ["./shared/hexhive-icons/src"],
      "@hexhive/mq": ["./core/hexhive-mq/src"],
+     "@hexhive/events-client": ["./core/hexhive-events/src"],
 
      "@hexhive-apps/flow": ["./apps/hive-flow/src"],
      "@hexhive-apps/command": ["./apps/hive-command/src"],

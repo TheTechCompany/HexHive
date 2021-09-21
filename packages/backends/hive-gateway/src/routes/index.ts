@@ -14,12 +14,21 @@ import { requiresAuth } from 'express-openid-connect';
 import { FileManager } from './files/util';
 import { Driver } from 'neo4j-driver';
 import { TaskRegistry } from '../task-registry';
+import { HiveEvents } from '@hexhive/events-client'
 // import { InteractionRouter } from './interaction';
 
 const whitelist = ['http://localhost:3001', 'https://matrix.hexhive.io', 'http://localhost:3002', 'http://localhost:3000', 'https://hexhive.io', 'https://next.hexhive.io', 'https://go.hexhive.io']
 
 export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Router => {
     const neo_session = neo4j.session()
+
+    const eventClient = new HiveEvents({
+        url: 'http://localhost:7000',
+        keyPair: {
+            key: '123456789',
+            secret: 'secret1'
+        }
+    })
 
     const router = Router();
     let fileManager
@@ -46,7 +55,7 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
     // router.use('/interaction', InteractionRouter())
     router.use('/oauth', AuthRouter())
 
-    if(fileManager) router.use('/api/files', FileRouter(fileManager, neo_session))
+    if(fileManager) router.use('/api/files', FileRouter(fileManager, eventClient, neo_session))
     if(fileManager) router.use('/api/pipelines', PipelineRouter(neo_session, fileManager, taskRegistry))
 
     router.use('/api/events', EventRouter(neo_session))

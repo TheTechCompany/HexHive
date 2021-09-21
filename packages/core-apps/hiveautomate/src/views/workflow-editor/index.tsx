@@ -78,6 +78,8 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                         }
 
                         ... on HivePipelineTrigger {
+                            id 
+                            name
                             produces {
                                 id
                                 name
@@ -279,10 +281,15 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
 
         setNodes( data?.hivePipelines?.[0]?.nodes?.map((x) => ({
             ...x, 
+            runner: {
+                ...x.runner,
+                ports: x?.runner.ports || x?.runner.produces?.map((x) => ({...x, direction: "output", type: "File"}))
+            },
             id: x?.id  || nanoid(), 
             extras: {title: x?.runner?.name || x?.id}, 
             type: 'multiport-node'
         })) || [])
+
         setPaths( data?.hivePipelines?.[0]?.nodes?.filter((a) => a.next).map((x) => {
             
             return x?.next?.map((next, ix) => ({

@@ -6,24 +6,41 @@ export interface APIKeyPair {
     secret: string
 }
 
-const signRequest = (keyPair: APIKeyPair, method: string, route: string, headers: any) => {
-    let signingString = `` //`(request-target): ${method.toLowerCase()} ${route}\n`;
-    let signingHeaders = []
-    for(var k in headers){
-        signingHeaders.push(`${k.toLowerCase()}: ${headers[k]}`)
-    }
 
-    signingString += signingHeaders.join(`\n`)
-
-    const sig = createHmac('sha256', keyPair.secret).update(signingString).digest('base64')
-    console.log(signingString, sig)
-    return sig;
+export interface HiveEventsOpts {
+    url?: string;
+    keyPair: APIKeyPair
 }
 
+export class HiveEvents {
 
-const eventRequest = async (keyPair: APIKeyPair, topic: string, event: any) => {
+    private url?: string;
+
+    private apiKey: APIKeyPair
+
+    constructor(opts: HiveEventsOpts){
+        this.url = opts.url;
+        this.apiKey = opts.keyPair
+    }
+
+
+    signRequest(method: string, route: string, headers: any){
+        let signingString = `` //`(request-target): ${method.toLowerCase()} ${route}\n`;
+        let signingHeaders = []
+        for(var k in headers){
+            signingHeaders.push(`${k.toLowerCase()}: ${headers[k]}`)
+        }
+
+        signingString += signingHeaders.join(`\n`)
+
+        const sig = createHmac('sha256', this.apiKey.secret).update(signingString).digest('base64')
+        return sig;
+    }
+
+
+    async eventRequest(topic: string, event: any){
     let target = `/api/events/${topic}`
-    let url = `http://localhost:7000${target}`
+    let url = `${ this.url || 'http://localhost:7000'}${target}`
     let headers = {
         // ...axios.defaults.headers.common,
         Date: new Date().toString()
@@ -32,7 +49,7 @@ const eventRequest = async (keyPair: APIKeyPair, topic: string, event: any) => {
 
     const headerKeys = Object.keys(headers).map((x) => x.toLowerCase())
 
-    const signature = signRequest(keyPair, method, target, headers)
+    const signature = this.signRequest(method, target, headers)
 
     const result = await axios.request({
         url: url,
@@ -40,7 +57,7 @@ const eventRequest = async (keyPair: APIKeyPair, topic: string, event: any) => {
         headers: {
             ...headers,
             // '(request-target)': target,
-            'authorization': `Signature keyId="${keyPair.key}",algorithm="hmac-sha256",signature="${signature}"`
+            'authorization': `Signature keyId="${this.apiKey.key}",algorithm="hmac-sha256",signature="${signature}"`
         },
         data: event
     })
@@ -48,11 +65,4 @@ const eventRequest = async (keyPair: APIKeyPair, topic: string, event: any) => {
     return result;
 }
 
-eventRequest({
-    key: '123456789',
-    secret: 'secret1'
-}, 'TOPIC', {
-    eventInfo: 'stuff'
-}).then((resp) => {
-    console.log(resp)
-})
+}
