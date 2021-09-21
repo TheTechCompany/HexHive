@@ -27,6 +27,10 @@
       <script defer="defer" src="https://apps.hexhive.io/hiveflow/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hivefiles/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hive3d/remoteEntry.js"></script>
+    <% } else if (process.env.NODE_ENV == 'native') { %>
+      
+      <script defer="defer" src="asset://.config"></script>
+      
     <% } else { %> 
       <script defer="defer" src="https://staging-apps.hexhive.io/hivedashboard/remoteEntry.js"></script>
       <script defer="defer" src="https://staging-apps.hexhive.io/hivecommand/remoteEntry.js"></script>
@@ -148,6 +152,7 @@
 
   <main></main>
   <script>
+    // console.log(window.__TAURI__.tauri)
     System.import('@hexhive/root-config');
   </script>
   <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
