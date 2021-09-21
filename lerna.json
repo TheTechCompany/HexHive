@@ -5,7 +5,8 @@
     "packages/apps/*",
     "packages/shared/*",
     "packages/backends/*",
-    "packages/tools/*"
+    "packages/tools/*",
+    "packages/images/*"
   ],
   "version": "0.0.5-alpha.0",
   "npmClient": "yarn"
