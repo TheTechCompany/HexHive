@@ -11,7 +11,7 @@ import { Driver, Result, Session } from "neo4j-driver"
 import { result } from "lodash"
 import { nanoid } from "nanoid"
 import { TaskRegistry } from "../../task-registry"
-import { createWriteStream, mkdirSync, rmdirSync, rmSync, writeFileSync } from "fs"
+import { createWriteStream, fstat, mkdirSync, rmdirSync, rmSync, writeFile, writeFileSync } from "fs"
 import glob from "glob"
 
 const upload = multer()
@@ -177,6 +177,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 				const start_node = start.records.length > 0
 
 				let files : any[] = []
+				let previous : any[] = [];
 
 				if(start_node){
 
@@ -213,7 +214,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 						step_id: req.params.step_id
 					})
 
-					const ports = await tx.run(`
+				const ports = await tx.run(`
                     MATCH (:HivePipeline {id: $pipeline})-[:HAS_NODE]->(current:HivePipelineNode {id: $step_id})
                     MATCH (current)<-[:RUN_NEXT]-(previous:HivePipelineNode)
                     MATCH (previous)-[:USES_TASK]->()-[:HAS_PORT]->(port:HiveProcessPort {direction: "output"})
@@ -224,25 +225,8 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 						step_id: req.params.step_id
 					})
 
-
-
-					// const current_inputs = await tx.run(`
-					//     MATCH (:HivePipeline {id: $pipeline})-[:HAS_NODE]->(current:HivePipelineNode {id: $step_id})
-					//     MATCH (current)-[:USES_TASK]->()-[:HAS_PORT]->(port:HiveProcessPort {direction: "input"})
-					//     WITH port
-					//     RETURN port
-					// `, {
-					//     pipeline: pipeline.id,
-					//     step_id: req.params.step_id
-					// })
-
-
-
+					previous = ports.records.map((x) => x.get(0).properties)
 				}
-            
-
-
-                
 
 				// map((x) => x.get(0))
 				// const current_ports = results.records?.[0]?.get('current_ports') // map((x) => x.get(0))
@@ -251,18 +235,25 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 					// data,
 					// current_ports,
 					// previous_ports,
+					previous,
 					files: files
                 
 				}
 			})
+			
 
-			if(pipelines.files.length > 0){
+			let manifest : {[key: string]: any}= {};
+
+			if(pipelines){
             
 				const now = Date.now()
 				const bundle_location = `/tmp/bundle-${now}`
                 
 				mkdirSync(bundle_location)
 
+				manifest.inputs = pipelines.previous;
+
+				writeFileSync(`${bundle_location}/manifest.json`, JSON.stringify(manifest))
 
 				await Promise.all(pipelines.files.map(async (file) => {
 					console.log(file.key)
@@ -271,13 +262,6 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 					writeFileSync(`${bundle_location}/${file.key}`, file_result)
 				}))
 
-				// const file_result = await fileManager.get(file.cid || file.id)
-
-				// readStream.end(file_result);
-				// console.log("Get file ", file_result, file.cid)
-				// res.setHeader('Content-Type', file.mimeType || 'application/octet-stream')
-				// readStream.pipe(res);
-
 				glob(`${bundle_location}/*`, async (err, matches) => {
 					const paths = matches.map((x) => x.replace(`${bundle_location}/`, "./"))
 
@@ -285,17 +269,8 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 
 					const bundle_path = `/tmp/task-bundle-${id}.tgz`
 
-					// await taskRegistry.transformBundle()
-
 					await taskRegistry.bundleRequirements(paths, bundle_path, bundle_location)
 
-					// const conns = pipelines.connections.map((conn) => {
-					//     let prev_port = pipelines.prev.find((a) => a.id == conn.source)
-					//     let next_port = pipelines.ports.find((a) => a.id == conn.target)
-        
-					//     return `${prev_port.name}-${prev_port.type}:${next_port.name}-${next_port.type}`
-					// })
-        
 					res.download(bundle_path)
 
 					rmSync(bundle_location, {recursive: true})
@@ -303,7 +278,6 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 			}else{
 				res.send({message: "No files supplied"})
 			}
-
           
 		})
 	//Add new pipeline / get all pipelines
