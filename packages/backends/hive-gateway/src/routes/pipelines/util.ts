@@ -1,81 +1,81 @@
 import { File, User, Project } from "@hexhive/types"
 
-import { IPFS } from 'ipfs-core-types';
-import {create} from 'ipfs-http-client'
+import { IPFS } from "ipfs-core-types"
+import {create} from "ipfs-http-client"
 
 export class FileManager {
-    private ipfs : IPFS;
+	private ipfs : IPFS;
 
-    constructor(opts: {url: string}){
-        this.ipfs = create({url: opts.url})    
-        console.log(`Connecting to IPFS : ${opts.url}`)
-    }
+	constructor(opts: {url: string}){
+		this.ipfs = create({url: opts.url})
+		console.log(`Connecting to IPFS : ${opts.url}`)
+	}
 
-    async get(cid: string){
-        console.log("Get CID", cid)
-        let chunks : Uint8Array = Uint8Array.from([]);
-        for await (const chunk of this.ipfs.cat(cid)){
-            chunks = Uint8Array.from([...chunks, ...chunk]) 
-        }
-        console.log("Get CID Done", cid)
+	async get(cid: string){
+		console.log("Get CID", cid)
+		let chunks : Uint8Array = Uint8Array.from([])
+		for await (const chunk of this.ipfs.cat(cid)){
+			chunks = Uint8Array.from([...chunks, ...chunk]) 
+		}
+		console.log("Get CID Done", cid)
 
-        return chunks
-    }
+		return chunks
+	}
 
-    async add(file: Buffer){
-        console.log("Adding file to IPFS")
-        const result = await this.ipfs.add(file)
-        console.log("Add file to IPFS", result.cid.toString());
-        return result;
-    }
+	async add(file: Buffer){
+		console.log("Adding file to IPFS")
+		const result = await this.ipfs.add(file)
+		console.log("Add file to IPFS", result.cid.toString())
+		return result
+	}
 
-    async remove(cid: string){
-        return await this.ipfs.pin.rm(cid)
-    }
+	async remove(cid: string){
+		return await this.ipfs.pin.rm(cid)
+	}
 }
 
 export const getFilesForJob = async (job: string) => {
   
-    const project = await Project.findOne({id: job}).populate('files')
+	const project = await Project.findOne({id: job}).populate("files")
 
-    if(!project || !project.files || project.files.length < 1) return {error: "No files found for job, try again"}
+	if(!project || !project.files || project.files.length < 1) return {error: "No files found for job, try again"}
 
-    return {result: project.files.map((x) => ({
-      ...x,
-      jobId: job
-    }))}
+	return {result: project.files.map((x) => ({
+		...x,
+		jobId: job
+	}))}
 
 }
 
 export const addFileToJob = async (
-    job_id: string, 
-    files: {
-        cid: string, 
-        name: string, 
-        mimetype: string, 
-        extension: string
-    }[], uploader: {id: string, organisation: string}) => {
+	job_id: string, 
+	files: {
+		cid: string, 
+		name: string, 
+		mimetype: string, 
+		extension: string
+	}[], uploader: {id: string, organisation: string}) => {
 
-    console.log(uploader.id)
-    const user = await User.findById(uploader.id) //{id: uploader.id})
+	console.log(uploader.id)
+	const user = await User.findById(uploader.id) //{id: uploader.id})
 
-    const results  : any[] = await Promise.all(files.map(async (file) => {
-        let new_file = new File({
-            cid: file.cid,
-            name: file.name,
-            extension: file.extension,
-            mimeType: file.mimetype,
-            owner: uploader.id, //Fix issue of IDP being on a different db user._id,
-            organisation: uploader.organisation,
-            timetstamp: new Date()
-        })
+	const results  : any[] = await Promise.all(files.map(async (file) => {
+		const new_file = new File({
+			cid: file.cid,
+			name: file.name,
+			extension: file.extension,
+			mimeType: file.mimetype,
+			owner: uploader.id, //Fix issue of IDP being on a different db user._id,
+			organisation: uploader.organisation,
+			timetstamp: new Date()
+		})
 
-        await new_file.save()
-        return new_file;
-    }))
+		await new_file.save()
+		return new_file
+	}))
 
-    await Project.updateOne({id: job_id}, {$push: {files: results.map((x) => x._id)}}, {upsert: true})
-    
-    return results;
+	await Project.updateOne({id: job_id}, {$push: {files: results.map((x) => x._id)}}, {upsert: true})
+	
+	return results
  
 }

@@ -39,6 +39,7 @@ export const UploadDrawer : React.FC<UploadDrawerProps> = (props) => {
                     open={expanded}>
                     <Box 
                         height={{min: '100px'}}
+                        overflow="scroll"
                         flex>
                         <List   
                             pad="none"
