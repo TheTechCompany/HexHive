@@ -43,15 +43,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 15.x
-      - run: npm i
-
+      - run: yarn
       - run: lerna bootstrap --scope @hexhive/header --include-dependencies
 
       - run: export REACT_APP_API="https://staging-api.hexhive.io"
+      - run: export REACT_APP_URL="https://next.hexhive.io"
       - run: export PUBLIC_PATH="https://staging-apps.hexhive.io/header/"
       
       - name: Build web
-        run: (export PUBLIC_PATH="https://staging-apps.hexhive.io/header/" REACT_APP_API="https://staging-api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive/header --include-dependencies)
+        run: (export REACT_APP_URL="https://next.hexhive.io" PUBLIC_PATH="https://staging-apps.hexhive.io/header/" REACT_APP_API="https://staging-api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive/header --include-dependencies)
       
       - name: Configure AWS Creds
         uses: aws-actions/configure-aws-credentials@v1
@@ -76,7 +76,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 15.x
-      - run: npm i
+      - run: yarn
 
       - run: lerna bootstrap --scope @hexhive-coreapps/${{ matrix.apps }} --include-dependencies
 
@@ -114,7 +114,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 15.x
-      - run: npm i
+      - run: yarn
 
       - run: lerna bootstrap --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies
 
