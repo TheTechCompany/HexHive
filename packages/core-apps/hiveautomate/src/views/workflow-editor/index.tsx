@@ -1,7 +1,7 @@
 import { mutation, useMutation  } from '@hexhive/client';
 import { gql, useQuery } from '@apollo/client';
 import { ActionNodeFactory, BlockTray, IconNodeFactory, InfiniteCanvas, StartNodeFactory } from '@hexhive/ui';
-import { Box, Text, List, Button } from 'grommet';
+import { Box, Text, List, Button, TextInput } from 'grommet';
 import _, { debounce } from 'lodash';
 import { nanoid } from 'nanoid';
 import React, { useRef, useState } from 'react';
@@ -32,7 +32,7 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
     const [process, setProcess] = useState<any>() 
 
     const [ nodes, setNodes ] = useState<any[]>([])
-    const [ _paths, _setPaths ] = useState<any[]>([])
+    const [ _paths, _setPaths ] = useState<{source: string, sourceHandle?: string, targetHandle?: string, target?: string}[]>([])
 
     const [ items, setItems ] = useState<any[]>([])
 
@@ -543,8 +543,23 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
                                     style={{marginLeft: 8}}>{block.content || block.label}</Box>
                             </Box>)}
                             blocks={triggers.concat(items) as any} /> ) : (
-                                <Box>
-                                    Inputs
+                                <Box pad="xsmall">
+                                    <Text weight="bold">Node Settings</Text>
+
+                                    {selected.map((select) => (
+                                        <Box gap="xsmall">
+                                            {nodes.find((a) => a.id == select.id).runner?.ports?.map((port) => {
+                                                let paths = _paths.filter((a) => a.targetHandle == port.id || a.sourceHandle == port.id)
+                                                console.log(_paths)
+                                                return (
+                                                    <Box direction="column" align="start" justify="center">
+                                                        <Text size="small">{port.name}</Text>
+                                                        <TextInput placeholder={port.type} value={(paths.length > 0) ? paths.map((x) => nodes.find((b) => b.id == x.source)).map((y) => y.runner?.name).join(', ') : ''} disabled={paths.length > 0} />
+                                                    </Box>
+                                                )
+                                            })}
+                                        </Box>
+                                    ))}
                                 </Box>
                             )}
                 </Box>

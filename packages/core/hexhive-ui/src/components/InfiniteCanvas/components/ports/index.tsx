@@ -28,7 +28,7 @@ const Port = styled.div`
 
 
 
-export const PortWidget : React.FC<PortWidgetProps> = (props) => {
+export const UnstyledPortWidget : React.FC<PortWidgetProps> = (props) => {
 
     const { extraProps, dragPort } = usePort({id: props.id})
    
@@ -46,10 +46,10 @@ export const PortWidget : React.FC<PortWidgetProps> = (props) => {
             gap="xsmall"
             direction="row"
             style={{display: 'flex', alignItems: 'center', justifyContent: props.direction == "right" ? 'flex-start': 'flex-end' }}
-            className="port-base"
-            onMouseDown={onMouseDown}>
+            className={`port-base`}>
             {props.label && (props.direction == "left" || !props.direction ) && <Text size="small">{props.label}</Text>}
             <Port
+                onMouseDown={onMouseDown}
                 {...extraProps}
                 className={`port ${props.className} ${props.type || 'in'}`}>
             </Port>
@@ -58,3 +58,9 @@ export const PortWidget : React.FC<PortWidgetProps> = (props) => {
         </Box>
     )
 }
+
+export const PortWidget = styled(UnstyledPortWidget)`
+    &:hover{
+        background: rgba(255, 255, 255, 0.2);
+    }
+`

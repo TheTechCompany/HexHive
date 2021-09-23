@@ -19,6 +19,8 @@
      "@hexhive/icons": ["./shared/hexhive-icons/src"],
      "@hexhive/mq": ["./core/hexhive-mq/src"],
      "@hexhive/events-client": ["./core/hexhive-events/src"],
+     "@hexhive/eslint-config": ["./core/eslint-config"],
+     "@hexhive/prettier-config": ["./core/prettier-config"],
 
      "@hexhive-apps/flow": ["./apps/hive-flow/src"],
      "@hexhive-apps/command": ["./apps/hive-command/src"],
