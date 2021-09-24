@@ -23,10 +23,10 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 	const neo_session = neo4j.session()
 
 	const eventClient = new HiveEvents({
-		url: "http://localhost:7000",
+		url: process.env.HIVE_EVENT_URL || "http://localhost:7000",
 		keyPair: {
-			key: "123456789",
-			secret: "secret1"
+			key: process.env.HIVE_EVENT_KEY || "123456789",
+			secret: process.env.HIVE_SECRET_KEY || "secret1"
 		}
 	})
 

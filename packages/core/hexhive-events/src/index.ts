@@ -39,30 +39,30 @@ export class HiveEvents {
 
 
     async eventRequest(topic: string, event: any){
-    let target = `/api/events/${topic}`
-    let url = `${ this.url || 'http://localhost:7000'}${target}`
-    let headers = {
-        // ...axios.defaults.headers.common,
-        Date: new Date().toString()
+        let target = `/api/events/${topic}`
+        let url = `${ this.url || 'http://localhost:7000'}${target}`
+        let headers = {
+            // ...axios.defaults.headers.common,
+            Date: new Date().toString()
+        }
+        let method : Method = "POST"
+
+        const headerKeys = Object.keys(headers).map((x) => x.toLowerCase())
+
+        const signature = this.signRequest(method, target, headers)
+
+        const result = await axios.request({
+            url: url,
+            method: method,
+            headers: {
+                ...headers,
+                // '(request-target)': target,
+                'authorization': `Signature keyId="${this.apiKey.key}",algorithm="hmac-sha256",signature="${signature}"`
+            },
+            data: event
+        })
+
+        return result;
     }
-    let method : Method = "POST"
-
-    const headerKeys = Object.keys(headers).map((x) => x.toLowerCase())
-
-    const signature = this.signRequest(method, target, headers)
-
-    const result = await axios.request({
-        url: url,
-        method: method,
-        headers: {
-            ...headers,
-            // '(request-target)': target,
-            'authorization': `Signature keyId="${this.apiKey.key}",algorithm="hmac-sha256",signature="${signature}"`
-        },
-        data: event
-    })
-
-    return result;
-}
 
 }
