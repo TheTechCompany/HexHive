@@ -1,6 +1,8 @@
 import axios, { Method } from 'axios';
 import {createHmac} from 'crypto';
 
+export * from './types'
+
 export interface APIKeyPair {
     key: string,
     secret: string
