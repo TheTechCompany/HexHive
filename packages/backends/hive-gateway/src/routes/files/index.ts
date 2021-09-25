@@ -147,11 +147,17 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 					cid: file.cid,
 					id: cwd
 				})
-				return result.records.map((x) => x.get(0))
+
+				let item = result.records?.[0]?.get(0)
+
+				return {
+					type: item.labels,
+					properties: item.properties
+				}
 			}))
 		})
 
-		eventClient.eventRequest("UPLOAD_FILE", {file: resp})
+		eventClient.eventRequest("UPLOAD_FILE", {"Uploaded File": resp})
 		// mq.post('UPLOAD_FILE')
        
 		// eventRequest({

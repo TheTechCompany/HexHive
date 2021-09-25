@@ -13,6 +13,9 @@ import { nanoid } from "nanoid"
 import { TaskRegistry } from "../../task-registry"
 import { createWriteStream, fstat, mkdirSync, rmdirSync, rmSync, writeFile, writeFileSync } from "fs"
 import glob from "glob"
+import { x } from "tar"
+import { getActivePipeline, getNodeConnections, getPipelineArtifacts, getPipelineOrigins, getPipelineResources } from "../../queries/pipeline"
+import { connection } from "mongoose"
 
 const upload = multer()
 
@@ -126,7 +129,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 					const r = await tx.run(`
                         MATCH (result:HivePipelineStepResult {id: $id})
                         CREATE (resource:HivePipelineResource {key: $filename, urn: $urn})
-                        CREATE (result)-[:PROVIDED]->(resource)
+                        CREATE (result)-[:PROVIDED {key: $filename}]->(resource)
                     `, {
 						id,
 						filename: file.name,
@@ -158,75 +161,49 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
                     If a connection hasn't been made don't download the file
             */
 			const pipelines = await neo.readTransaction(async (tx) => {
-				const pipeline_result =  await tx.run(`
-                MATCH (:HivePipelineRun {id: $run_id})-[:ACTIVE_PIPELINE]->(pipeline:HivePipeline)
-                RETURN pipeline
-            ` , {run_id: req.params.run_id, step_id: req.params.step_id})
-				const pipeline = pipeline_result.records?.[0]?.get(0).properties
 
+				const pipeline = await getActivePipeline(tx, req.params.run_id)
 
-				const start = await tx.run(`
-                    MATCH (:HivePipeline {id: $id})-[:HAS_NODE]->(node:HivePipelineNode {id: $node_id})
-                    WHERE NOT ()-[:RUN_NEXT]->(node)
-                    RETURN node
-                `, {
-					id: pipeline.id,
-					node_id: req.params.step_id
-				})
-
-				const start_node = start.records.length > 0
+				if(!pipeline) return
+				const origin_nodes = await getPipelineOrigins(tx, pipeline?.id)
+	
+				const connections = await getNodeConnections(tx, pipeline.id, req.params.step_id)
+				// const start_node = start.records.length > 0
 
 				let files : any[] = []
 				let previous : any[] = [];
+				let current : any[] = [];
 
-				if(start_node){
+				// if(start_node){
+				const resources = await getPipelineResources(tx, req.params.run_id)
+					// files = file_result.records.map((x) => x.get(0).properties)
 
-					const file_result = await tx.run(`
-                    MATCH (:HivePipelineRun {id: $run_id})-[:USES]->(resources:HivePipelineResource)
-                    RETURN resources
-                    `, {
-						run_id: req.params.run_id
-					})
-					files = file_result.records.map((x) => x.get(0).properties)
-				}else{
-					const file_result = await tx.run(`
-                    MATCH (:HivePipelineRun {id: $run_id})-[:ACTIVE_PIPELINE]->(pipeline:HivePipeline)
-                    MATCH (pipeline)-[:HAS_NODE]->(current:HivePipelineNode {id: $step_id})
-                    MATCH (current)<-[rel:RUN_NEXT]-(previous:HivePipelineNode)
+				const artifact_result = await Promise.all(connections.connections.map(async (conn) => {
+					const facts = await getPipelineArtifacts(tx, req.params.run_id, conn.source)
+					return facts;
+				}))
 
-                    MATCH (results:HivePipelineStepResult {step: previous.id})-[:ACTIVE_RUN]->(:HivePipelineRun {id: $run_id})
-                    MATCH (results)-[:PROVIDED]->(files:HivePipelineResource)
-                    RETURN files
-                `, {
-						step_id: req.params.step_id,
-						run_id: req.params.run_id
-					})
+				const artifacts = artifact_result.reduce((prev, curr) => {
+					return prev.concat(curr)
+				}, [])
+				// }else{
+				// 	const file_result = await tx.run(`
+                //     MATCH (:HivePipelineRun {id: $run_id})-[:ACTIVE_PIPELINE]->(pipeline:HivePipeline)
+                //     MATCH (pipeline)-[:HAS_NODE]->(current:HivePipelineNode {id: $step_id})
+                //     MATCH (current)<-[rel:RUN_NEXT]-(previous:HivePipelineNode)
+                //     MATCH (results:HivePipelineStepResult {step: previous.id})-[:ACTIVE_RUN]->(:HivePipelineRun {id: $run_id})
+                //     MATCH (results)-[:PROVIDED]->(files)
+                //     RETURN files
+                // `, {
+				// 		step_id: req.params.step_id,
+				// 		run_id: req.params.run_id
+				// 	})
 
-					files = file_result.records.map((x) => x.get(0).properties)
+				// 	files = file_result.records.map((x) => x.get(0).properties)
 
 
-					const connection_result = await tx.run(`
-                    MATCH (:HivePipeline {id: $pipeline})-[:HAS_NODE]->(current:HivePipelineNode {id: $step_id})
-                    MATCH (current)<-[rel:RUN_NEXT]-(previous:HivePipelineNode)
-                    RETURN rel
-                `, {
-						pipeline: pipeline.id,
-						step_id: req.params.step_id
-					})
-
-				const ports = await tx.run(`
-                    MATCH (:HivePipeline {id: $pipeline})-[:HAS_NODE]->(current:HivePipelineNode {id: $step_id})
-                    MATCH (current)<-[:RUN_NEXT]-(previous:HivePipelineNode)
-                    MATCH (previous)-[:USES_TASK]->()-[:HAS_PORT]->(port:HiveProcessPort {direction: "output"})
-                    WITH port
-                    RETURN port
-                `, {
-						pipeline: pipeline.id,
-						step_id: req.params.step_id
-					})
-
-					previous = ports.records.map((x) => x.get(0).properties)
-				}
+			
+				// }
 
 				// map((x) => x.get(0))
 				// const current_ports = results.records?.[0]?.get('current_ports') // map((x) => x.get(0))
@@ -235,31 +212,42 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 					// data,
 					// current_ports,
 					// previous_ports,
-					previous,
+					artifacts: artifacts,
+					connections: connections.connections,
+					previous: connections.previous,
+					current: connections.current,
 					files: files
                 
 				}
 			})
 			
 
-			let manifest : {[key: string]: any}= {};
+			let manifest : {[key: string]: any} = {};
 
 			if(pipelines){
+
+				console.log(pipelines)
             
 				const now = Date.now()
 				const bundle_location = `/tmp/bundle-${now}`
                 
 				mkdirSync(bundle_location)
 
-				manifest.inputs = pipelines.previous;
+				manifest = pipelines
 
 				writeFileSync(`${bundle_location}/manifest.json`, JSON.stringify(manifest))
 
-				await Promise.all(pipelines.files.map(async (file) => {
-					console.log(file.key)
-					const file_result = await fileManager.get(file.urn.replace("ipfs://", ""))
+				await Promise.all(pipelines.artifacts.filter((a) => a.cid || a.urn).map(async (file) => {
+
+					const file_result = await fileManager.get(file.cid || file.urn.replace('ipfs://', ''))
                     
-					writeFileSync(`${bundle_location}/${file.key}`, file_result)
+					const sourcePort = pipelines.previous.find((a) => a.name == file.key)
+					if(!sourcePort) return
+					const connection = pipelines.connections.find((a) => a.sourceHandle == sourcePort.id)
+					if(!connection) return
+					const targetPort = pipelines.current.find((a) => a.id == connection.targetHandle)
+					writeFileSync(`${bundle_location}/${targetPort.name}`, file_result)
+
 				}))
 
 				glob(`${bundle_location}/*`, async (err, matches) => {

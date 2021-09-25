@@ -1,4 +1,5 @@
 import { Kafka, Producer } from 'kafkajs';
+import { HiveTriggerEvent } from '@hexhive/events-client'
 export interface HiveMQOpts {
     clientId: string,
     brokers: string[]
@@ -26,10 +27,10 @@ export class HiveMQ {
     }
 
 
-    async emitEvent(topic: string, body: any){
+    async emitEvent(topic: string, body: HiveTriggerEvent | HiveTriggerEvent[]){
         return await this.producer.send({
             topic: topic,
-            messages: [
+            messages: Array.isArray(body) ? body.map((x) => ({value: JSON.stringify(x)})) : [
                 {value: JSON.stringify(body)}
             ]
         })
