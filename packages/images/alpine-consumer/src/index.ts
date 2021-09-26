@@ -36,32 +36,20 @@ interface HiveEvent {
 const parseEvent = async (event: HiveEvent) => {
     
     const result = await session.readTransaction(async (tx) => {
-        const result = await tx.run(`
-            MATCH (trigger:HivePipelineTrigger {routingKey: $routingKey, appliance: $appliance})
-            RETURN trigger
+        const pipeline_result = await tx.run(`
+            MATCH (run:HivePipelineRun {id: $id})-[:ACTIVE_PIPELINE]->(pipeline)
+            RETURN pipeline
         `, {
-            routingKey: event.routingKey,
-            appliance: event.appliance
+            id: event.id
         })
-        const trigger = result.records?.[0]?.get(0)?.properties
+        const pipeline = pipeline_result.records?.[0]?.get(0)?.properties
 
-        const pipelines = await tx.run(`
-            MATCH (pipelines:HivePipeline)-[:HAS_NODE]->(:HivePipelineNode)-[:USES_TASK]->(:HivePipelineTrigger {id: $id})
-            RETURN pipelines
-        `, {
-            id: trigger.id
-        })
 
-        return pipelines.records.map((x) => x.get(0).properties)
+        return pipeline;
     })
+    
+    return await submitFileEvent({id: event.id, pipeline: result.id})
 
-
-    return await Promise.all(result.map((r) => {
-        submitFileEvent({
-            id: nanoid(),
-            pipeline: r.id
-        })
-    }))
     // switch(event.service){
     //     case 'Files':
     //         submitFileEvent(event).then((parsed) => {
