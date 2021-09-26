@@ -6,6 +6,7 @@
     "packages/shared/*",
     "packages/backends/*",
     "packages/tools/*",
+    "packages/clients/*",
     "packages/images/*"
   ],
   "version": "0.0.5-alpha.0",
