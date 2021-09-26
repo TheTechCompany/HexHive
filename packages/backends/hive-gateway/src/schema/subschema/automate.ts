@@ -65,6 +65,8 @@ type HivePipelineNode {
     x: Float
     y: Float
 
+    options: String
+
     pipeline: HivePipeline @relationship(type: "HAS_NODE", direction: IN)
     caller: [HivePipelineNode] @relationship(type: "RUN_NEXT", properties: "HivePipelineFlowPath", direction: IN) 
     next: [HivePipelineNode] @relationship(type: "RUN_NEXT", properties: "HivePipelineFlowPath", direction: OUT)

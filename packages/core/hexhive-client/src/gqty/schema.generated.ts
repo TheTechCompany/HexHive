@@ -1,8 +1,8 @@
 /**
- * GQLESS AUTO-GENERATED CODE: PLEASE DO NOT MODIFY MANUALLY
+ * GQTY AUTO-GENERATED CODE: PLEASE DO NOT MODIFY MANUALLY
  */
 
-import { SchemaUnionsKey } from "gqless";
+import { SchemaUnionsKey } from "gqty";
 
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -5320,7 +5320,7 @@ export interface FilterRemoveManyStack_idOperatorsInput {
   exists?: Maybe<Scalars["Boolean"]>;
 }
 
-export const scalarsEnumsHash: import("gqless").ScalarsEnumsHash = {
+export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   ID: true,
   Int: true,
   String: true,
@@ -6649,11 +6649,20 @@ export const generatedSchema = {
     size: { __type: "Int" },
     date: { __type: "Int" },
   },
+  HiveIntegration: {
+    __typename: { __type: "String!" },
+    $on: { __type: "$HiveIntegration!" },
+  },
+  HivePipelineRunner: {
+    __typename: { __type: "String!" },
+    $on: { __type: "$HivePipelineRunner!" },
+  },
   HivePipelineFlowPath: {
     __typename: { __type: "String!" },
     id: { __type: "ID" },
     source: { __type: "String" },
     target: { __type: "String" },
+    $on: { __type: "$HivePipelineFlowPath!" },
   },
   CreateFileSystemsMutationResponse: {
     __typename: { __type: "String!" },
@@ -10475,6 +10484,7 @@ export const generatedSchema = {
   ErrorInterface: {
     __typename: { __type: "String!" },
     message: { __type: "String" },
+    $on: { __type: "$ErrorInterface!" },
   },
   ValidatorError: {
     __typename: { __type: "String!" },
@@ -12588,11 +12598,16 @@ export const generatedSchema = {
   [SchemaUnionsKey]: {
     HiveIntegration: ["HiveService", "HiveAppliance"],
     HivePipelineRunner: ["HiveProcess", "HivePipelineTrigger"],
+    HivePipelineFlowPath: [
+      "HivePipelineNodeCallerRelationship",
+      "HivePipelineNodeNextRelationship",
+    ],
+    ErrorInterface: ["ValidationError", "MongoError", "RuntimeError"],
   },
 } as const;
 
 export interface Query {
-  __typename: "Query" | undefined;
+  __typename?: "Query";
   printer: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Printer>;
   hiveOrganisations: (args?: {
     where?: Maybe<HiveOrganisationWhere>;
@@ -13319,7 +13334,7 @@ export interface Query {
 }
 
 export interface Mutation {
-  __typename: "Mutation" | undefined;
+  __typename?: "Mutation";
   convertFiles: (args?: {
     files?: Maybe<Array<Maybe<Scalars["ID"]>>>;
     pipeline?: Maybe<Scalars["String"]>;
@@ -14015,11 +14030,11 @@ export interface Mutation {
 }
 
 export interface Subscription {
-  __typename: "Subscription" | undefined;
+  __typename?: "Subscription";
 }
 
 export interface Printer {
-  __typename: "Printer" | undefined;
+  __typename?: "Printer";
   name?: Maybe<ScalarsEnums["String"]>;
   accessKey?: Maybe<ScalarsEnums["String"]>;
   temperature?: Maybe<PrinterTemperature>;
@@ -14028,7 +14043,7 @@ export interface Printer {
 }
 
 export interface PrinterTemperature {
-  __typename: "PrinterTemperature" | undefined;
+  __typename?: "PrinterTemperature";
   time?: Maybe<ScalarsEnums["Int"]>;
   toolActual?: Maybe<ScalarsEnums["Float"]>;
   toolTarget?: Maybe<ScalarsEnums["Float"]>;
@@ -14037,7 +14052,7 @@ export interface PrinterTemperature {
 }
 
 export interface OctoPrintJob {
-  __typename: "OctoPrintJob" | undefined;
+  __typename?: "OctoPrintJob";
   state?: Maybe<ScalarsEnums["String"]>;
   progress?: Maybe<OctoPrintProgress>;
   estimatedPrintTime?: Maybe<ScalarsEnums["Float"]>;
@@ -14047,7 +14062,7 @@ export interface OctoPrintJob {
 }
 
 export interface OctoPrintProgress {
-  __typename: "OctoPrintProgress" | undefined;
+  __typename?: "OctoPrintProgress";
   completion?: Maybe<ScalarsEnums["Float"]>;
   filepos?: Maybe<ScalarsEnums["Int"]>;
   printTime?: Maybe<ScalarsEnums["Int"]>;
@@ -14055,132 +14070,145 @@ export interface OctoPrintProgress {
 }
 
 export interface OctoPrintFilament {
-  __typename: "OctoPrintFilament" | undefined;
+  __typename?: "OctoPrintFilament";
   length?: Maybe<ScalarsEnums["Float"]>;
   volume?: Maybe<ScalarsEnums["Float"]>;
 }
 
 export interface OctoPrintFile {
-  __typename: "OctoPrintFile" | undefined;
+  __typename?: "OctoPrintFile";
   name?: Maybe<ScalarsEnums["String"]>;
   origin?: Maybe<ScalarsEnums["String"]>;
   size?: Maybe<ScalarsEnums["Int"]>;
   date?: Maybe<ScalarsEnums["Int"]>;
 }
 
+export interface HiveIntegration {
+  __typename?: "HiveService" | "HiveAppliance";
+  $on: $HiveIntegration;
+}
+
+export interface HivePipelineRunner {
+  __typename?: "HiveProcess" | "HivePipelineTrigger";
+  $on: $HivePipelineRunner;
+}
+
 export interface HivePipelineFlowPath {
-  __typename: "HivePipelineFlowPath" | undefined;
+  __typename?:
+    | "HivePipelineNodeCallerRelationship"
+    | "HivePipelineNodeNextRelationship";
   id?: Maybe<ScalarsEnums["ID"]>;
   source?: Maybe<ScalarsEnums["String"]>;
   target?: Maybe<ScalarsEnums["String"]>;
+  $on: $HivePipelineFlowPath;
 }
 
 export interface CreateFileSystemsMutationResponse {
-  __typename: "CreateFileSystemsMutationResponse" | undefined;
+  __typename?: "CreateFileSystemsMutationResponse";
   info: CreateInfo;
   fileSystems: Array<FileSystem>;
 }
 
 export interface CreateHiveAppliancesMutationResponse {
-  __typename: "CreateHiveAppliancesMutationResponse" | undefined;
+  __typename?: "CreateHiveAppliancesMutationResponse";
   info: CreateInfo;
   hiveAppliances: Array<HiveAppliance>;
 }
 
 export interface CreateHiveFilesMutationResponse {
-  __typename: "CreateHiveFilesMutationResponse" | undefined;
+  __typename?: "CreateHiveFilesMutationResponse";
   info: CreateInfo;
   hiveFiles: Array<HiveFile>;
 }
 
 export interface CreateHiveOrganisationsMutationResponse {
-  __typename: "CreateHiveOrganisationsMutationResponse" | undefined;
+  __typename?: "CreateHiveOrganisationsMutationResponse";
   info: CreateInfo;
   hiveOrganisations: Array<HiveOrganisation>;
 }
 
 export interface CreateHivePermissionsMutationResponse {
-  __typename: "CreateHivePermissionsMutationResponse" | undefined;
+  __typename?: "CreateHivePermissionsMutationResponse";
   info: CreateInfo;
   hivePermissions: Array<HivePermission>;
 }
 
 export interface CreateHivePipelineNodesMutationResponse {
-  __typename: "CreateHivePipelineNodesMutationResponse" | undefined;
+  __typename?: "CreateHivePipelineNodesMutationResponse";
   info: CreateInfo;
   hivePipelineNodes: Array<HivePipelineNode>;
 }
 
 export interface CreateHivePipelineResourcesMutationResponse {
-  __typename: "CreateHivePipelineResourcesMutationResponse" | undefined;
+  __typename?: "CreateHivePipelineResourcesMutationResponse";
   info: CreateInfo;
   hivePipelineResources: Array<HivePipelineResource>;
 }
 
 export interface CreateHivePipelineRunsMutationResponse {
-  __typename: "CreateHivePipelineRunsMutationResponse" | undefined;
+  __typename?: "CreateHivePipelineRunsMutationResponse";
   info: CreateInfo;
   hivePipelineRuns: Array<HivePipelineRun>;
 }
 
 export interface CreateHivePipelinesMutationResponse {
-  __typename: "CreateHivePipelinesMutationResponse" | undefined;
+  __typename?: "CreateHivePipelinesMutationResponse";
   info: CreateInfo;
   hivePipelines: Array<HivePipeline>;
 }
 
 export interface CreateHivePipelineStepResultsMutationResponse {
-  __typename: "CreateHivePipelineStepResultsMutationResponse" | undefined;
+  __typename?: "CreateHivePipelineStepResultsMutationResponse";
   info: CreateInfo;
   hivePipelineStepResults: Array<HivePipelineStepResult>;
 }
 
 export interface CreateHivePipelineTriggersMutationResponse {
-  __typename: "CreateHivePipelineTriggersMutationResponse" | undefined;
+  __typename?: "CreateHivePipelineTriggersMutationResponse";
   info: CreateInfo;
   hivePipelineTriggers: Array<HivePipelineTrigger>;
 }
 
 export interface CreateHiveProcessesMutationResponse {
-  __typename: "CreateHiveProcessesMutationResponse" | undefined;
+  __typename?: "CreateHiveProcessesMutationResponse";
   info: CreateInfo;
   hiveProcesses: Array<HiveProcess>;
 }
 
 export interface CreateHiveProcessPortsMutationResponse {
-  __typename: "CreateHiveProcessPortsMutationResponse" | undefined;
+  __typename?: "CreateHiveProcessPortsMutationResponse";
   info: CreateInfo;
   hiveProcessPorts: Array<HiveProcessPort>;
 }
 
 export interface CreateHiveProcessResultsMutationResponse {
-  __typename: "CreateHiveProcessResultsMutationResponse" | undefined;
+  __typename?: "CreateHiveProcessResultsMutationResponse";
   info: CreateInfo;
   hiveProcessResults: Array<HiveProcessResult>;
 }
 
 export interface CreateHiveServicesMutationResponse {
-  __typename: "CreateHiveServicesMutationResponse" | undefined;
+  __typename?: "CreateHiveServicesMutationResponse";
   info: CreateInfo;
   hiveServices: Array<HiveService>;
 }
 
 export interface CreateInfo {
-  __typename: "CreateInfo" | undefined;
+  __typename?: "CreateInfo";
   bookmark?: Maybe<ScalarsEnums["String"]>;
   nodesCreated: ScalarsEnums["Int"];
   relationshipsCreated: ScalarsEnums["Int"];
 }
 
 export interface DeleteInfo {
-  __typename: "DeleteInfo" | undefined;
+  __typename?: "DeleteInfo";
   bookmark?: Maybe<ScalarsEnums["String"]>;
   nodesDeleted: ScalarsEnums["Int"];
   relationshipsDeleted: ScalarsEnums["Int"];
 }
 
 export interface FileSystem {
-  __typename: "FileSystem" | undefined;
+  __typename?: "FileSystem";
   name: ScalarsEnums["String"];
   files: (args?: {
     where?: Maybe<HiveFileWhere>;
@@ -14195,20 +14223,20 @@ export interface FileSystem {
 }
 
 export interface FileSystemFilesConnection {
-  __typename: "FileSystemFilesConnection" | undefined;
+  __typename?: "FileSystemFilesConnection";
   edges: Array<FileSystemFilesRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface FileSystemFilesRelationship {
-  __typename: "FileSystemFilesRelationship" | undefined;
+  __typename?: "FileSystemFilesRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
 
 export interface HiveAppliance {
-  __typename: "HiveAppliance" | undefined;
+  __typename?: "HiveAppliance";
   id: ScalarsEnums["ID"];
   name: ScalarsEnums["String"];
   description?: Maybe<ScalarsEnums["String"]>;
@@ -14245,46 +14273,46 @@ export interface HiveAppliance {
 }
 
 export interface HiveApplianceBrand_imageConnection {
-  __typename: "HiveApplianceBrand_imageConnection" | undefined;
+  __typename?: "HiveApplianceBrand_imageConnection";
   edges: Array<HiveApplianceBrand_imageRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveApplianceBrand_imageRelationship {
-  __typename: "HiveApplianceBrand_imageRelationship" | undefined;
+  __typename?: "HiveApplianceBrand_imageRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
 
 export interface HiveAppliancePermissionsConnection {
-  __typename: "HiveAppliancePermissionsConnection" | undefined;
+  __typename?: "HiveAppliancePermissionsConnection";
   edges: Array<HiveAppliancePermissionsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveAppliancePermissionsRelationship {
-  __typename: "HiveAppliancePermissionsRelationship" | undefined;
+  __typename?: "HiveAppliancePermissionsRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePermission;
 }
 
 export interface HiveApplianceServicesConnection {
-  __typename: "HiveApplianceServicesConnection" | undefined;
+  __typename?: "HiveApplianceServicesConnection";
   edges: Array<HiveApplianceServicesRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveApplianceServicesRelationship {
-  __typename: "HiveApplianceServicesRelationship" | undefined;
+  __typename?: "HiveApplianceServicesRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveService;
 }
 
 export interface HiveFile {
-  __typename: "HiveFile" | undefined;
+  __typename?: "HiveFile";
   id: ScalarsEnums["ID"];
   name: ScalarsEnums["String"];
   cid?: Maybe<ScalarsEnums["String"]>;
@@ -14364,98 +14392,98 @@ export interface HiveFile {
 }
 
 export interface HiveFileChildrenConnection {
-  __typename: "HiveFileChildrenConnection" | undefined;
+  __typename?: "HiveFileChildrenConnection";
   edges: Array<HiveFileChildrenRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileChildrenRelationship {
-  __typename: "HiveFileChildrenRelationship" | undefined;
+  __typename?: "HiveFileChildrenRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
 
 export interface HiveFileConversionsConnection {
-  __typename: "HiveFileConversionsConnection" | undefined;
+  __typename?: "HiveFileConversionsConnection";
   edges: Array<HiveFileConversionsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileConversionsRelationship {
-  __typename: "HiveFileConversionsRelationship" | undefined;
+  __typename?: "HiveFileConversionsRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFileProcess;
 }
 
 export interface HiveFileConvertedByConnection {
-  __typename: "HiveFileConvertedByConnection" | undefined;
+  __typename?: "HiveFileConvertedByConnection";
   edges: Array<HiveFileConvertedByRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileConvertedByRelationship {
-  __typename: "HiveFileConvertedByRelationship" | undefined;
+  __typename?: "HiveFileConvertedByRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFileProcess;
 }
 
 export interface HiveFileConvertedFromConnection {
-  __typename: "HiveFileConvertedFromConnection" | undefined;
+  __typename?: "HiveFileConvertedFromConnection";
   edges: Array<HiveFileConvertedFromRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileConvertedFromRelationship {
-  __typename: "HiveFileConvertedFromRelationship" | undefined;
+  __typename?: "HiveFileConvertedFromRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
 
 export interface HiveFileConvertedToConnection {
-  __typename: "HiveFileConvertedToConnection" | undefined;
+  __typename?: "HiveFileConvertedToConnection";
   edges: Array<HiveFileConvertedToRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileConvertedToRelationship {
-  __typename: "HiveFileConvertedToRelationship" | undefined;
+  __typename?: "HiveFileConvertedToRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
 
 export interface HiveFileFsConnection {
-  __typename: "HiveFileFsConnection" | undefined;
+  __typename?: "HiveFileFsConnection";
   edges: Array<HiveFileFsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileFsRelationship {
-  __typename: "HiveFileFsRelationship" | undefined;
+  __typename?: "HiveFileFsRelationship";
   cursor: ScalarsEnums["String"];
   node: FileSystem;
 }
 
 export interface HiveFileParentConnection {
-  __typename: "HiveFileParentConnection" | undefined;
+  __typename?: "HiveFileParentConnection";
   edges: Array<HiveFileParentRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileParentRelationship {
-  __typename: "HiveFileParentRelationship" | undefined;
+  __typename?: "HiveFileParentRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
 
 export interface HiveFileProcess {
-  __typename: "HiveFileProcess" | undefined;
+  __typename?: "HiveFileProcess";
   id: ScalarsEnums["ID"];
   createdAt?: Maybe<ScalarsEnums["DateTime"]>;
   completedAt?: Maybe<ScalarsEnums["DateTime"]>;
@@ -14502,59 +14530,59 @@ export interface HiveFileProcess {
 }
 
 export interface HiveFileProcessInputsConnection {
-  __typename: "HiveFileProcessInputsConnection" | undefined;
+  __typename?: "HiveFileProcessInputsConnection";
   edges: Array<HiveFileProcessInputsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileProcessInputsRelationship {
-  __typename: "HiveFileProcessInputsRelationship" | undefined;
+  __typename?: "HiveFileProcessInputsRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
 
 export interface HiveFileProcessOutputsConnection {
-  __typename: "HiveFileProcessOutputsConnection" | undefined;
+  __typename?: "HiveFileProcessOutputsConnection";
   edges: Array<HiveFileProcessOutputsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileProcessOutputsRelationship {
-  __typename: "HiveFileProcessOutputsRelationship" | undefined;
+  __typename?: "HiveFileProcessOutputsRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
 
 export interface HiveFileProcessPipelineConnection {
-  __typename: "HiveFileProcessPipelineConnection" | undefined;
+  __typename?: "HiveFileProcessPipelineConnection";
   edges: Array<HiveFileProcessPipelineRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileProcessPipelineRelationship {
-  __typename: "HiveFileProcessPipelineRelationship" | undefined;
+  __typename?: "HiveFileProcessPipelineRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipeline;
 }
 
 export interface HiveFileProcessResultConnection {
-  __typename: "HiveFileProcessResultConnection" | undefined;
+  __typename?: "HiveFileProcessResultConnection";
   edges: Array<HiveFileProcessResultRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveFileProcessResultRelationship {
-  __typename: "HiveFileProcessResultRelationship" | undefined;
+  __typename?: "HiveFileProcessResultRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveProcessResult;
 }
 
 export interface HiveOrganisation {
-  __typename: "HiveOrganisation" | undefined;
+  __typename?: "HiveOrganisation";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   appliances: (args?: {
@@ -14567,20 +14595,20 @@ export interface HiveOrganisation {
 }
 
 export interface HiveOrganisationAppliancesConnection {
-  __typename: "HiveOrganisationAppliancesConnection" | undefined;
+  __typename?: "HiveOrganisationAppliancesConnection";
   edges: Array<HiveOrganisationAppliancesRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveOrganisationAppliancesRelationship {
-  __typename: "HiveOrganisationAppliancesRelationship" | undefined;
+  __typename?: "HiveOrganisationAppliancesRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveIntegration;
 }
 
 export interface HivePermission {
-  __typename: "HivePermission" | undefined;
+  __typename?: "HivePermission";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   create?: Maybe<Array<Maybe<HiveIntegration>>>;
@@ -14590,7 +14618,7 @@ export interface HivePermission {
 }
 
 export interface HivePipeline {
-  __typename: "HivePipeline" | undefined;
+  __typename?: "HivePipeline";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   inputs: (args?: {
@@ -14616,20 +14644,20 @@ export interface HivePipeline {
 }
 
 export interface HivePipelineInputsConnection {
-  __typename: "HivePipelineInputsConnection" | undefined;
+  __typename?: "HivePipelineInputsConnection";
   edges: Array<HivePipelineInputsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineInputsRelationship {
-  __typename: "HivePipelineInputsRelationship" | undefined;
+  __typename?: "HivePipelineInputsRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipelineResource;
 }
 
 export interface HivePipelineNode {
-  __typename: "HivePipelineNode" | undefined;
+  __typename?: "HivePipelineNode";
   id: ScalarsEnums["ID"];
   x?: Maybe<ScalarsEnums["Float"]>;
   y?: Maybe<ScalarsEnums["Float"]>;
@@ -14674,15 +14702,14 @@ export interface HivePipelineNode {
 }
 
 export interface HivePipelineNodeCallerConnection {
-  __typename: "HivePipelineNodeCallerConnection" | undefined;
+  __typename?: "HivePipelineNodeCallerConnection";
   edges: Array<HivePipelineNodeCallerRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface HivePipelineNodeCallerRelationship
-  extends Omit<HivePipelineFlowPath, "__typename"> {
-  __typename: "HivePipelineNodeCallerRelationship" | undefined;
+export interface HivePipelineNodeCallerRelationship {
+  __typename?: "HivePipelineNodeCallerRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipelineNode;
   id?: Maybe<ScalarsEnums["ID"]>;
@@ -14691,15 +14718,14 @@ export interface HivePipelineNodeCallerRelationship
 }
 
 export interface HivePipelineNodeNextConnection {
-  __typename: "HivePipelineNodeNextConnection" | undefined;
+  __typename?: "HivePipelineNodeNextConnection";
   edges: Array<HivePipelineNodeNextRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface HivePipelineNodeNextRelationship
-  extends Omit<HivePipelineFlowPath, "__typename"> {
-  __typename: "HivePipelineNodeNextRelationship" | undefined;
+export interface HivePipelineNodeNextRelationship {
+  __typename?: "HivePipelineNodeNextRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipelineNode;
   id?: Maybe<ScalarsEnums["ID"]>;
@@ -14708,53 +14734,53 @@ export interface HivePipelineNodeNextRelationship
 }
 
 export interface HivePipelineNodePipelineConnection {
-  __typename: "HivePipelineNodePipelineConnection" | undefined;
+  __typename?: "HivePipelineNodePipelineConnection";
   edges: Array<HivePipelineNodePipelineRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineNodePipelineRelationship {
-  __typename: "HivePipelineNodePipelineRelationship" | undefined;
+  __typename?: "HivePipelineNodePipelineRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipeline;
 }
 
 export interface HivePipelineNodeRunnerConnection {
-  __typename: "HivePipelineNodeRunnerConnection" | undefined;
+  __typename?: "HivePipelineNodeRunnerConnection";
   edges: Array<HivePipelineNodeRunnerRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineNodeRunnerRelationship {
-  __typename: "HivePipelineNodeRunnerRelationship" | undefined;
+  __typename?: "HivePipelineNodeRunnerRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipelineRunner;
 }
 
 export interface HivePipelineNodesConnection {
-  __typename: "HivePipelineNodesConnection" | undefined;
+  __typename?: "HivePipelineNodesConnection";
   edges: Array<HivePipelineNodesRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineNodesRelationship {
-  __typename: "HivePipelineNodesRelationship" | undefined;
+  __typename?: "HivePipelineNodesRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipelineNode;
 }
 
 export interface HivePipelineResource {
-  __typename: "HivePipelineResource" | undefined;
+  __typename?: "HivePipelineResource";
   key?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
   urn?: Maybe<ScalarsEnums["String"]>;
 }
 
 export interface HivePipelineRun {
-  __typename: "HivePipelineRun" | undefined;
+  __typename?: "HivePipelineRun";
   id: ScalarsEnums["ID"];
   createdAt?: Maybe<ScalarsEnums["DateTime"]>;
   completedAt?: Maybe<ScalarsEnums["DateTime"]>;
@@ -14781,33 +14807,33 @@ export interface HivePipelineRun {
 }
 
 export interface HivePipelineRunInputsConnection {
-  __typename: "HivePipelineRunInputsConnection" | undefined;
+  __typename?: "HivePipelineRunInputsConnection";
   edges: Array<HivePipelineRunInputsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineRunInputsRelationship {
-  __typename: "HivePipelineRunInputsRelationship" | undefined;
+  __typename?: "HivePipelineRunInputsRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipelineResource;
 }
 
 export interface HivePipelineRunPipelineConnection {
-  __typename: "HivePipelineRunPipelineConnection" | undefined;
+  __typename?: "HivePipelineRunPipelineConnection";
   edges: Array<HivePipelineRunPipelineRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineRunPipelineRelationship {
-  __typename: "HivePipelineRunPipelineRelationship" | undefined;
+  __typename?: "HivePipelineRunPipelineRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipeline;
 }
 
 export interface HivePipelineStepResult {
-  __typename: "HivePipelineStepResult" | undefined;
+  __typename?: "HivePipelineStepResult";
   id: ScalarsEnums["ID"];
   step?: Maybe<ScalarsEnums["String"]>;
   run: (args?: {
@@ -14833,33 +14859,33 @@ export interface HivePipelineStepResult {
 }
 
 export interface HivePipelineStepResultArtifactsConnection {
-  __typename: "HivePipelineStepResultArtifactsConnection" | undefined;
+  __typename?: "HivePipelineStepResultArtifactsConnection";
   edges: Array<HivePipelineStepResultArtifactsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineStepResultArtifactsRelationship {
-  __typename: "HivePipelineStepResultArtifactsRelationship" | undefined;
+  __typename?: "HivePipelineStepResultArtifactsRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipelineResource;
 }
 
 export interface HivePipelineStepResultRunConnection {
-  __typename: "HivePipelineStepResultRunConnection" | undefined;
+  __typename?: "HivePipelineStepResultRunConnection";
   edges: Array<HivePipelineStepResultRunRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineStepResultRunRelationship {
-  __typename: "HivePipelineStepResultRunRelationship" | undefined;
+  __typename?: "HivePipelineStepResultRunRelationship";
   cursor: ScalarsEnums["String"];
   node: HivePipelineRun;
 }
 
 export interface HivePipelineTrigger {
-  __typename: "HivePipelineTrigger" | undefined;
+  __typename?: "HivePipelineTrigger";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   event?: Maybe<ScalarsEnums["String"]>;
@@ -14877,20 +14903,20 @@ export interface HivePipelineTrigger {
 }
 
 export interface HivePipelineTriggerProducesConnection {
-  __typename: "HivePipelineTriggerProducesConnection" | undefined;
+  __typename?: "HivePipelineTriggerProducesConnection";
   edges: Array<HivePipelineTriggerProducesRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HivePipelineTriggerProducesRelationship {
-  __typename: "HivePipelineTriggerProducesRelationship" | undefined;
+  __typename?: "HivePipelineTriggerProducesRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveProcessPort;
 }
 
 export interface HiveProcess {
-  __typename: "HiveProcess" | undefined;
+  __typename?: "HiveProcess";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   task?: Maybe<ScalarsEnums["String"]>;
@@ -14907,7 +14933,7 @@ export interface HiveProcess {
 }
 
 export interface HiveProcessPort {
-  __typename: "HiveProcessPort" | undefined;
+  __typename?: "HiveProcessPort";
   id: ScalarsEnums["ID"];
   direction?: Maybe<ScalarsEnums["String"]>;
   name?: Maybe<ScalarsEnums["String"]>;
@@ -14925,33 +14951,33 @@ export interface HiveProcessPort {
 }
 
 export interface HiveProcessPortProcessConnection {
-  __typename: "HiveProcessPortProcessConnection" | undefined;
+  __typename?: "HiveProcessPortProcessConnection";
   edges: Array<HiveProcessPortProcessRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveProcessPortProcessRelationship {
-  __typename: "HiveProcessPortProcessRelationship" | undefined;
+  __typename?: "HiveProcessPortProcessRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveProcess;
 }
 
 export interface HiveProcessPortsConnection {
-  __typename: "HiveProcessPortsConnection" | undefined;
+  __typename?: "HiveProcessPortsConnection";
   edges: Array<HiveProcessPortsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveProcessPortsRelationship {
-  __typename: "HiveProcessPortsRelationship" | undefined;
+  __typename?: "HiveProcessPortsRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveProcessPort;
 }
 
 export interface HiveProcessResult {
-  __typename: "HiveProcessResult" | undefined;
+  __typename?: "HiveProcessResult";
   id: ScalarsEnums["ID"];
   results?: Maybe<ScalarsEnums["String"]>;
   completedAt?: Maybe<ScalarsEnums["DateTime"]>;
@@ -14968,20 +14994,20 @@ export interface HiveProcessResult {
 }
 
 export interface HiveProcessResultProcessConnection {
-  __typename: "HiveProcessResultProcessConnection" | undefined;
+  __typename?: "HiveProcessResultProcessConnection";
   edges: Array<HiveProcessResultProcessRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
 export interface HiveProcessResultProcessRelationship {
-  __typename: "HiveProcessResultProcessRelationship" | undefined;
+  __typename?: "HiveProcessResultProcessRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFileProcess;
 }
 
 export interface HiveService {
-  __typename: "HiveService" | undefined;
+  __typename?: "HiveService";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
 }
@@ -14990,7 +15016,7 @@ export interface HiveService {
  * Information about pagination in a connection.
  */
 export interface PageInfo {
-  __typename: "PageInfo" | undefined;
+  __typename?: "PageInfo";
   /**
    * When paginating forwards, are there more items?
    */
@@ -15010,97 +15036,97 @@ export interface PageInfo {
 }
 
 export interface UpdateFileSystemsMutationResponse {
-  __typename: "UpdateFileSystemsMutationResponse" | undefined;
+  __typename?: "UpdateFileSystemsMutationResponse";
   info: UpdateInfo;
   fileSystems: Array<FileSystem>;
 }
 
 export interface UpdateHiveAppliancesMutationResponse {
-  __typename: "UpdateHiveAppliancesMutationResponse" | undefined;
+  __typename?: "UpdateHiveAppliancesMutationResponse";
   info: UpdateInfo;
   hiveAppliances: Array<HiveAppliance>;
 }
 
 export interface UpdateHiveFilesMutationResponse {
-  __typename: "UpdateHiveFilesMutationResponse" | undefined;
+  __typename?: "UpdateHiveFilesMutationResponse";
   info: UpdateInfo;
   hiveFiles: Array<HiveFile>;
 }
 
 export interface UpdateHiveOrganisationsMutationResponse {
-  __typename: "UpdateHiveOrganisationsMutationResponse" | undefined;
+  __typename?: "UpdateHiveOrganisationsMutationResponse";
   info: UpdateInfo;
   hiveOrganisations: Array<HiveOrganisation>;
 }
 
 export interface UpdateHivePermissionsMutationResponse {
-  __typename: "UpdateHivePermissionsMutationResponse" | undefined;
+  __typename?: "UpdateHivePermissionsMutationResponse";
   info: UpdateInfo;
   hivePermissions: Array<HivePermission>;
 }
 
 export interface UpdateHivePipelineNodesMutationResponse {
-  __typename: "UpdateHivePipelineNodesMutationResponse" | undefined;
+  __typename?: "UpdateHivePipelineNodesMutationResponse";
   info: UpdateInfo;
   hivePipelineNodes: Array<HivePipelineNode>;
 }
 
 export interface UpdateHivePipelineResourcesMutationResponse {
-  __typename: "UpdateHivePipelineResourcesMutationResponse" | undefined;
+  __typename?: "UpdateHivePipelineResourcesMutationResponse";
   info: UpdateInfo;
   hivePipelineResources: Array<HivePipelineResource>;
 }
 
 export interface UpdateHivePipelineRunsMutationResponse {
-  __typename: "UpdateHivePipelineRunsMutationResponse" | undefined;
+  __typename?: "UpdateHivePipelineRunsMutationResponse";
   info: UpdateInfo;
   hivePipelineRuns: Array<HivePipelineRun>;
 }
 
 export interface UpdateHivePipelinesMutationResponse {
-  __typename: "UpdateHivePipelinesMutationResponse" | undefined;
+  __typename?: "UpdateHivePipelinesMutationResponse";
   info: UpdateInfo;
   hivePipelines: Array<HivePipeline>;
 }
 
 export interface UpdateHivePipelineStepResultsMutationResponse {
-  __typename: "UpdateHivePipelineStepResultsMutationResponse" | undefined;
+  __typename?: "UpdateHivePipelineStepResultsMutationResponse";
   info: UpdateInfo;
   hivePipelineStepResults: Array<HivePipelineStepResult>;
 }
 
 export interface UpdateHivePipelineTriggersMutationResponse {
-  __typename: "UpdateHivePipelineTriggersMutationResponse" | undefined;
+  __typename?: "UpdateHivePipelineTriggersMutationResponse";
   info: UpdateInfo;
   hivePipelineTriggers: Array<HivePipelineTrigger>;
 }
 
 export interface UpdateHiveProcessesMutationResponse {
-  __typename: "UpdateHiveProcessesMutationResponse" | undefined;
+  __typename?: "UpdateHiveProcessesMutationResponse";
   info: UpdateInfo;
   hiveProcesses: Array<HiveProcess>;
 }
 
 export interface UpdateHiveProcessPortsMutationResponse {
-  __typename: "UpdateHiveProcessPortsMutationResponse" | undefined;
+  __typename?: "UpdateHiveProcessPortsMutationResponse";
   info: UpdateInfo;
   hiveProcessPorts: Array<HiveProcessPort>;
 }
 
 export interface UpdateHiveProcessResultsMutationResponse {
-  __typename: "UpdateHiveProcessResultsMutationResponse" | undefined;
+  __typename?: "UpdateHiveProcessResultsMutationResponse";
   info: UpdateInfo;
   hiveProcessResults: Array<HiveProcessResult>;
 }
 
 export interface UpdateHiveServicesMutationResponse {
-  __typename: "UpdateHiveServicesMutationResponse" | undefined;
+  __typename?: "UpdateHiveServicesMutationResponse";
   info: UpdateInfo;
   hiveServices: Array<HiveService>;
 }
 
 export interface UpdateInfo {
-  __typename: "UpdateInfo" | undefined;
+  __typename?: "UpdateInfo";
   bookmark?: Maybe<ScalarsEnums["String"]>;
   nodesCreated: ScalarsEnums["Int"];
   nodesDeleted: ScalarsEnums["Int"];
@@ -15109,7 +15135,7 @@ export interface UpdateInfo {
 }
 
 export interface Project {
-  __typename: "Project" | undefined;
+  __typename?: "Project";
   id?: Maybe<ScalarsEnums["ID"]>;
   name?: Maybe<ScalarsEnums["String"]>;
   files?: Maybe<Array<Maybe<File>>>;
@@ -15119,7 +15145,7 @@ export interface Project {
 }
 
 export interface File {
-  __typename: "File" | undefined;
+  __typename?: "File";
   id?: Maybe<ScalarsEnums["ID"]>;
   cid?: Maybe<ScalarsEnums["String"]>;
   name?: Maybe<ScalarsEnums["String"]>;
@@ -15132,13 +15158,13 @@ export interface File {
 }
 
 export interface User {
-  __typename: "User" | undefined;
+  __typename?: "User";
   id?: Maybe<ScalarsEnums["ID"]>;
   name?: Maybe<ScalarsEnums["String"]>;
 }
 
 export interface Quote {
-  __typename: "Quote" | undefined;
+  __typename?: "Quote";
   id?: Maybe<ScalarsEnums["ID"]>;
   name?: Maybe<ScalarsEnums["String"]>;
   customer?: Maybe<ScalarsEnums["String"]>;
@@ -15148,7 +15174,7 @@ export interface Quote {
 }
 
 export interface Equipment {
-  __typename: "Equipment" | undefined;
+  __typename?: "Equipment";
   id?: Maybe<ScalarsEnums["ID"]>;
   name?: Maybe<ScalarsEnums["String"]>;
   registration?: Maybe<ScalarsEnums["String"]>;
@@ -15156,7 +15182,7 @@ export interface Equipment {
 }
 
 export interface ScheduleItem {
-  __typename: "ScheduleItem" | undefined;
+  __typename?: "ScheduleItem";
   id?: Maybe<ScalarsEnums["ID"]>;
   date?: Maybe<ScalarsEnums["Date"]>;
   project?: Maybe<Project>;
@@ -15168,7 +15194,7 @@ export interface ScheduleItem {
 }
 
 export interface TimelineItem {
-  __typename: "TimelineItem" | undefined;
+  __typename?: "TimelineItem";
   id?: Maybe<ScalarsEnums["ID"]>;
   timeline?: Maybe<ScalarsEnums["String"]>;
   startDate?: Maybe<ScalarsEnums["Date"]>;
@@ -15179,27 +15205,27 @@ export interface TimelineItem {
 }
 
 export interface TimelineItemItems {
-  __typename: "TimelineItemItems" | undefined;
+  __typename?: "TimelineItemItems";
   type?: Maybe<ScalarsEnums["String"]>;
   location?: Maybe<ScalarsEnums["String"]>;
   estimate?: Maybe<ScalarsEnums["Float"]>;
 }
 
 export interface TimelineProject {
-  __typename: "TimelineProject" | undefined;
+  __typename?: "TimelineProject";
   id?: Maybe<ScalarsEnums["ID"]>;
   name?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
 }
 
 export interface People {
-  __typename: "People" | undefined;
+  __typename?: "People";
   id?: Maybe<ScalarsEnums["ID"]>;
   name?: Maybe<ScalarsEnums["String"]>;
 }
 
-export interface ValidationError extends Omit<ErrorInterface, "__typename"> {
-  __typename: "ValidationError" | undefined;
+export interface ValidationError {
+  __typename?: "ValidationError";
   /**
    * Combined error message from all validators
    */
@@ -15211,15 +15237,16 @@ export interface ValidationError extends Omit<ErrorInterface, "__typename"> {
 }
 
 export interface ErrorInterface {
-  __typename: "ErrorInterface" | undefined;
+  __typename?: "ValidationError" | "MongoError" | "RuntimeError";
   /**
    * Generic error message
    */
   message?: Maybe<ScalarsEnums["String"]>;
+  $on: $ErrorInterface;
 }
 
 export interface ValidatorError {
-  __typename: "ValidatorError" | undefined;
+  __typename?: "ValidatorError";
   /**
    * Validation error message
    */
@@ -15238,8 +15265,8 @@ export interface ValidatorError {
   idx: ScalarsEnums["Int"];
 }
 
-export interface MongoError extends Omit<ErrorInterface, "__typename"> {
-  __typename: "MongoError" | undefined;
+export interface MongoError {
+  __typename?: "MongoError";
   /**
    * MongoDB error message
    */
@@ -15250,8 +15277,8 @@ export interface MongoError extends Omit<ErrorInterface, "__typename"> {
   code?: Maybe<ScalarsEnums["Int"]>;
 }
 
-export interface RuntimeError extends Omit<ErrorInterface, "__typename"> {
-  __typename: "RuntimeError" | undefined;
+export interface RuntimeError {
+  __typename?: "RuntimeError";
   /**
    * Runtime error message
    */
@@ -15259,7 +15286,7 @@ export interface RuntimeError extends Omit<ErrorInterface, "__typename"> {
 }
 
 export interface Program {
-  __typename: "Program" | undefined;
+  __typename?: "Program";
   name?: Maybe<ScalarsEnums["String"]>;
   plugins?: Maybe<Array<Maybe<ScalarsEnums["JSON"]>>>;
   hmi?: Maybe<Array<Maybe<ScalarsEnums["JSON"]>>>;
@@ -15269,14 +15296,14 @@ export interface Program {
 }
 
 export interface ProgramIo {
-  __typename: "ProgramIo" | undefined;
+  __typename?: "ProgramIo";
   name?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
   _id?: Maybe<ScalarsEnums["MongoID"]>;
 }
 
 export interface Device {
-  __typename: "Device" | undefined;
+  __typename?: "Device";
   name?: Maybe<ScalarsEnums["String"]>;
   connected?: Maybe<ScalarsEnums["Boolean"]>;
   lastSeen?: Maybe<ScalarsEnums["Date"]>;
@@ -15291,7 +15318,7 @@ export interface Device {
  * A connection to a list of items.
  */
 export interface DeviceConnection {
-  __typename: "DeviceConnection" | undefined;
+  __typename?: "DeviceConnection";
   /**
    * Total object count.
    */
@@ -15310,7 +15337,7 @@ export interface DeviceConnection {
  * An edge in a connection.
  */
 export interface DeviceEdge {
-  __typename: "DeviceEdge" | undefined;
+  __typename?: "DeviceEdge";
   /**
    * The item at the end of the edge
    */
@@ -15325,7 +15352,7 @@ export interface DeviceEdge {
  * List of items with pagination.
  */
 export interface DevicePagination {
-  __typename: "DevicePagination" | undefined;
+  __typename?: "DevicePagination";
   /**
    * Total object count.
    */
@@ -15341,7 +15368,7 @@ export interface DevicePagination {
 }
 
 export interface PaginationInfo {
-  __typename: "PaginationInfo" | undefined;
+  __typename?: "PaginationInfo";
   currentPage: ScalarsEnums["Int"];
   perPage: ScalarsEnums["Int"];
   pageCount?: Maybe<ScalarsEnums["Int"]>;
@@ -15351,7 +15378,7 @@ export interface PaginationInfo {
 }
 
 export interface DNSRecord {
-  __typename: "DNSRecord" | undefined;
+  __typename?: "DNSRecord";
   subdomain?: Maybe<ScalarsEnums["String"]>;
   domain?: Maybe<ScalarsEnums["String"]>;
   address?: Maybe<ScalarsEnums["String"]>;
@@ -15362,7 +15389,7 @@ export interface DNSRecord {
  * A connection to a list of items.
  */
 export interface DNSRecordConnection {
-  __typename: "DNSRecordConnection" | undefined;
+  __typename?: "DNSRecordConnection";
   /**
    * Total object count.
    */
@@ -15381,7 +15408,7 @@ export interface DNSRecordConnection {
  * An edge in a connection.
  */
 export interface DNSRecordEdge {
-  __typename: "DNSRecordEdge" | undefined;
+  __typename?: "DNSRecordEdge";
   /**
    * The item at the end of the edge
    */
@@ -15396,7 +15423,7 @@ export interface DNSRecordEdge {
  * List of items with pagination.
  */
 export interface DNSRecordPagination {
-  __typename: "DNSRecordPagination" | undefined;
+  __typename?: "DNSRecordPagination";
   /**
    * Total object count.
    */
@@ -15415,7 +15442,7 @@ export interface DNSRecordPagination {
  * A connection to a list of items.
  */
 export interface ProgramConnection {
-  __typename: "ProgramConnection" | undefined;
+  __typename?: "ProgramConnection";
   /**
    * Total object count.
    */
@@ -15434,7 +15461,7 @@ export interface ProgramConnection {
  * An edge in a connection.
  */
 export interface ProgramEdge {
-  __typename: "ProgramEdge" | undefined;
+  __typename?: "ProgramEdge";
   /**
    * The item at the end of the edge
    */
@@ -15449,7 +15476,7 @@ export interface ProgramEdge {
  * List of items with pagination.
  */
 export interface ProgramPagination {
-  __typename: "ProgramPagination" | undefined;
+  __typename?: "ProgramPagination";
   /**
    * Total object count.
    */
@@ -15465,7 +15492,7 @@ export interface ProgramPagination {
 }
 
 export interface FlowShard {
-  __typename: "FlowShard" | undefined;
+  __typename?: "FlowShard";
   name?: Maybe<ScalarsEnums["String"]>;
   parent?: Maybe<ScalarsEnums["MongoID"]>;
   program?: Maybe<ScalarsEnums["MongoID"]>;
@@ -15476,7 +15503,7 @@ export interface FlowShard {
 }
 
 export interface FlowShardNodes {
-  __typename: "FlowShardNodes" | undefined;
+  __typename?: "FlowShardNodes";
   type?: Maybe<ScalarsEnums["String"]>;
   extras?: Maybe<ScalarsEnums["JSON"]>;
   ports?: Maybe<ScalarsEnums["JSON"]>;
@@ -15486,7 +15513,7 @@ export interface FlowShardNodes {
 }
 
 export interface FlowShardPaths {
-  __typename: "FlowShardPaths" | undefined;
+  __typename?: "FlowShardPaths";
   type?: Maybe<ScalarsEnums["String"]>;
   source?: Maybe<ScalarsEnums["String"]>;
   sourceHandle?: Maybe<ScalarsEnums["String"]>;
@@ -15497,7 +15524,7 @@ export interface FlowShardPaths {
 }
 
 export interface FlowShardPathsPoints {
-  __typename: "FlowShardPathsPoints" | undefined;
+  __typename?: "FlowShardPathsPoints";
   x?: Maybe<ScalarsEnums["Float"]>;
   y?: Maybe<ScalarsEnums["Float"]>;
   _id?: Maybe<ScalarsEnums["MongoID"]>;
@@ -15507,7 +15534,7 @@ export interface FlowShardPathsPoints {
  * A connection to a list of items.
  */
 export interface FlowShardConnection {
-  __typename: "FlowShardConnection" | undefined;
+  __typename?: "FlowShardConnection";
   /**
    * Total object count.
    */
@@ -15526,7 +15553,7 @@ export interface FlowShardConnection {
  * An edge in a connection.
  */
 export interface FlowShardEdge {
-  __typename: "FlowShardEdge" | undefined;
+  __typename?: "FlowShardEdge";
   /**
    * The item at the end of the edge
    */
@@ -15541,7 +15568,7 @@ export interface FlowShardEdge {
  * List of items with pagination.
  */
 export interface FlowShardPagination {
-  __typename: "FlowShardPagination" | undefined;
+  __typename?: "FlowShardPagination";
   /**
    * Total object count.
    */
@@ -15557,7 +15584,7 @@ export interface FlowShardPagination {
 }
 
 export interface Stack {
-  __typename: "Stack" | undefined;
+  __typename?: "Stack";
   name?: Maybe<ScalarsEnums["String"]>;
   items?: Maybe<Array<Maybe<StackItems>>>;
   program?: Maybe<ScalarsEnums["String"]>;
@@ -15566,7 +15593,7 @@ export interface Stack {
 }
 
 export interface StackItems {
-  __typename: "StackItems" | undefined;
+  __typename?: "StackItems";
   key?: Maybe<ScalarsEnums["String"]>;
   name?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
@@ -15580,14 +15607,14 @@ export interface StackItems {
 }
 
 export interface StackItemsDimensions {
-  __typename: "StackItemsDimensions" | undefined;
+  __typename?: "StackItemsDimensions";
   width?: Maybe<ScalarsEnums["Float"]>;
   height?: Maybe<ScalarsEnums["Float"]>;
   _id?: Maybe<ScalarsEnums["MongoID"]>;
 }
 
 export interface StackItemsInputs {
-  __typename: "StackItemsInputs" | undefined;
+  __typename?: "StackItemsInputs";
   name?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
   typeData?: Maybe<ScalarsEnums["JSON"]>;
@@ -15595,7 +15622,7 @@ export interface StackItemsInputs {
 }
 
 export interface StackItemsPorts {
-  __typename: "StackItemsPorts" | undefined;
+  __typename?: "StackItemsPorts";
   name?: Maybe<ScalarsEnums["String"]>;
   x?: Maybe<ScalarsEnums["Float"]>;
   y?: Maybe<ScalarsEnums["Float"]>;
@@ -15608,7 +15635,7 @@ export interface StackItemsPorts {
  * A connection to a list of items.
  */
 export interface StackConnection {
-  __typename: "StackConnection" | undefined;
+  __typename?: "StackConnection";
   /**
    * Total object count.
    */
@@ -15627,7 +15654,7 @@ export interface StackConnection {
  * An edge in a connection.
  */
 export interface StackEdge {
-  __typename: "StackEdge" | undefined;
+  __typename?: "StackEdge";
   /**
    * The item at the end of the edge
    */
@@ -15642,7 +15669,7 @@ export interface StackEdge {
  * List of items with pagination.
  */
 export interface StackPagination {
-  __typename: "StackPagination" | undefined;
+  __typename?: "StackPagination";
   /**
    * Total object count.
    */
@@ -15658,7 +15685,7 @@ export interface StackPagination {
 }
 
 export interface CreateOneDevicePayload {
-  __typename: "CreateOneDevicePayload" | undefined;
+  __typename?: "CreateOneDevicePayload";
   /**
    * Document ID
    */
@@ -15674,7 +15701,7 @@ export interface CreateOneDevicePayload {
 }
 
 export interface CreateManyDevicePayload {
-  __typename: "CreateManyDevicePayload" | undefined;
+  __typename?: "CreateManyDevicePayload";
   /**
    * Documents IDs
    */
@@ -15694,7 +15721,7 @@ export interface CreateManyDevicePayload {
 }
 
 export interface UpdateByIdDevicePayload {
-  __typename: "UpdateByIdDevicePayload" | undefined;
+  __typename?: "UpdateByIdDevicePayload";
   /**
    * Document ID
    */
@@ -15710,7 +15737,7 @@ export interface UpdateByIdDevicePayload {
 }
 
 export interface UpdateOneDevicePayload {
-  __typename: "UpdateOneDevicePayload" | undefined;
+  __typename?: "UpdateOneDevicePayload";
   /**
    * Document ID
    */
@@ -15726,7 +15753,7 @@ export interface UpdateOneDevicePayload {
 }
 
 export interface UpdateManyDevicePayload {
-  __typename: "UpdateManyDevicePayload" | undefined;
+  __typename?: "UpdateManyDevicePayload";
   /**
    * Affected documents number
    */
@@ -15738,7 +15765,7 @@ export interface UpdateManyDevicePayload {
 }
 
 export interface RemoveByIdDevicePayload {
-  __typename: "RemoveByIdDevicePayload" | undefined;
+  __typename?: "RemoveByIdDevicePayload";
   /**
    * Document ID
    */
@@ -15754,7 +15781,7 @@ export interface RemoveByIdDevicePayload {
 }
 
 export interface RemoveOneDevicePayload {
-  __typename: "RemoveOneDevicePayload" | undefined;
+  __typename?: "RemoveOneDevicePayload";
   /**
    * Document ID
    */
@@ -15770,7 +15797,7 @@ export interface RemoveOneDevicePayload {
 }
 
 export interface RemoveManyDevicePayload {
-  __typename: "RemoveManyDevicePayload" | undefined;
+  __typename?: "RemoveManyDevicePayload";
   /**
    * Affected documents number
    */
@@ -15782,7 +15809,7 @@ export interface RemoveManyDevicePayload {
 }
 
 export interface CreateOneDNSRecordPayload {
-  __typename: "CreateOneDNSRecordPayload" | undefined;
+  __typename?: "CreateOneDNSRecordPayload";
   /**
    * Document ID
    */
@@ -15798,7 +15825,7 @@ export interface CreateOneDNSRecordPayload {
 }
 
 export interface CreateManyDNSRecordPayload {
-  __typename: "CreateManyDNSRecordPayload" | undefined;
+  __typename?: "CreateManyDNSRecordPayload";
   /**
    * Documents IDs
    */
@@ -15818,7 +15845,7 @@ export interface CreateManyDNSRecordPayload {
 }
 
 export interface UpdateByIdDNSRecordPayload {
-  __typename: "UpdateByIdDNSRecordPayload" | undefined;
+  __typename?: "UpdateByIdDNSRecordPayload";
   /**
    * Document ID
    */
@@ -15834,7 +15861,7 @@ export interface UpdateByIdDNSRecordPayload {
 }
 
 export interface UpdateOneDNSRecordPayload {
-  __typename: "UpdateOneDNSRecordPayload" | undefined;
+  __typename?: "UpdateOneDNSRecordPayload";
   /**
    * Document ID
    */
@@ -15850,7 +15877,7 @@ export interface UpdateOneDNSRecordPayload {
 }
 
 export interface UpdateManyDNSRecordPayload {
-  __typename: "UpdateManyDNSRecordPayload" | undefined;
+  __typename?: "UpdateManyDNSRecordPayload";
   /**
    * Affected documents number
    */
@@ -15862,7 +15889,7 @@ export interface UpdateManyDNSRecordPayload {
 }
 
 export interface RemoveByIdDNSRecordPayload {
-  __typename: "RemoveByIdDNSRecordPayload" | undefined;
+  __typename?: "RemoveByIdDNSRecordPayload";
   /**
    * Document ID
    */
@@ -15878,7 +15905,7 @@ export interface RemoveByIdDNSRecordPayload {
 }
 
 export interface RemoveOneDNSRecordPayload {
-  __typename: "RemoveOneDNSRecordPayload" | undefined;
+  __typename?: "RemoveOneDNSRecordPayload";
   /**
    * Document ID
    */
@@ -15894,7 +15921,7 @@ export interface RemoveOneDNSRecordPayload {
 }
 
 export interface RemoveManyDNSRecordPayload {
-  __typename: "RemoveManyDNSRecordPayload" | undefined;
+  __typename?: "RemoveManyDNSRecordPayload";
   /**
    * Affected documents number
    */
@@ -15906,7 +15933,7 @@ export interface RemoveManyDNSRecordPayload {
 }
 
 export interface CreateOneProgramPayload {
-  __typename: "CreateOneProgramPayload" | undefined;
+  __typename?: "CreateOneProgramPayload";
   /**
    * Document ID
    */
@@ -15922,7 +15949,7 @@ export interface CreateOneProgramPayload {
 }
 
 export interface CreateManyProgramPayload {
-  __typename: "CreateManyProgramPayload" | undefined;
+  __typename?: "CreateManyProgramPayload";
   /**
    * Documents IDs
    */
@@ -15942,7 +15969,7 @@ export interface CreateManyProgramPayload {
 }
 
 export interface UpdateByIdProgramPayload {
-  __typename: "UpdateByIdProgramPayload" | undefined;
+  __typename?: "UpdateByIdProgramPayload";
   /**
    * Document ID
    */
@@ -15958,7 +15985,7 @@ export interface UpdateByIdProgramPayload {
 }
 
 export interface UpdateOneProgramPayload {
-  __typename: "UpdateOneProgramPayload" | undefined;
+  __typename?: "UpdateOneProgramPayload";
   /**
    * Document ID
    */
@@ -15974,7 +16001,7 @@ export interface UpdateOneProgramPayload {
 }
 
 export interface UpdateManyProgramPayload {
-  __typename: "UpdateManyProgramPayload" | undefined;
+  __typename?: "UpdateManyProgramPayload";
   /**
    * Affected documents number
    */
@@ -15986,7 +16013,7 @@ export interface UpdateManyProgramPayload {
 }
 
 export interface RemoveByIdProgramPayload {
-  __typename: "RemoveByIdProgramPayload" | undefined;
+  __typename?: "RemoveByIdProgramPayload";
   /**
    * Document ID
    */
@@ -16002,7 +16029,7 @@ export interface RemoveByIdProgramPayload {
 }
 
 export interface RemoveOneProgramPayload {
-  __typename: "RemoveOneProgramPayload" | undefined;
+  __typename?: "RemoveOneProgramPayload";
   /**
    * Document ID
    */
@@ -16018,7 +16045,7 @@ export interface RemoveOneProgramPayload {
 }
 
 export interface RemoveManyProgramPayload {
-  __typename: "RemoveManyProgramPayload" | undefined;
+  __typename?: "RemoveManyProgramPayload";
   /**
    * Affected documents number
    */
@@ -16030,7 +16057,7 @@ export interface RemoveManyProgramPayload {
 }
 
 export interface CreateOneFlowShardPayload {
-  __typename: "CreateOneFlowShardPayload" | undefined;
+  __typename?: "CreateOneFlowShardPayload";
   /**
    * Document ID
    */
@@ -16046,7 +16073,7 @@ export interface CreateOneFlowShardPayload {
 }
 
 export interface CreateManyFlowShardPayload {
-  __typename: "CreateManyFlowShardPayload" | undefined;
+  __typename?: "CreateManyFlowShardPayload";
   /**
    * Documents IDs
    */
@@ -16066,7 +16093,7 @@ export interface CreateManyFlowShardPayload {
 }
 
 export interface UpdateByIdFlowShardPayload {
-  __typename: "UpdateByIdFlowShardPayload" | undefined;
+  __typename?: "UpdateByIdFlowShardPayload";
   /**
    * Document ID
    */
@@ -16082,7 +16109,7 @@ export interface UpdateByIdFlowShardPayload {
 }
 
 export interface UpdateOneFlowShardPayload {
-  __typename: "UpdateOneFlowShardPayload" | undefined;
+  __typename?: "UpdateOneFlowShardPayload";
   /**
    * Document ID
    */
@@ -16098,7 +16125,7 @@ export interface UpdateOneFlowShardPayload {
 }
 
 export interface UpdateManyFlowShardPayload {
-  __typename: "UpdateManyFlowShardPayload" | undefined;
+  __typename?: "UpdateManyFlowShardPayload";
   /**
    * Affected documents number
    */
@@ -16110,7 +16137,7 @@ export interface UpdateManyFlowShardPayload {
 }
 
 export interface RemoveByIdFlowShardPayload {
-  __typename: "RemoveByIdFlowShardPayload" | undefined;
+  __typename?: "RemoveByIdFlowShardPayload";
   /**
    * Document ID
    */
@@ -16126,7 +16153,7 @@ export interface RemoveByIdFlowShardPayload {
 }
 
 export interface RemoveOneFlowShardPayload {
-  __typename: "RemoveOneFlowShardPayload" | undefined;
+  __typename?: "RemoveOneFlowShardPayload";
   /**
    * Document ID
    */
@@ -16142,7 +16169,7 @@ export interface RemoveOneFlowShardPayload {
 }
 
 export interface RemoveManyFlowShardPayload {
-  __typename: "RemoveManyFlowShardPayload" | undefined;
+  __typename?: "RemoveManyFlowShardPayload";
   /**
    * Affected documents number
    */
@@ -16154,7 +16181,7 @@ export interface RemoveManyFlowShardPayload {
 }
 
 export interface CreateOneStackPayload {
-  __typename: "CreateOneStackPayload" | undefined;
+  __typename?: "CreateOneStackPayload";
   /**
    * Document ID
    */
@@ -16170,7 +16197,7 @@ export interface CreateOneStackPayload {
 }
 
 export interface CreateManyStackPayload {
-  __typename: "CreateManyStackPayload" | undefined;
+  __typename?: "CreateManyStackPayload";
   /**
    * Documents IDs
    */
@@ -16190,7 +16217,7 @@ export interface CreateManyStackPayload {
 }
 
 export interface UpdateByIdStackPayload {
-  __typename: "UpdateByIdStackPayload" | undefined;
+  __typename?: "UpdateByIdStackPayload";
   /**
    * Document ID
    */
@@ -16206,7 +16233,7 @@ export interface UpdateByIdStackPayload {
 }
 
 export interface UpdateOneStackPayload {
-  __typename: "UpdateOneStackPayload" | undefined;
+  __typename?: "UpdateOneStackPayload";
   /**
    * Document ID
    */
@@ -16222,7 +16249,7 @@ export interface UpdateOneStackPayload {
 }
 
 export interface UpdateManyStackPayload {
-  __typename: "UpdateManyStackPayload" | undefined;
+  __typename?: "UpdateManyStackPayload";
   /**
    * Affected documents number
    */
@@ -16234,7 +16261,7 @@ export interface UpdateManyStackPayload {
 }
 
 export interface RemoveByIdStackPayload {
-  __typename: "RemoveByIdStackPayload" | undefined;
+  __typename?: "RemoveByIdStackPayload";
   /**
    * Document ID
    */
@@ -16250,7 +16277,7 @@ export interface RemoveByIdStackPayload {
 }
 
 export interface RemoveOneStackPayload {
-  __typename: "RemoveOneStackPayload" | undefined;
+  __typename?: "RemoveOneStackPayload";
   /**
    * Document ID
    */
@@ -16266,7 +16293,7 @@ export interface RemoveOneStackPayload {
 }
 
 export interface RemoveManyStackPayload {
-  __typename: "RemoveManyStackPayload" | undefined;
+  __typename?: "RemoveManyStackPayload";
   /**
    * Affected documents number
    */
@@ -16287,7 +16314,6 @@ export interface SchemaObjectTypes {
   OctoPrintProgress: OctoPrintProgress;
   OctoPrintFilament: OctoPrintFilament;
   OctoPrintFile: OctoPrintFile;
-  HivePipelineFlowPath: HivePipelineFlowPath;
   CreateFileSystemsMutationResponse: CreateFileSystemsMutationResponse;
   CreateHiveAppliancesMutationResponse: CreateHiveAppliancesMutationResponse;
   CreateHiveFilesMutationResponse: CreateHiveFilesMutationResponse;
@@ -16409,7 +16435,6 @@ export interface SchemaObjectTypes {
   TimelineProject: TimelineProject;
   People: People;
   ValidationError: ValidationError;
-  ErrorInterface: ErrorInterface;
   ValidatorError: ValidatorError;
   MongoError: MongoError;
   RuntimeError: RuntimeError;
@@ -16493,7 +16518,6 @@ export type SchemaObjectTypesNames =
   | "OctoPrintProgress"
   | "OctoPrintFilament"
   | "OctoPrintFile"
-  | "HivePipelineFlowPath"
   | "CreateFileSystemsMutationResponse"
   | "CreateHiveAppliancesMutationResponse"
   | "CreateHiveFilesMutationResponse"
@@ -16615,7 +16639,6 @@ export type SchemaObjectTypesNames =
   | "TimelineProject"
   | "People"
   | "ValidationError"
-  | "ErrorInterface"
   | "ValidatorError"
   | "MongoError"
   | "RuntimeError"
@@ -16689,107 +16712,25 @@ export type SchemaObjectTypesNames =
   | "RemoveOneStackPayload"
   | "RemoveManyStackPayload";
 
-export type HiveIntegration =
-  | {
-      __typename: "HiveService" | undefined;
-      brand_image?: undefined;
-      brand_imageConnection?: undefined;
-      description?: undefined;
-      id: ScalarsEnums["ID"];
-      name?: Maybe<ScalarsEnums["String"]>;
-      permissions?: undefined;
-      permissionsConnection?: undefined;
-      services?: undefined;
-      servicesConnection?: undefined;
-    }
-  | {
-      __typename: "HiveAppliance" | undefined;
-      brand_image: (args?: {
-        where?: Maybe<HiveFileWhere>;
-        options?: Maybe<HiveFileOptions>;
-      }) => Maybe<HiveFile>;
-      brand_imageConnection: (args?: {
-        where?: Maybe<HiveApplianceBrand_imageConnectionWhere>;
-        first?: Maybe<Scalars["Int"]>;
-        after?: Maybe<Scalars["String"]>;
-        sort?: Maybe<Array<HiveApplianceBrand_imageConnectionSort>>;
-      }) => HiveApplianceBrand_imageConnection;
-      description?: Maybe<ScalarsEnums["String"]>;
-      id: ScalarsEnums["ID"];
-      name: ScalarsEnums["String"];
-      permissions: (args?: {
-        where?: Maybe<HivePermissionWhere>;
-        options?: Maybe<HivePermissionOptions>;
-      }) => Maybe<Array<Maybe<HivePermission>>>;
-      permissionsConnection: (args?: {
-        where?: Maybe<HiveAppliancePermissionsConnectionWhere>;
-        first?: Maybe<Scalars["Int"]>;
-        after?: Maybe<Scalars["String"]>;
-        sort?: Maybe<Array<HiveAppliancePermissionsConnectionSort>>;
-      }) => HiveAppliancePermissionsConnection;
-      services: (args?: {
-        where?: Maybe<HiveServiceWhere>;
-        options?: Maybe<HiveServiceOptions>;
-      }) => Maybe<Array<Maybe<HiveService>>>;
-      servicesConnection: (args?: {
-        where?: Maybe<HiveApplianceServicesConnectionWhere>;
-        first?: Maybe<Scalars["Int"]>;
-        after?: Maybe<Scalars["String"]>;
-        sort?: Maybe<Array<HiveApplianceServicesConnectionSort>>;
-      }) => HiveApplianceServicesConnection;
-    };
-export type HivePipelineRunner =
-  | {
-      __typename: "HiveProcess" | undefined;
-      createdAt?: undefined;
-      event?: undefined;
-      id: ScalarsEnums["ID"];
-      name?: Maybe<ScalarsEnums["String"]>;
-      ports: (args?: {
-        where?: Maybe<HiveProcessPortWhere>;
-        options?: Maybe<HiveProcessPortOptions>;
-      }) => Maybe<Array<Maybe<HiveProcessPort>>>;
-      portsConnection: (args?: {
-        where?: Maybe<HiveProcessPortsConnectionWhere>;
-        first?: Maybe<Scalars["Int"]>;
-        after?: Maybe<Scalars["String"]>;
-        sort?: Maybe<Array<HiveProcessPortsConnectionSort>>;
-      }) => HiveProcessPortsConnection;
-      produces?: undefined;
-      producesConnection?: undefined;
-      task?: Maybe<ScalarsEnums["String"]>;
-    }
-  | {
-      __typename: "HivePipelineTrigger" | undefined;
-      createdAt?: Maybe<ScalarsEnums["DateTime"]>;
-      event?: Maybe<ScalarsEnums["String"]>;
-      id: ScalarsEnums["ID"];
-      name?: Maybe<ScalarsEnums["String"]>;
-      ports?: undefined;
-      portsConnection?: undefined;
-      produces: (args?: {
-        where?: Maybe<HiveProcessPortWhere>;
-        options?: Maybe<HiveProcessPortOptions>;
-      }) => Maybe<Array<Maybe<HiveProcessPort>>>;
-      producesConnection: (args?: {
-        where?: Maybe<HivePipelineTriggerProducesConnectionWhere>;
-        first?: Maybe<Scalars["Int"]>;
-        after?: Maybe<Scalars["String"]>;
-        sort?: Maybe<Array<HivePipelineTriggerProducesConnectionSort>>;
-      }) => HivePipelineTriggerProducesConnection;
-      task?: undefined;
-    };
-
-export interface HivePipelineFlowPath {
-  id?: Maybe<ScalarsEnums["ID"]>;
-  source?: Maybe<ScalarsEnums["String"]>;
-  target?: Maybe<ScalarsEnums["String"]>;
+export interface $HiveIntegration {
+  HiveService?: HiveService;
+  HiveAppliance?: HiveAppliance;
 }
-export interface ErrorInterface {
-  /**
-   * Generic error message
-   */
-  message?: Maybe<ScalarsEnums["String"]>;
+
+export interface $HivePipelineRunner {
+  HiveProcess?: HiveProcess;
+  HivePipelineTrigger?: HivePipelineTrigger;
+}
+
+export interface $HivePipelineFlowPath {
+  HivePipelineNodeCallerRelationship?: HivePipelineNodeCallerRelationship;
+  HivePipelineNodeNextRelationship?: HivePipelineNodeNextRelationship;
+}
+
+export interface $ErrorInterface {
+  ValidationError?: ValidationError;
+  MongoError?: MongoError;
+  RuntimeError?: RuntimeError;
 }
 
 export interface GeneratedSchema {

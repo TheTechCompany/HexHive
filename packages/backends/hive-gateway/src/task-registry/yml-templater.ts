@@ -13,7 +13,8 @@ const getPullJob = (url: string, inputs: TaskInput[]) => {
 	})
 	return file.length > 0 ? `${file.join("\n")}
 cd /workspace/;
-tar -xvf "/workspace/$(params.STEP_ID).tgz"` : ""
+tar -xvf "/workspace/$(params.STEP_ID).tgz"
+. /workspace/$(params.STEP_ID)/env` : ""
 }
 
 const getPostResults = (url: string, outputs: TaskOutput[]) => {
