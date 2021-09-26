@@ -14,6 +14,7 @@ import { apply } from "../task-registry/k8s"
 
 import { Kafka } from "kafkajs"
 import { createTask, createWorkflow } from "../task-registry/yml-templater"
+import { getPortEnv } from "../routes/pipelines/util"
 
 require("dotenv").config()
 
@@ -154,7 +155,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 					if(port.type.toLowerCase() == "file"){
 						steps = steps.replace(regex, `"/workspace/${port.name}"`)
 					}else{
-						steps = steps.replace(regex, `$${port.id}`)
+						steps = steps.replace(regex, `$${getPortEnv(port.id)}`)
 					}
 				})
 
@@ -198,13 +199,21 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 							}
 						}
 						runner {
-							id
-							name
-							ports {
+							... on HiveProcess {
 								id
-								direction
-								type
+								name
+								ports {
+									id
+									direction
+									type
+								}
 							}
+							... on HivePipelineTrigger {
+								produces { 
+									id
+								}
+							}
+							
 						}
 					}
 				}`})              
@@ -212,18 +221,18 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 
 				// const nodes = pipeline[0]?.nodesConnection.edges;
 
-				const tasks = pipeline[0].nodes?.map((x: any) => {
+				const tasks = pipeline[0].nodes?.filter((a: any) => !a.runner?.produces).map((x: any) => {
 					const inputs = x.callerConnection.edges.map((conn: any) => {
-						const node = pipeline[0].nodes?.find((a: {runner: any}) => a.runner.ports.find((port: {id: string}) => port.id == conn.source))
-						const target = x.runner.ports.find((a: {id: string}) => a.id == conn.target)
+						const node = pipeline[0].nodes?.find((a: {runner: any}) => a.runner?.ports?.find((port: {id: string}) => port?.id == conn.source))
+						const target = x.runner?.ports?.find((a: {id: string}) => a?.id == conn.target)
 
-						return {source: node.id, sourceHandle: conn.source, target: x.id, targetHandle: target.id }
+						return {source: node?.id, sourceHandle: conn.source, target: x.id, targetHandle: target?.id }
 					})
 					return {
 						id: x.id,
 						name: x.id,
-						task: x.runner.id,
-						inputs: inputs
+						task: x.runner?.id,
+						inputs: inputs.filter((a: any) => a.source)
 					}
 				})
 
