@@ -4,13 +4,15 @@ import { ActionNodeFactory, BlockTray, IconNodeFactory, InfiniteCanvas, StartNod
 import { Box, Text, List, Button, TextInput } from 'grommet';
 import _, { debounce } from 'lodash';
 import { nanoid } from 'nanoid';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useMemo, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { MultiportNodeFactory } from './nodes/multi-port/factory';
 import { useEffect } from 'react';
 import { Add, Upload, Play } from 'grommet-icons';
 import { EditorPane } from '../../components/editor-pane/EditorPane';
 import { RunModal } from '../../modals/run-modal';
+import { getSuggestions } from './utils/getSuggestions';
+import { NodeSettings } from './menu/node-settings';
 
 
 export interface WorkflowsProps extends RouteComponentProps<{id: string}> {
@@ -63,6 +65,7 @@ export const Workflows : React.FC<WorkflowsProps> = (props) => {
                     id
                     x
                     y
+                    options
                     runner{
                       
                         ... on HiveProcess {
@@ -184,11 +187,15 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
 })
 
 
-    const [ updateWorkflowNode, updateNodeInfo ] = useMutation((mutation, args: {id: string, runner?: string, x: number, y: number}) => {
+    const [ updateWorkflowNode, updateNodeInfo ] = useMutation((mutation, args: {id: string, runner?: string, x?: number, y?: number, options?: {[key: string]: any}}) => {
         let node : any = {
-            x: args.x,
-            y: args.y
+
         }
+
+        if(args.x) node.x = args.x;
+        if(args.y) node.y = args.y;
+
+        if(args.options) node.options = JSON.stringify(args.options)
 
         if(args.runner) node.runner = {connect: [{where: {node: {id: args.runner}}}]}
 
@@ -201,9 +208,11 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
             }}]
         
         }})
+
+        console.log( item.hivePipelines[0])
         return {
             item: {
-                ...item.hivePipelines[0],
+                id: item.hivePipelines[0].id
             },
             err: null
         }
@@ -331,6 +340,30 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
 
         setProcess(data?.hivePipelines?.[0]?.name)
     }, [data])
+
+    const startNodes = useMemo(() => {
+        let origin = nodes?.filter((a) => {
+            let p = _paths?.filter((b) => b.target == a.id)
+            return p.length == 0
+        })
+        return origin;
+    }, [nodes, _paths])
+
+
+    const changeNodeSetting = (nodeId: string, portKey: string, value: string) => {
+        let options = JSON.parse(nodes.find((a) => a.id == nodeId).options || '{}');
+
+        options[portKey] = value;
+        updateWorkflowNode({args: {
+            id: nodeId,
+            options: options
+        }}).then((r) => {
+
+            
+            console.log(r)
+        })
+    }
+    console.log(startNodes)
     // ?.[0]?.nodes()?.map((x) => ({...x, x: 0, y: 0, type: 'action-node'}))
 // paths.current.p.concat(
 
@@ -522,11 +555,19 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
                 <Box
                 
                     style={{zIndex:20}}
+                    onKeyDown={(e)=> {
+                        if(e.key == "Backspace" || e.key == "Delete"){
+                            e.stopPropagation()
+                            // e.preventDefault()
+                        }
+                    }}
                     onMouseDown={(e) => {
                         console.log("Box click")
                         e.stopPropagation()
                     }}
-                elevation="small" background="neutral-1" width="small">
+                elevation="small" 
+                background="neutral-1" 
+                width="220px">
                     {editorView == 'nodes' ? (
                         <BlockTray 
                             groupBy="__typename"
@@ -542,26 +583,7 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
                                 <Box 
                                     style={{marginLeft: 8}}>{block.content || block.label}</Box>
                             </Box>)}
-                            blocks={triggers.concat(items) as any} /> ) : (
-                                <Box pad="xsmall">
-                                    <Text weight="bold">Node Settings</Text>
-
-                                    {selected.map((select) => (
-                                        <Box gap="xsmall">
-                                            {nodes.find((a) => a.id == select.id).runner?.ports?.map((port) => {
-                                                let paths = _paths.filter((a) => a.targetHandle == port.id || a.sourceHandle == port.id)
-                                                console.log(_paths)
-                                                return (
-                                                    <Box direction="column" align="start" justify="center">
-                                                        <Text size="small">{port.name}</Text>
-                                                        <TextInput placeholder={port.type} value={(paths.length > 0) ? paths.map((x) => nodes.find((b) => b.id == x.source)).map((y) => y.runner?.name).join(', ') : ''} disabled={paths.length > 0} />
-                                                    </Box>
-                                                )
-                                            })}
-                                        </Box>
-                                    ))}
-                                </Box>
-                            )}
+                            blocks={triggers.concat(items) as any} /> ) : (<NodeSettings nodes={selected.map((x) => nodes.find((a) => a.id == x.id))} paths={_paths} options={getSuggestions(startNodes)} onOptionChanged={changeNodeSetting} />)}
                 </Box>
                 </InfiniteCanvas>
                 </EditorPane>
@@ -570,3 +592,4 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
         
     )
 }
+//value={(paths.length > 0) ? paths.map((x) => nodes.find((b) => b.id == x.source)).map((y) => y.runner?.name).join(', ') : ''} 

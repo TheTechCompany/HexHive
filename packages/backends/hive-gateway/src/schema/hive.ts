@@ -154,7 +154,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 					if(port.type.toLowerCase() == "file"){
 						steps = steps.replace(regex, `"/workspace/${port.name}"`)
 					}else{
-						steps = steps.replace(regex, `$(params.${port.id})`)
+						steps = steps.replace(regex, `$${port.id}`)
 					}
 				})
 
@@ -184,6 +184,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 				   
 					nodes {
 						id
+						options
 						nextConnection {
 							edges {
 								source
@@ -238,8 +239,16 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 				const tasks = await HivePipeline.find({where: args.where, selectionSet: `{
 					nodes{
 						runner{
-							id
-							name
+							... on HiveProcess {
+								id
+								name
+							}
+
+							... on HivePipelineTrigger {
+								id
+								name
+							}
+		
 						}
 					}
 				}`})

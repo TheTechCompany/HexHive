@@ -2,7 +2,7 @@ import { connection } from "mongoose";
 import { nanoid } from "nanoid";
 import { Transaction } from "neo4j-driver";
 import { x } from "tar";
-
+import dot from 'dot-object'
 
 export const addStepResult = async (tx: Transaction, runId: string, stepId: string, results: {[key: string]: {properties: {id?: string}, type: string}[]}) => {
 	const id = nanoid();
@@ -67,6 +67,54 @@ export const getPipelineResources = async (tx: Transaction, runId: string) => {
 			key: key.properties.key,
 		}
 	})
+}
+
+export const getTriggerValues = async (tx: Transaction, runId: string, triggers: any[], options: any) => {
+	//(StepResult)-[:PROVIDED {key: $options.key}]->(result)
+
+	const trigger = triggers[0]
+	const values = await Promise.all(Object.keys(options).filter((a) => a && a !== 'undefined' && options[a] && options[a].length > 0).map(async (key) => {
+		let value = options[key];
+
+		console.log("Trigger", runId, value, trigger)
+
+		const res = await tx.run(`
+			MATCH (:HivePipelineRun {id: $runId})<-[:ACTIVE_RUN]-(:HivePipelineStepResult {step: $stepId})-[:PROVIDED {key: $key}]->(results)
+			RETURN results
+		`, {
+			runId,
+			stepId: trigger.id,
+			key: value.split('.')[0]
+		})
+		let val = res.records?.[0].get(0).properties
+
+		let selector_parts = value.split('.')
+		selector_parts.splice(0, 1);
+		let selector = selector_parts.join('.')
+		let ret_val = dot.pick(selector, val)
+		
+		return {[key]: ret_val}
+	}))
+	return values.reduce((prev, curr) => {
+		return {
+			...prev,
+			...curr,	
+		}
+	}, {});
+}
+
+export const getNodePortSettings = async (tx: Transaction, pipelineId: string, stepId: string) => {
+	const node_result = await tx.run(`
+		MATCH (:HivePipeline {id: $id})-[:HAS_NODE]->(node:HivePipelineNode {id: $nodeId})
+		RETURN node
+	`, {
+		id: pipelineId,
+		nodeId: stepId
+	})
+
+	const node = node_result.records?.[0]?.get(0).properties;
+
+	return JSON.parse(node?.options || '{}')
 }
 
 export const getPipelineArtifacts = async (tx: Transaction, runId: string, stepId: string) => {

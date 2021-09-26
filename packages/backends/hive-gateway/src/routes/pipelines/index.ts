@@ -14,7 +14,7 @@ import { TaskRegistry } from "../../task-registry"
 import { createWriteStream, fstat, mkdirSync, rmdirSync, rmSync, writeFile, writeFileSync } from "fs"
 import glob from "glob"
 import { x } from "tar"
-import { getActivePipeline, getNodeConnections, getPipelineArtifacts, getPipelineOrigins, getPipelineResources } from "../../queries/pipeline"
+import { getActivePipeline, getNodeConnections, getNodePortSettings, getPipelineArtifacts, getPipelineOrigins, getPipelineResources, getTriggerValues } from "../../queries/pipeline"
 import { connection } from "mongoose"
 
 const upload = multer()
@@ -178,6 +178,13 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 				const resources = await getPipelineResources(tx, req.params.run_id)
 					// files = file_result.records.map((x) => x.get(0).properties)
 
+
+				const options = await getNodePortSettings(tx, pipeline.id, req.params.step_id)
+
+				const fromTrigger = await getTriggerValues(tx, req.params.run_id, origin_nodes, options)
+
+				console.log("OPTIONS", fromTrigger)
+
 				const artifact_result = await Promise.all(connections.connections.map(async (conn) => {
 					const facts = await getPipelineArtifacts(tx, req.params.run_id, conn.source)
 					return facts;
@@ -212,6 +219,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 					// data,
 					// current_ports,
 					// previous_ports,
+					options: fromTrigger,
 					artifacts: artifacts,
 					connections: connections.connections,
 					previous: connections.previous,
@@ -223,6 +231,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 			
 
 			let manifest : {[key: string]: any} = {};
+			let env = '';
 
 			if(pipelines){
 
@@ -235,7 +244,15 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 
 				manifest = pipelines
 
+				for(var key in pipelines.options){
+					let port = pipelines.current.find((a) => a.name == key)
+					if(!port) continue;
+					env += `${port.id}=${pipelines.options[key]}\n`
+				}
+
+
 				writeFileSync(`${bundle_location}/manifest.json`, JSON.stringify(manifest))
+				writeFileSync(`${bundle_location}/env`, env)
 
 				await Promise.all(pipelines.artifacts.filter((a) => a.cid || a.urn).map(async (file) => {
 
