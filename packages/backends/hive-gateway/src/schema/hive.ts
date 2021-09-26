@@ -163,7 +163,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 					task.id, 
 					steps, 
 					task.ports.filter((a: any) => a.direction == "input").map((x: any) => ({name: x.id, type: x.type})), 
-					task.ports.filter((a: any) => a.direction == "output").map((x: any) => ({name: x.id, type: x.type}))
+					task.ports.filter((a: any) => a.direction == "output").map((x: any) => ({name: x.id, key: x.name, type: x.type}))
 				)
 				console.log(definition)
 

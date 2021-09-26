@@ -97,7 +97,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
         rel.target, source, sourceHandle
     */
 	router.route("/:run_id/:step_id")
-		.post(upload.array("files"), async (req, res) => {
+		.post(upload.any(), async (req, res) => {
 			console.log("Files", req.files)
 
 			const files : Express.Multer.File[] = (req.files instanceof Array ) ? req.files : []
@@ -107,6 +107,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 				const result = await fileManager.add(file.buffer)
 				return {
 					cid: result.path,
+					key: file.fieldname,
 					name: file.originalname
 				}
 			}))
@@ -129,10 +130,11 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 					const r = await tx.run(`
                         MATCH (result:HivePipelineStepResult {id: $id})
                         CREATE (resource:HivePipelineResource {key: $filename, urn: $urn})
-                        CREATE (result)-[:PROVIDED {key: $filename}]->(resource)
+                        CREATE (result)-[:PROVIDED {key: $key}]->(resource)
                     `, {
 						id,
 						filename: file.name,
+						key: file.key,
 						urn: `ipfs://${file.cid}`
 					})
 				})
