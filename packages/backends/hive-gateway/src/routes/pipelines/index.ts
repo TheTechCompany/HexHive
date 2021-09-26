@@ -3,7 +3,7 @@ import { Router } from "express"
 import { PassThrough } from "stream"
 
 import multer from "multer"
-import { addFileToJob } from "./util"
+import { addFileToJob, getPortEnv } from "./util"
 import jwt from "jsonwebtoken"
 import { FileManager } from "../files/util"
 import { requiresAuth } from "express-openid-connect"
@@ -247,7 +247,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 				for(var key in pipelines.options){
 					let port = pipelines.current.find((a) => a.name == key)
 					if(!port) continue;
-					env += `${port.id}=${pipelines.options[key]}\n`
+					env += `${getPortEnv(port.id)}=${pipelines.options[key]}\n`
 				}
 
 

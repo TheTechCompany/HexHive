@@ -34,6 +34,10 @@ export class FileManager {
 	}
 }
 
+export const getPortEnv = (env: string) => {
+	return env.toUpperCase().replace(/-/g, '_')
+}
+
 export const getFilesForJob = async (job: string) => {
   
 	const project = await Project.findOne({id: job}).populate("files")
