@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 export interface SidebarProps {
   logo?: any
-
   className?: string;
   user?: {
     name: string;
