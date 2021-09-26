@@ -17,9 +17,9 @@ export const App = (props: any)  => {
   <Box background="neutral-2" height={'100%'} width={'100%'} flex direction="column">
 
     <Switch>
-      <Route path={"/"} exact render={(props) => <Explorer {...props} />} />
+      <Route path={"/"} exact component={Explorer} />
   
-      <Route path={"/explore/:id"} render={(props) => <Explorer {...props} />}  />
+      <Route path={"/explore/:id"} component={Explorer}  />
       </Switch>
 
   </Box>);

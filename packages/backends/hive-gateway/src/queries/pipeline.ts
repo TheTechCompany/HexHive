@@ -207,7 +207,7 @@ export const getActivePipeline = async (tx: Transaction, runId: string) : Promis
 	return pipeline
 }
 
-export const createPipelineRun = async (tx: Transaction, pipeline: string) => {
+export const createPipelineRun = async (tx: Transaction, pipeline: string, inputs: any) => {
 
 // 	const param_query = await tx.run(`
 // 		MATCH (:HivePipeline {id: $id})-[:CAN_USE]->(resources:HivePipelineResource)
@@ -235,23 +235,23 @@ export const createPipelineRun = async (tx: Transaction, pipeline: string) => {
 	})
 	// //TODO make params not just files - CID only for now
 
-	// let resource_queries : any = [];
+	let resource_queries : any = [];
 
-	// Object.keys(resources).map((key) => {
-	// 	resource_queries.concat(resources[key].map(async (resource) => {
-	// 		const res = await tx.run(`
-	// 			MATCH (pipeline:HivePipelineRun {id: $id})
-	// 			MATCH (resource:${resource.type} {id: $res_id})
-	// 			CREATE (pipeline)-[:USES {key: $key}]->(resource)
-	// 		`, {
-	// 			id: run_id,
-	// 			res_id: resource.properties.id,
-	// 			key
-	// 		})
-	// 		return res.records.map((x) => x.get(0).properties)
-	// 	}))
-	// })
-	// await Promise.all(resource_queries)
+	Object.keys(inputs).map((key) => {
+		resource_queries.concat(inputs[key].map(async (resource: any) => {
+			const res = await tx.run(`
+				MATCH (run:HivePipelineRun {id: $id})
+				MATCH (resource:${resource.type} {id: $res_id})
+				CREATE (run)-[:USES {key: $key}]->(resource)
+			`, {
+				id: run_id,
+				res_id: resource.properties.id,
+				key
+			})
+			return res.records.map((x) => x.get(0).properties)
+		}))
+	})
+	await Promise.all(resource_queries)
 	return run_id
 }
 

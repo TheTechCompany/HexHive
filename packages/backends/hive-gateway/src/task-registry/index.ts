@@ -24,6 +24,7 @@ export interface TaskInput {
 export interface TaskOutput {
     name: string;
     type: string;
+	key: string;
 }
 
 export class TaskRegistry {

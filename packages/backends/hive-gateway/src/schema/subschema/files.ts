@@ -32,7 +32,7 @@ type HiveFile {
     parent: HiveFile @relationship(type: "CONTAINS", direction: IN)
     children: [HiveFile] @relationship(type: "CONTAINS", direction: OUT)
 
-    conversions: [HiveFileProcess] @relationship(type: "CONVERTING", direction: IN)
+    conversions: [HivePipelineRun]  @relationship(type: "USES", direction: IN)
     convertedBy: HiveFileProcess @relationship(type: "CONVERTED", direction: IN)
 
     convertedFrom: HiveFile @relationship(type: "CONVERSION", direction: IN)

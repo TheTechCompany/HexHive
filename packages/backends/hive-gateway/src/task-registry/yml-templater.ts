@@ -21,7 +21,7 @@ const getPostResults = (url: string, outputs: TaskOutput[]) => {
 	const files = outputs.map((output) => {
 		switch (output.type.toLowerCase()) {
 		case "file":
-			return `-F "files=@$(cat $(results.${output.name}.path))"`
+			return `-F "${output.key}=@$(cat $(results.${output.name}.path))"`
 		default:
 			return `-F "${output.name}=$(cat $(results.${output.name}.path))"`
 		}

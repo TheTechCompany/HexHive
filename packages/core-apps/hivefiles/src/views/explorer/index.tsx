@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Text, Box } from 'grommet'
 import { FileExplorer } from '@hexhive/ui';
 import { gql, useQuery, useApolloClient } from '@apollo/client';
@@ -13,8 +13,35 @@ import {  GLBPreview } from './previews/GLB'
 import { nanoid } from 'nanoid';
 import { useRef } from 'react';
 import { PDFPreview } from './previews/PDF';
-export const Explorer: React.FC<any> = (props) => {
+import { RouteComponentProps } from 'react-router-dom';
 
+
+export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => {
+    const parentRef = useRef<{id?: string}>({id: undefined})
+
+    const [ parentId, _setParentId ] = useState<string>(undefined)
+
+    const setParentId = (id: string) => {
+        parentRef.current.id = id;
+        _setParentId(id)
+    }
+
+    console.log(parentId)
+    const exploreFolder = (folderId: string) => {
+        setParentId(folderId)
+
+        console.log("EXPLORE", folderId)
+        if (folderId != "null") {
+            props.history.push(`/explore/${folderId}`)
+        } else {
+            props.history.push(`/`)
+        }
+    }
+
+    useEffect(() => {
+        console.log(props.match.params.id)
+        if(props.match.params.id) setParentId(props.match.params.id)
+    }, [props.match.params.id])
     const client = useApolloClient()
 
     const actions = [{
@@ -136,19 +163,37 @@ export const Explorer: React.FC<any> = (props) => {
 
     const { data } = useQuery(gql`
       query GET_FILES {
-        hiveFiles(where: ${props.match.params.id ? `{id: "${props.match.params.id}"}` : `{parent: null, fs: {name: "Shared FS"} }`}){
+        hiveFiles(where: ${parentId ? `{id: "${parentId}"}` : `{parent: null, fs: {name: "Shared FS"} }`}){
             id
             name
             path
             isFolder
             path_id
             cid
+            conversions {
+                createdAt
+                completedAt
+
+                pipeline {
+                    id
+                    name
+                }
+            }
             children {
                 id
                 name
                 isFolder
                 path
                 cid
+                conversions {
+                    createdAt
+                    completedAt
+    
+                    pipeline {
+                        id
+                        name
+                    }
+                }
             }
         }
 
@@ -156,8 +201,8 @@ export const Explorer: React.FC<any> = (props) => {
     `, { fetchPolicy: 'no-cache' })
 
     const files = useMemo(() => {
-        return props.match.params.id ? ( data?.hiveFiles?.[0]?.isFolder ? data?.hiveFiles?.[0]?.children || [] : data?.hiveFiles?.[0] ? [data?.hiveFiles?.[0]] : []) : data?.hiveFiles
-    }, [data, props.match.params.id])
+        return parentId ? ( data?.hiveFiles?.[0]?.isFolder ? data?.hiveFiles?.[0]?.children || [] : data?.hiveFiles?.[0] ? [data?.hiveFiles?.[0]] : []) : data?.hiveFiles
+    }, [data, parentId])
 
     const isFolder = data?.hiveFiles?.[0]?.isFolder;
 
@@ -220,7 +265,6 @@ export const Explorer: React.FC<any> = (props) => {
 
 
     useEffect(() => {
-        console.log(props.match.params)
         //   client.mutate({mutation: gql`
         //   mutation M {
         //     updateFileSystems(where: {name: "Shared FS"}, update: {
@@ -239,11 +283,11 @@ export const Explorer: React.FC<any> = (props) => {
         // moveFile().then((fs) => console.log(fs))
         // addFolder().then((fs) => console.log(fs.item))
         // addFile().then((fs) => console.log(fs))
-    }, [props.match.params.id])
+    }, [parentId])
 
     const breadcrumbs = useMemo(() => {
 
-        if (data?.hiveFiles?.[0] && props.match.params.id) {
+        if (data?.hiveFiles?.[0] && parentId) {
             let file = data?.hiveFiles?.[0];
             let crumb_name = file.path.split('/')
             let crumb_id = file.path_id.split('/')
@@ -256,13 +300,14 @@ export const Explorer: React.FC<any> = (props) => {
     }, [data])
 
     const onDrop = (files: File[]) => {
+   
             let ids = breadcrumb.ids.split('/')
             console.log(ids)
             let uploads = uploading.current.loading.slice()
             
             let id = nanoid();
             uploads = uploads.concat(files.map((x) => ({id: id, name: x.name, percent: 0})))
-
+            console.log("Uploading with slug", parentRef.current.id)
             setUploading(uploads)
             uploadFiles(files, (progress) => {
                  let u = uploading.current.loading.slice()
@@ -273,11 +318,11 @@ export const Explorer: React.FC<any> = (props) => {
                      return x;
                  })
                  setUploading(u)
-            }, props.match.params.id).then((response) => {
+            }, parentRef.current.id).then((response) => {
                 console.log(response)
                 fetchFiles()
             })
-        }
+    }
     
 
     return (
@@ -287,7 +332,7 @@ export const Explorer: React.FC<any> = (props) => {
             pad="xsmall">
             <FolderModal
                 onSubmit={(folder) => {
-                    addFolder({ args: { name: folder.name, cwd: props.match.params.id } }).then((resp) => {
+                    addFolder({ args: { name: folder.name, cwd: parentId } }).then((resp) => {
                         console.log("Folder", resp)
                         fetchFiles()
 
@@ -330,18 +375,15 @@ export const Explorer: React.FC<any> = (props) => {
                 actions={actions}
                 onDrop={onDrop}
                 onBreadcrumbClick={(crumb) => {
-                    if (crumb.id != "null") {
-                        props.history.push(`/explore/${crumb.id}`)
-                    } else {
-                        props.history.push(`/`)
-                    }
+                    exploreFolder(crumb.id)
+          
                     setSelected([])
                 }}
                 breadcrumbs={breadcrumbs}
     
                 onClick={(file) => {
                     setSelected([])
-                    props.history.push(`/explore/${file.id}`)
+                    exploreFolder(file.id)
                 }}
                 files={files} />
                 <SidePane

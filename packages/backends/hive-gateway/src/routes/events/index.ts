@@ -73,7 +73,7 @@ export default (neo: Session) => {
 
 					console.log("Found pipelines", pipelines)
 					return await Promise.all(pipelines.map(async (pipeline) => {
-						const run_id = await createPipelineRun(tx, pipeline.id)
+						const run_id = await createPipelineRun(tx, pipeline.id, req.body)
 						await addStepResult(tx, run_id, pipeline.trigger, req.body)
 
 						console.log("Created run", run_id)

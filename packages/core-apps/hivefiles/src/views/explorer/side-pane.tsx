@@ -2,10 +2,11 @@ import { Box, List, Spinner, Text} from 'grommet';
 import React from 'react';
 
 export interface SidePaneProps {
-    selected?: {name: string}[]
+    selected?: {name: string, conversions?: {pipeline: {name: string}}[]}[]
 }
 
 export const SidePane : React.FC<SidePaneProps> = (props) => {
+    console.log(props.selected)
     return (
         <Box
             gap="small"
@@ -22,7 +23,7 @@ export const SidePane : React.FC<SidePaneProps> = (props) => {
                 pad={'xsmall'}
                 border={{side: 'top', size: 'small', color: 'accent-1'}}>
                 <Text>Running jobs</Text>
-                <List data={["Converting to web format"]}>
+                <List data={props.selected?.[0]?.conversions?.map((x) => x.pipeline.name)}>
                     {(datum) => (
                         <Box gap="xsmall" align="center" direction="row">
                             <Spinner color="accent-1"/>
