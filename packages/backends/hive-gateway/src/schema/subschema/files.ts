@@ -35,6 +35,6 @@ type HiveFile {
     conversions: [HivePipelineRun]  @relationship(type: "USES", direction: IN)
     convertedBy: HiveFileProcess @relationship(type: "CONVERTED", direction: IN)
 
-    convertedFrom: HiveFile @relationship(type: "CONVERSION", direction: IN)
-    convertedTo: [HiveFile] @relationship(type: "CONVERSION", direction: OUT)
+    convertedFrom: HiveFile @relationship(type: "HAS_VIEW", direction: IN)
+    views: [HiveFile] @relationship(type: "HAS_VIEW", direction: OUT)
 }`

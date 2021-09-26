@@ -179,12 +179,22 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                     name
                 }
             }
+            views {
+                id
+                cid
+                name
+            }
             children {
                 id
                 name
                 isFolder
                 path
                 cid
+                views {
+                    id
+                    cid
+                    name
+                }
                 conversions {
                     createdAt
                     completedAt
@@ -360,6 +370,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             <FileExplorer
                 uploading={_uploading}
                 previewEngines={[
+                    {filetype: '', component: GLBPreview},
                     {filetype: 'glb', component: GLBPreview},
                     {filetype: 'pdf', component: PDFPreview}
                 ]}

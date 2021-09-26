@@ -444,7 +444,7 @@ export interface HiveFileConnectInput {
   conversions?: Maybe<Array<HiveFileConversionsConnectFieldInput>>;
   convertedBy?: Maybe<HiveFileConvertedByConnectFieldInput>;
   convertedFrom?: Maybe<HiveFileConvertedFromConnectFieldInput>;
-  convertedTo?: Maybe<Array<HiveFileConvertedToConnectFieldInput>>;
+  views?: Maybe<Array<HiveFileViewsConnectFieldInput>>;
 }
 
 export interface HiveFileConnectWhere {
@@ -595,54 +595,6 @@ export interface HiveFileConvertedFromUpdateFieldInput {
   delete?: Maybe<HiveFileConvertedFromDeleteFieldInput>;
 }
 
-export interface HiveFileConvertedToConnectFieldInput {
-  where?: Maybe<HiveFileConnectWhere>;
-  connect?: Maybe<Array<HiveFileConnectInput>>;
-}
-
-export interface HiveFileConvertedToConnectionSort {
-  node?: Maybe<HiveFileSort>;
-}
-
-export interface HiveFileConvertedToConnectionWhere {
-  AND?: Maybe<Array<HiveFileConvertedToConnectionWhere>>;
-  OR?: Maybe<Array<HiveFileConvertedToConnectionWhere>>;
-  node?: Maybe<HiveFileWhere>;
-  node_NOT?: Maybe<HiveFileWhere>;
-}
-
-export interface HiveFileConvertedToCreateFieldInput {
-  node: HiveFileCreateInput;
-}
-
-export interface HiveFileConvertedToDeleteFieldInput {
-  where?: Maybe<HiveFileConvertedToConnectionWhere>;
-  delete?: Maybe<HiveFileDeleteInput>;
-}
-
-export interface HiveFileConvertedToDisconnectFieldInput {
-  where?: Maybe<HiveFileConvertedToConnectionWhere>;
-  disconnect?: Maybe<HiveFileDisconnectInput>;
-}
-
-export interface HiveFileConvertedToFieldInput {
-  create?: Maybe<Array<HiveFileConvertedToCreateFieldInput>>;
-  connect?: Maybe<Array<HiveFileConvertedToConnectFieldInput>>;
-}
-
-export interface HiveFileConvertedToUpdateConnectionInput {
-  node?: Maybe<HiveFileUpdateInput>;
-}
-
-export interface HiveFileConvertedToUpdateFieldInput {
-  where?: Maybe<HiveFileConvertedToConnectionWhere>;
-  update?: Maybe<HiveFileConvertedToUpdateConnectionInput>;
-  connect?: Maybe<Array<HiveFileConvertedToConnectFieldInput>>;
-  disconnect?: Maybe<Array<HiveFileConvertedToDisconnectFieldInput>>;
-  create?: Maybe<Array<HiveFileConvertedToCreateFieldInput>>;
-  delete?: Maybe<Array<HiveFileConvertedToDeleteFieldInput>>;
-}
-
 export interface HiveFileCreateInput {
   name: Scalars["String"];
   cid?: Maybe<Scalars["String"]>;
@@ -653,7 +605,7 @@ export interface HiveFileCreateInput {
   conversions?: Maybe<HiveFileConversionsFieldInput>;
   convertedBy?: Maybe<HiveFileConvertedByFieldInput>;
   convertedFrom?: Maybe<HiveFileConvertedFromFieldInput>;
-  convertedTo?: Maybe<HiveFileConvertedToFieldInput>;
+  views?: Maybe<HiveFileViewsFieldInput>;
 }
 
 export interface HiveFileDeleteInput {
@@ -663,7 +615,7 @@ export interface HiveFileDeleteInput {
   conversions?: Maybe<Array<HiveFileConversionsDeleteFieldInput>>;
   convertedBy?: Maybe<HiveFileConvertedByDeleteFieldInput>;
   convertedFrom?: Maybe<HiveFileConvertedFromDeleteFieldInput>;
-  convertedTo?: Maybe<Array<HiveFileConvertedToDeleteFieldInput>>;
+  views?: Maybe<Array<HiveFileViewsDeleteFieldInput>>;
 }
 
 export interface HiveFileDisconnectInput {
@@ -673,7 +625,7 @@ export interface HiveFileDisconnectInput {
   conversions?: Maybe<Array<HiveFileConversionsDisconnectFieldInput>>;
   convertedBy?: Maybe<HiveFileConvertedByDisconnectFieldInput>;
   convertedFrom?: Maybe<HiveFileConvertedFromDisconnectFieldInput>;
-  convertedTo?: Maybe<Array<HiveFileConvertedToDisconnectFieldInput>>;
+  views?: Maybe<Array<HiveFileViewsDisconnectFieldInput>>;
 }
 
 export interface HiveFileFsConnectFieldInput {
@@ -1082,7 +1034,7 @@ export interface HiveFileRelationInput {
   conversions?: Maybe<Array<HiveFileConversionsCreateFieldInput>>;
   convertedBy?: Maybe<HiveFileConvertedByCreateFieldInput>;
   convertedFrom?: Maybe<HiveFileConvertedFromCreateFieldInput>;
-  convertedTo?: Maybe<Array<HiveFileConvertedToCreateFieldInput>>;
+  views?: Maybe<Array<HiveFileViewsCreateFieldInput>>;
 }
 
 /** Fields to sort HiveFiles by. The order in which sorts are applied is not guaranteed when specifying many fields in one HiveFileSort object. */
@@ -1103,7 +1055,55 @@ export interface HiveFileUpdateInput {
   conversions?: Maybe<Array<HiveFileConversionsUpdateFieldInput>>;
   convertedBy?: Maybe<HiveFileConvertedByUpdateFieldInput>;
   convertedFrom?: Maybe<HiveFileConvertedFromUpdateFieldInput>;
-  convertedTo?: Maybe<Array<HiveFileConvertedToUpdateFieldInput>>;
+  views?: Maybe<Array<HiveFileViewsUpdateFieldInput>>;
+}
+
+export interface HiveFileViewsConnectFieldInput {
+  where?: Maybe<HiveFileConnectWhere>;
+  connect?: Maybe<Array<HiveFileConnectInput>>;
+}
+
+export interface HiveFileViewsConnectionSort {
+  node?: Maybe<HiveFileSort>;
+}
+
+export interface HiveFileViewsConnectionWhere {
+  AND?: Maybe<Array<HiveFileViewsConnectionWhere>>;
+  OR?: Maybe<Array<HiveFileViewsConnectionWhere>>;
+  node?: Maybe<HiveFileWhere>;
+  node_NOT?: Maybe<HiveFileWhere>;
+}
+
+export interface HiveFileViewsCreateFieldInput {
+  node: HiveFileCreateInput;
+}
+
+export interface HiveFileViewsDeleteFieldInput {
+  where?: Maybe<HiveFileViewsConnectionWhere>;
+  delete?: Maybe<HiveFileDeleteInput>;
+}
+
+export interface HiveFileViewsDisconnectFieldInput {
+  where?: Maybe<HiveFileViewsConnectionWhere>;
+  disconnect?: Maybe<HiveFileDisconnectInput>;
+}
+
+export interface HiveFileViewsFieldInput {
+  create?: Maybe<Array<HiveFileViewsCreateFieldInput>>;
+  connect?: Maybe<Array<HiveFileViewsConnectFieldInput>>;
+}
+
+export interface HiveFileViewsUpdateConnectionInput {
+  node?: Maybe<HiveFileUpdateInput>;
+}
+
+export interface HiveFileViewsUpdateFieldInput {
+  where?: Maybe<HiveFileViewsConnectionWhere>;
+  update?: Maybe<HiveFileViewsUpdateConnectionInput>;
+  connect?: Maybe<Array<HiveFileViewsConnectFieldInput>>;
+  disconnect?: Maybe<Array<HiveFileViewsDisconnectFieldInput>>;
+  create?: Maybe<Array<HiveFileViewsCreateFieldInput>>;
+  delete?: Maybe<Array<HiveFileViewsDeleteFieldInput>>;
 }
 
 export interface HiveFileWhere {
@@ -1153,8 +1153,8 @@ export interface HiveFileWhere {
   convertedBy_NOT?: Maybe<HiveFileProcessWhere>;
   convertedFrom?: Maybe<HiveFileWhere>;
   convertedFrom_NOT?: Maybe<HiveFileWhere>;
-  convertedTo?: Maybe<HiveFileWhere>;
-  convertedTo_NOT?: Maybe<HiveFileWhere>;
+  views?: Maybe<HiveFileWhere>;
+  views_NOT?: Maybe<HiveFileWhere>;
   fsConnection?: Maybe<HiveFileFsConnectionWhere>;
   fsConnection_NOT?: Maybe<HiveFileFsConnectionWhere>;
   parentConnection?: Maybe<HiveFileParentConnectionWhere>;
@@ -1167,8 +1167,8 @@ export interface HiveFileWhere {
   convertedByConnection_NOT?: Maybe<HiveFileConvertedByConnectionWhere>;
   convertedFromConnection?: Maybe<HiveFileConvertedFromConnectionWhere>;
   convertedFromConnection_NOT?: Maybe<HiveFileConvertedFromConnectionWhere>;
-  convertedToConnection?: Maybe<HiveFileConvertedToConnectionWhere>;
-  convertedToConnection_NOT?: Maybe<HiveFileConvertedToConnectionWhere>;
+  viewsConnection?: Maybe<HiveFileViewsConnectionWhere>;
+  viewsConnection_NOT?: Maybe<HiveFileViewsConnectionWhere>;
 }
 
 export interface HiveIntegrationWhere {
@@ -6898,7 +6898,7 @@ export const generatedSchema = {
       __type: "HiveFile",
       __args: { where: "HiveFileWhere", options: "HiveFileOptions" },
     },
-    convertedTo: {
+    views: {
       __type: "[HiveFile]",
       __args: { where: "HiveFileWhere", options: "HiveFileOptions" },
     },
@@ -6956,13 +6956,13 @@ export const generatedSchema = {
         sort: "[HiveFileConvertedFromConnectionSort!]",
       },
     },
-    convertedToConnection: {
-      __type: "HiveFileConvertedToConnection!",
+    viewsConnection: {
+      __type: "HiveFileViewsConnection!",
       __args: {
-        where: "HiveFileConvertedToConnectionWhere",
+        where: "HiveFileViewsConnectionWhere",
         first: "Int",
         after: "String",
-        sort: "[HiveFileConvertedToConnectionSort!]",
+        sort: "[HiveFileViewsConnectionSort!]",
       },
     },
   },
@@ -7006,17 +7006,6 @@ export const generatedSchema = {
     pageInfo: { __type: "PageInfo!" },
   },
   HiveFileConvertedFromRelationship: {
-    __typename: { __type: "String!" },
-    cursor: { __type: "String!" },
-    node: { __type: "HiveFile!" },
-  },
-  HiveFileConvertedToConnection: {
-    __typename: { __type: "String!" },
-    edges: { __type: "[HiveFileConvertedToRelationship!]!" },
-    totalCount: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-  },
-  HiveFileConvertedToRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "HiveFile!" },
@@ -7147,6 +7136,17 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "HiveProcessResult!" },
+  },
+  HiveFileViewsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HiveFileViewsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HiveFileViewsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveFile!" },
   },
   HiveOrganisation: {
     __typename: { __type: "String!" },
@@ -8028,7 +8028,7 @@ export const generatedSchema = {
     conversions: { __type: "[HiveFileConversionsConnectFieldInput!]" },
     convertedBy: { __type: "HiveFileConvertedByConnectFieldInput" },
     convertedFrom: { __type: "HiveFileConvertedFromConnectFieldInput" },
-    convertedTo: { __type: "[HiveFileConvertedToConnectFieldInput!]" },
+    views: { __type: "[HiveFileViewsConnectFieldInput!]" },
   },
   HiveFileConnectWhere: { node: { __type: "HiveFileWhere!" } },
   HiveFileConversionsConnectFieldInput: {
@@ -8146,43 +8146,6 @@ export const generatedSchema = {
     create: { __type: "HiveFileConvertedFromCreateFieldInput" },
     delete: { __type: "HiveFileConvertedFromDeleteFieldInput" },
   },
-  HiveFileConvertedToConnectFieldInput: {
-    where: { __type: "HiveFileConnectWhere" },
-    connect: { __type: "[HiveFileConnectInput!]" },
-  },
-  HiveFileConvertedToConnectionSort: { node: { __type: "HiveFileSort" } },
-  HiveFileConvertedToConnectionWhere: {
-    AND: { __type: "[HiveFileConvertedToConnectionWhere!]" },
-    OR: { __type: "[HiveFileConvertedToConnectionWhere!]" },
-    node: { __type: "HiveFileWhere" },
-    node_NOT: { __type: "HiveFileWhere" },
-  },
-  HiveFileConvertedToCreateFieldInput: {
-    node: { __type: "HiveFileCreateInput!" },
-  },
-  HiveFileConvertedToDeleteFieldInput: {
-    where: { __type: "HiveFileConvertedToConnectionWhere" },
-    delete: { __type: "HiveFileDeleteInput" },
-  },
-  HiveFileConvertedToDisconnectFieldInput: {
-    where: { __type: "HiveFileConvertedToConnectionWhere" },
-    disconnect: { __type: "HiveFileDisconnectInput" },
-  },
-  HiveFileConvertedToFieldInput: {
-    create: { __type: "[HiveFileConvertedToCreateFieldInput!]" },
-    connect: { __type: "[HiveFileConvertedToConnectFieldInput!]" },
-  },
-  HiveFileConvertedToUpdateConnectionInput: {
-    node: { __type: "HiveFileUpdateInput" },
-  },
-  HiveFileConvertedToUpdateFieldInput: {
-    where: { __type: "HiveFileConvertedToConnectionWhere" },
-    update: { __type: "HiveFileConvertedToUpdateConnectionInput" },
-    connect: { __type: "[HiveFileConvertedToConnectFieldInput!]" },
-    disconnect: { __type: "[HiveFileConvertedToDisconnectFieldInput!]" },
-    create: { __type: "[HiveFileConvertedToCreateFieldInput!]" },
-    delete: { __type: "[HiveFileConvertedToDeleteFieldInput!]" },
-  },
   HiveFileCreateInput: {
     name: { __type: "String!" },
     cid: { __type: "String" },
@@ -8193,7 +8156,7 @@ export const generatedSchema = {
     conversions: { __type: "HiveFileConversionsFieldInput" },
     convertedBy: { __type: "HiveFileConvertedByFieldInput" },
     convertedFrom: { __type: "HiveFileConvertedFromFieldInput" },
-    convertedTo: { __type: "HiveFileConvertedToFieldInput" },
+    views: { __type: "HiveFileViewsFieldInput" },
   },
   HiveFileDeleteInput: {
     fs: { __type: "HiveFileFsDeleteFieldInput" },
@@ -8202,7 +8165,7 @@ export const generatedSchema = {
     conversions: { __type: "[HiveFileConversionsDeleteFieldInput!]" },
     convertedBy: { __type: "HiveFileConvertedByDeleteFieldInput" },
     convertedFrom: { __type: "HiveFileConvertedFromDeleteFieldInput" },
-    convertedTo: { __type: "[HiveFileConvertedToDeleteFieldInput!]" },
+    views: { __type: "[HiveFileViewsDeleteFieldInput!]" },
   },
   HiveFileDisconnectInput: {
     fs: { __type: "HiveFileFsDisconnectFieldInput" },
@@ -8211,7 +8174,7 @@ export const generatedSchema = {
     conversions: { __type: "[HiveFileConversionsDisconnectFieldInput!]" },
     convertedBy: { __type: "HiveFileConvertedByDisconnectFieldInput" },
     convertedFrom: { __type: "HiveFileConvertedFromDisconnectFieldInput" },
-    convertedTo: { __type: "[HiveFileConvertedToDisconnectFieldInput!]" },
+    views: { __type: "[HiveFileViewsDisconnectFieldInput!]" },
   },
   HiveFileFsConnectFieldInput: {
     where: { __type: "FileSystemConnectWhere" },
@@ -8540,7 +8503,7 @@ export const generatedSchema = {
     conversions: { __type: "[HiveFileConversionsCreateFieldInput!]" },
     convertedBy: { __type: "HiveFileConvertedByCreateFieldInput" },
     convertedFrom: { __type: "HiveFileConvertedFromCreateFieldInput" },
-    convertedTo: { __type: "[HiveFileConvertedToCreateFieldInput!]" },
+    views: { __type: "[HiveFileViewsCreateFieldInput!]" },
   },
   HiveFileSort: {
     id: { __type: "SortDirection" },
@@ -8558,7 +8521,42 @@ export const generatedSchema = {
     conversions: { __type: "[HiveFileConversionsUpdateFieldInput!]" },
     convertedBy: { __type: "HiveFileConvertedByUpdateFieldInput" },
     convertedFrom: { __type: "HiveFileConvertedFromUpdateFieldInput" },
-    convertedTo: { __type: "[HiveFileConvertedToUpdateFieldInput!]" },
+    views: { __type: "[HiveFileViewsUpdateFieldInput!]" },
+  },
+  HiveFileViewsConnectFieldInput: {
+    where: { __type: "HiveFileConnectWhere" },
+    connect: { __type: "[HiveFileConnectInput!]" },
+  },
+  HiveFileViewsConnectionSort: { node: { __type: "HiveFileSort" } },
+  HiveFileViewsConnectionWhere: {
+    AND: { __type: "[HiveFileViewsConnectionWhere!]" },
+    OR: { __type: "[HiveFileViewsConnectionWhere!]" },
+    node: { __type: "HiveFileWhere" },
+    node_NOT: { __type: "HiveFileWhere" },
+  },
+  HiveFileViewsCreateFieldInput: { node: { __type: "HiveFileCreateInput!" } },
+  HiveFileViewsDeleteFieldInput: {
+    where: { __type: "HiveFileViewsConnectionWhere" },
+    delete: { __type: "HiveFileDeleteInput" },
+  },
+  HiveFileViewsDisconnectFieldInput: {
+    where: { __type: "HiveFileViewsConnectionWhere" },
+    disconnect: { __type: "HiveFileDisconnectInput" },
+  },
+  HiveFileViewsFieldInput: {
+    create: { __type: "[HiveFileViewsCreateFieldInput!]" },
+    connect: { __type: "[HiveFileViewsConnectFieldInput!]" },
+  },
+  HiveFileViewsUpdateConnectionInput: {
+    node: { __type: "HiveFileUpdateInput" },
+  },
+  HiveFileViewsUpdateFieldInput: {
+    where: { __type: "HiveFileViewsConnectionWhere" },
+    update: { __type: "HiveFileViewsUpdateConnectionInput" },
+    connect: { __type: "[HiveFileViewsConnectFieldInput!]" },
+    disconnect: { __type: "[HiveFileViewsDisconnectFieldInput!]" },
+    create: { __type: "[HiveFileViewsCreateFieldInput!]" },
+    delete: { __type: "[HiveFileViewsDeleteFieldInput!]" },
   },
   HiveFileWhere: {
     OR: { __type: "[HiveFileWhere!]" },
@@ -8607,8 +8605,8 @@ export const generatedSchema = {
     convertedBy_NOT: { __type: "HiveFileProcessWhere" },
     convertedFrom: { __type: "HiveFileWhere" },
     convertedFrom_NOT: { __type: "HiveFileWhere" },
-    convertedTo: { __type: "HiveFileWhere" },
-    convertedTo_NOT: { __type: "HiveFileWhere" },
+    views: { __type: "HiveFileWhere" },
+    views_NOT: { __type: "HiveFileWhere" },
     fsConnection: { __type: "HiveFileFsConnectionWhere" },
     fsConnection_NOT: { __type: "HiveFileFsConnectionWhere" },
     parentConnection: { __type: "HiveFileParentConnectionWhere" },
@@ -8623,8 +8621,8 @@ export const generatedSchema = {
     convertedFromConnection_NOT: {
       __type: "HiveFileConvertedFromConnectionWhere",
     },
-    convertedToConnection: { __type: "HiveFileConvertedToConnectionWhere" },
-    convertedToConnection_NOT: { __type: "HiveFileConvertedToConnectionWhere" },
+    viewsConnection: { __type: "HiveFileViewsConnectionWhere" },
+    viewsConnection_NOT: { __type: "HiveFileViewsConnectionWhere" },
   },
   HiveIntegrationWhere: {
     HiveService: { __type: "HiveServiceWhere" },
@@ -14343,7 +14341,7 @@ export interface HiveFile {
     where?: Maybe<HiveFileWhere>;
     options?: Maybe<HiveFileOptions>;
   }) => Maybe<HiveFile>;
-  convertedTo: (args?: {
+  views: (args?: {
     where?: Maybe<HiveFileWhere>;
     options?: Maybe<HiveFileOptions>;
   }) => Maybe<Array<Maybe<HiveFile>>>;
@@ -14383,12 +14381,12 @@ export interface HiveFile {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<HiveFileConvertedFromConnectionSort>>;
   }) => HiveFileConvertedFromConnection;
-  convertedToConnection: (args?: {
-    where?: Maybe<HiveFileConvertedToConnectionWhere>;
+  viewsConnection: (args?: {
+    where?: Maybe<HiveFileViewsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<Array<HiveFileConvertedToConnectionSort>>;
-  }) => HiveFileConvertedToConnection;
+    sort?: Maybe<Array<HiveFileViewsConnectionSort>>;
+  }) => HiveFileViewsConnection;
 }
 
 export interface HiveFileChildrenConnection {
@@ -14439,19 +14437,6 @@ export interface HiveFileConvertedFromConnection {
 
 export interface HiveFileConvertedFromRelationship {
   __typename?: "HiveFileConvertedFromRelationship";
-  cursor: ScalarsEnums["String"];
-  node: HiveFile;
-}
-
-export interface HiveFileConvertedToConnection {
-  __typename?: "HiveFileConvertedToConnection";
-  edges: Array<HiveFileConvertedToRelationship>;
-  totalCount: ScalarsEnums["Int"];
-  pageInfo: PageInfo;
-}
-
-export interface HiveFileConvertedToRelationship {
-  __typename?: "HiveFileConvertedToRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
 }
@@ -14579,6 +14564,19 @@ export interface HiveFileProcessResultRelationship {
   __typename?: "HiveFileProcessResultRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveProcessResult;
+}
+
+export interface HiveFileViewsConnection {
+  __typename?: "HiveFileViewsConnection";
+  edges: Array<HiveFileViewsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HiveFileViewsRelationship {
+  __typename?: "HiveFileViewsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveFile;
 }
 
 export interface HiveOrganisation {
@@ -16350,8 +16348,6 @@ export interface SchemaObjectTypes {
   HiveFileConvertedByRelationship: HiveFileConvertedByRelationship;
   HiveFileConvertedFromConnection: HiveFileConvertedFromConnection;
   HiveFileConvertedFromRelationship: HiveFileConvertedFromRelationship;
-  HiveFileConvertedToConnection: HiveFileConvertedToConnection;
-  HiveFileConvertedToRelationship: HiveFileConvertedToRelationship;
   HiveFileFsConnection: HiveFileFsConnection;
   HiveFileFsRelationship: HiveFileFsRelationship;
   HiveFileParentConnection: HiveFileParentConnection;
@@ -16365,6 +16361,8 @@ export interface SchemaObjectTypes {
   HiveFileProcessPipelineRelationship: HiveFileProcessPipelineRelationship;
   HiveFileProcessResultConnection: HiveFileProcessResultConnection;
   HiveFileProcessResultRelationship: HiveFileProcessResultRelationship;
+  HiveFileViewsConnection: HiveFileViewsConnection;
+  HiveFileViewsRelationship: HiveFileViewsRelationship;
   HiveOrganisation: HiveOrganisation;
   HiveOrganisationAppliancesConnection: HiveOrganisationAppliancesConnection;
   HiveOrganisationAppliancesRelationship: HiveOrganisationAppliancesRelationship;
@@ -16554,8 +16552,6 @@ export type SchemaObjectTypesNames =
   | "HiveFileConvertedByRelationship"
   | "HiveFileConvertedFromConnection"
   | "HiveFileConvertedFromRelationship"
-  | "HiveFileConvertedToConnection"
-  | "HiveFileConvertedToRelationship"
   | "HiveFileFsConnection"
   | "HiveFileFsRelationship"
   | "HiveFileParentConnection"
@@ -16569,6 +16565,8 @@ export type SchemaObjectTypesNames =
   | "HiveFileProcessPipelineRelationship"
   | "HiveFileProcessResultConnection"
   | "HiveFileProcessResultRelationship"
+  | "HiveFileViewsConnection"
+  | "HiveFileViewsRelationship"
   | "HiveOrganisation"
   | "HiveOrganisationAppliancesConnection"
   | "HiveOrganisationAppliancesRelationship"

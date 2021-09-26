@@ -1,0 +1,31 @@
+<single-spa-router base="dashboard">
+  <!--
+
+    This is the single-spa Layout Definition for your microfrontends.
+    See https://single-spa.js.org/docs/layout-definition/ for more information.
+
+  -->
+
+  <!-- Example layouts you might find helpful:
+
+  <nav>
+    <application name="@org/navbar"></application>
+  </nav>
+  <route path="settings">
+    <application name="@org/settings"></application>
+  </route>
+
+  -->
+  <header>
+    <application name="hexhive_hiveheader"></application>
+  </header>
+  <main>
+    <route default>
+      <application name="hexhive_dashboard"></application>
+    </route>
+    <route path="files">
+      <application name="hexhive_hivefiles"></application>
+
+    </route>
+  </main>
+</single-spa-router>

@@ -99,7 +99,7 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                     background="inherit"
                     flex>
                     <input {...getInputProps()} />
-                    {props.files?.length == 1 && !props.files?.[0]?.isFolder ? props.previewEngines?.find((a) => a.filetype == props.files?.[0]?.name?.split('.')[1])?.component({file: props.files?.[0]}) || <MissingPreview file={props.files?.[0]} /> : views[view]}
+                    {props.files?.length == 1 && !props.files?.[0]?.isFolder ? props.previewEngines?.find((a) => a.filetype == props.files?.[0]?.name?.split('.')[1] || 'glb')?.component({file: props.files?.[0]}) || <MissingPreview file={props.files?.[0]} /> : views[view]}
                 </Box>
                 {(props.uploading || []).length > 0 && <UploadDrawer />}
 

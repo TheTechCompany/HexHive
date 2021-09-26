@@ -3,7 +3,6 @@ import * as Icons from 'grommet-icons'
 import React from 'react';
 import { DocViewer } from './DocViewer';
 
-
 export interface FileViewerProps {
     files: {url?: string, mimeType?: string, id?: string, extension?: string}[]
 
