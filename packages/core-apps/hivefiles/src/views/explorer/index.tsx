@@ -373,6 +373,9 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                 flex
                 direction="row">
             <FileExplorer
+                onNavigate={(id) => {
+                    
+                }}
                 uploading={_uploading}
                 previewEngines={[
                     {filetype: 'glb', component: GLBPreview},

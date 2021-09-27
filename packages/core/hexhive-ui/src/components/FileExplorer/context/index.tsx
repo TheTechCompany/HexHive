@@ -13,6 +13,8 @@ export interface IFileExplorerContext {
     view?: string;
     setView?: (view: string) => void;
 
+    navigate?: (id: string) => void;
+
     actions?: IAction[]
 }
 

@@ -9,7 +9,7 @@ export interface ListViewProps {
 }
  // onClickItem={({item}: any) => selectFile?.(item)}
 export const ListView : React.FC<ListViewProps> = (props) => {
-    const { files, selectFile, clickFile, selected } = useFileExplorer()
+    const { files, navigate, selectFile, clickFile, selected } = useFileExplorer()
 
     return (
         <Box focusIndicator={false}>
@@ -34,7 +34,8 @@ export const ListView : React.FC<ListViewProps> = (props) => {
                             hoverIndicator={true}
                             justify="between"  
                             onClick={(e) => {
-                                clickFile?.(datum)
+                                
+                                datum.isFolder ? navigate?.(datum.id || '') : clickFile?.(datum)
                             }} direction="row">
                         <Box direction="row" align="center">
            
