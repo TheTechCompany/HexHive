@@ -13,7 +13,7 @@ import { nanoid } from "nanoid"
 import { TaskRegistry } from "../../task-registry"
 import { createWriteStream, fstat, mkdirSync, rmdirSync, rmSync, writeFile, writeFileSync } from "fs"
 import glob from "glob"
-import { x } from "tar"
+import { r, x } from "tar"
 import { getActivePipeline, getNodeConnections, getNodePortSettings, getPipelineArtifacts, getPipelineOrigins, getPipelineResources, getTriggerValues } from "../../queries/pipeline"
 import { connection } from "mongoose"
 
@@ -117,13 +117,14 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 				const id = nanoid()
 				const r = await tx.run(`
                     MATCH (run:HivePipelineRun {id: $run_id})
-                    CREATE (result:HivePipelineStepResult {id: $new_id, step: $new_step})
+                    CREATE (result:HivePipelineStepResult {id: $new_id, step: $new_step, at: $time})
                     CREATE (result)-[:ACTIVE_RUN]->(run)
                     RETURN result
                 `, {
 					run_id: req.params.run_id,
 					new_id: id,
-					new_step: req.params.step_id
+					new_step: req.params.step_id,
+					time: new Date()
 				})
 
 				const files_fn = (uploaded_files || []).map(async (file) => {
@@ -231,6 +232,19 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 				}
 			})
 			
+			await neo.writeTransaction(async (tx) => {
+				return await tx.run(`
+					MATCH (run:HivePipelineRun {id: $run_id})
+					CREATE (req:HivePipelineStepRequest {id: $id, step: $stepId, at: $time})
+					CREATE (req)-[:ACTIVE_RUN]->(run)
+					RETURN req
+				`, {
+					run_id: req.params.run_id,
+					stepId: req.params.step_id,
+					id: nanoid(),
+					time: new Date()
+				})
+			})
 
 			let manifest : {[key: string]: any} = {};
 			let env = '';
