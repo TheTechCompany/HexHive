@@ -4,12 +4,14 @@ import { Nodes } from 'grommet-icons';
 
 export interface EditorMenuProps {
     menu: {icon: any, active: boolean, onClick: any}[]
+    view?: any;
 }
 
 export const EditorMenu : React.FC<EditorMenuProps> = (props) => {
     return (
         <Box 
-            elevation="small"
+            style={{zIndex: 99}}
+            elevation="large"
             background="accent-1"
             direction="column">
             

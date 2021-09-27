@@ -376,13 +376,13 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
             flex 
             direction="column">
             <Box 
-                
+                elevation="large"
                 justify="between"
                 align="center"
                 pad="xsmall"
                 background="accent-2" 
                 direction="row">
-                <Text>Workflow name</Text>
+                <Text>{process}</Text>
 
                 <Box direction="row">
                 <Button 
@@ -553,7 +553,7 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
                 
 
                 <Box
-                
+                    
                     style={{zIndex:20}}
                     onKeyDown={(e)=> {
                         if(e.key == "Backspace" || e.key == "Delete"){
@@ -565,8 +565,9 @@ const [ publishWorkflow, publishInfo ] = useMutation((mutation, args: {id: strin
                         console.log("Box click")
                         e.stopPropagation()
                     }}
-                elevation="small" 
+                elevation="medium" 
                 background="neutral-1" 
+                pad="xsmall"
                 width="220px">
                     {editorView == 'nodes' ? (
                         <BlockTray 
