@@ -1,5 +1,5 @@
 import { Box, Text, Select, ThemeContext} from 'grommet';
-import { Down } from 'grommet-icons'
+import { Down, Up } from 'grommet-icons'
 import React from 'react';
 import styled from 'styled-components';
 
@@ -12,7 +12,7 @@ export const BaseServiceDropdown = (props) => {
              direction="row" 
              align="center">
             <Text>Services</Text>
-            <Down size="small" />
+            {props.searching ? <Up size="small"/>  : <Down size="small" />}
         </Box>
 
     )
