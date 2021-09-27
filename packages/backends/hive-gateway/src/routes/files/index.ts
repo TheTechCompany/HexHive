@@ -136,13 +136,14 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 			return await Promise.all(files.map(async (file) => {
                 
 				const item = await createFile(tx, file, cwd)
-
+				if(!item) return;
 				return {
 					type: item.labels,
 					properties: item.properties
 				}
 			}))
 		})
+		if(!resp) res.send({error: "No response"}) 
 
 		eventClient.eventRequest("UPLOAD_FILE", {"Uploaded File": resp})
 		// mq.post('UPLOAD_FILE')

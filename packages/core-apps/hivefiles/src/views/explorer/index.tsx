@@ -31,7 +31,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
         setParentId(folderId)
 
         console.log("EXPLORE", folderId)
-        if (folderId != "null") {
+        if (folderId && folderId != "null") {
             props.history.push(`/explore/${folderId}`)
         } else {
             props.history.push(`/`)
@@ -163,7 +163,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
 
     const { data } = useQuery(gql`
       query GET_FILES {
-        hiveFiles(where: ${parentId ? `{id: "${parentId}"}` : `{parent: null, fs: {name: "Shared FS"} }`}){
+        hiveFiles(where: ${parentId && parentId != "null" ? `{id: "${parentId}"}` : `{fs: {name: "Shared FS"} }`}){
             id
             name
             path
@@ -216,12 +216,19 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
     `, { fetchPolicy: 'no-cache' })
 
     const files = useMemo(() => {
-        return parentId ? ( data?.hiveFiles?.[0]?.isFolder ? data?.hiveFiles?.[0]?.children || [] : data?.hiveFiles?.[0] ? [data?.hiveFiles?.[0]] : []) : data?.hiveFiles
+        return parentId && parentId != "null" ? 
+            ( data?.hiveFiles?.[0]?.isFolder ? 
+                    data?.hiveFiles?.[0]?.children || [] : 
+                (data?.hiveFiles?.[0] ? 
+                    data?.hiveFiles?.[0] : undefined )) 
+            : data?.hiveFiles
+
     }, [data, parentId])
+
+    console.log(files)
 
     const isFolder = data?.hiveFiles?.[0]?.isFolder;
 
-    console.log(data)
     const fetchFiles = () => {
         client.refetchQueries({ include: ["GET_FILES"] })
         //     if(!props.match.params.id){
@@ -347,7 +354,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             pad="xsmall">
             <FolderModal
                 onSubmit={(folder) => {
-                    addFolder({ args: { name: folder.name, cwd: parentId } }).then((resp) => {
+                    addFolder({ args: { name: folder.name, cwd: parentId && parentId != "null" ? parentId : undefined } }).then((resp) => {
                         console.log("Folder", resp)
                         fetchFiles()
 
@@ -365,7 +372,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                         openConvertModal(false)
                     })
                 }}
-                files={files?.filter((a) => selected?.indexOf(a?.id) > -1)}
+                files={Array.isArray(files) ? files?.filter((a) => selected?.indexOf(a?.id) > -1) : [files]}
                 onClose={() => openConvertModal(false)}
                 open={convertModal} />
             <Box
@@ -374,7 +381,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                 direction="row">
             <FileExplorer
                 onNavigate={(id) => {
-                    
+
                 }}
                 uploading={_uploading}
                 previewEngines={[

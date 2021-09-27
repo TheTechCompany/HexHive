@@ -7,7 +7,7 @@ export const uploadFiles = async (files: File[], progress_indicator: (progress: 
         fd.append('files', file)
     })
 
-    fd.append('cwd', cwd)
+    if(cwd) fd.append('cwd', cwd)
 
     const result = await axios.request({
         url: `${process.env.REACT_APP_API || 'http://localhost:7000'}/api/files/file-graph`,
