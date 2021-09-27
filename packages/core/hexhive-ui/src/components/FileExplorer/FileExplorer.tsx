@@ -22,7 +22,9 @@ import _ from 'lodash'
 import { history as historyRef, listenHistory } from './context/history'
 
 export interface FileExplorerProps {
-    files?: IFile[]
+    files?: IFile[] | IFile
+
+    preview?: string;
 
     uploading?: {name?: string, percent?: number}[]
 
@@ -113,11 +115,16 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
     
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, noClick: true})
     
+    const getPath = () => {
+        console.log(props.files, props.breadcrumbs)
+        let file = Array.isArray(props.files) ? props.files?.find((a) => a.id == props.breadcrumbs[props.breadcrumbs.length - 1].id) : props.files
+        return file;
+    }
 
     return (
         <FileExplorerContext.Provider value={{
             navigate: onNavigate,
-            files: props.files?.map(formatFile) || [],
+            files: Array.isArray(props.files) ? props.files?.map(formatFile) : (props.files) ? [formatFile(props.files)] : [],
             uploading: props.uploading || [],
             selected: props.selected,
             clickFile: props.onClick,
@@ -176,7 +183,10 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                     background="inherit"
                     flex>
                     <input {...getInputProps()} />
-                    {props.files?.length == 1 && !props.files?.[0]?.isFolder ? props.previewEngines?.find((a) => a.filetype == (props.files?.[0]?.name?.split('.')[1] || 'glb'))?.component({file: props.files?.[0]}) || <MissingPreview file={props.files?.[0]} /> : views[view]}
+                    {!Array.isArray(props.files) ? 
+                        props.previewEngines?.find((a) => a.filetype == (Array.isArray(props.files) ? props.files?.find((b) => b.id == props.preview)?.name?.split('.')[1] : props.files?.name?.split('.')[1]) )?.component({file: Array.isArray(props.files) ? props.files?.[0] : props.files}) || <MissingPreview file={Array.isArray(props.files) ? props.files?.[0] : props.files} /> :
+                        views[view]
+                    }
                 </Box>
                 {(props.uploading || []).length > 0 && <UploadDrawer />}
 
