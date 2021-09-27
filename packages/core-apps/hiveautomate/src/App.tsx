@@ -45,6 +45,7 @@ export const App = (props) => {
                 focusIndicator={false}
                 width="small" elevation="small" background="brand"> 
                 <List 
+                    border={false}
                     pad={'none'}
                     onClickItem={({item}) => changeView(item.path)}
                     data={menu} 

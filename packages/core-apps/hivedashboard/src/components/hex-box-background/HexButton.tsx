@@ -32,7 +32,7 @@ export const HexButton : React.FC<HexButtonProps> = (props) => {
             size={HEX_SIZE + 1} 
             top={(props.top * TOP_MULTIPLIER) - 0.8} 
             left={-0.8 + (props.left * WIDTH_MULTIPLIER + (props.top % 2 == 0 ? ROW_OFFSET : 0))} 
-            color={props.color}>
+            color={BaseStyle.global.colors['accent-1']}>
             {/* <Text weight="bold" color="neutral-4">{props.text}</Text> */}
             <Box
                 height="100%"
