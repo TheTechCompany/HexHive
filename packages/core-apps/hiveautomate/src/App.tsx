@@ -8,6 +8,7 @@ import { WorkflowList } from './views/workflow-list';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { TriggerList } from './views/trigger-list';
 import { TriggerEditor } from './views/trigger-editor';
+import { HomeView } from './views/home';
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_API ? `${process.env.REACT_APP_API}/graphql`: 'http://localhost:7000/graphql',
@@ -39,6 +40,7 @@ export const App = (props) => {
         <ApolloProvider client={client}>
 
         <Box
+            focusIndicator={false}
             background="neutral-2"
             direction="row" width="100%" height="100%">
             <Box 
@@ -52,6 +54,7 @@ export const App = (props) => {
                     primaryKey="label">
                     {(datum) => (
                         <Box 
+                            focusIndicator={false}
                             hoverIndicator
                             pad={'xsmall'}
                             background={matchPath(window.location.pathname, {path: `/dashboard/automate${datum.path}`}) ? 'accent-2': ''}
@@ -66,7 +69,7 @@ export const App = (props) => {
                 flex 
                 pad="xsmall">
                 <Switch>
-                    <Route path={"/"} exact component={WorkflowList} />
+                    <Route path={"/"} exact component={HomeView} />
                     <Route path={"/workflows"} exact component={WorkflowList} />
                     <Route path={"/workflows/:id"} exact component={Workflows} />
                     <Route path={"/tasks"} exact component={TaskList} />

@@ -7,6 +7,8 @@ import { useMemo } from 'react';
 export interface EditorPaneProps {
     onViewChange?: (view: string) => void;
     view?: string;
+
+    menu?: any;
 }
 
 export const EditorPane : React.FC<EditorPaneProps> = (props) => {
@@ -30,9 +32,10 @@ export const EditorPane : React.FC<EditorPaneProps> = (props) => {
             <Box flex>
                 {props.children}
             </Box>
-            <EditorMenu 
-                menu={menu}
-                />
+                <EditorMenu 
+                    menu={menu}
+                    view={props.menu}
+                    />   
         </Box>
     )
 }
