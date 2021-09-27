@@ -26,12 +26,14 @@ export const ActionHeader : React.FC<ActionHeaderProps> = (props) => {
             direction="row">
            <Box direction="row">
                 <Button
+                    disabled={(history as any).index <= 0}
                     plain
                     style={{padding: 6}}
                     onClick={props.onPrev}
                     hoverIndicator 
                     icon={<Previous size="18px" />} />
                 <Button 
+                    disabled={(history as any).index >= history.length}
                     plain
                     style={{padding: 8}}
                     onClick={props.onNext}

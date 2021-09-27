@@ -19,6 +19,7 @@ import { useDropzone } from 'react-dropzone'
 import { MissingPreview } from './components/missing-preview'
 import { UploadDrawer } from './components/upload-drawer'
 import _ from 'lodash'
+import { history as historyRef, listenHistory } from './context/history'
 
 export interface FileExplorerProps {
     files?: IFile[]
@@ -27,18 +28,22 @@ export interface FileExplorerProps {
 
     previewEngines?: {filetype: string, component: React.FC<{file: any}>}[];
     breadcrumbs: {name: string, id: string}[]
+
     actions?: IAction[];
     
     onDrop: (files: File[]) => void;
     onBreadcrumbClick: (crumb: {name: string, id: string}) => void;
     onClick?: (item: IFile) => void;
 
+    onNavigate: (id: string) => void;
     selected?: string[];
     onSelect?: (id: string) => void;
     onDeselect?: (id: string) => void;
 }
 
 export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
+    
+//    console.log("Histroy",  historyRef.index, historyRef.)
     const modes = [{key: 'list', icon: <List />}, {key: 'thumbnail', icon: <AppsRounded />}, {key: 'grid', icon: <Apps />}];
 
     const [navigationHistory, setNavigationHistory] = useState<{path: {name: string, id: string}[]}[]>([])
@@ -55,26 +60,42 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
         }
     }, [props.breadcrumbs])
 
+    useEffect(() => {
+        listenHistory((location) => {
+            console.log("location", location)
+
+            props.onBreadcrumbClick({name: '', id: location.id})
+        })
+    }, [])
+
     const views : {[key: string]: JSX.Element} = {
         list: <ListView />,
         grid: <GridView />,
         thumbnail: <ThumbnailView />
     }
 
+    const onNavigate = (id: string) => {
+        historyRef.push(`/explore/${id}`, {id: id})
+    }
+
     const [ preview, setPreview ] = useState<IFile  | undefined | null>(null)
 
     const goPrev = () => {
-        let history = navigationHistory.slice()
-        let prev = history[currentPath - 2]
-        setCurrentPath(currentPath - 1)
-        props.onBreadcrumbClick(prev.path[prev.path.length - 1])
+        historyRef.back()
+        // onNavigate()
+        // let history = navigationHistory.slice()
+        // let prev = history[currentPath - 2]
+        // setCurrentPath(currentPath - 1)
+        // props.onBreadcrumbClick(prev.path[prev.path.length - 1])
     }
 
     const goNext = () => {
-        let history = navigationHistory.slice()
-        let next = history[currentPath]
-        setCurrentPath(currentPath + 1)
-        props.onBreadcrumbClick(next.path[next.path.length - 1])
+        historyRef.forward()
+        // onNavigate()
+        // let history = navigationHistory.slice()
+        // let next = history[currentPath]
+        // setCurrentPath(currentPath + 1)
+        // props.onBreadcrumbClick(next.path[next.path.length - 1])
     }
 
     const formatFile = (file: IFile) => {
@@ -95,6 +116,7 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
 
     return (
         <FileExplorerContext.Provider value={{
+            navigate: onNavigate,
             files: props.files?.map(formatFile) || [],
             uploading: props.uploading || [],
             selected: props.selected,

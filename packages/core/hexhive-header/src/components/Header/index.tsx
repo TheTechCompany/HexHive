@@ -1,14 +1,16 @@
-import { Box, Button, Header as GrommetHeader, Select, Text, TextInput } from 'grommet';
+import { Box, Button, Collapsible, Header as GrommetHeader, Layer, Select, Text, TextInput } from 'grommet';
 import { Menu, Folder, System, Search } from 'grommet-icons'
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { BaseStyle } from '@hexhive/styles';
 import {Hivelogo, Profile} from '@hexhive/icons';
 import { matchPath, withRouter } from 'react-router-dom';
 import { UserDropdown } from '../UserDropdown';
 import { ServiceDropdown } from '../ServiceDropdown';
+import { SearchDropdown } from '../SearchDropdown';
 
 export const BaseHeader : React.FC<any> = (props) => {
-
+    const [ searching, setSearching ] = useState<boolean>(false);
+    const searchInput = useRef()
     const views = [
         {
             path: '/',
@@ -29,7 +31,7 @@ export const BaseHeader : React.FC<any> = (props) => {
     return (
         <GrommetHeader     
             style={{zIndex: 222, position: 'absolute', height: '42px', left: 0, top: 0, right: 0}}
-            elevation="medium"
+            elevation="large"
             height={"42px"}
             pad={{ vertical: "xsmall", horizontal: 'xsmall'}}
             background="brand"
@@ -50,6 +52,10 @@ export const BaseHeader : React.FC<any> = (props) => {
             
             </Box>
             <Box 
+                onFocus={() => setSearching(true)}
+                onBlur={() => setSearching(false)}
+                style={{position: 'relative'}}
+                ref={searchInput}
                 height="100%"
                 flex
                 align="center"
@@ -61,12 +67,29 @@ export const BaseHeader : React.FC<any> = (props) => {
                 <Search size="small" />
                 <TextInput  
                     plain
+                
                     focusIndicator={false}
                     style={{padding: 3, color: 'white'}}
                     height="small" 
                     color="neutral-1"
-                    suggestions={["HiveFlow", "HiveCommand"]}
                     placeholder={<Text color="white">Search for services, features...</Text>}/>
+                
+                <Box
+                   onFocus={() => setSearching(true)}
+                   onBlur={() => setSearching(false)}
+                    background="neutral-3" 
+                    style={{position: 'absolute', left: 0, right: 0, zIndex: -1, top: 34}}>
+                <Collapsible
+                         onFocus={() => setSearching(true)}
+                         onBlur={() => setSearching(false)}
+                    open={searching}>
+                    <SearchDropdown 
+                      onFocus={() => setSearching(true)}
+                      onBlur={() => setSearching(false)}
+                        />
+                </Collapsible>
+                </Box>
+            
             </Box>
             <UserDropdown />
         </GrommetHeader>
