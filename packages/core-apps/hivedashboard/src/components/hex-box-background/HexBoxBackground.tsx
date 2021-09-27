@@ -160,8 +160,8 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
     const renderEditor = (edit: boolean) => {
         let elems = [];
         console.log(MAX_WIDTH, MAX_HEIGHT, actions)
-        for(var i = 0; i < MAX_WIDTH / ratio; i++){
-                for(var o = 0; o < MAX_HEIGHT / ratio; o++){
+        for(var i = -1; i < (MAX_WIDTH / ratio) + 1; i++){
+                for(var o = -1; o < (MAX_HEIGHT / ratio) + 1; o++){
 
                     const x = i;
                     const y = o;

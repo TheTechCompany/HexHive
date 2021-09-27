@@ -167,6 +167,8 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             id
             name
             path
+            mimetype
+            size
             isFolder
             path_id
             cid
@@ -187,6 +189,9 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             children {
                 id
                 name
+                mimetype
+                size
+
                 isFolder
                 path
                 cid
@@ -370,7 +375,6 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             <FileExplorer
                 uploading={_uploading}
                 previewEngines={[
-                    {filetype: '', component: GLBPreview},
                     {filetype: 'glb', component: GLBPreview},
                     {filetype: 'pdf', component: PDFPreview}
                 ]}
@@ -397,8 +401,8 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                     exploreFolder(file.id)
                 }}
                 files={files} />
-                <SidePane
-                    selected={files?.filter((a) => selected.indexOf(a?.id) > -1)} />
+                {/* <SidePane
+                    selected={files?.filter((a) => selected.indexOf(a?.id) > -1)} /> */}
             </Box>
          
             {/* <BabylonViewer

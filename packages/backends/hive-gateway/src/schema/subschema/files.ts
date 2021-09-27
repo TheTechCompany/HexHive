@@ -9,6 +9,9 @@ type HiveFile {
     id: ID! @id
     name: String!
     cid: String
+    size: Int
+    mimetype: String
+    
     path_id: String
         @cypher(
             statement: """

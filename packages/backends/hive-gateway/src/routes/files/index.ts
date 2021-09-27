@@ -3,7 +3,7 @@ import { File } from "@hexhive/types"
 import { Router } from "express"
 import { PassThrough } from "stream"
 
-import multer from "multer"
+import multer, { Multer } from "multer"
 import { addFileToJob } from "./util"
 import jwt from "jsonwebtoken"
 import { FileManager } from "./util"
@@ -12,6 +12,7 @@ import { Driver, Result, Session } from "neo4j-driver"
 import { result } from "lodash"
 import { nanoid } from "nanoid"
 import { HiveEvents } from "@hexhive/events-client"
+import { createFile } from "../../queries/file"
 
 const upload = multer()
 
@@ -19,7 +20,7 @@ const router = Router()
 
 export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session) => {
 
-	const uploadFiles = async (files: any[]) => {
+	const uploadFiles = async (files: Express.Multer.File[]) => {
 		return Promise.all(files.map(async (file) => {
 			//   let id = v4();  
 			const name = file.originalname
@@ -29,7 +30,8 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
          
 			const _file : any = {
 				name: name,
-				mimetype: mimetype
+				mimetype: mimetype,
+				size: file.size
 			}
          
 			if(extensions){
@@ -106,16 +108,16 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 
 		const result = await neo.writeTransaction(async (tx) => {
 			return await Promise.all(files.map(async (file) => {
+
+				const conversion = await createFile(tx, file)
+
 				const res = await tx.run(`
 					MATCH (file:HiveFile {id: $id})
-					CREATE (conversion:HiveFile {id: $conversionId, name: $name, mimeType: $mime, cid: $cid})
+					MATCH (conversion:HiveFile {id: $conversionId})
 					CREATE (file)-[:HAS_VIEW]->(conversion)
 				`, {
 					id: req.params.fileID,
-					conversionId: nanoid(),
-					name: file.name,
-					cid: file.cid,
-					mime: file.mimetype
+					conversionId: conversion.properties.id
 				})
 				return res.records?.[0]?.get(0).properties;
 			}))
@@ -133,22 +135,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		const resp = await neo.writeTransaction(async (tx) => {
 			return await Promise.all(files.map(async (file) => {
                 
-				let query = ""
-				query += cwd ? "MATCH (parent:HiveFile {id: $id})" : "MATCH (fs:FileSystem {name: $fs})"
-				query += `
-                        CREATE (file:HiveFile {id: $newId, name: $name, cid: $cid})
-                        CREATE (${cwd ? "parent" : "fs"})-[rel:CONTAINS]->(file)
-                        RETURN file
-                    `
-				const result = await tx.run(query, {
-					fs: "Shared FS",
-					newId: nanoid(),
-					name: file.name,
-					cid: file.cid,
-					id: cwd
-				})
-
-				let item = result.records?.[0]?.get(0)
+				const item = await createFile(tx, file, cwd)
 
 				return {
 					type: item.labels,

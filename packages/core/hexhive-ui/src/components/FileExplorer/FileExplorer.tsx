@@ -1,6 +1,6 @@
-import { Box, Layer } from 'grommet'
-import { DownloadOption, FormFolder, Update, UploadOption } from 'grommet-icons'
-import React, { useCallback } from 'react'
+import { Box, Button, Layer } from 'grommet'
+import { Apps, AppsRounded, DownloadOption, FormFolder, List, Update, UploadOption } from 'grommet-icons'
+import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { Breadcrumbs } from './components/breadcrumbs'
 import { ActionHeader } from './components/header'
@@ -18,6 +18,7 @@ import { ThumbnailView } from './views/thumbnail'
 import { useDropzone } from 'react-dropzone'
 import { MissingPreview } from './components/missing-preview'
 import { UploadDrawer } from './components/upload-drawer'
+import _ from 'lodash'
 
 export interface FileExplorerProps {
     files?: IFile[]
@@ -38,7 +39,21 @@ export interface FileExplorerProps {
 }
 
 export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
+    const modes = [{key: 'list', icon: <List />}, {key: 'thumbnail', icon: <AppsRounded />}, {key: 'grid', icon: <Apps />}];
+
+    const [navigationHistory, setNavigationHistory] = useState<{path: {name: string, id: string}[]}[]>([])
+    const [ currentPath, setCurrentPath ] = useState<number>(-1)
+
     const [ view, setView ] = useState<string>('list');
+
+    useEffect(() => {
+        if(currentPath > -1 && !_.isEqual(props.breadcrumbs, navigationHistory[currentPath].path)){
+            let history = navigationHistory.slice()
+            history.push({path: props.breadcrumbs})
+            setCurrentPath(history.length - 1)
+            setNavigationHistory(history)
+        }
+    }, [props.breadcrumbs])
 
     const views : {[key: string]: JSX.Element} = {
         list: <ListView />,
@@ -48,6 +63,19 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
 
     const [ preview, setPreview ] = useState<IFile  | undefined | null>(null)
 
+    const goPrev = () => {
+        let history = navigationHistory.slice()
+        let prev = history[currentPath - 2]
+        setCurrentPath(currentPath - 1)
+        props.onBreadcrumbClick(prev.path[prev.path.length - 1])
+    }
+
+    const goNext = () => {
+        let history = navigationHistory.slice()
+        let next = history[currentPath]
+        setCurrentPath(currentPath + 1)
+        props.onBreadcrumbClick(next.path[next.path.length - 1])
+    }
 
     const formatFile = (file: IFile) => {
         return {
@@ -86,10 +114,37 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                 style={{position: 'relative'}}
                 background="neutral-1"
                 direction="column">
-                <ActionHeader />
+                <ActionHeader
+                    onNext={goNext}
+                    onPrev={goPrev}/>
+                <Box   
+                    pad={{horizontal: 'xsmall'}}
+                    margin={{top: 'xsmall'}}
+                    align="center"
+                    justify="between"
+                    direction="row">
                 <Breadcrumbs 
                     onBreadcrumbClick={props.onBreadcrumbClick}
                     breadcrumbs={props.breadcrumbs || []} />
+
+                    <Box 
+                        round={{size: 'small'}}
+                        background="brand" 
+                        direction="row" 
+                        align="center">
+                    {modes.map((mode) => (
+                        <Button 
+                            color="brand"
+                            plain
+                            style={{padding: 4}}
+                            active={view == mode.key}
+                            size="small" 
+                            icon={React.cloneElement(mode.icon, {size: '20px'})} 
+                            onClick={() => setView(mode.key)} />
+                    ))}
+                    </Box>
+                </Box>
+                
                 <Box 
                     focusIndicator={false}
                     {...getRootProps()}
@@ -99,7 +154,7 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                     background="inherit"
                     flex>
                     <input {...getInputProps()} />
-                    {props.files?.length == 1 && !props.files?.[0]?.isFolder ? props.previewEngines?.find((a) => a.filetype == props.files?.[0]?.name?.split('.')[1] || 'glb')?.component({file: props.files?.[0]}) || <MissingPreview file={props.files?.[0]} /> : views[view]}
+                    {props.files?.length == 1 && !props.files?.[0]?.isFolder ? props.previewEngines?.find((a) => a.filetype == (props.files?.[0]?.name?.split('.')[1] || 'glb'))?.component({file: props.files?.[0]}) || <MissingPreview file={props.files?.[0]} /> : views[view]}
                 </Box>
                 {(props.uploading || []).length > 0 && <UploadDrawer />}
 
