@@ -42,7 +42,7 @@ const parseEvent = async (event: HiveEvent) => {
             RETURN pipeline
         `, {
             id: event.id,
-            time: new Date()
+            time: new Date().toISOString()
         })
         const pipeline = pipeline_result.records?.[0]?.get(0)?.properties
 
