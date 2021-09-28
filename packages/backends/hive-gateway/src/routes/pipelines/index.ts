@@ -104,7 +104,8 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 				SET run.completedAt = $time
 				RETURN run
 				`, {
-					time: new Date()
+					run_id: req.params.run_id,
+					time: new Date().toISOString()
 				})
 			})
 			res.send({result: result?.records?.map((x) => x.get(0).properties)})
@@ -137,7 +138,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 					run_id: req.params.run_id,
 					new_id: id,
 					new_step: req.params.step_id,
-					time: new Date()
+					time: new Date().toISOString()
 				})
 
 				const files_fn = (uploaded_files || []).map(async (file) => {
@@ -255,7 +256,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 					run_id: req.params.run_id,
 					stepId: req.params.step_id,
 					id: nanoid(),
-					time: new Date()
+					time: new Date().toISOString()
 				})
 			})
 
