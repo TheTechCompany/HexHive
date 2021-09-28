@@ -21,7 +21,6 @@ export const ListView : React.FC<ListViewProps> = (props) => {
               
                         key={datum.id}
                     focusIndicator={false}
-                        pad={'xsmall'}
                         style={{cursor: 'pointer'}}
                         align="center"
                         direction="row" >
