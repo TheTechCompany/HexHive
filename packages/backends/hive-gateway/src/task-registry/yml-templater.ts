@@ -1,6 +1,7 @@
 import { dump, load } from "js-yaml"
 import { Task, TaskInput, TaskOutput } from "."
 
+const API_URL = "https://staging-api.hexhive.io/api/pipelines"
 console.log(load(`
 script: |2-
     #!/usr/bin/env sh
@@ -59,14 +60,14 @@ export const createTask = (id: string, steps: string, inputs: TaskInput[], outpu
 					name: "pull-job",
 					image: "curlimages/curl:latest",
 					script: `#!/usr/bin/env sh
-${getPullJob("https://staging-api.hexhive.io/api/pipelines", inputs)}`
+${getPullJob(API_URL, inputs)}`
 				},
 				...step_yaml as any[],
 				{
 					name: "push-results",
 					image: "curlimages/curl:latest",
 					script: `#!/usr/bin/env sh
-${getPostResults("https://staging-api.hexhive.io/api/pipelines", outputs)}`
+${getPostResults(API_URL, outputs)}`
 				}
 			]
 		}
@@ -100,6 +101,27 @@ export const createWorkflow = (id: string, steps: Task[], inputs: TaskInput[]) =
 		}
 	})
 
+	const finish = {
+		name: 'finish-job',
+		taskSpec: {
+			params: [
+				{name: "JOB_ID"}
+			],
+			steps: [
+				{
+					image: 'curlimages/curl:latest',
+					name: 'complete',
+					script: `#!/usr/bin/env sh
+curl -XPOST "${API_URL}/$(params.JOB_ID)/complete"
+					`
+				}
+			]
+		},
+		params: [
+			{name: "JOB_ID", value: "$(params.JOB_ID)"}
+		]
+	}
+
 	const pipeline = {
 		apiVersion: "tekton.dev/v1beta1",
 		kind: "Pipeline",
@@ -108,7 +130,8 @@ export const createWorkflow = (id: string, steps: Task[], inputs: TaskInput[]) =
 		},
 		spec: {
 			params: params,
-			tasks: tasks
+			tasks: tasks,
+			finally: [finish]
 		}
 	}
 

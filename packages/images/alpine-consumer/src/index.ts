@@ -35,18 +35,22 @@ interface HiveEvent {
 
 const parseEvent = async (event: HiveEvent) => {
     
-    const result = await session.readTransaction(async (tx) => {
+    const result = await session.writeTransaction(async (tx) => {
         const pipeline_result = await tx.run(`
             MATCH (run:HivePipelineRun {id: $id})-[:ACTIVE_PIPELINE]->(pipeline)
+            SET run.startedAt = $time
             RETURN pipeline
         `, {
-            id: event.id
+            id: event.id,
+            time: new Date()
         })
         const pipeline = pipeline_result.records?.[0]?.get(0)?.properties
 
 
         return pipeline;
     })
+
+
     
     return await submitFileEvent({id: event.id, pipeline: result.id})
 
