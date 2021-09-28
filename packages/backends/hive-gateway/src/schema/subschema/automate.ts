@@ -44,6 +44,8 @@ type HivePipelineTrigger {
 type HivePipelineRun {
     id: ID! @id
     createdAt: DateTime @timestamp(operations: [CREATE])
+
+    startedAt: DateTime
     completedAt: DateTime
 
     pipeline: HivePipeline @relationship(type: "ACTIVE_PIPELINE", direction: OUT)

@@ -96,6 +96,19 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
         mapped outputs from past step ()-[rel:RUN_NEXT]->(current)
         rel.target, source, sourceHandle
     */
+	router.route('/:run_id/complete')
+		.post(async (req, res) => {	
+			const result = await neo.writeTransaction(async (tx) => {
+				return await tx.run(`
+				MATCH (run:HivePipelineRun {id: $run_id})
+				SET run.completedAt = $time
+				RETURN run
+				`, {
+					time: new Date()
+				})
+			})
+			res.send({result: result?.records?.map((x) => x.get(0).properties)})
+		})
 	router.route("/:run_id/:step_id")
 		.post(upload.any(), async (req, res) => {
 			console.log("Files", req.files)
