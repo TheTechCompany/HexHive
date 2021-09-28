@@ -5,7 +5,7 @@ export const createFile = async (tx: Transaction, file: { name: string, mimetype
 	let query = ""
 	query += cwd ? "MATCH (parent:HiveFile {id: $cwd})" : "MATCH (fs:FileSystem {name: $fs})"
 	query += `
-        CREATE (file:HiveFile {id: $id, name: $name, mimetype: $mimetype, cid: $cid, size: $size})
+        CREATE (file:HiveFile {id: $id, name: $name, mimetype: $mimetype, cid: $cid, size: $size })
         CREATE (${cwd ? "parent" : "fs"})-[rel:CONTAINS]->(file)
         RETURN file`
 

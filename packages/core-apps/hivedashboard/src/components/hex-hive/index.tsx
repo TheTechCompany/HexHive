@@ -1,11 +1,12 @@
 import { Box } from 'grommet';
-import { Add, Shop, Spa, Robot, Command, Document, Folder} from 'grommet-icons'
+import { Add, Shop, Spa, Robot, Document, Folder} from 'grommet-icons'
 import React, { useState } from 'react';
 import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
 import { useQuery } from '@hexhive/client';
 import { AppModal } from '../app-modal';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Files, Flow, Market, Command, Automate } from '../../assets/icons';
 export interface HexHiveProps extends RouteComponentProps {
     edit?: boolean;
 }
@@ -17,35 +18,35 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
 
     const [ actions, setActions ] = useState<any[]>([
         {
-            icon: <Shop size="large" />,
+            icon: <Market />,
             title: "Market",
             top: 3,
             left: 3,
             path: '/market'
         },
         {
-            icon: <Document size="large" />,
+            icon: <Files />,
             title: "Files",
             top: 3,
             left: 4,
             path: '/files'
         },
         {
-            icon: <Spa size="large" />,
+            icon: <Flow />,
             top: 3,
             title: "Flow",
             left: 5,
             path: '/flow'
         },
         {
-            icon: <Command size="large" />,
+            icon: <Command />,
             top: 3,
             title: "Command",
             left: 6,
             path: '/command'
         },
         {
-            icon: <Robot size="large" />,
+            icon: <Automate />,
             top: 3,
             title: "Automate",
             left: 7,

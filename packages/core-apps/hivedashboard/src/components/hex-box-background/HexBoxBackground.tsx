@@ -169,13 +169,13 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                     let action = actions.find((a) => a.top == o && a.left == i)
                     if(action) {
                         elems.push(
-                <HexButton 
-                    onClick={() => onClick({x, y})}
-                    top={action.top}
-                    left={action.left}
-                    logo={action.icon}
-                    size={size.actions}
-                    text={action.title} />
+                        <HexButton 
+                            onClick={() => onClick({x, y})}
+                            top={action.top}
+                            left={action.left}
+                            logo={action.icon}
+                            size={size.actions}
+                            />
                         )
                     }else{
                         const left = i;

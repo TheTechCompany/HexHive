@@ -2,10 +2,20 @@ export default `
 
 type FileSystem {
     name: String!
+    organisation: Organisation @relationship(type: "HAS_FS", direction: IN)
     files: [HiveFile!]! @relationship(type: "CONTAINS", direction: OUT)
 }
 
-type HiveFile {
+type HiveFile  @auth(rules: [
+    {
+        operations: [READ, DELETE],
+        where: {fs: {organisation: {id: "$jwt.organisation"}} }
+    },
+    {
+        operations: [UPDATE, CREATE],
+        bind: {fs: {organisation: {id: "$jwt.organisation"}} }
+    }
+]) {
     id: ID! @id
     name: String!
     cid: String

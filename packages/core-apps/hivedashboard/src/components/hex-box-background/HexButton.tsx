@@ -14,7 +14,7 @@ export interface HexButtonProps {
     left: number;
 
     logo: any;
-    text: string;
+    text?: string;
     color?: string;
 }
 

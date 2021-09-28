@@ -193,12 +193,13 @@ const config : ConfigParams = {
     }))*/
 	// const { constructor: { errors: { SessionNotFound } } } = oidc as any;
 
-	if (process.env.NODE_ENV == "production") {
+	// if (process.env.NODE_ENV == "production") {
 
 		app.use("/graphql", requiresAuth(), async (req, res, next) => {
 			if(!req.oidc.accessToken) return next("No access token present");
 			const { isExpired, refresh } = req.oidc.accessToken
 
+			console.log(req.oidc.accessToken, req.oidc)
 			if(isExpired()){
 				await refresh();
 			}
@@ -209,7 +210,13 @@ const config : ConfigParams = {
 				(req as any).user = {
 					_id: user.sub,
 					...user
-				}
+				};
+
+				(req as any).jwt = {
+					iat: 1516239022,
+					roles: ["admin"],
+					...user
+				};
 				console.log("OIDC", (req as any).user)
 
 				next()
@@ -217,13 +224,13 @@ const config : ConfigParams = {
 				next("No user info found")
 			}
 		})
-	}
+	// }
 
 
 	hiveSchema(driver, taskRegistry).then((hive) => {
 		app.use("/graphql", graphqlHTTP({
 			schema: mergeSchemas({schemas: [printerSchema, hive, schema]}),
-			graphiql: true
+			graphiql: true,
 		}))
 	})
  

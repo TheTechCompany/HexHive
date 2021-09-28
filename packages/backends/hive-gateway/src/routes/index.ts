@@ -55,6 +55,27 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 	// router.use('/interaction', InteractionRouter())
 	router.use("/oauth", AuthRouter())
 
+	router.use(['/api/files'],  requiresAuth(), async (req, res, next) => {
+		if(!req.oidc.accessToken) return next("No access token present");
+			const { isExpired, refresh } = req.oidc.accessToken
+
+			// if(isExpired()){
+			// 	await refresh();
+			// }
+		try{
+			const user = await req.oidc.fetchUserInfo(); 
+			
+			(req as any).user = {
+				...user
+			}
+
+			next();
+		}catch(e){
+			next(e)
+		}
+
+	})
+
 	if(fileManager) router.use("/api/files", FileRouter(fileManager, eventClient, neo_session))
 	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
 
