@@ -45,10 +45,14 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		}))
 	}
 
+	router.get('/ipfs', (req, res) => {
+		res.send({user: (req as any).user})
+	})
+
 	router.get("/ipfs/:cid", async (req, res) => {
 		const readStream = new PassThrough()
         
-		const file_result = await fileManager.get(req.params.cid)
+		const file_result = await fileManager.get(req.params.cid, (req as any).user.organisation)
 
 		readStream.end(file_result)
 		console.log("Get file ", file_result, req.params.cid)
@@ -79,10 +83,11 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 
 		const file = await neo.readTransaction(async (tx) => {
 			const result = await tx.run(`
-            MATCH (file:HiveFile {id: $id})
+            MATCH (file:HiveFile {id: $id, owner: $owner})
             RETURN file
         `, {
-				id: fileID
+				id: fileID,
+				owner: (req as any).user.organisation
 			})
 			return result.records?.[0]?.get(0).properties
 		})
@@ -91,7 +96,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 			console.log(file)
 			const readStream = new PassThrough()
 
-			const file_result = await fileManager.get(file.cid || file.id)
+			const file_result = await fileManager.get(file.cid || file.id, (req as any).user.organisation)
 
 			readStream.end(file_result)
 			console.log("Get file ", file_result, file.cid)
@@ -127,6 +132,8 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 	})
 
 	router.post("/file-graph", upload.array("files"), async (req, res) => {
+		console.log((req as any).user)
+
 		const files = await uploadFiles(req.files as any[])
 
 		const cwd = req.body.cwd
@@ -209,7 +216,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		if (file) {
 			const readStream = new PassThrough()
 
-			const file_result = await fileManager.get(file.cid || file.id)
+			const file_result = await fileManager.get(file.cid || file.id, (req as any).user.organisation)
 
 			readStream.end(file_result)
 			console.log("Get file ", file_result, file.cid)

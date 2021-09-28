@@ -286,7 +286,7 @@ export default (neo: Session, fileManager: FileManager, taskRegistry: TaskRegist
 
 				await Promise.all(pipelines.artifacts.filter((a) => a.cid || a.urn).map(async (file) => {
 
-					const file_result = await fileManager.get(file.cid || file.urn.replace('ipfs://', ''))
+					const file_result = await fileManager.get(file.cid || file.urn.replace('ipfs://', ''), (req as any).user.organisation)
                     
 					const sourcePort = pipelines.previous.find((a) => a.name == file.key)
 					if(!sourcePort) return

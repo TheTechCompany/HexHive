@@ -13,7 +13,7 @@ export class FileManager {
 		console.log(`Connecting to IPFS : ${opts.url}`)
 	}
 
-	async get(cid: string){
+	async get(cid: string, owner: string){
 		console.log("Get CID", cid)
 
 		const response = await axios({
