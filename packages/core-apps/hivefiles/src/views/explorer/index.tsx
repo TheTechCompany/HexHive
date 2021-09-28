@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, Box } from 'grommet'
+import { Text, Box, Collapsible, Spinner } from 'grommet'
 import { FileExplorer } from '@hexhive/ui';
 import { gql, useQuery, useApolloClient } from '@apollo/client';
 import { mutation, useMutation } from '@hexhive/client';
 import { useMemo } from 'react';
 import { uploadFiles } from '../../actions';
-import { Folder, Download, CloudComputer } from 'grommet-icons';
+import { Folder, Download, CloudComputer, Inspect } from 'grommet-icons';
 import { FolderModal } from '../../components/folder-modal';
 import { ConvertModal } from '../../components/convert-modal';
 import { SidePane } from './side-pane';
@@ -14,11 +14,11 @@ import { nanoid } from 'nanoid';
 import { useRef } from 'react';
 import { PDFPreview } from './previews/PDF';
 import { RouteComponentProps } from 'react-router-dom';
-
+import { Duration, differenceInSeconds, intervalToDuration, formatDuration } from 'date-fns'
 
 export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => {
     const parentRef = useRef<{id?: string}>({id: undefined})
-
+    const [ inspector, setInspector ] = useState<boolean>(false)
     const [ parentId, _setParentId ] = useState<string>(undefined)
 
     const setParentId = (id: string) => {
@@ -44,7 +44,16 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
     }, [props.match.params.id])
     const client = useApolloClient()
 
-    const actions = [{
+    const toggleInspector = () => {
+        setInspector(!inspector)
+    }
+    const actions = [
+    {
+        key: "Inspector",
+        icon: <Inspect />,
+        onClick: () => toggleInspector()
+    },
+    {
         key: "Create Folder",
         icon: <Folder />,
         onClick: () => openFolderModal(true)
@@ -202,6 +211,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                 }
                 conversions {
                     createdAt
+                    startedAt
                     completedAt
     
                     pipeline {
@@ -346,6 +356,14 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             })
     }
     
+    const getDuration = (start: string, end?: string) => {
+        let dur = intervalToDuration({
+            start: new Date(start),
+            end: new Date(end || new Date())
+        })
+
+        return formatDuration(dur)
+    }
 
     return (
         <Box
@@ -376,6 +394,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                 onClose={() => openConvertModal(false)}
                 open={convertModal} />
             <Box
+                gap="xsmall"
                 round="xsmall"
                 flex
                 direction="row">
@@ -411,8 +430,35 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                     exploreFolder(file.id)
                 }}
                 files={files} />
-                {/* <SidePane
-                    selected={files?.filter((a) => selected.indexOf(a?.id) > -1)} /> */}
+                <Collapsible 
+                    direction="horizontal"
+                    open={inspector}>
+                    <Box 
+                        gap="xsmall"
+                        overflow="scroll" 
+                        pad="xsmall" 
+                        background="neutral-1" 
+                        round="xsmall" 
+                        elevation="small" 
+                        width="small" 
+                        height="100%">
+                        {files?.filter((a) => selected.indexOf(a.id) > -1).map((file) => (
+                            <Box overflow="hidden" round="xsmall" background="neutral-2" elevation="small">
+                                <Box direction="row" background="accent-2" pad="xsmall"><Text>{file.name}</Text></Box>
+                                {file.conversions.map((x) => (
+                                    <Box align="center" direction="row">
+                                      {!x.completedAt &&  <Spinner size="small" />}
+                                    <Box>
+                                        <Text size="small">{x.pipeline?.name}</Text>
+                                        <Text size="xsmall">{getDuration(x.startedAt, x.completedAt)}</Text>
+                                    </Box>
+                                    </Box>
+                                ))}
+                            </Box>
+                        ))}
+                    </Box>
+                </Collapsible>
+           
             </Box>
          
             {/* <BabylonViewer

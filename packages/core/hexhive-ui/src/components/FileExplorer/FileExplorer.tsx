@@ -147,6 +147,7 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
                     onNext={goNext}
                     onPrev={goPrev}/>
                 <Box   
+                    elevation="small"
                     pad={{horizontal: 'xsmall'}}
                     margin={{top: 'xsmall'}}
                     align="center"

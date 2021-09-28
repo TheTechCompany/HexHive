@@ -54,7 +54,6 @@
     "@hexhive/client": "^0.0.5-alpha.0",
     "@hexhive/styles": "^0.0.4-alpha.0",
     "@hexhive/ui": "^0.0.5-alpha.0",
-     
     "@monaco-editor/react": "^4.2.2",
     "@types/jest": "^27.0.1",
     "@types/react": "^17.0.19",
@@ -62,6 +61,7 @@
     "@types/systemjs": "^6.1.1",
     "@types/webpack-env": "^1.16.2",
     "css-loader": "^6.2.0",
+    "date-fns": "^2.24.0",
     "monaco-editor": "^0.27.0",
     "react": "^17.0.2",
     "react-ace": "^9.4.3",

@@ -23,7 +23,7 @@ export const SearchDropdown : React.FC<SearchDropdownProps> = (props) => {
 					<List
 						onClickItem={({item}) => props.onSelect(item)}
 						primaryKey={"label"}
-						data={props.views.filter((a) => props.search && a.label.indexOf(props.search) > -1)} />
+						data={props.views.filter((a) => props.search && a.label.toLowerCase().indexOf(props.search.toLowerCase()) > -1)} />
 				
 				</Box>
 
