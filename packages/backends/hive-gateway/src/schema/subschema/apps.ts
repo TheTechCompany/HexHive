@@ -1,11 +1,5 @@
 export default `
 
-type Organisation {
-    id: ID! @id
-    name: String
-
-    filesystems: [FileSystem] @relationship(type: "HAS_FS", direction: OUT)
-}
 
 type HiveService {
     id: ID!

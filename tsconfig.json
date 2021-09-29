@@ -15,7 +15,7 @@
      "styled-components": ["../node_modules/styled-components"],
      "@types/styled-components": ["../node_modules/@types/styled-components"],
      "@hexhive-apps/3d": ["./apps/hive-3d/src"],
-     "@hexhive/client": ["./core/hexhive-client/src/gqless"],
+     "@hexhive/client": ["./core/hexhive-client/src/gqty"],
      "@hexhive/icons": ["./shared/hexhive-icons/src"],
      "@hexhive/mq": ["./core/hexhive-mq/src"],
      "@hexhive/events-client": ["./core/hexhive-events/src"],

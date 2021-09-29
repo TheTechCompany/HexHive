@@ -38,6 +38,7 @@ export enum SortDirection {
 }
 
 export interface FileSystemConnectInput {
+  organisation?: Maybe<FileSystemOrganisationConnectFieldInput>;
   files?: Maybe<Array<FileSystemFilesConnectFieldInput>>;
 }
 
@@ -47,14 +48,17 @@ export interface FileSystemConnectWhere {
 
 export interface FileSystemCreateInput {
   name: Scalars["String"];
+  organisation?: Maybe<FileSystemOrganisationFieldInput>;
   files?: Maybe<FileSystemFilesFieldInput>;
 }
 
 export interface FileSystemDeleteInput {
+  organisation?: Maybe<FileSystemOrganisationDeleteFieldInput>;
   files?: Maybe<Array<FileSystemFilesDeleteFieldInput>>;
 }
 
 export interface FileSystemDisconnectInput {
+  organisation?: Maybe<FileSystemOrganisationDisconnectFieldInput>;
   files?: Maybe<Array<FileSystemFilesDisconnectFieldInput>>;
 }
 
@@ -113,7 +117,56 @@ export interface FileSystemOptions {
   offset?: Maybe<Scalars["Int"]>;
 }
 
+export interface FileSystemOrganisationConnectFieldInput {
+  where?: Maybe<OrganisationConnectWhere>;
+  connect?: Maybe<OrganisationConnectInput>;
+}
+
+export interface FileSystemOrganisationConnectionSort {
+  node?: Maybe<OrganisationSort>;
+}
+
+export interface FileSystemOrganisationConnectionWhere {
+  AND?: Maybe<Array<FileSystemOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<FileSystemOrganisationConnectionWhere>>;
+  node?: Maybe<OrganisationWhere>;
+  node_NOT?: Maybe<OrganisationWhere>;
+}
+
+export interface FileSystemOrganisationCreateFieldInput {
+  node: OrganisationCreateInput;
+}
+
+export interface FileSystemOrganisationDeleteFieldInput {
+  where?: Maybe<FileSystemOrganisationConnectionWhere>;
+  delete?: Maybe<OrganisationDeleteInput>;
+}
+
+export interface FileSystemOrganisationDisconnectFieldInput {
+  where?: Maybe<FileSystemOrganisationConnectionWhere>;
+  disconnect?: Maybe<OrganisationDisconnectInput>;
+}
+
+export interface FileSystemOrganisationFieldInput {
+  create?: Maybe<FileSystemOrganisationCreateFieldInput>;
+  connect?: Maybe<FileSystemOrganisationConnectFieldInput>;
+}
+
+export interface FileSystemOrganisationUpdateConnectionInput {
+  node?: Maybe<OrganisationUpdateInput>;
+}
+
+export interface FileSystemOrganisationUpdateFieldInput {
+  where?: Maybe<FileSystemOrganisationConnectionWhere>;
+  update?: Maybe<FileSystemOrganisationUpdateConnectionInput>;
+  connect?: Maybe<FileSystemOrganisationConnectFieldInput>;
+  disconnect?: Maybe<FileSystemOrganisationDisconnectFieldInput>;
+  create?: Maybe<FileSystemOrganisationCreateFieldInput>;
+  delete?: Maybe<FileSystemOrganisationDeleteFieldInput>;
+}
+
 export interface FileSystemRelationInput {
+  organisation?: Maybe<FileSystemOrganisationCreateFieldInput>;
   files?: Maybe<Array<FileSystemFilesCreateFieldInput>>;
 }
 
@@ -124,6 +177,7 @@ export interface FileSystemSort {
 
 export interface FileSystemUpdateInput {
   name?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<FileSystemOrganisationUpdateFieldInput>;
   files?: Maybe<Array<FileSystemFilesUpdateFieldInput>>;
 }
 
@@ -140,8 +194,12 @@ export interface FileSystemWhere {
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<OrganisationWhere>;
+  organisation_NOT?: Maybe<OrganisationWhere>;
   files?: Maybe<HiveFileWhere>;
   files_NOT?: Maybe<HiveFileWhere>;
+  organisationConnection?: Maybe<FileSystemOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<FileSystemOrganisationConnectionWhere>;
   filesConnection?: Maybe<FileSystemFilesConnectionWhere>;
   filesConnection_NOT?: Maybe<FileSystemFilesConnectionWhere>;
 }
@@ -598,6 +656,8 @@ export interface HiveFileConvertedFromUpdateFieldInput {
 export interface HiveFileCreateInput {
   name: Scalars["String"];
   cid?: Maybe<Scalars["String"]>;
+  size?: Maybe<Scalars["Int"]>;
+  mimetype?: Maybe<Scalars["String"]>;
   isFolder?: Maybe<Scalars["Boolean"]>;
   fs?: Maybe<HiveFileFsFieldInput>;
   parent?: Maybe<HiveFileParentFieldInput>;
@@ -1042,12 +1102,16 @@ export interface HiveFileSort {
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
   cid?: Maybe<SortDirection>;
+  size?: Maybe<SortDirection>;
+  mimetype?: Maybe<SortDirection>;
   isFolder?: Maybe<SortDirection>;
 }
 
 export interface HiveFileUpdateInput {
   name?: Maybe<Scalars["String"]>;
   cid?: Maybe<Scalars["String"]>;
+  size?: Maybe<Scalars["Int"]>;
+  mimetype?: Maybe<Scalars["String"]>;
   isFolder?: Maybe<Scalars["Boolean"]>;
   fs?: Maybe<HiveFileFsUpdateFieldInput>;
   parent?: Maybe<HiveFileParentUpdateFieldInput>;
@@ -1139,6 +1203,24 @@ export interface HiveFileWhere {
   cid_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   cid_ENDS_WITH?: Maybe<Scalars["String"]>;
   cid_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  size?: Maybe<Scalars["Int"]>;
+  size_NOT?: Maybe<Scalars["Int"]>;
+  size_IN?: Maybe<Array<Maybe<Scalars["Int"]>>>;
+  size_NOT_IN?: Maybe<Array<Maybe<Scalars["Int"]>>>;
+  size_LT?: Maybe<Scalars["Int"]>;
+  size_LTE?: Maybe<Scalars["Int"]>;
+  size_GT?: Maybe<Scalars["Int"]>;
+  size_GTE?: Maybe<Scalars["Int"]>;
+  mimetype?: Maybe<Scalars["String"]>;
+  mimetype_NOT?: Maybe<Scalars["String"]>;
+  mimetype_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  mimetype_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  mimetype_CONTAINS?: Maybe<Scalars["String"]>;
+  mimetype_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  mimetype_STARTS_WITH?: Maybe<Scalars["String"]>;
+  mimetype_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  mimetype_ENDS_WITH?: Maybe<Scalars["String"]>;
+  mimetype_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   isFolder?: Maybe<Scalars["Boolean"]>;
   isFolder_NOT?: Maybe<Scalars["Boolean"]>;
   fs?: Maybe<FileSystemWhere>;
@@ -2155,6 +2237,7 @@ export interface HivePipelineRunConnectWhere {
 }
 
 export interface HivePipelineRunCreateInput {
+  startedAt?: Maybe<Scalars["DateTime"]>;
   completedAt?: Maybe<Scalars["DateTime"]>;
   pipeline?: Maybe<HivePipelineRunPipelineFieldInput>;
   inputs?: Maybe<HivePipelineRunInputsFieldInput>;
@@ -2284,10 +2367,12 @@ export interface HivePipelineRunRelationInput {
 export interface HivePipelineRunSort {
   id?: Maybe<SortDirection>;
   createdAt?: Maybe<SortDirection>;
+  startedAt?: Maybe<SortDirection>;
   completedAt?: Maybe<SortDirection>;
 }
 
 export interface HivePipelineRunUpdateInput {
+  startedAt?: Maybe<Scalars["DateTime"]>;
   completedAt?: Maybe<Scalars["DateTime"]>;
   pipeline?: Maybe<HivePipelineRunPipelineUpdateFieldInput>;
   inputs?: Maybe<Array<HivePipelineRunInputsUpdateFieldInput>>;
@@ -2314,6 +2399,14 @@ export interface HivePipelineRunWhere {
   createdAt_LTE?: Maybe<Scalars["DateTime"]>;
   createdAt_GT?: Maybe<Scalars["DateTime"]>;
   createdAt_GTE?: Maybe<Scalars["DateTime"]>;
+  startedAt?: Maybe<Scalars["DateTime"]>;
+  startedAt_NOT?: Maybe<Scalars["DateTime"]>;
+  startedAt_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startedAt_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startedAt_LT?: Maybe<Scalars["DateTime"]>;
+  startedAt_LTE?: Maybe<Scalars["DateTime"]>;
+  startedAt_GT?: Maybe<Scalars["DateTime"]>;
+  startedAt_GTE?: Maybe<Scalars["DateTime"]>;
   completedAt?: Maybe<Scalars["DateTime"]>;
   completedAt_NOT?: Maybe<Scalars["DateTime"]>;
   completedAt_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
@@ -3152,9 +3245,702 @@ export interface HiveServiceWhere {
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
 }
 
+export interface OrganisationConnectInput {
+  roles?: Maybe<Array<OrganisationRolesConnectFieldInput>>;
+  members?: Maybe<Array<OrganisationMembersConnectFieldInput>>;
+  filesystems?: Maybe<Array<OrganisationFilesystemsConnectFieldInput>>;
+}
+
+export interface OrganisationConnectWhere {
+  node: OrganisationWhere;
+}
+
+export interface OrganisationCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  roles?: Maybe<OrganisationRolesFieldInput>;
+  members?: Maybe<OrganisationMembersFieldInput>;
+  filesystems?: Maybe<OrganisationFilesystemsFieldInput>;
+}
+
+export interface OrganisationDeleteInput {
+  roles?: Maybe<Array<OrganisationRolesDeleteFieldInput>>;
+  members?: Maybe<Array<OrganisationMembersDeleteFieldInput>>;
+  filesystems?: Maybe<Array<OrganisationFilesystemsDeleteFieldInput>>;
+}
+
+export interface OrganisationDisconnectInput {
+  roles?: Maybe<Array<OrganisationRolesDisconnectFieldInput>>;
+  members?: Maybe<Array<OrganisationMembersDisconnectFieldInput>>;
+  filesystems?: Maybe<Array<OrganisationFilesystemsDisconnectFieldInput>>;
+}
+
+export interface OrganisationFilesystemsConnectFieldInput {
+  where?: Maybe<FileSystemConnectWhere>;
+  connect?: Maybe<Array<FileSystemConnectInput>>;
+}
+
+export interface OrganisationFilesystemsConnectionSort {
+  node?: Maybe<FileSystemSort>;
+}
+
+export interface OrganisationFilesystemsConnectionWhere {
+  AND?: Maybe<Array<OrganisationFilesystemsConnectionWhere>>;
+  OR?: Maybe<Array<OrganisationFilesystemsConnectionWhere>>;
+  node?: Maybe<FileSystemWhere>;
+  node_NOT?: Maybe<FileSystemWhere>;
+}
+
+export interface OrganisationFilesystemsCreateFieldInput {
+  node: FileSystemCreateInput;
+}
+
+export interface OrganisationFilesystemsDeleteFieldInput {
+  where?: Maybe<OrganisationFilesystemsConnectionWhere>;
+  delete?: Maybe<FileSystemDeleteInput>;
+}
+
+export interface OrganisationFilesystemsDisconnectFieldInput {
+  where?: Maybe<OrganisationFilesystemsConnectionWhere>;
+  disconnect?: Maybe<FileSystemDisconnectInput>;
+}
+
+export interface OrganisationFilesystemsFieldInput {
+  create?: Maybe<Array<OrganisationFilesystemsCreateFieldInput>>;
+  connect?: Maybe<Array<OrganisationFilesystemsConnectFieldInput>>;
+}
+
+export interface OrganisationFilesystemsUpdateConnectionInput {
+  node?: Maybe<FileSystemUpdateInput>;
+}
+
+export interface OrganisationFilesystemsUpdateFieldInput {
+  where?: Maybe<OrganisationFilesystemsConnectionWhere>;
+  update?: Maybe<OrganisationFilesystemsUpdateConnectionInput>;
+  connect?: Maybe<Array<OrganisationFilesystemsConnectFieldInput>>;
+  disconnect?: Maybe<Array<OrganisationFilesystemsDisconnectFieldInput>>;
+  create?: Maybe<Array<OrganisationFilesystemsCreateFieldInput>>;
+  delete?: Maybe<Array<OrganisationFilesystemsDeleteFieldInput>>;
+}
+
+export interface OrganisationMembersConnectFieldInput {
+  where?: Maybe<UserConnectWhere>;
+  connect?: Maybe<Array<UserConnectInput>>;
+}
+
+export interface OrganisationMembersConnectionSort {
+  node?: Maybe<UserSort>;
+}
+
+export interface OrganisationMembersConnectionWhere {
+  AND?: Maybe<Array<OrganisationMembersConnectionWhere>>;
+  OR?: Maybe<Array<OrganisationMembersConnectionWhere>>;
+  node?: Maybe<UserWhere>;
+  node_NOT?: Maybe<UserWhere>;
+}
+
+export interface OrganisationMembersCreateFieldInput {
+  node: UserCreateInput;
+}
+
+export interface OrganisationMembersDeleteFieldInput {
+  where?: Maybe<OrganisationMembersConnectionWhere>;
+  delete?: Maybe<UserDeleteInput>;
+}
+
+export interface OrganisationMembersDisconnectFieldInput {
+  where?: Maybe<OrganisationMembersConnectionWhere>;
+  disconnect?: Maybe<UserDisconnectInput>;
+}
+
+export interface OrganisationMembersFieldInput {
+  create?: Maybe<Array<OrganisationMembersCreateFieldInput>>;
+  connect?: Maybe<Array<OrganisationMembersConnectFieldInput>>;
+}
+
+export interface OrganisationMembersUpdateConnectionInput {
+  node?: Maybe<UserUpdateInput>;
+}
+
+export interface OrganisationMembersUpdateFieldInput {
+  where?: Maybe<OrganisationMembersConnectionWhere>;
+  update?: Maybe<OrganisationMembersUpdateConnectionInput>;
+  connect?: Maybe<Array<OrganisationMembersConnectFieldInput>>;
+  disconnect?: Maybe<Array<OrganisationMembersDisconnectFieldInput>>;
+  create?: Maybe<Array<OrganisationMembersCreateFieldInput>>;
+  delete?: Maybe<Array<OrganisationMembersDeleteFieldInput>>;
+}
+
+export interface OrganisationOptions {
+  /** Specify one or more OrganisationSort objects to sort Organisations by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<OrganisationSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface OrganisationRelationInput {
+  roles?: Maybe<Array<OrganisationRolesCreateFieldInput>>;
+  members?: Maybe<Array<OrganisationMembersCreateFieldInput>>;
+  filesystems?: Maybe<Array<OrganisationFilesystemsCreateFieldInput>>;
+}
+
+export interface OrganisationRolesConnectFieldInput {
+  where?: Maybe<RoleConnectWhere>;
+  connect?: Maybe<Array<RoleConnectInput>>;
+}
+
+export interface OrganisationRolesConnectionSort {
+  node?: Maybe<RoleSort>;
+}
+
+export interface OrganisationRolesConnectionWhere {
+  AND?: Maybe<Array<OrganisationRolesConnectionWhere>>;
+  OR?: Maybe<Array<OrganisationRolesConnectionWhere>>;
+  node?: Maybe<RoleWhere>;
+  node_NOT?: Maybe<RoleWhere>;
+}
+
+export interface OrganisationRolesCreateFieldInput {
+  node: RoleCreateInput;
+}
+
+export interface OrganisationRolesDeleteFieldInput {
+  where?: Maybe<OrganisationRolesConnectionWhere>;
+  delete?: Maybe<RoleDeleteInput>;
+}
+
+export interface OrganisationRolesDisconnectFieldInput {
+  where?: Maybe<OrganisationRolesConnectionWhere>;
+  disconnect?: Maybe<RoleDisconnectInput>;
+}
+
+export interface OrganisationRolesFieldInput {
+  create?: Maybe<Array<OrganisationRolesCreateFieldInput>>;
+  connect?: Maybe<Array<OrganisationRolesConnectFieldInput>>;
+}
+
+export interface OrganisationRolesUpdateConnectionInput {
+  node?: Maybe<RoleUpdateInput>;
+}
+
+export interface OrganisationRolesUpdateFieldInput {
+  where?: Maybe<OrganisationRolesConnectionWhere>;
+  update?: Maybe<OrganisationRolesUpdateConnectionInput>;
+  connect?: Maybe<Array<OrganisationRolesConnectFieldInput>>;
+  disconnect?: Maybe<Array<OrganisationRolesDisconnectFieldInput>>;
+  create?: Maybe<Array<OrganisationRolesCreateFieldInput>>;
+  delete?: Maybe<Array<OrganisationRolesDeleteFieldInput>>;
+}
+
+/** Fields to sort Organisations by. The order in which sorts are applied is not guaranteed when specifying many fields in one OrganisationSort object. */
+export interface OrganisationSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+}
+
+export interface OrganisationUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  roles?: Maybe<Array<OrganisationRolesUpdateFieldInput>>;
+  members?: Maybe<Array<OrganisationMembersUpdateFieldInput>>;
+  filesystems?: Maybe<Array<OrganisationFilesystemsUpdateFieldInput>>;
+}
+
+export interface OrganisationWhere {
+  OR?: Maybe<Array<OrganisationWhere>>;
+  AND?: Maybe<Array<OrganisationWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  roles?: Maybe<RoleWhere>;
+  roles_NOT?: Maybe<RoleWhere>;
+  members?: Maybe<UserWhere>;
+  members_NOT?: Maybe<UserWhere>;
+  filesystems?: Maybe<FileSystemWhere>;
+  filesystems_NOT?: Maybe<FileSystemWhere>;
+  rolesConnection?: Maybe<OrganisationRolesConnectionWhere>;
+  rolesConnection_NOT?: Maybe<OrganisationRolesConnectionWhere>;
+  membersConnection?: Maybe<OrganisationMembersConnectionWhere>;
+  membersConnection_NOT?: Maybe<OrganisationMembersConnectionWhere>;
+  filesystemsConnection?: Maybe<OrganisationFilesystemsConnectionWhere>;
+  filesystemsConnection_NOT?: Maybe<OrganisationFilesystemsConnectionWhere>;
+}
+
+export interface PermissionConnectInput {
+  roles?: Maybe<Array<PermissionRolesConnectFieldInput>>;
+}
+
+export interface PermissionConnectWhere {
+  node: PermissionWhere;
+}
+
+export interface PermissionCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  action?: Maybe<Scalars["String"]>;
+  scope?: Maybe<Scalars["String"]>;
+  roles?: Maybe<PermissionRolesFieldInput>;
+}
+
+export interface PermissionDeleteInput {
+  roles?: Maybe<Array<PermissionRolesDeleteFieldInput>>;
+}
+
+export interface PermissionDisconnectInput {
+  roles?: Maybe<Array<PermissionRolesDisconnectFieldInput>>;
+}
+
+export interface PermissionOptions {
+  /** Specify one or more PermissionSort objects to sort Permissions by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<PermissionSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface PermissionRelationInput {
+  roles?: Maybe<Array<PermissionRolesCreateFieldInput>>;
+}
+
+export interface PermissionRolesConnectFieldInput {
+  where?: Maybe<RoleConnectWhere>;
+  connect?: Maybe<Array<RoleConnectInput>>;
+}
+
+export interface PermissionRolesConnectionSort {
+  node?: Maybe<RoleSort>;
+}
+
+export interface PermissionRolesConnectionWhere {
+  AND?: Maybe<Array<PermissionRolesConnectionWhere>>;
+  OR?: Maybe<Array<PermissionRolesConnectionWhere>>;
+  node?: Maybe<RoleWhere>;
+  node_NOT?: Maybe<RoleWhere>;
+}
+
+export interface PermissionRolesCreateFieldInput {
+  node: RoleCreateInput;
+}
+
+export interface PermissionRolesDeleteFieldInput {
+  where?: Maybe<PermissionRolesConnectionWhere>;
+  delete?: Maybe<RoleDeleteInput>;
+}
+
+export interface PermissionRolesDisconnectFieldInput {
+  where?: Maybe<PermissionRolesConnectionWhere>;
+  disconnect?: Maybe<RoleDisconnectInput>;
+}
+
+export interface PermissionRolesFieldInput {
+  create?: Maybe<Array<PermissionRolesCreateFieldInput>>;
+  connect?: Maybe<Array<PermissionRolesConnectFieldInput>>;
+}
+
+export interface PermissionRolesUpdateConnectionInput {
+  node?: Maybe<RoleUpdateInput>;
+}
+
+export interface PermissionRolesUpdateFieldInput {
+  where?: Maybe<PermissionRolesConnectionWhere>;
+  update?: Maybe<PermissionRolesUpdateConnectionInput>;
+  connect?: Maybe<Array<PermissionRolesConnectFieldInput>>;
+  disconnect?: Maybe<Array<PermissionRolesDisconnectFieldInput>>;
+  create?: Maybe<Array<PermissionRolesCreateFieldInput>>;
+  delete?: Maybe<Array<PermissionRolesDeleteFieldInput>>;
+}
+
+/** Fields to sort Permissions by. The order in which sorts are applied is not guaranteed when specifying many fields in one PermissionSort object. */
+export interface PermissionSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  action?: Maybe<SortDirection>;
+  scope?: Maybe<SortDirection>;
+}
+
+export interface PermissionUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  action?: Maybe<Scalars["String"]>;
+  scope?: Maybe<Scalars["String"]>;
+  roles?: Maybe<Array<PermissionRolesUpdateFieldInput>>;
+}
+
+export interface PermissionWhere {
+  OR?: Maybe<Array<PermissionWhere>>;
+  AND?: Maybe<Array<PermissionWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  action?: Maybe<Scalars["String"]>;
+  action_NOT?: Maybe<Scalars["String"]>;
+  action_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  action_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  action_CONTAINS?: Maybe<Scalars["String"]>;
+  action_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  action_STARTS_WITH?: Maybe<Scalars["String"]>;
+  action_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  action_ENDS_WITH?: Maybe<Scalars["String"]>;
+  action_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  scope?: Maybe<Scalars["String"]>;
+  scope_NOT?: Maybe<Scalars["String"]>;
+  scope_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  scope_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  scope_CONTAINS?: Maybe<Scalars["String"]>;
+  scope_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  scope_STARTS_WITH?: Maybe<Scalars["String"]>;
+  scope_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  scope_ENDS_WITH?: Maybe<Scalars["String"]>;
+  scope_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  roles?: Maybe<RoleWhere>;
+  roles_NOT?: Maybe<RoleWhere>;
+  rolesConnection?: Maybe<PermissionRolesConnectionWhere>;
+  rolesConnection_NOT?: Maybe<PermissionRolesConnectionWhere>;
+}
+
 export interface QueryOptions {
   offset?: Maybe<Scalars["Int"]>;
   limit?: Maybe<Scalars["Int"]>;
+}
+
+export interface RoleConnectInput {
+  permissions?: Maybe<Array<RolePermissionsConnectFieldInput>>;
+  organisation?: Maybe<RoleOrganisationConnectFieldInput>;
+}
+
+export interface RoleConnectWhere {
+  node: RoleWhere;
+}
+
+export interface RoleCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  permissions?: Maybe<RolePermissionsFieldInput>;
+  organisation?: Maybe<RoleOrganisationFieldInput>;
+}
+
+export interface RoleDeleteInput {
+  permissions?: Maybe<Array<RolePermissionsDeleteFieldInput>>;
+  organisation?: Maybe<RoleOrganisationDeleteFieldInput>;
+}
+
+export interface RoleDisconnectInput {
+  permissions?: Maybe<Array<RolePermissionsDisconnectFieldInput>>;
+  organisation?: Maybe<RoleOrganisationDisconnectFieldInput>;
+}
+
+export interface RoleOptions {
+  /** Specify one or more RoleSort objects to sort Roles by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<RoleSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface RoleOrganisationConnectFieldInput {
+  where?: Maybe<OrganisationConnectWhere>;
+  connect?: Maybe<OrganisationConnectInput>;
+}
+
+export interface RoleOrganisationConnectionSort {
+  node?: Maybe<OrganisationSort>;
+}
+
+export interface RoleOrganisationConnectionWhere {
+  AND?: Maybe<Array<RoleOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<RoleOrganisationConnectionWhere>>;
+  node?: Maybe<OrganisationWhere>;
+  node_NOT?: Maybe<OrganisationWhere>;
+}
+
+export interface RoleOrganisationCreateFieldInput {
+  node: OrganisationCreateInput;
+}
+
+export interface RoleOrganisationDeleteFieldInput {
+  where?: Maybe<RoleOrganisationConnectionWhere>;
+  delete?: Maybe<OrganisationDeleteInput>;
+}
+
+export interface RoleOrganisationDisconnectFieldInput {
+  where?: Maybe<RoleOrganisationConnectionWhere>;
+  disconnect?: Maybe<OrganisationDisconnectInput>;
+}
+
+export interface RoleOrganisationFieldInput {
+  create?: Maybe<RoleOrganisationCreateFieldInput>;
+  connect?: Maybe<RoleOrganisationConnectFieldInput>;
+}
+
+export interface RoleOrganisationUpdateConnectionInput {
+  node?: Maybe<OrganisationUpdateInput>;
+}
+
+export interface RoleOrganisationUpdateFieldInput {
+  where?: Maybe<RoleOrganisationConnectionWhere>;
+  update?: Maybe<RoleOrganisationUpdateConnectionInput>;
+  connect?: Maybe<RoleOrganisationConnectFieldInput>;
+  disconnect?: Maybe<RoleOrganisationDisconnectFieldInput>;
+  create?: Maybe<RoleOrganisationCreateFieldInput>;
+  delete?: Maybe<RoleOrganisationDeleteFieldInput>;
+}
+
+export interface RolePermissionsConnectFieldInput {
+  where?: Maybe<PermissionConnectWhere>;
+  connect?: Maybe<Array<PermissionConnectInput>>;
+}
+
+export interface RolePermissionsConnectionSort {
+  node?: Maybe<PermissionSort>;
+}
+
+export interface RolePermissionsConnectionWhere {
+  AND?: Maybe<Array<RolePermissionsConnectionWhere>>;
+  OR?: Maybe<Array<RolePermissionsConnectionWhere>>;
+  node?: Maybe<PermissionWhere>;
+  node_NOT?: Maybe<PermissionWhere>;
+}
+
+export interface RolePermissionsCreateFieldInput {
+  node: PermissionCreateInput;
+}
+
+export interface RolePermissionsDeleteFieldInput {
+  where?: Maybe<RolePermissionsConnectionWhere>;
+  delete?: Maybe<PermissionDeleteInput>;
+}
+
+export interface RolePermissionsDisconnectFieldInput {
+  where?: Maybe<RolePermissionsConnectionWhere>;
+  disconnect?: Maybe<PermissionDisconnectInput>;
+}
+
+export interface RolePermissionsFieldInput {
+  create?: Maybe<Array<RolePermissionsCreateFieldInput>>;
+  connect?: Maybe<Array<RolePermissionsConnectFieldInput>>;
+}
+
+export interface RolePermissionsUpdateConnectionInput {
+  node?: Maybe<PermissionUpdateInput>;
+}
+
+export interface RolePermissionsUpdateFieldInput {
+  where?: Maybe<RolePermissionsConnectionWhere>;
+  update?: Maybe<RolePermissionsUpdateConnectionInput>;
+  connect?: Maybe<Array<RolePermissionsConnectFieldInput>>;
+  disconnect?: Maybe<Array<RolePermissionsDisconnectFieldInput>>;
+  create?: Maybe<Array<RolePermissionsCreateFieldInput>>;
+  delete?: Maybe<Array<RolePermissionsDeleteFieldInput>>;
+}
+
+export interface RoleRelationInput {
+  permissions?: Maybe<Array<RolePermissionsCreateFieldInput>>;
+  organisation?: Maybe<RoleOrganisationCreateFieldInput>;
+}
+
+/** Fields to sort Roles by. The order in which sorts are applied is not guaranteed when specifying many fields in one RoleSort object. */
+export interface RoleSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+}
+
+export interface RoleUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  permissions?: Maybe<Array<RolePermissionsUpdateFieldInput>>;
+  organisation?: Maybe<RoleOrganisationUpdateFieldInput>;
+}
+
+export interface RoleWhere {
+  OR?: Maybe<Array<RoleWhere>>;
+  AND?: Maybe<Array<RoleWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  permissions?: Maybe<PermissionWhere>;
+  permissions_NOT?: Maybe<PermissionWhere>;
+  organisation?: Maybe<OrganisationWhere>;
+  organisation_NOT?: Maybe<OrganisationWhere>;
+  permissionsConnection?: Maybe<RolePermissionsConnectionWhere>;
+  permissionsConnection_NOT?: Maybe<RolePermissionsConnectionWhere>;
+  organisationConnection?: Maybe<RoleOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<RoleOrganisationConnectionWhere>;
+}
+
+export interface UserConnectInput {
+  organisations?: Maybe<Array<UserOrganisationsConnectFieldInput>>;
+}
+
+export interface UserConnectWhere {
+  node: UserWhere;
+}
+
+export interface UserCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  organisations?: Maybe<UserOrganisationsFieldInput>;
+}
+
+export interface UserDeleteInput {
+  organisations?: Maybe<Array<UserOrganisationsDeleteFieldInput>>;
+}
+
+export interface UserDisconnectInput {
+  organisations?: Maybe<Array<UserOrganisationsDisconnectFieldInput>>;
+}
+
+export interface UserOptions {
+  /** Specify one or more UserSort objects to sort Users by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<UserSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface UserOrganisationsConnectFieldInput {
+  where?: Maybe<OrganisationConnectWhere>;
+  connect?: Maybe<Array<OrganisationConnectInput>>;
+}
+
+export interface UserOrganisationsConnectionSort {
+  node?: Maybe<OrganisationSort>;
+}
+
+export interface UserOrganisationsConnectionWhere {
+  AND?: Maybe<Array<UserOrganisationsConnectionWhere>>;
+  OR?: Maybe<Array<UserOrganisationsConnectionWhere>>;
+  node?: Maybe<OrganisationWhere>;
+  node_NOT?: Maybe<OrganisationWhere>;
+}
+
+export interface UserOrganisationsCreateFieldInput {
+  node: OrganisationCreateInput;
+}
+
+export interface UserOrganisationsDeleteFieldInput {
+  where?: Maybe<UserOrganisationsConnectionWhere>;
+  delete?: Maybe<OrganisationDeleteInput>;
+}
+
+export interface UserOrganisationsDisconnectFieldInput {
+  where?: Maybe<UserOrganisationsConnectionWhere>;
+  disconnect?: Maybe<OrganisationDisconnectInput>;
+}
+
+export interface UserOrganisationsFieldInput {
+  create?: Maybe<Array<UserOrganisationsCreateFieldInput>>;
+  connect?: Maybe<Array<UserOrganisationsConnectFieldInput>>;
+}
+
+export interface UserOrganisationsUpdateConnectionInput {
+  node?: Maybe<OrganisationUpdateInput>;
+}
+
+export interface UserOrganisationsUpdateFieldInput {
+  where?: Maybe<UserOrganisationsConnectionWhere>;
+  update?: Maybe<UserOrganisationsUpdateConnectionInput>;
+  connect?: Maybe<Array<UserOrganisationsConnectFieldInput>>;
+  disconnect?: Maybe<Array<UserOrganisationsDisconnectFieldInput>>;
+  create?: Maybe<Array<UserOrganisationsCreateFieldInput>>;
+  delete?: Maybe<Array<UserOrganisationsDeleteFieldInput>>;
+}
+
+export interface UserRelationInput {
+  organisations?: Maybe<Array<UserOrganisationsCreateFieldInput>>;
+}
+
+/** Fields to sort Users by. The order in which sorts are applied is not guaranteed when specifying many fields in one UserSort object. */
+export interface UserSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  email?: Maybe<SortDirection>;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  organisations?: Maybe<Array<UserOrganisationsUpdateFieldInput>>;
+}
+
+export interface UserWhere {
+  OR?: Maybe<Array<UserWhere>>;
+  AND?: Maybe<Array<UserWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  email_NOT?: Maybe<Scalars["String"]>;
+  email_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  email_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  email_CONTAINS?: Maybe<Scalars["String"]>;
+  email_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  email_STARTS_WITH?: Maybe<Scalars["String"]>;
+  email_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  email_ENDS_WITH?: Maybe<Scalars["String"]>;
+  email_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  organisations?: Maybe<OrganisationWhere>;
+  organisations_NOT?: Maybe<OrganisationWhere>;
+  organisationsConnection?: Maybe<UserOrganisationsConnectionWhere>;
+  organisationsConnection_NOT?: Maybe<UserOrganisationsConnectionWhere>;
 }
 
 export interface ProjectInput {
@@ -5512,6 +6298,29 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "HiveProcessResultWhere" },
     },
+    organisations: {
+      __type: "[Organisation!]!",
+      __args: { where: "OrganisationWhere", options: "OrganisationOptions" },
+    },
+    organisationsCount: {
+      __type: "Int!",
+      __args: { where: "OrganisationWhere" },
+    },
+    users: {
+      __type: "[User!]!",
+      __args: { where: "UserWhere", options: "UserOptions" },
+    },
+    usersCount: { __type: "Int!", __args: { where: "UserWhere" } },
+    roles: {
+      __type: "[Role!]!",
+      __args: { where: "RoleWhere", options: "RoleOptions" },
+    },
+    rolesCount: { __type: "Int!", __args: { where: "RoleWhere" } },
+    permissions: {
+      __type: "[Permission!]!",
+      __args: { where: "PermissionWhere", options: "PermissionOptions" },
+    },
+    permissionsCount: { __type: "Int!", __args: { where: "PermissionWhere" } },
     ProjectById: { __type: "Project", __args: { id: "ID" } },
     ProjectMany: {
       __type: "[Project]",
@@ -6291,6 +7100,82 @@ export const generatedSchema = {
         delete: "HiveProcessResultDeleteInput",
       },
     },
+    createOrganisations: {
+      __type: "CreateOrganisationsMutationResponse!",
+      __args: { input: "[OrganisationCreateInput!]!" },
+    },
+    deleteOrganisations: {
+      __type: "DeleteInfo!",
+      __args: { where: "OrganisationWhere", delete: "OrganisationDeleteInput" },
+    },
+    updateOrganisations: {
+      __type: "UpdateOrganisationsMutationResponse!",
+      __args: {
+        where: "OrganisationWhere",
+        update: "OrganisationUpdateInput",
+        connect: "OrganisationConnectInput",
+        disconnect: "OrganisationDisconnectInput",
+        create: "OrganisationRelationInput",
+        delete: "OrganisationDeleteInput",
+      },
+    },
+    createUsers: {
+      __type: "CreateUsersMutationResponse!",
+      __args: { input: "[UserCreateInput!]!" },
+    },
+    deleteUsers: {
+      __type: "DeleteInfo!",
+      __args: { where: "UserWhere", delete: "UserDeleteInput" },
+    },
+    updateUsers: {
+      __type: "UpdateUsersMutationResponse!",
+      __args: {
+        where: "UserWhere",
+        update: "UserUpdateInput",
+        connect: "UserConnectInput",
+        disconnect: "UserDisconnectInput",
+        create: "UserRelationInput",
+        delete: "UserDeleteInput",
+      },
+    },
+    createRoles: {
+      __type: "CreateRolesMutationResponse!",
+      __args: { input: "[RoleCreateInput!]!" },
+    },
+    deleteRoles: {
+      __type: "DeleteInfo!",
+      __args: { where: "RoleWhere", delete: "RoleDeleteInput" },
+    },
+    updateRoles: {
+      __type: "UpdateRolesMutationResponse!",
+      __args: {
+        where: "RoleWhere",
+        update: "RoleUpdateInput",
+        connect: "RoleConnectInput",
+        disconnect: "RoleDisconnectInput",
+        create: "RoleRelationInput",
+        delete: "RoleDeleteInput",
+      },
+    },
+    createPermissions: {
+      __type: "CreatePermissionsMutationResponse!",
+      __args: { input: "[PermissionCreateInput!]!" },
+    },
+    deletePermissions: {
+      __type: "DeleteInfo!",
+      __args: { where: "PermissionWhere", delete: "PermissionDeleteInput" },
+    },
+    updatePermissions: {
+      __type: "UpdatePermissionsMutationResponse!",
+      __args: {
+        where: "PermissionWhere",
+        update: "PermissionUpdateInput",
+        connect: "PermissionConnectInput",
+        disconnect: "PermissionDisconnectInput",
+        create: "PermissionRelationInput",
+        delete: "PermissionDeleteInput",
+      },
+    },
     addProject: { __type: "Project", __args: { project: "ProjectInput" } },
     updateProject: {
       __type: "Project",
@@ -6745,6 +7630,26 @@ export const generatedSchema = {
     nodesCreated: { __type: "Int!" },
     relationshipsCreated: { __type: "Int!" },
   },
+  CreateOrganisationsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    organisations: { __type: "[Organisation!]!" },
+  },
+  CreatePermissionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    permissions: { __type: "[Permission!]!" },
+  },
+  CreateRolesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    roles: { __type: "[Role!]!" },
+  },
+  CreateUsersMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    users: { __type: "[User!]!" },
+  },
   DeleteInfo: {
     __typename: { __type: "String!" },
     bookmark: { __type: "String" },
@@ -6754,9 +7659,22 @@ export const generatedSchema = {
   FileSystem: {
     __typename: { __type: "String!" },
     name: { __type: "String!" },
+    organisation: {
+      __type: "Organisation",
+      __args: { where: "OrganisationWhere", options: "OrganisationOptions" },
+    },
     files: {
       __type: "[HiveFile!]!",
       __args: { where: "HiveFileWhere", options: "HiveFileOptions" },
+    },
+    organisationConnection: {
+      __type: "FileSystemOrganisationConnection!",
+      __args: {
+        where: "FileSystemOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[FileSystemOrganisationConnectionSort!]",
+      },
     },
     filesConnection: {
       __type: "FileSystemFilesConnection!",
@@ -6778,6 +7696,17 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "HiveFile!" },
+  },
+  FileSystemOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[FileSystemOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  FileSystemOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Organisation!" },
   },
   HiveAppliance: {
     __typename: { __type: "String!" },
@@ -6865,6 +7794,8 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String!" },
     cid: { __type: "String" },
+    size: { __type: "Int" },
+    mimetype: { __type: "String" },
     isFolder: { __type: "Boolean" },
     path_id: { __type: "String" },
     path: { __type: "String" },
@@ -7360,6 +8291,7 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     createdAt: { __type: "DateTime" },
+    startedAt: { __type: "DateTime" },
     completedAt: { __type: "DateTime" },
     pipeline: {
       __type: "HivePipeline",
@@ -7608,12 +8540,173 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String" },
   },
+  Organisation: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    roles: {
+      __type: "[Role]",
+      __args: { where: "RoleWhere", options: "RoleOptions" },
+    },
+    members: {
+      __type: "[User]",
+      __args: { where: "UserWhere", options: "UserOptions" },
+    },
+    filesystems: {
+      __type: "[FileSystem]",
+      __args: { where: "FileSystemWhere", options: "FileSystemOptions" },
+    },
+    rolesConnection: {
+      __type: "OrganisationRolesConnection!",
+      __args: {
+        where: "OrganisationRolesConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[OrganisationRolesConnectionSort!]",
+      },
+    },
+    membersConnection: {
+      __type: "OrganisationMembersConnection!",
+      __args: {
+        where: "OrganisationMembersConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[OrganisationMembersConnectionSort!]",
+      },
+    },
+    filesystemsConnection: {
+      __type: "OrganisationFilesystemsConnection!",
+      __args: {
+        where: "OrganisationFilesystemsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[OrganisationFilesystemsConnectionSort!]",
+      },
+    },
+  },
+  OrganisationFilesystemsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[OrganisationFilesystemsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  OrganisationFilesystemsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "FileSystem!" },
+  },
+  OrganisationMembersConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[OrganisationMembersRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  OrganisationMembersRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "User!" },
+  },
+  OrganisationRolesConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[OrganisationRolesRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  OrganisationRolesRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Role!" },
+  },
   PageInfo: {
     __typename: { __type: "String!" },
     hasNextPage: { __type: "Boolean!" },
     hasPreviousPage: { __type: "Boolean!" },
     startCursor: { __type: "String" },
     endCursor: { __type: "String" },
+  },
+  Permission: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    action: { __type: "String" },
+    scope: { __type: "String" },
+    roles: {
+      __type: "[Role]",
+      __args: { where: "RoleWhere", options: "RoleOptions" },
+    },
+    rolesConnection: {
+      __type: "PermissionRolesConnection!",
+      __args: {
+        where: "PermissionRolesConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[PermissionRolesConnectionSort!]",
+      },
+    },
+  },
+  PermissionRolesConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[PermissionRolesRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  PermissionRolesRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Role!" },
+  },
+  Role: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    permissions: {
+      __type: "[Permission]",
+      __args: { where: "PermissionWhere", options: "PermissionOptions" },
+    },
+    organisation: {
+      __type: "Organisation",
+      __args: { where: "OrganisationWhere", options: "OrganisationOptions" },
+    },
+    permissionsConnection: {
+      __type: "RolePermissionsConnection!",
+      __args: {
+        where: "RolePermissionsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[RolePermissionsConnectionSort!]",
+      },
+    },
+    organisationConnection: {
+      __type: "RoleOrganisationConnection!",
+      __args: {
+        where: "RoleOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[RoleOrganisationConnectionSort!]",
+      },
+    },
+  },
+  RoleOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[RoleOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  RoleOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Organisation!" },
+  },
+  RolePermissionsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[RolePermissionsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  RolePermissionsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Permission!" },
   },
   UpdateFileSystemsMutationResponse: {
     __typename: { __type: "String!" },
@@ -7698,18 +8791,72 @@ export const generatedSchema = {
     relationshipsCreated: { __type: "Int!" },
     relationshipsDeleted: { __type: "Int!" },
   },
+  UpdateOrganisationsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    organisations: { __type: "[Organisation!]!" },
+  },
+  UpdatePermissionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    permissions: { __type: "[Permission!]!" },
+  },
+  UpdateRolesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    roles: { __type: "[Role!]!" },
+  },
+  UpdateUsersMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    users: { __type: "[User!]!" },
+  },
+  User: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    email: { __type: "String" },
+    organisations: {
+      __type: "[Organisation]",
+      __args: { where: "OrganisationWhere", options: "OrganisationOptions" },
+    },
+    organisationsConnection: {
+      __type: "UserOrganisationsConnection!",
+      __args: {
+        where: "UserOrganisationsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[UserOrganisationsConnectionSort!]",
+      },
+    },
+  },
+  UserOrganisationsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[UserOrganisationsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  UserOrganisationsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Organisation!" },
+  },
   FileSystemConnectInput: {
+    organisation: { __type: "FileSystemOrganisationConnectFieldInput" },
     files: { __type: "[FileSystemFilesConnectFieldInput!]" },
   },
   FileSystemConnectWhere: { node: { __type: "FileSystemWhere!" } },
   FileSystemCreateInput: {
     name: { __type: "String!" },
+    organisation: { __type: "FileSystemOrganisationFieldInput" },
     files: { __type: "FileSystemFilesFieldInput" },
   },
   FileSystemDeleteInput: {
+    organisation: { __type: "FileSystemOrganisationDeleteFieldInput" },
     files: { __type: "[FileSystemFilesDeleteFieldInput!]" },
   },
   FileSystemDisconnectInput: {
+    organisation: { __type: "FileSystemOrganisationDisconnectFieldInput" },
     files: { __type: "[FileSystemFilesDisconnectFieldInput!]" },
   },
   FileSystemFilesConnectFieldInput: {
@@ -7752,12 +8899,53 @@ export const generatedSchema = {
     limit: { __type: "Int" },
     offset: { __type: "Int" },
   },
+  FileSystemOrganisationConnectFieldInput: {
+    where: { __type: "OrganisationConnectWhere" },
+    connect: { __type: "OrganisationConnectInput" },
+  },
+  FileSystemOrganisationConnectionSort: {
+    node: { __type: "OrganisationSort" },
+  },
+  FileSystemOrganisationConnectionWhere: {
+    AND: { __type: "[FileSystemOrganisationConnectionWhere!]" },
+    OR: { __type: "[FileSystemOrganisationConnectionWhere!]" },
+    node: { __type: "OrganisationWhere" },
+    node_NOT: { __type: "OrganisationWhere" },
+  },
+  FileSystemOrganisationCreateFieldInput: {
+    node: { __type: "OrganisationCreateInput!" },
+  },
+  FileSystemOrganisationDeleteFieldInput: {
+    where: { __type: "FileSystemOrganisationConnectionWhere" },
+    delete: { __type: "OrganisationDeleteInput" },
+  },
+  FileSystemOrganisationDisconnectFieldInput: {
+    where: { __type: "FileSystemOrganisationConnectionWhere" },
+    disconnect: { __type: "OrganisationDisconnectInput" },
+  },
+  FileSystemOrganisationFieldInput: {
+    create: { __type: "FileSystemOrganisationCreateFieldInput" },
+    connect: { __type: "FileSystemOrganisationConnectFieldInput" },
+  },
+  FileSystemOrganisationUpdateConnectionInput: {
+    node: { __type: "OrganisationUpdateInput" },
+  },
+  FileSystemOrganisationUpdateFieldInput: {
+    where: { __type: "FileSystemOrganisationConnectionWhere" },
+    update: { __type: "FileSystemOrganisationUpdateConnectionInput" },
+    connect: { __type: "FileSystemOrganisationConnectFieldInput" },
+    disconnect: { __type: "FileSystemOrganisationDisconnectFieldInput" },
+    create: { __type: "FileSystemOrganisationCreateFieldInput" },
+    delete: { __type: "FileSystemOrganisationDeleteFieldInput" },
+  },
   FileSystemRelationInput: {
+    organisation: { __type: "FileSystemOrganisationCreateFieldInput" },
     files: { __type: "[FileSystemFilesCreateFieldInput!]" },
   },
   FileSystemSort: { name: { __type: "SortDirection" } },
   FileSystemUpdateInput: {
     name: { __type: "String" },
+    organisation: { __type: "FileSystemOrganisationUpdateFieldInput" },
     files: { __type: "[FileSystemFilesUpdateFieldInput!]" },
   },
   FileSystemWhere: {
@@ -7773,8 +8961,14 @@ export const generatedSchema = {
     name_NOT_STARTS_WITH: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
+    organisation: { __type: "OrganisationWhere" },
+    organisation_NOT: { __type: "OrganisationWhere" },
     files: { __type: "HiveFileWhere" },
     files_NOT: { __type: "HiveFileWhere" },
+    organisationConnection: { __type: "FileSystemOrganisationConnectionWhere" },
+    organisationConnection_NOT: {
+      __type: "FileSystemOrganisationConnectionWhere",
+    },
     filesConnection: { __type: "FileSystemFilesConnectionWhere" },
     filesConnection_NOT: { __type: "FileSystemFilesConnectionWhere" },
   },
@@ -8149,6 +9343,8 @@ export const generatedSchema = {
   HiveFileCreateInput: {
     name: { __type: "String!" },
     cid: { __type: "String" },
+    size: { __type: "Int" },
+    mimetype: { __type: "String" },
     isFolder: { __type: "Boolean" },
     fs: { __type: "HiveFileFsFieldInput" },
     parent: { __type: "HiveFileParentFieldInput" },
@@ -8509,11 +9705,15 @@ export const generatedSchema = {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
     cid: { __type: "SortDirection" },
+    size: { __type: "SortDirection" },
+    mimetype: { __type: "SortDirection" },
     isFolder: { __type: "SortDirection" },
   },
   HiveFileUpdateInput: {
     name: { __type: "String" },
     cid: { __type: "String" },
+    size: { __type: "Int" },
+    mimetype: { __type: "String" },
     isFolder: { __type: "Boolean" },
     fs: { __type: "HiveFileFsUpdateFieldInput" },
     parent: { __type: "HiveFileParentUpdateFieldInput" },
@@ -8591,6 +9791,24 @@ export const generatedSchema = {
     cid_NOT_STARTS_WITH: { __type: "String" },
     cid_ENDS_WITH: { __type: "String" },
     cid_NOT_ENDS_WITH: { __type: "String" },
+    size: { __type: "Int" },
+    size_NOT: { __type: "Int" },
+    size_IN: { __type: "[Int]" },
+    size_NOT_IN: { __type: "[Int]" },
+    size_LT: { __type: "Int" },
+    size_LTE: { __type: "Int" },
+    size_GT: { __type: "Int" },
+    size_GTE: { __type: "Int" },
+    mimetype: { __type: "String" },
+    mimetype_NOT: { __type: "String" },
+    mimetype_IN: { __type: "[String]" },
+    mimetype_NOT_IN: { __type: "[String]" },
+    mimetype_CONTAINS: { __type: "String" },
+    mimetype_NOT_CONTAINS: { __type: "String" },
+    mimetype_STARTS_WITH: { __type: "String" },
+    mimetype_NOT_STARTS_WITH: { __type: "String" },
+    mimetype_ENDS_WITH: { __type: "String" },
+    mimetype_NOT_ENDS_WITH: { __type: "String" },
     isFolder: { __type: "Boolean" },
     isFolder_NOT: { __type: "Boolean" },
     fs: { __type: "FileSystemWhere" },
@@ -9510,6 +10728,7 @@ export const generatedSchema = {
   },
   HivePipelineRunConnectWhere: { node: { __type: "HivePipelineRunWhere!" } },
   HivePipelineRunCreateInput: {
+    startedAt: { __type: "DateTime" },
     completedAt: { __type: "DateTime" },
     pipeline: { __type: "HivePipelineRunPipelineFieldInput" },
     inputs: { __type: "HivePipelineRunInputsFieldInput" },
@@ -9613,9 +10832,11 @@ export const generatedSchema = {
   HivePipelineRunSort: {
     id: { __type: "SortDirection" },
     createdAt: { __type: "SortDirection" },
+    startedAt: { __type: "SortDirection" },
     completedAt: { __type: "SortDirection" },
   },
   HivePipelineRunUpdateInput: {
+    startedAt: { __type: "DateTime" },
     completedAt: { __type: "DateTime" },
     pipeline: { __type: "HivePipelineRunPipelineUpdateFieldInput" },
     inputs: { __type: "[HivePipelineRunInputsUpdateFieldInput!]" },
@@ -9641,6 +10862,14 @@ export const generatedSchema = {
     createdAt_LTE: { __type: "DateTime" },
     createdAt_GT: { __type: "DateTime" },
     createdAt_GTE: { __type: "DateTime" },
+    startedAt: { __type: "DateTime" },
+    startedAt_NOT: { __type: "DateTime" },
+    startedAt_IN: { __type: "[DateTime]" },
+    startedAt_NOT_IN: { __type: "[DateTime]" },
+    startedAt_LT: { __type: "DateTime" },
+    startedAt_LTE: { __type: "DateTime" },
+    startedAt_GT: { __type: "DateTime" },
+    startedAt_GTE: { __type: "DateTime" },
     completedAt: { __type: "DateTime" },
     completedAt_NOT: { __type: "DateTime" },
     completedAt_IN: { __type: "[DateTime]" },
@@ -10355,7 +11584,561 @@ export const generatedSchema = {
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
   },
+  OrganisationConnectInput: {
+    roles: { __type: "[OrganisationRolesConnectFieldInput!]" },
+    members: { __type: "[OrganisationMembersConnectFieldInput!]" },
+    filesystems: { __type: "[OrganisationFilesystemsConnectFieldInput!]" },
+  },
+  OrganisationConnectWhere: { node: { __type: "OrganisationWhere!" } },
+  OrganisationCreateInput: {
+    name: { __type: "String" },
+    roles: { __type: "OrganisationRolesFieldInput" },
+    members: { __type: "OrganisationMembersFieldInput" },
+    filesystems: { __type: "OrganisationFilesystemsFieldInput" },
+  },
+  OrganisationDeleteInput: {
+    roles: { __type: "[OrganisationRolesDeleteFieldInput!]" },
+    members: { __type: "[OrganisationMembersDeleteFieldInput!]" },
+    filesystems: { __type: "[OrganisationFilesystemsDeleteFieldInput!]" },
+  },
+  OrganisationDisconnectInput: {
+    roles: { __type: "[OrganisationRolesDisconnectFieldInput!]" },
+    members: { __type: "[OrganisationMembersDisconnectFieldInput!]" },
+    filesystems: { __type: "[OrganisationFilesystemsDisconnectFieldInput!]" },
+  },
+  OrganisationFilesystemsConnectFieldInput: {
+    where: { __type: "FileSystemConnectWhere" },
+    connect: { __type: "[FileSystemConnectInput!]" },
+  },
+  OrganisationFilesystemsConnectionSort: { node: { __type: "FileSystemSort" } },
+  OrganisationFilesystemsConnectionWhere: {
+    AND: { __type: "[OrganisationFilesystemsConnectionWhere!]" },
+    OR: { __type: "[OrganisationFilesystemsConnectionWhere!]" },
+    node: { __type: "FileSystemWhere" },
+    node_NOT: { __type: "FileSystemWhere" },
+  },
+  OrganisationFilesystemsCreateFieldInput: {
+    node: { __type: "FileSystemCreateInput!" },
+  },
+  OrganisationFilesystemsDeleteFieldInput: {
+    where: { __type: "OrganisationFilesystemsConnectionWhere" },
+    delete: { __type: "FileSystemDeleteInput" },
+  },
+  OrganisationFilesystemsDisconnectFieldInput: {
+    where: { __type: "OrganisationFilesystemsConnectionWhere" },
+    disconnect: { __type: "FileSystemDisconnectInput" },
+  },
+  OrganisationFilesystemsFieldInput: {
+    create: { __type: "[OrganisationFilesystemsCreateFieldInput!]" },
+    connect: { __type: "[OrganisationFilesystemsConnectFieldInput!]" },
+  },
+  OrganisationFilesystemsUpdateConnectionInput: {
+    node: { __type: "FileSystemUpdateInput" },
+  },
+  OrganisationFilesystemsUpdateFieldInput: {
+    where: { __type: "OrganisationFilesystemsConnectionWhere" },
+    update: { __type: "OrganisationFilesystemsUpdateConnectionInput" },
+    connect: { __type: "[OrganisationFilesystemsConnectFieldInput!]" },
+    disconnect: { __type: "[OrganisationFilesystemsDisconnectFieldInput!]" },
+    create: { __type: "[OrganisationFilesystemsCreateFieldInput!]" },
+    delete: { __type: "[OrganisationFilesystemsDeleteFieldInput!]" },
+  },
+  OrganisationMembersConnectFieldInput: {
+    where: { __type: "UserConnectWhere" },
+    connect: { __type: "[UserConnectInput!]" },
+  },
+  OrganisationMembersConnectionSort: { node: { __type: "UserSort" } },
+  OrganisationMembersConnectionWhere: {
+    AND: { __type: "[OrganisationMembersConnectionWhere!]" },
+    OR: { __type: "[OrganisationMembersConnectionWhere!]" },
+    node: { __type: "UserWhere" },
+    node_NOT: { __type: "UserWhere" },
+  },
+  OrganisationMembersCreateFieldInput: { node: { __type: "UserCreateInput!" } },
+  OrganisationMembersDeleteFieldInput: {
+    where: { __type: "OrganisationMembersConnectionWhere" },
+    delete: { __type: "UserDeleteInput" },
+  },
+  OrganisationMembersDisconnectFieldInput: {
+    where: { __type: "OrganisationMembersConnectionWhere" },
+    disconnect: { __type: "UserDisconnectInput" },
+  },
+  OrganisationMembersFieldInput: {
+    create: { __type: "[OrganisationMembersCreateFieldInput!]" },
+    connect: { __type: "[OrganisationMembersConnectFieldInput!]" },
+  },
+  OrganisationMembersUpdateConnectionInput: {
+    node: { __type: "UserUpdateInput" },
+  },
+  OrganisationMembersUpdateFieldInput: {
+    where: { __type: "OrganisationMembersConnectionWhere" },
+    update: { __type: "OrganisationMembersUpdateConnectionInput" },
+    connect: { __type: "[OrganisationMembersConnectFieldInput!]" },
+    disconnect: { __type: "[OrganisationMembersDisconnectFieldInput!]" },
+    create: { __type: "[OrganisationMembersCreateFieldInput!]" },
+    delete: { __type: "[OrganisationMembersDeleteFieldInput!]" },
+  },
+  OrganisationOptions: {
+    sort: { __type: "[OrganisationSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  OrganisationRelationInput: {
+    roles: { __type: "[OrganisationRolesCreateFieldInput!]" },
+    members: { __type: "[OrganisationMembersCreateFieldInput!]" },
+    filesystems: { __type: "[OrganisationFilesystemsCreateFieldInput!]" },
+  },
+  OrganisationRolesConnectFieldInput: {
+    where: { __type: "RoleConnectWhere" },
+    connect: { __type: "[RoleConnectInput!]" },
+  },
+  OrganisationRolesConnectionSort: { node: { __type: "RoleSort" } },
+  OrganisationRolesConnectionWhere: {
+    AND: { __type: "[OrganisationRolesConnectionWhere!]" },
+    OR: { __type: "[OrganisationRolesConnectionWhere!]" },
+    node: { __type: "RoleWhere" },
+    node_NOT: { __type: "RoleWhere" },
+  },
+  OrganisationRolesCreateFieldInput: { node: { __type: "RoleCreateInput!" } },
+  OrganisationRolesDeleteFieldInput: {
+    where: { __type: "OrganisationRolesConnectionWhere" },
+    delete: { __type: "RoleDeleteInput" },
+  },
+  OrganisationRolesDisconnectFieldInput: {
+    where: { __type: "OrganisationRolesConnectionWhere" },
+    disconnect: { __type: "RoleDisconnectInput" },
+  },
+  OrganisationRolesFieldInput: {
+    create: { __type: "[OrganisationRolesCreateFieldInput!]" },
+    connect: { __type: "[OrganisationRolesConnectFieldInput!]" },
+  },
+  OrganisationRolesUpdateConnectionInput: {
+    node: { __type: "RoleUpdateInput" },
+  },
+  OrganisationRolesUpdateFieldInput: {
+    where: { __type: "OrganisationRolesConnectionWhere" },
+    update: { __type: "OrganisationRolesUpdateConnectionInput" },
+    connect: { __type: "[OrganisationRolesConnectFieldInput!]" },
+    disconnect: { __type: "[OrganisationRolesDisconnectFieldInput!]" },
+    create: { __type: "[OrganisationRolesCreateFieldInput!]" },
+    delete: { __type: "[OrganisationRolesDeleteFieldInput!]" },
+  },
+  OrganisationSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
+  OrganisationUpdateInput: {
+    name: { __type: "String" },
+    roles: { __type: "[OrganisationRolesUpdateFieldInput!]" },
+    members: { __type: "[OrganisationMembersUpdateFieldInput!]" },
+    filesystems: { __type: "[OrganisationFilesystemsUpdateFieldInput!]" },
+  },
+  OrganisationWhere: {
+    OR: { __type: "[OrganisationWhere!]" },
+    AND: { __type: "[OrganisationWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    roles: { __type: "RoleWhere" },
+    roles_NOT: { __type: "RoleWhere" },
+    members: { __type: "UserWhere" },
+    members_NOT: { __type: "UserWhere" },
+    filesystems: { __type: "FileSystemWhere" },
+    filesystems_NOT: { __type: "FileSystemWhere" },
+    rolesConnection: { __type: "OrganisationRolesConnectionWhere" },
+    rolesConnection_NOT: { __type: "OrganisationRolesConnectionWhere" },
+    membersConnection: { __type: "OrganisationMembersConnectionWhere" },
+    membersConnection_NOT: { __type: "OrganisationMembersConnectionWhere" },
+    filesystemsConnection: { __type: "OrganisationFilesystemsConnectionWhere" },
+    filesystemsConnection_NOT: {
+      __type: "OrganisationFilesystemsConnectionWhere",
+    },
+  },
+  PermissionConnectInput: {
+    roles: { __type: "[PermissionRolesConnectFieldInput!]" },
+  },
+  PermissionConnectWhere: { node: { __type: "PermissionWhere!" } },
+  PermissionCreateInput: {
+    name: { __type: "String" },
+    action: { __type: "String" },
+    scope: { __type: "String" },
+    roles: { __type: "PermissionRolesFieldInput" },
+  },
+  PermissionDeleteInput: {
+    roles: { __type: "[PermissionRolesDeleteFieldInput!]" },
+  },
+  PermissionDisconnectInput: {
+    roles: { __type: "[PermissionRolesDisconnectFieldInput!]" },
+  },
+  PermissionOptions: {
+    sort: { __type: "[PermissionSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  PermissionRelationInput: {
+    roles: { __type: "[PermissionRolesCreateFieldInput!]" },
+  },
+  PermissionRolesConnectFieldInput: {
+    where: { __type: "RoleConnectWhere" },
+    connect: { __type: "[RoleConnectInput!]" },
+  },
+  PermissionRolesConnectionSort: { node: { __type: "RoleSort" } },
+  PermissionRolesConnectionWhere: {
+    AND: { __type: "[PermissionRolesConnectionWhere!]" },
+    OR: { __type: "[PermissionRolesConnectionWhere!]" },
+    node: { __type: "RoleWhere" },
+    node_NOT: { __type: "RoleWhere" },
+  },
+  PermissionRolesCreateFieldInput: { node: { __type: "RoleCreateInput!" } },
+  PermissionRolesDeleteFieldInput: {
+    where: { __type: "PermissionRolesConnectionWhere" },
+    delete: { __type: "RoleDeleteInput" },
+  },
+  PermissionRolesDisconnectFieldInput: {
+    where: { __type: "PermissionRolesConnectionWhere" },
+    disconnect: { __type: "RoleDisconnectInput" },
+  },
+  PermissionRolesFieldInput: {
+    create: { __type: "[PermissionRolesCreateFieldInput!]" },
+    connect: { __type: "[PermissionRolesConnectFieldInput!]" },
+  },
+  PermissionRolesUpdateConnectionInput: { node: { __type: "RoleUpdateInput" } },
+  PermissionRolesUpdateFieldInput: {
+    where: { __type: "PermissionRolesConnectionWhere" },
+    update: { __type: "PermissionRolesUpdateConnectionInput" },
+    connect: { __type: "[PermissionRolesConnectFieldInput!]" },
+    disconnect: { __type: "[PermissionRolesDisconnectFieldInput!]" },
+    create: { __type: "[PermissionRolesCreateFieldInput!]" },
+    delete: { __type: "[PermissionRolesDeleteFieldInput!]" },
+  },
+  PermissionSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    action: { __type: "SortDirection" },
+    scope: { __type: "SortDirection" },
+  },
+  PermissionUpdateInput: {
+    name: { __type: "String" },
+    action: { __type: "String" },
+    scope: { __type: "String" },
+    roles: { __type: "[PermissionRolesUpdateFieldInput!]" },
+  },
+  PermissionWhere: {
+    OR: { __type: "[PermissionWhere!]" },
+    AND: { __type: "[PermissionWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    action: { __type: "String" },
+    action_NOT: { __type: "String" },
+    action_IN: { __type: "[String]" },
+    action_NOT_IN: { __type: "[String]" },
+    action_CONTAINS: { __type: "String" },
+    action_NOT_CONTAINS: { __type: "String" },
+    action_STARTS_WITH: { __type: "String" },
+    action_NOT_STARTS_WITH: { __type: "String" },
+    action_ENDS_WITH: { __type: "String" },
+    action_NOT_ENDS_WITH: { __type: "String" },
+    scope: { __type: "String" },
+    scope_NOT: { __type: "String" },
+    scope_IN: { __type: "[String]" },
+    scope_NOT_IN: { __type: "[String]" },
+    scope_CONTAINS: { __type: "String" },
+    scope_NOT_CONTAINS: { __type: "String" },
+    scope_STARTS_WITH: { __type: "String" },
+    scope_NOT_STARTS_WITH: { __type: "String" },
+    scope_ENDS_WITH: { __type: "String" },
+    scope_NOT_ENDS_WITH: { __type: "String" },
+    roles: { __type: "RoleWhere" },
+    roles_NOT: { __type: "RoleWhere" },
+    rolesConnection: { __type: "PermissionRolesConnectionWhere" },
+    rolesConnection_NOT: { __type: "PermissionRolesConnectionWhere" },
+  },
   QueryOptions: { offset: { __type: "Int" }, limit: { __type: "Int" } },
+  RoleConnectInput: {
+    permissions: { __type: "[RolePermissionsConnectFieldInput!]" },
+    organisation: { __type: "RoleOrganisationConnectFieldInput" },
+  },
+  RoleConnectWhere: { node: { __type: "RoleWhere!" } },
+  RoleCreateInput: {
+    name: { __type: "String" },
+    permissions: { __type: "RolePermissionsFieldInput" },
+    organisation: { __type: "RoleOrganisationFieldInput" },
+  },
+  RoleDeleteInput: {
+    permissions: { __type: "[RolePermissionsDeleteFieldInput!]" },
+    organisation: { __type: "RoleOrganisationDeleteFieldInput" },
+  },
+  RoleDisconnectInput: {
+    permissions: { __type: "[RolePermissionsDisconnectFieldInput!]" },
+    organisation: { __type: "RoleOrganisationDisconnectFieldInput" },
+  },
+  RoleOptions: {
+    sort: { __type: "[RoleSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  RoleOrganisationConnectFieldInput: {
+    where: { __type: "OrganisationConnectWhere" },
+    connect: { __type: "OrganisationConnectInput" },
+  },
+  RoleOrganisationConnectionSort: { node: { __type: "OrganisationSort" } },
+  RoleOrganisationConnectionWhere: {
+    AND: { __type: "[RoleOrganisationConnectionWhere!]" },
+    OR: { __type: "[RoleOrganisationConnectionWhere!]" },
+    node: { __type: "OrganisationWhere" },
+    node_NOT: { __type: "OrganisationWhere" },
+  },
+  RoleOrganisationCreateFieldInput: {
+    node: { __type: "OrganisationCreateInput!" },
+  },
+  RoleOrganisationDeleteFieldInput: {
+    where: { __type: "RoleOrganisationConnectionWhere" },
+    delete: { __type: "OrganisationDeleteInput" },
+  },
+  RoleOrganisationDisconnectFieldInput: {
+    where: { __type: "RoleOrganisationConnectionWhere" },
+    disconnect: { __type: "OrganisationDisconnectInput" },
+  },
+  RoleOrganisationFieldInput: {
+    create: { __type: "RoleOrganisationCreateFieldInput" },
+    connect: { __type: "RoleOrganisationConnectFieldInput" },
+  },
+  RoleOrganisationUpdateConnectionInput: {
+    node: { __type: "OrganisationUpdateInput" },
+  },
+  RoleOrganisationUpdateFieldInput: {
+    where: { __type: "RoleOrganisationConnectionWhere" },
+    update: { __type: "RoleOrganisationUpdateConnectionInput" },
+    connect: { __type: "RoleOrganisationConnectFieldInput" },
+    disconnect: { __type: "RoleOrganisationDisconnectFieldInput" },
+    create: { __type: "RoleOrganisationCreateFieldInput" },
+    delete: { __type: "RoleOrganisationDeleteFieldInput" },
+  },
+  RolePermissionsConnectFieldInput: {
+    where: { __type: "PermissionConnectWhere" },
+    connect: { __type: "[PermissionConnectInput!]" },
+  },
+  RolePermissionsConnectionSort: { node: { __type: "PermissionSort" } },
+  RolePermissionsConnectionWhere: {
+    AND: { __type: "[RolePermissionsConnectionWhere!]" },
+    OR: { __type: "[RolePermissionsConnectionWhere!]" },
+    node: { __type: "PermissionWhere" },
+    node_NOT: { __type: "PermissionWhere" },
+  },
+  RolePermissionsCreateFieldInput: {
+    node: { __type: "PermissionCreateInput!" },
+  },
+  RolePermissionsDeleteFieldInput: {
+    where: { __type: "RolePermissionsConnectionWhere" },
+    delete: { __type: "PermissionDeleteInput" },
+  },
+  RolePermissionsDisconnectFieldInput: {
+    where: { __type: "RolePermissionsConnectionWhere" },
+    disconnect: { __type: "PermissionDisconnectInput" },
+  },
+  RolePermissionsFieldInput: {
+    create: { __type: "[RolePermissionsCreateFieldInput!]" },
+    connect: { __type: "[RolePermissionsConnectFieldInput!]" },
+  },
+  RolePermissionsUpdateConnectionInput: {
+    node: { __type: "PermissionUpdateInput" },
+  },
+  RolePermissionsUpdateFieldInput: {
+    where: { __type: "RolePermissionsConnectionWhere" },
+    update: { __type: "RolePermissionsUpdateConnectionInput" },
+    connect: { __type: "[RolePermissionsConnectFieldInput!]" },
+    disconnect: { __type: "[RolePermissionsDisconnectFieldInput!]" },
+    create: { __type: "[RolePermissionsCreateFieldInput!]" },
+    delete: { __type: "[RolePermissionsDeleteFieldInput!]" },
+  },
+  RoleRelationInput: {
+    permissions: { __type: "[RolePermissionsCreateFieldInput!]" },
+    organisation: { __type: "RoleOrganisationCreateFieldInput" },
+  },
+  RoleSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
+  RoleUpdateInput: {
+    name: { __type: "String" },
+    permissions: { __type: "[RolePermissionsUpdateFieldInput!]" },
+    organisation: { __type: "RoleOrganisationUpdateFieldInput" },
+  },
+  RoleWhere: {
+    OR: { __type: "[RoleWhere!]" },
+    AND: { __type: "[RoleWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    permissions: { __type: "PermissionWhere" },
+    permissions_NOT: { __type: "PermissionWhere" },
+    organisation: { __type: "OrganisationWhere" },
+    organisation_NOT: { __type: "OrganisationWhere" },
+    permissionsConnection: { __type: "RolePermissionsConnectionWhere" },
+    permissionsConnection_NOT: { __type: "RolePermissionsConnectionWhere" },
+    organisationConnection: { __type: "RoleOrganisationConnectionWhere" },
+    organisationConnection_NOT: { __type: "RoleOrganisationConnectionWhere" },
+  },
+  UserConnectInput: {
+    organisations: { __type: "[UserOrganisationsConnectFieldInput!]" },
+  },
+  UserConnectWhere: { node: { __type: "UserWhere!" } },
+  UserCreateInput: {
+    name: { __type: "String" },
+    email: { __type: "String" },
+    organisations: { __type: "UserOrganisationsFieldInput" },
+  },
+  UserDeleteInput: {
+    organisations: { __type: "[UserOrganisationsDeleteFieldInput!]" },
+  },
+  UserDisconnectInput: {
+    organisations: { __type: "[UserOrganisationsDisconnectFieldInput!]" },
+  },
+  UserOptions: {
+    sort: { __type: "[UserSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  UserOrganisationsConnectFieldInput: {
+    where: { __type: "OrganisationConnectWhere" },
+    connect: { __type: "[OrganisationConnectInput!]" },
+  },
+  UserOrganisationsConnectionSort: { node: { __type: "OrganisationSort" } },
+  UserOrganisationsConnectionWhere: {
+    AND: { __type: "[UserOrganisationsConnectionWhere!]" },
+    OR: { __type: "[UserOrganisationsConnectionWhere!]" },
+    node: { __type: "OrganisationWhere" },
+    node_NOT: { __type: "OrganisationWhere" },
+  },
+  UserOrganisationsCreateFieldInput: {
+    node: { __type: "OrganisationCreateInput!" },
+  },
+  UserOrganisationsDeleteFieldInput: {
+    where: { __type: "UserOrganisationsConnectionWhere" },
+    delete: { __type: "OrganisationDeleteInput" },
+  },
+  UserOrganisationsDisconnectFieldInput: {
+    where: { __type: "UserOrganisationsConnectionWhere" },
+    disconnect: { __type: "OrganisationDisconnectInput" },
+  },
+  UserOrganisationsFieldInput: {
+    create: { __type: "[UserOrganisationsCreateFieldInput!]" },
+    connect: { __type: "[UserOrganisationsConnectFieldInput!]" },
+  },
+  UserOrganisationsUpdateConnectionInput: {
+    node: { __type: "OrganisationUpdateInput" },
+  },
+  UserOrganisationsUpdateFieldInput: {
+    where: { __type: "UserOrganisationsConnectionWhere" },
+    update: { __type: "UserOrganisationsUpdateConnectionInput" },
+    connect: { __type: "[UserOrganisationsConnectFieldInput!]" },
+    disconnect: { __type: "[UserOrganisationsDisconnectFieldInput!]" },
+    create: { __type: "[UserOrganisationsCreateFieldInput!]" },
+    delete: { __type: "[UserOrganisationsDeleteFieldInput!]" },
+  },
+  UserRelationInput: {
+    organisations: { __type: "[UserOrganisationsCreateFieldInput!]" },
+  },
+  UserSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    email: { __type: "SortDirection" },
+  },
+  UserUpdateInput: {
+    name: { __type: "String" },
+    email: { __type: "String" },
+    organisations: { __type: "[UserOrganisationsUpdateFieldInput!]" },
+  },
+  UserWhere: {
+    OR: { __type: "[UserWhere!]" },
+    AND: { __type: "[UserWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    email: { __type: "String" },
+    email_NOT: { __type: "String" },
+    email_IN: { __type: "[String]" },
+    email_NOT_IN: { __type: "[String]" },
+    email_CONTAINS: { __type: "String" },
+    email_NOT_CONTAINS: { __type: "String" },
+    email_STARTS_WITH: { __type: "String" },
+    email_NOT_STARTS_WITH: { __type: "String" },
+    email_ENDS_WITH: { __type: "String" },
+    email_NOT_ENDS_WITH: { __type: "String" },
+    organisations: { __type: "OrganisationWhere" },
+    organisations_NOT: { __type: "OrganisationWhere" },
+    organisationsConnection: { __type: "UserOrganisationsConnectionWhere" },
+    organisationsConnection_NOT: { __type: "UserOrganisationsConnectionWhere" },
+  },
   Project: {
     __typename: { __type: "String!" },
     id: { __type: "ID" },
@@ -10376,11 +12159,6 @@ export const generatedSchema = {
     status: { __type: "String" },
     owner: { __type: "User" },
     url: { __type: "String" },
-  },
-  User: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    name: { __type: "String" },
   },
   Quote: {
     __typename: { __type: "String!" },
@@ -12712,6 +14490,30 @@ export interface Query {
   hiveProcessResultsCount: (args?: {
     where?: Maybe<HiveProcessResultWhere>;
   }) => ScalarsEnums["Int"];
+  organisations: (args?: {
+    where?: Maybe<OrganisationWhere>;
+    options?: Maybe<OrganisationOptions>;
+  }) => Array<Organisation>;
+  organisationsCount: (args?: {
+    where?: Maybe<OrganisationWhere>;
+  }) => ScalarsEnums["Int"];
+  users: (args?: {
+    where?: Maybe<UserWhere>;
+    options?: Maybe<UserOptions>;
+  }) => Array<User>;
+  usersCount: (args?: { where?: Maybe<UserWhere> }) => ScalarsEnums["Int"];
+  roles: (args?: {
+    where?: Maybe<RoleWhere>;
+    options?: Maybe<RoleOptions>;
+  }) => Array<Role>;
+  rolesCount: (args?: { where?: Maybe<RoleWhere> }) => ScalarsEnums["Int"];
+  permissions: (args?: {
+    where?: Maybe<PermissionWhere>;
+    options?: Maybe<PermissionOptions>;
+  }) => Array<Permission>;
+  permissionsCount: (args?: {
+    where?: Maybe<PermissionWhere>;
+  }) => ScalarsEnums["Int"];
   ProjectById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Project>;
   ProjectMany: (args?: {
     status?: Maybe<Scalars["String"]>;
@@ -13557,6 +15359,66 @@ export interface Mutation {
     create?: Maybe<HiveProcessResultRelationInput>;
     delete?: Maybe<HiveProcessResultDeleteInput>;
   }) => UpdateHiveProcessResultsMutationResponse;
+  createOrganisations: (args: {
+    input: Array<OrganisationCreateInput>;
+  }) => CreateOrganisationsMutationResponse;
+  deleteOrganisations: (args?: {
+    where?: Maybe<OrganisationWhere>;
+    delete?: Maybe<OrganisationDeleteInput>;
+  }) => DeleteInfo;
+  updateOrganisations: (args?: {
+    where?: Maybe<OrganisationWhere>;
+    update?: Maybe<OrganisationUpdateInput>;
+    connect?: Maybe<OrganisationConnectInput>;
+    disconnect?: Maybe<OrganisationDisconnectInput>;
+    create?: Maybe<OrganisationRelationInput>;
+    delete?: Maybe<OrganisationDeleteInput>;
+  }) => UpdateOrganisationsMutationResponse;
+  createUsers: (args: {
+    input: Array<UserCreateInput>;
+  }) => CreateUsersMutationResponse;
+  deleteUsers: (args?: {
+    where?: Maybe<UserWhere>;
+    delete?: Maybe<UserDeleteInput>;
+  }) => DeleteInfo;
+  updateUsers: (args?: {
+    where?: Maybe<UserWhere>;
+    update?: Maybe<UserUpdateInput>;
+    connect?: Maybe<UserConnectInput>;
+    disconnect?: Maybe<UserDisconnectInput>;
+    create?: Maybe<UserRelationInput>;
+    delete?: Maybe<UserDeleteInput>;
+  }) => UpdateUsersMutationResponse;
+  createRoles: (args: {
+    input: Array<RoleCreateInput>;
+  }) => CreateRolesMutationResponse;
+  deleteRoles: (args?: {
+    where?: Maybe<RoleWhere>;
+    delete?: Maybe<RoleDeleteInput>;
+  }) => DeleteInfo;
+  updateRoles: (args?: {
+    where?: Maybe<RoleWhere>;
+    update?: Maybe<RoleUpdateInput>;
+    connect?: Maybe<RoleConnectInput>;
+    disconnect?: Maybe<RoleDisconnectInput>;
+    create?: Maybe<RoleRelationInput>;
+    delete?: Maybe<RoleDeleteInput>;
+  }) => UpdateRolesMutationResponse;
+  createPermissions: (args: {
+    input: Array<PermissionCreateInput>;
+  }) => CreatePermissionsMutationResponse;
+  deletePermissions: (args?: {
+    where?: Maybe<PermissionWhere>;
+    delete?: Maybe<PermissionDeleteInput>;
+  }) => DeleteInfo;
+  updatePermissions: (args?: {
+    where?: Maybe<PermissionWhere>;
+    update?: Maybe<PermissionUpdateInput>;
+    connect?: Maybe<PermissionConnectInput>;
+    disconnect?: Maybe<PermissionDisconnectInput>;
+    create?: Maybe<PermissionRelationInput>;
+    delete?: Maybe<PermissionDeleteInput>;
+  }) => UpdatePermissionsMutationResponse;
   addProject: (args?: { project?: Maybe<ProjectInput> }) => Maybe<Project>;
   updateProject: (args?: {
     id?: Maybe<Scalars["String"]>;
@@ -14198,6 +16060,30 @@ export interface CreateInfo {
   relationshipsCreated: ScalarsEnums["Int"];
 }
 
+export interface CreateOrganisationsMutationResponse {
+  __typename?: "CreateOrganisationsMutationResponse";
+  info: CreateInfo;
+  organisations: Array<Organisation>;
+}
+
+export interface CreatePermissionsMutationResponse {
+  __typename?: "CreatePermissionsMutationResponse";
+  info: CreateInfo;
+  permissions: Array<Permission>;
+}
+
+export interface CreateRolesMutationResponse {
+  __typename?: "CreateRolesMutationResponse";
+  info: CreateInfo;
+  roles: Array<Role>;
+}
+
+export interface CreateUsersMutationResponse {
+  __typename?: "CreateUsersMutationResponse";
+  info: CreateInfo;
+  users: Array<User>;
+}
+
 export interface DeleteInfo {
   __typename?: "DeleteInfo";
   bookmark?: Maybe<ScalarsEnums["String"]>;
@@ -14208,10 +16094,20 @@ export interface DeleteInfo {
 export interface FileSystem {
   __typename?: "FileSystem";
   name: ScalarsEnums["String"];
+  organisation: (args?: {
+    where?: Maybe<OrganisationWhere>;
+    options?: Maybe<OrganisationOptions>;
+  }) => Maybe<Organisation>;
   files: (args?: {
     where?: Maybe<HiveFileWhere>;
     options?: Maybe<HiveFileOptions>;
   }) => Array<HiveFile>;
+  organisationConnection: (args?: {
+    where?: Maybe<FileSystemOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<FileSystemOrganisationConnectionSort>>;
+  }) => FileSystemOrganisationConnection;
   filesConnection: (args?: {
     where?: Maybe<FileSystemFilesConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -14231,6 +16127,19 @@ export interface FileSystemFilesRelationship {
   __typename?: "FileSystemFilesRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveFile;
+}
+
+export interface FileSystemOrganisationConnection {
+  __typename?: "FileSystemOrganisationConnection";
+  edges: Array<FileSystemOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface FileSystemOrganisationRelationship {
+  __typename?: "FileSystemOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Organisation;
 }
 
 export interface HiveAppliance {
@@ -14314,6 +16223,8 @@ export interface HiveFile {
   id: ScalarsEnums["ID"];
   name: ScalarsEnums["String"];
   cid?: Maybe<ScalarsEnums["String"]>;
+  size?: Maybe<ScalarsEnums["Int"]>;
+  mimetype?: Maybe<ScalarsEnums["String"]>;
   isFolder?: Maybe<ScalarsEnums["Boolean"]>;
   path_id?: Maybe<ScalarsEnums["String"]>;
   path?: Maybe<ScalarsEnums["String"]>;
@@ -14781,6 +16692,7 @@ export interface HivePipelineRun {
   __typename?: "HivePipelineRun";
   id: ScalarsEnums["ID"];
   createdAt?: Maybe<ScalarsEnums["DateTime"]>;
+  startedAt?: Maybe<ScalarsEnums["DateTime"]>;
   completedAt?: Maybe<ScalarsEnums["DateTime"]>;
   pipeline: (args?: {
     where?: Maybe<HivePipelineWhere>;
@@ -15010,6 +16922,81 @@ export interface HiveService {
   name?: Maybe<ScalarsEnums["String"]>;
 }
 
+export interface Organisation {
+  __typename?: "Organisation";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  roles: (args?: {
+    where?: Maybe<RoleWhere>;
+    options?: Maybe<RoleOptions>;
+  }) => Maybe<Array<Maybe<Role>>>;
+  members: (args?: {
+    where?: Maybe<UserWhere>;
+    options?: Maybe<UserOptions>;
+  }) => Maybe<Array<Maybe<User>>>;
+  filesystems: (args?: {
+    where?: Maybe<FileSystemWhere>;
+    options?: Maybe<FileSystemOptions>;
+  }) => Maybe<Array<Maybe<FileSystem>>>;
+  rolesConnection: (args?: {
+    where?: Maybe<OrganisationRolesConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<OrganisationRolesConnectionSort>>;
+  }) => OrganisationRolesConnection;
+  membersConnection: (args?: {
+    where?: Maybe<OrganisationMembersConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<OrganisationMembersConnectionSort>>;
+  }) => OrganisationMembersConnection;
+  filesystemsConnection: (args?: {
+    where?: Maybe<OrganisationFilesystemsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<OrganisationFilesystemsConnectionSort>>;
+  }) => OrganisationFilesystemsConnection;
+}
+
+export interface OrganisationFilesystemsConnection {
+  __typename?: "OrganisationFilesystemsConnection";
+  edges: Array<OrganisationFilesystemsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface OrganisationFilesystemsRelationship {
+  __typename?: "OrganisationFilesystemsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: FileSystem;
+}
+
+export interface OrganisationMembersConnection {
+  __typename?: "OrganisationMembersConnection";
+  edges: Array<OrganisationMembersRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface OrganisationMembersRelationship {
+  __typename?: "OrganisationMembersRelationship";
+  cursor: ScalarsEnums["String"];
+  node: User;
+}
+
+export interface OrganisationRolesConnection {
+  __typename?: "OrganisationRolesConnection";
+  edges: Array<OrganisationRolesRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface OrganisationRolesRelationship {
+  __typename?: "OrganisationRolesRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Role;
+}
+
 /**
  * Information about pagination in a connection.
  */
@@ -15031,6 +17018,89 @@ export interface PageInfo {
    * When paginating forwards, the cursor to continue.
    */
   endCursor?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface Permission {
+  __typename?: "Permission";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  action?: Maybe<ScalarsEnums["String"]>;
+  scope?: Maybe<ScalarsEnums["String"]>;
+  roles: (args?: {
+    where?: Maybe<RoleWhere>;
+    options?: Maybe<RoleOptions>;
+  }) => Maybe<Array<Maybe<Role>>>;
+  rolesConnection: (args?: {
+    where?: Maybe<PermissionRolesConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<PermissionRolesConnectionSort>>;
+  }) => PermissionRolesConnection;
+}
+
+export interface PermissionRolesConnection {
+  __typename?: "PermissionRolesConnection";
+  edges: Array<PermissionRolesRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface PermissionRolesRelationship {
+  __typename?: "PermissionRolesRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Role;
+}
+
+export interface Role {
+  __typename?: "Role";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  permissions: (args?: {
+    where?: Maybe<PermissionWhere>;
+    options?: Maybe<PermissionOptions>;
+  }) => Maybe<Array<Maybe<Permission>>>;
+  organisation: (args?: {
+    where?: Maybe<OrganisationWhere>;
+    options?: Maybe<OrganisationOptions>;
+  }) => Maybe<Organisation>;
+  permissionsConnection: (args?: {
+    where?: Maybe<RolePermissionsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<RolePermissionsConnectionSort>>;
+  }) => RolePermissionsConnection;
+  organisationConnection: (args?: {
+    where?: Maybe<RoleOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<RoleOrganisationConnectionSort>>;
+  }) => RoleOrganisationConnection;
+}
+
+export interface RoleOrganisationConnection {
+  __typename?: "RoleOrganisationConnection";
+  edges: Array<RoleOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface RoleOrganisationRelationship {
+  __typename?: "RoleOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Organisation;
+}
+
+export interface RolePermissionsConnection {
+  __typename?: "RolePermissionsConnection";
+  edges: Array<RolePermissionsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface RolePermissionsRelationship {
+  __typename?: "RolePermissionsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Permission;
 }
 
 export interface UpdateFileSystemsMutationResponse {
@@ -15132,6 +17202,60 @@ export interface UpdateInfo {
   relationshipsDeleted: ScalarsEnums["Int"];
 }
 
+export interface UpdateOrganisationsMutationResponse {
+  __typename?: "UpdateOrganisationsMutationResponse";
+  info: UpdateInfo;
+  organisations: Array<Organisation>;
+}
+
+export interface UpdatePermissionsMutationResponse {
+  __typename?: "UpdatePermissionsMutationResponse";
+  info: UpdateInfo;
+  permissions: Array<Permission>;
+}
+
+export interface UpdateRolesMutationResponse {
+  __typename?: "UpdateRolesMutationResponse";
+  info: UpdateInfo;
+  roles: Array<Role>;
+}
+
+export interface UpdateUsersMutationResponse {
+  __typename?: "UpdateUsersMutationResponse";
+  info: UpdateInfo;
+  users: Array<User>;
+}
+
+export interface User {
+  __typename?: "User";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  email?: Maybe<ScalarsEnums["String"]>;
+  organisations: (args?: {
+    where?: Maybe<OrganisationWhere>;
+    options?: Maybe<OrganisationOptions>;
+  }) => Maybe<Array<Maybe<Organisation>>>;
+  organisationsConnection: (args?: {
+    where?: Maybe<UserOrganisationsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<UserOrganisationsConnectionSort>>;
+  }) => UserOrganisationsConnection;
+}
+
+export interface UserOrganisationsConnection {
+  __typename?: "UserOrganisationsConnection";
+  edges: Array<UserOrganisationsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface UserOrganisationsRelationship {
+  __typename?: "UserOrganisationsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Organisation;
+}
+
 export interface Project {
   __typename?: "Project";
   id?: Maybe<ScalarsEnums["ID"]>;
@@ -15153,12 +17277,6 @@ export interface File {
   status?: Maybe<ScalarsEnums["String"]>;
   owner?: Maybe<User>;
   url?: Maybe<ScalarsEnums["String"]>;
-}
-
-export interface User {
-  __typename?: "User";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
 }
 
 export interface Quote {
@@ -16328,10 +18446,16 @@ export interface SchemaObjectTypes {
   CreateHiveProcessResultsMutationResponse: CreateHiveProcessResultsMutationResponse;
   CreateHiveServicesMutationResponse: CreateHiveServicesMutationResponse;
   CreateInfo: CreateInfo;
+  CreateOrganisationsMutationResponse: CreateOrganisationsMutationResponse;
+  CreatePermissionsMutationResponse: CreatePermissionsMutationResponse;
+  CreateRolesMutationResponse: CreateRolesMutationResponse;
+  CreateUsersMutationResponse: CreateUsersMutationResponse;
   DeleteInfo: DeleteInfo;
   FileSystem: FileSystem;
   FileSystemFilesConnection: FileSystemFilesConnection;
   FileSystemFilesRelationship: FileSystemFilesRelationship;
+  FileSystemOrganisationConnection: FileSystemOrganisationConnection;
+  FileSystemOrganisationRelationship: FileSystemOrganisationRelationship;
   HiveAppliance: HiveAppliance;
   HiveApplianceBrand_imageConnection: HiveApplianceBrand_imageConnection;
   HiveApplianceBrand_imageRelationship: HiveApplianceBrand_imageRelationship;
@@ -16405,7 +18529,22 @@ export interface SchemaObjectTypes {
   HiveProcessResultProcessConnection: HiveProcessResultProcessConnection;
   HiveProcessResultProcessRelationship: HiveProcessResultProcessRelationship;
   HiveService: HiveService;
+  Organisation: Organisation;
+  OrganisationFilesystemsConnection: OrganisationFilesystemsConnection;
+  OrganisationFilesystemsRelationship: OrganisationFilesystemsRelationship;
+  OrganisationMembersConnection: OrganisationMembersConnection;
+  OrganisationMembersRelationship: OrganisationMembersRelationship;
+  OrganisationRolesConnection: OrganisationRolesConnection;
+  OrganisationRolesRelationship: OrganisationRolesRelationship;
   PageInfo: PageInfo;
+  Permission: Permission;
+  PermissionRolesConnection: PermissionRolesConnection;
+  PermissionRolesRelationship: PermissionRolesRelationship;
+  Role: Role;
+  RoleOrganisationConnection: RoleOrganisationConnection;
+  RoleOrganisationRelationship: RoleOrganisationRelationship;
+  RolePermissionsConnection: RolePermissionsConnection;
+  RolePermissionsRelationship: RolePermissionsRelationship;
   UpdateFileSystemsMutationResponse: UpdateFileSystemsMutationResponse;
   UpdateHiveAppliancesMutationResponse: UpdateHiveAppliancesMutationResponse;
   UpdateHiveFilesMutationResponse: UpdateHiveFilesMutationResponse;
@@ -16422,9 +18561,15 @@ export interface SchemaObjectTypes {
   UpdateHiveProcessResultsMutationResponse: UpdateHiveProcessResultsMutationResponse;
   UpdateHiveServicesMutationResponse: UpdateHiveServicesMutationResponse;
   UpdateInfo: UpdateInfo;
+  UpdateOrganisationsMutationResponse: UpdateOrganisationsMutationResponse;
+  UpdatePermissionsMutationResponse: UpdatePermissionsMutationResponse;
+  UpdateRolesMutationResponse: UpdateRolesMutationResponse;
+  UpdateUsersMutationResponse: UpdateUsersMutationResponse;
+  User: User;
+  UserOrganisationsConnection: UserOrganisationsConnection;
+  UserOrganisationsRelationship: UserOrganisationsRelationship;
   Project: Project;
   File: File;
-  User: User;
   Quote: Quote;
   Equipment: Equipment;
   ScheduleItem: ScheduleItem;
@@ -16532,10 +18677,16 @@ export type SchemaObjectTypesNames =
   | "CreateHiveProcessResultsMutationResponse"
   | "CreateHiveServicesMutationResponse"
   | "CreateInfo"
+  | "CreateOrganisationsMutationResponse"
+  | "CreatePermissionsMutationResponse"
+  | "CreateRolesMutationResponse"
+  | "CreateUsersMutationResponse"
   | "DeleteInfo"
   | "FileSystem"
   | "FileSystemFilesConnection"
   | "FileSystemFilesRelationship"
+  | "FileSystemOrganisationConnection"
+  | "FileSystemOrganisationRelationship"
   | "HiveAppliance"
   | "HiveApplianceBrand_imageConnection"
   | "HiveApplianceBrand_imageRelationship"
@@ -16609,7 +18760,22 @@ export type SchemaObjectTypesNames =
   | "HiveProcessResultProcessConnection"
   | "HiveProcessResultProcessRelationship"
   | "HiveService"
+  | "Organisation"
+  | "OrganisationFilesystemsConnection"
+  | "OrganisationFilesystemsRelationship"
+  | "OrganisationMembersConnection"
+  | "OrganisationMembersRelationship"
+  | "OrganisationRolesConnection"
+  | "OrganisationRolesRelationship"
   | "PageInfo"
+  | "Permission"
+  | "PermissionRolesConnection"
+  | "PermissionRolesRelationship"
+  | "Role"
+  | "RoleOrganisationConnection"
+  | "RoleOrganisationRelationship"
+  | "RolePermissionsConnection"
+  | "RolePermissionsRelationship"
   | "UpdateFileSystemsMutationResponse"
   | "UpdateHiveAppliancesMutationResponse"
   | "UpdateHiveFilesMutationResponse"
@@ -16626,9 +18792,15 @@ export type SchemaObjectTypesNames =
   | "UpdateHiveProcessResultsMutationResponse"
   | "UpdateHiveServicesMutationResponse"
   | "UpdateInfo"
+  | "UpdateOrganisationsMutationResponse"
+  | "UpdatePermissionsMutationResponse"
+  | "UpdateRolesMutationResponse"
+  | "UpdateUsersMutationResponse"
+  | "User"
+  | "UserOrganisationsConnection"
+  | "UserOrganisationsRelationship"
   | "Project"
   | "File"
-  | "User"
   | "Quote"
   | "Equipment"
   | "ScheduleItem"
