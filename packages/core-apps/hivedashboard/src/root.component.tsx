@@ -12,7 +12,7 @@ import { BaseStyle } from '@hexhive/styles'
 import { Dashboard } from './dashboard';
 import { Login } from './views/login';
 import qs from 'qs';
-
+import Fonts from './assets/fonts'
 const NoToken = () => (<div>No token</div>)
 
 console.log(process.env)
@@ -24,6 +24,8 @@ function App() {
     <AuthProvider
       authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
       returnTo={NODE_ENV == 'production' ? (`${REACT_APP_URL}/dashboard`) : 'http://localhost:3000/dashboard'}>
+                    <Fonts />
+
     <React.Suspense fallback={() => <Spinner />} >
     <Grommet theme={BaseStyle} plain full> 
   

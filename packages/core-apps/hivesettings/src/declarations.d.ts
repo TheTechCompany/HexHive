@@ -3,11 +3,6 @@ declare module "*.html" {
   export = rawHtmlFile;
 }
 
-declare module "*.ttf" {
-  const src: string;
-  export default src;
-}
-
 declare module "*.bmp" {
   const src: string;
   export default src;

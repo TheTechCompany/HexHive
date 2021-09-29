@@ -1,5 +1,5 @@
 import { Box } from 'grommet';
-import { Add, Shop, Spa, Robot, Document, Folder} from 'grommet-icons'
+import { Add, SettingsOption, Shop, Spa, Robot, Document, Folder} from 'grommet-icons'
 import React, { useState } from 'react';
 import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
@@ -7,6 +7,8 @@ import { useQuery } from '@hexhive/client';
 import { AppModal } from '../app-modal';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Files, Flow, Market, Command, Automate } from '../../assets/icons';
+
+import Fonts from '../../assets/fonts';
 export interface HexHiveProps extends RouteComponentProps {
     edit?: boolean;
 }
@@ -18,39 +20,46 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
 
     const [ actions, setActions ] = useState<any[]>([
         {
-            icon: <Market />,
+            icon: <Market  width="50" height="50"/>,
             title: "Market",
             top: 3,
             left: 3,
             path: '/market'
         },
         {
-            icon: <Files />,
+            icon: <Files  width="50" height="50"/>,
             title: "Files",
             top: 3,
             left: 4,
             path: '/files'
         },
         {
-            icon: <Flow />,
+            icon: <Flow  width="50" height="50" />,
             top: 3,
             title: "Flow",
             left: 5,
             path: '/flow'
         },
         {
-            icon: <Command />,
+            icon: <Command  width="50" height="50"/>,
             top: 3,
             title: "Command",
             left: 6,
             path: '/command'
         },
         {
-            icon: <Automate />,
+            icon: <Automate width="50" height="50"/>,
             top: 3,
             title: "Automate",
             left: 7,
             path: '/automate'
+        },
+        {
+            icon: <SettingsOption color="black" size="30px" />,
+            top: 3,
+            title: "Settings",
+            left: 8,
+            path: '/settings'
         }
     ])
 
