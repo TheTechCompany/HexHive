@@ -3,7 +3,7 @@ import React, { Suspense, lazy, useEffect, useRef, useState, useCallback } from 
 import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-shards';
 import { Box, Text, Spinner } from 'grommet';
 import { programActions } from '../../actions';
-import { Program, useQuery as useQLess} from '../../gqless';
+import { Program, useQuery as useQLess} from '@hexhive/client';
 import Editor from '@hexhive/command-editor'
 import qs from 'qs';
 import { RouteComponentProps } from 'react-router-dom';

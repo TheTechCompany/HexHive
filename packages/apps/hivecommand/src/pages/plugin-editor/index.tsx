@@ -1,7 +1,7 @@
 import { PluginEditor } from '@hexhive/command-editor';
 import { deviceActions, stackActions } from '../../actions';
 import React, { useEffect, useState } from 'react';
-import { Stack, useQuery } from '../../gqless';
+import { Stack, useQuery } from '@hexhive/client';
 
 export const PluginEditorPage : React.FC<any> = (props) => {
 

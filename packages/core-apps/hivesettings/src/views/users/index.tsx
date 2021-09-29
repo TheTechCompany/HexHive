@@ -3,12 +3,13 @@ import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { useMutation, useQuery } from '@hexhive/client'
 import { UserModal } from "../../components/modals/UserModal/UserModal";
+
 export const Users = () => {
 	const [ selected, setSelected ] = useState<any>(undefined)
 	const [ modalOpen, openModal ] = useState<boolean>(false)
 	const query = useQuery({suspense: false, staleWhileRevalidate: true})
 
-	const users = query.users({where: {organisations: {name: "Test Org"}}})
+	const users = query.users({where: {organisation: {name: "Test Org"}}})
 
 	const [ createUser, createInfo ] = useMutation((mutation, args: {name: string, email: string}) => {
 		const user = mutation.updateOrganisations({where: {name: "Test Org"}, update: {
@@ -21,7 +22,7 @@ export const Users = () => {
 			err: null
 		}
 	}, {
-		refetchQueries: [query.users({where: {organisations: {name: "Test Org"}}})],
+		refetchQueries: [query.users({where: {organisation: {name: "Test Org"}}})],
 		awaitRefetchQueries: true
 	})
 //[{node: {name: args.name, email: args.email} } ]
@@ -38,7 +39,7 @@ export const Users = () => {
 			err: null
 		}
 	}, {
-		refetchQueries: [query.users({where: {organisations: {name: "Test Org"}}})],
+		refetchQueries: [query.users({where: {organisation: {name: "Test Org"}}})],
 		awaitRefetchQueries: true
 	})
 	console.log(users)

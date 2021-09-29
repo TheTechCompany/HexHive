@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import _ from "lodash";
-import { useMutation, query, StackItems, useQuery, StackItemsInput } from "../gqless";
+import { useMutation, query, StackItems, useQuery, StackItemsInput } from "@hexhive/client";
 
 export default function stackActionFactory(axios: AxiosInstance){
 

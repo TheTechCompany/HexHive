@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components'
 
 
-import { Maybe, Program, useQuery } from '../../gqless';
+import { Maybe, Program, useQuery } from '@hexhive/client';
 import { InfiniteCanvasNode, InfiniteCanvasPath } from '@hexhive/ui';
 
 export interface ProgramViewerProps {
