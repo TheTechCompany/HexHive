@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 import { Route, Switch, RouteComponentProps, matchPath } from 'react-router-dom';
 
-import { Box, Spinner } from 'grommet';
+import { Box, List, Spinner } from 'grommet';
 import { Header } from '../../components/ui/header'
-import * as Icons from 'grommet-icons';
+import {Map, Tools, Previous, Plug, GraphQl} from 'grommet-icons';
 import { EditorPage } from '../Editor';
-
+import { Sidebar } from '@hexhive/ui'
 const PluginEditor = React.lazy(() => import('../../pages/plugin-editor').then((r) => ({default: r.PluginEditorPage})))
 const DeviceControl = React.lazy(() => import('../../pages/device-control').then((r) => ({default: r.DeviceControl})))
 
@@ -21,24 +21,24 @@ const PluginSingle = React.lazy(() => import('../../pages/plugin-single').then((
 
 const pages = [
     {
-        icon: <Icons.Map />,
+        icon: <Map color="neutral-1" />,
         label: "Deployments",
         path: '/devices',
         component: Devices
     },
     {
-        icon: <Icons.Tools />,
+        icon: <Tools color="neutral-1" />,
         label: "Programs",
         path: '/programs',
         component: ProgramList
     }, {
-        icon: <Icons.Plug />,
+        icon: <Plug  color="neutral-1" />,
         label: "Plugins",
         path: "/plugins",
         component: PluginList
     },
     {
-        icon: <Icons.GraphQl />,
+        icon: <GraphQl color="neutral-1"  />,
         label: "Reports",
         path: "/reports"
     }
@@ -62,7 +62,7 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
         if(match){
             return [
                 {
-                    icon: <Icons.Previous />,
+                    icon: <Previous />,
                     action: true,
                     path: '/programs'
                 },
@@ -97,7 +97,14 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
                 direction="row"
                 key={'left'}
                 style={{ display: 'flex', flex: 1 }}>
-
+                <Sidebar 
+                    active={window.location.pathname.replace((process.env.REACT_APP_URL || '/dashboard/command'), '')}
+                    onSelect={(item) => {
+                        props.history.push(item.path)
+                    }}
+                    menu={pages}
+                    />
+                
                 <Box
                     pad='xsmall'
                     background={'neutral-4'}

@@ -5,7 +5,7 @@ import { Box, List, Text, Button, Select } from 'grommet';
 //import { Map } from '@thetechcompany/live-ui'
 
 import { Graph } from '../../components/ui/graph';
-import { useQuery } from '../../gqless'
+import { useQuery } from '@hexhive/client'
 
 import MarkerIcon from 'leaflet/dist/images/marker-icon.png';
 

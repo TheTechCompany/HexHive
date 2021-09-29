@@ -2,7 +2,7 @@ export default `
 
 	type Organisation @auth(rules: [
 		{operations: [READ], where: {id: "$jwt.organisation"}},
-		{operations: [UPDATE], bind: {id: "$jwt.organisation"}}
+		{operations: [UPDATE, DELETE], bind: {id: "$jwt.organisation"}}
 	]) {
 		id: ID! @id
 		name: String
@@ -14,7 +14,7 @@ export default `
 
 	type User @auth(rules: [
 		{operations: [READ], where: {organisation: {id: "$jwt.organisation"}}},
-		{operations: [UPDATE, CREATE], bind: {organisation: {id: "$jwt.organisation"}}}
+		{operations: [UPDATE, CREATE, DELETE], bind: {organisation: {id: "$jwt.organisation"}}}
 	]) {
 		id: ID! @id
 		name: String
@@ -23,7 +23,10 @@ export default `
 		organisation: Organisation @relationship(type: "TRUSTS", direction: IN)
 	}
 
-	type Role {
+	type Role  @auth(rules: [
+		{operations: [READ], where: {organisation: {id: "$jwt.organisation"}}},
+		{operations: [UPDATE, CREATE, DELETE], bind: {organisation: {id: "$jwt.organisation"}}}
+	]) {
 		id: ID! @id
 		name: String
 

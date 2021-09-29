@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { useMutation, query } from "../gqless";
+import { useMutation, query } from "@hexhive/client";
 
 export default function deviceActionFactory(axios: AxiosInstance){
 

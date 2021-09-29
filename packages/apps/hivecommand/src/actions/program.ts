@@ -1,9 +1,9 @@
 import { AxiosInstance } from "axios";
 import _ from "lodash";
 
-import { CreateOneProgramInput, Program, ProgramIo, UpdateOneProgramInput } from '../gqless';
+import { CreateOneProgramInput, Program, ProgramIo, UpdateOneProgramInput } from '@hexhive/client';
 
-import { useMutation, query } from "../gqless";
+import { useMutation, query } from "@hexhive/client";
 
 export default function programActionFactory(axios: AxiosInstance){
 

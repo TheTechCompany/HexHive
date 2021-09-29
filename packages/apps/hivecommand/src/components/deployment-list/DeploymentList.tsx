@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, DataTable, Text, CheckBox, Button } from 'grommet';
 import moment from 'moment';
-import { Maybe, Program } from '../../gqless'
+import { Maybe, Program } from '@hexhive/client'
 import * as Icons from 'grommet-icons'
 
 export interface DeploymentListProps {

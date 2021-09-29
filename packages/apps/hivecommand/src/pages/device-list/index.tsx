@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DeviceModal } from '../../components/modals/device';
 import { deviceActions } from '../../actions'
-import { Device, Program, useQuery } from '../../gqless'
+import { Device, Program, useQuery } from '@hexhive/client'
 import { DeploymentList, DeploymentInfo } from '../../components/deployment-list';
 import { Box, TextInput, Button } from 'grommet';
 import * as Icons from 'grommet-icons';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { deviceActions } from '../../../actions';
 import { BaseModal } from '../base';
-import { Device, Program } from '../../../gqless'
+import { Device, Program } from '@hexhive/client'
 import { TextInput, Text, Box, Select } from 'grommet';
 import { nanoid } from 'nanoid';
 

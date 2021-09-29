@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import { Stack, StackItems, useQuery } from '../../gqless'
+import { Stack, StackItems, useQuery } from '@hexhive/client'
 // import { GridList, LiveComponent, Paper } from '@thetechcompany/live-ui'
 import { Box, Text, Button  } from 'grommet';
 import { StackItemModal } from '../../components/modals/stacks/item';

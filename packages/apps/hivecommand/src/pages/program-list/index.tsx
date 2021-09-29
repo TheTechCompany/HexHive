@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { deviceActions, programActions } from '../../actions'
 import { ProgramModal } from '../../components/modals/program';
-import { useQuery, Program } from '../../gqless'
+import { useQuery, Program } from '@hexhive/client'
 import { Box } from 'grommet';
 import { NestedList } from '../../components/ui/nested-list';
 import { RouteComponentProps } from 'react-router-dom'
