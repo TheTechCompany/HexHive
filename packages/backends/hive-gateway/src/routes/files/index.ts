@@ -114,7 +114,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		const result = await neo.writeTransaction(async (tx) => {
 			return await Promise.all(files.map(async (file) => {
 
-				const conversion = await createFile(tx, file)
+				const conversion = await createFile(tx, file, req.params.fileID)
 
 				const res = await tx.run(`
 					MATCH (file:HiveFile {id: $id})
@@ -153,6 +153,8 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		if(!resp) res.send({error: "No response"}) 
 
 		eventClient.eventRequest("UPLOAD_FILE", {"Uploaded File": resp})
+	
+	
 		// mq.post('UPLOAD_FILE')
        
 		// eventRequest({

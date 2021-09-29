@@ -6,7 +6,7 @@ export const createFile = async (tx: Transaction, file: { name: string, mimetype
 	query += cwd ? "MATCH (parent:HiveFile {id: $cwd})" : "MATCH (fs:FileSystem {name: $fs})"
 	query += `
         CREATE (file:HiveFile {id: $id, name: $name, mimetype: $mimetype, cid: $cid, size: $size })
-        CREATE (${cwd ? "parent" : "fs"})-[rel:CONTAINS]->(file)
+        CREATE (${cwd ? "parent" : "fs"})-[rel:${!cwd ? "HAS_FILE" : "CONTAINS"}]->(file)
         RETURN file`
 
 	const id = nanoid();

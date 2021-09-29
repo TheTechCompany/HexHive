@@ -15,6 +15,7 @@ import { useRef } from 'react';
 import { PDFPreview } from './previews/PDF';
 import { RouteComponentProps } from 'react-router-dom';
 import { Duration, differenceInSeconds, intervalToDuration, formatDuration } from 'date-fns'
+import { addFolder, runWorkflow } from '../../actions/filesystem';
 
 export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => {
     const parentRef = useRef<{id?: string}>({id: undefined})
@@ -89,61 +90,16 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
         uploading.current.loading = items;
         _setUploading(items)
     }
-
-    const [moveFile, moveInfo] = useMutation((mutation) => {
-        const fs = mutation.updateHiveFiles({
-            where: { name: 'Second Folder' },
-            disconnect: {
-                parent: { where: { node: { name: 'Folder' } } }
-            },
-            connect: {
-                parent: { where: { node: { name: "FoldersInFolders" } } }
-            }
-        })
-
-        return {
-            item: {
-                ...fs.hiveFiles[0]
-            }
-        }
+    
+    const [ newFolder, newFolderInfo ] = useMutation(addFolder, {
+        onCompleted(data) { },
+        onError(error) { },
+        refetchQueries: [],
+        awaitRefetchQueries: true,
+        suspense: false,
     })
 
-    const [addFolder, addFolderInfo] = useMutation((mutation, args: { name: string, cwd: string }) => {
-        let fs;
-        if (args.cwd) {
-            console.log(args.cwd)
-            let file = mutation.updateHiveFiles({
-                where: { id: args.cwd },
-                create: {
-                    children: [{ node: { name: args.name, isFolder: true } }]
-                    //   files: [{where: {node: {id: args.cwd}}, update: {
-                    //       node: {children: [{create: [{node: {name: args.name, isFolder: true}}]}]}
-                    //   }
-
-
-                    //   [{node: {name: args.name, isFolder: true}}]
-                }
-            })
-            return {
-                item: {
-                    ...file.hiveFiles[0]
-                }
-            }
-
-        } else {
-            fs = mutation.updateFileSystems({
-                where: { name: 'Shared FS' }, create: {
-                    files: [{ node: { name: args.name, isFolder: true } }]
-                }
-            })
-            return {
-                item: {
-                    ...fs.fileSystems[0]
-                }
-            }
-        }
-
-    },
+    const [ startFlow, startFlowInfo ] = useMutation(runWorkflow, 
         {
             onCompleted(data) { },
             onError(error) { },
@@ -152,27 +108,11 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             suspense: false,
         })
 
-    const [ runWorkflow, runInfo ] = useMutation((mutation, args: {files: any[], pipeline: string}) => {
-        const item = mutation.runWorkflow({
-            id: args.pipeline,
-            params: [{key: 'STP File', type: 'file', urn: `ipfs://${args.files[0]?.cid}`}]
-        })
-        return {
-            item: {
-                ...item
-            },
-            err: null
-        }
-    }, {
-        suspense: false,
-        awaitRefetchQueries: true
-    })
-
     let query;
 
     const { data } = useQuery(gql`
       query GET_FILES {
-        hiveFiles(where: ${parentId && parentId != "null" ? `{id: "${parentId}"}` : `{fs: {name: "Shared FS"} }`}){
+        hiveFiles(where: ${parentId && parentId != "null" ? `{id: "${parentId}"}` : `{fs: {name: "Shared FS"}, parent: null }`}){
             id
             name
             path
@@ -319,7 +259,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
 
     const breadcrumbs = useMemo(() => {
 
-        if (data?.hiveFiles?.[0] && parentId) {
+        if (data?.hiveFiles?.[0] && parentId && parentId != "null") {
             let file = data?.hiveFiles?.[0];
             let crumb_name = file.path.split('/')
             let crumb_id = file.path_id.split('/')
@@ -372,7 +312,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             pad="xsmall">
             <FolderModal
                 onSubmit={(folder) => {
-                    addFolder({ args: { name: folder.name, cwd: parentId && parentId != "null" ? parentId : undefined } }).then((resp) => {
+                    newFolder({ args: { name: folder.name, cwd: parentId && parentId != "null" ? parentId : undefined } }).then((resp) => {
                         console.log("Folder", resp)
                         fetchFiles()
 
@@ -383,7 +323,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             <ConvertModal
                 onSubmit={(folder) => {
                     console.log(folder)
-                    runWorkflow({args: {
+                    startFlow({args: {
                         files: files?.filter((a) => selected?.indexOf(a.id) > -1),
                         pipeline: folder.workflow
                     }}).then(() => {
@@ -442,7 +382,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                         elevation="small" 
                         width="small" 
                         height="100%">
-                        {files?.filter((a) => selected.indexOf(a.id) > -1).map((file) => (
+                        {(Array.isArray(files) ? files?.filter((a) => selected.indexOf(a.id) > -1) : files ? [files] : []).map((file) => (
                             <Box overflow="hidden" round="xsmall" background="neutral-2" elevation="small">
                                 <Box direction="row" background="accent-2" pad="xsmall"><Text>{file.name}</Text></Box>
                                 {file.conversions.map((x) => (
