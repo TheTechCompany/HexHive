@@ -55,7 +55,7 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
                 token: token, 
                 activeUser: activeUser
             }}>
-                {props.children instanceof Function ? props.children(token) : props.children}
+                {props.children instanceof Function ? props.children(activeUser) : props.children}
         </AuthContext.Provider>
     )
 }
