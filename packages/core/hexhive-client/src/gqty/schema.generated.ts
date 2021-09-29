@@ -3811,7 +3811,7 @@ export interface RoleWhere {
 }
 
 export interface UserConnectInput {
-  organisations?: Maybe<Array<UserOrganisationsConnectFieldInput>>;
+  organisation?: Maybe<UserOrganisationConnectFieldInput>;
 }
 
 export interface UserConnectWhere {
@@ -3821,15 +3821,15 @@ export interface UserConnectWhere {
 export interface UserCreateInput {
   name?: Maybe<Scalars["String"]>;
   email?: Maybe<Scalars["String"]>;
-  organisations?: Maybe<UserOrganisationsFieldInput>;
+  organisation?: Maybe<UserOrganisationFieldInput>;
 }
 
 export interface UserDeleteInput {
-  organisations?: Maybe<Array<UserOrganisationsDeleteFieldInput>>;
+  organisation?: Maybe<UserOrganisationDeleteFieldInput>;
 }
 
 export interface UserDisconnectInput {
-  organisations?: Maybe<Array<UserOrganisationsDisconnectFieldInput>>;
+  organisation?: Maybe<UserOrganisationDisconnectFieldInput>;
 }
 
 export interface UserOptions {
@@ -3839,56 +3839,56 @@ export interface UserOptions {
   offset?: Maybe<Scalars["Int"]>;
 }
 
-export interface UserOrganisationsConnectFieldInput {
+export interface UserOrganisationConnectFieldInput {
   where?: Maybe<OrganisationConnectWhere>;
-  connect?: Maybe<Array<OrganisationConnectInput>>;
+  connect?: Maybe<OrganisationConnectInput>;
 }
 
-export interface UserOrganisationsConnectionSort {
+export interface UserOrganisationConnectionSort {
   node?: Maybe<OrganisationSort>;
 }
 
-export interface UserOrganisationsConnectionWhere {
-  AND?: Maybe<Array<UserOrganisationsConnectionWhere>>;
-  OR?: Maybe<Array<UserOrganisationsConnectionWhere>>;
+export interface UserOrganisationConnectionWhere {
+  AND?: Maybe<Array<UserOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<UserOrganisationConnectionWhere>>;
   node?: Maybe<OrganisationWhere>;
   node_NOT?: Maybe<OrganisationWhere>;
 }
 
-export interface UserOrganisationsCreateFieldInput {
+export interface UserOrganisationCreateFieldInput {
   node: OrganisationCreateInput;
 }
 
-export interface UserOrganisationsDeleteFieldInput {
-  where?: Maybe<UserOrganisationsConnectionWhere>;
+export interface UserOrganisationDeleteFieldInput {
+  where?: Maybe<UserOrganisationConnectionWhere>;
   delete?: Maybe<OrganisationDeleteInput>;
 }
 
-export interface UserOrganisationsDisconnectFieldInput {
-  where?: Maybe<UserOrganisationsConnectionWhere>;
+export interface UserOrganisationDisconnectFieldInput {
+  where?: Maybe<UserOrganisationConnectionWhere>;
   disconnect?: Maybe<OrganisationDisconnectInput>;
 }
 
-export interface UserOrganisationsFieldInput {
-  create?: Maybe<Array<UserOrganisationsCreateFieldInput>>;
-  connect?: Maybe<Array<UserOrganisationsConnectFieldInput>>;
+export interface UserOrganisationFieldInput {
+  create?: Maybe<UserOrganisationCreateFieldInput>;
+  connect?: Maybe<UserOrganisationConnectFieldInput>;
 }
 
-export interface UserOrganisationsUpdateConnectionInput {
+export interface UserOrganisationUpdateConnectionInput {
   node?: Maybe<OrganisationUpdateInput>;
 }
 
-export interface UserOrganisationsUpdateFieldInput {
-  where?: Maybe<UserOrganisationsConnectionWhere>;
-  update?: Maybe<UserOrganisationsUpdateConnectionInput>;
-  connect?: Maybe<Array<UserOrganisationsConnectFieldInput>>;
-  disconnect?: Maybe<Array<UserOrganisationsDisconnectFieldInput>>;
-  create?: Maybe<Array<UserOrganisationsCreateFieldInput>>;
-  delete?: Maybe<Array<UserOrganisationsDeleteFieldInput>>;
+export interface UserOrganisationUpdateFieldInput {
+  where?: Maybe<UserOrganisationConnectionWhere>;
+  update?: Maybe<UserOrganisationUpdateConnectionInput>;
+  connect?: Maybe<UserOrganisationConnectFieldInput>;
+  disconnect?: Maybe<UserOrganisationDisconnectFieldInput>;
+  create?: Maybe<UserOrganisationCreateFieldInput>;
+  delete?: Maybe<UserOrganisationDeleteFieldInput>;
 }
 
 export interface UserRelationInput {
-  organisations?: Maybe<Array<UserOrganisationsCreateFieldInput>>;
+  organisation?: Maybe<UserOrganisationCreateFieldInput>;
 }
 
 /** Fields to sort Users by. The order in which sorts are applied is not guaranteed when specifying many fields in one UserSort object. */
@@ -3901,7 +3901,7 @@ export interface UserSort {
 export interface UserUpdateInput {
   name?: Maybe<Scalars["String"]>;
   email?: Maybe<Scalars["String"]>;
-  organisations?: Maybe<Array<UserOrganisationsUpdateFieldInput>>;
+  organisation?: Maybe<UserOrganisationUpdateFieldInput>;
 }
 
 export interface UserWhere {
@@ -3937,10 +3937,10 @@ export interface UserWhere {
   email_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   email_ENDS_WITH?: Maybe<Scalars["String"]>;
   email_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  organisations?: Maybe<OrganisationWhere>;
-  organisations_NOT?: Maybe<OrganisationWhere>;
-  organisationsConnection?: Maybe<UserOrganisationsConnectionWhere>;
-  organisationsConnection_NOT?: Maybe<UserOrganisationsConnectionWhere>;
+  organisation?: Maybe<OrganisationWhere>;
+  organisation_NOT?: Maybe<OrganisationWhere>;
+  organisationConnection?: Maybe<UserOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<UserOrganisationConnectionWhere>;
 }
 
 export interface ProjectInput {
@@ -8816,27 +8816,27 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String" },
     email: { __type: "String" },
-    organisations: {
-      __type: "[Organisation]",
+    organisation: {
+      __type: "Organisation",
       __args: { where: "OrganisationWhere", options: "OrganisationOptions" },
     },
-    organisationsConnection: {
-      __type: "UserOrganisationsConnection!",
+    organisationConnection: {
+      __type: "UserOrganisationConnection!",
       __args: {
-        where: "UserOrganisationsConnectionWhere",
+        where: "UserOrganisationConnectionWhere",
         first: "Int",
         after: "String",
-        sort: "[UserOrganisationsConnectionSort!]",
+        sort: "[UserOrganisationConnectionSort!]",
       },
     },
   },
-  UserOrganisationsConnection: {
+  UserOrganisationConnection: {
     __typename: { __type: "String!" },
-    edges: { __type: "[UserOrganisationsRelationship!]!" },
+    edges: { __type: "[UserOrganisationRelationship!]!" },
     totalCount: { __type: "Int!" },
     pageInfo: { __type: "PageInfo!" },
   },
-  UserOrganisationsRelationship: {
+  UserOrganisationRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "Organisation!" },
@@ -12032,64 +12032,64 @@ export const generatedSchema = {
     organisationConnection_NOT: { __type: "RoleOrganisationConnectionWhere" },
   },
   UserConnectInput: {
-    organisations: { __type: "[UserOrganisationsConnectFieldInput!]" },
+    organisation: { __type: "UserOrganisationConnectFieldInput" },
   },
   UserConnectWhere: { node: { __type: "UserWhere!" } },
   UserCreateInput: {
     name: { __type: "String" },
     email: { __type: "String" },
-    organisations: { __type: "UserOrganisationsFieldInput" },
+    organisation: { __type: "UserOrganisationFieldInput" },
   },
   UserDeleteInput: {
-    organisations: { __type: "[UserOrganisationsDeleteFieldInput!]" },
+    organisation: { __type: "UserOrganisationDeleteFieldInput" },
   },
   UserDisconnectInput: {
-    organisations: { __type: "[UserOrganisationsDisconnectFieldInput!]" },
+    organisation: { __type: "UserOrganisationDisconnectFieldInput" },
   },
   UserOptions: {
     sort: { __type: "[UserSort]" },
     limit: { __type: "Int" },
     offset: { __type: "Int" },
   },
-  UserOrganisationsConnectFieldInput: {
+  UserOrganisationConnectFieldInput: {
     where: { __type: "OrganisationConnectWhere" },
-    connect: { __type: "[OrganisationConnectInput!]" },
+    connect: { __type: "OrganisationConnectInput" },
   },
-  UserOrganisationsConnectionSort: { node: { __type: "OrganisationSort" } },
-  UserOrganisationsConnectionWhere: {
-    AND: { __type: "[UserOrganisationsConnectionWhere!]" },
-    OR: { __type: "[UserOrganisationsConnectionWhere!]" },
+  UserOrganisationConnectionSort: { node: { __type: "OrganisationSort" } },
+  UserOrganisationConnectionWhere: {
+    AND: { __type: "[UserOrganisationConnectionWhere!]" },
+    OR: { __type: "[UserOrganisationConnectionWhere!]" },
     node: { __type: "OrganisationWhere" },
     node_NOT: { __type: "OrganisationWhere" },
   },
-  UserOrganisationsCreateFieldInput: {
+  UserOrganisationCreateFieldInput: {
     node: { __type: "OrganisationCreateInput!" },
   },
-  UserOrganisationsDeleteFieldInput: {
-    where: { __type: "UserOrganisationsConnectionWhere" },
+  UserOrganisationDeleteFieldInput: {
+    where: { __type: "UserOrganisationConnectionWhere" },
     delete: { __type: "OrganisationDeleteInput" },
   },
-  UserOrganisationsDisconnectFieldInput: {
-    where: { __type: "UserOrganisationsConnectionWhere" },
+  UserOrganisationDisconnectFieldInput: {
+    where: { __type: "UserOrganisationConnectionWhere" },
     disconnect: { __type: "OrganisationDisconnectInput" },
   },
-  UserOrganisationsFieldInput: {
-    create: { __type: "[UserOrganisationsCreateFieldInput!]" },
-    connect: { __type: "[UserOrganisationsConnectFieldInput!]" },
+  UserOrganisationFieldInput: {
+    create: { __type: "UserOrganisationCreateFieldInput" },
+    connect: { __type: "UserOrganisationConnectFieldInput" },
   },
-  UserOrganisationsUpdateConnectionInput: {
+  UserOrganisationUpdateConnectionInput: {
     node: { __type: "OrganisationUpdateInput" },
   },
-  UserOrganisationsUpdateFieldInput: {
-    where: { __type: "UserOrganisationsConnectionWhere" },
-    update: { __type: "UserOrganisationsUpdateConnectionInput" },
-    connect: { __type: "[UserOrganisationsConnectFieldInput!]" },
-    disconnect: { __type: "[UserOrganisationsDisconnectFieldInput!]" },
-    create: { __type: "[UserOrganisationsCreateFieldInput!]" },
-    delete: { __type: "[UserOrganisationsDeleteFieldInput!]" },
+  UserOrganisationUpdateFieldInput: {
+    where: { __type: "UserOrganisationConnectionWhere" },
+    update: { __type: "UserOrganisationUpdateConnectionInput" },
+    connect: { __type: "UserOrganisationConnectFieldInput" },
+    disconnect: { __type: "UserOrganisationDisconnectFieldInput" },
+    create: { __type: "UserOrganisationCreateFieldInput" },
+    delete: { __type: "UserOrganisationDeleteFieldInput" },
   },
   UserRelationInput: {
-    organisations: { __type: "[UserOrganisationsCreateFieldInput!]" },
+    organisation: { __type: "UserOrganisationCreateFieldInput" },
   },
   UserSort: {
     id: { __type: "SortDirection" },
@@ -12099,7 +12099,7 @@ export const generatedSchema = {
   UserUpdateInput: {
     name: { __type: "String" },
     email: { __type: "String" },
-    organisations: { __type: "[UserOrganisationsUpdateFieldInput!]" },
+    organisation: { __type: "UserOrganisationUpdateFieldInput" },
   },
   UserWhere: {
     OR: { __type: "[UserWhere!]" },
@@ -12134,10 +12134,10 @@ export const generatedSchema = {
     email_NOT_STARTS_WITH: { __type: "String" },
     email_ENDS_WITH: { __type: "String" },
     email_NOT_ENDS_WITH: { __type: "String" },
-    organisations: { __type: "OrganisationWhere" },
-    organisations_NOT: { __type: "OrganisationWhere" },
-    organisationsConnection: { __type: "UserOrganisationsConnectionWhere" },
-    organisationsConnection_NOT: { __type: "UserOrganisationsConnectionWhere" },
+    organisation: { __type: "OrganisationWhere" },
+    organisation_NOT: { __type: "OrganisationWhere" },
+    organisationConnection: { __type: "UserOrganisationConnectionWhere" },
+    organisationConnection_NOT: { __type: "UserOrganisationConnectionWhere" },
   },
   Project: {
     __typename: { __type: "String!" },
@@ -17231,27 +17231,27 @@ export interface User {
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   email?: Maybe<ScalarsEnums["String"]>;
-  organisations: (args?: {
+  organisation: (args?: {
     where?: Maybe<OrganisationWhere>;
     options?: Maybe<OrganisationOptions>;
-  }) => Maybe<Array<Maybe<Organisation>>>;
-  organisationsConnection: (args?: {
-    where?: Maybe<UserOrganisationsConnectionWhere>;
+  }) => Maybe<Organisation>;
+  organisationConnection: (args?: {
+    where?: Maybe<UserOrganisationConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<Array<UserOrganisationsConnectionSort>>;
-  }) => UserOrganisationsConnection;
+    sort?: Maybe<Array<UserOrganisationConnectionSort>>;
+  }) => UserOrganisationConnection;
 }
 
-export interface UserOrganisationsConnection {
-  __typename?: "UserOrganisationsConnection";
-  edges: Array<UserOrganisationsRelationship>;
+export interface UserOrganisationConnection {
+  __typename?: "UserOrganisationConnection";
+  edges: Array<UserOrganisationRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface UserOrganisationsRelationship {
-  __typename?: "UserOrganisationsRelationship";
+export interface UserOrganisationRelationship {
+  __typename?: "UserOrganisationRelationship";
   cursor: ScalarsEnums["String"];
   node: Organisation;
 }
@@ -18566,8 +18566,8 @@ export interface SchemaObjectTypes {
   UpdateRolesMutationResponse: UpdateRolesMutationResponse;
   UpdateUsersMutationResponse: UpdateUsersMutationResponse;
   User: User;
-  UserOrganisationsConnection: UserOrganisationsConnection;
-  UserOrganisationsRelationship: UserOrganisationsRelationship;
+  UserOrganisationConnection: UserOrganisationConnection;
+  UserOrganisationRelationship: UserOrganisationRelationship;
   Project: Project;
   File: File;
   Quote: Quote;
@@ -18797,8 +18797,8 @@ export type SchemaObjectTypesNames =
   | "UpdateRolesMutationResponse"
   | "UpdateUsersMutationResponse"
   | "User"
-  | "UserOrganisationsConnection"
-  | "UserOrganisationsRelationship"
+  | "UserOrganisationConnection"
+  | "UserOrganisationRelationship"
   | "Project"
   | "File"
   | "Quote"
