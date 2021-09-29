@@ -14,7 +14,7 @@ function App(props: any) {
       returnTo={process.env.NODE_ENV == 'production' ? `${process.env.REACT_APP_URL}/dashboard/command` : "http://localhost:3000/dashboard/command"}>
       {(user) => user ? (
  <Grommet
- style={{display: 'flex'}}
+ style={{display: 'flex', flex: 1}}
  full
  theme={BaseStyle}
  plain>
