@@ -18,6 +18,7 @@
     <script src="http://localhost:8514/remoteEntry.js"></script>
 
     <script src="http://localhost:8515/remoteEntry.js"></script>
+    <script src="http://localhost:8519/remoteEntry.js"></script>
 
   
   <% } else { %>
@@ -27,6 +28,8 @@
       <script defer="defer" src="https://apps.hexhive.io/hiveflow/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hivefiles/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hive3d/remoteEntry.js"></script>
+      <script defer="defer" src="https://apps.hexhive.io/hivesettings/remoteEntry.js"></script>
+
     <% } else if (process.env.NODE_ENV == 'native') { %>
       
       <script defer="defer" src="asset://.config"></script>
@@ -37,6 +40,7 @@
       <script defer="defer" src="https://staging-apps.hexhive.io/hivebuild/remoteEntry.js"></script>
       <script defer="defer" src="https://staging-apps.hexhive.io/hivemarket/remoteEntry.js"></script>
       <script defer="defer" src="https://staging-apps.hexhive.io/header/remoteEntry.js"></script>
+      <script defer="defer" src="https://staging-apps.hexhive.io/hivesettings/remoteEntry.js"></script>
       
       <script defer="defer" src="https://staging-apps.hexhive.io/hiveautomate/remoteEntry.js"></script>
 
@@ -115,6 +119,7 @@
   <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.min.js"></script>
   <% } %>
     <style>
+     
       html{
         height: 100vh;
         width: 100vw;

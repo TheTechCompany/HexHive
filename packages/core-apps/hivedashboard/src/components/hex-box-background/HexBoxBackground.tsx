@@ -175,6 +175,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                             left={action.left}
                             logo={action.icon}
                             size={size.actions}
+                            text={action.title}
                             />
                         )
                     }else{

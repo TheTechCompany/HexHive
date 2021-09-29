@@ -42,7 +42,8 @@ module.exports = (webpackConfigEnv, argv) => {
           'hexhive_hivemind': 'hexhive_hivemind',
           'hexhive_hivefiles': 'hexhive_hivefiles',
           'hexhive_hive3d': 'hexhive_hive3d',
-          'hexhive_hiveheader': 'hexhive_hiveheader'
+          'hexhive_hiveheader': 'hexhive_hiveheader',
+          'hexhive_hivesettings': 'hexhive_hivesettings'
         },
         shared: {
           "react": {version: '17.0.2'},

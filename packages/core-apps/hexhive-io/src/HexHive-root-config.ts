@@ -40,6 +40,9 @@ const routes = constructRoutes(`
   <route path="command">
   <application name="hexhive_hivecommand"></application>
 </route>
+<route path="settings">
+  <application name="hexhive_hivesettings"></application>
+</route>
     <route path="automate">
       <application name="hexhive_hiveautomate"></application>
     </route>
@@ -89,6 +92,9 @@ const applications = constructApplications({
       case 'hexhive_hivecommand':
               //@ts-ignore
               return import('hexhive_hivecommand')
+      case 'hexhive_hivesettings':
+          //@ts-ignore
+          return import('hexhive_hivesettings')
     }
   } //System.import(name),
 });
