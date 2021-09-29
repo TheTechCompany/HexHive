@@ -9,6 +9,7 @@
   "references": [
     {"path": "../../shared/hexhive-styles"},
     {"path": "../../core/hexhive-ui"},
+    {"path": "../../shard/hexhive-auth-ui"},
     {"path": "../../core/hexhive-client"}
   ],
   "files": ["src/HexHive-HiveFiles.tsx"],

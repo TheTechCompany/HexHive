@@ -44,7 +44,14 @@ const routes = constructRoutes(`
       <application name="hexhive_hiveautomate"></application>
     </route>
   </div>
-</single-spa-router>`)
+</single-spa-router>`, {
+  props: {
+
+  },
+  loaders: {
+    await: `<div>Spinner</div>`
+  }
+})
 // , {
 //   props: {},
 //   loaders: {

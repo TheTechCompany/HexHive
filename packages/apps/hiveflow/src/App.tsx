@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import {Box, Grommet} from 'grommet'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { AuthProvider } from '@hexhive/auth-ui';
+import { AuthProvider, Loader } from '@hexhive/auth-ui';
 import {Dashboard} from './views/dashboard';
 import { BaseStyle } from '@hexhive/styles'
 
@@ -15,7 +15,8 @@ const { REACT_APP_API, PUBLIC_URL, REACT_APP_URL, NODE_ENV } = process.env;
     <AuthProvider
     authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
     returnTo={NODE_ENV == 'production' ? (`${REACT_APP_URL}/dashboard/flow`) : 'http://localhost:3000/dashboard/flow'}>
- <Grommet  
+    {(user) => user ? (
+      <Grommet  
           full
           style={{display: 'flex'}}
           themeMode="dark"
@@ -28,6 +29,8 @@ const { REACT_APP_API, PUBLIC_URL, REACT_APP_URL, NODE_ENV } = process.env;
                 </Box>
               </Router>
         </Grommet>
+    ) : <Loader />}
+    
       </AuthProvider>
   );
 }

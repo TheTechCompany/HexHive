@@ -197,11 +197,14 @@ const config : ConfigParams = {
 
 		app.use("/graphql", requiresAuth(), async (req, res, next) => {
 			if(!req.oidc.accessToken) return next("No access token present");
-			const { isExpired, refresh } = req.oidc.accessToken
+			try{
+				const { isExpired, refresh } = req.oidc.accessToken
 
-			console.log(req.oidc.accessToken, req.oidc)
-			if(isExpired()){
-				await refresh();
+				if(isExpired()){
+					await refresh();
+				}
+			}catch(e){
+				next("No user info found")
 			}
 
 			try {
