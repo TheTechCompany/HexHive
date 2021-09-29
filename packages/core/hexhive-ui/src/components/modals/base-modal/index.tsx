@@ -21,6 +21,7 @@ export const BaseModal : React.FC<BaseModalProps> = (props) => {
             onEsc={onClose}
             onClickOutside={onClose}>
             <Box
+                width={props.width}
                 flex
                 direction="column"
            >

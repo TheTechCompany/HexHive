@@ -15,6 +15,7 @@ import { apply } from "../task-registry/k8s"
 import { Kafka } from "kafkajs"
 import { createTask, createWorkflow } from "../task-registry/yml-templater"
 import { getPortEnv } from "../routes/pipelines/util"
+import acl from "./subschema/acl"
 
 require("dotenv").config()
 
@@ -76,6 +77,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	${apps}
 	${files}
 	${automate}
+	${acl}
 
  
 	`
