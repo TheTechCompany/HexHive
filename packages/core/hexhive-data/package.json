@@ -1,0 +1,24 @@
+{
+  "name": "@hexhive/data-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "nanoid": "^3.1.28",
+    "neo4j-driver": "^4.3.3",
+    "neo4j-driver-core": "^4.3.3"
+  }
+}

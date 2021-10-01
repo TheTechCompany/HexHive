@@ -71,6 +71,7 @@
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
   "references": [
-    {"path": "../../shared/hexhive-types"}
+    {"path": "../../shared/hexhive-types"},
+    {"path": "../../core/hexhive-data"}
   ]
 }

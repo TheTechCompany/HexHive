@@ -4,7 +4,7 @@ import { Provider } from 'oidc-provider';
 import { Account } from '../../Account';
 import bodyParser from 'body-parser';
 
-export const InteractionRouter = (oidc: Provider) : Router => {
+export const InteractionRouter = (oidc: Provider, accountant: Account) : Router => {
     const router = Router();
     const parse = bodyParser.urlencoded({ extended: false });
     
@@ -56,7 +56,7 @@ export const InteractionRouter = (oidc: Provider) : Router => {
             assert.strictEqual(prompt.name, 'login');
             const client = await oidc.Client.find(params.client_id as string);
 
-            const accountId = await Account.authenticate(req.body.email, req.body.password);
+            const accountId = await accountant.authenticate(req.body.email, req.body.password);
             console.log(accountId)
             if (!accountId) {
                 res.render('login', {
