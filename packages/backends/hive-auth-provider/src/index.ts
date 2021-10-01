@@ -12,10 +12,12 @@ import { isValidObjectId, mongo } from 'mongoose';
 import { createServer } from 'http';
 import { Account } from './Account';
 import helmet from 'helmet';
+
 import { MongoAdapter } from './adapters/mongodb';
 
 import generateKeys from './generateKeys';
 import path from 'path';
+import { getGraphDriver, getGraphSession } from '@hexhive/data-core';
 const greenlock = require('greenlock-express')
 
 const app = express();
@@ -33,7 +35,6 @@ const jwks = require('./jwks/jwks.json');
 (async () => {
 
     // const mongoAdapter = new MongoAdapter('oidc-auth-provider')
-
     await MongoAdapter.connect(process.env.MONGO_URL || 'mongodb://localhost', process.env.MONGO_DB || 'oidc-provider')
 
     await connect_data()
@@ -43,6 +44,17 @@ const jwks = require('./jwks/jwks.json');
     //         wss.emit('connection', ws, request, {})
     //     })
     // })
+
+    const driver = await getGraphDriver({
+        uri: process.env.NEO4J_URI,
+        user: process.env.NEO4J_USER,
+        password: process.env.NEO4J_PASSWORD
+    })
+
+    const session = getGraphSession(driver);
+    if(!session) throw new Error("Couldn't get graph session");
+
+    const accountant = new Account(session)
 
     const oidc = new Provider(ISSUER, {
         adapter: MongoAdapter,
@@ -88,7 +100,7 @@ const jwks = require('./jwks/jwks.json');
                 token_endpoint_auth_method: 'client_secret_post'
             }
         ],
-        findAccount: Account.findAccount,
+        findAccount: accountant.findAccount,
         claims: {
             openid: ['sub'],
             email: ['email', 'email_verified'],
@@ -132,7 +144,7 @@ const jwks = require('./jwks/jwks.json');
     app.use(helmet(helmetOptions))
 
 
-    app.use(DefaultRouter(oidc)) 
+    app.use(DefaultRouter(oidc, accountant)) 
 
     const { constructor: { errors: { SessionNotFound } } } = oidc as any;
 

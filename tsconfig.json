@@ -10,7 +10,7 @@
      "react-dom": ["../node_modules/react-dom"],
      "grommet": ["../node_modules/grommet"],
      "gqless": ["../node_modules/gqless"],
-
+     "@hexhive/data-core": ["./core/hexhive-data/src"],
      "@gqless/react": ["../node_modules/@gqless/react"],
      "styled-components": ["../node_modules/styled-components"],
      "@types/styled-components": ["../node_modules/@types/styled-components"],
