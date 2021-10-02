@@ -10,12 +10,12 @@ import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client
 import { Explorer } from "./views/explorer";
 import {App} from "./App";
 import { AuthProvider, Loader } from '@hexhive/auth-ui'
+
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API ?  `${process.env.REACT_APP_API}/graphql` : 'http://localhost:7000/graphql',
   cache: new InMemoryCache(),
   credentials: 'include'
 })
-
 const { NODE_ENV, REACT_APP_API, REACT_APP_URL } = process.env;
 
 export default function Root(props) {
