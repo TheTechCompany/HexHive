@@ -1,7 +1,7 @@
 import React, {
   Component, useState
 } from 'react';
-import { Box } from 'grommet'
+import { Box, Button, Collapsible } from 'grommet'
 import { ScheduleView } from '@hexhive/ui';
 import { mutation, useRefetch, useMutation, useQuery, resolved } from '@hexhive/client';
 import moment from 'moment';
@@ -9,6 +9,8 @@ import { schedule as scheduleActions } from '../../actions'
 import { useContext } from 'react';
 import { AuthContext, useAuth } from '@hexhive/auth-ui';
 import { useEffect } from 'react';
+import { Menu, Previous, Next } from 'grommet-icons';
+import {DraftPane } from './draft-pane';
 
 export const Schedule : React.FC<any> = (props) =>  {
 
@@ -27,9 +29,8 @@ export const Schedule : React.FC<any> = (props) =>  {
   
   })
 
-  const draftSchedule = query.TimelineItemMany({ timeline: "Projects", startDate: horizon.start, endDate: horizon.end });
 
-  console.log("DRAFT", draftSchedule)
+  const draftSchedule = query.TimelineItemMany({ timeline: "Projects", startDate: horizon.start, endDate: horizon.end })?.map((x) => ({...x})) || [];
 
   const [schedule, setSchedule] = useState<any[]>([])//?.map((x) => ({...x, project: x?.project})) || [];
 //query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})
@@ -136,12 +137,26 @@ export const Schedule : React.FC<any> = (props) =>  {
       });
     
   }, [])
+  
+  const [ draftsOpen, openDrafts ] = useState<boolean>(false);
 
   console.log("Schedule view", schedule);
 
     return (
-      <Box flex className="schedule-container">
+      <Box
+        direction="row"
+         flex className="schedule-container">
+   
+          <DraftPane  
+            open={draftsOpen}
+            drafts={draftSchedule}
+            projects={projects} />
         <ScheduleView 
+          actions={{
+            left: (<Button 
+              onClick={() => openDrafts(!draftsOpen)} 
+               hoverIndicator icon={draftsOpen ? <Previous /> : <Next />} />)
+          }}
           isLoading={query.$state.isLoading}
           onJoinCard={(card: any) => {
             joinCard({args: {id: card.id}}).then((resp) => {
