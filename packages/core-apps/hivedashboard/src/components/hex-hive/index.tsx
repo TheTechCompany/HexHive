@@ -112,7 +112,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
                 path: '/command'
             },
             {
-                id: '',
+                id: 'ZJ5pksG7fbU3ThLG3_nA3',
                 icon: <Automate width="50" height="50"/>,
                 top: 3,
                 title: "Automate",
@@ -120,7 +120,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
                 path: '/automate'
             },
             {
-                id: '',
+                id: 'hCnbZc6H0F4ehaqQlENqc',
                 icon: <SettingsOption color="black" size="30px" />,
                 top: 3,
                 title: "Settings",
