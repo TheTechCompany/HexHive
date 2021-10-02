@@ -1,21 +1,23 @@
 import crypto from 'crypto';
 import { User } from '@hexhive/types'
 import { authUser, getUser } from '@hexhive/data-core'
-import { Session } from 'neo4j-driver';
+import { session } from './adapters/neo4j'
 
 export class Account {
 
-    session: Session;
-
-    constructor(session: Session){
-        this.session = session;
-    }
-
     async findAccount(ctx: any, id: string){
-        console.log(ctx, id)
 
-        const user = await this.session?.readTransaction(async (tx) => {
-            return await getUser(tx, id)
+        const user = await session?.readTransaction(async (tx) => {
+            const result = await tx.run(`
+                MATCH (user:HiveUser {id: $id})<-[:TRUSTS]-(org)
+                RETURN user{
+                    .*,
+                    organisation: org{ .* }
+                }
+            `, {
+                id
+            })
+            return result.records.map((x) => x.get(0))[0];
         })
 
         if(!user) return;
@@ -37,9 +39,8 @@ export class Account {
 
     async authenticate(email: string, password: string){
         const pwd_hash = crypto.createHash('sha256').update(password).digest('hex');
-        console.log(email, pwd_hash)
 
-        const user = await this.session.readTransaction(async (tx) => {
+        const user = await session.readTransaction(async (tx) => {
             return await authUser(tx, email, password);
         })
         // await authUser()

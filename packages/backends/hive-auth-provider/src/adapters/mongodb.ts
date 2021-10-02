@@ -62,7 +62,7 @@ export class MongoAdapter {
   constructor(name: string) {
     this.name = snakeCase(name);
 
-    console.log(name)
+    console.log("MONGO ADAPTER", name)
 
     this.model = model(this.name, new Schema({
       _id: String,
