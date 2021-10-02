@@ -1,5 +1,6 @@
 {
   "packages": [
+    "packages/workers/*",
     "packages/core-apps/*",
     "packages/core/*",
     "packages/apps/*",

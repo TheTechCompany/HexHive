@@ -53,39 +53,39 @@ export const Dashboard = withRouter((props: any) => {
     let views = []
     if(login_type == 'email'){
       views = [{
-                  icon: <Schedule />,
+                  icon: <Schedule filter="invert(1)" />,
                   label: "Schedule",
-                  path: "/schedule",
+                  path: "schedule",
                   component: <> </>,
                 },
                 {
-                  icon: <TimelineIcon />,
+                  icon: <TimelineIcon filter="invert(1)" />,
                   label: "Timeline",
-                  path: "/timeline",
+                  path: "timeline",
                   component: <></>
                 },
                 {
-                  icon: <Estimates />,
+                  icon: <Estimates filter="invert(1)" />,
                   label: "Estimates",
-                  path: "/estimates",
+                  path: "estimates",
                   component: <></>,
                 },
                 {
-                  icon: <Projects />,
+                  icon: <Projects filter="invert(1)" />,
                   label: "Projects",
-                  path: "/projects",
+                  path: "projects",
                   component: <></>
                 },
                 {
-                  icon: <People />,
+                  icon: <People filter="invert(1)" />,
                   label: "People",
-                  path: "/people",
+                  path: "people",
                   component: <></>
                 }, 
                 { 
-                  icon: <Equipment />,
+                  icon: <Equipment filter="invert(1)" />,
                   label: "Equipment",
-                  path: "/equipment",
+                  path: "equipment",
                   alerts: alerts.length,
                   component: <></>
                 }
@@ -150,7 +150,7 @@ export const Dashboard = withRouter((props: any) => {
                 active={views().map((x) => matchPath(active, {path: x.path}) != null ).indexOf(true)}
                 menu={views()} 
                 onSelect={(x: any) => {
-                  let path = generatePath(`/:path`, {path: x.toLowerCase()})
+                  let path = generatePath(`/:path`, {path: x.path.toLowerCase()})
                   props.history.push(path)
                 }}/>
 

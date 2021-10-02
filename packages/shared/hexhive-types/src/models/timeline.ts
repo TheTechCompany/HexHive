@@ -19,7 +19,7 @@ export const TimelineItemSchema = new Schema<ITimelineItem>({
     endDate: Date,
     notes: String,
     project: TimelineProject,
-    organisation: Schema.Types.ObjectId,
+    organisation: String,
     items: [TimelineItemElement]
 })
 

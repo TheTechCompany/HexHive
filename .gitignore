@@ -15,3 +15,6 @@ dist/
 .env
 
 jwks.json
+
+last_dump.json
+patch.json

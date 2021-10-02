@@ -193,7 +193,7 @@ const config : ConfigParams = {
     }))*/
 	// const { constructor: { errors: { SessionNotFound } } } = oidc as any;
 
-	if (process.env.NODE_ENV == "production") {
+	// if (process.env.NODE_ENV == "production") {
 
 		app.use("/graphql", requiresAuth(), async (req, res, next) => {
 			if(!req.oidc.accessToken) return next("No access token present");
@@ -227,7 +227,7 @@ const config : ConfigParams = {
 				next("No user info found")
 			}
 		})
-	}
+	// }
 
 
 	hiveSchema(driver, taskRegistry).then((hive) => {

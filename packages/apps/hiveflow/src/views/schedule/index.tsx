@@ -27,6 +27,10 @@ export const Schedule : React.FC<any> = (props) =>  {
   
   })
 
+  const draftSchedule = query.TimelineItemMany({ timeline: "Projects", startDate: horizon.start, endDate: horizon.end });
+
+  console.log("DRAFT", draftSchedule)
+
   const [schedule, setSchedule] = useState<any[]>([])//?.map((x) => ({...x, project: x?.project})) || [];
 //query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})
 
