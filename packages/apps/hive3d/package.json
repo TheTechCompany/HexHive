@@ -1,5 +1,6 @@
 {
   "name": "@hexhive-apps/hive3d",
+  "version": "0.0.5",
   "scripts": {
     "start": "webpack serve --port 8510",
     "start:standalone": "webpack serve --env standalone",
