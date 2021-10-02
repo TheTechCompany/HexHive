@@ -1,6 +1,6 @@
 export default `
 
-	type Organisation @auth(rules: [
+	type HiveOrganisation @auth(rules: [
 		{operations: [READ], where: {id: "$jwt.organisation"}},
 		{operations: [UPDATE, DELETE], bind: {id: "$jwt.organisation"}}
 	]) {
@@ -8,30 +8,33 @@ export default `
 		name: String
 
 		roles: [Role] @relationship(type: "USES_ROLE", direction: OUT)
-		members: [User] @relationship(type: "TRUSTS", direction: OUT)
+		members: [HiveUser] @relationship(type: "TRUSTS", direction: OUT)
+		appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
+		
 		filesystems: [FileSystem] @relationship(type: "HAS_FS", direction: OUT)
 	}
 
-	type User @auth(rules: [
+	type HiveUser @auth(rules: [
 		{operations: [READ], where: {organisation: {id: "$jwt.organisation"}}},
-		{operations: [UPDATE, CREATE, DELETE], bind: {organisation: {id: "$jwt.organisation"}}}
+		{operations: [UPDATE, DELETE], bind: {organisation: {id: "$jwt.organisation"}}}
 	]) {
 		id: ID! @id
 		name: String
 		email: String
-
-		organisation: Organisation @relationship(type: "TRUSTS", direction: IN)
+		roles: [Role] @relationship(type: "HAS_ROLE", direction: OUT)
+		organisation: HiveOrganisation @relationship(type: "TRUSTS", direction: IN)
 	}
 
 	type Role  @auth(rules: [
 		{operations: [READ], where: {organisation: {id: "$jwt.organisation"}}},
-		{operations: [UPDATE, CREATE, DELETE], bind: {organisation: {id: "$jwt.organisation"}}}
+		{operations: [UPDATE, DELETE], bind: {organisation: {id: "$jwt.organisation"}}}
 	]) {
 		id: ID! @id
 		name: String
 
+		appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
 		permissions: [Permission] @relationship(type: "USES_PERMISSION", direction: OUT)
-		organisation: Organisation @relationship(type: "USES_ROLE", direction: IN)
+		organisation: HiveOrganisation @relationship(type: "USES_ROLE", direction: IN)
 	}
 
 

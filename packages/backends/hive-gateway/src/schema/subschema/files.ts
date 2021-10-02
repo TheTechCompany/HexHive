@@ -2,7 +2,7 @@ export default `
 
 type FileSystem {
     name: String!
-    organisation: Organisation @relationship(type: "HAS_FS", direction: IN)
+    organisation: HiveOrganisation @relationship(type: "HAS_FS", direction: IN)
     files: [HiveFile!]! @relationship(type: "HAS_FILE", direction: OUT)
 }
 
