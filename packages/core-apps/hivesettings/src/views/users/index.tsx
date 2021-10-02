@@ -1,45 +1,69 @@
 import { Box, List } from "grommet";
 import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
-import { useMutation, useQuery } from '@hexhive/client'
+import { resolved, useMutation, useQuery } from '@hexhive/client'
 import { UserModal } from "../../components/modals/UserModal/UserModal";
+import { gql, useQuery as useApollo } from '@apollo/client'
 
 export const Users = () => {
 	const [ selected, setSelected ] = useState<any>(undefined)
 	const [ modalOpen, openModal ] = useState<boolean>(false)
 	const query = useQuery({suspense: false, staleWhileRevalidate: true})
 
-	const users = query.users({where: {organisation: {name: "Test Org"}}})
+	const { data } = useApollo(gql`
+		query Q{
+			hiveUsers {
+				id
+				name
+				roles {
+					id
+					name
+				}
+			}
+			roles{
+				id
+				name
+			}
+		}
+	`)
+
+	const users = data?.hiveUsers || [];
+	const roles = data?.roles || [];
+
+	console.log(data)
+
+	// const users = query.hiveUsers({}).map((x) => ({...x, roles: x.roles()?.map((y) => ({...y}))}))
+	// const roles = query.roles({})
 
 	const [ createUser, createInfo ] = useMutation((mutation, args: {name: string, email: string}) => {
-		const user = mutation.updateOrganisations({where: {name: "Test Org"}, update: {
+		const user = mutation.updateHiveOrganisations({update: {
 			members: [{create: [{node: {name: args.name, email: args.email} } ]}]
 		}})
 		return {
 			item : {
-				...user.organisations[0]
+				...user.hiveOrganisations[0]
 			},
 			err: null
 		}
 	}, {
-		refetchQueries: [query.users({where: {organisation: {name: "Test Org"}}})],
+		refetchQueries: [],
 		awaitRefetchQueries: true
 	})
 //[{node: {name: args.name, email: args.email} } ]
 
-	const [ updateUser, updateInfo ] = useMutation((mutation, args: {id: string, name: string, email: string}) => {
+	const [ updateUser, updateInfo ] = useMutation((mutation, args: {id: string, name: string, email: string, add_roles: string[], remove_roles: string[]}) => {
 		if(!args.id) return {err: "No ID"}
-		const user = mutation.updateOrganisations({where: {name: "Test Org"}, update: {
-			members: [{update: {node: {name: args.name, email: args.email}}, where: {node: {id: args.id}} }]
+		const user = mutation.updateHiveOrganisations({update: {
+			members: [{update: {node: {name: args.name, email: args.email, roles: [{connect: [{where: {node: {id_IN: args.add_roles}}}], disconnect: [{where: {node: {id_IN: args.remove_roles}}}]}]}}, where: {node: {id: args.id}}}]
 		}})
 		return {
 			item : {
-				...user.organisations[0]
+				...user.hiveOrganisations[0]
 			},
 			err: null
 		}
 	}, {
-		refetchQueries: [query.users({where: {organisation: {name: "Test Org"}}})],
+		refetchQueries: [],
 		awaitRefetchQueries: true
 	})
 	console.log(users)
@@ -58,6 +82,7 @@ export const Users = () => {
 				displayKeys={["name"]}/>
 			
 				<UserModal 
+					roles={roles}
 					selected={selected}
 					onClose={() => openModal(false)}
 					onSubmit={(user) => {

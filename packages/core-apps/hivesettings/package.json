@@ -47,6 +47,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.15",
     "@hexhive/auth-ui": "^0.0.5-alpha.0",
     "@hexhive/client": "^0.0.5-alpha.0",
     "@hexhive/styles": "^0.0.4-alpha.0",

@@ -59,20 +59,6 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 		runWorkflow(id: ID, params: [HivePipelineResourceInput]): HivePipelineRun
 	}
 
-	type HiveOrganisation {
-		id: ID! @id
-		name: String
-		appliances: [HiveIntegration] @relationship(type: "CAN_ACCESS", direction: OUT)
-	}
-
-	type HivePermission {
-		id: ID! @id
-		name: String
-		create: [HiveIntegration]
-		read: [HiveIntegration]
-		update: [HiveIntegration]
-		remove: [HiveIntegration]
-	}
 
 	${apps}
 	${files}
@@ -90,6 +76,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	const session = driver.session()
 
 	const ogm = new OGM({typeDefs, driver})
+	const HiveOrganisation = ogm.model("HiveOrganisation")
 
 	const HiveFileProcess = ogm.model("HiveFileProcess")
 
@@ -122,6 +109,22 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 			// }
 		},
 		Mutation: {
+			updateHiveOrganisations: async (root: any, args: any, context: any) => {
+				if(!args.where) args.where = {}
+				if(args.where && !args.where.id){
+					args.where.id = context.user.organisation;
+				}
+				return await HiveOrganisation.update({
+					where: args.where, 
+					update: args.update, 
+					connect: args.connect, 
+					disconnect: args.disconnect, 
+					create: args.create, 
+					rootValue: root, 
+					args: args, 
+					context: context
+				})
+			},
 			publishHiveTask: async (root: any, args: any) => {
 				const pipeline = await HiveProcess.find({where: {
 					id: args.id,

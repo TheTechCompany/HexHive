@@ -6,17 +6,15 @@ type HiveService {
     name: String
 }
 
-union HiveIntegration = HiveService | HiveAppliance
-
 
 type HiveAppliance {
     id: ID! @id
     name: String!
     description: String
     
-    permissions: [HivePermission] @relationship(type: "USES", direction: OUT)
+    permissions: [Permission] @relationship(type: "PROVIDES", direction: OUT)
     services: [HiveService] @relationship(type: "USES", direction: OUT)
-    brand_image: HiveFile @relationship(type: "USES", direction: OUT)
+    brand_image: HiveFile @relationship(type: "BRANDING", direction: OUT)
 
 }
 `
