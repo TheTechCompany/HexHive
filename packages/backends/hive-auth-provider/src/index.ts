@@ -106,7 +106,7 @@ const jwks = require('./jwks/jwks.json');
         ],
         findAccount: accountant.findAccount,
         claims: {
-            openid: ['sub'],
+            openid: ['sub', 'applications'],
             email: ['email', 'email_verified'],
             groups: ['organisation'],
             name: ['name'],

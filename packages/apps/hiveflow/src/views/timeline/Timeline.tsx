@@ -518,8 +518,6 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     }, 500)
 
-    const selectedItem = capacity?.find((a) => a?.id == selected)
-
     return (
         <Box
             flex
@@ -592,8 +590,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                         return ((job_week || 0) > (week_power || 0) && (day.isoWeekday() != 6 && day.isoWeekday() != 7)) ? alarm_color : 'initial' // ? 'red' : 'initial';
                     }}
                     onSelectItem={(item) => {
+                        console.log(item, capacity)
                         openERP(true)
-                        setSelected(capacity?.find((a) => a?.id == (item as any).id))
+                        setSelected(capacity?.find((a) => a?.id == (item as any)?.id))
                         console.log(item)
                     }}
                     loading={query.$state.isLoading}

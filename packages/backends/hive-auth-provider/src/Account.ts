@@ -9,9 +9,10 @@ export class Account {
 
         const user = await session?.readTransaction(async (tx) => {
             const result = await tx.run(`
-                MATCH (user:HiveUser {id: $id})<-[:TRUSTS]-(org)
+                MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})-[:HAS_ROLE]->(role)-[:USES_APP]->(app)
                 RETURN user{
                     .*,
+                    apps: collect(app{.*}),
                     organisation: org{ .* }
                 }
             `, {
@@ -29,6 +30,7 @@ export class Account {
                     sub: user.id,
                     login: user.id,
                     name: user.name,
+                    applications: user.apps,
                     organisation: user.organisation?.id,
                     email: user.username,
                     email_verified: user.username
