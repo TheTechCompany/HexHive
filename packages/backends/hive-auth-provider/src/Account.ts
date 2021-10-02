@@ -27,7 +27,7 @@ export class Account {
                     sub: user.id,
                     login: user.id,
                     name: user.name,
-                    organisation: user.organisation._id,
+                    organisation: user.organisation?.id,
                     email: user.username,
                     email_verified: user.username
                 }
