@@ -16,7 +16,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   credentials: 'include'
 })
-const { NODE_ENV, REACT_APP_API, REACT_APP_URL } = process.env;
 
 export default function Root(props) {
 
@@ -25,8 +24,8 @@ export default function Root(props) {
 
   return (
     <AuthProvider
-      authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
-      returnTo={NODE_ENV == 'production' ? (`${REACT_APP_URL}/dashboard/files`) : 'http://localhost:3000/dashboard/files'}>
+      authorizationServer={process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
+      returnTo={process.env.NODE_ENV == 'production' ? (`${process.env.REACT_APP_URL}/dashboard/files`) : 'http://localhost:3000/dashboard/files'}>
         {(user) => user ? (
           <Grommet   
                 
