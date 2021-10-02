@@ -26,8 +26,11 @@ export const createUser = async (tx: Transaction, user: {
 
 export const getUser = async (tx: Transaction, id: string) => {
 	const result = await tx.run(`
-		MATCH (user:HiveUser {id: $id})
-		RETURN user
+		MATCH (user:HiveUser {id: $id})<-[:TRUSTS]-(org)
+		RETURN user{
+			.*,
+			organisation: org{ .* }
+		}
 	`, {
 		id: id
 	})
