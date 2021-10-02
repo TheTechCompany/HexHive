@@ -57,7 +57,7 @@ export const InteractionRouter = (oidc: Provider, accountant: Account) : Router 
             const client = await oidc.Client.find(params.client_id as string);
 
             const accountId = await accountant.authenticate(req.body.email, req.body.password);
-            console.log(accountId)
+
             if (!accountId) {
                 res.render('login', {
                     client,

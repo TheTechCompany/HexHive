@@ -2,11 +2,11 @@ import neo4j, {Driver} from 'neo4j-driver'
 
 export * from './user'
 
-export const getGraphSession = (driver?: Driver) => {
-	return driver?.session()
+export const getGraphSession = (driver: Driver) => {
+	return driver.session()
 }
 
-export const getGraphDriver = async (opts?: {
+export const getGraphDriver = (opts?: {
 	uri?: string;
 	user?: string;
 	password?: string;

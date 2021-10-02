@@ -8,7 +8,7 @@ const AccessTokenSchema : Schema = new Schema({
     refreshToken: String,
     refreshTokenExpiresAt: Date,
     client: {type: Types.ObjectId, ref: 'ClientApp'},
-    user: {type: Types.ObjectId, ref: 'User'}
+    user: String
 })
 
 

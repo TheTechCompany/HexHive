@@ -6,7 +6,7 @@ const AuthorizationCodeSchema : Schema = new Schema({
     authorizationCode: String,
     expiresAt: Date,
     client: {type: Types.ObjectId, ref: 'ClientApp'},
-    user: {type: Types.ObjectId, ref: 'User'},
+    user: String,
     redirectUri: String
 })
 

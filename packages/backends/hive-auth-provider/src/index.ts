@@ -54,13 +54,16 @@ const jwks = require('./jwks/jwks.json');
     const session = getGraphSession(driver);
     if(!session) throw new Error("Couldn't get graph session");
 
-    const accountant = new Account(session)
+    const accountant = new Account()
 
     const oidc = new Provider(ISSUER, {
         adapter: MongoAdapter,
         pkce: {
             methods: ['S256'],
             required: () => false
+        },
+        ttl: {
+            Session: 24 * 60 * 60 * 1000
         },
         jwks,
         clients: [
@@ -70,6 +73,7 @@ const jwks = require('./jwks/jwks.json');
             redirect_uris: ['https://jwt.io'], // using jwt.io as redirect_uri to show the ID Token contents
             response_types: ['id_token'],
             grant_types: ['implicit'],
+            scopes: ['openid'],
             token_endpoint_auth_method: 'none',
             },
             {

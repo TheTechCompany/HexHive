@@ -21,7 +21,7 @@ export const createUser = async (tx: Transaction, user: {
 		pwdHash,
 		organisation
 	})
-	return result.records?.[0]?.get(0).properties;
+	return result.records
 } 
 
 export const getUser = async (tx: Transaction, id: string) => {
@@ -35,7 +35,9 @@ export const getUser = async (tx: Transaction, id: string) => {
 		id: id
 	})
 
-	return result.records?.[0]?.get(0).properties;
+	console.log(id, result)
+
+	return result.records?.[0]?.get(0)
 }
 
 export const authUser = async (tx:Transaction, username: string, password: string) => {
