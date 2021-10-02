@@ -21,6 +21,7 @@
      "@hexhive/events-client": ["./core/hexhive-events/src"],
      "@hexhive/eslint-config": ["./core/eslint-config"],
      "@hexhive/prettier-config": ["./core/prettier-config"],
+     "@hexhive/patch": ["./workers/patch/src"],
 
      "@hexhive-apps/flow": ["./apps/hive-flow/src"],
      "@hexhive-apps/command": ["./apps/hive-command/src"],
