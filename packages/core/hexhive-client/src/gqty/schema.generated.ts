@@ -264,6 +264,7 @@ export interface HiveApplianceConnectWhere {
 
 export interface HiveApplianceCreateInput {
   name: Scalars["String"];
+  label?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
   permissions?: Maybe<HiveAppliancePermissionsFieldInput>;
   services?: Maybe<HiveApplianceServicesFieldInput>;
@@ -290,30 +291,33 @@ export interface HiveApplianceOptions {
 }
 
 export interface HiveAppliancePermissionsConnectFieldInput {
-  where?: Maybe<HivePermissionConnectWhere>;
+  where?: Maybe<PermissionConnectWhere>;
+  connect?: Maybe<Array<PermissionConnectInput>>;
 }
 
 export interface HiveAppliancePermissionsConnectionSort {
-  node?: Maybe<HivePermissionSort>;
+  node?: Maybe<PermissionSort>;
 }
 
 export interface HiveAppliancePermissionsConnectionWhere {
   AND?: Maybe<Array<HiveAppliancePermissionsConnectionWhere>>;
   OR?: Maybe<Array<HiveAppliancePermissionsConnectionWhere>>;
-  node?: Maybe<HivePermissionWhere>;
-  node_NOT?: Maybe<HivePermissionWhere>;
+  node?: Maybe<PermissionWhere>;
+  node_NOT?: Maybe<PermissionWhere>;
 }
 
 export interface HiveAppliancePermissionsCreateFieldInput {
-  node: HivePermissionCreateInput;
+  node: PermissionCreateInput;
 }
 
 export interface HiveAppliancePermissionsDeleteFieldInput {
   where?: Maybe<HiveAppliancePermissionsConnectionWhere>;
+  delete?: Maybe<PermissionDeleteInput>;
 }
 
 export interface HiveAppliancePermissionsDisconnectFieldInput {
   where?: Maybe<HiveAppliancePermissionsConnectionWhere>;
+  disconnect?: Maybe<PermissionDisconnectInput>;
 }
 
 export interface HiveAppliancePermissionsFieldInput {
@@ -322,7 +326,7 @@ export interface HiveAppliancePermissionsFieldInput {
 }
 
 export interface HiveAppliancePermissionsUpdateConnectionInput {
-  node?: Maybe<HivePermissionUpdateInput>;
+  node?: Maybe<PermissionUpdateInput>;
 }
 
 export interface HiveAppliancePermissionsUpdateFieldInput {
@@ -389,11 +393,13 @@ export interface HiveApplianceServicesUpdateFieldInput {
 export interface HiveApplianceSort {
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
+  label?: Maybe<SortDirection>;
   description?: Maybe<SortDirection>;
 }
 
 export interface HiveApplianceUpdateInput {
   name?: Maybe<Scalars["String"]>;
+  label?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
   permissions?: Maybe<Array<HiveAppliancePermissionsUpdateFieldInput>>;
   services?: Maybe<Array<HiveApplianceServicesUpdateFieldInput>>;
@@ -423,6 +429,16 @@ export interface HiveApplianceWhere {
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  label?: Maybe<Scalars["String"]>;
+  label_NOT?: Maybe<Scalars["String"]>;
+  label_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  label_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  label_CONTAINS?: Maybe<Scalars["String"]>;
+  label_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  label_STARTS_WITH?: Maybe<Scalars["String"]>;
+  label_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  label_ENDS_WITH?: Maybe<Scalars["String"]>;
+  label_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
   description_NOT?: Maybe<Scalars["String"]>;
   description_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
@@ -433,8 +449,8 @@ export interface HiveApplianceWhere {
   description_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   description_ENDS_WITH?: Maybe<Scalars["String"]>;
   description_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  permissions?: Maybe<HivePermissionWhere>;
-  permissions_NOT?: Maybe<HivePermissionWhere>;
+  permissions?: Maybe<PermissionWhere>;
+  permissions_NOT?: Maybe<PermissionWhere>;
   services?: Maybe<HiveServiceWhere>;
   services_NOT?: Maybe<HiveServiceWhere>;
   brand_image?: Maybe<HiveFileWhere>;
@@ -1253,195 +1269,58 @@ export interface HiveFileWhere {
   viewsConnection_NOT?: Maybe<HiveFileViewsConnectionWhere>;
 }
 
-export interface HiveIntegrationWhere {
-  HiveService?: Maybe<HiveServiceWhere>;
-  HiveAppliance?: Maybe<HiveApplianceWhere>;
-}
-
-export interface HiveOrganisationAppliancesConnectInput {
-  HiveService?: Maybe<
-    Array<HiveOrganisationAppliancesHiveServiceConnectFieldInput>
-  >;
-  HiveAppliance?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceConnectFieldInput>
-  >;
-}
-
-export interface HiveOrganisationAppliancesConnectionHiveApplianceWhere {
-  OR?: Maybe<
-    Array<Maybe<HiveOrganisationAppliancesConnectionHiveApplianceWhere>>
-  >;
-  AND?: Maybe<
-    Array<Maybe<HiveOrganisationAppliancesConnectionHiveApplianceWhere>>
-  >;
-  node?: Maybe<HiveApplianceWhere>;
-  node_NOT?: Maybe<HiveApplianceWhere>;
-}
-
-export interface HiveOrganisationAppliancesConnectionHiveServiceWhere {
-  OR?: Maybe<
-    Array<Maybe<HiveOrganisationAppliancesConnectionHiveServiceWhere>>
-  >;
-  AND?: Maybe<
-    Array<Maybe<HiveOrganisationAppliancesConnectionHiveServiceWhere>>
-  >;
-  node?: Maybe<HiveServiceWhere>;
-  node_NOT?: Maybe<HiveServiceWhere>;
-}
-
-export interface HiveOrganisationAppliancesConnectionWhere {
-  HiveService?: Maybe<HiveOrganisationAppliancesConnectionHiveServiceWhere>;
-  HiveAppliance?: Maybe<HiveOrganisationAppliancesConnectionHiveApplianceWhere>;
-}
-
-export interface HiveOrganisationAppliancesCreateFieldInput {
-  HiveService?: Maybe<
-    Array<HiveOrganisationAppliancesHiveServiceCreateFieldInput>
-  >;
-  HiveAppliance?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceCreateFieldInput>
-  >;
-}
-
-export interface HiveOrganisationAppliancesCreateInput {
-  HiveService?: Maybe<HiveOrganisationAppliancesHiveServiceFieldInput>;
-  HiveAppliance?: Maybe<HiveOrganisationAppliancesHiveApplianceFieldInput>;
-}
-
-export interface HiveOrganisationAppliancesDeleteInput {
-  HiveService?: Maybe<
-    Array<HiveOrganisationAppliancesHiveServiceDeleteFieldInput>
-  >;
-  HiveAppliance?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceDeleteFieldInput>
-  >;
-}
-
-export interface HiveOrganisationAppliancesDisconnectInput {
-  HiveService?: Maybe<
-    Array<HiveOrganisationAppliancesHiveServiceDisconnectFieldInput>
-  >;
-  HiveAppliance?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceDisconnectFieldInput>
-  >;
-}
-
-export interface HiveOrganisationAppliancesHiveApplianceConnectFieldInput {
+export interface HiveOrganisationAppliancesConnectFieldInput {
   where?: Maybe<HiveApplianceConnectWhere>;
   connect?: Maybe<Array<HiveApplianceConnectInput>>;
 }
 
-export interface HiveOrganisationAppliancesHiveApplianceConnectionWhere {
-  node?: Maybe<HiveApplianceWhere>;
-  node_NOT?: Maybe<HiveApplianceWhere>;
-  AND?: Maybe<Array<HiveOrganisationAppliancesHiveApplianceConnectionWhere>>;
-  OR?: Maybe<Array<HiveOrganisationAppliancesHiveApplianceConnectionWhere>>;
+export interface HiveOrganisationAppliancesConnectionSort {
+  node?: Maybe<HiveApplianceSort>;
 }
 
-export interface HiveOrganisationAppliancesHiveApplianceCreateFieldInput {
+export interface HiveOrganisationAppliancesConnectionWhere {
+  AND?: Maybe<Array<HiveOrganisationAppliancesConnectionWhere>>;
+  OR?: Maybe<Array<HiveOrganisationAppliancesConnectionWhere>>;
+  node?: Maybe<HiveApplianceWhere>;
+  node_NOT?: Maybe<HiveApplianceWhere>;
+}
+
+export interface HiveOrganisationAppliancesCreateFieldInput {
   node: HiveApplianceCreateInput;
 }
 
-export interface HiveOrganisationAppliancesHiveApplianceDeleteFieldInput {
-  where?: Maybe<HiveOrganisationAppliancesHiveApplianceConnectionWhere>;
+export interface HiveOrganisationAppliancesDeleteFieldInput {
+  where?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
   delete?: Maybe<HiveApplianceDeleteInput>;
 }
 
-export interface HiveOrganisationAppliancesHiveApplianceDisconnectFieldInput {
-  where?: Maybe<HiveOrganisationAppliancesHiveApplianceConnectionWhere>;
+export interface HiveOrganisationAppliancesDisconnectFieldInput {
+  where?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
   disconnect?: Maybe<HiveApplianceDisconnectInput>;
 }
 
-export interface HiveOrganisationAppliancesHiveApplianceFieldInput {
-  create?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceCreateFieldInput>
-  >;
-  connect?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceConnectFieldInput>
-  >;
+export interface HiveOrganisationAppliancesFieldInput {
+  create?: Maybe<Array<HiveOrganisationAppliancesCreateFieldInput>>;
+  connect?: Maybe<Array<HiveOrganisationAppliancesConnectFieldInput>>;
 }
 
-export interface HiveOrganisationAppliancesHiveApplianceUpdateConnectionInput {
+export interface HiveOrganisationAppliancesUpdateConnectionInput {
   node?: Maybe<HiveApplianceUpdateInput>;
 }
 
-export interface HiveOrganisationAppliancesHiveApplianceUpdateFieldInput {
-  where?: Maybe<HiveOrganisationAppliancesHiveApplianceConnectionWhere>;
-  update?: Maybe<HiveOrganisationAppliancesHiveApplianceUpdateConnectionInput>;
-  connect?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceConnectFieldInput>
-  >;
-  disconnect?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceDisconnectFieldInput>
-  >;
-  create?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceCreateFieldInput>
-  >;
-  delete?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceDeleteFieldInput>
-  >;
-}
-
-export interface HiveOrganisationAppliancesHiveServiceConnectFieldInput {
-  where?: Maybe<HiveServiceConnectWhere>;
-}
-
-export interface HiveOrganisationAppliancesHiveServiceConnectionWhere {
-  node?: Maybe<HiveServiceWhere>;
-  node_NOT?: Maybe<HiveServiceWhere>;
-  AND?: Maybe<Array<HiveOrganisationAppliancesHiveServiceConnectionWhere>>;
-  OR?: Maybe<Array<HiveOrganisationAppliancesHiveServiceConnectionWhere>>;
-}
-
-export interface HiveOrganisationAppliancesHiveServiceCreateFieldInput {
-  node: HiveServiceCreateInput;
-}
-
-export interface HiveOrganisationAppliancesHiveServiceDeleteFieldInput {
-  where?: Maybe<HiveOrganisationAppliancesHiveServiceConnectionWhere>;
-}
-
-export interface HiveOrganisationAppliancesHiveServiceDisconnectFieldInput {
-  where?: Maybe<HiveOrganisationAppliancesHiveServiceConnectionWhere>;
-}
-
-export interface HiveOrganisationAppliancesHiveServiceFieldInput {
-  create?: Maybe<Array<HiveOrganisationAppliancesHiveServiceCreateFieldInput>>;
-  connect?: Maybe<
-    Array<HiveOrganisationAppliancesHiveServiceConnectFieldInput>
-  >;
-}
-
-export interface HiveOrganisationAppliancesHiveServiceUpdateConnectionInput {
-  node?: Maybe<HiveServiceUpdateInput>;
-}
-
-export interface HiveOrganisationAppliancesHiveServiceUpdateFieldInput {
-  where?: Maybe<HiveOrganisationAppliancesHiveServiceConnectionWhere>;
-  update?: Maybe<HiveOrganisationAppliancesHiveServiceUpdateConnectionInput>;
-  connect?: Maybe<
-    Array<HiveOrganisationAppliancesHiveServiceConnectFieldInput>
-  >;
-  disconnect?: Maybe<
-    Array<HiveOrganisationAppliancesHiveServiceDisconnectFieldInput>
-  >;
-  create?: Maybe<Array<HiveOrganisationAppliancesHiveServiceCreateFieldInput>>;
-  delete?: Maybe<Array<HiveOrganisationAppliancesHiveServiceDeleteFieldInput>>;
-}
-
-export interface HiveOrganisationAppliancesUpdateInput {
-  HiveService?: Maybe<
-    Array<HiveOrganisationAppliancesHiveServiceUpdateFieldInput>
-  >;
-  HiveAppliance?: Maybe<
-    Array<HiveOrganisationAppliancesHiveApplianceUpdateFieldInput>
-  >;
+export interface HiveOrganisationAppliancesUpdateFieldInput {
+  where?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
+  update?: Maybe<HiveOrganisationAppliancesUpdateConnectionInput>;
+  connect?: Maybe<Array<HiveOrganisationAppliancesConnectFieldInput>>;
+  disconnect?: Maybe<Array<HiveOrganisationAppliancesDisconnectFieldInput>>;
+  create?: Maybe<Array<HiveOrganisationAppliancesCreateFieldInput>>;
+  delete?: Maybe<Array<HiveOrganisationAppliancesDeleteFieldInput>>;
 }
 
 export interface HiveOrganisationConnectInput {
-  appliances?: Maybe<HiveOrganisationAppliancesConnectInput>;
   roles?: Maybe<Array<HiveOrganisationRolesConnectFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersConnectFieldInput>>;
+  appliances?: Maybe<Array<HiveOrganisationAppliancesConnectFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsConnectFieldInput>>;
 }
 
@@ -1451,23 +1330,23 @@ export interface HiveOrganisationConnectWhere {
 
 export interface HiveOrganisationCreateInput {
   name?: Maybe<Scalars["String"]>;
-  appliances?: Maybe<HiveOrganisationAppliancesCreateInput>;
   roles?: Maybe<HiveOrganisationRolesFieldInput>;
   members?: Maybe<HiveOrganisationMembersFieldInput>;
+  appliances?: Maybe<HiveOrganisationAppliancesFieldInput>;
   filesystems?: Maybe<HiveOrganisationFilesystemsFieldInput>;
 }
 
 export interface HiveOrganisationDeleteInput {
-  appliances?: Maybe<HiveOrganisationAppliancesDeleteInput>;
   roles?: Maybe<Array<HiveOrganisationRolesDeleteFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersDeleteFieldInput>>;
+  appliances?: Maybe<Array<HiveOrganisationAppliancesDeleteFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsDeleteFieldInput>>;
 }
 
 export interface HiveOrganisationDisconnectInput {
-  appliances?: Maybe<HiveOrganisationAppliancesDisconnectInput>;
   roles?: Maybe<Array<HiveOrganisationRolesDisconnectFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersDisconnectFieldInput>>;
+  appliances?: Maybe<Array<HiveOrganisationAppliancesDisconnectFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsDisconnectFieldInput>>;
 }
 
@@ -1575,9 +1454,9 @@ export interface HiveOrganisationOptions {
 }
 
 export interface HiveOrganisationRelationInput {
-  appliances?: Maybe<HiveOrganisationAppliancesCreateFieldInput>;
   roles?: Maybe<Array<HiveOrganisationRolesCreateFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersCreateFieldInput>>;
+  appliances?: Maybe<Array<HiveOrganisationAppliancesCreateFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsCreateFieldInput>>;
 }
 
@@ -1637,9 +1516,9 @@ export interface HiveOrganisationSort {
 
 export interface HiveOrganisationUpdateInput {
   name?: Maybe<Scalars["String"]>;
-  appliances?: Maybe<HiveOrganisationAppliancesUpdateInput>;
   roles?: Maybe<Array<HiveOrganisationRolesUpdateFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersUpdateFieldInput>>;
+  appliances?: Maybe<Array<HiveOrganisationAppliancesUpdateFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsUpdateFieldInput>>;
 }
 
@@ -1670,66 +1549,18 @@ export interface HiveOrganisationWhere {
   roles_NOT?: Maybe<RoleWhere>;
   members?: Maybe<HiveUserWhere>;
   members_NOT?: Maybe<HiveUserWhere>;
+  appliances?: Maybe<HiveApplianceWhere>;
+  appliances_NOT?: Maybe<HiveApplianceWhere>;
   filesystems?: Maybe<FileSystemWhere>;
   filesystems_NOT?: Maybe<FileSystemWhere>;
-  appliancesConnection?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
-  appliancesConnection_NOT?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
   rolesConnection?: Maybe<HiveOrganisationRolesConnectionWhere>;
   rolesConnection_NOT?: Maybe<HiveOrganisationRolesConnectionWhere>;
   membersConnection?: Maybe<HiveOrganisationMembersConnectionWhere>;
   membersConnection_NOT?: Maybe<HiveOrganisationMembersConnectionWhere>;
+  appliancesConnection?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
+  appliancesConnection_NOT?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
   filesystemsConnection?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
   filesystemsConnection_NOT?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
-}
-
-export interface HivePermissionConnectWhere {
-  node: HivePermissionWhere;
-}
-
-export interface HivePermissionCreateInput {
-  name?: Maybe<Scalars["String"]>;
-}
-
-export interface HivePermissionOptions {
-  /** Specify one or more HivePermissionSort objects to sort HivePermissions by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: Maybe<Array<Maybe<HivePermissionSort>>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-}
-
-/** Fields to sort HivePermissions by. The order in which sorts are applied is not guaranteed when specifying many fields in one HivePermissionSort object. */
-export interface HivePermissionSort {
-  id?: Maybe<SortDirection>;
-  name?: Maybe<SortDirection>;
-}
-
-export interface HivePermissionUpdateInput {
-  name?: Maybe<Scalars["String"]>;
-}
-
-export interface HivePermissionWhere {
-  OR?: Maybe<Array<HivePermissionWhere>>;
-  AND?: Maybe<Array<HivePermissionWhere>>;
-  id?: Maybe<Scalars["ID"]>;
-  id_NOT?: Maybe<Scalars["ID"]>;
-  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  id_CONTAINS?: Maybe<Scalars["ID"]>;
-  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
-  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  name?: Maybe<Scalars["String"]>;
-  name_NOT?: Maybe<Scalars["String"]>;
-  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  name_CONTAINS?: Maybe<Scalars["String"]>;
-  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  name_STARTS_WITH?: Maybe<Scalars["String"]>;
-  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  name_ENDS_WITH?: Maybe<Scalars["String"]>;
-  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
 }
 
 export interface HivePipelineConnectInput {
@@ -6215,28 +6046,6 @@ export const generatedSchema = {
   query: {
     __typename: { __type: "String!" },
     printer: { __type: "Printer", __args: { id: "ID" } },
-    hiveOrganisations: {
-      __type: "[HiveOrganisation!]!",
-      __args: {
-        where: "HiveOrganisationWhere",
-        options: "HiveOrganisationOptions",
-      },
-    },
-    hiveOrganisationsCount: {
-      __type: "Int!",
-      __args: { where: "HiveOrganisationWhere" },
-    },
-    hivePermissions: {
-      __type: "[HivePermission!]!",
-      __args: {
-        where: "HivePermissionWhere",
-        options: "HivePermissionOptions",
-      },
-    },
-    hivePermissionsCount: {
-      __type: "Int!",
-      __args: { where: "HivePermissionWhere" },
-    },
     hiveServices: {
       __type: "[HiveService!]!",
       __args: { where: "HiveServiceWhere", options: "HiveServiceOptions" },
@@ -6355,6 +6164,17 @@ export const generatedSchema = {
     hiveProcessResultsCount: {
       __type: "Int!",
       __args: { where: "HiveProcessResultWhere" },
+    },
+    hiveOrganisations: {
+      __type: "[HiveOrganisation!]!",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
+    hiveOrganisationsCount: {
+      __type: "Int!",
+      __args: { where: "HiveOrganisationWhere" },
     },
     hiveUsers: {
       __type: "[HiveUser!]!",
@@ -6856,43 +6676,6 @@ export const generatedSchema = {
       __type: "HivePipelineRun",
       __args: { id: "ID", params: "[HivePipelineResourceInput]" },
     },
-    createHiveOrganisations: {
-      __type: "CreateHiveOrganisationsMutationResponse!",
-      __args: { input: "[HiveOrganisationCreateInput!]!" },
-    },
-    deleteHiveOrganisations: {
-      __type: "DeleteInfo!",
-      __args: {
-        where: "HiveOrganisationWhere",
-        delete: "HiveOrganisationDeleteInput",
-      },
-    },
-    updateHiveOrganisations: {
-      __type: "UpdateHiveOrganisationsMutationResponse!",
-      __args: {
-        where: "HiveOrganisationWhere",
-        update: "HiveOrganisationUpdateInput",
-        connect: "HiveOrganisationConnectInput",
-        disconnect: "HiveOrganisationDisconnectInput",
-        create: "HiveOrganisationRelationInput",
-        delete: "HiveOrganisationDeleteInput",
-      },
-    },
-    createHivePermissions: {
-      __type: "CreateHivePermissionsMutationResponse!",
-      __args: { input: "[HivePermissionCreateInput!]!" },
-    },
-    deleteHivePermissions: {
-      __type: "DeleteInfo!",
-      __args: { where: "HivePermissionWhere" },
-    },
-    updateHivePermissions: {
-      __type: "UpdateHivePermissionsMutationResponse!",
-      __args: {
-        where: "HivePermissionWhere",
-        update: "HivePermissionUpdateInput",
-      },
-    },
     createHiveServices: {
       __type: "CreateHiveServicesMutationResponse!",
       __args: { input: "[HiveServiceCreateInput!]!" },
@@ -7148,6 +6931,28 @@ export const generatedSchema = {
         disconnect: "HiveProcessResultDisconnectInput",
         create: "HiveProcessResultRelationInput",
         delete: "HiveProcessResultDeleteInput",
+      },
+    },
+    createHiveOrganisations: {
+      __type: "CreateHiveOrganisationsMutationResponse!",
+      __args: { input: "[HiveOrganisationCreateInput!]!" },
+    },
+    deleteHiveOrganisations: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "HiveOrganisationWhere",
+        delete: "HiveOrganisationDeleteInput",
+      },
+    },
+    updateHiveOrganisations: {
+      __type: "UpdateHiveOrganisationsMutationResponse!",
+      __args: {
+        where: "HiveOrganisationWhere",
+        update: "HiveOrganisationUpdateInput",
+        connect: "HiveOrganisationConnectInput",
+        disconnect: "HiveOrganisationDisconnectInput",
+        create: "HiveOrganisationRelationInput",
+        delete: "HiveOrganisationDeleteInput",
       },
     },
     createHiveUsers: {
@@ -7565,10 +7370,6 @@ export const generatedSchema = {
     size: { __type: "Int" },
     date: { __type: "Int" },
   },
-  HiveIntegration: {
-    __typename: { __type: "String!" },
-    $on: { __type: "$HiveIntegration!" },
-  },
   HivePipelineRunner: {
     __typename: { __type: "String!" },
     $on: { __type: "$HivePipelineRunner!" },
@@ -7599,11 +7400,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
     hiveOrganisations: { __type: "[HiveOrganisation!]!" },
-  },
-  CreateHivePermissionsMutationResponse: {
-    __typename: { __type: "String!" },
-    info: { __type: "CreateInfo!" },
-    hivePermissions: { __type: "[HivePermission!]!" },
   },
   CreateHivePipelineNodesMutationResponse: {
     __typename: { __type: "String!" },
@@ -7741,13 +7537,11 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     name: { __type: "String!" },
+    label: { __type: "String" },
     description: { __type: "String" },
     permissions: {
-      __type: "[HivePermission]",
-      __args: {
-        where: "HivePermissionWhere",
-        options: "HivePermissionOptions",
-      },
+      __type: "[Permission]",
+      __args: { where: "PermissionWhere", options: "PermissionOptions" },
     },
     services: {
       __type: "[HiveService]",
@@ -7805,7 +7599,7 @@ export const generatedSchema = {
   HiveAppliancePermissionsRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
-    node: { __type: "HivePermission!" },
+    node: { __type: "Permission!" },
   },
   HiveApplianceServicesConnection: {
     __typename: { __type: "String!" },
@@ -8112,10 +7906,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     name: { __type: "String" },
-    appliances: {
-      __type: "[HiveIntegration]",
-      __args: { options: "QueryOptions", where: "HiveIntegrationWhere" },
-    },
     roles: {
       __type: "[Role]",
       __args: { where: "RoleWhere", options: "RoleOptions" },
@@ -8124,13 +7914,13 @@ export const generatedSchema = {
       __type: "[HiveUser]",
       __args: { where: "HiveUserWhere", options: "HiveUserOptions" },
     },
+    appliances: {
+      __type: "[HiveAppliance]",
+      __args: { where: "HiveApplianceWhere", options: "HiveApplianceOptions" },
+    },
     filesystems: {
       __type: "[FileSystem]",
       __args: { where: "FileSystemWhere", options: "FileSystemOptions" },
-    },
-    appliancesConnection: {
-      __type: "HiveOrganisationAppliancesConnection!",
-      __args: { where: "HiveOrganisationAppliancesConnectionWhere" },
     },
     rolesConnection: {
       __type: "HiveOrganisationRolesConnection!",
@@ -8148,6 +7938,15 @@ export const generatedSchema = {
         first: "Int",
         after: "String",
         sort: "[HiveOrganisationMembersConnectionSort!]",
+      },
+    },
+    appliancesConnection: {
+      __type: "HiveOrganisationAppliancesConnection!",
+      __args: {
+        where: "HiveOrganisationAppliancesConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HiveOrganisationAppliancesConnectionSort!]",
       },
     },
     filesystemsConnection: {
@@ -8169,7 +7968,7 @@ export const generatedSchema = {
   HiveOrganisationAppliancesRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
-    node: { __type: "HiveIntegration!" },
+    node: { __type: "HiveAppliance!" },
   },
   HiveOrganisationFilesystemsConnection: {
     __typename: { __type: "String!" },
@@ -8203,15 +8002,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "Role!" },
-  },
-  HivePermission: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID!" },
-    name: { __type: "String" },
-    create: { __type: "[HiveIntegration]" },
-    read: { __type: "[HiveIntegration]" },
-    update: { __type: "[HiveIntegration]" },
-    remove: { __type: "[HiveIntegration]" },
   },
   HivePipeline: {
     __typename: { __type: "String!" },
@@ -8836,11 +8626,6 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     hiveOrganisations: { __type: "[HiveOrganisation!]!" },
   },
-  UpdateHivePermissionsMutationResponse: {
-    __typename: { __type: "String!" },
-    info: { __type: "UpdateInfo!" },
-    hivePermissions: { __type: "[HivePermission!]!" },
-  },
   UpdateHivePipelineNodesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -9090,6 +8875,7 @@ export const generatedSchema = {
   HiveApplianceConnectWhere: { node: { __type: "HiveApplianceWhere!" } },
   HiveApplianceCreateInput: {
     name: { __type: "String!" },
+    label: { __type: "String" },
     description: { __type: "String" },
     permissions: { __type: "HiveAppliancePermissionsFieldInput" },
     services: { __type: "HiveApplianceServicesFieldInput" },
@@ -9111,32 +8897,35 @@ export const generatedSchema = {
     offset: { __type: "Int" },
   },
   HiveAppliancePermissionsConnectFieldInput: {
-    where: { __type: "HivePermissionConnectWhere" },
+    where: { __type: "PermissionConnectWhere" },
+    connect: { __type: "[PermissionConnectInput!]" },
   },
   HiveAppliancePermissionsConnectionSort: {
-    node: { __type: "HivePermissionSort" },
+    node: { __type: "PermissionSort" },
   },
   HiveAppliancePermissionsConnectionWhere: {
     AND: { __type: "[HiveAppliancePermissionsConnectionWhere!]" },
     OR: { __type: "[HiveAppliancePermissionsConnectionWhere!]" },
-    node: { __type: "HivePermissionWhere" },
-    node_NOT: { __type: "HivePermissionWhere" },
+    node: { __type: "PermissionWhere" },
+    node_NOT: { __type: "PermissionWhere" },
   },
   HiveAppliancePermissionsCreateFieldInput: {
-    node: { __type: "HivePermissionCreateInput!" },
+    node: { __type: "PermissionCreateInput!" },
   },
   HiveAppliancePermissionsDeleteFieldInput: {
     where: { __type: "HiveAppliancePermissionsConnectionWhere" },
+    delete: { __type: "PermissionDeleteInput" },
   },
   HiveAppliancePermissionsDisconnectFieldInput: {
     where: { __type: "HiveAppliancePermissionsConnectionWhere" },
+    disconnect: { __type: "PermissionDisconnectInput" },
   },
   HiveAppliancePermissionsFieldInput: {
     create: { __type: "[HiveAppliancePermissionsCreateFieldInput!]" },
     connect: { __type: "[HiveAppliancePermissionsConnectFieldInput!]" },
   },
   HiveAppliancePermissionsUpdateConnectionInput: {
-    node: { __type: "HivePermissionUpdateInput" },
+    node: { __type: "PermissionUpdateInput" },
   },
   HiveAppliancePermissionsUpdateFieldInput: {
     where: { __type: "HiveAppliancePermissionsConnectionWhere" },
@@ -9188,10 +8977,12 @@ export const generatedSchema = {
   HiveApplianceSort: {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
+    label: { __type: "SortDirection" },
     description: { __type: "SortDirection" },
   },
   HiveApplianceUpdateInput: {
     name: { __type: "String" },
+    label: { __type: "String" },
     description: { __type: "String" },
     permissions: { __type: "[HiveAppliancePermissionsUpdateFieldInput!]" },
     services: { __type: "[HiveApplianceServicesUpdateFieldInput!]" },
@@ -9220,6 +9011,16 @@ export const generatedSchema = {
     name_NOT_STARTS_WITH: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
+    label: { __type: "String" },
+    label_NOT: { __type: "String" },
+    label_IN: { __type: "[String]" },
+    label_NOT_IN: { __type: "[String]" },
+    label_CONTAINS: { __type: "String" },
+    label_NOT_CONTAINS: { __type: "String" },
+    label_STARTS_WITH: { __type: "String" },
+    label_NOT_STARTS_WITH: { __type: "String" },
+    label_ENDS_WITH: { __type: "String" },
+    label_NOT_ENDS_WITH: { __type: "String" },
     description: { __type: "String" },
     description_NOT: { __type: "String" },
     description_IN: { __type: "[String]" },
@@ -9230,8 +9031,8 @@ export const generatedSchema = {
     description_NOT_STARTS_WITH: { __type: "String" },
     description_ENDS_WITH: { __type: "String" },
     description_NOT_ENDS_WITH: { __type: "String" },
-    permissions: { __type: "HivePermissionWhere" },
-    permissions_NOT: { __type: "HivePermissionWhere" },
+    permissions: { __type: "PermissionWhere" },
+    permissions_NOT: { __type: "PermissionWhere" },
     services: { __type: "HiveServiceWhere" },
     services_NOT: { __type: "HiveServiceWhere" },
     brand_image: { __type: "HiveFileWhere" },
@@ -9915,199 +9716,69 @@ export const generatedSchema = {
     viewsConnection: { __type: "HiveFileViewsConnectionWhere" },
     viewsConnection_NOT: { __type: "HiveFileViewsConnectionWhere" },
   },
-  HiveIntegrationWhere: {
-    HiveService: { __type: "HiveServiceWhere" },
-    HiveAppliance: { __type: "HiveApplianceWhere" },
-  },
-  HiveOrganisationAppliancesConnectInput: {
-    HiveService: {
-      __type: "[HiveOrganisationAppliancesHiveServiceConnectFieldInput!]",
-    },
-    HiveAppliance: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceConnectFieldInput!]",
-    },
-  },
-  HiveOrganisationAppliancesConnectionHiveApplianceWhere: {
-    OR: { __type: "[HiveOrganisationAppliancesConnectionHiveApplianceWhere]" },
-    AND: { __type: "[HiveOrganisationAppliancesConnectionHiveApplianceWhere]" },
-    node: { __type: "HiveApplianceWhere" },
-    node_NOT: { __type: "HiveApplianceWhere" },
-  },
-  HiveOrganisationAppliancesConnectionHiveServiceWhere: {
-    OR: { __type: "[HiveOrganisationAppliancesConnectionHiveServiceWhere]" },
-    AND: { __type: "[HiveOrganisationAppliancesConnectionHiveServiceWhere]" },
-    node: { __type: "HiveServiceWhere" },
-    node_NOT: { __type: "HiveServiceWhere" },
-  },
-  HiveOrganisationAppliancesConnectionWhere: {
-    HiveService: {
-      __type: "HiveOrganisationAppliancesConnectionHiveServiceWhere",
-    },
-    HiveAppliance: {
-      __type: "HiveOrganisationAppliancesConnectionHiveApplianceWhere",
-    },
-  },
-  HiveOrganisationAppliancesCreateFieldInput: {
-    HiveService: {
-      __type: "[HiveOrganisationAppliancesHiveServiceCreateFieldInput!]",
-    },
-    HiveAppliance: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceCreateFieldInput!]",
-    },
-  },
-  HiveOrganisationAppliancesCreateInput: {
-    HiveService: { __type: "HiveOrganisationAppliancesHiveServiceFieldInput" },
-    HiveAppliance: {
-      __type: "HiveOrganisationAppliancesHiveApplianceFieldInput",
-    },
-  },
-  HiveOrganisationAppliancesDeleteInput: {
-    HiveService: {
-      __type: "[HiveOrganisationAppliancesHiveServiceDeleteFieldInput!]",
-    },
-    HiveAppliance: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceDeleteFieldInput!]",
-    },
-  },
-  HiveOrganisationAppliancesDisconnectInput: {
-    HiveService: {
-      __type: "[HiveOrganisationAppliancesHiveServiceDisconnectFieldInput!]",
-    },
-    HiveAppliance: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceDisconnectFieldInput!]",
-    },
-  },
-  HiveOrganisationAppliancesHiveApplianceConnectFieldInput: {
+  HiveOrganisationAppliancesConnectFieldInput: {
     where: { __type: "HiveApplianceConnectWhere" },
     connect: { __type: "[HiveApplianceConnectInput!]" },
   },
-  HiveOrganisationAppliancesHiveApplianceConnectionWhere: {
+  HiveOrganisationAppliancesConnectionSort: {
+    node: { __type: "HiveApplianceSort" },
+  },
+  HiveOrganisationAppliancesConnectionWhere: {
+    AND: { __type: "[HiveOrganisationAppliancesConnectionWhere!]" },
+    OR: { __type: "[HiveOrganisationAppliancesConnectionWhere!]" },
     node: { __type: "HiveApplianceWhere" },
     node_NOT: { __type: "HiveApplianceWhere" },
-    AND: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceConnectionWhere!]",
-    },
-    OR: { __type: "[HiveOrganisationAppliancesHiveApplianceConnectionWhere!]" },
   },
-  HiveOrganisationAppliancesHiveApplianceCreateFieldInput: {
+  HiveOrganisationAppliancesCreateFieldInput: {
     node: { __type: "HiveApplianceCreateInput!" },
   },
-  HiveOrganisationAppliancesHiveApplianceDeleteFieldInput: {
-    where: { __type: "HiveOrganisationAppliancesHiveApplianceConnectionWhere" },
+  HiveOrganisationAppliancesDeleteFieldInput: {
+    where: { __type: "HiveOrganisationAppliancesConnectionWhere" },
     delete: { __type: "HiveApplianceDeleteInput" },
   },
-  HiveOrganisationAppliancesHiveApplianceDisconnectFieldInput: {
-    where: { __type: "HiveOrganisationAppliancesHiveApplianceConnectionWhere" },
+  HiveOrganisationAppliancesDisconnectFieldInput: {
+    where: { __type: "HiveOrganisationAppliancesConnectionWhere" },
     disconnect: { __type: "HiveApplianceDisconnectInput" },
   },
-  HiveOrganisationAppliancesHiveApplianceFieldInput: {
-    create: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceCreateFieldInput!]",
-    },
-    connect: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceConnectFieldInput!]",
-    },
+  HiveOrganisationAppliancesFieldInput: {
+    create: { __type: "[HiveOrganisationAppliancesCreateFieldInput!]" },
+    connect: { __type: "[HiveOrganisationAppliancesConnectFieldInput!]" },
   },
-  HiveOrganisationAppliancesHiveApplianceUpdateConnectionInput: {
+  HiveOrganisationAppliancesUpdateConnectionInput: {
     node: { __type: "HiveApplianceUpdateInput" },
   },
-  HiveOrganisationAppliancesHiveApplianceUpdateFieldInput: {
-    where: { __type: "HiveOrganisationAppliancesHiveApplianceConnectionWhere" },
-    update: {
-      __type: "HiveOrganisationAppliancesHiveApplianceUpdateConnectionInput",
-    },
-    connect: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceConnectFieldInput!]",
-    },
-    disconnect: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceDisconnectFieldInput!]",
-    },
-    create: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceCreateFieldInput!]",
-    },
-    delete: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceDeleteFieldInput!]",
-    },
-  },
-  HiveOrganisationAppliancesHiveServiceConnectFieldInput: {
-    where: { __type: "HiveServiceConnectWhere" },
-  },
-  HiveOrganisationAppliancesHiveServiceConnectionWhere: {
-    node: { __type: "HiveServiceWhere" },
-    node_NOT: { __type: "HiveServiceWhere" },
-    AND: { __type: "[HiveOrganisationAppliancesHiveServiceConnectionWhere!]" },
-    OR: { __type: "[HiveOrganisationAppliancesHiveServiceConnectionWhere!]" },
-  },
-  HiveOrganisationAppliancesHiveServiceCreateFieldInput: {
-    node: { __type: "HiveServiceCreateInput!" },
-  },
-  HiveOrganisationAppliancesHiveServiceDeleteFieldInput: {
-    where: { __type: "HiveOrganisationAppliancesHiveServiceConnectionWhere" },
-  },
-  HiveOrganisationAppliancesHiveServiceDisconnectFieldInput: {
-    where: { __type: "HiveOrganisationAppliancesHiveServiceConnectionWhere" },
-  },
-  HiveOrganisationAppliancesHiveServiceFieldInput: {
-    create: {
-      __type: "[HiveOrganisationAppliancesHiveServiceCreateFieldInput!]",
-    },
-    connect: {
-      __type: "[HiveOrganisationAppliancesHiveServiceConnectFieldInput!]",
-    },
-  },
-  HiveOrganisationAppliancesHiveServiceUpdateConnectionInput: {
-    node: { __type: "HiveServiceUpdateInput" },
-  },
-  HiveOrganisationAppliancesHiveServiceUpdateFieldInput: {
-    where: { __type: "HiveOrganisationAppliancesHiveServiceConnectionWhere" },
-    update: {
-      __type: "HiveOrganisationAppliancesHiveServiceUpdateConnectionInput",
-    },
-    connect: {
-      __type: "[HiveOrganisationAppliancesHiveServiceConnectFieldInput!]",
-    },
-    disconnect: {
-      __type: "[HiveOrganisationAppliancesHiveServiceDisconnectFieldInput!]",
-    },
-    create: {
-      __type: "[HiveOrganisationAppliancesHiveServiceCreateFieldInput!]",
-    },
-    delete: {
-      __type: "[HiveOrganisationAppliancesHiveServiceDeleteFieldInput!]",
-    },
-  },
-  HiveOrganisationAppliancesUpdateInput: {
-    HiveService: {
-      __type: "[HiveOrganisationAppliancesHiveServiceUpdateFieldInput!]",
-    },
-    HiveAppliance: {
-      __type: "[HiveOrganisationAppliancesHiveApplianceUpdateFieldInput!]",
-    },
+  HiveOrganisationAppliancesUpdateFieldInput: {
+    where: { __type: "HiveOrganisationAppliancesConnectionWhere" },
+    update: { __type: "HiveOrganisationAppliancesUpdateConnectionInput" },
+    connect: { __type: "[HiveOrganisationAppliancesConnectFieldInput!]" },
+    disconnect: { __type: "[HiveOrganisationAppliancesDisconnectFieldInput!]" },
+    create: { __type: "[HiveOrganisationAppliancesCreateFieldInput!]" },
+    delete: { __type: "[HiveOrganisationAppliancesDeleteFieldInput!]" },
   },
   HiveOrganisationConnectInput: {
-    appliances: { __type: "HiveOrganisationAppliancesConnectInput" },
     roles: { __type: "[HiveOrganisationRolesConnectFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersConnectFieldInput!]" },
+    appliances: { __type: "[HiveOrganisationAppliancesConnectFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsConnectFieldInput!]" },
   },
   HiveOrganisationConnectWhere: { node: { __type: "HiveOrganisationWhere!" } },
   HiveOrganisationCreateInput: {
     name: { __type: "String" },
-    appliances: { __type: "HiveOrganisationAppliancesCreateInput" },
     roles: { __type: "HiveOrganisationRolesFieldInput" },
     members: { __type: "HiveOrganisationMembersFieldInput" },
+    appliances: { __type: "HiveOrganisationAppliancesFieldInput" },
     filesystems: { __type: "HiveOrganisationFilesystemsFieldInput" },
   },
   HiveOrganisationDeleteInput: {
-    appliances: { __type: "HiveOrganisationAppliancesDeleteInput" },
     roles: { __type: "[HiveOrganisationRolesDeleteFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersDeleteFieldInput!]" },
+    appliances: { __type: "[HiveOrganisationAppliancesDeleteFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsDeleteFieldInput!]" },
   },
   HiveOrganisationDisconnectInput: {
-    appliances: { __type: "HiveOrganisationAppliancesDisconnectInput" },
     roles: { __type: "[HiveOrganisationRolesDisconnectFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersDisconnectFieldInput!]" },
+    appliances: { __type: "[HiveOrganisationAppliancesDisconnectFieldInput!]" },
     filesystems: {
       __type: "[HiveOrganisationFilesystemsDisconnectFieldInput!]",
     },
@@ -10196,9 +9867,9 @@ export const generatedSchema = {
     offset: { __type: "Int" },
   },
   HiveOrganisationRelationInput: {
-    appliances: { __type: "HiveOrganisationAppliancesCreateFieldInput" },
     roles: { __type: "[HiveOrganisationRolesCreateFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersCreateFieldInput!]" },
+    appliances: { __type: "[HiveOrganisationAppliancesCreateFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsCreateFieldInput!]" },
   },
   HiveOrganisationRolesConnectFieldInput: {
@@ -10244,9 +9915,9 @@ export const generatedSchema = {
   },
   HiveOrganisationUpdateInput: {
     name: { __type: "String" },
-    appliances: { __type: "HiveOrganisationAppliancesUpdateInput" },
     roles: { __type: "[HiveOrganisationRolesUpdateFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersUpdateFieldInput!]" },
+    appliances: { __type: "[HiveOrganisationAppliancesUpdateFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsUpdateFieldInput!]" },
   },
   HiveOrganisationWhere: {
@@ -10276,60 +9947,26 @@ export const generatedSchema = {
     roles_NOT: { __type: "RoleWhere" },
     members: { __type: "HiveUserWhere" },
     members_NOT: { __type: "HiveUserWhere" },
+    appliances: { __type: "HiveApplianceWhere" },
+    appliances_NOT: { __type: "HiveApplianceWhere" },
     filesystems: { __type: "FileSystemWhere" },
     filesystems_NOT: { __type: "FileSystemWhere" },
+    rolesConnection: { __type: "HiveOrganisationRolesConnectionWhere" },
+    rolesConnection_NOT: { __type: "HiveOrganisationRolesConnectionWhere" },
+    membersConnection: { __type: "HiveOrganisationMembersConnectionWhere" },
+    membersConnection_NOT: { __type: "HiveOrganisationMembersConnectionWhere" },
     appliancesConnection: {
       __type: "HiveOrganisationAppliancesConnectionWhere",
     },
     appliancesConnection_NOT: {
       __type: "HiveOrganisationAppliancesConnectionWhere",
     },
-    rolesConnection: { __type: "HiveOrganisationRolesConnectionWhere" },
-    rolesConnection_NOT: { __type: "HiveOrganisationRolesConnectionWhere" },
-    membersConnection: { __type: "HiveOrganisationMembersConnectionWhere" },
-    membersConnection_NOT: { __type: "HiveOrganisationMembersConnectionWhere" },
     filesystemsConnection: {
       __type: "HiveOrganisationFilesystemsConnectionWhere",
     },
     filesystemsConnection_NOT: {
       __type: "HiveOrganisationFilesystemsConnectionWhere",
     },
-  },
-  HivePermissionConnectWhere: { node: { __type: "HivePermissionWhere!" } },
-  HivePermissionCreateInput: { name: { __type: "String" } },
-  HivePermissionOptions: {
-    sort: { __type: "[HivePermissionSort]" },
-    limit: { __type: "Int" },
-    offset: { __type: "Int" },
-  },
-  HivePermissionSort: {
-    id: { __type: "SortDirection" },
-    name: { __type: "SortDirection" },
-  },
-  HivePermissionUpdateInput: { name: { __type: "String" } },
-  HivePermissionWhere: {
-    OR: { __type: "[HivePermissionWhere!]" },
-    AND: { __type: "[HivePermissionWhere!]" },
-    id: { __type: "ID" },
-    id_NOT: { __type: "ID" },
-    id_IN: { __type: "[ID]" },
-    id_NOT_IN: { __type: "[ID]" },
-    id_CONTAINS: { __type: "ID" },
-    id_NOT_CONTAINS: { __type: "ID" },
-    id_STARTS_WITH: { __type: "ID" },
-    id_NOT_STARTS_WITH: { __type: "ID" },
-    id_ENDS_WITH: { __type: "ID" },
-    id_NOT_ENDS_WITH: { __type: "ID" },
-    name: { __type: "String" },
-    name_NOT: { __type: "String" },
-    name_IN: { __type: "[String]" },
-    name_NOT_IN: { __type: "[String]" },
-    name_CONTAINS: { __type: "String" },
-    name_NOT_CONTAINS: { __type: "String" },
-    name_STARTS_WITH: { __type: "String" },
-    name_NOT_STARTS_WITH: { __type: "String" },
-    name_ENDS_WITH: { __type: "String" },
-    name_NOT_ENDS_WITH: { __type: "String" },
   },
   HivePipelineConnectInput: {
     inputs: { __type: "[HivePipelineInputsConnectFieldInput!]" },
@@ -14509,7 +14146,6 @@ export const generatedSchema = {
     exists: { __type: "Boolean" },
   },
   [SchemaUnionsKey]: {
-    HiveIntegration: ["HiveService", "HiveAppliance"],
     HivePipelineRunner: ["HiveProcess", "HivePipelineTrigger"],
     HivePipelineFlowPath: [
       "HivePipelineNodeCallerRelationship",
@@ -14522,20 +14158,6 @@ export const generatedSchema = {
 export interface Query {
   __typename?: "Query";
   printer: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Printer>;
-  hiveOrganisations: (args?: {
-    where?: Maybe<HiveOrganisationWhere>;
-    options?: Maybe<HiveOrganisationOptions>;
-  }) => Array<HiveOrganisation>;
-  hiveOrganisationsCount: (args?: {
-    where?: Maybe<HiveOrganisationWhere>;
-  }) => ScalarsEnums["Int"];
-  hivePermissions: (args?: {
-    where?: Maybe<HivePermissionWhere>;
-    options?: Maybe<HivePermissionOptions>;
-  }) => Array<HivePermission>;
-  hivePermissionsCount: (args?: {
-    where?: Maybe<HivePermissionWhere>;
-  }) => ScalarsEnums["Int"];
   hiveServices: (args?: {
     where?: Maybe<HiveServiceWhere>;
     options?: Maybe<HiveServiceOptions>;
@@ -14626,6 +14248,13 @@ export interface Query {
   }) => Array<HiveProcessResult>;
   hiveProcessResultsCount: (args?: {
     where?: Maybe<HiveProcessResultWhere>;
+  }) => ScalarsEnums["Int"];
+  hiveOrganisations: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Array<HiveOrganisation>;
+  hiveOrganisationsCount: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
   }) => ScalarsEnums["Int"];
   hiveUsers: (args?: {
     where?: Maybe<HiveUserWhere>;
@@ -15281,31 +14910,6 @@ export interface Mutation {
     id?: Maybe<Scalars["ID"]>;
     params?: Maybe<Array<Maybe<HivePipelineResourceInput>>>;
   }) => Maybe<HivePipelineRun>;
-  createHiveOrganisations: (args: {
-    input: Array<HiveOrganisationCreateInput>;
-  }) => CreateHiveOrganisationsMutationResponse;
-  deleteHiveOrganisations: (args?: {
-    where?: Maybe<HiveOrganisationWhere>;
-    delete?: Maybe<HiveOrganisationDeleteInput>;
-  }) => DeleteInfo;
-  updateHiveOrganisations: (args?: {
-    where?: Maybe<HiveOrganisationWhere>;
-    update?: Maybe<HiveOrganisationUpdateInput>;
-    connect?: Maybe<HiveOrganisationConnectInput>;
-    disconnect?: Maybe<HiveOrganisationDisconnectInput>;
-    create?: Maybe<HiveOrganisationRelationInput>;
-    delete?: Maybe<HiveOrganisationDeleteInput>;
-  }) => UpdateHiveOrganisationsMutationResponse;
-  createHivePermissions: (args: {
-    input: Array<HivePermissionCreateInput>;
-  }) => CreateHivePermissionsMutationResponse;
-  deleteHivePermissions: (args?: {
-    where?: Maybe<HivePermissionWhere>;
-  }) => DeleteInfo;
-  updateHivePermissions: (args?: {
-    where?: Maybe<HivePermissionWhere>;
-    update?: Maybe<HivePermissionUpdateInput>;
-  }) => UpdateHivePermissionsMutationResponse;
   createHiveServices: (args: {
     input: Array<HiveServiceCreateInput>;
   }) => CreateHiveServicesMutationResponse;
@@ -15491,6 +15095,21 @@ export interface Mutation {
     create?: Maybe<HiveProcessResultRelationInput>;
     delete?: Maybe<HiveProcessResultDeleteInput>;
   }) => UpdateHiveProcessResultsMutationResponse;
+  createHiveOrganisations: (args: {
+    input: Array<HiveOrganisationCreateInput>;
+  }) => CreateHiveOrganisationsMutationResponse;
+  deleteHiveOrganisations: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    delete?: Maybe<HiveOrganisationDeleteInput>;
+  }) => DeleteInfo;
+  updateHiveOrganisations: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    update?: Maybe<HiveOrganisationUpdateInput>;
+    connect?: Maybe<HiveOrganisationConnectInput>;
+    disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+    create?: Maybe<HiveOrganisationRelationInput>;
+    delete?: Maybe<HiveOrganisationDeleteInput>;
+  }) => UpdateHiveOrganisationsMutationResponse;
   createHiveUsers: (args: {
     input: Array<HiveUserCreateInput>;
   }) => CreateHiveUsersMutationResponse;
@@ -16060,11 +15679,6 @@ export interface OctoPrintFile {
   date?: Maybe<ScalarsEnums["Int"]>;
 }
 
-export interface HiveIntegration {
-  __typename?: "HiveService" | "HiveAppliance";
-  $on: $HiveIntegration;
-}
-
 export interface HivePipelineRunner {
   __typename?: "HiveProcess" | "HivePipelineTrigger";
   $on: $HivePipelineRunner;
@@ -16102,12 +15716,6 @@ export interface CreateHiveOrganisationsMutationResponse {
   __typename?: "CreateHiveOrganisationsMutationResponse";
   info: CreateInfo;
   hiveOrganisations: Array<HiveOrganisation>;
-}
-
-export interface CreateHivePermissionsMutationResponse {
-  __typename?: "CreateHivePermissionsMutationResponse";
-  info: CreateInfo;
-  hivePermissions: Array<HivePermission>;
 }
 
 export interface CreateHivePipelineNodesMutationResponse {
@@ -16257,11 +15865,12 @@ export interface HiveAppliance {
   __typename?: "HiveAppliance";
   id: ScalarsEnums["ID"];
   name: ScalarsEnums["String"];
+  label?: Maybe<ScalarsEnums["String"]>;
   description?: Maybe<ScalarsEnums["String"]>;
   permissions: (args?: {
-    where?: Maybe<HivePermissionWhere>;
-    options?: Maybe<HivePermissionOptions>;
-  }) => Maybe<Array<Maybe<HivePermission>>>;
+    where?: Maybe<PermissionWhere>;
+    options?: Maybe<PermissionOptions>;
+  }) => Maybe<Array<Maybe<Permission>>>;
   services: (args?: {
     where?: Maybe<HiveServiceWhere>;
     options?: Maybe<HiveServiceOptions>;
@@ -16313,7 +15922,7 @@ export interface HiveAppliancePermissionsConnection {
 export interface HiveAppliancePermissionsRelationship {
   __typename?: "HiveAppliancePermissionsRelationship";
   cursor: ScalarsEnums["String"];
-  node: HivePermission;
+  node: Permission;
 }
 
 export interface HiveApplianceServicesConnection {
@@ -16605,10 +16214,6 @@ export interface HiveOrganisation {
   __typename?: "HiveOrganisation";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
-  appliances: (args?: {
-    options?: Maybe<QueryOptions>;
-    where?: Maybe<HiveIntegrationWhere>;
-  }) => Maybe<Array<Maybe<HiveIntegration>>>;
   roles: (args?: {
     where?: Maybe<RoleWhere>;
     options?: Maybe<RoleOptions>;
@@ -16617,13 +16222,14 @@ export interface HiveOrganisation {
     where?: Maybe<HiveUserWhere>;
     options?: Maybe<HiveUserOptions>;
   }) => Maybe<Array<Maybe<HiveUser>>>;
+  appliances: (args?: {
+    where?: Maybe<HiveApplianceWhere>;
+    options?: Maybe<HiveApplianceOptions>;
+  }) => Maybe<Array<Maybe<HiveAppliance>>>;
   filesystems: (args?: {
     where?: Maybe<FileSystemWhere>;
     options?: Maybe<FileSystemOptions>;
   }) => Maybe<Array<Maybe<FileSystem>>>;
-  appliancesConnection: (args?: {
-    where?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
-  }) => HiveOrganisationAppliancesConnection;
   rolesConnection: (args?: {
     where?: Maybe<HiveOrganisationRolesConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -16636,6 +16242,12 @@ export interface HiveOrganisation {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<HiveOrganisationMembersConnectionSort>>;
   }) => HiveOrganisationMembersConnection;
+  appliancesConnection: (args?: {
+    where?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HiveOrganisationAppliancesConnectionSort>>;
+  }) => HiveOrganisationAppliancesConnection;
   filesystemsConnection: (args?: {
     where?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -16654,7 +16266,7 @@ export interface HiveOrganisationAppliancesConnection {
 export interface HiveOrganisationAppliancesRelationship {
   __typename?: "HiveOrganisationAppliancesRelationship";
   cursor: ScalarsEnums["String"];
-  node: HiveIntegration;
+  node: HiveAppliance;
 }
 
 export interface HiveOrganisationFilesystemsConnection {
@@ -16694,16 +16306,6 @@ export interface HiveOrganisationRolesRelationship {
   __typename?: "HiveOrganisationRolesRelationship";
   cursor: ScalarsEnums["String"];
   node: Role;
-}
-
-export interface HivePermission {
-  __typename?: "HivePermission";
-  id: ScalarsEnums["ID"];
-  name?: Maybe<ScalarsEnums["String"]>;
-  create?: Maybe<Array<Maybe<HiveIntegration>>>;
-  read?: Maybe<Array<Maybe<HiveIntegration>>>;
-  update?: Maybe<Array<Maybe<HiveIntegration>>>;
-  remove?: Maybe<Array<Maybe<HiveIntegration>>>;
 }
 
 export interface HivePipeline {
@@ -17306,12 +16908,6 @@ export interface UpdateHiveOrganisationsMutationResponse {
   __typename?: "UpdateHiveOrganisationsMutationResponse";
   info: UpdateInfo;
   hiveOrganisations: Array<HiveOrganisation>;
-}
-
-export interface UpdateHivePermissionsMutationResponse {
-  __typename?: "UpdateHivePermissionsMutationResponse";
-  info: UpdateInfo;
-  hivePermissions: Array<HivePermission>;
 }
 
 export interface UpdateHivePipelineNodesMutationResponse {
@@ -18585,7 +18181,6 @@ export interface SchemaObjectTypes {
   CreateHiveAppliancesMutationResponse: CreateHiveAppliancesMutationResponse;
   CreateHiveFilesMutationResponse: CreateHiveFilesMutationResponse;
   CreateHiveOrganisationsMutationResponse: CreateHiveOrganisationsMutationResponse;
-  CreateHivePermissionsMutationResponse: CreateHivePermissionsMutationResponse;
   CreateHivePipelineNodesMutationResponse: CreateHivePipelineNodesMutationResponse;
   CreateHivePipelineResourcesMutationResponse: CreateHivePipelineResourcesMutationResponse;
   CreateHivePipelineRunsMutationResponse: CreateHivePipelineRunsMutationResponse;
@@ -18646,7 +18241,6 @@ export interface SchemaObjectTypes {
   HiveOrganisationMembersRelationship: HiveOrganisationMembersRelationship;
   HiveOrganisationRolesConnection: HiveOrganisationRolesConnection;
   HiveOrganisationRolesRelationship: HiveOrganisationRolesRelationship;
-  HivePermission: HivePermission;
   HivePipeline: HivePipeline;
   HivePipelineInputsConnection: HivePipelineInputsConnection;
   HivePipelineInputsRelationship: HivePipelineInputsRelationship;
@@ -18705,7 +18299,6 @@ export interface SchemaObjectTypes {
   UpdateHiveAppliancesMutationResponse: UpdateHiveAppliancesMutationResponse;
   UpdateHiveFilesMutationResponse: UpdateHiveFilesMutationResponse;
   UpdateHiveOrganisationsMutationResponse: UpdateHiveOrganisationsMutationResponse;
-  UpdateHivePermissionsMutationResponse: UpdateHivePermissionsMutationResponse;
   UpdateHivePipelineNodesMutationResponse: UpdateHivePipelineNodesMutationResponse;
   UpdateHivePipelineResourcesMutationResponse: UpdateHivePipelineResourcesMutationResponse;
   UpdateHivePipelineRunsMutationResponse: UpdateHivePipelineRunsMutationResponse;
@@ -18818,7 +18411,6 @@ export type SchemaObjectTypesNames =
   | "CreateHiveAppliancesMutationResponse"
   | "CreateHiveFilesMutationResponse"
   | "CreateHiveOrganisationsMutationResponse"
-  | "CreateHivePermissionsMutationResponse"
   | "CreateHivePipelineNodesMutationResponse"
   | "CreateHivePipelineResourcesMutationResponse"
   | "CreateHivePipelineRunsMutationResponse"
@@ -18879,7 +18471,6 @@ export type SchemaObjectTypesNames =
   | "HiveOrganisationMembersRelationship"
   | "HiveOrganisationRolesConnection"
   | "HiveOrganisationRolesRelationship"
-  | "HivePermission"
   | "HivePipeline"
   | "HivePipelineInputsConnection"
   | "HivePipelineInputsRelationship"
@@ -18938,7 +18529,6 @@ export type SchemaObjectTypesNames =
   | "UpdateHiveAppliancesMutationResponse"
   | "UpdateHiveFilesMutationResponse"
   | "UpdateHiveOrganisationsMutationResponse"
-  | "UpdateHivePermissionsMutationResponse"
   | "UpdateHivePipelineNodesMutationResponse"
   | "UpdateHivePipelineResourcesMutationResponse"
   | "UpdateHivePipelineRunsMutationResponse"
@@ -19036,11 +18626,6 @@ export type SchemaObjectTypesNames =
   | "RemoveByIdStackPayload"
   | "RemoveOneStackPayload"
   | "RemoveManyStackPayload";
-
-export interface $HiveIntegration {
-  HiveService?: HiveService;
-  HiveAppliance?: HiveAppliance;
-}
 
 export interface $HivePipelineRunner {
   HiveProcess?: HiveProcess;

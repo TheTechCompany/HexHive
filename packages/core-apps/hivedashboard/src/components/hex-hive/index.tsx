@@ -1,6 +1,6 @@
 import { Box } from 'grommet';
 import { Add, SettingsOption, Shop, Spa, Robot, Document, Folder} from 'grommet-icons'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
 import { useQuery } from '@hexhive/client';
@@ -9,17 +9,22 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Files, Flow, Market, Command, Automate } from '../../assets/icons';
 
 import Fonts from '../../assets/fonts';
+import { useAuth } from '@hexhive/auth-ui';
 export interface HexHiveProps extends RouteComponentProps {
     edit?: boolean;
 }
 
 export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
 
+    const user = useAuth()
+
     const [ selectedPos, setSelectedPos ] = useState<{x?: number, y?: number}>({})
     const [ modalOpen, openModal ] = useState<boolean>(false);
 
+    console.log(user)
     const [ actions, setActions ] = useState<any[]>([
         {
+            id: '',
             icon: <Market  width="50" height="50"/>,
             title: "Market",
             top: 3,
@@ -27,6 +32,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             path: '/market'
         },
         {
+            id: '0a8eedf3-6802-4ae9-9304-94129d08ee14',
             icon: <Files  width="50" height="50"/>,
             title: "Files",
             top: 3,
@@ -34,6 +40,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             path: '/files'
         },
         {
+            id: '35dec0fc-b2ab-4074-8060-f2216260d360',
             icon: <Flow  width="50" height="50" />,
             top: 3,
             title: "Flow",
@@ -41,6 +48,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             path: '/flow'
         },
         {
+            id: '808e383f-9c2b-4ccb-9900-7562b8b344a4',
             icon: <Command  width="50" height="50"/>,
             top: 3,
             title: "Command",
@@ -48,6 +56,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             path: '/command'
         },
         {
+            id: '',
             icon: <Automate width="50" height="50"/>,
             top: 3,
             title: "Automate",
@@ -55,18 +64,75 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             path: '/automate'
         },
         {
+            id: '',
             icon: <SettingsOption color="black" size="30px" />,
             top: 3,
             title: "Settings",
             left: 8,
             path: '/settings'
         }
-    ])
+    ].filter((a) => user.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
 
     const query = useQuery({suspense: false, staleWhileRevalidate: true})
     
     const apps = query.hiveAppliances().map((x) => ({...x}))
     
+    const refreshApplications = () => {
+        setActions([
+            {
+                id: '',
+                icon: <Market  width="50" height="50"/>,
+                title: "Market",
+                top: 3,
+                left: 3,
+                path: '/market'
+            },
+            {
+                id: '0a8eedf3-6802-4ae9-9304-94129d08ee14',
+                icon: <Files  width="50" height="50"/>,
+                title: "Files",
+                top: 3,
+                left: 4,
+                path: '/files'
+            },
+            {
+                id: '35dec0fc-b2ab-4074-8060-f2216260d360',
+                icon: <Flow  width="50" height="50" />,
+                top: 3,
+                title: "Flow",
+                left: 5,
+                path: '/flow'
+            },
+            {
+                id: '808e383f-9c2b-4ccb-9900-7562b8b344a4',
+                icon: <Command  width="50" height="50"/>,
+                top: 3,
+                title: "Command",
+                left: 6,
+                path: '/command'
+            },
+            {
+                id: '',
+                icon: <Automate width="50" height="50"/>,
+                top: 3,
+                title: "Automate",
+                left: 7,
+                path: '/automate'
+            },
+            {
+                id: '',
+                icon: <SettingsOption color="black" size="30px" />,
+                top: 3,
+                title: "Settings",
+                left: 8,
+                path: '/settings'
+            }
+        ].filter((a) => user.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
+    }
+
+    useEffect(() => {
+        refreshApplications()
+    }, [user.activeUser])
     return (
         <Box overflow="hidden">
             <AppModal   

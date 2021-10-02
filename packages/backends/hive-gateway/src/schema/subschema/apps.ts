@@ -10,6 +10,7 @@ type HiveService {
 type HiveAppliance {
     id: ID! @id
     name: String!
+    label: String
     description: String
     
     permissions: [Permission] @relationship(type: "PROVIDES", direction: OUT)
