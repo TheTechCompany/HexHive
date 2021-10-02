@@ -16,7 +16,7 @@ import { ScheduleViewContext } from './context';
 var moment = require('moment');
 
 export interface ScheduleViewProps {
-  
+  actions?: {left?: any, right?: any};
   onCreateItem: (item: any, ts: Date) => void;
   onSaveItem: (item: any, ts: Date) => void;
   onCloneItem: (item: any, current: Date[], newDates: Date[]) => void;
@@ -106,15 +106,19 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
         direction="column"
         className="week-header">
         <Box 
+          direction="row"
+          justify={props.actions ? 'between' : 'center'}
           round={{corner: 'top', size: 'xsmall'}}
           background="accent-1"
           align="center"
           className="week-header__controls">
+          {props.actions && (props.actions.left || <div />)}
           <DateSelector
             value={date}
             displayFormat={"MMMM YYYY"}
             stepSize={"week"}
             onChange={changeWeek} />
+          {props.actions && (props.actions.right || <div />)}
         </Box>
         <Box 
           background={"accent-2"}
