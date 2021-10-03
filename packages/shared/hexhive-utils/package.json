@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/utils",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.6-alpha.0",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -11,5 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/runtime": "^7.15.3"
+  }
 }

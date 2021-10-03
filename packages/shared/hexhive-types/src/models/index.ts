@@ -5,14 +5,21 @@ import Program, {FlowShard} from './program';
 import Stack from './stack'
 import {DNS} from './dns'
 import { IProject } from './project';
-import { User } from './user';
+import { User, Organisation } from './user';
 import {TimelineItem} from './timeline'
-import { File } from './file';
+import { File, FileConversion, FileConversionPipeline } from './file';
 import { QuoteSchedule, ScheduleItem, ScheduleOrder } from './schedule';
+import { ClientApp } from './client_app'
+import { AuthorizationCode } from './authorization_code';
+import { AccessToken } from './access_token';
+import { App } from './app';
+import { HiveDoc } from './document';
 
 let opts : any = {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
 }
 
 if(process.env.MONGO_USER){
@@ -46,11 +53,19 @@ export const connect_data = () => {
 export {
     FlowShard,
     Program,
+    AuthorizationCode,
+    AccessToken,
+    App,
+    HiveDoc,
     Stack,
     DNS as DNSRecord,
     IProject as Project,
+    ClientApp,
     User,
+    Organisation,
     File,
+    FileConversion,
+    FileConversionPipeline,
     ScheduleItem,
     QuoteSchedule,
     TimelineItem,

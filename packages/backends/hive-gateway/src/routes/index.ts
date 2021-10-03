@@ -1,0 +1,99 @@
+import { Router } from "express"
+
+import { AuthRouter } from "./auth"
+import { UserRouter } from "./user"
+import FileRouter from "./files"
+import PipelineRouter from "./pipelines"
+import EventRouter from "./events"
+
+import bodyParser from "body-parser"
+import cors from "cors"
+import cookieParser from "cookie-parser"
+import { Provider } from "oidc-provider"
+import { requiresAuth } from "express-openid-connect"
+import { FileManager } from "./files/util"
+import { Driver, session } from "neo4j-driver"
+import { TaskRegistry } from "../task-registry"
+import { HiveEvents } from "@hexhive/events-client"
+// import { InteractionRouter } from './interaction';
+
+const whitelist = ["http://localhost:3001", "https://matrix.hexhive.io", "http://localhost:3002", "http://localhost:3000", "https://hexhive.io", "https://next.hexhive.io", "https://go.hexhive.io"]
+
+export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Router => {
+	const neo_session = neo4j.session()
+
+	const eventClient = new HiveEvents({
+		url: process.env.HIVE_EVENT_URL || "http://localhost:7000",
+		keyPair: {
+			key: process.env.HIVE_EVENT_KEY || "123456789",
+			secret: process.env.HIVE_SECRET_KEY || "secret1"
+		}
+	})
+
+	const router = Router()
+	let fileManager
+	if(process.env.IPFS_URL) fileManager = new FileManager({url: process.env.IPFS_URL || "", gateway: process.env.IPFS_GATEWAY})
+    
+	const corsOptions = {
+		origin: (origin : any, callback: (error: any, result?: any) => void) => {
+			if (whitelist.indexOf(origin) !== -1 || !origin) {
+				callback(null, true)
+			} else {
+				callback(new Error("Not allowed by CORS"))
+			}
+		},
+		credentials: true
+        
+	}
+   
+	router.use(cookieParser())
+	router.use(bodyParser.json())
+	router.use(bodyParser.urlencoded({extended: false}))
+
+	router.use(cors(corsOptions))
+
+	// router.use('/interaction', InteractionRouter())
+	router.use("/oauth", AuthRouter(neo_session))
+
+	router.use(['/api/files'],  requiresAuth(), async (req, res, next) => {
+		if(!req.oidc.accessToken) return next("No access token present");
+			const { isExpired, refresh } = req.oidc.accessToken
+
+			// if(isExpired()){
+			// 	await refresh();
+			// }
+		try{
+			const user = await req.oidc.fetchUserInfo(); 
+			
+			(req as any).user = {
+				...user
+			}
+
+			next();
+		}catch(e){
+			next(e)
+		}
+
+	})
+
+	if(fileManager) router.use("/api/files", FileRouter(fileManager, eventClient, neo_session))
+	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
+
+	router.use("/api/events", EventRouter(neo_session))
+
+	router.get("/login", (req, res) => {
+		res.oidc.login({ returnTo: req.query.returnTo?.toString() || process.env.UI_URL || "https://next.hexhive.io/dashboard" })
+	})
+
+	router.get("/me", requiresAuth(), async (req, res) => {
+		try{
+			const userinfo = await req.oidc.fetchUserInfo()
+			res.send({...userinfo})
+		}catch(e){
+			res.status(400).send({error: e})
+		}
+
+	})
+	// router.use('/user', UserRouter(cas, methods))
+	return router
+}

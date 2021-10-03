@@ -23,7 +23,10 @@ export const Content : React.FC<ContentProps> = ({data, users}) => {
         });
         if(names?.length > 0){
         return (
-           <Box direction="column" className="staff-container">
+           <Box 
+               align="center"
+               direction="column" 
+               className="staff-container">
               {names.map((item: any) => item && (
                     <Text size='small'>{item.name}</Text>
               ))}

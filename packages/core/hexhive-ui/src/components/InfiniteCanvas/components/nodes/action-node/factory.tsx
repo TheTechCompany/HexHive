@@ -1,3 +1,4 @@
+import React from 'react';
 import { AbstractWidgetFactory } from "../../../InfiniteCanvas";
 import { InfiniteCanvasNode } from "../../../types/canvas";
 import { ActionNodeWidget } from "./widget";
@@ -15,6 +16,9 @@ export class ActionNodeFactory extends AbstractWidgetFactory{
             type: model.type,
             x: model.x,
             y: model.y,
+            extras: {
+                ...model.extras,
+            },
             ports: model.ports ? model.ports : [
                 {
                     name: "inlet",
@@ -32,7 +36,7 @@ export class ActionNodeFactory extends AbstractWidgetFactory{
     }
 
     generateWidget(event : any): JSX.Element {
-        return <ActionNodeWidget  />
+        return <ActionNodeWidget title={event.extras.title}  />
     }
 
 }

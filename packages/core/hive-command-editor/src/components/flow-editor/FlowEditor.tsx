@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Button, TextInput } from 'grommet';
-import { InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath, InfiniteCanvasPosition } from '@hexhive/ui'
-import {AbstractWidgetFactory, Block, BlockTray } from '@thetechcompany/live-ui'
+import { InfiniteCanvas,AbstractWidgetFactory, InfiniteCanvasNode, InfiniteCanvasPath, InfiniteCanvasPosition } from '@hexhive/ui'
 import { ZoomControls } from '../zoom-controls'
 import { v4 } from 'uuid';
 import * as Icons from 'grommet-icons'
@@ -15,7 +14,7 @@ export interface FlowEditorProps {
     snapToGrid?: boolean;
 
     factories: AbstractWidgetFactory[];
-    blocks?: Block[]
+    blocks?: any[]
 
     program?: {
         nodes: InfiniteCanvasNode[]

@@ -2,13 +2,11 @@ import React from 'react';
 
 import { Box, Button, Text } from 'grommet';
 
-import { User } from 'grommet-icons'
-
 import styled from 'styled-components'
+import { matchPath } from 'react-router-dom';
 
 export interface SidebarProps {
-  logo: any
-
+  logo?: any
   className?: string;
   user?: {
     name: string;
@@ -42,20 +40,20 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
       background={{color: "brand"}}
       elevation="small"
       className={`${props.className} sidebar`}>
-      <Button 
+      {props.logo && <Button 
         onClick={props.onLogoClick}
         icon={props.logo}
         style={{padding: '10%'}}
         className="sidebar-header-image" >
-      </Button>
+      </Button> }
       <Box margin={{top: 'medium'}} pad={{vertical: 'xsmall'}} className="sidebar-menu">
         {props.menu?.map((x, ix) => (
           <li
             key={`sidebar-${ix}`}
-            className={`sidebar-menu-opt ${props.active == ix ? "active" : ''} ${ix == 0 && props.active == "" ? 'active' : ''}`}
-            onClick={() => props.onSelect(x.label)}>
+            className={`sidebar-menu-opt ${matchPath(props.active, x.path)  ? "active" : ''}`}
+            onClick={() => props.onSelect(x)}>
 
-            {React.cloneElement(x.icon, {style: {filter: 'invert(1)', fill: '#F3E6DC', minWidth: '20px', maxWidth: '20px'}})}
+            {React.cloneElement(x.icon, {style: {minWidth: '20px', maxWidth: '20px'}})}
             <Text size="15px" color={'neutral-1'} margin={{left: 'small'}}>{x.label}</Text>
 
 
@@ -67,6 +65,9 @@ const BaseSidebar: React.FC<SidebarProps> = (props) => {
   );
 }
 
+export interface ID {
+ id: number;
+}
 export const Sidebar = styled(BaseSidebar)`
 @media print{
   .sidebar{

@@ -9,7 +9,11 @@ interface FooterProps {
 export const Footer : React.FC<FooterProps> = ({data}) => {
     console.log(data)
     return (data?.notes || []).length > 0 ?  (
-        <Box background={"#F2726B"}>
+        <Box 
+            direction="row"
+            align="center"
+            justify="center"
+            background={"#F2726B"}>
             <Text color="white" className="notes-indicator">Notes: {data?.notes?.length}</Text>
         </Box>
     ) : null;

@@ -1,0 +1,18 @@
+{
+  "name": "@hexhive/icons",
+  "version": "0.0.6-alpha.0",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -b"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.4.2"
+  }
+}

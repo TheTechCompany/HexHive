@@ -1,0 +1,22 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "composite": true,
+    "declaration": true,
+    "rootDir": "src/",
+    "outDir": "dist/",
+    "esModuleInterop": true
+  },
+  "references": [
+    {"path": "../../shared/hexhive-auth-ui"},
+    {"path": "../../shared/hexhive-styles"},
+    {"path": "../../core/hexhive-ui"},
+    {"path": "../../shared/hexhive-types"},
+    {"path": "../../core/hive-command-editor"},
+    {"path": "../../core/hexhive-client"},
+    {"path": "../../core/collaboration-client"}
+  ],
+  "include": ["src/**/*", "node_modules/@types"],
+  "exclude": ["src/**/*.test*"]
+}

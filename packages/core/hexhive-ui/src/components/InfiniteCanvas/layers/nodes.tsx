@@ -172,7 +172,7 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                         itemRefs.current[node.id] = element
                         setNodeRefs?.(itemRefs.current)
                     }}
-                    className={`node-container ${(selected?.type == 'node' && selected.id == node.id )? 'selected': ''}`} 
+                    className={`node-container ${(selected?.find((a) => a.key == 'node' && a.id == node.id) != null) ? 'selected': ''}`} 
                     onClick={(e) => {
                         selectNode?.(node.id)
                     }}
@@ -185,7 +185,7 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                         top: node.y,
                         transform: getDirection(node.direction)
                     }}>
-                    {selected?.type == 'node' && selected.id == node.id && node.menu && (
+                    {/* {selected?.type == 'node' && selected.id == node.id && node.menu && (
                         <Box 
                             onMouseDown={(e) => e.stopPropagation()}
                             flex
@@ -198,7 +198,7 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                                 {node.menu}
                             </Box>
                         </Box>
-                    )}
+                    )} */}
                     <NodeIdContext.Provider value={{
                         nodeId: node.id,
                         position: {
@@ -254,6 +254,9 @@ export const NodeLayer = styled(BaseNodeLayer)`
         cursor: pointer;
     }
 
+    .node-container.selected{
+        border: 1px solid blue;
+    }
    
 
     .started path, .started circle{

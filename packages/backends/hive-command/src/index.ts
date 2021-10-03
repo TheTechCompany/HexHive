@@ -9,7 +9,7 @@ import { graphqlHTTP } from 'express-graphql'
 import cors from 'cors'
 import http from 'http';
 
-import { Server } from 'ws';
+// import { Server } from 'ws';
 
 //Alternate transports
 //import { Server } from 'socket.io'
@@ -24,15 +24,13 @@ import { SSLManager } from './ssl';
 import AutomergeSever from '@hexhive/collaboration-server'
 
 import { AuthServer } from '@hexhive/auth'
-import { connect_data as auth_connect } from '@hexhive/auth/dist/types'
 
-
+const PORT = process.env.NODE_ENV == 'production' ? 80 : 7002
 
 //Initialization
 const app = express();
 
 connect_data();
-auth_connect();
 
 const mergeServer = new AutomergeSever()
 
@@ -71,66 +69,25 @@ app.use(cors({
       }
   }, credentials: true}));
   
+// if(process.env.NODE_ENV == 'production'){
+//   app.use('/graphql',     AuthServer.oauthServer.authenticate())
+// }
+
 app.use('/graphql',
-    AuthServer.oauthServer.authenticate(),
     graphqlHTTP({
         schema: GeneratedSchema,
         graphiql: true
     }))
 
-// if(process.env.NODE_ENV == "dev"){
     const server = http.createServer(app)
 
-    const wss = new Server({server: server})
+    // const wss = new Server({server: server})
 
-    wss.on('connection', (socket) => {
-        mergeServer.handleWebsocket(socket)
+    // wss.on('connection', (socket) => {
+    //     mergeServer.handleWebsocket(socket)
+    // })
+
+    server.listen(PORT, () => {
+      console.log(`LISTENING ON ${PORT}`)
+
     })
-
-    server.listen(80)
-    console.log("LISTENING ON 80")
-// }else{
-
-// //Instantiate new SSL Manager - Takes care of initial config and wraps the serve function of greenlock
-// const sslManager = new SSLManager({
-//     packageRoot: path.join(__dirname, '../'),
-//     configDir: "./greenlock.d",
-//     domain: process.env.DOMAIN || 'api.hexhive.io',
-//     altName: 'api.hexhive.io',
-//     maintainer: "professional.balbatross@gmail.com"
-// })
-
-// sslManager.on('https:init', (https) => {
-
-//     new Server({ server: https })
-    
-//     // const io = new Server(https, {
-//     //     cors: {
-//     //         origin: "http://localhost:3000",
-//     //         methods: ["GET", "POST"]
-//     //     }
-//     // })
-
-
-
-
-//     // io.on('connection', (socket) => {
-//     //     console.log("new connection to ws:// endpoint")
-
-//     //     socket.on('state:update', (msg) => {
-//     //         //deviceRoom.emit('state:update', msg)
-//     //         console.log("State update", msg)
-//     //     })
-
-//     //     socket.on('device-state:update', (msg) => {
-//     //         // deviceRoom.emit('device-state:update', msg)
-//     //     })
-
-//     //     socket.on('disconnect', (reason) => {
-//     //         console.log(`User disconnected. Reason: ${reason}`)
-//     //     })
-//     // })
-// })
-
-// sslManager.serve(app)
-// }

@@ -22,6 +22,10 @@ export const BaseStartNode : React.FC<StartNodeProps> = (props) => {
 }
 
 export const StartNode = styled(BaseStartNode)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     .port{
         position: absolute;
         bottom: -7px;

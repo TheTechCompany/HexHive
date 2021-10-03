@@ -1,5 +1,5 @@
 import React, { RefObject } from 'react';
-
+import { Text } from 'grommet';
 import styled from 'styled-components'
 import { PortWidget } from '../../ports';
 
@@ -15,7 +15,8 @@ export const BaseActionNode : React.FC<ActionNodeProps> = (props) => {
         return (
             <div className={props.className}>
                 <PortWidget type="in" id="inlet" />
-                {props.title || "Action"}
+                <Text>{ "Action"}</Text>
+                <Text size="small">{props.title}</Text>
                 <PortWidget  type="out" id="outlet" />
             </div>
         )

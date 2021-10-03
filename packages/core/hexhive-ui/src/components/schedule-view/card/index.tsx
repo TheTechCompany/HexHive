@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Text } from "grommet";
 import { useState } from "react";
 import Popover from "react-popover";
@@ -49,6 +50,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
                     </Box>)} >
 
                 <Box
+                    flex
                     aria-owns={hoverEl != null ? 'mouse-over-notes' : undefined}
                     aria-haspopup="true"
                     onMouseEnter={hoverStart}
@@ -63,7 +65,11 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({ data, onMove, users,
                     <Box
                         pad="xsmall"
                         style={{ paddingBottom: (isEmpty() ? '4px' : undefined), position: 'relative' }} onClick={onClick}>
-                        <Text size="small" weight="bold" className="card-title" >{data?.project.name}</Text>
+                        <Text 
+                            textAlign="center"
+                            size="small" 
+                            weight="bold" 
+                            className="card-title" >{data?.project.name}</Text>
                         <Content
                             users={users || []}
                             data={data} />

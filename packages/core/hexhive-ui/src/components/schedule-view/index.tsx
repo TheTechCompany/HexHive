@@ -16,7 +16,7 @@ import { ScheduleViewContext } from './context';
 var moment = require('moment');
 
 export interface ScheduleViewProps {
-  
+  actions?: {left?: any, right?: any};
   onCreateItem: (item: any, ts: Date) => void;
   onSaveItem: (item: any, ts: Date) => void;
   onCloneItem: (item: any, current: Date[], newDates: Date[]) => void;
@@ -106,18 +106,21 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
         direction="column"
         className="week-header">
         <Box 
+          direction="row"
+          justify={props.actions ? 'between' : 'center'}
           round={{corner: 'top', size: 'xsmall'}}
           background="accent-1"
           align="center"
           className="week-header__controls">
+          {props.actions && (props.actions.left || <div />)}
           <DateSelector
             value={date}
             displayFormat={"MMMM YYYY"}
             stepSize={"week"}
             onChange={changeWeek} />
+          {props.actions && (props.actions.right || <div />)}
         </Box>
         <Box 
-          pad={{vertical: 'xsmall'}}
           background={"accent-2"}
           direction="row" 
           className="week-header__days">
@@ -301,8 +304,12 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
       var currentMonth = today.getMonth() + 1;
       headers.push((
         <Box
+        pad={{vertical: 'xsmall'}}
+
           direction="column"
           flex
+          align="center"
+          background={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? 'rgba(255, 255, 255, 0.2)' : ''}
           className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day-header week-day-header-current' : 'week-day-header'}>
           <Box>
             {renderTime(i, 'ddd')}
@@ -328,7 +335,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = (props) => {
           pad={{horizontal: 'xsmall'}}
           flex
           className={(currentDay == renderTime(i, 'DD') && currentMonth == renderTime(i, 'MM')) ? ' week-day week-day-current' : 'week-day'}>
-          <ul style={{ flex: 1, listStyle: 'none', padding: 0 }} className='week-day-content'>
+          <ul style={{ display: 'flex', flexDirection: 'column', listStyle: 'none', padding: 0 }} className='week-day-content'>
             {dayItems}
             {renderAddScheduleButton(i)}
           </ul>
