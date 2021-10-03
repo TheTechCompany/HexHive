@@ -1,5 +1,6 @@
 {
   "name": "@hexhive-coreapps/hivefiles",
+  "version": "0.0.5",
   "scripts": {
     "start": "webpack serve --port 8509",
     "start:standalone": "webpack serve --env standalone",
