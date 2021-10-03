@@ -3265,7 +3265,8 @@ export interface HiveUserConnectWhere {
 
 export interface HiveUserCreateInput {
   name?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
+  username?: Maybe<Scalars["String"]>;
+  password?: Maybe<Scalars["String"]>;
   roles?: Maybe<HiveUserRolesFieldInput>;
   organisation?: Maybe<HiveUserOrganisationFieldInput>;
 }
@@ -3392,12 +3393,14 @@ export interface HiveUserRolesUpdateFieldInput {
 export interface HiveUserSort {
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
-  email?: Maybe<SortDirection>;
+  username?: Maybe<SortDirection>;
+  password?: Maybe<SortDirection>;
 }
 
 export interface HiveUserUpdateInput {
   name?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
+  username?: Maybe<Scalars["String"]>;
+  password?: Maybe<Scalars["String"]>;
   roles?: Maybe<Array<HiveUserRolesUpdateFieldInput>>;
   organisation?: Maybe<HiveUserOrganisationUpdateFieldInput>;
 }
@@ -3425,16 +3428,26 @@ export interface HiveUserWhere {
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
-  email_NOT?: Maybe<Scalars["String"]>;
-  email_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  email_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  email_CONTAINS?: Maybe<Scalars["String"]>;
-  email_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  email_STARTS_WITH?: Maybe<Scalars["String"]>;
-  email_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  email_ENDS_WITH?: Maybe<Scalars["String"]>;
-  email_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  username?: Maybe<Scalars["String"]>;
+  username_NOT?: Maybe<Scalars["String"]>;
+  username_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  username_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  username_CONTAINS?: Maybe<Scalars["String"]>;
+  username_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  username_STARTS_WITH?: Maybe<Scalars["String"]>;
+  username_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  username_ENDS_WITH?: Maybe<Scalars["String"]>;
+  username_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  password?: Maybe<Scalars["String"]>;
+  password_NOT?: Maybe<Scalars["String"]>;
+  password_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  password_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  password_CONTAINS?: Maybe<Scalars["String"]>;
+  password_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  password_STARTS_WITH?: Maybe<Scalars["String"]>;
+  password_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  password_ENDS_WITH?: Maybe<Scalars["String"]>;
+  password_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   roles?: Maybe<RoleWhere>;
   roles_NOT?: Maybe<RoleWhere>;
   organisation?: Maybe<HiveOrganisationWhere>;
@@ -8439,7 +8452,8 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     name: { __type: "String" },
-    email: { __type: "String" },
+    username: { __type: "String" },
+    password: { __type: "String" },
     roles: {
       __type: "[Role]",
       __args: { where: "RoleWhere", options: "RoleOptions" },
@@ -11457,7 +11471,8 @@ export const generatedSchema = {
   HiveUserConnectWhere: { node: { __type: "HiveUserWhere!" } },
   HiveUserCreateInput: {
     name: { __type: "String" },
-    email: { __type: "String" },
+    username: { __type: "String" },
+    password: { __type: "String" },
     roles: { __type: "HiveUserRolesFieldInput" },
     organisation: { __type: "HiveUserOrganisationFieldInput" },
   },
@@ -11553,11 +11568,13 @@ export const generatedSchema = {
   HiveUserSort: {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
-    email: { __type: "SortDirection" },
+    username: { __type: "SortDirection" },
+    password: { __type: "SortDirection" },
   },
   HiveUserUpdateInput: {
     name: { __type: "String" },
-    email: { __type: "String" },
+    username: { __type: "String" },
+    password: { __type: "String" },
     roles: { __type: "[HiveUserRolesUpdateFieldInput!]" },
     organisation: { __type: "HiveUserOrganisationUpdateFieldInput" },
   },
@@ -11584,16 +11601,26 @@ export const generatedSchema = {
     name_NOT_STARTS_WITH: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
-    email: { __type: "String" },
-    email_NOT: { __type: "String" },
-    email_IN: { __type: "[String]" },
-    email_NOT_IN: { __type: "[String]" },
-    email_CONTAINS: { __type: "String" },
-    email_NOT_CONTAINS: { __type: "String" },
-    email_STARTS_WITH: { __type: "String" },
-    email_NOT_STARTS_WITH: { __type: "String" },
-    email_ENDS_WITH: { __type: "String" },
-    email_NOT_ENDS_WITH: { __type: "String" },
+    username: { __type: "String" },
+    username_NOT: { __type: "String" },
+    username_IN: { __type: "[String]" },
+    username_NOT_IN: { __type: "[String]" },
+    username_CONTAINS: { __type: "String" },
+    username_NOT_CONTAINS: { __type: "String" },
+    username_STARTS_WITH: { __type: "String" },
+    username_NOT_STARTS_WITH: { __type: "String" },
+    username_ENDS_WITH: { __type: "String" },
+    username_NOT_ENDS_WITH: { __type: "String" },
+    password: { __type: "String" },
+    password_NOT: { __type: "String" },
+    password_IN: { __type: "[String]" },
+    password_NOT_IN: { __type: "[String]" },
+    password_CONTAINS: { __type: "String" },
+    password_NOT_CONTAINS: { __type: "String" },
+    password_STARTS_WITH: { __type: "String" },
+    password_NOT_STARTS_WITH: { __type: "String" },
+    password_ENDS_WITH: { __type: "String" },
+    password_NOT_ENDS_WITH: { __type: "String" },
     roles: { __type: "RoleWhere" },
     roles_NOT: { __type: "RoleWhere" },
     organisation: { __type: "HiveOrganisationWhere" },
@@ -16716,7 +16743,8 @@ export interface HiveUser {
   __typename?: "HiveUser";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
-  email?: Maybe<ScalarsEnums["String"]>;
+  username?: Maybe<ScalarsEnums["String"]>;
+  password?: Maybe<ScalarsEnums["String"]>;
   roles: (args?: {
     where?: Maybe<RoleWhere>;
     options?: Maybe<RoleOptions>;
