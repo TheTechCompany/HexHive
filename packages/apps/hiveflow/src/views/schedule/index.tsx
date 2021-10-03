@@ -173,7 +173,7 @@ const slowData = slowResult.data;
   }, {
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.scheduleItems({where: {date_GT: horizon.start?.toISOString(), date_LT: horizon.end?.toISOString()}})],
+    refetchQueries: [],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -181,18 +181,22 @@ const slowData = slowResult.data;
   const [removeItem, infoRemove] = useMutation((mutation, args: {id: string}) => {
     const result = mutation.deleteScheduleItems({where: {id: args.id}})
     return {
-      item: result,
+      item: {
+        ...result
+      },
       error: null
     }
   }, {
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.scheduleItems({where: {date_GT: horizon.start?.toISOString(), date_LT: horizon.end?.toISOString()}})],
+    refetchQueries: [],
     awaitRefetchQueries: true,
     suspense: false,  
   })
 
   const [joinCard, joinInfo] = useMutation((mutation, args: {id: string}) => {
+    if(!activeUser?.id) return;
+ 
     const result = mutation.updateScheduleItems({where: {id: args.id}, update: {
         managers: [{connect: {where: {node: {id: activeUser?.id}}}}]
     }})
@@ -212,6 +216,7 @@ const slowData = slowResult.data;
 
 
   const [leaveCard, leaveInfo] = useMutation((mutation, args: {id: string}) => {
+    if(!activeUser?.id) return;
     const result = mutation.updateScheduleItems({where: {id: args.id}, disconnect: {
       managers: [{where: {node: {id: activeUser?.id}}}]
     }})
@@ -222,7 +227,7 @@ const slowData = slowResult.data;
   }, {
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.scheduleItems({where: {date_GT: horizon.start?.toISOString(), date_LT: horizon.end?.toISOString()}})],
+    refetchQueries: [],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -351,6 +356,7 @@ const slowData = slowResult.data;
           onDeleteItem={(item) => { 
             removeItem({args: {id: item.id}}).then((resp) => {
               console.log("Delete result")
+              refetchSchedule()
             })
           }}
           user={activeUser}
