@@ -29,9 +29,9 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
   const _addToDeselection = (item: any) => {
     let selected = selectedRight.slice();
     if(!selected.includes(item)){
-      selected.push(item)
+      selected.push(item.id)
     }else{
-      var ix = selected.indexOf(item);
+      var ix = selected.indexOf(item.id);
       selected.splice(ix, 1);
     }
     setRight(selected)
@@ -39,10 +39,10 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
 
   const _addToSelection = (item: any) => {
     let selected = selectedLeft.slice();
-    if(!selected.includes(item)){
-      selected.push(item)
+    if(!selected.includes(item.id)){
+      selected.push(item.id)
     }else{
-      var ix = selected.indexOf(item);
+      var ix = selected.indexOf(item.id);
       selected.splice(ix, 1);
     }
     setLeft(selected)
@@ -128,13 +128,13 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
         direction="row">
         <Box flex overflow="scroll">
           <List
-            onClickItem={({item}: any) => _addToSelection(item.id)}
+            onClickItem={({item}: any) => _addToSelection(item)}
             data={not(props.options, props.selected)}
             primaryKey="name"
             >
             {(item: any) => (
               <Box direction="row" align="center">
-                <CheckBox checked={selectedLeft.indexOf(item.id) > -1} onChange={(e) => _addToSelection(item.id)} />
+                <CheckBox checked={selectedLeft.indexOf(item.id) > -1} onChange={(e) => _addToSelection(item)} />
                 <Text margin={{left: 'small'}}>{item.name}</Text>
               </Box>
             )}
@@ -157,15 +157,12 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
         <Box flex overflow="scroll">
           <List
             primaryKey="name"
-            onClickItem={({item}: any) => _addToDeselection(item.id)}
-            data={props.selected.map((x) => ({
-              id: x,
-              ...props.options.find((a: any) => a.id == x)
-            }))}>
+            onClickItem={({item}: any) => _addToDeselection(item)}
+            data={props.selected}>
             {(item: any) => (
               <Box direction="row" align="center">
-                <CheckBox checked={selectedRight.indexOf(item.id) > -1} onChange={(e) => _addToDeselection(item.id)}/>
-                <Text margin={{left: 'small'}}>{item.name}</Text>
+                <CheckBox checked={selectedRight.indexOf(item.id) > -1} onChange={(e) => _addToDeselection(item)}/>
+                <Text margin={{left: 'small'}}>{item[props.labelKey || '']}</Text>
               </Box>
             )}
           </List>

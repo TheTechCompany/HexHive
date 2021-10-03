@@ -48,7 +48,7 @@ export interface ScheduleModalProps {
 
 export interface ISchedule {
   id?: string;
-  people?: Array<string | undefined | null>
+  people?: Array<{id?: string, name?: string}>
   equipment?: Array<string | undefined | null>
 
   project: {name: string, id: string};
