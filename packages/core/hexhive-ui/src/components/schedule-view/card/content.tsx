@@ -27,7 +27,7 @@ export const Content : React.FC<ContentProps> = ({data, users}) => {
                direction="column" 
                className="staff-container">
               {names.map((item: any) => item && (
-                    <Text size='small'>{item.name}</Text>
+                    <Text size='small'>{item?.name}</Text>
               ))}
            </Box>);
         }else{
@@ -37,17 +37,14 @@ export const Content : React.FC<ContentProps> = ({data, users}) => {
 
 
    const plantItems = () => {
-      const items = (data?.equipment || []).map((x: any) => {
-         return equipment?.find((a) => a.id == x);   
-  
-      });
+      const items = (data?.equipment || [])
       
       if(items.length > 0){
       return (
          <Box direction="column" className="plant-container">
             <Text weight="bold" size="small" className="plant-container-header">Plant required</Text>
-            {items.map((item: any) => (
-                  <Text size='small'>{item.name}</Text>
+            {items?.map((item: any) => (
+                  <Text size='small'>{item?.name}</Text>
             ))}
          </Box>
       );

@@ -6,7 +6,7 @@ export const DraftPane = (props) => {
 console.log(props)
 
 	const getHours = (item: any) => {
-		return item.items.reduce((prev, curr) => {
+		return item?.items?.reduce((prev, curr) => {
 			if(!prev[curr.location]) prev[curr.location] = 0;
 			prev[curr.location] += curr.estimate;
 			return prev;
@@ -24,7 +24,7 @@ console.log(props)
 			overflow="scroll"
 			gap="xsmall"
 			pad={{right: 'xxsmall'}}
-			width={props.drafts.length > 0 ? props.open ? '200px' : '42px' : 0}>
+			width={props.drafts.length > 0 ? props.open ? '200px' : '42px' : `0px`}>
         {props.drafts.filter((a) => a.project).map((x) => (
 			<Box round="small" 
 			background={stringToColor(`${x.project?.id} - ${props.projects.find((a) => a?.id == x.project?.id)?.name}`)}
