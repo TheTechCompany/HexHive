@@ -24,6 +24,24 @@ export const createUser = async (tx: Transaction, user: {
 	return result.records
 } 
 
+export const updateUserPassword = async (tx: Transaction, user: {
+	id: string,
+	password: string
+}) => {
+	const pwdHash = createHash('sha256').update(user.password).digest('hex');
+
+	const result = await tx.run(`
+		MATCH (user:HiveUser {id: $id})
+		SET user.password = $password
+		RETURN user
+	`, {
+		id: user.id,
+		password: pwdHash
+	})
+
+	return result.records
+}
+
 export const getUser = async (tx: Transaction, id: string) => {
 	const result = await tx.run(`
 		MATCH (user:HiveUser {id: $id})<-[:TRUSTS]-(org)
@@ -36,6 +54,21 @@ export const getUser = async (tx: Transaction, id: string) => {
 	})
 
 	console.log(id, result)
+
+	return result.records?.[0]?.get(0)
+}
+
+
+export const getUserByEmail = async (tx: Transaction, email: string) => {
+	const result = await tx.run(`
+		MATCH (user:HiveUser {username: $email})<-[:TRUSTS]-(org)
+		RETURN user{
+			.*,
+			organisation: org{ .* }
+		}
+	`, {
+		email
+	})
 
 	return result.records?.[0]?.get(0)
 }

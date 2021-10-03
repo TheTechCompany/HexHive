@@ -5,9 +5,27 @@ import { Provider } from "oidc-provider"
 import bodyParser from "body-parser"
 import { Account } from "../../Account"
 import assert from "assert"
-
-export const AuthRouter = () : Router => {
+import { getUserByEmail } from '@hexhive/data-core'
+import { Session } from 'neo4j-driver'
+import { sendPasswordReset } from "../../email"
+export const AuthRouter = (session: Session) : Router => {
 	const router = Router()
+
+	// router.post('/reset-password', async (req, res) => {
+	// 	const user = await session.readTransaction(async (tx) => {
+	// 		return await getUserByEmail(tx, req.body.email)
+	// 	})
+
+	// 	if(user){
+	// 		sendPasswordReset({
+	// 			requested: user.username,
+	// 			link: `https://next.hexhive.io/reset-password`
+	// 		})
+	// 		return res.send({result: "success"})
+	// 	}else{
+	// 		res.send({error: "No user found"})
+	// 	}
+	// })
 
 	router.post("/matrix_directory", async (req, res) => {
 		const search = {

@@ -52,7 +52,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 	router.get("/ipfs/:cid", async (req, res) => {
 		const readStream = new PassThrough()
         
-		const file_result = await fileManager.get(req.params.cid, (req as any).user.organisation)
+		const file_result = await fileManager.get(req.params.cid)
 
 		readStream.end(file_result)
 		console.log("Get file ", file_result, req.params.cid)
@@ -96,7 +96,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 			console.log(file)
 			const readStream = new PassThrough()
 
-			const file_result = await fileManager.get(file.cid || file.id, (req as any).user.organisation)
+			const file_result = await fileManager.get(file.cid || file.id)
 
 			readStream.end(file_result)
 			console.log("Get file ", file_result, file.cid)
@@ -114,7 +114,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		const result = await neo.writeTransaction(async (tx) => {
 			return await Promise.all(files.map(async (file) => {
 
-				const conversion = await createFile(tx, file, req.params.fileID)
+				const conversion = await createFile(tx, (req as any).user.organisation, file, req.params.fileID)
 
 				const res = await tx.run(`
 					MATCH (file:HiveFile {id: $id})
@@ -132,7 +132,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 	})
 
 	router.post("/file-graph", upload.array("files"), async (req, res) => {
-		console.log((req as any).user)
+		console.log("USER", (req as any).user)
 
 		const files = await uploadFiles(req.files as any[])
 
@@ -142,7 +142,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		const resp = await neo.writeTransaction(async (tx) => {
 			return await Promise.all(files.map(async (file) => {
                 
-				const item = await createFile(tx, file, cwd)
+				const item = await createFile(tx, (req as any).user.organisation, file, cwd)
 				if(!item) return;
 				return {
 					type: item.labels,
@@ -218,7 +218,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		if (file) {
 			const readStream = new PassThrough()
 
-			const file_result = await fileManager.get(file.cid || file.id, (req as any).user.organisation)
+			const file_result = await fileManager.get(file.cid || file.id)
 
 			readStream.end(file_result)
 			console.log("Get file ", file_result, file.cid)

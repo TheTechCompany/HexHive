@@ -6676,6 +6676,10 @@ export const generatedSchema = {
       __type: "HivePipelineRun",
       __args: { id: "ID", params: "[HivePipelineResourceInput]" },
     },
+    inviteHiveUser: {
+      __type: "String",
+      __args: { name: "String", email: "String" },
+    },
     createHiveServices: {
       __type: "CreateHiveServicesMutationResponse!",
       __args: { input: "[HiveServiceCreateInput!]!" },
@@ -14910,6 +14914,10 @@ export interface Mutation {
     id?: Maybe<Scalars["ID"]>;
     params?: Maybe<Array<Maybe<HivePipelineResourceInput>>>;
   }) => Maybe<HivePipelineRun>;
+  inviteHiveUser: (args?: {
+    name?: Maybe<Scalars["String"]>;
+    email?: Maybe<Scalars["String"]>;
+  }) => Maybe<ScalarsEnums["String"]>;
   createHiveServices: (args: {
     input: Array<HiveServiceCreateInput>;
   }) => CreateHiveServicesMutationResponse;

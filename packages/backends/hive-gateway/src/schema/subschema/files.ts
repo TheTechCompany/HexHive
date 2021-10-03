@@ -12,7 +12,7 @@ type HiveFile  @auth(rules: [
         where: {OR: [{fs: {organisation: {id: "$jwt.organisation"}} }, {parent: {fs: {organisation: {id: "$jwt.organisation"}}}}]}
     },
     {
-        operations: [UPDATE, CREATE],
+        operations: [UPDATE],
         bind: {OR: [{fs: {organisation: {id: "$jwt.organisation"}} }, {parent: {fs: {organisation: {id: "$jwt.organisation"}}}}]}
     }]) {
     id: ID! @id
@@ -24,18 +24,22 @@ type HiveFile  @auth(rules: [
     path_id: String
         @cypher(
             statement: """
-            MATCH path = (root:FileSystem)-[*1..]->(m:HiveFile)
-            WHERE m.id = this.id AND NOT ()-[:HAS_FILE]->(root)
-            WITH [node in nodes(path) | node.id] as trailNames
+            MATCH path = (root:FileSystem)-[:HAS_FILE]->(m:HiveFile {id: this.id})
+            OPTIONAL MATCH real = (root)-[:HAS_FILE]->(rootFolder)-[:CONTAINS *..]->(m)
+            WHERE NOT ()-[:CONTAINS]->(rootFolder)
+        
+            WITH [node in nodes(COALESCE(real, path)) | node.id] as trailNames
             RETURN COALESCE(\\"/\\" + apoc.text.join(trailNames, \\"/\\"), \\"/\\") 
             """
         )
     path: String
         @cypher(
             statement: """
-            MATCH path = (root:FileSystem)-[*1..]->(m:HiveFile)
-            WHERE m.id = this.id AND NOT ()-[:HAS_FILE]->(root)
-            WITH [node in nodes(path) | node.name] as trailNames
+            MATCH path = (root:FileSystem)-[:HAS_FILE]->(m:HiveFile {id: this.id})
+            OPTIONAL MATCH real = (root)-[:HAS_FILE]->(rootFolder)-[:CONTAINS *..]->(m)
+            WHERE NOT ()-[:CONTAINS]->(rootFolder)
+        
+            WITH [node in nodes(COALESCE(real, path)) | node.name] as trailNames
             RETURN COALESCE(\\"/\\" + apoc.text.join(trailNames, \\"/\\"), \\"/\\") 
             """
         )

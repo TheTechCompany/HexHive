@@ -1,5 +1,9 @@
 export default `
 
+	extend type Mutation {
+		inviteHiveUser(name: String, email: String): String
+	}
+
 	type HiveOrganisation @auth(rules: [
 		{operations: [READ], where: {id: "$jwt.organisation"}},
 		{operations: [UPDATE, DELETE], bind: {id: "$jwt.organisation"}}
@@ -10,7 +14,7 @@ export default `
 		roles: [Role] @relationship(type: "USES_ROLE", direction: OUT)
 		members: [HiveUser] @relationship(type: "TRUSTS", direction: OUT)
 		appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
-		
+
 		filesystems: [FileSystem] @relationship(type: "HAS_FS", direction: OUT)
 	}
 
@@ -20,7 +24,8 @@ export default `
 	]) {
 		id: ID! @id
 		name: String
-		email: String
+		username: String
+		password: String
 		roles: [Role] @relationship(type: "HAS_ROLE", direction: OUT)
 		organisation: HiveOrganisation @relationship(type: "TRUSTS", direction: IN)
 	}

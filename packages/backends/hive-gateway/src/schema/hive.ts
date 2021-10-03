@@ -16,6 +16,8 @@ import { Kafka } from "kafkajs"
 import { createTask, createWorkflow } from "../task-registry/yml-templater"
 import { getPortEnv } from "../routes/pipelines/util"
 import acl from "./subschema/acl"
+import { createHash } from "crypto"
+import { sendInvite } from "../email"
 
 require("dotenv").config()
 
@@ -77,6 +79,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 
 	const ogm = new OGM({typeDefs, driver})
 	const HiveOrganisation = ogm.model("HiveOrganisation")
+	const HiveUser = ogm.model("HiveUser")
 
 	const HiveFileProcess = ogm.model("HiveFileProcess")
 
@@ -109,6 +112,40 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 			// }
 		},
 		Mutation: {
+			inviteHiveUser: async (root: any, args: {name: string, email: string}, context: any) => {
+				const users = await HiveUser.find({where: {username: args.email}, selectionSet: `
+					{
+						id
+						name
+						username
+					}
+				`})
+
+				let user = users[0]
+				let q = {};
+				
+				const pwd = nanoid()
+
+				const pwdHash = createHash('sha256').update(pwd).digest("hex")
+				if(user){
+					q = {connect: {where: {node: {id: user.id}}}}
+				}else{
+					q = {create: {node: { name: args.name, username: args.email, password: pwdHash}}}
+				}
+				const update = await HiveOrganisation.update({
+					update: {
+						members: [q]
+					}
+				})
+
+				await sendInvite({
+					to: args.email, 
+					sender: context.user.name, 
+					receiver: args.name, 
+					link: `https://auth.hexhive.io/signup`
+				})
+				return "Invited"
+			},
 			updateHiveOrganisations: async (root: any, args: any, context: any) => {
 				if(!args.where) args.where = {}
 				if(args.where && !args.where.id){

@@ -1,5 +1,5 @@
 import { Mutation, useMutation } from "@hexhive/client";
-
+import { useAuth } from '@hexhive/auth-ui'
 export const moveFile = (mutation: Mutation) => {
 	const fs = mutation.updateHiveFiles({
 		where: { name: 'Second Folder' },
@@ -18,12 +18,13 @@ export const moveFile = (mutation: Mutation) => {
 	}
 }
 
-export const addFolder = (mutation: Mutation, args: { name: string, cwd: string }) => {
+export const addFolder = (mutation: Mutation, args: { organisation: string, name: string, cwd: string }) => {
+
 	let fs;
 	if (args.cwd) {
 		console.log(args.cwd)
 		let file = mutation.updateFileSystems({
-			where: {name: "Shared FS"},
+			where: {organisation: {id: args.organisation}},
 			update: {
 				files: [{create: [{node: {
 						name: args.name,
@@ -61,8 +62,9 @@ export const addFolder = (mutation: Mutation, args: { name: string, cwd: string 
 	} else {
 		console.log("Root addition")
 		fs = mutation.updateFileSystems({
-			where: { name: 'Shared FS' }, create: {
-				files: [{ node: { name: args.name, isFolder: true, fs: {connect: {where: {node:{name: "Shared FS"}}}} } }]
+			where: {organisation: {id: args.organisation}},
+			create: {
+				files: [{ node: { name: args.name, isFolder: true } }]
 			}
 		})
 		return {
