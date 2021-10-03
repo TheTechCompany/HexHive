@@ -35,11 +35,48 @@ jobs:
           aws s3 sync packages/core-apps/hexhive-io/dist/ s3://${{ secrets[env.BUCKET_URL] }} --delete
 
 
+  build_coreapps:
+    runs-on: ubuntu-latest
+    strategy: 
+      matrix:
+        apps: [hivedashboard, hiveautomate, hivefiles, hivebuild, hivemarket, hivesettings]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.x
+      - run: yarn
+
+      - run: lerna bootstrap --scope @hexhive-coreapps/${{ matrix.apps }} --include-dependencies
+
+      - run: export REACT_APP_API="https://api.hexhive.io"
+      - run: export REACT_APP_URL="https://go.hexhive.io"
+      - run: export PUBLIC_PATH="https://apps.hexhive.io/${{matrix.apps}}/"
+      
+      - name: Build web
+        run: (export REACT_APP_URL="https://go.hexhive.io" PUBLIC_PATH="https://apps.hexhive.io/${{matrix.apps}}/" REACT_APP_API="https://api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive-coreapps/${{ matrix.apps }} --include-dependencies)
+      
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with: 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+      
+      - name: Make Bucket URL
+        run: echo "BUCKET_URL=S3_${{matrix.apps}}_BUCKET" | tr a-z A-Z >> $GITHUB_ENV
+
+      - name: Upload new web-build
+        run: |
+          aws s3 sync packages/core-apps/${{ matrix.apps }}/dist/ s3://${{ secrets.APP_BUCKET }}/${{matrix.apps}} --delete
+
+
   build_web:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        apps: [hivedashboard, hiveflow, hivecommand]
+        apps: [hiveflow, hivecommand, hive3d]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
