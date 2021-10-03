@@ -11,10 +11,12 @@ import { AuthContext, useAuth } from '@hexhive/auth-ui';
 import { useEffect } from 'react';
 import { Menu, Previous, Next } from 'grommet-icons';
 import {DraftPane } from './draft-pane';
-import { useQuery as useApollo, gql } from '@apollo/client';
+import { useQuery as useApollo, gql, useApolloClient } from '@apollo/client';
 export const Schedule : React.FC<any> = (props) =>  {
 
   const { activeUser } = useAuth()
+
+  const client = useApolloClient();
 
   const [ horizon, setHorizon ] = useState<{start: Date, end: Date}>({
     start: new Date( moment(new Date()).startOf('isoWeek').valueOf() ),
@@ -35,6 +37,26 @@ export const Schedule : React.FC<any> = (props) =>  {
   // const [schedule, setSchedule] = useState<any[]>([])//?.map((x) => ({...x, project: x?.project})) || [];
 //query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})
 
+const { data: slowData } = useApollo(gql`
+query Slow {
+  hiveUsers {
+    id
+    name
+  }
+  people {
+    id
+    name
+  }
+  projects{
+    id
+    name
+  }
+  equipment {
+    id
+    name
+  }
+}
+`)
   const {data } = useApollo(gql`
    query Q {
     scheduleItems {
@@ -62,34 +84,24 @@ export const Schedule : React.FC<any> = (props) =>  {
         name
       }
     }
-    hiveUsers {
-      id
-      name
-    }
-    people {
-      id
-      name
-    }
-    projects{
-      id
-      name
-    }
-    equipment {
-      id
-      name
-    }
+   
   }
   `)
 
+  const refetchSchedule = () => {
+    client.refetchQueries({
+      include: ['Q']
+    })
+  }
   console.log(data)
 
   const schedule = data?.scheduleItems || []//query.scheduleItems({where: {date_GT: horizon.start?.toISOString(), date_LT: horizon.end?.toISOString()}})
 
-  const projects = data?.projects || []// query.projects({})?.map((x) => ({...x})) || [];
-  const people = data?.people || []// query.people({})?.map((x) => ({...x})) || [];
-  const equipment = data?.equipment || [] //query.equipment({})?.map((x) => ({...x})) || []
+  const projects = slowData?.projects || []// query.projects({})?.map((x) => ({...x})) || [];
+  const people = slowData?.people || []// query.people({})?.map((x) => ({...x})) || [];
+  const equipment = slowData?.equipment || [] //query.equipment({})?.map((x) => ({...x})) || []
 
-  const users = data?.hiveUsers || [] //query.hiveUsers({})?.map((x) => ({...x})) || []
+  const users = slowData?.hiveUsers || [] //query.hiveUsers({})?.map((x) => ({...x})) || []
 
   const [createItem, info] = useMutation((mutation, args: {item: any}) => {
     const result = mutation.updateHiveOrganisations({ 
@@ -231,7 +243,8 @@ export const Schedule : React.FC<any> = (props) =>  {
           onHorizonChanged={async (start, end) => {
             console.log("Horizon", start, end)
             setHorizon({start, end})
-
+            
+            refetchSchedule()
             // scheduleActions.getScheduleItems({start, end}, '').then((schedule) => {
             //   setSchedule(schedule)
             //   console.log("Schedule", schedule);

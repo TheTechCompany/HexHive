@@ -7,7 +7,7 @@ import {TransferList} from '../../../transfer-list';
 export default class StaffTab extends Component<any, any> {
 
   not(a: any[], b: any[]){
-    return a.filter(value => b.indexOf(value) === -1);
+    return a.filter(value => b.map((x) => x.id).indexOf(value.id) === -1);
   }
   
   onAdd(items: any[]){
