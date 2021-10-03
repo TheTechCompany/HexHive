@@ -1,5 +1,6 @@
 {
   "name": "@hexhive/header",
+  "version": "0.0.5",
   "scripts": {
     "start": "webpack serve --port 8515",
     "start:standalone": "webpack serve --env standalone",
