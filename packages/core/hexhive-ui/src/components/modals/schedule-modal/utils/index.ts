@@ -19,7 +19,7 @@ export const getManagers = (owner?: string, managers?: Array<string| undefined |
 
   export const isJoined = (me: IUser, jobData: ISchedule | null, newList: string[], removeList: string[]) => {
       if(!jobData) return;
-    let isManager = jobData && jobData.managers && jobData.managers.indexOf(me.id) > -1;
+    let isManager = jobData && jobData.managers && jobData.managers.map((x) => x.id).indexOf(me.id) > -1;
     let isTemp = newList.indexOf(me.id) > -1
     let isOwner = jobData && jobData.owner?.id == me.id
     let notRemoved = removeList.indexOf(me?.id) < 0; 

@@ -33,10 +33,7 @@ const Quotes: React.FC<any> = (props) => {
     staleWhileRevalidate: true
   })
 
-  const listData = query.QuoteMany()?.map((x) => ({
-    ...x,
-    id: parseInt(x?.id || '0')
-  }))
+  const listData = query.estimates()
 
   useEffect(() => {
     // utils.quote.getAll().then((quotes) => {
