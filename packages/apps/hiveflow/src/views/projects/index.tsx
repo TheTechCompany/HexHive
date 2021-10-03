@@ -3,8 +3,8 @@ import React, {
 }from 'react'
 
 import {Switch, Route} from 'react-router-dom';
-import {SingleJob} from './job-one';
-import {JobList} from './job-list';
+import {ProjectSingle} from './single';
+import {ProjectList} from './list';
 
 export default class JobContainer extends Component<any, any> {
 	constructor(props: any){
@@ -17,8 +17,8 @@ export default class JobContainer extends Component<any, any> {
 	render(){
 		return(
 			<Switch> 
-				<Route path = {`${this.props.match.url}/:job`} component = {SingleJob} />
-				<Route exact path = {`${this.props.match.url}`} component = {JobList} />
+				<Route path = {`${this.props.match.url}/:job`} component = {ProjectSingle} />
+				<Route exact path = {`${this.props.match.url}`} component = {ProjectList} />
 			</Switch>
 		);
 	}

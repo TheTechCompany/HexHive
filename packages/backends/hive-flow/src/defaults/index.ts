@@ -22,13 +22,13 @@ const addBlob = (blob: {GraphQueries: any, GraphMutations: any}) => {
 
 export const schema = (connector: Connector) => {
 
-    addBlob(projectQueries(connector))
-    addBlob(quoteQueries(connector))
+    // addBlob(projectQueries(connector))
+    // addBlob(quoteQueries(connector))
     addBlob(equipmentQueries(connector))
-    addBlob(scheduleQueries(connector))
-    addBlob(timelineQueries(connector))
+    // addBlob(scheduleQueries(connector))
+    // addBlob(timelineQueries(connector))
 
-    addBlob(peopleQueries(connector))
+    // addBlob(peopleQueries(connector))
 
     return schemaComposer.buildSchema()
 }

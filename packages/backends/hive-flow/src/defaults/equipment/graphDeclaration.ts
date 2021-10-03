@@ -24,16 +24,16 @@ import { schemaComposer } from "graphql-compose"
 //     }
 // })
 
-const EquipmentTC = schemaComposer.createObjectTC({
-    name: 'Equipment',
-    fields: {
-        id: "ID",
-        name: "String",
-        registration: "String",
-        status: "String"
-    }
-})
+// const EquipmentTC = schemaComposer.createObjectTC({
+//     name: 'Equipment',
+//     fields: {
+//         id: "ID",
+//         name: "String",
+//         registration: "String",
+//         status: "String"
+//     }
+// })
 
 export {
-    EquipmentTC
+    // EquipmentTC
 } 

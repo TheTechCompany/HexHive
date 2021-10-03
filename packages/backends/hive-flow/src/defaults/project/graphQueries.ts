@@ -31,74 +31,74 @@ import { nanoid } from "nanoid";
 
 const Queries = (connector: Connector) => {
     let query :  ObjectTypeComposerFieldConfigMapDefinition<any, any> = {
-    ProjectById: {
-        type: 'Project',
-        args: {
-            id: 'ID'
-        },
-        resolve: async (root, args) => {
-            let query = `SELECT JobID as id, JobName as name, status FROM dbo.vw_Sched_Jobs WHERE JobID=@jobID`;
-            let request = new sql.Request(connector.pool)
-            request.input('jobID', sql.Int, parseInt(args.id))
+    // ProjectById: {
+    //     type: 'Project',
+    //     args: {
+    //         id: 'ID'
+    //     },
+    //     resolve: async (root, args) => {
+    //         let query = `SELECT JobID as id, JobName as name, status FROM dbo.vw_Sched_Jobs WHERE JobID=@jobID`;
+    //         let request = new sql.Request(connector.pool)
+    //         request.input('jobID', sql.Int, parseInt(args.id))
 
-            const result = await request.query(query)
-            console.log(result)
-            return result.recordset[0];
-        }
-    },
-    ProjectMany: {
-        type: '[Project]',
-        args: {
-            status: "String",
-            statusList: "[String]",
-            startDate: "Date",
-            endDate: "Date"
-        },
-        resolve: async (root, args, context) => {
-            console.log(context.user)
-            //TODO add OR operator to status search
-            let request = new sql.Request(connector.pool)
+    //         const result = await request.query(query)
+    //         console.log(result)
+    //         return result.recordset[0];
+    //     }
+    // },
+    // ProjectMany: {
+    //     type: '[Project]',
+    //     args: {
+    //         status: "String",
+    //         statusList: "[String]",
+    //         startDate: "Date",
+    //         endDate: "Date"
+    //     },
+    //     resolve: async (root, args, context) => {
+    //         console.log(context.user)
+    //         //TODO add OR operator to status search
+    //         let request = new sql.Request(connector.pool)
 
-            let sqlQuery = "select JobID as id, JobName as name, status from dbo.vw_Sched_Jobs";
+    //         let sqlQuery = "select JobID as id, JobName as name, status from dbo.vw_Sched_Jobs";
 
-            let whereClauses = [];
+    //         let whereClauses = [];
 
-            if(args.status || args.statusList || args.startDate || args.endDate) sqlQuery += " WHERE ";
+    //         if(args.status || args.statusList || args.startDate || args.endDate) sqlQuery += " WHERE ";
 
-            if(args.status && !args.statusList){
-                whereClauses.push(`status=@status`)
-                request.input('status', sql.VarChar, args.status)
-            }else if(args.statusList){
-                let multiWhere : any[] = [];
-                args.statusList.forEach((status: string, ix: number) => {
-                    let id = nanoid();
-                    multiWhere.push(`status=@status_${ix}`)
-                    request.input(`status_${ix}`, sql.VarChar, status)
-                })
+    //         if(args.status && !args.statusList){
+    //             whereClauses.push(`status=@status`)
+    //             request.input('status', sql.VarChar, args.status)
+    //         }else if(args.statusList){
+    //             let multiWhere : any[] = [];
+    //             args.statusList.forEach((status: string, ix: number) => {
+    //                 let id = nanoid();
+    //                 multiWhere.push(`status=@status_${ix}`)
+    //                 request.input(`status_${ix}`, sql.VarChar, status)
+    //             })
 
-                whereClauses.push(`( ${multiWhere.join(' OR ')} )`)
-            }
+    //             whereClauses.push(`( ${multiWhere.join(' OR ')} )`)
+    //         }
             
-            if(args.startDate && args.endDate){
-                let startDate = moment(new Date(args.startDate)).format("DD/MM/YYYY")
-                let endDate = moment(new Date(args.endDate)).format("DD/MM/YYYY");
+    //         if(args.startDate && args.endDate){
+    //             let startDate = moment(new Date(args.startDate)).format("DD/MM/YYYY")
+    //             let endDate = moment(new Date(args.endDate)).format("DD/MM/YYYY");
 
-                console.log(startDate, endDate)
-                whereClauses.push(`CONVERT(date, StartDate, 103) <= CONVERT(date, @endTime, 103) AND \
-                CASE \
-                    WHEN DurationType = 'Weeks'    THEN DATEADD(DAY, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 7)), CONVERT(date, StartDate, 103)) \
-                    WHEN DurationType = 'Man Days' THEN DATEADD(HOUR, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 24)), CONVERT(datetime, StartDate, 103)) \
-                    WHEN DurationType = 'Months'   THEN DATEADD(DAY, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 30)), CONVERT(date, StartDate, 103)) \
-                END >= CONVERT(date, @startTime, 103)`)
-                request.input('startTime', sql.VarChar, startDate)
-                request.input('endTime', sql.VarChar, endDate)
-            }
+    //             console.log(startDate, endDate)
+    //             whereClauses.push(`CONVERT(date, StartDate, 103) <= CONVERT(date, @endTime, 103) AND \
+    //             CASE \
+    //                 WHEN DurationType = 'Weeks'    THEN DATEADD(DAY, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 7)), CONVERT(date, StartDate, 103)) \
+    //                 WHEN DurationType = 'Man Days' THEN DATEADD(HOUR, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 24)), CONVERT(datetime, StartDate, 103)) \
+    //                 WHEN DurationType = 'Months'   THEN DATEADD(DAY, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 30)), CONVERT(date, StartDate, 103)) \
+    //             END >= CONVERT(date, @startTime, 103)`)
+    //             request.input('startTime', sql.VarChar, startDate)
+    //             request.input('endTime', sql.VarChar, endDate)
+    //         }
 
-            console.log(sqlQuery + whereClauses.join(' AND '))
+    //         console.log(sqlQuery + whereClauses.join(' AND '))
 
-            return (await request.query(sqlQuery + whereClauses.join(' AND '))).recordset
-        }
-    },
+    //         return (await request.query(sqlQuery + whereClauses.join(' AND '))).recordset
+    //     }
+    // },
     UserMany: {
         type: '[User]',
         resolve: async () => {
@@ -130,29 +130,29 @@ return query;
 
 const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefinition<any, any>  => {
     return {
-    addProject: {
-        type: 'Project',
-        args: {
-            project: "ProjectInput"
-        },
-        resolve: async (root, args) => {
-            let project = new Project({
-                ...args.project
-            })
+    // addProject: {
+    //     type: 'Project',
+    //     args: {
+    //         project: "ProjectInput"
+    //     },
+    //     resolve: async (root, args) => {
+    //         let project = new Project({
+    //             ...args.project
+    //         })
 
-            return await project.save();
-        }
-    },
-    updateProject: {
-        type: 'Project',
-        args: {
-            id: "String",
-            project: "ProjectInput"
-        },
-        resolve: () => {
-            console.log("Update project")
-        }
-    },
+    //         return await project.save();
+    //     }
+    // },
+    // updateProject: {
+    //     type: 'Project',
+    //     args: {
+    //         id: "String",
+    //         project: "ProjectInput"
+    //     },
+    //     resolve: () => {
+    //         console.log("Update project")
+    //     }
+    // },
     removeFileFromProject: {
         type: 'Boolean',
         args: {

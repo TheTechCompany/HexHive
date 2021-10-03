@@ -15,6 +15,7 @@ export default `
 		members: [HiveUser] @relationship(type: "TRUSTS", direction: OUT)
 		appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
 
+		schedule: [ScheduleItem] @relationship(type: "SCHEDULE", direction: OUT)
 		filesystems: [FileSystem] @relationship(type: "HAS_FS", direction: OUT)
 	}
 

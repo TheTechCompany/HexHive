@@ -7,12 +7,12 @@ import React, {
 import { RouteComponentProps } from 'react-router-dom';
 
 // import { useQuery } from '../../../gqless';
-import { JobHeader } from './header';
+import { Header } from './header';
 
-export interface JobListProps extends RouteComponentProps {
+export interface ProjectListProps extends RouteComponentProps {
 }
 
-export const JobList : React.FC<JobListProps> = (props) => {
+export const ProjectList : React.FC<ProjectListProps> = (props) => {
   
   const [ filter, setFiler ] = useState<any>({})
 
@@ -31,7 +31,7 @@ export const JobList : React.FC<JobListProps> = (props) => {
     staleWhileRevalidate: true
   })
 
-  const projects = query.ProjectMany();
+  const projects = query.projects({})
 
 
   const selectJob = (job : {JobID: string}) => {
@@ -77,7 +77,7 @@ export const JobList : React.FC<JobListProps> = (props) => {
         flex
         direction="column">
      
-      <JobHeader 
+      <Header 
         filter={filter}
         onFilterChange={(filter) => setFiler(filter)}
         jobs={projects || []} />
