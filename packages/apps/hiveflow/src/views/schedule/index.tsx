@@ -193,17 +193,19 @@ const slowData = slowResult.data;
   })
 
   const [joinCard, joinInfo] = useMutation((mutation, args: {id: string}) => {
-    const result = mutation.updateScheduleItems({where: {id: args.id}, connect: {
-        managers: [{where: {node: {id: activeUser?.id}}}]
+    const result = mutation.updateScheduleItems({where: {id: args.id}, update: {
+        managers: [{connect: {where: {node: {id: activeUser?.id}}}}]
     }})
     return {
-      item: result,
+      item: {
+        ...result.scheduleItems[0]
+      },
       error: null
     }
   }, {
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.scheduleItems({where: {date_GT: horizon.start?.toISOString(), date_LT: horizon.end?.toISOString()}})],
+    refetchQueries: [],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -270,6 +272,7 @@ const slowData = slowResult.data;
           onJoinCard={(card: any) => {
             joinCard({args: {id: card.id}}).then((resp) => {
               console.log("JOin", card, resp);
+              refetchSchedule()
             })
 
           }}

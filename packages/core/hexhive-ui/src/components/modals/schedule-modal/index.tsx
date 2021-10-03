@@ -53,7 +53,7 @@ export interface ISchedule {
 
   project: {name: string, id: string};
   notes: Array<string | undefined | null>,
-  managers?: Array<string | undefined | null>;
+  managers?: Array<{id?: string, name?: string}>;
   owner?: {id: string, name: string};
   date?: Date;
 }
@@ -340,7 +340,7 @@ console.log(output)
 
             <ManagerList 
               users={props.users}
-              managers={getManagers(item?.owner?.id || props.user?.sub || '', item?.managers || [], managerList.add, managerList.remove)}/>
+              managers={getManagers(item?.owner?.id || props.user?.sub || '', item?.managers?.map((x) => x.id) || [], managerList.add, managerList.remove)}/>
           </Box>
         </Box>
 

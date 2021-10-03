@@ -55,7 +55,7 @@ export const Content : React.FC<ContentProps> = ({data, users}) => {
 
    const renderInfo = () => {
     let content = [
-     <AvatarList size={24} users={([data?.owner?.id].concat(data?.managers?.map((x) => x || '') || [])).map((x) => {
+     <AvatarList size={24} users={([data?.owner?.id].concat(data?.managers?.map((x) => x.id || '') || [])).map((x) => {
         if(users && users.length > 0){
          let user = users.find((a: any) => a.id == x)
          return {

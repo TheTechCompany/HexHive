@@ -494,7 +494,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     }
 
-    const createTimelinePlan = (plan: { id?: string, project?: { id?: string, type?: string }, notes?: string[], items?: any[], startDate?: Date, endDate?: Date }) => {
+    const createTimelinePlan = (plan: { id?: string, project?: { id?: string, type?: string }, notes?: string, items?: any[], startDate?: Date, endDate?: Date }) => {
         if (plan.id) {
             console.log("Update", plan)
 
