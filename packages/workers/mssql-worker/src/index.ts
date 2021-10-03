@@ -6,6 +6,7 @@ import { EventEmitter } from 'events'
 import mssql from 'mssql';
 import { WorkerTask } from './task';
 import Patch from '@hexhive/patch'
+import { dateReviver } from 'jsondiffpatch'
 
 export class MSSQLWorker extends EventEmitter {
 
@@ -39,25 +40,37 @@ export class MSSQLWorker extends EventEmitter {
 		this.pool = await mssql.connect(this.config)
 		// await this.discover();
 		this.task.forEach((task) => {
-			setInterval(this.poll.bind(this, task), 2000)
+			setInterval(this.poll.bind(this, task), 10000)
 		})
 	}
 
 	getQuery(task: WorkerTask){
 		let sql = 'SELECT ';
 
-		sql += task.collect && task.collect.length > 0 ? task.collect.map((x) => typeof(x) == "string" ? x : x.key).join(', ') : '*'
+		let keys = [...new Set(task.collect.reduce<any[]>((prev, curr) => {
+			return prev.concat(curr.keys ? curr.keys : [curr.key])
+		}, []))]
+		sql += task.collect && task.collect.length > 0 ? keys.join(', ') : '*'
 		sql += ' FROM ' + task.family.cluster
 
+		if(task.join?.inner){
+			sql += ` INNER JOIN ${task.join.inner.join} ON ${task.join.inner.on}`
+		}
+
+		console.log(sql)
 		return sql;
 	}
 
 	newItem(task: WorkerTask, value: any){
-		this.emit(`NEW`, {value, id: task.family.cluster})
+		this.emit(`NEW`, {value: JSON.parse(JSON.stringify(value), dateReviver), id: task.family.cluster})
 	}
 
 	updatedItem(task: WorkerTask, ix: number, value: any){
-		this.emit(`UPDATE`, {valueId: this.patcher[task.family.cluster].find(ix)[task.family.species], value, id: task.family.cluster})
+		this.emit(`UPDATE`, {
+			valueId: this.patcher[task.family.cluster].find(ix)[task.collect.find((a) => a.key == task.family.species)?.to || ''], 
+			value, 
+			id: task.family.cluster
+		})
 	}
 
 	removedItem(){
@@ -80,14 +93,36 @@ export class MSSQLWorker extends EventEmitter {
 		let q = this.getQuery(task)
 
 		const result_q = await mssql.query(q)
+		console.log("FIND", result_q.recordset.find((a) => a.QuoteID == 1687))
 		let result : any[] = result_q.recordset.map((item) => {
 			return task.collect.map((collect) => {
 				if(typeof(collect) == "object"){
 					switch(collect.type){
 						case 'Date':
-							return {[collect.key]: new Date(item[collect.key])}
+							return {[collect.to]: item[collect.key] /*new Date(item[collect.key])*/}
+						case 'Function':
+							let script = `
+							function textToDurationType(duration){
+								switch(duration){
+									case 'Weeks':
+										return 7;
+									case 'Man Days':
+										return 1;
+									case 'Months':
+										return 28;
+								}
+							}
+							${collect.keys?.map((key) => `let ${key} = "${item[key].toString()}";`).join(`\n`)}	
+							function math(){
+							${collect.math}
+							}
+							math()`
+							// console.log(eval(script))
+							// console.log(collect.to, eval(script))
+							return {[collect.to]: eval(script)}
+							break;
 						default:
-							return {[collect.key]: item[collect.key]}
+							return {[collect.to]: item[collect.key]}
 					}
 					// if(collect.type == "Date"){
 						// return 
@@ -106,12 +141,14 @@ export class MSSQLWorker extends EventEmitter {
 				if(!prev_state) { 
 					prev_state = {...curr}
 				}else{
-					prev_state[task.reduce?.sum || ''] += curr[task.reduce?.sum || '']
+					prev_state[task.reduce?.to || ''] += curr[task.reduce?.sum || '']
 				}
+
+				// console.log(prev_state, task.reduce)
 				
 				return {
 					...prev,
-					[curr[task.reduce?.key || '']]: {
+					[`${curr[task.reduce?.key || '']}`]: {
 						...prev_state
 					}
 				}

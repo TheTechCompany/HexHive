@@ -23,6 +23,7 @@
   "dependencies": {
     "@hexhive/patch": "^1.0.0",
     "dotenv": "^10.0.0",
+    "jsondiffpatch": "^0.4.1",
     "mssql": "^7.2.1",
     "yargs": "^17.2.1"
   }

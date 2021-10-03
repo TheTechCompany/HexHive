@@ -22,11 +22,12 @@ const kafka = new Kafka({
     brokers: [KAFKA_URL]
 })
 
-const TOPIC = 'DATA-IN-01';
+const TOPIC = 'LOAD-STREAM';
 
 interface HiveEvent {
     id: string;
     type: string;
+    primaryKey: string;
     data: any;
     actions: "CREATE" | "UPDATE";
 }
@@ -76,6 +77,7 @@ const main = async () => {
 		user: process.env.SQL_USER,
 		password: process.env.SQL_PASSWORD,
 		database: process.env.SQL_DB,
+        stream: true,
 		options: {
 			trustServerCertificate: process.env.SQL_TRUST_CERT ? true : false
 		}
@@ -84,6 +86,7 @@ const main = async () => {
 	await worker.start()
 
     worker.on('NEW', async (event: any) => {
+        const new_task = task.find((a: any) => a.family.cluster == event.id)
         await producer.send({
             topic: TOPIC,
             messages: [
@@ -91,7 +94,9 @@ const main = async () => {
                     value: JSON.stringify({
                         action: 'CREATE',
                         data: event.value,
-                        type: task.find((a: any) => a.family.cluster == event.id)?.type
+                        primaryKey: new_task?.family.species,
+                        id: event.value[new_task?.family.species],
+                        type: new_task?.type
                     })
                 }
             ]
