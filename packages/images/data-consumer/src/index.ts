@@ -20,11 +20,13 @@ const kafka = new Kafka({
     brokers: [KAFKA_URL]
 })
 
-const TOPIC = 'DATA-IN-01';
+const TOPIC = 'LOAD-STREAM';
 
 interface HiveEvent {
     id: string;
     type: string;
+    primaryKey: string;
+    data: any;
     actions: "CREATE" | "UPDATE";
 }
 
@@ -92,6 +94,19 @@ const main = async () => {
 
                 switch(json.action){
                     case 'CREATE':
+                        const items =  await session.run(`
+                            MATCH (org:HiveOrganisation {id: "6109254ac84bdb80e6b027e0"})
+                            MATCH (org)-[:HAS_${json.type.toUpperCase()}]->(item:${json.type} {${json.primaryKey}: $${json.primaryKey}})
+                            ${Object.keys(json.data[0]).map((key) => `SET item.${key} = $${key}`).join('\n')}
+                            RETURN item
+                        `, {
+                            [json.primaryKey]: json.id,
+                            ...json.data[0]
+                        })
+                        if(items.records.length < 1){
+
+                        
+
                         await session.run(`
                             MATCH (org:HiveOrganisation {id: "6109254ac84bdb80e6b027e0"})
                             CREATE (item:${json.type} {${Object.keys(json.data[0]).map((key) => `${key}: $${key}`).join(', ')}})
@@ -99,6 +114,7 @@ const main = async () => {
                         `, {
                             ...json.data[0]
                         })
+                    }
                         break;
                     case 'UPDATE':
                     console.log("UPDATE", json)  

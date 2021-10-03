@@ -4,6 +4,7 @@ export interface WorkerTask {
 		cluster: string, //Collection/Table/Type
 		species: string, //KEY
 	},
-	reduce?: {key: string, sum?: string}
-	collect: [string | {key: string, type: string}]
+	join?: {inner: {join: string, on: string}}
+	reduce?: {key: string, to: string, sum?: string}
+	collect: [{key: string, to: string, type: string, math?: string, keys?: string[]}]
 }
