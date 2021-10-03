@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/ui",
-  "version": "0.0.5-alpha.0",
+  "version": "0.0.6-alpha.0",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -63,9 +63,9 @@
   "dependencies": {
     "@babylonjs/core": "5.0.0-alpha.6",
     "@babylonjs/loaders": "5.0.0-alpha.6",
-    "@hexhive/styles": "^0.0.4-alpha.0",
-    "@hexhive/types": "^0.0.5-alpha.0",
-    "@hexhive/utils": "^0.0.5-alpha.0",
+    "@hexhive/styles": "^0.0.6-alpha.0",
+    "@hexhive/types": "^0.0.6-alpha.0",
+    "@hexhive/utils": "^0.0.6-alpha.0",
     "@remirror/core-utils": "^1.1.0",
     "@remirror/pm": "^1.0.1",
     "@remirror/react": "^1.0.2",
