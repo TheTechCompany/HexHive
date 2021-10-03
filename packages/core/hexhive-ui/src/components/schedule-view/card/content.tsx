@@ -18,9 +18,8 @@ export const Content : React.FC<ContentProps> = ({data, users}) => {
     const { people, equipment, projects } = useContext(ScheduleViewContext)
 
     const staffNames = () => {
-        const names = (data?.people || []).map((x: any) => {
-          return people?.find((a) => a.id == x)
-        });
+        const names = data?.people || []
+
         if(names?.length > 0){
         return (
            <Box 

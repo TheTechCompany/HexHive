@@ -24,7 +24,7 @@ console.log(props)
 			overflow="scroll"
 			gap="xsmall"
 			pad={{right: 'xxsmall'}}
-			width={props.open ? '200px' : '42px'}>
+			width={props.drafts.length > 0 ? props.open ? '200px' : '42px' : 0}>
         {props.drafts.filter((a) => a.project).map((x) => (
 			<Box round="small" 
 			background={stringToColor(`${x.project?.id} - ${props.projects.find((a) => a?.id == x.project?.id)?.name}`)}
