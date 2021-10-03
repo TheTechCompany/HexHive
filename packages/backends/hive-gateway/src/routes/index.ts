@@ -12,7 +12,7 @@ import cookieParser from "cookie-parser"
 import { Provider } from "oidc-provider"
 import { requiresAuth } from "express-openid-connect"
 import { FileManager } from "./files/util"
-import { Driver } from "neo4j-driver"
+import { Driver, session } from "neo4j-driver"
 import { TaskRegistry } from "../task-registry"
 import { HiveEvents } from "@hexhive/events-client"
 // import { InteractionRouter } from './interaction';
@@ -53,7 +53,7 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 	router.use(cors(corsOptions))
 
 	// router.use('/interaction', InteractionRouter())
-	router.use("/oauth", AuthRouter())
+	router.use("/oauth", AuthRouter(neo_session))
 
 	router.use(['/api/files'],  requiresAuth(), async (req, res, next) => {
 		if(!req.oidc.accessToken) return next("No access token present");

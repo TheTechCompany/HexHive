@@ -148,7 +148,7 @@ const jwks = require('./jwks/jwks.json');
     app.use(helmet(helmetOptions))
 
 
-    app.use(DefaultRouter(oidc, accountant)) 
+    app.use(DefaultRouter(oidc, accountant, session)) 
 
     const { constructor: { errors: { SessionNotFound } } } = oidc as any;
 

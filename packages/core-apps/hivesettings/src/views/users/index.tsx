@@ -15,6 +15,7 @@ export const Users = () => {
 			hiveUsers {
 				id
 				name
+				username
 				roles {
 					id
 					name
@@ -36,12 +37,10 @@ export const Users = () => {
 	// const roles = query.roles({})
 
 	const [ createUser, createInfo ] = useMutation((mutation, args: {name: string, email: string}) => {
-		const user = mutation.updateHiveOrganisations({update: {
-			members: [{create: [{node: {name: args.name, email: args.email} } ]}]
-		}})
+		const user = mutation.inviteHiveUser({name: args.name, email: args.email})
 		return {
 			item : {
-				...user.hiveOrganisations[0]
+				result: user
 			},
 			err: null
 		}
@@ -54,7 +53,7 @@ export const Users = () => {
 	const [ updateUser, updateInfo ] = useMutation((mutation, args: {id: string, name: string, email: string, add_roles: string[], remove_roles: string[]}) => {
 		if(!args.id) return {err: "No ID"}
 		const user = mutation.updateHiveOrganisations({update: {
-			members: [{update: {node: {name: args.name, email: args.email, roles: [{connect: [{where: {node: {id_IN: args.add_roles}}}], disconnect: [{where: {node: {id_IN: args.remove_roles}}}]}]}}, where: {node: {id: args.id}}}]
+			members: [{update: {node: {name: args.name, username: args.email, roles: [{connect: [{where: {node: {id_IN: args.add_roles}}}], disconnect: [{where: {node: {id_IN: args.remove_roles}}}]}]}}, where: {node: {id: args.id}}}]
 		}})
 		return {
 			item : {

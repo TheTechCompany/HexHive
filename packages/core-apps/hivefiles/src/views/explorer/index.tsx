@@ -16,8 +16,11 @@ import { PDFPreview } from './previews/PDF';
 import { RouteComponentProps } from 'react-router-dom';
 import { Duration, differenceInSeconds, intervalToDuration, formatDuration } from 'date-fns'
 import { addFolder, runWorkflow } from '../../actions/filesystem';
+import { useAuth } from '@hexhive/auth-ui';
 
 export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => {
+    const { activeUser } = useAuth()
+
     const parentRef = useRef<{id?: string}>({id: undefined})
     const [ inspector, setInspector ] = useState<boolean>(false)
     const [ parentId, _setParentId ] = useState<string>(undefined)
@@ -64,14 +67,16 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
         disabled: () => {
             return selected.length < 1
         }
-    }, {
-        key: "Convert",
-        icon: <CloudComputer />,
-        onClick: () => openConvertModal(true),
-        disabled: () => {
-            return selected.length < 1
-        }
-    }]
+    }
+    // {
+    //     key: "Convert",
+    //     icon: <CloudComputer />,
+    //     onClick: () => openConvertModal(true),
+    //     disabled: () => {
+    //         return selected.length < 1
+    //     }
+    //}
+]
     const [selected, setSelected] = useState<string[]>([])
 
     const [folderModal, openFolderModal] = useState<boolean>(false);
@@ -112,7 +117,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
 
     const { data } = useQuery(gql`
       query GET_FILES {
-        hiveFiles(where: ${parentId && parentId != "null" ? `{id: "${parentId}"}` : `{fs: {name: "Shared FS"}, parent: null }`}){
+        hiveFiles(where: ${parentId && parentId != "null" ? `{id: "${parentId}"}` : `{parent: null }`}){
             id
             name
             path
@@ -297,8 +302,9 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
     }
     
     const getDuration = (start: string, end?: string) => {
+       
         let dur = intervalToDuration({
-            start: new Date(start),
+            start: new Date(start || new Date()),
             end: new Date(end || new Date())
         })
 
@@ -312,7 +318,7 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
             pad="xsmall">
             <FolderModal
                 onSubmit={(folder) => {
-                    newFolder({ args: { name: folder.name, cwd: parentId && parentId != "null" ? parentId : undefined } }).then((resp) => {
+                    newFolder({ args: { organisation: (activeUser as any)?.organisation, name: folder.name, cwd: parentId && parentId != "null" ? parentId : undefined } }).then((resp) => {
                         console.log("Folder", resp)
                         fetchFiles()
 
@@ -359,8 +365,13 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
                 actions={actions}
                 onDrop={onDrop}
                 onBreadcrumbClick={(crumb) => {
+                    console.log("Crums", breadcrumbs, crumb)
+                    if(breadcrumbs.map((x) => x.id).indexOf(crumb.id) == 1){
+                        exploreFolder("null")
+                    }else{
                     exploreFolder(crumb.id)
           
+                    }
                     setSelected([])
                 }}
                 breadcrumbs={breadcrumbs}

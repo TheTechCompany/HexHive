@@ -187,22 +187,27 @@
     </svg>
     </div>
     <div class="login-card">
-      <h1><%= title %></h1>
-      <% if (flash) { %>
+      <h1>Forgot Password</h1>
+	  <% if (flash) { %>
         <p><%= flash %></p>
       <% } %>
-      <form autocomplete="off" action="/interaction/<%= uid %>/login" method="post">
-        <input required type="email" name="email" placeholder="Enter an email" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>
-        <input required type="password" name="password" placeholder="and password" <% if (params.login_hint) { %>autofocus="on"<% } %>>
+	  <% if (!success){ %>
+	  <form autocomplete="off" action="/reset" method="post">
+        <input hidden required name="reset_token" placeholder="Reset token" value="<%= params.reset_token %>" />
 
-        <button type="submit" class="login login-submit">Sign-in</button>
+        <input disabled required type="email" name="email" placeholder="Enter your email" value="<%= params.login_hint %>" />
+        <input required type="password" name="new_password" placeholder="Enter your new password" autofocus="on" />
+        <input required type="password" name="confirm_password" placeholder="Confirm your password" autofocus="on" />
+
+        <button type="submit" class="login login-submit">Reset password</button>
       </form>
+	  <% } %>
       <hr />
       <div class="second-action">
-        <a href="/forgot">Forgot Password?</a>
+        <!-- <a href="/login">Sign In</a> -->
       </div>
       <div class="login-help">
-        <a href="/interaction/<%= uid %>/abort">[ Cancel ]</a>
+       
         <% if (client.tosUri) { %>
           <a href="<%= client.tosUri %>">[ Terms of Service ]</a>
         <% } %>
