@@ -40,8 +40,8 @@ const Plant = new Schema({
 export const ScheduleItemSchema = new Schema<ScheduleInterface>({
     project: String,
     people: [String],
-    managers: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    owner: {type: Schema.Types.ObjectId, ref: 'User'},
+    managers: [String],
+    owner: String,
     equipment: [String],
     notes: [String],
     organisation: Schema.Types.ObjectId,

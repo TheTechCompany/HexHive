@@ -1,0 +1,33 @@
+[{
+	"family": {
+			"cluster": "dbo.vw_Sched_Jobs",
+			"species": "JobID"
+	},
+	"type": "Project",
+	"collect": [{"key": "JobID", "to": "id", "type": "String"}, {"key": "JobName", "to": "name", "type": "String"}, {"key": "Status", "type": "Status", "to": "status"}, {"key": "StartDate", "type": "Date", "to": "startDate"}, {"key": "DurationType", "type": "String"}, {"key": "Duration", "type": "Number"}]
+}, 
+{
+	"family": {
+		"cluster": "vw_Sched_Quotes",
+		"species": "QuoteID"
+	},
+	"type": "Estimate",
+	"reduce": {"key": "QuoteID", "sum": "LinePrice"},
+	"collect": [{"key": "QuoteID", "to": "id", "type": "String"}, {"key": "LinePrice", "to": "Price", "type": "Number"}, {"key": "StartDate", "type": "Date", "to": "startDate"}, {"key": "CompanyName", "type": "String", "to": "companyName"}, {"key": "Status", "to": "status", "type": "String"}]
+}, {
+	"family": {
+		"cluster": "dbo.vw_Sched_Machinery",
+		"species": "ID"
+	},
+	"type": "Equipment",
+	"collect": [{"key": "ID", "to": "id", "type": "String"}, {"key": "Name", "to": "name", "type": "String"}, {"key": "Registration", "type": "String", "to": "registration"}]
+},
+
+{
+	"family": {
+		"cluster": "vw_Sched_Staff",
+		"species": "ID"
+	},
+	"type": "People",
+	"collect": [{"key": "Name", "to": "name", "type": "String"}, {"key": "ID", "to": "id", "type": "String"}]
+}]
