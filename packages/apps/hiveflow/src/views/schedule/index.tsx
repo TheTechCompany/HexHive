@@ -198,7 +198,7 @@ const slowData = slowResult.data;
     if(!activeUser?.id) return;
  
     const result = mutation.updateScheduleItems({where: {id: args.id}, update: {
-        managers: [{connect: {where: {node: {id: activeUser?.id}}}}]
+        managers: [{connect: [{where: {node: {id: activeUser?.id}}}] }]
     }})
     return {
       item: {

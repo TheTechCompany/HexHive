@@ -4518,6 +4518,7 @@ export interface ScheduleItemConnectInput {
   equipment?: Maybe<Array<ScheduleItemEquipmentConnectFieldInput>>;
   owner?: Maybe<ScheduleItemOwnerConnectFieldInput>;
   managers?: Maybe<Array<ScheduleItemManagersConnectFieldInput>>;
+  organisation?: Maybe<ScheduleItemOrganisationConnectFieldInput>;
 }
 
 export interface ScheduleItemConnectWhere {
@@ -4532,6 +4533,7 @@ export interface ScheduleItemCreateInput {
   equipment?: Maybe<ScheduleItemEquipmentFieldInput>;
   owner?: Maybe<ScheduleItemOwnerFieldInput>;
   managers?: Maybe<ScheduleItemManagersFieldInput>;
+  organisation?: Maybe<ScheduleItemOrganisationFieldInput>;
 }
 
 export interface ScheduleItemDeleteInput {
@@ -4540,6 +4542,7 @@ export interface ScheduleItemDeleteInput {
   equipment?: Maybe<Array<ScheduleItemEquipmentDeleteFieldInput>>;
   owner?: Maybe<ScheduleItemOwnerDeleteFieldInput>;
   managers?: Maybe<Array<ScheduleItemManagersDeleteFieldInput>>;
+  organisation?: Maybe<ScheduleItemOrganisationDeleteFieldInput>;
 }
 
 export interface ScheduleItemDisconnectInput {
@@ -4548,6 +4551,7 @@ export interface ScheduleItemDisconnectInput {
   equipment?: Maybe<Array<ScheduleItemEquipmentDisconnectFieldInput>>;
   owner?: Maybe<ScheduleItemOwnerDisconnectFieldInput>;
   managers?: Maybe<Array<ScheduleItemManagersDisconnectFieldInput>>;
+  organisation?: Maybe<ScheduleItemOrganisationDisconnectFieldInput>;
 }
 
 export interface ScheduleItemEquipmentConnectFieldInput {
@@ -4651,6 +4655,54 @@ export interface ScheduleItemOptions {
   sort?: Maybe<Array<Maybe<ScheduleItemSort>>>;
   limit?: Maybe<Scalars["Int"]>;
   offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface ScheduleItemOrganisationConnectFieldInput {
+  where?: Maybe<HiveOrganisationConnectWhere>;
+  connect?: Maybe<HiveOrganisationConnectInput>;
+}
+
+export interface ScheduleItemOrganisationConnectionSort {
+  node?: Maybe<HiveOrganisationSort>;
+}
+
+export interface ScheduleItemOrganisationConnectionWhere {
+  AND?: Maybe<Array<ScheduleItemOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<ScheduleItemOrganisationConnectionWhere>>;
+  node?: Maybe<HiveOrganisationWhere>;
+  node_NOT?: Maybe<HiveOrganisationWhere>;
+}
+
+export interface ScheduleItemOrganisationCreateFieldInput {
+  node: HiveOrganisationCreateInput;
+}
+
+export interface ScheduleItemOrganisationDeleteFieldInput {
+  where?: Maybe<ScheduleItemOrganisationConnectionWhere>;
+  delete?: Maybe<HiveOrganisationDeleteInput>;
+}
+
+export interface ScheduleItemOrganisationDisconnectFieldInput {
+  where?: Maybe<ScheduleItemOrganisationConnectionWhere>;
+  disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+}
+
+export interface ScheduleItemOrganisationFieldInput {
+  create?: Maybe<ScheduleItemOrganisationCreateFieldInput>;
+  connect?: Maybe<ScheduleItemOrganisationConnectFieldInput>;
+}
+
+export interface ScheduleItemOrganisationUpdateConnectionInput {
+  node?: Maybe<HiveOrganisationUpdateInput>;
+}
+
+export interface ScheduleItemOrganisationUpdateFieldInput {
+  where?: Maybe<ScheduleItemOrganisationConnectionWhere>;
+  update?: Maybe<ScheduleItemOrganisationUpdateConnectionInput>;
+  connect?: Maybe<ScheduleItemOrganisationConnectFieldInput>;
+  disconnect?: Maybe<ScheduleItemOrganisationDisconnectFieldInput>;
+  create?: Maybe<ScheduleItemOrganisationCreateFieldInput>;
+  delete?: Maybe<ScheduleItemOrganisationDeleteFieldInput>;
 }
 
 export interface ScheduleItemOwnerConnectFieldInput {
@@ -4803,6 +4855,7 @@ export interface ScheduleItemRelationInput {
   equipment?: Maybe<Array<ScheduleItemEquipmentCreateFieldInput>>;
   owner?: Maybe<ScheduleItemOwnerCreateFieldInput>;
   managers?: Maybe<Array<ScheduleItemManagersCreateFieldInput>>;
+  organisation?: Maybe<ScheduleItemOrganisationCreateFieldInput>;
 }
 
 /** Fields to sort ScheduleItems by. The order in which sorts are applied is not guaranteed when specifying many fields in one ScheduleItemSort object. */
@@ -4819,6 +4872,7 @@ export interface ScheduleItemUpdateInput {
   equipment?: Maybe<Array<ScheduleItemEquipmentUpdateFieldInput>>;
   owner?: Maybe<ScheduleItemOwnerUpdateFieldInput>;
   managers?: Maybe<Array<ScheduleItemManagersUpdateFieldInput>>;
+  organisation?: Maybe<ScheduleItemOrganisationUpdateFieldInput>;
 }
 
 export interface ScheduleItemWhere {
@@ -4856,6 +4910,8 @@ export interface ScheduleItemWhere {
   owner_NOT?: Maybe<HiveUserWhere>;
   managers?: Maybe<HiveUserWhere>;
   managers_NOT?: Maybe<HiveUserWhere>;
+  organisation?: Maybe<HiveOrganisationWhere>;
+  organisation_NOT?: Maybe<HiveOrganisationWhere>;
   projectConnection?: Maybe<ScheduleItemProjectConnectionWhere>;
   projectConnection_NOT?: Maybe<ScheduleItemProjectConnectionWhere>;
   peopleConnection?: Maybe<ScheduleItemPeopleConnectionWhere>;
@@ -4866,6 +4922,8 @@ export interface ScheduleItemWhere {
   ownerConnection_NOT?: Maybe<ScheduleItemOwnerConnectionWhere>;
   managersConnection?: Maybe<ScheduleItemManagersConnectionWhere>;
   managersConnection_NOT?: Maybe<ScheduleItemManagersConnectionWhere>;
+  organisationConnection?: Maybe<ScheduleItemOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<ScheduleItemOrganisationConnectionWhere>;
 }
 
 export interface TimelineItemConnectInput {
@@ -10387,6 +10445,13 @@ export const generatedSchema = {
       __type: "[HiveUser]",
       __args: { where: "HiveUserWhere", options: "HiveUserOptions" },
     },
+    organisation: {
+      __type: "HiveOrganisation",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
     projectConnection: {
       __type: "ScheduleItemProjectConnection!",
       __args: {
@@ -10432,6 +10497,15 @@ export const generatedSchema = {
         sort: "[ScheduleItemManagersConnectionSort!]",
       },
     },
+    organisationConnection: {
+      __type: "ScheduleItemOrganisationConnection!",
+      __args: {
+        where: "ScheduleItemOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ScheduleItemOrganisationConnectionSort!]",
+      },
+    },
   },
   ScheduleItemEquipmentConnection: {
     __typename: { __type: "String!" },
@@ -10454,6 +10528,17 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "HiveUser!" },
+  },
+  ScheduleItemOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ScheduleItemOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ScheduleItemOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveOrganisation!" },
   },
   ScheduleItemOwnerConnection: {
     __typename: { __type: "String!" },
@@ -14490,6 +14575,7 @@ export const generatedSchema = {
     equipment: { __type: "[ScheduleItemEquipmentConnectFieldInput!]" },
     owner: { __type: "ScheduleItemOwnerConnectFieldInput" },
     managers: { __type: "[ScheduleItemManagersConnectFieldInput!]" },
+    organisation: { __type: "ScheduleItemOrganisationConnectFieldInput" },
   },
   ScheduleItemConnectWhere: { node: { __type: "ScheduleItemWhere!" } },
   ScheduleItemCreateInput: {
@@ -14500,6 +14586,7 @@ export const generatedSchema = {
     equipment: { __type: "ScheduleItemEquipmentFieldInput" },
     owner: { __type: "ScheduleItemOwnerFieldInput" },
     managers: { __type: "ScheduleItemManagersFieldInput" },
+    organisation: { __type: "ScheduleItemOrganisationFieldInput" },
   },
   ScheduleItemDeleteInput: {
     project: { __type: "ScheduleItemProjectDeleteFieldInput" },
@@ -14507,6 +14594,7 @@ export const generatedSchema = {
     equipment: { __type: "[ScheduleItemEquipmentDeleteFieldInput!]" },
     owner: { __type: "ScheduleItemOwnerDeleteFieldInput" },
     managers: { __type: "[ScheduleItemManagersDeleteFieldInput!]" },
+    organisation: { __type: "ScheduleItemOrganisationDeleteFieldInput" },
   },
   ScheduleItemDisconnectInput: {
     project: { __type: "ScheduleItemProjectDisconnectFieldInput" },
@@ -14514,6 +14602,7 @@ export const generatedSchema = {
     equipment: { __type: "[ScheduleItemEquipmentDisconnectFieldInput!]" },
     owner: { __type: "ScheduleItemOwnerDisconnectFieldInput" },
     managers: { __type: "[ScheduleItemManagersDisconnectFieldInput!]" },
+    organisation: { __type: "ScheduleItemOrganisationDisconnectFieldInput" },
   },
   ScheduleItemEquipmentConnectFieldInput: {
     where: { __type: "EquipmentConnectWhere" },
@@ -14593,6 +14682,45 @@ export const generatedSchema = {
     sort: { __type: "[ScheduleItemSort]" },
     limit: { __type: "Int" },
     offset: { __type: "Int" },
+  },
+  ScheduleItemOrganisationConnectFieldInput: {
+    where: { __type: "HiveOrganisationConnectWhere" },
+    connect: { __type: "HiveOrganisationConnectInput" },
+  },
+  ScheduleItemOrganisationConnectionSort: {
+    node: { __type: "HiveOrganisationSort" },
+  },
+  ScheduleItemOrganisationConnectionWhere: {
+    AND: { __type: "[ScheduleItemOrganisationConnectionWhere!]" },
+    OR: { __type: "[ScheduleItemOrganisationConnectionWhere!]" },
+    node: { __type: "HiveOrganisationWhere" },
+    node_NOT: { __type: "HiveOrganisationWhere" },
+  },
+  ScheduleItemOrganisationCreateFieldInput: {
+    node: { __type: "HiveOrganisationCreateInput!" },
+  },
+  ScheduleItemOrganisationDeleteFieldInput: {
+    where: { __type: "ScheduleItemOrganisationConnectionWhere" },
+    delete: { __type: "HiveOrganisationDeleteInput" },
+  },
+  ScheduleItemOrganisationDisconnectFieldInput: {
+    where: { __type: "ScheduleItemOrganisationConnectionWhere" },
+    disconnect: { __type: "HiveOrganisationDisconnectInput" },
+  },
+  ScheduleItemOrganisationFieldInput: {
+    create: { __type: "ScheduleItemOrganisationCreateFieldInput" },
+    connect: { __type: "ScheduleItemOrganisationConnectFieldInput" },
+  },
+  ScheduleItemOrganisationUpdateConnectionInput: {
+    node: { __type: "HiveOrganisationUpdateInput" },
+  },
+  ScheduleItemOrganisationUpdateFieldInput: {
+    where: { __type: "ScheduleItemOrganisationConnectionWhere" },
+    update: { __type: "ScheduleItemOrganisationUpdateConnectionInput" },
+    connect: { __type: "ScheduleItemOrganisationConnectFieldInput" },
+    disconnect: { __type: "ScheduleItemOrganisationDisconnectFieldInput" },
+    create: { __type: "ScheduleItemOrganisationCreateFieldInput" },
+    delete: { __type: "ScheduleItemOrganisationDeleteFieldInput" },
   },
   ScheduleItemOwnerConnectFieldInput: {
     where: { __type: "HiveUserConnectWhere" },
@@ -14711,6 +14839,7 @@ export const generatedSchema = {
     equipment: { __type: "[ScheduleItemEquipmentCreateFieldInput!]" },
     owner: { __type: "ScheduleItemOwnerCreateFieldInput" },
     managers: { __type: "[ScheduleItemManagersCreateFieldInput!]" },
+    organisation: { __type: "ScheduleItemOrganisationCreateFieldInput" },
   },
   ScheduleItemSort: {
     id: { __type: "SortDirection" },
@@ -14724,6 +14853,7 @@ export const generatedSchema = {
     equipment: { __type: "[ScheduleItemEquipmentUpdateFieldInput!]" },
     owner: { __type: "ScheduleItemOwnerUpdateFieldInput" },
     managers: { __type: "[ScheduleItemManagersUpdateFieldInput!]" },
+    organisation: { __type: "ScheduleItemOrganisationUpdateFieldInput" },
   },
   ScheduleItemWhere: {
     OR: { __type: "[ScheduleItemWhere!]" },
@@ -14760,6 +14890,8 @@ export const generatedSchema = {
     owner_NOT: { __type: "HiveUserWhere" },
     managers: { __type: "HiveUserWhere" },
     managers_NOT: { __type: "HiveUserWhere" },
+    organisation: { __type: "HiveOrganisationWhere" },
+    organisation_NOT: { __type: "HiveOrganisationWhere" },
     projectConnection: { __type: "ScheduleItemProjectConnectionWhere" },
     projectConnection_NOT: { __type: "ScheduleItemProjectConnectionWhere" },
     peopleConnection: { __type: "ScheduleItemPeopleConnectionWhere" },
@@ -14770,6 +14902,12 @@ export const generatedSchema = {
     ownerConnection_NOT: { __type: "ScheduleItemOwnerConnectionWhere" },
     managersConnection: { __type: "ScheduleItemManagersConnectionWhere" },
     managersConnection_NOT: { __type: "ScheduleItemManagersConnectionWhere" },
+    organisationConnection: {
+      __type: "ScheduleItemOrganisationConnectionWhere",
+    },
+    organisationConnection_NOT: {
+      __type: "ScheduleItemOrganisationConnectionWhere",
+    },
   },
   TimelineItemConnectInput: {
     items: { __type: "[TimelineItemItemsConnectFieldInput!]" },
@@ -20307,6 +20445,10 @@ export interface ScheduleItem {
     where?: Maybe<HiveUserWhere>;
     options?: Maybe<HiveUserOptions>;
   }) => Maybe<Array<Maybe<HiveUser>>>;
+  organisation: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Maybe<HiveOrganisation>;
   projectConnection: (args?: {
     where?: Maybe<ScheduleItemProjectConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -20337,6 +20479,12 @@ export interface ScheduleItem {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<ScheduleItemManagersConnectionSort>>;
   }) => ScheduleItemManagersConnection;
+  organisationConnection: (args?: {
+    where?: Maybe<ScheduleItemOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ScheduleItemOrganisationConnectionSort>>;
+  }) => ScheduleItemOrganisationConnection;
 }
 
 export interface ScheduleItemEquipmentConnection {
@@ -20363,6 +20511,19 @@ export interface ScheduleItemManagersRelationship {
   __typename?: "ScheduleItemManagersRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveUser;
+}
+
+export interface ScheduleItemOrganisationConnection {
+  __typename?: "ScheduleItemOrganisationConnection";
+  edges: Array<ScheduleItemOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ScheduleItemOrganisationRelationship {
+  __typename?: "ScheduleItemOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveOrganisation;
 }
 
 export interface ScheduleItemOwnerConnection {
@@ -21876,6 +22037,8 @@ export interface SchemaObjectTypes {
   ScheduleItemEquipmentRelationship: ScheduleItemEquipmentRelationship;
   ScheduleItemManagersConnection: ScheduleItemManagersConnection;
   ScheduleItemManagersRelationship: ScheduleItemManagersRelationship;
+  ScheduleItemOrganisationConnection: ScheduleItemOrganisationConnection;
+  ScheduleItemOrganisationRelationship: ScheduleItemOrganisationRelationship;
   ScheduleItemOwnerConnection: ScheduleItemOwnerConnection;
   ScheduleItemOwnerRelationship: ScheduleItemOwnerRelationship;
   ScheduleItemPeopleConnection: ScheduleItemPeopleConnection;
@@ -22145,6 +22308,8 @@ export type SchemaObjectTypesNames =
   | "ScheduleItemEquipmentRelationship"
   | "ScheduleItemManagersConnection"
   | "ScheduleItemManagersRelationship"
+  | "ScheduleItemOrganisationConnection"
+  | "ScheduleItemOrganisationRelationship"
   | "ScheduleItemOwnerConnection"
   | "ScheduleItemOwnerRelationship"
   | "ScheduleItemPeopleConnection"
