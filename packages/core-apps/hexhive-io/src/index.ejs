@@ -25,11 +25,16 @@
     <% if(process.env.NODE_ENV == 'production') { %>
       <script defer="defer" src="https://apps.hexhive.io/hivedashboard/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hivecommand/remoteEntry.js"></script>
+      <script defer="defer" src="https://apps.hexhive.io/hivebuild/remoteEntry.js"></script>
+      <script defer="defer" src="https://apps.hexhive.io/hivemarket/remoteEntry.js"></script>
+      <script defer="defer" src="https://apps.hexhive.io/header/remoteEntry.js"></script>
+      <script defer="defer" src="https://apps.hexhive.io/hivesettings/remoteEntry.js"></script>
+      
+      <script defer="defer" src="https://apps.hexhive.io/hiveautomate/remoteEntry.js"></script>
+
       <script defer="defer" src="https://apps.hexhive.io/hiveflow/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hivefiles/remoteEntry.js"></script>
       <script defer="defer" src="https://apps.hexhive.io/hive3d/remoteEntry.js"></script>
-      <script defer="defer" src="https://apps.hexhive.io/hivesettings/remoteEntry.js"></script>
-
     <% } else if (process.env.NODE_ENV == 'native') { %>
       
       <script defer="defer" src="asset://.config"></script>
