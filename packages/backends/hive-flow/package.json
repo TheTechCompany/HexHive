@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-backends/flow",
-  "version": "0.0.5-alpha.0",
+  "version": "0.0.6-alpha.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@hexhive/auth": "^0.0.5-alpha.0",
-    "@hexhive/types": "^0.0.5-alpha.0",
-     
+    "@hexhive/types": "^0.0.6-alpha.0",
     "express-jwt": "^6.0.0",
     "ipfs-http-client": "^51.0.0"
   },
