@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 
 import styled from 'styled-components'
-import { PortWidget } from '@thetechcompany/live-ui';
+import { PortWidget } from '@hexhive/ui';
 
 export interface ActionNodeProps {
     className?: string;

@@ -24,12 +24,13 @@ export class DocSet {
   async getDoc (collection: string, docId: string) {
     let doc = this.docs[docId]
     if(!doc) {
-        doc = await this.models[collection].findById(docId)
+        let tmp_doc = await this.models[collection].findById(docId)
         console.log("Get doc by id", docId, doc)
+
         doc = Automerge.from({
-          name: doc.name,
-          program: doc.program,
-          _id: doc._id
+          title: tmp_doc.title,
+          children: tmp_doc.children || [],
+          _id: tmp_doc.id
         })
 
         

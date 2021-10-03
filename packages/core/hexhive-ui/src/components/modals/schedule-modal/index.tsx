@@ -60,6 +60,7 @@ export interface ISchedule {
 
 const ScheduleModal : React.FC<ScheduleModalProps> = (props) => {
 
+  console.log("Schedule modal user", props.user)
   const [ mode, setMode ]= useState<string>('create')
 
   const stateMode : "Clone" | "Edit" | "Create" = useMemo(() => {
@@ -304,7 +305,7 @@ console.log(output)
     setMode('create')
   }
 
-  const joined = isJoined({id: props.user?._id}, item || null, managerList?.add || [], managerList?.remove || [])
+  const joined = isJoined({id: props.user?.sub}, item || null, managerList?.add || [], managerList?.remove || [])
 
   
   
@@ -335,11 +336,11 @@ console.log(output)
           
           </Box>
           <Box direction="row" align="center">
-            {stateMode == 'Edit' && item?.owner?.id !== props.user?._id && renderMemberButton() }
+            {stateMode == 'Edit' && item?.owner?.id !== props.user?.sub && renderMemberButton() }
 
             <ManagerList 
               users={props.users}
-              managers={getManagers(item?.owner?.id || props.user?._id || '', item?.managers || [], managerList.add, managerList.remove)}/>
+              managers={getManagers(item?.owner?.id || props.user?.sub || '', item?.managers || [], managerList.add, managerList.remove)}/>
           </Box>
         </Box>
 

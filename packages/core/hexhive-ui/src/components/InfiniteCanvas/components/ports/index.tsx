@@ -1,8 +1,8 @@
 import React, { RefObject, useContext, useEffect, useRef, useState } from 'react';
 import { InfiniteCanvasContext } from '../../context/context';
 
-
-import styled from '@emotion/styled'
+import { Box, Text } from 'grommet'
+import styled from 'styled-components'
 import { NodeIdContext } from '../../context/nodeid';
 import { isEqual } from 'lodash';
 import { BasePort, usePort } from './base';
@@ -12,6 +12,8 @@ export interface PortWidgetProps {
     type?: string;
     round?: boolean;
     className?: string;
+    label?: string;
+    direction?: "left" | "right"
 }
 
 const Port = styled.div`
@@ -26,7 +28,7 @@ const Port = styled.div`
 
 
 
-export const PortWidget : React.FC<PortWidgetProps> = (props) => {
+export const UnstyledPortWidget : React.FC<PortWidgetProps> = (props) => {
 
     const { extraProps, dragPort } = usePort({id: props.id})
    
@@ -40,13 +42,25 @@ export const PortWidget : React.FC<PortWidgetProps> = (props) => {
     }
 
     return (
-        <div 
-            className="port-base"
-            onMouseDown={onMouseDown}>
+        <Box 
+            gap="xsmall"
+            direction="row"
+            style={{display: 'flex', alignItems: 'center', justifyContent: props.direction == "right" ? 'flex-start': 'flex-end' }}
+            className={`port-base`}>
+            {props.label && (props.direction == "left" || !props.direction ) && <Text size="small">{props.label}</Text>}
             <Port
+                onMouseDown={onMouseDown}
                 {...extraProps}
                 className={`port ${props.className} ${props.type || 'in'}`}>
             </Port>
-        </div>
+            {props.label && (props.direction == "right") && <Text size="small">{props.label}</Text>}
+
+        </Box>
     )
 }
+
+export const PortWidget = styled(UnstyledPortWidget)`
+    &:hover{
+        background: rgba(255, 255, 255, 0.2);
+    }
+`

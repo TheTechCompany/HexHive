@@ -5,7 +5,7 @@ import { Document } from './Document'
 import { useAutomergeContext } from "./Provider"
 
 
-export const useAutomergeClient = (url: string) => {
+export const useAutomergeClient = (url: string) : [AutomergeClient | undefined, boolean] => {
 
     const [ connection, setConnection ] = useState<AutomergeClient>()
     const [ isReady, setReady ] = useState<boolean>(false)
@@ -14,8 +14,7 @@ export const useAutomergeClient = (url: string) => {
         if(!connection){
             setConnection(
                 new AutomergeClient({url: url || 'ws://localhost:8081', readyCallback: () => {
-                setReady(true)
-    
+                    setReady(true)
                 }})
             )
         }
@@ -27,7 +26,7 @@ export const useAutomergeClient = (url: string) => {
 
 export type AutomergeChangeFunction<T> = (change_fn: Automerge.ChangeFn<T>, message?: string) => void
 
-export const useAutomergeDoc = <T>(collection: string, docId: string) : [Automerge.FreezeObject<T>, (change_fn: Automerge.ChangeFn<T>, message?: string) => void] => {
+export const useAutomergeDoc = <T>(collection: string, docId: string) : [Automerge.FreezeObject<T>, any, (change_fn: Automerge.ChangeFn<T>, message?: string) => void, any] => {
 
     const { client, isReady } = useAutomergeContext() 
 
@@ -61,9 +60,11 @@ export const useAutomergeDoc = <T>(collection: string, docId: string) : [Automer
     }  
 
     const updateDoc = (change_fn: Automerge.ChangeFn<any>, message?: string) => {
+        console.log("Update doc")
         let newDoc = Automerge.change(docRef.current, message || '', change_fn)
 
         let changes = Automerge.getChanges(doc, newDoc)
+        console.log("Update doc", client)
 
         client?.sendDocChanges(collection, docId, changes)
 
@@ -74,5 +75,5 @@ export const useAutomergeDoc = <T>(collection: string, docId: string) : [Automer
 
     updateRef.current = updateDoc
 
-    return [doc, updateDoc]
+    return [doc, docRef, updateDoc, updateRef]
 }

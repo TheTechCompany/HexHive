@@ -17,7 +17,7 @@ const Hero = () => (
           </Link>
         </li>
         <li>
-          <Link href="/login">
+          <Link href="https://api.hexhive.io/login">
             <a>Sign in</a>
           </Link>
         </li>

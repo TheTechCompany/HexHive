@@ -1,5 +1,5 @@
 import React from 'react';
-import LinkViewPort from './LinkViewPort';
+import {LinkViewPort} from './LinkViewPort';
 import { shallow, mount } from 'enzyme';
 import { Link, Task } from '../../types';
 

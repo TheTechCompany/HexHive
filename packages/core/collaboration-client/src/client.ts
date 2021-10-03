@@ -1,6 +1,5 @@
 import Automerge, { BinaryChange } from 'automerge'
 import {Document} from './Document'
-import { retry } from 'async';
 let document = Automerge.from<any>({name: "Test Doc"})
 
 
@@ -58,13 +57,13 @@ export class AutomergeClient {
 
     async connect(url: string){
         return await new Promise((resolve, reject) => {
-            retry({
-                times: 29,
-                interval: (retryCount) => {
-                    console.log(retryCount, (50 * Math.pow(2, retryCount)))
-                    return 50 * Math.pow(2, retryCount)
-                }
-            }, (cb) => {
+            // retry({
+            //     times: 29,
+            //     interval: (retryCount) => {
+            //         console.log(retryCount, (50 * Math.pow(2, retryCount)))
+            //         return 50 * Math.pow(2, retryCount)
+            //     }
+            // }, (cb) => {
 
                 this.connection = new WebSocket(url)
                 this.connection.onmessage = this.receiveMessage;
@@ -77,22 +76,22 @@ export class AutomergeClient {
                         this.socketClosed(event);
                     })
 
-                    return cb(null, "Connected")
+                    // return cb(null, "Connected")
                 }
                 this.connection.onerror = (error) => {
-                    console.log("Socket Error")
+                    console.log("Socket Error", error.target)
                  //   this.socketError(error);
                 //   return reject(error)
                 }
                 this.connection.onclose = (event) => {
                     console.log("Socket closed")
-                //  this.socketClosed(event);
-                    return cb(new Error(event.reason))
+                                //  this.socketClosed(event);
+                    // return cb(new Error(event.reason))
                 }
                 
-            }, (err, res) => {
-                console.log("CONENCTION", err)
-            })
+            // }, (err, res) => {
+            //     console.log("CONENCTION", err)
+            // })
 
         })
     }
@@ -127,6 +126,7 @@ export class AutomergeClient {
     }
 
     sendDocChanges(collection: string, docId: string, changes: Automerge.BinaryChange[]){
+        console.log("SEND DOC CHANGES")
         this.connection?.send(JSON.stringify({action: 'automerge', data: {changes, collection, id: docId}}))
     }
 

@@ -3,7 +3,6 @@ import * as Icons from 'grommet-icons'
 import React from 'react';
 import { DocViewer } from './DocViewer';
 
-
 export interface FileViewerProps {
     files: {url?: string, mimeType?: string, id?: string, extension?: string}[]
 
@@ -33,6 +32,8 @@ export const FileViewer: React.FC<FileViewerProps> = ({
             case "application":
                 switch (sub) {
                     case "pdf":
+                    case "word":
+                    case "spreadsheet":
                     case "vnd.openxmlformats-officedocument.wordprocessingml.document":
                     case "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
                         console.log(url, `${main}/${sub}`)

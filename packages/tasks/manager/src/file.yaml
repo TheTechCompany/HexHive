@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: test-api 
+spec:
+  steps:
+    - name: files
+      image:  docker.io/thetechcompany/hexhive-file-converter-stp2glb:latest-next
+      command:
+        - ls
+      args:
+        - -a
+    - name: stp2glb
+      image: docker.io/thetechcompany/hexhive-file-converter-stp2glb:latest-next
+      command:
+        - ./stp_to_gltf
+      args:
+        - "Hello World!"
+    - name: next
+      image: alpine:edge
+      command: 
+        - echo 
+      args:  
+        - "Shell command"
+

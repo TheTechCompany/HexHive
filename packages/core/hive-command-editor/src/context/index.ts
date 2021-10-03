@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { IFlowShard, IO, IStack } from '@hexhive/types';
 import { EditorAction, EditorState } from '../store';
-import { InfiniteCanvasNode, InfiniteCanvasPath } from '@thetechcompany/live-ui';
+import { InfiniteCanvasNode, InfiniteCanvasPath } from '@hexhive/ui';
 
 export interface IEditorContext {
     program?: {

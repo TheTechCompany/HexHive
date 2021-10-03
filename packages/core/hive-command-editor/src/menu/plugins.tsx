@@ -1,4 +1,4 @@
-import { TreeView } from '@thetechcompany/live-ui';
+// import { TreeView } from '@thetechcompany/live-ui';
 import { Box, List, CheckBox} from 'grommet';
 import React, { useState } from 'react';
 import { StackModal } from '../modals/stacks';
@@ -80,7 +80,7 @@ export const PluginMenu : React.FC<PluginProps> = (props) => {
                     }}
                     onClose={() => openModal(false)}
                     open={modalOpen && (!createNode || createNode == 'root')} />
-                  <TreeView
+                  {/* <TreeView
                     expanded={expanded.length > 0 ? expanded : ['root']}
                     onExpansion={(expansion)=> setExpanded(expansion)}
                     onCreate={(selector) => {
@@ -113,7 +113,7 @@ export const PluginMenu : React.FC<PluginProps> = (props) => {
                         label: "Plugins", 
                         items: stacks as any
                     }]}
-            />
+            /> */}
                     </Box>
      
     )

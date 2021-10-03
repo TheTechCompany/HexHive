@@ -71,7 +71,4 @@
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
   "include": ["src/"],
-  "references": [
-    {"path": "../hexhive-cas-client"}
-  ]
 }

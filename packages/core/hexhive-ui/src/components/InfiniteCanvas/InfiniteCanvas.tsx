@@ -1,7 +1,7 @@
 import { off } from 'process';
 import React, { createRef,  useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import styled from 'styled-components'
-import { isEqual, throttle, update, xor } from 'lodash'
+import { isBuffer, isEqual, throttle, update, xor } from 'lodash'
 import { PortWidget } from './components/ports'
 import { getHostForElement } from './utils';
 import { InfiniteCanvasContext } from './context/context';
@@ -90,6 +90,9 @@ export interface InfiniteCanvasProps {
 
     zoom?: number;
 
+    selected?: {key: "node" | "path", id: string}[],
+    onSelect?: (key: "node" | "path", id: string) => void
+
     onViewportChanged?: (viewport: {zoom: number, offset: {x: number, y: number}}) => void;
 }
 
@@ -103,6 +106,8 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     assets,
     factories,
     onNodeUpdate,
+    onSelect,
+    selected,
     onNodeRemove,
     onNodesChanged,
     onPathsChanged,
@@ -142,12 +147,12 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         portRef.current = ports;
         _setPorts(ports)
     }
+    const isDragging = useRef<{dragging: boolean}>({dragging: false});
 
     const [ menuPos, setMenuPos ] = useState<{x?: number, y?: number}>()
 
     const canvasRef = useRef<HTMLDivElement>(null)
 
-    const [ selected, setSelected ] = useState<{type?: 'node' | 'path', id?: string}>()
 
     const [ isPortDragging, setPortDragging ] = useState<boolean>(false)
 
@@ -230,9 +235,13 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         setMenuPos(undefined)
         if (evt.button == 0) {
             //Left
+            isDragging.current.dragging = true
             onDrag(evt, (evt, position, lastPos, finished) => {
-                if(!finished && position && lastPos){
+                if(!finished && isDragging && position && lastPos){
                     updateOffset(position, lastPos)
+                }
+                if(finished){
+                    isDragging.current.dragging = false
                 }
             })
         } else if (evt.button == 2) {
@@ -279,7 +288,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
 
     const _moveNode = (node: string, position: InfiniteCanvasPosition) => {
         
-        if(node) onSelect("node", node)
+        if(node) onSelect?.("node", node)
 
         let pos = getRelativeCanvasPos(canvasRef, {offset: _offset, zoom: _zoom}, position)
         pos = lockToGrid(pos, snapToGrid || false, grid)
@@ -436,15 +445,16 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         }
     }
 
-    const onSelect = (key: "node" | "path", id: string) => {
-        setSelected({type: key, id: id})
-    }
+    // const onSelect = (key: "node" | "path", id: string) => {
+    //     setSelected({type: key, id: id})
+    // }
 
     const _onDrop = (e: React.DragEvent) => {
         if(onDrop){
             let data = JSON.parse(e.dataTransfer.getData('infinite-canvas'))
             let pos = getRelativeCanvasPos(canvasRef, {offset: _offset, zoom: _zoom}, {x: e.clientX, y: e.clientY})
             onDrop(pos, data)
+            isDragging.current.dragging = false
         }
     }
 
@@ -458,7 +468,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     const openContextMenu = (pos: {x: number, y: number}, payload: {type: "node" | "path", id: string}) => {
         let bounds = canvasRef.current?.getBoundingClientRect()
 
-        onSelect(payload.type, payload.id)
+        onSelect?.(payload.type, payload.id)
 
         setMenuPos({
             x: pos.x - (bounds?.x || 0),
@@ -520,8 +530,8 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
                 reportPosition: reportPortPosition,
 
                 selected,
-                selectNode: (node) => onSelect('node', node),
-                selectPath: (path) => onSelect('path', path),
+                selectNode: (node) => onSelect?.('node', node),
+                selectPath: (path) => onSelect?.('path', path),
                 changeZoom: (z) => setZoom(_zoom + (z))
             }}>
             <div

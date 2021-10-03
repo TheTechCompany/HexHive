@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useLink, useLinks, useTaskLinks } from '../../hooks/useLinks'
 import { useData, useDataItem } from '../../hooks/useData'
 
-export interface LinkViewPortProps {
+interface LinkViewPortProps {
   selectedItem?: any;
   onSelectItem?: (item: any) => void;
 
@@ -32,7 +32,7 @@ export interface LinkViewPortProps {
   onFinishCreateLink?: any;
 }
 
-export interface LinkViewPortState {
+interface LinkViewPortState {
   links: Link[];
   data: Task[];
   selectedItem: any
@@ -40,10 +40,8 @@ export interface LinkViewPortState {
   changingTask?: any;
 }
 
-type LinkViewType = Component<LinkViewPortProps, LinkViewPortState>
 
-
- const LinkViewPort : React.FC<LinkViewPortProps> = (props) => {
+export const LinkViewPort : React.FC<LinkViewPortProps> = (props) => {
    
   const taskToCreate = useDataItem(props.taskToCreate?.task?.id || '')
   const link = useLink(props.taskToCreate?.task?.id)
@@ -213,4 +211,3 @@ type LinkViewType = Component<LinkViewPortProps, LinkViewPortState>
     );
   
 }
-export default LinkViewPort

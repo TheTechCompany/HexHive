@@ -25,6 +25,7 @@ const TimelineItemInput = schemaComposer.createInputTC({
         timeline: "String",
         startDate: "Date",
         endDate: "Date",
+        notes: "String",
         project: "TimelineProjectInput",
         items: "[TimelineItemItemsInput]"
     }
@@ -63,6 +64,7 @@ const TimelineItemTC = schemaComposer.createObjectTC({
         timeline: "String",
         startDate: "Date",
         endDate: "Date",
+        notes: "String",
         items: "[TimelineItemItems]",
         project: {
             type: "TimelineProject",
