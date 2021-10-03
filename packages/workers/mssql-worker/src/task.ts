@@ -2,6 +2,8 @@ export interface WorkerTask {
 	family: {
 		zone: string, //Connection to use
 		cluster: string, //Collection/Table/Type
+		species: string, //KEY
 	},
-	collect: any
+	reduce?: {key: string, sum?: string}
+	collect: [string | {key: string, type: string}]
 }

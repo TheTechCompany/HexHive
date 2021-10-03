@@ -6,6 +6,8 @@ import {OGM} from "@neo4j/graphql-ogm"
 import { nanoid } from "nanoid"
 import apps from "./subschema/apps"
 import automate from "./subschema/automate"
+import flow from "./subschema/flow"
+
 import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
 import { CoreV1Api, KubeConfig, KubernetesObjectApi } from "@kubernetes/client-node"
@@ -66,6 +68,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	${files}
 	${automate}
 	${acl}
+	${flow}
 
  
 	`
