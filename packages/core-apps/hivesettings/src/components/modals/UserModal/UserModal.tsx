@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text, List, CheckBox, TextInput } from 'grommet'
 import {BaseModal} from '@hexhive/ui'
-
-import { User } from '@hexhive/client'
 import { FormInput } from '../../FormInput/FormInput';
 
 export const UserModal = (props) => {

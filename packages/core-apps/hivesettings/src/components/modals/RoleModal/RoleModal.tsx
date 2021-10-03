@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import {BaseModal} from '@hexhive/ui'
 import { Box, List, CheckBox, Text } from 'grommet'
-import { User } from '@hexhive/client'
 import { FormInput } from '../../FormInput/FormInput';
 
 export const RoleModal = (props) => {
