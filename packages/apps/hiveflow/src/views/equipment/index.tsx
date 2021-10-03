@@ -3,13 +3,13 @@ import React, {
 } from 'react';
 
 import { Switch, Route } from 'react-router-dom';
-import {PlantList} from './plant-list';
+import {EquipmentList} from './list';
 
 export default class PlantContainer extends Component<any, any> {
   render(){
     return (
       <Switch>
-        <Route path={`${this.props.match.url}/`} component={PlantList} exact />
+        <Route path={`${this.props.match.url}/`} component={EquipmentList} exact />
       </Switch>
     );
   }

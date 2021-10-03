@@ -15,18 +15,18 @@ import moment from 'moment';
 
 import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
 
-import { useMutation, useQuery, File, useRefetch } from '@hexhive/client';
+import { useMutation, useQuery, useRefetch } from '@hexhive/client';
 import { KanbanModal } from './KanbanModal';
 import { dateFromObjectID } from '@hexhive/utils';
 
-export interface FocusedJobProps{
+export interface ProjectSingleProps{
   match?: any;
 }
 
 const STATUS = [ "Issued", "Workshop", "Finished" ];
 
 
-export const SingleJob : React.FC<FocusedJobProps> = (props) => {
+export const ProjectSingle : React.FC<ProjectSingleProps> = (props) => {
 
   const [ kanbanMenuVisible, showKanbanMenu ] = useState<boolean>(false);
 
@@ -59,59 +59,59 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
 
   const refetch = useRefetch();
 
-  const [ removeFile, {isLoading}] = useMutation((mutation, args: {id: string, project: string}) => {
-    const result = mutation.removeFileFromProject({id: args.id, project: args.project})
+  // const [ removeFile, {isLoading}] = useMutation((mutation, args: {id: string, project: string}) => {
+  //   const result = mutation.removeFileFromProject({id: args.id, project: args.project})
 
-    return {
-      item: result,
-      error: null
-    }
-  }, {
-    onCompleted(data) {},
-    onError(error) {},
-    refetchQueries: [query.ProjectById({id: job_id})],
-    suspense: false,
-    awaitRefetchQueries: true
-  } )
+  //   return {
+  //     item: result,
+  //     error: null
+  //   }
+  // }, {
+  //   onCompleted(data) {},
+  //   onError(error) {},
+  //   refetchQueries: [query.projects({where: {id: job_id}})],
+  //   suspense: false,
+  //   awaitRefetchQueries: true
+  // } )
 
-  const [ updateFile, info] = useMutation((mutation, args: {id: string, name?: string, status?: string}) => {
-    const result = mutation.updateFile({id: args.id, name: args.name, status: args.status})
-    return {
-      item: {
-        ...result
-      },
-      error: null
-    }
-  },  {
-    onCompleted(data) {},
-    onError(error) {},
-    refetchQueries: [query.ProjectById({id: job_id})],
-    suspense: false,
-    awaitRefetchQueries: true
-  })
+  // const [ updateFile, info] = useMutation((mutation, args: {id: string, name?: string, status?: string}) => {
+  //   const result = mutation.updateFile({id: args.id, name: args.name, status: args.status})
+  //   return {
+  //     item: {
+  //       ...result
+  //     },
+  //     error: null
+  //   }
+  // },  {
+  //   onCompleted(data) {},
+  //   onError(error) {},
+  //   refetchQueries: [query.projects({where: {id: job_id}})],
+  //   suspense: false,
+  //   awaitRefetchQueries: true
+  // })
 
-  const [ updateFiles, filesUpdate] = useMutation((mutation, args: {ids: string[], status?: string}) => {
-    const result = mutation.updateFiles({ids: args.ids, status: args.status})
-    return {
-      item: result?.slice(),
-      error: null
-    }
-  },  {
-    onCompleted(data) {},
-    onError(error) {},
-    refetchQueries: [query.ProjectById({id: job_id})],
-    suspense: false,
-    awaitRefetchQueries: true
-  })
+  // const [ updateFiles, filesUpdate] = useMutation((mutation, args: {ids: string[], status?: string}) => {
+  //   const result = mutation.updateFiles({ids: args.ids, status: args.status})
+  //   return {
+  //     item: result?.slice(),
+  //     error: null
+  //   }
+  // },  {
+  //   onCompleted(data) {},
+  //   onError(error) {},
+  //   refetchQueries: [query.projects({where: {id: job_id}})],
+  //   suspense: false,
+  //   awaitRefetchQueries: true
+  // })
 
-  const job = query.ProjectById({id: job_id})
+  const job = query.projects({where: {id: job_id}})?.[0]
 
   useEffect(() => {
     console.log("JOB Changed")
-    if(job && job.files){
-      console.log(job.files)
-      setFiles(job.files || [])
-    }
+    // if(job && job.files){
+    //   console.log(job.files)
+    //   setFiles(job.files || [])
+    // }
   }, [JSON.stringify(job)])
 
   const _tabs = [
@@ -137,14 +137,14 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
         onDelete={async (_files) => {
           console.log(_files)
           await Promise.all(_files.map(async (file) => {
-            if(job?.id) await removeFile({args: {project: job?.id, id: file._id}})
+            // if(job?.id) await removeFile({args: {project: job?.id, id: file._id}})
           }))
 
         }}
         onUpload={(files) => {
           fileActions.addFilesToJob(job_id, files).then(async (result) => {
             console.log("Upload result", result)
-            await refetch(query.ProjectById({id: job_id}))
+            await refetch(query.projects({where: {id: job_id}}))
           })
         }}
         onEdit={(files) => {
@@ -171,12 +171,13 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
 
           const loaded = UseLoading(result.draggableId)
 
-          updateFile({args: {id: result.draggableId, status: STATUS[parseInt(result.destination?.droppableId)]}}).then(() => {
+          // updateFile({args: {id: result.draggableId, status: STATUS[parseInt(result.destination?.droppableId)]}}).then(() => {
            
-            loaded()
-            setLoadingFiles(f)
-          })
+          //   loaded()
+          //   setLoadingFiles(f)
+          // })
         
+
         /*  utils.job.updateFile(job_id, result.draggableId, {status: STATUS[parseInt(result.destination?.droppableId)]}).then(() => {
             //TODO reset if error  
           })*/
@@ -311,22 +312,22 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
                   if(file.id){
                     const loaded = UseLoading(file.id);
 
-                    updateFile({args: {id: file.id, name: file.name || '', status: file.status || ''}}).then(({item}) => {
-                      console.log(item)
+                    // updateFile({args: {id: file.id, name: file.name || '', status: file.status || ''}}).then(({item}) => {
+                    //   console.log(item)
 
-                      let f = files?.slice()
-                      let ix = f.map((x: any) => x.id).indexOf(file.id)
+                    //   let f = files?.slice()
+                    //   let ix = f.map((x: any) => x.id).indexOf(file.id)
 
-                      item.id = file.id;
+                    //   item.id = file.id;
 
-                      if(ix > -1){
-                        f[ix] = {
-                          ...item
-                        }
-                      }
+                    //   if(ix > -1){
+                    //     f[ix] = {
+                    //       ...item
+                    //     }
+                    //   }
 
-                      loaded()
-                    })
+                    //   loaded()
+                    // })
                   }
                   /*
                   utils.job.updateFile(job?.id, file.id, file).then((resp) => {
@@ -345,9 +346,11 @@ export const SingleJob : React.FC<FocusedJobProps> = (props) => {
                   })*/
                 }else if(_files.length > 1){
                   let ids = _files.map((x) => x.id)
-                  const results = await updateFiles({args: {ids: ids, status: _files[0].status}})
+                  // const results = await updateFiles({args: {ids: ids, status: _files[0].status}})
 
-                  console.log(results)
+                  // console.log(results)
+
+                  
                   // const results = await Promise.all(_files.map(async (file :any) => {
                   //   await updateFile({args: {id: file.id, status: file.status}})
                   // }))

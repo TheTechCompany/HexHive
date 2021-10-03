@@ -11,7 +11,7 @@ import { PlantHeader } from './header';
 import { useQuery } from '@hexhive/client';
 
 
-export const PlantList: React.FC<any> = (props) => {
+export const EquipmentList: React.FC<any> = (props) => {
 
   const [search, setSearch] = useState<string>('');
 
@@ -60,7 +60,7 @@ export const PlantList: React.FC<any> = (props) => {
    // return items.map((x) => ({...x, price: formatter.format(x.price)}))
   }
 
-  const listData = query?.EquipmentMany() || [];
+  const listData = query?.equipment({}) || [];
 
   // constructor(props: any){
   //   super(props);

@@ -5,10 +5,11 @@ import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
 import { Box, Button, Select, Spinner, Text } from 'grommet';
 import { Add } from 'grommet-icons';
-import { TimelineItem, TimelineItemInput, useMutation, useQuery } from '@hexhive/client';
+import {TimelineItem, TimelineItemCreateInput, TimelineItemItems, TimelineItemUpdateInput, useMutation, useQuery } from '@hexhive/client';
 import { TimelineHeader, TimelineView } from './Header';
 import _, { filter, toUpper } from 'lodash';
 import { BaseStyle } from '@hexhive/styles';
+import { useQuery as useApollo, gql } from '@apollo/client';
 
 interface TimelineProps {
 
@@ -49,8 +50,47 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         staleWhileRevalidate: true
     })
 
-    const [createTimelineItem, createInfo] = useMutation((mutation, args: { item: TimelineItemInput }) => {
-        const item = mutation.createTimelineItem({ item: args.item })
+
+    const { data } = useApollo(gql`
+        query Q{
+            timelineItems(where: {timeline: "${view}"}){
+                id
+                startDate
+                endDate
+                
+                project {
+                    ... on Project {
+                        id
+                        name
+                    }
+
+                    ... on Estimate {
+                        id
+                        name
+                    }
+                }
+
+                items {
+                    type
+                    location
+                    estimate
+                }
+           
+            }
+        }
+    `, {
+        variables: {
+            startDate: horizon?.start?.toISOString(),
+            endDate: horizon?.end?.toISOString(),
+        }
+    })
+
+    const capacity = data?.timelineItems || []
+
+    console.log(data)
+
+    const [createTimelineItem, createInfo] = useMutation((mutation, args: { item: TimelineItemCreateInput }) => {
+        const item = mutation.createTimelineItems({ input: [{...args.item}] })
         return {
             item: {
                 ...item
@@ -60,13 +100,14 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.TimelineItemMany({ timeline: view })],
+        refetchQueries: [query.timelineItems({ where: {timeline: view} })],
         awaitRefetchQueries: true,
         suspense: false,
     })
 
     const [deleteTimelineItem, deleteInfo] = useMutation((mutation, args: { id: string }) => {
-        const result = mutation.removeTimelineItem({ id: args.id })
+        if(!args.id) return {err: "No ID Supplied"}
+        const result = mutation.deleteTimelineItems({ where: { id: args.id }})
         return {
             item: result,
             error: null
@@ -74,38 +115,38 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.TimelineItemMany({ timeline: view })],
+        refetchQueries: [query.timelineItems({ where: {timeline: view} })],
         awaitRefetchQueries: true,
         suspense: false,
     })
 
-    const [updateTimelineItem, updateInfo] = useMutation((mutation, args: { id: string, item: TimelineItemInput }) => {
+    const [updateTimelineItem, updateInfo] = useMutation((mutation, args: { id: string, item: { project?: string, notes?: string, items?: any[], startDate?: string, endDate?: string} }) => {
         let items = args.item.items?.map((x) => ({
+            id: x?.id,
             type: x?.type,
             location: x?.location,
             estimate: x?.estimate
         }))
         let _item = {
-            ...args.item,
             items
         }
-        const item = mutation.updateTimelineItem({ id: args.id, item: _item })
+        // const item = mutation.updateTimelineItems({ where: { id: args.id }, update: {
+        //     items: [{where: {node: {id: _item.id}}, update: {node: {..._item}}}]
+        // }})
 
         return {
-            item: {
-                ...item,
-            },
+            item: null,
             error: null
         }
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.TimelineItemMany({ timeline: view })],
+        refetchQueries: [query.timelineItems({ where: {timeline: view} })],
         awaitRefetchQueries: true,
         suspense: false,
     })
 
-    const quotes = query.QuoteMany()?.map((quote) => ({
+    const quotes = query.estimates({})?.map((quote) => ({
         start: new Date(moment(quote?.date).startOf('isoWeek').valueOf()),
         end: new Date(moment(quote?.date).endOf('isoWeek').valueOf()),
         ...quote,
@@ -113,12 +154,12 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         color: stringToColor(quote?.name || '')
     }))
 
-    const projects = query.ProjectMany({ statusList: ["Job Open", "Handover"] })?.map((x) => ({ ...x }))
-    const estimates = query.QuoteMany({ status: "Customer has quote" })?.map((x) => ({ ...x }))
+    const projects = query.projects({ where: {status_IN: ["Job Open", "Handover"] }})?.map((x) => ({ ...x }))
+    const estimates = query.estimates({ where: {status: "Customer has quote" }})?.map((x) => ({ ...x }))
 
-    const capacity = query.TimelineItemMany({ timeline: view });
+    // const capacity = query.timelineItems({ where: {timeline: view}});
 
-    const people = query.TimelineItemMany({ timeline: "People" })
+    const people = query.timelineItems({ where: {timeline: "People"} })
 
     const [timeline, setTimeline] = useState<any[]>([])
 
@@ -208,13 +249,17 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     useEffect(() => {
         if (capacity && view == "Projects") {
-            setTimeline(capacity.map((capacity_plan, ix) => ({
+            setTimeline(capacity.map((capacity_plan, ix) => {
+                let project = capacity_plan?.project
+                console.log(project)
+
+                return {
                 id: capacity_plan?.id || `capacity-${ix}`,
-                name: `${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}`.substring(0, 20) || '',
+                name: `${project?.id} - ${project?.name}`.substring(0, 20) || '',
                 notes: capacity_plan.notes,
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
-                color: getColorBars({ hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || [] }),
+                color: getColorBars({ hatched: project.__type == "Estimate", items: capacity_plan?.items || [] }),
                 hoverInfo: (
                     <Box round="xsmall" overflow="hidden"  direction="column">
                         <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
@@ -248,9 +293,11 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 collapsibleContent: (
                     <Text>More</Text>
                 )
-            })))
+            }}))
         } else if (capacity && view == "People") {
             setTimeline(capacity.map((capacity_plan, ix) => {
+                let project = capacity_plan?.project
+
                 let weeks = moment(capacity_plan?.endDate).diff(moment(capacity_plan?.startDate), 'weeks')
                 return {
                     id: capacity_plan?.id || `capacity-${ix}`,
@@ -292,7 +339,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                             </Box>
                         </Box>
                     ),
-                    color: getColorBars({ hatched: capacity_plan?.project?.type == "Estimate", items: capacity_plan?.items || [] }),
+                    color: getColorBars({ hatched: project?.__type == "Estimate", items: capacity_plan?.items || [] }),
                     showLabel: `${(capacity_plan?.items?.reduce((previous: any, current: any) => {
                         return previous += (current?.estimate || 0)
                     }, 0) * 45)}hrs/week`,
@@ -447,7 +494,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     }
 
-    const createTimelinePlan = (plan: { id?: string, project?: { id?: string, type?: string }, notes?: string, items?: any[], startDate?: Date, endDate?: Date }) => {
+    const createTimelinePlan = (plan: { id?: string, project?: { id?: string, type?: string }, notes?: string[], items?: any[], startDate?: Date, endDate?: Date }) => {
         if (plan.id) {
             console.log("Update", plan)
 
@@ -455,9 +502,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 args: {
                     id: plan.id,
                     item: {
-                        project: plan.project,
-                        startDate: plan.startDate,
-                        endDate: plan.endDate,
+                        project: plan.project.id,
+                        startDate: plan.startDate.toUTCString(),
+                        endDate: plan.endDate.toUTCString(),
                         notes: plan.notes,
                         items: plan.items || []
                     }
@@ -471,11 +518,11 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 args: {
                     item: {
                         timeline: view,
-                        project: plan.project,
-                        startDate: plan.startDate,
-                        endDate: plan.endDate,
+                        project: {Project: {connect: {where: {node: {id: plan.project.id}}}}},
+                        startDate: plan.startDate.toUTCString(),
+                        endDate: plan.endDate.toUTCString(),
                         notes: plan.notes,
-                        items: plan.items || []
+                        // items: {create: plan.items.map((x) => ({node: x})) } || []
                     }
                 }
             }).then((data) => {
@@ -504,8 +551,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 args: {
                     id: id?.toString() || '',
                     item: {
-                        startDate: item.start,
-                        endDate: item.end,
+                        startDate: item.start.toUTCString(),
+                        endDate: item.end.toUTCString(),
                         notes: item.notes
                     }
                 }
@@ -564,7 +611,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
                         let week_power = people_power?.reduce((previous, current) => {
                             let weeks = moment(current?.endDate).diff(moment(current?.startDate), 'weeks')
-                            let week = current?.items?.reduce((prev, cur) => {
+                            let week = current?.items?.({})?.reduce((prev, cur) => {
                                 return prev + (cur?.estimate || 0)
                             }, 0)
 

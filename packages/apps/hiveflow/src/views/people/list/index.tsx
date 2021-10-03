@@ -10,7 +10,7 @@ import { useQuery } from '@hexhive/client';
 import { idText } from 'typescript';
 
 
-export const StaffList: React.FC<any> = (props) => {
+export const PeopleList: React.FC<any> = (props) => {
    // const [employees, setEmployees] = useState<any[]>([])
    const [search, setSearch] = useState<string>('')
 
@@ -23,7 +23,7 @@ export const StaffList: React.FC<any> = (props) => {
    const [property, setProperty] = useState<string>()
 
 
-   const people = query.PeopleMany() || []
+   const people = query.people({}) || []
    // componentWillMount(){
    //    utils.staff.getAll().then((res) => {
    //       this.setState({ employees : res});

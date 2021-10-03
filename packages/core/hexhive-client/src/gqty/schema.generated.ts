@@ -23,11 +23,11 @@ export interface Scalars {
   Float: number;
   /** A date and time, represented as an ISO-8601 string */
   DateTime: string;
-  Date: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
   /** The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field. */
   MongoID: any;
+  Date: any;
 }
 
 export enum SortDirection {
@@ -35,6 +35,224 @@ export enum SortDirection {
   ASC = "ASC",
   /** Sort by field values in descending order. */
   DESC = "DESC",
+}
+
+export interface EquipmentConnectInput {
+  organisation?: Maybe<EquipmentOrganisationConnectFieldInput>;
+}
+
+export interface EquipmentConnectWhere {
+  node: EquipmentWhere;
+}
+
+export interface EquipmentCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  registration?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<EquipmentOrganisationFieldInput>;
+}
+
+export interface EquipmentDeleteInput {
+  organisation?: Maybe<EquipmentOrganisationDeleteFieldInput>;
+}
+
+export interface EquipmentDisconnectInput {
+  organisation?: Maybe<EquipmentOrganisationDisconnectFieldInput>;
+}
+
+export interface EquipmentOptions {
+  /** Specify one or more EquipmentSort objects to sort Equipment by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<EquipmentSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface EquipmentOrganisationConnectFieldInput {
+  where?: Maybe<HiveOrganisationConnectWhere>;
+  connect?: Maybe<HiveOrganisationConnectInput>;
+}
+
+export interface EquipmentOrganisationConnectionSort {
+  node?: Maybe<HiveOrganisationSort>;
+}
+
+export interface EquipmentOrganisationConnectionWhere {
+  AND?: Maybe<Array<EquipmentOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<EquipmentOrganisationConnectionWhere>>;
+  node?: Maybe<HiveOrganisationWhere>;
+  node_NOT?: Maybe<HiveOrganisationWhere>;
+}
+
+export interface EquipmentOrganisationCreateFieldInput {
+  node: HiveOrganisationCreateInput;
+}
+
+export interface EquipmentOrganisationDeleteFieldInput {
+  where?: Maybe<EquipmentOrganisationConnectionWhere>;
+  delete?: Maybe<HiveOrganisationDeleteInput>;
+}
+
+export interface EquipmentOrganisationDisconnectFieldInput {
+  where?: Maybe<EquipmentOrganisationConnectionWhere>;
+  disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+}
+
+export interface EquipmentOrganisationFieldInput {
+  create?: Maybe<EquipmentOrganisationCreateFieldInput>;
+  connect?: Maybe<EquipmentOrganisationConnectFieldInput>;
+}
+
+export interface EquipmentOrganisationUpdateConnectionInput {
+  node?: Maybe<HiveOrganisationUpdateInput>;
+}
+
+export interface EquipmentOrganisationUpdateFieldInput {
+  where?: Maybe<EquipmentOrganisationConnectionWhere>;
+  update?: Maybe<EquipmentOrganisationUpdateConnectionInput>;
+  connect?: Maybe<EquipmentOrganisationConnectFieldInput>;
+  disconnect?: Maybe<EquipmentOrganisationDisconnectFieldInput>;
+  create?: Maybe<EquipmentOrganisationCreateFieldInput>;
+  delete?: Maybe<EquipmentOrganisationDeleteFieldInput>;
+}
+
+export interface EquipmentRelationInput {
+  organisation?: Maybe<EquipmentOrganisationCreateFieldInput>;
+}
+
+/** Fields to sort Equipment by. The order in which sorts are applied is not guaranteed when specifying many fields in one EquipmentSort object. */
+export interface EquipmentSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  registration?: Maybe<SortDirection>;
+}
+
+export interface EquipmentUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  registration?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<EquipmentOrganisationUpdateFieldInput>;
+}
+
+export interface EquipmentWhere {
+  OR?: Maybe<Array<EquipmentWhere>>;
+  AND?: Maybe<Array<EquipmentWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  registration?: Maybe<Scalars["String"]>;
+  registration_NOT?: Maybe<Scalars["String"]>;
+  registration_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  registration_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  registration_CONTAINS?: Maybe<Scalars["String"]>;
+  registration_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  registration_STARTS_WITH?: Maybe<Scalars["String"]>;
+  registration_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  registration_ENDS_WITH?: Maybe<Scalars["String"]>;
+  registration_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<HiveOrganisationWhere>;
+  organisation_NOT?: Maybe<HiveOrganisationWhere>;
+  organisationConnection?: Maybe<EquipmentOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<EquipmentOrganisationConnectionWhere>;
+}
+
+export interface EstimateConnectWhere {
+  node: EstimateWhere;
+}
+
+export interface EstimateCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars["String"]>;
+  price?: Maybe<Scalars["Float"]>;
+  date?: Maybe<Scalars["DateTime"]>;
+}
+
+export interface EstimateOptions {
+  /** Specify one or more EstimateSort objects to sort Estimates by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<EstimateSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+/** Fields to sort Estimates by. The order in which sorts are applied is not guaranteed when specifying many fields in one EstimateSort object. */
+export interface EstimateSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  status?: Maybe<SortDirection>;
+  price?: Maybe<SortDirection>;
+  date?: Maybe<SortDirection>;
+}
+
+export interface EstimateUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars["String"]>;
+  price?: Maybe<Scalars["Float"]>;
+  date?: Maybe<Scalars["DateTime"]>;
+}
+
+export interface EstimateWhere {
+  OR?: Maybe<Array<EstimateWhere>>;
+  AND?: Maybe<Array<EstimateWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars["String"]>;
+  status_NOT?: Maybe<Scalars["String"]>;
+  status_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  status_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  status_CONTAINS?: Maybe<Scalars["String"]>;
+  status_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  status_STARTS_WITH?: Maybe<Scalars["String"]>;
+  status_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  status_ENDS_WITH?: Maybe<Scalars["String"]>;
+  status_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  price?: Maybe<Scalars["Float"]>;
+  price_NOT?: Maybe<Scalars["Float"]>;
+  price_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  price_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  price_LT?: Maybe<Scalars["Float"]>;
+  price_LTE?: Maybe<Scalars["Float"]>;
+  price_GT?: Maybe<Scalars["Float"]>;
+  price_GTE?: Maybe<Scalars["Float"]>;
+  date?: Maybe<Scalars["DateTime"]>;
+  date_NOT?: Maybe<Scalars["DateTime"]>;
+  date_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  date_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  date_LT?: Maybe<Scalars["DateTime"]>;
+  date_LTE?: Maybe<Scalars["DateTime"]>;
+  date_GT?: Maybe<Scalars["DateTime"]>;
+  date_GTE?: Maybe<Scalars["DateTime"]>;
 }
 
 export interface FileSystemConnectInput {
@@ -1321,6 +1539,7 @@ export interface HiveOrganisationConnectInput {
   roles?: Maybe<Array<HiveOrganisationRolesConnectFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersConnectFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesConnectFieldInput>>;
+  schedule?: Maybe<Array<HiveOrganisationScheduleConnectFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsConnectFieldInput>>;
 }
 
@@ -1333,6 +1552,7 @@ export interface HiveOrganisationCreateInput {
   roles?: Maybe<HiveOrganisationRolesFieldInput>;
   members?: Maybe<HiveOrganisationMembersFieldInput>;
   appliances?: Maybe<HiveOrganisationAppliancesFieldInput>;
+  schedule?: Maybe<HiveOrganisationScheduleFieldInput>;
   filesystems?: Maybe<HiveOrganisationFilesystemsFieldInput>;
 }
 
@@ -1340,6 +1560,7 @@ export interface HiveOrganisationDeleteInput {
   roles?: Maybe<Array<HiveOrganisationRolesDeleteFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersDeleteFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesDeleteFieldInput>>;
+  schedule?: Maybe<Array<HiveOrganisationScheduleDeleteFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsDeleteFieldInput>>;
 }
 
@@ -1347,6 +1568,7 @@ export interface HiveOrganisationDisconnectInput {
   roles?: Maybe<Array<HiveOrganisationRolesDisconnectFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersDisconnectFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesDisconnectFieldInput>>;
+  schedule?: Maybe<Array<HiveOrganisationScheduleDisconnectFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsDisconnectFieldInput>>;
 }
 
@@ -1457,6 +1679,7 @@ export interface HiveOrganisationRelationInput {
   roles?: Maybe<Array<HiveOrganisationRolesCreateFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersCreateFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesCreateFieldInput>>;
+  schedule?: Maybe<Array<HiveOrganisationScheduleCreateFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsCreateFieldInput>>;
 }
 
@@ -1508,6 +1731,54 @@ export interface HiveOrganisationRolesUpdateFieldInput {
   delete?: Maybe<Array<HiveOrganisationRolesDeleteFieldInput>>;
 }
 
+export interface HiveOrganisationScheduleConnectFieldInput {
+  where?: Maybe<ScheduleItemConnectWhere>;
+  connect?: Maybe<Array<ScheduleItemConnectInput>>;
+}
+
+export interface HiveOrganisationScheduleConnectionSort {
+  node?: Maybe<ScheduleItemSort>;
+}
+
+export interface HiveOrganisationScheduleConnectionWhere {
+  AND?: Maybe<Array<HiveOrganisationScheduleConnectionWhere>>;
+  OR?: Maybe<Array<HiveOrganisationScheduleConnectionWhere>>;
+  node?: Maybe<ScheduleItemWhere>;
+  node_NOT?: Maybe<ScheduleItemWhere>;
+}
+
+export interface HiveOrganisationScheduleCreateFieldInput {
+  node: ScheduleItemCreateInput;
+}
+
+export interface HiveOrganisationScheduleDeleteFieldInput {
+  where?: Maybe<HiveOrganisationScheduleConnectionWhere>;
+  delete?: Maybe<ScheduleItemDeleteInput>;
+}
+
+export interface HiveOrganisationScheduleDisconnectFieldInput {
+  where?: Maybe<HiveOrganisationScheduleConnectionWhere>;
+  disconnect?: Maybe<ScheduleItemDisconnectInput>;
+}
+
+export interface HiveOrganisationScheduleFieldInput {
+  create?: Maybe<Array<HiveOrganisationScheduleCreateFieldInput>>;
+  connect?: Maybe<Array<HiveOrganisationScheduleConnectFieldInput>>;
+}
+
+export interface HiveOrganisationScheduleUpdateConnectionInput {
+  node?: Maybe<ScheduleItemUpdateInput>;
+}
+
+export interface HiveOrganisationScheduleUpdateFieldInput {
+  where?: Maybe<HiveOrganisationScheduleConnectionWhere>;
+  update?: Maybe<HiveOrganisationScheduleUpdateConnectionInput>;
+  connect?: Maybe<Array<HiveOrganisationScheduleConnectFieldInput>>;
+  disconnect?: Maybe<Array<HiveOrganisationScheduleDisconnectFieldInput>>;
+  create?: Maybe<Array<HiveOrganisationScheduleCreateFieldInput>>;
+  delete?: Maybe<Array<HiveOrganisationScheduleDeleteFieldInput>>;
+}
+
 /** Fields to sort HiveOrganisations by. The order in which sorts are applied is not guaranteed when specifying many fields in one HiveOrganisationSort object. */
 export interface HiveOrganisationSort {
   id?: Maybe<SortDirection>;
@@ -1519,6 +1790,7 @@ export interface HiveOrganisationUpdateInput {
   roles?: Maybe<Array<HiveOrganisationRolesUpdateFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersUpdateFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesUpdateFieldInput>>;
+  schedule?: Maybe<Array<HiveOrganisationScheduleUpdateFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsUpdateFieldInput>>;
 }
 
@@ -1551,6 +1823,8 @@ export interface HiveOrganisationWhere {
   members_NOT?: Maybe<HiveUserWhere>;
   appliances?: Maybe<HiveApplianceWhere>;
   appliances_NOT?: Maybe<HiveApplianceWhere>;
+  schedule?: Maybe<ScheduleItemWhere>;
+  schedule_NOT?: Maybe<ScheduleItemWhere>;
   filesystems?: Maybe<FileSystemWhere>;
   filesystems_NOT?: Maybe<FileSystemWhere>;
   rolesConnection?: Maybe<HiveOrganisationRolesConnectionWhere>;
@@ -1559,6 +1833,8 @@ export interface HiveOrganisationWhere {
   membersConnection_NOT?: Maybe<HiveOrganisationMembersConnectionWhere>;
   appliancesConnection?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
   appliancesConnection_NOT?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
+  scheduleConnection?: Maybe<HiveOrganisationScheduleConnectionWhere>;
+  scheduleConnection_NOT?: Maybe<HiveOrganisationScheduleConnectionWhere>;
   filesystemsConnection?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
   filesystemsConnection_NOT?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
 }
@@ -3458,6 +3734,126 @@ export interface HiveUserWhere {
   organisationConnection_NOT?: Maybe<HiveUserOrganisationConnectionWhere>;
 }
 
+export interface PeopleConnectInput {
+  organisation?: Maybe<PeopleOrganisationConnectFieldInput>;
+}
+
+export interface PeopleConnectWhere {
+  node: PeopleWhere;
+}
+
+export interface PeopleCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<PeopleOrganisationFieldInput>;
+}
+
+export interface PeopleDeleteInput {
+  organisation?: Maybe<PeopleOrganisationDeleteFieldInput>;
+}
+
+export interface PeopleDisconnectInput {
+  organisation?: Maybe<PeopleOrganisationDisconnectFieldInput>;
+}
+
+export interface PeopleOptions {
+  /** Specify one or more PeopleSort objects to sort People by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<PeopleSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface PeopleOrganisationConnectFieldInput {
+  where?: Maybe<HiveOrganisationConnectWhere>;
+  connect?: Maybe<HiveOrganisationConnectInput>;
+}
+
+export interface PeopleOrganisationConnectionSort {
+  node?: Maybe<HiveOrganisationSort>;
+}
+
+export interface PeopleOrganisationConnectionWhere {
+  AND?: Maybe<Array<PeopleOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<PeopleOrganisationConnectionWhere>>;
+  node?: Maybe<HiveOrganisationWhere>;
+  node_NOT?: Maybe<HiveOrganisationWhere>;
+}
+
+export interface PeopleOrganisationCreateFieldInput {
+  node: HiveOrganisationCreateInput;
+}
+
+export interface PeopleOrganisationDeleteFieldInput {
+  where?: Maybe<PeopleOrganisationConnectionWhere>;
+  delete?: Maybe<HiveOrganisationDeleteInput>;
+}
+
+export interface PeopleOrganisationDisconnectFieldInput {
+  where?: Maybe<PeopleOrganisationConnectionWhere>;
+  disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+}
+
+export interface PeopleOrganisationFieldInput {
+  create?: Maybe<PeopleOrganisationCreateFieldInput>;
+  connect?: Maybe<PeopleOrganisationConnectFieldInput>;
+}
+
+export interface PeopleOrganisationUpdateConnectionInput {
+  node?: Maybe<HiveOrganisationUpdateInput>;
+}
+
+export interface PeopleOrganisationUpdateFieldInput {
+  where?: Maybe<PeopleOrganisationConnectionWhere>;
+  update?: Maybe<PeopleOrganisationUpdateConnectionInput>;
+  connect?: Maybe<PeopleOrganisationConnectFieldInput>;
+  disconnect?: Maybe<PeopleOrganisationDisconnectFieldInput>;
+  create?: Maybe<PeopleOrganisationCreateFieldInput>;
+  delete?: Maybe<PeopleOrganisationDeleteFieldInput>;
+}
+
+export interface PeopleRelationInput {
+  organisation?: Maybe<PeopleOrganisationCreateFieldInput>;
+}
+
+/** Fields to sort People by. The order in which sorts are applied is not guaranteed when specifying many fields in one PeopleSort object. */
+export interface PeopleSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+}
+
+export interface PeopleUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<PeopleOrganisationUpdateFieldInput>;
+}
+
+export interface PeopleWhere {
+  OR?: Maybe<Array<PeopleWhere>>;
+  AND?: Maybe<Array<PeopleWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<HiveOrganisationWhere>;
+  organisation_NOT?: Maybe<HiveOrganisationWhere>;
+  organisationConnection?: Maybe<PeopleOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<PeopleOrganisationConnectionWhere>;
+}
+
 export interface PermissionConnectInput {
   roles?: Maybe<Array<PermissionRolesConnectFieldInput>>;
 }
@@ -3602,6 +3998,277 @@ export interface PermissionWhere {
   roles_NOT?: Maybe<RoleWhere>;
   rolesConnection?: Maybe<PermissionRolesConnectionWhere>;
   rolesConnection_NOT?: Maybe<PermissionRolesConnectionWhere>;
+}
+
+export interface ProjectConnectInput {
+  organisation?: Maybe<ProjectOrganisationConnectFieldInput>;
+  schedule?: Maybe<Array<ProjectScheduleConnectFieldInput>>;
+  plan?: Maybe<Array<ProjectPlanConnectFieldInput>>;
+}
+
+export interface ProjectConnectWhere {
+  node: ProjectWhere;
+}
+
+export interface ProjectCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  organisation?: Maybe<ProjectOrganisationFieldInput>;
+  schedule?: Maybe<ProjectScheduleFieldInput>;
+  plan?: Maybe<ProjectPlanFieldInput>;
+}
+
+export interface ProjectDeleteInput {
+  organisation?: Maybe<ProjectOrganisationDeleteFieldInput>;
+  schedule?: Maybe<Array<ProjectScheduleDeleteFieldInput>>;
+  plan?: Maybe<Array<ProjectPlanDeleteFieldInput>>;
+}
+
+export interface ProjectDisconnectInput {
+  organisation?: Maybe<ProjectOrganisationDisconnectFieldInput>;
+  schedule?: Maybe<Array<ProjectScheduleDisconnectFieldInput>>;
+  plan?: Maybe<Array<ProjectPlanDisconnectFieldInput>>;
+}
+
+export interface ProjectOptions {
+  /** Specify one or more ProjectSort objects to sort Projects by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<ProjectSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface ProjectOrganisationConnectFieldInput {
+  where?: Maybe<HiveOrganisationConnectWhere>;
+  connect?: Maybe<HiveOrganisationConnectInput>;
+}
+
+export interface ProjectOrganisationConnectionSort {
+  node?: Maybe<HiveOrganisationSort>;
+}
+
+export interface ProjectOrganisationConnectionWhere {
+  AND?: Maybe<Array<ProjectOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<ProjectOrganisationConnectionWhere>>;
+  node?: Maybe<HiveOrganisationWhere>;
+  node_NOT?: Maybe<HiveOrganisationWhere>;
+}
+
+export interface ProjectOrganisationCreateFieldInput {
+  node: HiveOrganisationCreateInput;
+}
+
+export interface ProjectOrganisationDeleteFieldInput {
+  where?: Maybe<ProjectOrganisationConnectionWhere>;
+  delete?: Maybe<HiveOrganisationDeleteInput>;
+}
+
+export interface ProjectOrganisationDisconnectFieldInput {
+  where?: Maybe<ProjectOrganisationConnectionWhere>;
+  disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+}
+
+export interface ProjectOrganisationFieldInput {
+  create?: Maybe<ProjectOrganisationCreateFieldInput>;
+  connect?: Maybe<ProjectOrganisationConnectFieldInput>;
+}
+
+export interface ProjectOrganisationUpdateConnectionInput {
+  node?: Maybe<HiveOrganisationUpdateInput>;
+}
+
+export interface ProjectOrganisationUpdateFieldInput {
+  where?: Maybe<ProjectOrganisationConnectionWhere>;
+  update?: Maybe<ProjectOrganisationUpdateConnectionInput>;
+  connect?: Maybe<ProjectOrganisationConnectFieldInput>;
+  disconnect?: Maybe<ProjectOrganisationDisconnectFieldInput>;
+  create?: Maybe<ProjectOrganisationCreateFieldInput>;
+  delete?: Maybe<ProjectOrganisationDeleteFieldInput>;
+}
+
+export interface ProjectPlanConnectFieldInput {
+  where?: Maybe<TimelineItemConnectWhere>;
+  connect?: Maybe<Array<TimelineItemConnectInput>>;
+}
+
+export interface ProjectPlanConnectionSort {
+  node?: Maybe<TimelineItemSort>;
+}
+
+export interface ProjectPlanConnectionWhere {
+  AND?: Maybe<Array<ProjectPlanConnectionWhere>>;
+  OR?: Maybe<Array<ProjectPlanConnectionWhere>>;
+  node?: Maybe<TimelineItemWhere>;
+  node_NOT?: Maybe<TimelineItemWhere>;
+}
+
+export interface ProjectPlanCreateFieldInput {
+  node: TimelineItemCreateInput;
+}
+
+export interface ProjectPlanDeleteFieldInput {
+  where?: Maybe<ProjectPlanConnectionWhere>;
+  delete?: Maybe<TimelineItemDeleteInput>;
+}
+
+export interface ProjectPlanDisconnectFieldInput {
+  where?: Maybe<ProjectPlanConnectionWhere>;
+  disconnect?: Maybe<TimelineItemDisconnectInput>;
+}
+
+export interface ProjectPlanFieldInput {
+  create?: Maybe<Array<ProjectPlanCreateFieldInput>>;
+  connect?: Maybe<Array<ProjectPlanConnectFieldInput>>;
+}
+
+export interface ProjectPlanUpdateConnectionInput {
+  node?: Maybe<TimelineItemUpdateInput>;
+}
+
+export interface ProjectPlanUpdateFieldInput {
+  where?: Maybe<ProjectPlanConnectionWhere>;
+  update?: Maybe<ProjectPlanUpdateConnectionInput>;
+  connect?: Maybe<Array<ProjectPlanConnectFieldInput>>;
+  disconnect?: Maybe<Array<ProjectPlanDisconnectFieldInput>>;
+  create?: Maybe<Array<ProjectPlanCreateFieldInput>>;
+  delete?: Maybe<Array<ProjectPlanDeleteFieldInput>>;
+}
+
+export interface ProjectRelationInput {
+  organisation?: Maybe<ProjectOrganisationCreateFieldInput>;
+  schedule?: Maybe<Array<ProjectScheduleCreateFieldInput>>;
+  plan?: Maybe<Array<ProjectPlanCreateFieldInput>>;
+}
+
+export interface ProjectScheduleConnectFieldInput {
+  where?: Maybe<ScheduleItemConnectWhere>;
+  connect?: Maybe<Array<ScheduleItemConnectInput>>;
+}
+
+export interface ProjectScheduleConnectionSort {
+  node?: Maybe<ScheduleItemSort>;
+}
+
+export interface ProjectScheduleConnectionWhere {
+  AND?: Maybe<Array<ProjectScheduleConnectionWhere>>;
+  OR?: Maybe<Array<ProjectScheduleConnectionWhere>>;
+  node?: Maybe<ScheduleItemWhere>;
+  node_NOT?: Maybe<ScheduleItemWhere>;
+}
+
+export interface ProjectScheduleCreateFieldInput {
+  node: ScheduleItemCreateInput;
+}
+
+export interface ProjectScheduleDeleteFieldInput {
+  where?: Maybe<ProjectScheduleConnectionWhere>;
+  delete?: Maybe<ScheduleItemDeleteInput>;
+}
+
+export interface ProjectScheduleDisconnectFieldInput {
+  where?: Maybe<ProjectScheduleConnectionWhere>;
+  disconnect?: Maybe<ScheduleItemDisconnectInput>;
+}
+
+export interface ProjectScheduleFieldInput {
+  create?: Maybe<Array<ProjectScheduleCreateFieldInput>>;
+  connect?: Maybe<Array<ProjectScheduleConnectFieldInput>>;
+}
+
+export interface ProjectScheduleUpdateConnectionInput {
+  node?: Maybe<ScheduleItemUpdateInput>;
+}
+
+export interface ProjectScheduleUpdateFieldInput {
+  where?: Maybe<ProjectScheduleConnectionWhere>;
+  update?: Maybe<ProjectScheduleUpdateConnectionInput>;
+  connect?: Maybe<Array<ProjectScheduleConnectFieldInput>>;
+  disconnect?: Maybe<Array<ProjectScheduleDisconnectFieldInput>>;
+  create?: Maybe<Array<ProjectScheduleCreateFieldInput>>;
+  delete?: Maybe<Array<ProjectScheduleDeleteFieldInput>>;
+}
+
+/** Fields to sort Projects by. The order in which sorts are applied is not guaranteed when specifying many fields in one ProjectSort object. */
+export interface ProjectSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  status?: Maybe<SortDirection>;
+  startDate?: Maybe<SortDirection>;
+  endDate?: Maybe<SortDirection>;
+}
+
+export interface ProjectUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  organisation?: Maybe<ProjectOrganisationUpdateFieldInput>;
+  schedule?: Maybe<Array<ProjectScheduleUpdateFieldInput>>;
+  plan?: Maybe<Array<ProjectPlanUpdateFieldInput>>;
+}
+
+export interface ProjectWhere {
+  OR?: Maybe<Array<ProjectWhere>>;
+  AND?: Maybe<Array<ProjectWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars["String"]>;
+  status_NOT?: Maybe<Scalars["String"]>;
+  status_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  status_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  status_CONTAINS?: Maybe<Scalars["String"]>;
+  status_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  status_STARTS_WITH?: Maybe<Scalars["String"]>;
+  status_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  status_ENDS_WITH?: Maybe<Scalars["String"]>;
+  status_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  startDate_NOT?: Maybe<Scalars["DateTime"]>;
+  startDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startDate_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  endDate_NOT?: Maybe<Scalars["DateTime"]>;
+  endDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  endDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  endDate_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_GTE?: Maybe<Scalars["DateTime"]>;
+  organisation?: Maybe<HiveOrganisationWhere>;
+  organisation_NOT?: Maybe<HiveOrganisationWhere>;
+  schedule?: Maybe<ScheduleItemWhere>;
+  schedule_NOT?: Maybe<ScheduleItemWhere>;
+  plan?: Maybe<TimelineItemWhere>;
+  plan_NOT?: Maybe<TimelineItemWhere>;
+  organisationConnection?: Maybe<ProjectOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<ProjectOrganisationConnectionWhere>;
+  scheduleConnection?: Maybe<ProjectScheduleConnectionWhere>;
+  scheduleConnection_NOT?: Maybe<ProjectScheduleConnectionWhere>;
+  planConnection?: Maybe<ProjectPlanConnectionWhere>;
+  planConnection_NOT?: Maybe<ProjectPlanConnectionWhere>;
 }
 
 export interface QueryOptions {
@@ -3845,51 +4512,806 @@ export interface RoleWhere {
   organisationConnection_NOT?: Maybe<RoleOrganisationConnectionWhere>;
 }
 
-export interface ProjectInput {
-  _id?: Maybe<Scalars["ID"]>;
-  id?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  files?: Maybe<Array<Maybe<FileInput>>>;
-  status?: Maybe<Scalars["String"]>;
-  startDate?: Maybe<Scalars["Date"]>;
-  endDate?: Maybe<Scalars["Date"]>;
+export interface ScheduleItemConnectInput {
+  project?: Maybe<ScheduleItemProjectConnectFieldInput>;
+  people?: Maybe<Array<ScheduleItemPeopleConnectFieldInput>>;
+  equipment?: Maybe<Array<ScheduleItemEquipmentConnectFieldInput>>;
+  owner?: Maybe<ScheduleItemOwnerConnectFieldInput>;
+  managers?: Maybe<Array<ScheduleItemManagersConnectFieldInput>>;
 }
 
-export interface FileInput {
-  id?: Maybe<Scalars["ID"]>;
-  name?: Maybe<Scalars["String"]>;
-  extension?: Maybe<Scalars["String"]>;
-  mimeType?: Maybe<Scalars["String"]>;
+export interface ScheduleItemConnectWhere {
+  node: ScheduleItemWhere;
 }
 
-export interface ScheduleItemInput {
-  project?: Maybe<Scalars["String"]>;
-  people?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  equipment?: Maybe<Array<Maybe<Scalars["String"]>>>;
+export interface ScheduleItemCreateInput {
   notes?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  managers?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  owner?: Maybe<Scalars["String"]>;
-  date?: Maybe<Scalars["Date"]>;
+  date?: Maybe<Scalars["DateTime"]>;
+  project?: Maybe<ScheduleItemProjectFieldInput>;
+  people?: Maybe<ScheduleItemPeopleFieldInput>;
+  equipment?: Maybe<ScheduleItemEquipmentFieldInput>;
+  owner?: Maybe<ScheduleItemOwnerFieldInput>;
+  managers?: Maybe<ScheduleItemManagersFieldInput>;
 }
 
-export interface TimelineItemInput {
-  timeline?: Maybe<Scalars["String"]>;
-  startDate?: Maybe<Scalars["Date"]>;
-  endDate?: Maybe<Scalars["Date"]>;
-  notes?: Maybe<Scalars["String"]>;
-  project?: Maybe<TimelineProjectInput>;
-  items?: Maybe<Array<Maybe<TimelineItemItemsInput>>>;
+export interface ScheduleItemDeleteInput {
+  project?: Maybe<ScheduleItemProjectDeleteFieldInput>;
+  people?: Maybe<Array<ScheduleItemPeopleDeleteFieldInput>>;
+  equipment?: Maybe<Array<ScheduleItemEquipmentDeleteFieldInput>>;
+  owner?: Maybe<ScheduleItemOwnerDeleteFieldInput>;
+  managers?: Maybe<Array<ScheduleItemManagersDeleteFieldInput>>;
 }
 
-export interface TimelineProjectInput {
+export interface ScheduleItemDisconnectInput {
+  project?: Maybe<ScheduleItemProjectDisconnectFieldInput>;
+  people?: Maybe<Array<ScheduleItemPeopleDisconnectFieldInput>>;
+  equipment?: Maybe<Array<ScheduleItemEquipmentDisconnectFieldInput>>;
+  owner?: Maybe<ScheduleItemOwnerDisconnectFieldInput>;
+  managers?: Maybe<Array<ScheduleItemManagersDisconnectFieldInput>>;
+}
+
+export interface ScheduleItemEquipmentConnectFieldInput {
+  where?: Maybe<EquipmentConnectWhere>;
+  connect?: Maybe<Array<EquipmentConnectInput>>;
+}
+
+export interface ScheduleItemEquipmentConnectionSort {
+  node?: Maybe<EquipmentSort>;
+}
+
+export interface ScheduleItemEquipmentConnectionWhere {
+  AND?: Maybe<Array<ScheduleItemEquipmentConnectionWhere>>;
+  OR?: Maybe<Array<ScheduleItemEquipmentConnectionWhere>>;
+  node?: Maybe<EquipmentWhere>;
+  node_NOT?: Maybe<EquipmentWhere>;
+}
+
+export interface ScheduleItemEquipmentCreateFieldInput {
+  node: EquipmentCreateInput;
+}
+
+export interface ScheduleItemEquipmentDeleteFieldInput {
+  where?: Maybe<ScheduleItemEquipmentConnectionWhere>;
+  delete?: Maybe<EquipmentDeleteInput>;
+}
+
+export interface ScheduleItemEquipmentDisconnectFieldInput {
+  where?: Maybe<ScheduleItemEquipmentConnectionWhere>;
+  disconnect?: Maybe<EquipmentDisconnectInput>;
+}
+
+export interface ScheduleItemEquipmentFieldInput {
+  create?: Maybe<Array<ScheduleItemEquipmentCreateFieldInput>>;
+  connect?: Maybe<Array<ScheduleItemEquipmentConnectFieldInput>>;
+}
+
+export interface ScheduleItemEquipmentUpdateConnectionInput {
+  node?: Maybe<EquipmentUpdateInput>;
+}
+
+export interface ScheduleItemEquipmentUpdateFieldInput {
+  where?: Maybe<ScheduleItemEquipmentConnectionWhere>;
+  update?: Maybe<ScheduleItemEquipmentUpdateConnectionInput>;
+  connect?: Maybe<Array<ScheduleItemEquipmentConnectFieldInput>>;
+  disconnect?: Maybe<Array<ScheduleItemEquipmentDisconnectFieldInput>>;
+  create?: Maybe<Array<ScheduleItemEquipmentCreateFieldInput>>;
+  delete?: Maybe<Array<ScheduleItemEquipmentDeleteFieldInput>>;
+}
+
+export interface ScheduleItemManagersConnectFieldInput {
+  where?: Maybe<HiveUserConnectWhere>;
+  connect?: Maybe<Array<HiveUserConnectInput>>;
+}
+
+export interface ScheduleItemManagersConnectionSort {
+  node?: Maybe<HiveUserSort>;
+}
+
+export interface ScheduleItemManagersConnectionWhere {
+  AND?: Maybe<Array<ScheduleItemManagersConnectionWhere>>;
+  OR?: Maybe<Array<ScheduleItemManagersConnectionWhere>>;
+  node?: Maybe<HiveUserWhere>;
+  node_NOT?: Maybe<HiveUserWhere>;
+}
+
+export interface ScheduleItemManagersCreateFieldInput {
+  node: HiveUserCreateInput;
+}
+
+export interface ScheduleItemManagersDeleteFieldInput {
+  where?: Maybe<ScheduleItemManagersConnectionWhere>;
+  delete?: Maybe<HiveUserDeleteInput>;
+}
+
+export interface ScheduleItemManagersDisconnectFieldInput {
+  where?: Maybe<ScheduleItemManagersConnectionWhere>;
+  disconnect?: Maybe<HiveUserDisconnectInput>;
+}
+
+export interface ScheduleItemManagersFieldInput {
+  create?: Maybe<Array<ScheduleItemManagersCreateFieldInput>>;
+  connect?: Maybe<Array<ScheduleItemManagersConnectFieldInput>>;
+}
+
+export interface ScheduleItemManagersUpdateConnectionInput {
+  node?: Maybe<HiveUserUpdateInput>;
+}
+
+export interface ScheduleItemManagersUpdateFieldInput {
+  where?: Maybe<ScheduleItemManagersConnectionWhere>;
+  update?: Maybe<ScheduleItemManagersUpdateConnectionInput>;
+  connect?: Maybe<Array<ScheduleItemManagersConnectFieldInput>>;
+  disconnect?: Maybe<Array<ScheduleItemManagersDisconnectFieldInput>>;
+  create?: Maybe<Array<ScheduleItemManagersCreateFieldInput>>;
+  delete?: Maybe<Array<ScheduleItemManagersDeleteFieldInput>>;
+}
+
+export interface ScheduleItemOptions {
+  /** Specify one or more ScheduleItemSort objects to sort ScheduleItems by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<ScheduleItemSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface ScheduleItemOwnerConnectFieldInput {
+  where?: Maybe<HiveUserConnectWhere>;
+  connect?: Maybe<HiveUserConnectInput>;
+}
+
+export interface ScheduleItemOwnerConnectionSort {
+  node?: Maybe<HiveUserSort>;
+}
+
+export interface ScheduleItemOwnerConnectionWhere {
+  AND?: Maybe<Array<ScheduleItemOwnerConnectionWhere>>;
+  OR?: Maybe<Array<ScheduleItemOwnerConnectionWhere>>;
+  node?: Maybe<HiveUserWhere>;
+  node_NOT?: Maybe<HiveUserWhere>;
+}
+
+export interface ScheduleItemOwnerCreateFieldInput {
+  node: HiveUserCreateInput;
+}
+
+export interface ScheduleItemOwnerDeleteFieldInput {
+  where?: Maybe<ScheduleItemOwnerConnectionWhere>;
+  delete?: Maybe<HiveUserDeleteInput>;
+}
+
+export interface ScheduleItemOwnerDisconnectFieldInput {
+  where?: Maybe<ScheduleItemOwnerConnectionWhere>;
+  disconnect?: Maybe<HiveUserDisconnectInput>;
+}
+
+export interface ScheduleItemOwnerFieldInput {
+  create?: Maybe<ScheduleItemOwnerCreateFieldInput>;
+  connect?: Maybe<ScheduleItemOwnerConnectFieldInput>;
+}
+
+export interface ScheduleItemOwnerUpdateConnectionInput {
+  node?: Maybe<HiveUserUpdateInput>;
+}
+
+export interface ScheduleItemOwnerUpdateFieldInput {
+  where?: Maybe<ScheduleItemOwnerConnectionWhere>;
+  update?: Maybe<ScheduleItemOwnerUpdateConnectionInput>;
+  connect?: Maybe<ScheduleItemOwnerConnectFieldInput>;
+  disconnect?: Maybe<ScheduleItemOwnerDisconnectFieldInput>;
+  create?: Maybe<ScheduleItemOwnerCreateFieldInput>;
+  delete?: Maybe<ScheduleItemOwnerDeleteFieldInput>;
+}
+
+export interface ScheduleItemPeopleConnectFieldInput {
+  where?: Maybe<PeopleConnectWhere>;
+  connect?: Maybe<Array<PeopleConnectInput>>;
+}
+
+export interface ScheduleItemPeopleConnectionSort {
+  node?: Maybe<PeopleSort>;
+}
+
+export interface ScheduleItemPeopleConnectionWhere {
+  AND?: Maybe<Array<ScheduleItemPeopleConnectionWhere>>;
+  OR?: Maybe<Array<ScheduleItemPeopleConnectionWhere>>;
+  node?: Maybe<PeopleWhere>;
+  node_NOT?: Maybe<PeopleWhere>;
+}
+
+export interface ScheduleItemPeopleCreateFieldInput {
+  node: PeopleCreateInput;
+}
+
+export interface ScheduleItemPeopleDeleteFieldInput {
+  where?: Maybe<ScheduleItemPeopleConnectionWhere>;
+  delete?: Maybe<PeopleDeleteInput>;
+}
+
+export interface ScheduleItemPeopleDisconnectFieldInput {
+  where?: Maybe<ScheduleItemPeopleConnectionWhere>;
+  disconnect?: Maybe<PeopleDisconnectInput>;
+}
+
+export interface ScheduleItemPeopleFieldInput {
+  create?: Maybe<Array<ScheduleItemPeopleCreateFieldInput>>;
+  connect?: Maybe<Array<ScheduleItemPeopleConnectFieldInput>>;
+}
+
+export interface ScheduleItemPeopleUpdateConnectionInput {
+  node?: Maybe<PeopleUpdateInput>;
+}
+
+export interface ScheduleItemPeopleUpdateFieldInput {
+  where?: Maybe<ScheduleItemPeopleConnectionWhere>;
+  update?: Maybe<ScheduleItemPeopleUpdateConnectionInput>;
+  connect?: Maybe<Array<ScheduleItemPeopleConnectFieldInput>>;
+  disconnect?: Maybe<Array<ScheduleItemPeopleDisconnectFieldInput>>;
+  create?: Maybe<Array<ScheduleItemPeopleCreateFieldInput>>;
+  delete?: Maybe<Array<ScheduleItemPeopleDeleteFieldInput>>;
+}
+
+export interface ScheduleItemProjectConnectFieldInput {
+  where?: Maybe<ProjectConnectWhere>;
+  connect?: Maybe<ProjectConnectInput>;
+}
+
+export interface ScheduleItemProjectConnectionSort {
+  node?: Maybe<ProjectSort>;
+}
+
+export interface ScheduleItemProjectConnectionWhere {
+  AND?: Maybe<Array<ScheduleItemProjectConnectionWhere>>;
+  OR?: Maybe<Array<ScheduleItemProjectConnectionWhere>>;
+  node?: Maybe<ProjectWhere>;
+  node_NOT?: Maybe<ProjectWhere>;
+}
+
+export interface ScheduleItemProjectCreateFieldInput {
+  node: ProjectCreateInput;
+}
+
+export interface ScheduleItemProjectDeleteFieldInput {
+  where?: Maybe<ScheduleItemProjectConnectionWhere>;
+  delete?: Maybe<ProjectDeleteInput>;
+}
+
+export interface ScheduleItemProjectDisconnectFieldInput {
+  where?: Maybe<ScheduleItemProjectConnectionWhere>;
+  disconnect?: Maybe<ProjectDisconnectInput>;
+}
+
+export interface ScheduleItemProjectFieldInput {
+  create?: Maybe<ScheduleItemProjectCreateFieldInput>;
+  connect?: Maybe<ScheduleItemProjectConnectFieldInput>;
+}
+
+export interface ScheduleItemProjectUpdateConnectionInput {
+  node?: Maybe<ProjectUpdateInput>;
+}
+
+export interface ScheduleItemProjectUpdateFieldInput {
+  where?: Maybe<ScheduleItemProjectConnectionWhere>;
+  update?: Maybe<ScheduleItemProjectUpdateConnectionInput>;
+  connect?: Maybe<ScheduleItemProjectConnectFieldInput>;
+  disconnect?: Maybe<ScheduleItemProjectDisconnectFieldInput>;
+  create?: Maybe<ScheduleItemProjectCreateFieldInput>;
+  delete?: Maybe<ScheduleItemProjectDeleteFieldInput>;
+}
+
+export interface ScheduleItemRelationInput {
+  project?: Maybe<ScheduleItemProjectCreateFieldInput>;
+  people?: Maybe<Array<ScheduleItemPeopleCreateFieldInput>>;
+  equipment?: Maybe<Array<ScheduleItemEquipmentCreateFieldInput>>;
+  owner?: Maybe<ScheduleItemOwnerCreateFieldInput>;
+  managers?: Maybe<Array<ScheduleItemManagersCreateFieldInput>>;
+}
+
+/** Fields to sort ScheduleItems by. The order in which sorts are applied is not guaranteed when specifying many fields in one ScheduleItemSort object. */
+export interface ScheduleItemSort {
+  id?: Maybe<SortDirection>;
+  date?: Maybe<SortDirection>;
+}
+
+export interface ScheduleItemUpdateInput {
+  notes?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  date?: Maybe<Scalars["DateTime"]>;
+  project?: Maybe<ScheduleItemProjectUpdateFieldInput>;
+  people?: Maybe<Array<ScheduleItemPeopleUpdateFieldInput>>;
+  equipment?: Maybe<Array<ScheduleItemEquipmentUpdateFieldInput>>;
+  owner?: Maybe<ScheduleItemOwnerUpdateFieldInput>;
+  managers?: Maybe<Array<ScheduleItemManagersUpdateFieldInput>>;
+}
+
+export interface ScheduleItemWhere {
+  OR?: Maybe<Array<ScheduleItemWhere>>;
+  AND?: Maybe<Array<ScheduleItemWhere>>;
   id?: Maybe<Scalars["ID"]>;
-  type?: Maybe<Scalars["String"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  notes?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  notes_NOT?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  notes_INCLUDES?: Maybe<Scalars["String"]>;
+  notes_NOT_INCLUDES?: Maybe<Scalars["String"]>;
+  date?: Maybe<Scalars["DateTime"]>;
+  date_NOT?: Maybe<Scalars["DateTime"]>;
+  date_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  date_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  date_LT?: Maybe<Scalars["DateTime"]>;
+  date_LTE?: Maybe<Scalars["DateTime"]>;
+  date_GT?: Maybe<Scalars["DateTime"]>;
+  date_GTE?: Maybe<Scalars["DateTime"]>;
+  project?: Maybe<ProjectWhere>;
+  project_NOT?: Maybe<ProjectWhere>;
+  people?: Maybe<PeopleWhere>;
+  people_NOT?: Maybe<PeopleWhere>;
+  equipment?: Maybe<EquipmentWhere>;
+  equipment_NOT?: Maybe<EquipmentWhere>;
+  owner?: Maybe<HiveUserWhere>;
+  owner_NOT?: Maybe<HiveUserWhere>;
+  managers?: Maybe<HiveUserWhere>;
+  managers_NOT?: Maybe<HiveUserWhere>;
+  projectConnection?: Maybe<ScheduleItemProjectConnectionWhere>;
+  projectConnection_NOT?: Maybe<ScheduleItemProjectConnectionWhere>;
+  peopleConnection?: Maybe<ScheduleItemPeopleConnectionWhere>;
+  peopleConnection_NOT?: Maybe<ScheduleItemPeopleConnectionWhere>;
+  equipmentConnection?: Maybe<ScheduleItemEquipmentConnectionWhere>;
+  equipmentConnection_NOT?: Maybe<ScheduleItemEquipmentConnectionWhere>;
+  ownerConnection?: Maybe<ScheduleItemOwnerConnectionWhere>;
+  ownerConnection_NOT?: Maybe<ScheduleItemOwnerConnectionWhere>;
+  managersConnection?: Maybe<ScheduleItemManagersConnectionWhere>;
+  managersConnection_NOT?: Maybe<ScheduleItemManagersConnectionWhere>;
 }
 
-export interface TimelineItemItemsInput {
+export interface TimelineItemConnectInput {
+  items?: Maybe<Array<TimelineItemItemsConnectFieldInput>>;
+  project?: Maybe<TimelineItemProjectConnectInput>;
+}
+
+export interface TimelineItemConnectWhere {
+  node: TimelineItemWhere;
+}
+
+export interface TimelineItemCreateInput {
+  timeline?: Maybe<Scalars["String"]>;
+  notes?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  items?: Maybe<TimelineItemItemsFieldInput>;
+  project?: Maybe<TimelineItemProjectCreateInput>;
+}
+
+export interface TimelineItemDeleteInput {
+  items?: Maybe<Array<TimelineItemItemsDeleteFieldInput>>;
+  project?: Maybe<TimelineItemProjectDeleteInput>;
+}
+
+export interface TimelineItemDisconnectInput {
+  items?: Maybe<Array<TimelineItemItemsDisconnectFieldInput>>;
+  project?: Maybe<TimelineItemProjectDisconnectInput>;
+}
+
+export interface TimelineItemItemsConnectFieldInput {
+  where?: Maybe<TimelineItemItemsConnectWhere>;
+  connect?: Maybe<Array<TimelineItemItemsConnectInput>>;
+}
+
+export interface TimelineItemItemsConnectInput {
+  item?: Maybe<TimelineItemItemsItemConnectFieldInput>;
+}
+
+export interface TimelineItemItemsConnectionSort {
+  node?: Maybe<TimelineItemItemsSort>;
+}
+
+export interface TimelineItemItemsConnectionWhere {
+  AND?: Maybe<Array<TimelineItemItemsConnectionWhere>>;
+  OR?: Maybe<Array<TimelineItemItemsConnectionWhere>>;
+  node?: Maybe<TimelineItemItemsWhere>;
+  node_NOT?: Maybe<TimelineItemItemsWhere>;
+}
+
+export interface TimelineItemItemsConnectWhere {
+  node: TimelineItemItemsWhere;
+}
+
+export interface TimelineItemItemsCreateFieldInput {
+  node: TimelineItemItemsCreateInput;
+}
+
+export interface TimelineItemItemsCreateInput {
   type?: Maybe<Scalars["String"]>;
   location?: Maybe<Scalars["String"]>;
   estimate?: Maybe<Scalars["Float"]>;
+  item?: Maybe<TimelineItemItemsItemFieldInput>;
+}
+
+export interface TimelineItemItemsDeleteFieldInput {
+  where?: Maybe<TimelineItemItemsConnectionWhere>;
+  delete?: Maybe<TimelineItemItemsDeleteInput>;
+}
+
+export interface TimelineItemItemsDeleteInput {
+  item?: Maybe<TimelineItemItemsItemDeleteFieldInput>;
+}
+
+export interface TimelineItemItemsDisconnectFieldInput {
+  where?: Maybe<TimelineItemItemsConnectionWhere>;
+  disconnect?: Maybe<TimelineItemItemsDisconnectInput>;
+}
+
+export interface TimelineItemItemsDisconnectInput {
+  item?: Maybe<TimelineItemItemsItemDisconnectFieldInput>;
+}
+
+export interface TimelineItemItemsFieldInput {
+  create?: Maybe<Array<TimelineItemItemsCreateFieldInput>>;
+  connect?: Maybe<Array<TimelineItemItemsConnectFieldInput>>;
+}
+
+export interface TimelineItemItemsItemConnectFieldInput {
+  where?: Maybe<TimelineItemConnectWhere>;
+  connect?: Maybe<TimelineItemConnectInput>;
+}
+
+export interface TimelineItemItemsItemConnectionSort {
+  node?: Maybe<TimelineItemSort>;
+}
+
+export interface TimelineItemItemsItemConnectionWhere {
+  AND?: Maybe<Array<TimelineItemItemsItemConnectionWhere>>;
+  OR?: Maybe<Array<TimelineItemItemsItemConnectionWhere>>;
+  node?: Maybe<TimelineItemWhere>;
+  node_NOT?: Maybe<TimelineItemWhere>;
+}
+
+export interface TimelineItemItemsItemCreateFieldInput {
+  node: TimelineItemCreateInput;
+}
+
+export interface TimelineItemItemsItemDeleteFieldInput {
+  where?: Maybe<TimelineItemItemsItemConnectionWhere>;
+  delete?: Maybe<TimelineItemDeleteInput>;
+}
+
+export interface TimelineItemItemsItemDisconnectFieldInput {
+  where?: Maybe<TimelineItemItemsItemConnectionWhere>;
+  disconnect?: Maybe<TimelineItemDisconnectInput>;
+}
+
+export interface TimelineItemItemsItemFieldInput {
+  create?: Maybe<TimelineItemItemsItemCreateFieldInput>;
+  connect?: Maybe<TimelineItemItemsItemConnectFieldInput>;
+}
+
+export interface TimelineItemItemsItemUpdateConnectionInput {
+  node?: Maybe<TimelineItemUpdateInput>;
+}
+
+export interface TimelineItemItemsItemUpdateFieldInput {
+  where?: Maybe<TimelineItemItemsItemConnectionWhere>;
+  update?: Maybe<TimelineItemItemsItemUpdateConnectionInput>;
+  connect?: Maybe<TimelineItemItemsItemConnectFieldInput>;
+  disconnect?: Maybe<TimelineItemItemsItemDisconnectFieldInput>;
+  create?: Maybe<TimelineItemItemsItemCreateFieldInput>;
+  delete?: Maybe<TimelineItemItemsItemDeleteFieldInput>;
+}
+
+export interface TimelineItemItemsOptions {
+  /** Specify one or more TimelineItemItemsSort objects to sort TimelineItemItems by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<TimelineItemItemsSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface TimelineItemItemsRelationInput {
+  item?: Maybe<TimelineItemItemsItemCreateFieldInput>;
+}
+
+/** Fields to sort TimelineItemItems by. The order in which sorts are applied is not guaranteed when specifying many fields in one TimelineItemItemsSort object. */
+export interface TimelineItemItemsSort {
+  id?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+  location?: Maybe<SortDirection>;
+  estimate?: Maybe<SortDirection>;
+}
+
+export interface TimelineItemItemsUpdateConnectionInput {
+  node?: Maybe<TimelineItemItemsUpdateInput>;
+}
+
+export interface TimelineItemItemsUpdateFieldInput {
+  where?: Maybe<TimelineItemItemsConnectionWhere>;
+  update?: Maybe<TimelineItemItemsUpdateConnectionInput>;
+  connect?: Maybe<Array<TimelineItemItemsConnectFieldInput>>;
+  disconnect?: Maybe<Array<TimelineItemItemsDisconnectFieldInput>>;
+  create?: Maybe<Array<TimelineItemItemsCreateFieldInput>>;
+  delete?: Maybe<Array<TimelineItemItemsDeleteFieldInput>>;
+}
+
+export interface TimelineItemItemsUpdateInput {
+  type?: Maybe<Scalars["String"]>;
+  location?: Maybe<Scalars["String"]>;
+  estimate?: Maybe<Scalars["Float"]>;
+  item?: Maybe<TimelineItemItemsItemUpdateFieldInput>;
+}
+
+export interface TimelineItemItemsWhere {
+  OR?: Maybe<Array<TimelineItemItemsWhere>>;
+  AND?: Maybe<Array<TimelineItemItemsWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  location?: Maybe<Scalars["String"]>;
+  location_NOT?: Maybe<Scalars["String"]>;
+  location_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  location_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  location_CONTAINS?: Maybe<Scalars["String"]>;
+  location_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  location_STARTS_WITH?: Maybe<Scalars["String"]>;
+  location_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  location_ENDS_WITH?: Maybe<Scalars["String"]>;
+  location_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  estimate?: Maybe<Scalars["Float"]>;
+  estimate_NOT?: Maybe<Scalars["Float"]>;
+  estimate_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  estimate_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  estimate_LT?: Maybe<Scalars["Float"]>;
+  estimate_LTE?: Maybe<Scalars["Float"]>;
+  estimate_GT?: Maybe<Scalars["Float"]>;
+  estimate_GTE?: Maybe<Scalars["Float"]>;
+  item?: Maybe<TimelineItemWhere>;
+  item_NOT?: Maybe<TimelineItemWhere>;
+  itemConnection?: Maybe<TimelineItemItemsItemConnectionWhere>;
+  itemConnection_NOT?: Maybe<TimelineItemItemsItemConnectionWhere>;
+}
+
+export interface TimelineItemOptions {
+  /** Specify one or more TimelineItemSort objects to sort TimelineItems by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<TimelineItemSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface TimelineItemProjectConnectInput {
+  Project?: Maybe<TimelineItemProjectProjectConnectFieldInput>;
+  Estimate?: Maybe<TimelineItemProjectEstimateConnectFieldInput>;
+}
+
+export interface TimelineItemProjectConnectionEstimateWhere {
+  OR?: Maybe<Array<Maybe<TimelineItemProjectConnectionEstimateWhere>>>;
+  AND?: Maybe<Array<Maybe<TimelineItemProjectConnectionEstimateWhere>>>;
+  node?: Maybe<EstimateWhere>;
+  node_NOT?: Maybe<EstimateWhere>;
+}
+
+export interface TimelineItemProjectConnectionProjectWhere {
+  OR?: Maybe<Array<Maybe<TimelineItemProjectConnectionProjectWhere>>>;
+  AND?: Maybe<Array<Maybe<TimelineItemProjectConnectionProjectWhere>>>;
+  node?: Maybe<ProjectWhere>;
+  node_NOT?: Maybe<ProjectWhere>;
+}
+
+export interface TimelineItemProjectConnectionWhere {
+  Project?: Maybe<TimelineItemProjectConnectionProjectWhere>;
+  Estimate?: Maybe<TimelineItemProjectConnectionEstimateWhere>;
+}
+
+export interface TimelineItemProjectCreateFieldInput {
+  Project?: Maybe<Array<TimelineItemProjectProjectCreateFieldInput>>;
+  Estimate?: Maybe<Array<TimelineItemProjectEstimateCreateFieldInput>>;
+}
+
+export interface TimelineItemProjectCreateInput {
+  Project?: Maybe<TimelineItemProjectProjectFieldInput>;
+  Estimate?: Maybe<TimelineItemProjectEstimateFieldInput>;
+}
+
+export interface TimelineItemProjectDeleteInput {
+  Project?: Maybe<TimelineItemProjectProjectDeleteFieldInput>;
+  Estimate?: Maybe<TimelineItemProjectEstimateDeleteFieldInput>;
+}
+
+export interface TimelineItemProjectDisconnectInput {
+  Project?: Maybe<TimelineItemProjectProjectDisconnectFieldInput>;
+  Estimate?: Maybe<TimelineItemProjectEstimateDisconnectFieldInput>;
+}
+
+export interface TimelineItemProjectEstimateConnectFieldInput {
+  where?: Maybe<EstimateConnectWhere>;
+}
+
+export interface TimelineItemProjectEstimateConnectionWhere {
+  node?: Maybe<EstimateWhere>;
+  node_NOT?: Maybe<EstimateWhere>;
+  AND?: Maybe<Array<TimelineItemProjectEstimateConnectionWhere>>;
+  OR?: Maybe<Array<TimelineItemProjectEstimateConnectionWhere>>;
+}
+
+export interface TimelineItemProjectEstimateCreateFieldInput {
+  node: EstimateCreateInput;
+}
+
+export interface TimelineItemProjectEstimateDeleteFieldInput {
+  where?: Maybe<TimelineItemProjectEstimateConnectionWhere>;
+}
+
+export interface TimelineItemProjectEstimateDisconnectFieldInput {
+  where?: Maybe<TimelineItemProjectEstimateConnectionWhere>;
+}
+
+export interface TimelineItemProjectEstimateFieldInput {
+  create?: Maybe<TimelineItemProjectEstimateCreateFieldInput>;
+  connect?: Maybe<TimelineItemProjectEstimateConnectFieldInput>;
+}
+
+export interface TimelineItemProjectEstimateUpdateConnectionInput {
+  node?: Maybe<EstimateUpdateInput>;
+}
+
+export interface TimelineItemProjectEstimateUpdateFieldInput {
+  where?: Maybe<TimelineItemProjectEstimateConnectionWhere>;
+  update?: Maybe<TimelineItemProjectEstimateUpdateConnectionInput>;
+  connect?: Maybe<TimelineItemProjectEstimateConnectFieldInput>;
+  disconnect?: Maybe<TimelineItemProjectEstimateDisconnectFieldInput>;
+  create?: Maybe<TimelineItemProjectEstimateCreateFieldInput>;
+  delete?: Maybe<TimelineItemProjectEstimateDeleteFieldInput>;
+}
+
+export interface TimelineItemProjectProjectConnectFieldInput {
+  where?: Maybe<ProjectConnectWhere>;
+  connect?: Maybe<ProjectConnectInput>;
+}
+
+export interface TimelineItemProjectProjectConnectionWhere {
+  node?: Maybe<ProjectWhere>;
+  node_NOT?: Maybe<ProjectWhere>;
+  AND?: Maybe<Array<TimelineItemProjectProjectConnectionWhere>>;
+  OR?: Maybe<Array<TimelineItemProjectProjectConnectionWhere>>;
+}
+
+export interface TimelineItemProjectProjectCreateFieldInput {
+  node: ProjectCreateInput;
+}
+
+export interface TimelineItemProjectProjectDeleteFieldInput {
+  where?: Maybe<TimelineItemProjectProjectConnectionWhere>;
+  delete?: Maybe<ProjectDeleteInput>;
+}
+
+export interface TimelineItemProjectProjectDisconnectFieldInput {
+  where?: Maybe<TimelineItemProjectProjectConnectionWhere>;
+  disconnect?: Maybe<ProjectDisconnectInput>;
+}
+
+export interface TimelineItemProjectProjectFieldInput {
+  create?: Maybe<TimelineItemProjectProjectCreateFieldInput>;
+  connect?: Maybe<TimelineItemProjectProjectConnectFieldInput>;
+}
+
+export interface TimelineItemProjectProjectUpdateConnectionInput {
+  node?: Maybe<ProjectUpdateInput>;
+}
+
+export interface TimelineItemProjectProjectUpdateFieldInput {
+  where?: Maybe<TimelineItemProjectProjectConnectionWhere>;
+  update?: Maybe<TimelineItemProjectProjectUpdateConnectionInput>;
+  connect?: Maybe<TimelineItemProjectProjectConnectFieldInput>;
+  disconnect?: Maybe<TimelineItemProjectProjectDisconnectFieldInput>;
+  create?: Maybe<TimelineItemProjectProjectCreateFieldInput>;
+  delete?: Maybe<TimelineItemProjectProjectDeleteFieldInput>;
+}
+
+export interface TimelineItemProjectUpdateInput {
+  Project?: Maybe<TimelineItemProjectProjectUpdateFieldInput>;
+  Estimate?: Maybe<TimelineItemProjectEstimateUpdateFieldInput>;
+}
+
+export interface TimelineItemRelationInput {
+  items?: Maybe<Array<TimelineItemItemsCreateFieldInput>>;
+  project?: Maybe<TimelineItemProjectCreateFieldInput>;
+}
+
+/** Fields to sort TimelineItems by. The order in which sorts are applied is not guaranteed when specifying many fields in one TimelineItemSort object. */
+export interface TimelineItemSort {
+  id?: Maybe<SortDirection>;
+  timeline?: Maybe<SortDirection>;
+  notes?: Maybe<SortDirection>;
+  startDate?: Maybe<SortDirection>;
+  endDate?: Maybe<SortDirection>;
+}
+
+export interface TimelineItemUpdateInput {
+  timeline?: Maybe<Scalars["String"]>;
+  notes?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  items?: Maybe<Array<TimelineItemItemsUpdateFieldInput>>;
+  project?: Maybe<TimelineItemProjectUpdateInput>;
+}
+
+export interface TimelineItemWhere {
+  OR?: Maybe<Array<TimelineItemWhere>>;
+  AND?: Maybe<Array<TimelineItemWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  timeline?: Maybe<Scalars["String"]>;
+  timeline_NOT?: Maybe<Scalars["String"]>;
+  timeline_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  timeline_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  timeline_CONTAINS?: Maybe<Scalars["String"]>;
+  timeline_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  timeline_STARTS_WITH?: Maybe<Scalars["String"]>;
+  timeline_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  timeline_ENDS_WITH?: Maybe<Scalars["String"]>;
+  timeline_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  notes?: Maybe<Scalars["String"]>;
+  notes_NOT?: Maybe<Scalars["String"]>;
+  notes_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  notes_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  notes_CONTAINS?: Maybe<Scalars["String"]>;
+  notes_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  notes_STARTS_WITH?: Maybe<Scalars["String"]>;
+  notes_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  notes_ENDS_WITH?: Maybe<Scalars["String"]>;
+  notes_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  startDate_NOT?: Maybe<Scalars["DateTime"]>;
+  startDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startDate_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  endDate_NOT?: Maybe<Scalars["DateTime"]>;
+  endDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  endDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  endDate_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_GTE?: Maybe<Scalars["DateTime"]>;
+  items?: Maybe<TimelineItemItemsWhere>;
+  items_NOT?: Maybe<TimelineItemItemsWhere>;
+  itemsConnection?: Maybe<TimelineItemItemsConnectionWhere>;
+  itemsConnection_NOT?: Maybe<TimelineItemItemsConnectionWhere>;
+  projectConnection?: Maybe<TimelineItemProjectConnectionWhere>;
+  projectConnection_NOT?: Maybe<TimelineItemProjectConnectionWhere>;
+}
+
+export interface TimelineProjectWhere {
+  Project?: Maybe<ProjectWhere>;
+  Estimate?: Maybe<EstimateWhere>;
 }
 
 export enum SortFindByIdsDeviceInput {
@@ -6013,12 +7435,12 @@ export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   Int: true,
   String: true,
   Float: true,
-  Boolean: true,
   DateTime: true,
   SortDirection: true,
-  Date: true,
+  Boolean: true,
   JSON: true,
   MongoID: true,
+  Date: true,
   SortFindByIdsDeviceInput: true,
   SortFindOneDeviceInput: true,
   SortFindManyDeviceInput: true,
@@ -6204,43 +7626,53 @@ export const generatedSchema = {
       __args: { where: "PermissionWhere", options: "PermissionOptions" },
     },
     permissionsCount: { __type: "Int!", __args: { where: "PermissionWhere" } },
-    ProjectById: { __type: "Project", __args: { id: "ID" } },
-    ProjectMany: {
-      __type: "[Project]",
+    projects: {
+      __type: "[Project!]!",
+      __args: { where: "ProjectWhere", options: "ProjectOptions" },
+    },
+    projectsCount: { __type: "Int!", __args: { where: "ProjectWhere" } },
+    estimates: {
+      __type: "[Estimate!]!",
+      __args: { where: "EstimateWhere", options: "EstimateOptions" },
+    },
+    estimatesCount: { __type: "Int!", __args: { where: "EstimateWhere" } },
+    people: {
+      __type: "[People!]!",
+      __args: { where: "PeopleWhere", options: "PeopleOptions" },
+    },
+    peopleCount: { __type: "Int!", __args: { where: "PeopleWhere" } },
+    equipment: {
+      __type: "[Equipment!]!",
+      __args: { where: "EquipmentWhere", options: "EquipmentOptions" },
+    },
+    equipmentCount: { __type: "Int!", __args: { where: "EquipmentWhere" } },
+    timelineItemItems: {
+      __type: "[TimelineItemItems!]!",
       __args: {
-        status: "String",
-        statusList: "[String]",
-        startDate: "Date",
-        endDate: "Date",
+        where: "TimelineItemItemsWhere",
+        options: "TimelineItemItemsOptions",
       },
     },
-    UserMany: { __type: "[User]" },
-    FileMany: { __type: "[File]" },
-    FileByProject: { __type: "[File]", __args: { id: "String" } },
-    QuoteById: { __type: "Quote", __args: { id: "ID" } },
-    QuoteMany: {
-      __type: "[Quote]",
-      __args: { status: "String", startDate: "Date", endDate: "Date" },
+    timelineItemItemsCount: {
+      __type: "Int!",
+      __args: { where: "TimelineItemItemsWhere" },
     },
-    EquipmentById: { __type: "Equipment", __args: { id: "ID" } },
-    EquipmentMany: { __type: "[Equipment]", __args: { status: "String" } },
-    ScheduleById: { __type: "ScheduleItem", __args: { id: "ID" } },
-    ScheduleMany: {
-      __type: "[ScheduleItem]",
-      __args: {
-        project: "String",
-        status: "String",
-        startDate: "Date",
-        endDate: "Date",
-      },
+    timelineItems: {
+      __type: "[TimelineItem!]!",
+      __args: { where: "TimelineItemWhere", options: "TimelineItemOptions" },
     },
-    TimelineItemById: { __type: "TimelineItem", __args: { id: "ID" } },
-    TimelineItemMany: {
-      __type: "[TimelineItem]",
-      __args: { timeline: "String", startDate: "Date", endDate: "Date" },
+    timelineItemsCount: {
+      __type: "Int!",
+      __args: { where: "TimelineItemWhere" },
     },
-    PeopleById: { __type: "People", __args: { id: "ID" } },
-    PeopleMany: { __type: "[People]", __args: { status: "String" } },
+    scheduleItems: {
+      __type: "[ScheduleItem!]!",
+      __args: { where: "ScheduleItemWhere", options: "ScheduleItemOptions" },
+    },
+    scheduleItemsCount: {
+      __type: "Int!",
+      __args: { where: "ScheduleItemWhere" },
+    },
     ProgramShard: { __type: "Program", __args: { id: "String" } },
     ProgramShards: { __type: "[Program]" },
     DeviceById: { __type: "Device", __args: { _id: "MongoID!" } },
@@ -7029,48 +8461,135 @@ export const generatedSchema = {
         delete: "PermissionDeleteInput",
       },
     },
-    addProject: { __type: "Project", __args: { project: "ProjectInput" } },
-    updateProject: {
-      __type: "Project",
-      __args: { id: "String", project: "ProjectInput" },
+    createProjects: {
+      __type: "CreateProjectsMutationResponse!",
+      __args: { input: "[ProjectCreateInput!]!" },
     },
-    removeFileFromProject: {
-      __type: "Boolean",
-      __args: { project: "String", id: "String" },
+    deleteProjects: {
+      __type: "DeleteInfo!",
+      __args: { where: "ProjectWhere", delete: "ProjectDeleteInput" },
     },
-    updateFile: {
-      __type: "File",
-      __args: { id: "String", name: "String", status: "String" },
+    updateProjects: {
+      __type: "UpdateProjectsMutationResponse!",
+      __args: {
+        where: "ProjectWhere",
+        update: "ProjectUpdateInput",
+        connect: "ProjectConnectInput",
+        disconnect: "ProjectDisconnectInput",
+        create: "ProjectRelationInput",
+        delete: "ProjectDeleteInput",
+      },
     },
-    updateFiles: {
-      __type: "[File]",
-      __args: { ids: "[String]", status: "String" },
+    createEstimates: {
+      __type: "CreateEstimatesMutationResponse!",
+      __args: { input: "[EstimateCreateInput!]!" },
     },
-    removeProject: { __type: "Boolean" },
-    createScheduleItem: {
-      __type: "ScheduleItem",
-      __args: { item: "ScheduleItemInput" },
+    deleteEstimates: {
+      __type: "DeleteInfo!",
+      __args: { where: "EstimateWhere" },
     },
-    updateScheduleItem: {
-      __type: "ScheduleItem",
-      __args: { id: "String", item: "ScheduleItemInput" },
+    updateEstimates: {
+      __type: "UpdateEstimatesMutationResponse!",
+      __args: { where: "EstimateWhere", update: "EstimateUpdateInput" },
     },
-    removeScheduleItem: { __type: "Boolean", __args: { id: "String" } },
-    joinScheduleItem: { __type: "Boolean", __args: { id: "String" } },
-    leaveScheduleItem: { __type: "Boolean", __args: { id: "String" } },
-    cloneScheduleItem: {
-      __type: "Boolean",
-      __args: { id: "String", cloneTo: "[Date]" },
+    createPeople: {
+      __type: "CreatePeopleMutationResponse!",
+      __args: { input: "[PeopleCreateInput!]!" },
     },
-    createTimelineItem: {
-      __type: "TimelineItem",
-      __args: { item: "TimelineItemInput" },
+    deletePeople: {
+      __type: "DeleteInfo!",
+      __args: { where: "PeopleWhere", delete: "PeopleDeleteInput" },
     },
-    updateTimelineItem: {
-      __type: "TimelineItem",
-      __args: { id: "String", item: "TimelineItemInput" },
+    updatePeople: {
+      __type: "UpdatePeopleMutationResponse!",
+      __args: {
+        where: "PeopleWhere",
+        update: "PeopleUpdateInput",
+        connect: "PeopleConnectInput",
+        disconnect: "PeopleDisconnectInput",
+        create: "PeopleRelationInput",
+        delete: "PeopleDeleteInput",
+      },
     },
-    removeTimelineItem: { __type: "Boolean", __args: { id: "String" } },
+    createEquipment: {
+      __type: "CreateEquipmentMutationResponse!",
+      __args: { input: "[EquipmentCreateInput!]!" },
+    },
+    deleteEquipment: {
+      __type: "DeleteInfo!",
+      __args: { where: "EquipmentWhere", delete: "EquipmentDeleteInput" },
+    },
+    updateEquipment: {
+      __type: "UpdateEquipmentMutationResponse!",
+      __args: {
+        where: "EquipmentWhere",
+        update: "EquipmentUpdateInput",
+        connect: "EquipmentConnectInput",
+        disconnect: "EquipmentDisconnectInput",
+        create: "EquipmentRelationInput",
+        delete: "EquipmentDeleteInput",
+      },
+    },
+    createTimelineItemItems: {
+      __type: "CreateTimelineItemItemsMutationResponse!",
+      __args: { input: "[TimelineItemItemsCreateInput!]!" },
+    },
+    deleteTimelineItemItems: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "TimelineItemItemsWhere",
+        delete: "TimelineItemItemsDeleteInput",
+      },
+    },
+    updateTimelineItemItems: {
+      __type: "UpdateTimelineItemItemsMutationResponse!",
+      __args: {
+        where: "TimelineItemItemsWhere",
+        update: "TimelineItemItemsUpdateInput",
+        connect: "TimelineItemItemsConnectInput",
+        disconnect: "TimelineItemItemsDisconnectInput",
+        create: "TimelineItemItemsRelationInput",
+        delete: "TimelineItemItemsDeleteInput",
+      },
+    },
+    createTimelineItems: {
+      __type: "CreateTimelineItemsMutationResponse!",
+      __args: { input: "[TimelineItemCreateInput!]!" },
+    },
+    deleteTimelineItems: {
+      __type: "DeleteInfo!",
+      __args: { where: "TimelineItemWhere", delete: "TimelineItemDeleteInput" },
+    },
+    updateTimelineItems: {
+      __type: "UpdateTimelineItemsMutationResponse!",
+      __args: {
+        where: "TimelineItemWhere",
+        update: "TimelineItemUpdateInput",
+        connect: "TimelineItemConnectInput",
+        disconnect: "TimelineItemDisconnectInput",
+        create: "TimelineItemRelationInput",
+        delete: "TimelineItemDeleteInput",
+      },
+    },
+    createScheduleItems: {
+      __type: "CreateScheduleItemsMutationResponse!",
+      __args: { input: "[ScheduleItemCreateInput!]!" },
+    },
+    deleteScheduleItems: {
+      __type: "DeleteInfo!",
+      __args: { where: "ScheduleItemWhere", delete: "ScheduleItemDeleteInput" },
+    },
+    updateScheduleItems: {
+      __type: "UpdateScheduleItemsMutationResponse!",
+      __args: {
+        where: "ScheduleItemWhere",
+        update: "ScheduleItemUpdateInput",
+        connect: "ScheduleItemConnectInput",
+        disconnect: "ScheduleItemDisconnectInput",
+        create: "ScheduleItemRelationInput",
+        delete: "ScheduleItemDeleteInput",
+      },
+    },
     addProgramIO: {
       __type: "ProgramIo",
       __args: { program: "String", name: "String", type: "String" },
@@ -7391,12 +8910,26 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     $on: { __type: "$HivePipelineRunner!" },
   },
+  TimelineProject: {
+    __typename: { __type: "String!" },
+    $on: { __type: "$TimelineProject!" },
+  },
   HivePipelineFlowPath: {
     __typename: { __type: "String!" },
     id: { __type: "ID" },
     source: { __type: "String" },
     target: { __type: "String" },
     $on: { __type: "$HivePipelineFlowPath!" },
+  },
+  CreateEquipmentMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    equipment: { __type: "[Equipment!]!" },
+  },
+  CreateEstimatesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    estimates: { __type: "[Estimate!]!" },
   },
   CreateFileSystemsMutationResponse: {
     __typename: { __type: "String!" },
@@ -7479,21 +9012,87 @@ export const generatedSchema = {
     nodesCreated: { __type: "Int!" },
     relationshipsCreated: { __type: "Int!" },
   },
+  CreatePeopleMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    people: { __type: "[People!]!" },
+  },
   CreatePermissionsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
     permissions: { __type: "[Permission!]!" },
+  },
+  CreateProjectsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    projects: { __type: "[Project!]!" },
   },
   CreateRolesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
     roles: { __type: "[Role!]!" },
   },
+  CreateScheduleItemsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    scheduleItems: { __type: "[ScheduleItem!]!" },
+  },
+  CreateTimelineItemItemsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    timelineItemItems: { __type: "[TimelineItemItems!]!" },
+  },
+  CreateTimelineItemsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    timelineItems: { __type: "[TimelineItem!]!" },
+  },
   DeleteInfo: {
     __typename: { __type: "String!" },
     bookmark: { __type: "String" },
     nodesDeleted: { __type: "Int!" },
     relationshipsDeleted: { __type: "Int!" },
+  },
+  Equipment: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    registration: { __type: "String" },
+    organisation: {
+      __type: "HiveOrganisation",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
+    organisationConnection: {
+      __type: "EquipmentOrganisationConnection!",
+      __args: {
+        where: "EquipmentOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[EquipmentOrganisationConnectionSort!]",
+      },
+    },
+  },
+  EquipmentOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[EquipmentOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  EquipmentOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveOrganisation!" },
+  },
+  Estimate: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    status: { __type: "String" },
+    price: { __type: "Float" },
+    date: { __type: "DateTime" },
   },
   FileSystem: {
     __typename: { __type: "String!" },
@@ -7935,6 +9534,10 @@ export const generatedSchema = {
       __type: "[HiveAppliance]",
       __args: { where: "HiveApplianceWhere", options: "HiveApplianceOptions" },
     },
+    schedule: {
+      __type: "[ScheduleItem]",
+      __args: { where: "ScheduleItemWhere", options: "ScheduleItemOptions" },
+    },
     filesystems: {
       __type: "[FileSystem]",
       __args: { where: "FileSystemWhere", options: "FileSystemOptions" },
@@ -7964,6 +9567,15 @@ export const generatedSchema = {
         first: "Int",
         after: "String",
         sort: "[HiveOrganisationAppliancesConnectionSort!]",
+      },
+    },
+    scheduleConnection: {
+      __type: "HiveOrganisationScheduleConnection!",
+      __args: {
+        where: "HiveOrganisationScheduleConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HiveOrganisationScheduleConnectionSort!]",
       },
     },
     filesystemsConnection: {
@@ -8019,6 +9631,17 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "Role!" },
+  },
+  HiveOrganisationScheduleConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HiveOrganisationScheduleRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HiveOrganisationScheduleRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "ScheduleItem!" },
   },
   HivePipeline: {
     __typename: { __type: "String!" },
@@ -8513,6 +10136,38 @@ export const generatedSchema = {
     startCursor: { __type: "String" },
     endCursor: { __type: "String" },
   },
+  People: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    organisation: {
+      __type: "HiveOrganisation",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
+    organisationConnection: {
+      __type: "PeopleOrganisationConnection!",
+      __args: {
+        where: "PeopleOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[PeopleOrganisationConnectionSort!]",
+      },
+    },
+  },
+  PeopleOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[PeopleOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  PeopleOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveOrganisation!" },
+  },
   Permission: {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
@@ -8543,6 +10198,89 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "Role!" },
+  },
+  Project: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    status: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    organisation: {
+      __type: "HiveOrganisation",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
+    schedule: {
+      __type: "[ScheduleItem]",
+      __args: { where: "ScheduleItemWhere", options: "ScheduleItemOptions" },
+    },
+    plan: {
+      __type: "[TimelineItem]",
+      __args: { where: "TimelineItemWhere", options: "TimelineItemOptions" },
+    },
+    organisationConnection: {
+      __type: "ProjectOrganisationConnection!",
+      __args: {
+        where: "ProjectOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ProjectOrganisationConnectionSort!]",
+      },
+    },
+    scheduleConnection: {
+      __type: "ProjectScheduleConnection!",
+      __args: {
+        where: "ProjectScheduleConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ProjectScheduleConnectionSort!]",
+      },
+    },
+    planConnection: {
+      __type: "ProjectPlanConnection!",
+      __args: {
+        where: "ProjectPlanConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ProjectPlanConnectionSort!]",
+      },
+    },
+  },
+  ProjectOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ProjectOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ProjectOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveOrganisation!" },
+  },
+  ProjectPlanConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ProjectPlanRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ProjectPlanRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "TimelineItem!" },
+  },
+  ProjectScheduleConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ProjectScheduleRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ProjectScheduleRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "ScheduleItem!" },
   },
   Role: {
     __typename: { __type: "String!" },
@@ -8623,6 +10361,227 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "Permission!" },
+  },
+  ScheduleItem: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    notes: { __type: "[String]" },
+    date: { __type: "DateTime" },
+    project: {
+      __type: "Project",
+      __args: { where: "ProjectWhere", options: "ProjectOptions" },
+    },
+    people: {
+      __type: "[People]",
+      __args: { where: "PeopleWhere", options: "PeopleOptions" },
+    },
+    equipment: {
+      __type: "[Equipment]",
+      __args: { where: "EquipmentWhere", options: "EquipmentOptions" },
+    },
+    owner: {
+      __type: "HiveUser",
+      __args: { where: "HiveUserWhere", options: "HiveUserOptions" },
+    },
+    managers: {
+      __type: "[HiveUser]",
+      __args: { where: "HiveUserWhere", options: "HiveUserOptions" },
+    },
+    projectConnection: {
+      __type: "ScheduleItemProjectConnection!",
+      __args: {
+        where: "ScheduleItemProjectConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ScheduleItemProjectConnectionSort!]",
+      },
+    },
+    peopleConnection: {
+      __type: "ScheduleItemPeopleConnection!",
+      __args: {
+        where: "ScheduleItemPeopleConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ScheduleItemPeopleConnectionSort!]",
+      },
+    },
+    equipmentConnection: {
+      __type: "ScheduleItemEquipmentConnection!",
+      __args: {
+        where: "ScheduleItemEquipmentConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ScheduleItemEquipmentConnectionSort!]",
+      },
+    },
+    ownerConnection: {
+      __type: "ScheduleItemOwnerConnection!",
+      __args: {
+        where: "ScheduleItemOwnerConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ScheduleItemOwnerConnectionSort!]",
+      },
+    },
+    managersConnection: {
+      __type: "ScheduleItemManagersConnection!",
+      __args: {
+        where: "ScheduleItemManagersConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ScheduleItemManagersConnectionSort!]",
+      },
+    },
+  },
+  ScheduleItemEquipmentConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ScheduleItemEquipmentRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ScheduleItemEquipmentRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Equipment!" },
+  },
+  ScheduleItemManagersConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ScheduleItemManagersRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ScheduleItemManagersRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveUser!" },
+  },
+  ScheduleItemOwnerConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ScheduleItemOwnerRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ScheduleItemOwnerRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveUser!" },
+  },
+  ScheduleItemPeopleConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ScheduleItemPeopleRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ScheduleItemPeopleRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "People!" },
+  },
+  ScheduleItemProjectConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ScheduleItemProjectRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ScheduleItemProjectRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Project!" },
+  },
+  TimelineItem: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    timeline: { __type: "String" },
+    notes: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    items: {
+      __type: "[TimelineItemItems]",
+      __args: {
+        where: "TimelineItemItemsWhere",
+        options: "TimelineItemItemsOptions",
+      },
+    },
+    project: {
+      __type: "TimelineProject",
+      __args: { options: "QueryOptions", where: "TimelineProjectWhere" },
+    },
+    itemsConnection: {
+      __type: "TimelineItemItemsConnection!",
+      __args: {
+        where: "TimelineItemItemsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[TimelineItemItemsConnectionSort!]",
+      },
+    },
+    projectConnection: {
+      __type: "TimelineItemProjectConnection!",
+      __args: { where: "TimelineItemProjectConnectionWhere" },
+    },
+  },
+  TimelineItemItems: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    type: { __type: "String" },
+    location: { __type: "String" },
+    estimate: { __type: "Float" },
+    item: {
+      __type: "TimelineItem",
+      __args: { where: "TimelineItemWhere", options: "TimelineItemOptions" },
+    },
+    itemConnection: {
+      __type: "TimelineItemItemsItemConnection!",
+      __args: {
+        where: "TimelineItemItemsItemConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[TimelineItemItemsItemConnectionSort!]",
+      },
+    },
+  },
+  TimelineItemItemsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[TimelineItemItemsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  TimelineItemItemsItemConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[TimelineItemItemsItemRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  TimelineItemItemsItemRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "TimelineItem!" },
+  },
+  TimelineItemItemsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "TimelineItemItems!" },
+  },
+  TimelineItemProjectConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[TimelineItemProjectRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  TimelineItemProjectRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "TimelineProject!" },
+  },
+  UpdateEquipmentMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    equipment: { __type: "[Equipment!]!" },
+  },
+  UpdateEstimatesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    estimates: { __type: "[Estimate!]!" },
   },
   UpdateFileSystemsMutationResponse: {
     __typename: { __type: "String!" },
@@ -8707,15 +10666,227 @@ export const generatedSchema = {
     relationshipsCreated: { __type: "Int!" },
     relationshipsDeleted: { __type: "Int!" },
   },
+  UpdatePeopleMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    people: { __type: "[People!]!" },
+  },
   UpdatePermissionsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     permissions: { __type: "[Permission!]!" },
   },
+  UpdateProjectsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    projects: { __type: "[Project!]!" },
+  },
   UpdateRolesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     roles: { __type: "[Role!]!" },
+  },
+  UpdateScheduleItemsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    scheduleItems: { __type: "[ScheduleItem!]!" },
+  },
+  UpdateTimelineItemItemsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    timelineItemItems: { __type: "[TimelineItemItems!]!" },
+  },
+  UpdateTimelineItemsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    timelineItems: { __type: "[TimelineItem!]!" },
+  },
+  EquipmentConnectInput: {
+    organisation: { __type: "EquipmentOrganisationConnectFieldInput" },
+  },
+  EquipmentConnectWhere: { node: { __type: "EquipmentWhere!" } },
+  EquipmentCreateInput: {
+    name: { __type: "String" },
+    registration: { __type: "String" },
+    organisation: { __type: "EquipmentOrganisationFieldInput" },
+  },
+  EquipmentDeleteInput: {
+    organisation: { __type: "EquipmentOrganisationDeleteFieldInput" },
+  },
+  EquipmentDisconnectInput: {
+    organisation: { __type: "EquipmentOrganisationDisconnectFieldInput" },
+  },
+  EquipmentOptions: {
+    sort: { __type: "[EquipmentSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  EquipmentOrganisationConnectFieldInput: {
+    where: { __type: "HiveOrganisationConnectWhere" },
+    connect: { __type: "HiveOrganisationConnectInput" },
+  },
+  EquipmentOrganisationConnectionSort: {
+    node: { __type: "HiveOrganisationSort" },
+  },
+  EquipmentOrganisationConnectionWhere: {
+    AND: { __type: "[EquipmentOrganisationConnectionWhere!]" },
+    OR: { __type: "[EquipmentOrganisationConnectionWhere!]" },
+    node: { __type: "HiveOrganisationWhere" },
+    node_NOT: { __type: "HiveOrganisationWhere" },
+  },
+  EquipmentOrganisationCreateFieldInput: {
+    node: { __type: "HiveOrganisationCreateInput!" },
+  },
+  EquipmentOrganisationDeleteFieldInput: {
+    where: { __type: "EquipmentOrganisationConnectionWhere" },
+    delete: { __type: "HiveOrganisationDeleteInput" },
+  },
+  EquipmentOrganisationDisconnectFieldInput: {
+    where: { __type: "EquipmentOrganisationConnectionWhere" },
+    disconnect: { __type: "HiveOrganisationDisconnectInput" },
+  },
+  EquipmentOrganisationFieldInput: {
+    create: { __type: "EquipmentOrganisationCreateFieldInput" },
+    connect: { __type: "EquipmentOrganisationConnectFieldInput" },
+  },
+  EquipmentOrganisationUpdateConnectionInput: {
+    node: { __type: "HiveOrganisationUpdateInput" },
+  },
+  EquipmentOrganisationUpdateFieldInput: {
+    where: { __type: "EquipmentOrganisationConnectionWhere" },
+    update: { __type: "EquipmentOrganisationUpdateConnectionInput" },
+    connect: { __type: "EquipmentOrganisationConnectFieldInput" },
+    disconnect: { __type: "EquipmentOrganisationDisconnectFieldInput" },
+    create: { __type: "EquipmentOrganisationCreateFieldInput" },
+    delete: { __type: "EquipmentOrganisationDeleteFieldInput" },
+  },
+  EquipmentRelationInput: {
+    organisation: { __type: "EquipmentOrganisationCreateFieldInput" },
+  },
+  EquipmentSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    registration: { __type: "SortDirection" },
+  },
+  EquipmentUpdateInput: {
+    name: { __type: "String" },
+    registration: { __type: "String" },
+    organisation: { __type: "EquipmentOrganisationUpdateFieldInput" },
+  },
+  EquipmentWhere: {
+    OR: { __type: "[EquipmentWhere!]" },
+    AND: { __type: "[EquipmentWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    registration: { __type: "String" },
+    registration_NOT: { __type: "String" },
+    registration_IN: { __type: "[String]" },
+    registration_NOT_IN: { __type: "[String]" },
+    registration_CONTAINS: { __type: "String" },
+    registration_NOT_CONTAINS: { __type: "String" },
+    registration_STARTS_WITH: { __type: "String" },
+    registration_NOT_STARTS_WITH: { __type: "String" },
+    registration_ENDS_WITH: { __type: "String" },
+    registration_NOT_ENDS_WITH: { __type: "String" },
+    organisation: { __type: "HiveOrganisationWhere" },
+    organisation_NOT: { __type: "HiveOrganisationWhere" },
+    organisationConnection: { __type: "EquipmentOrganisationConnectionWhere" },
+    organisationConnection_NOT: {
+      __type: "EquipmentOrganisationConnectionWhere",
+    },
+  },
+  EstimateConnectWhere: { node: { __type: "EstimateWhere!" } },
+  EstimateCreateInput: {
+    name: { __type: "String" },
+    status: { __type: "String" },
+    price: { __type: "Float" },
+    date: { __type: "DateTime" },
+  },
+  EstimateOptions: {
+    sort: { __type: "[EstimateSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  EstimateSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    status: { __type: "SortDirection" },
+    price: { __type: "SortDirection" },
+    date: { __type: "SortDirection" },
+  },
+  EstimateUpdateInput: {
+    name: { __type: "String" },
+    status: { __type: "String" },
+    price: { __type: "Float" },
+    date: { __type: "DateTime" },
+  },
+  EstimateWhere: {
+    OR: { __type: "[EstimateWhere!]" },
+    AND: { __type: "[EstimateWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    status: { __type: "String" },
+    status_NOT: { __type: "String" },
+    status_IN: { __type: "[String]" },
+    status_NOT_IN: { __type: "[String]" },
+    status_CONTAINS: { __type: "String" },
+    status_NOT_CONTAINS: { __type: "String" },
+    status_STARTS_WITH: { __type: "String" },
+    status_NOT_STARTS_WITH: { __type: "String" },
+    status_ENDS_WITH: { __type: "String" },
+    status_NOT_ENDS_WITH: { __type: "String" },
+    price: { __type: "Float" },
+    price_NOT: { __type: "Float" },
+    price_IN: { __type: "[Float]" },
+    price_NOT_IN: { __type: "[Float]" },
+    price_LT: { __type: "Float" },
+    price_LTE: { __type: "Float" },
+    price_GT: { __type: "Float" },
+    price_GTE: { __type: "Float" },
+    date: { __type: "DateTime" },
+    date_NOT: { __type: "DateTime" },
+    date_IN: { __type: "[DateTime]" },
+    date_NOT_IN: { __type: "[DateTime]" },
+    date_LT: { __type: "DateTime" },
+    date_LTE: { __type: "DateTime" },
+    date_GT: { __type: "DateTime" },
+    date_GTE: { __type: "DateTime" },
   },
   FileSystemConnectInput: {
     organisation: { __type: "FileSystemOrganisationConnectFieldInput" },
@@ -9777,6 +11948,7 @@ export const generatedSchema = {
     roles: { __type: "[HiveOrganisationRolesConnectFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersConnectFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesConnectFieldInput!]" },
+    schedule: { __type: "[HiveOrganisationScheduleConnectFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsConnectFieldInput!]" },
   },
   HiveOrganisationConnectWhere: { node: { __type: "HiveOrganisationWhere!" } },
@@ -9785,18 +11957,21 @@ export const generatedSchema = {
     roles: { __type: "HiveOrganisationRolesFieldInput" },
     members: { __type: "HiveOrganisationMembersFieldInput" },
     appliances: { __type: "HiveOrganisationAppliancesFieldInput" },
+    schedule: { __type: "HiveOrganisationScheduleFieldInput" },
     filesystems: { __type: "HiveOrganisationFilesystemsFieldInput" },
   },
   HiveOrganisationDeleteInput: {
     roles: { __type: "[HiveOrganisationRolesDeleteFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersDeleteFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesDeleteFieldInput!]" },
+    schedule: { __type: "[HiveOrganisationScheduleDeleteFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsDeleteFieldInput!]" },
   },
   HiveOrganisationDisconnectInput: {
     roles: { __type: "[HiveOrganisationRolesDisconnectFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersDisconnectFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesDisconnectFieldInput!]" },
+    schedule: { __type: "[HiveOrganisationScheduleDisconnectFieldInput!]" },
     filesystems: {
       __type: "[HiveOrganisationFilesystemsDisconnectFieldInput!]",
     },
@@ -9888,6 +12063,7 @@ export const generatedSchema = {
     roles: { __type: "[HiveOrganisationRolesCreateFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersCreateFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesCreateFieldInput!]" },
+    schedule: { __type: "[HiveOrganisationScheduleCreateFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsCreateFieldInput!]" },
   },
   HiveOrganisationRolesConnectFieldInput: {
@@ -9927,6 +12103,45 @@ export const generatedSchema = {
     create: { __type: "[HiveOrganisationRolesCreateFieldInput!]" },
     delete: { __type: "[HiveOrganisationRolesDeleteFieldInput!]" },
   },
+  HiveOrganisationScheduleConnectFieldInput: {
+    where: { __type: "ScheduleItemConnectWhere" },
+    connect: { __type: "[ScheduleItemConnectInput!]" },
+  },
+  HiveOrganisationScheduleConnectionSort: {
+    node: { __type: "ScheduleItemSort" },
+  },
+  HiveOrganisationScheduleConnectionWhere: {
+    AND: { __type: "[HiveOrganisationScheduleConnectionWhere!]" },
+    OR: { __type: "[HiveOrganisationScheduleConnectionWhere!]" },
+    node: { __type: "ScheduleItemWhere" },
+    node_NOT: { __type: "ScheduleItemWhere" },
+  },
+  HiveOrganisationScheduleCreateFieldInput: {
+    node: { __type: "ScheduleItemCreateInput!" },
+  },
+  HiveOrganisationScheduleDeleteFieldInput: {
+    where: { __type: "HiveOrganisationScheduleConnectionWhere" },
+    delete: { __type: "ScheduleItemDeleteInput" },
+  },
+  HiveOrganisationScheduleDisconnectFieldInput: {
+    where: { __type: "HiveOrganisationScheduleConnectionWhere" },
+    disconnect: { __type: "ScheduleItemDisconnectInput" },
+  },
+  HiveOrganisationScheduleFieldInput: {
+    create: { __type: "[HiveOrganisationScheduleCreateFieldInput!]" },
+    connect: { __type: "[HiveOrganisationScheduleConnectFieldInput!]" },
+  },
+  HiveOrganisationScheduleUpdateConnectionInput: {
+    node: { __type: "ScheduleItemUpdateInput" },
+  },
+  HiveOrganisationScheduleUpdateFieldInput: {
+    where: { __type: "HiveOrganisationScheduleConnectionWhere" },
+    update: { __type: "HiveOrganisationScheduleUpdateConnectionInput" },
+    connect: { __type: "[HiveOrganisationScheduleConnectFieldInput!]" },
+    disconnect: { __type: "[HiveOrganisationScheduleDisconnectFieldInput!]" },
+    create: { __type: "[HiveOrganisationScheduleCreateFieldInput!]" },
+    delete: { __type: "[HiveOrganisationScheduleDeleteFieldInput!]" },
+  },
   HiveOrganisationSort: {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
@@ -9936,6 +12151,7 @@ export const generatedSchema = {
     roles: { __type: "[HiveOrganisationRolesUpdateFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersUpdateFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesUpdateFieldInput!]" },
+    schedule: { __type: "[HiveOrganisationScheduleUpdateFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsUpdateFieldInput!]" },
   },
   HiveOrganisationWhere: {
@@ -9967,6 +12183,8 @@ export const generatedSchema = {
     members_NOT: { __type: "HiveUserWhere" },
     appliances: { __type: "HiveApplianceWhere" },
     appliances_NOT: { __type: "HiveApplianceWhere" },
+    schedule: { __type: "ScheduleItemWhere" },
+    schedule_NOT: { __type: "ScheduleItemWhere" },
     filesystems: { __type: "FileSystemWhere" },
     filesystems_NOT: { __type: "FileSystemWhere" },
     rolesConnection: { __type: "HiveOrganisationRolesConnectionWhere" },
@@ -9978,6 +12196,10 @@ export const generatedSchema = {
     },
     appliancesConnection_NOT: {
       __type: "HiveOrganisationAppliancesConnectionWhere",
+    },
+    scheduleConnection: { __type: "HiveOrganisationScheduleConnectionWhere" },
+    scheduleConnection_NOT: {
+      __type: "HiveOrganisationScheduleConnectionWhere",
     },
     filesystemsConnection: {
       __type: "HiveOrganisationFilesystemsConnectionWhere",
@@ -11632,6 +13854,103 @@ export const generatedSchema = {
       __type: "HiveUserOrganisationConnectionWhere",
     },
   },
+  PeopleConnectInput: {
+    organisation: { __type: "PeopleOrganisationConnectFieldInput" },
+  },
+  PeopleConnectWhere: { node: { __type: "PeopleWhere!" } },
+  PeopleCreateInput: {
+    name: { __type: "String" },
+    organisation: { __type: "PeopleOrganisationFieldInput" },
+  },
+  PeopleDeleteInput: {
+    organisation: { __type: "PeopleOrganisationDeleteFieldInput" },
+  },
+  PeopleDisconnectInput: {
+    organisation: { __type: "PeopleOrganisationDisconnectFieldInput" },
+  },
+  PeopleOptions: {
+    sort: { __type: "[PeopleSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  PeopleOrganisationConnectFieldInput: {
+    where: { __type: "HiveOrganisationConnectWhere" },
+    connect: { __type: "HiveOrganisationConnectInput" },
+  },
+  PeopleOrganisationConnectionSort: {
+    node: { __type: "HiveOrganisationSort" },
+  },
+  PeopleOrganisationConnectionWhere: {
+    AND: { __type: "[PeopleOrganisationConnectionWhere!]" },
+    OR: { __type: "[PeopleOrganisationConnectionWhere!]" },
+    node: { __type: "HiveOrganisationWhere" },
+    node_NOT: { __type: "HiveOrganisationWhere" },
+  },
+  PeopleOrganisationCreateFieldInput: {
+    node: { __type: "HiveOrganisationCreateInput!" },
+  },
+  PeopleOrganisationDeleteFieldInput: {
+    where: { __type: "PeopleOrganisationConnectionWhere" },
+    delete: { __type: "HiveOrganisationDeleteInput" },
+  },
+  PeopleOrganisationDisconnectFieldInput: {
+    where: { __type: "PeopleOrganisationConnectionWhere" },
+    disconnect: { __type: "HiveOrganisationDisconnectInput" },
+  },
+  PeopleOrganisationFieldInput: {
+    create: { __type: "PeopleOrganisationCreateFieldInput" },
+    connect: { __type: "PeopleOrganisationConnectFieldInput" },
+  },
+  PeopleOrganisationUpdateConnectionInput: {
+    node: { __type: "HiveOrganisationUpdateInput" },
+  },
+  PeopleOrganisationUpdateFieldInput: {
+    where: { __type: "PeopleOrganisationConnectionWhere" },
+    update: { __type: "PeopleOrganisationUpdateConnectionInput" },
+    connect: { __type: "PeopleOrganisationConnectFieldInput" },
+    disconnect: { __type: "PeopleOrganisationDisconnectFieldInput" },
+    create: { __type: "PeopleOrganisationCreateFieldInput" },
+    delete: { __type: "PeopleOrganisationDeleteFieldInput" },
+  },
+  PeopleRelationInput: {
+    organisation: { __type: "PeopleOrganisationCreateFieldInput" },
+  },
+  PeopleSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
+  PeopleUpdateInput: {
+    name: { __type: "String" },
+    organisation: { __type: "PeopleOrganisationUpdateFieldInput" },
+  },
+  PeopleWhere: {
+    OR: { __type: "[PeopleWhere!]" },
+    AND: { __type: "[PeopleWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    organisation: { __type: "HiveOrganisationWhere" },
+    organisation_NOT: { __type: "HiveOrganisationWhere" },
+    organisationConnection: { __type: "PeopleOrganisationConnectionWhere" },
+    organisationConnection_NOT: { __type: "PeopleOrganisationConnectionWhere" },
+  },
   PermissionConnectInput: {
     roles: { __type: "[PermissionRolesConnectFieldInput!]" },
   },
@@ -11748,6 +14067,232 @@ export const generatedSchema = {
     roles_NOT: { __type: "RoleWhere" },
     rolesConnection: { __type: "PermissionRolesConnectionWhere" },
     rolesConnection_NOT: { __type: "PermissionRolesConnectionWhere" },
+  },
+  ProjectConnectInput: {
+    organisation: { __type: "ProjectOrganisationConnectFieldInput" },
+    schedule: { __type: "[ProjectScheduleConnectFieldInput!]" },
+    plan: { __type: "[ProjectPlanConnectFieldInput!]" },
+  },
+  ProjectConnectWhere: { node: { __type: "ProjectWhere!" } },
+  ProjectCreateInput: {
+    name: { __type: "String" },
+    status: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    organisation: { __type: "ProjectOrganisationFieldInput" },
+    schedule: { __type: "ProjectScheduleFieldInput" },
+    plan: { __type: "ProjectPlanFieldInput" },
+  },
+  ProjectDeleteInput: {
+    organisation: { __type: "ProjectOrganisationDeleteFieldInput" },
+    schedule: { __type: "[ProjectScheduleDeleteFieldInput!]" },
+    plan: { __type: "[ProjectPlanDeleteFieldInput!]" },
+  },
+  ProjectDisconnectInput: {
+    organisation: { __type: "ProjectOrganisationDisconnectFieldInput" },
+    schedule: { __type: "[ProjectScheduleDisconnectFieldInput!]" },
+    plan: { __type: "[ProjectPlanDisconnectFieldInput!]" },
+  },
+  ProjectOptions: {
+    sort: { __type: "[ProjectSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  ProjectOrganisationConnectFieldInput: {
+    where: { __type: "HiveOrganisationConnectWhere" },
+    connect: { __type: "HiveOrganisationConnectInput" },
+  },
+  ProjectOrganisationConnectionSort: {
+    node: { __type: "HiveOrganisationSort" },
+  },
+  ProjectOrganisationConnectionWhere: {
+    AND: { __type: "[ProjectOrganisationConnectionWhere!]" },
+    OR: { __type: "[ProjectOrganisationConnectionWhere!]" },
+    node: { __type: "HiveOrganisationWhere" },
+    node_NOT: { __type: "HiveOrganisationWhere" },
+  },
+  ProjectOrganisationCreateFieldInput: {
+    node: { __type: "HiveOrganisationCreateInput!" },
+  },
+  ProjectOrganisationDeleteFieldInput: {
+    where: { __type: "ProjectOrganisationConnectionWhere" },
+    delete: { __type: "HiveOrganisationDeleteInput" },
+  },
+  ProjectOrganisationDisconnectFieldInput: {
+    where: { __type: "ProjectOrganisationConnectionWhere" },
+    disconnect: { __type: "HiveOrganisationDisconnectInput" },
+  },
+  ProjectOrganisationFieldInput: {
+    create: { __type: "ProjectOrganisationCreateFieldInput" },
+    connect: { __type: "ProjectOrganisationConnectFieldInput" },
+  },
+  ProjectOrganisationUpdateConnectionInput: {
+    node: { __type: "HiveOrganisationUpdateInput" },
+  },
+  ProjectOrganisationUpdateFieldInput: {
+    where: { __type: "ProjectOrganisationConnectionWhere" },
+    update: { __type: "ProjectOrganisationUpdateConnectionInput" },
+    connect: { __type: "ProjectOrganisationConnectFieldInput" },
+    disconnect: { __type: "ProjectOrganisationDisconnectFieldInput" },
+    create: { __type: "ProjectOrganisationCreateFieldInput" },
+    delete: { __type: "ProjectOrganisationDeleteFieldInput" },
+  },
+  ProjectPlanConnectFieldInput: {
+    where: { __type: "TimelineItemConnectWhere" },
+    connect: { __type: "[TimelineItemConnectInput!]" },
+  },
+  ProjectPlanConnectionSort: { node: { __type: "TimelineItemSort" } },
+  ProjectPlanConnectionWhere: {
+    AND: { __type: "[ProjectPlanConnectionWhere!]" },
+    OR: { __type: "[ProjectPlanConnectionWhere!]" },
+    node: { __type: "TimelineItemWhere" },
+    node_NOT: { __type: "TimelineItemWhere" },
+  },
+  ProjectPlanCreateFieldInput: { node: { __type: "TimelineItemCreateInput!" } },
+  ProjectPlanDeleteFieldInput: {
+    where: { __type: "ProjectPlanConnectionWhere" },
+    delete: { __type: "TimelineItemDeleteInput" },
+  },
+  ProjectPlanDisconnectFieldInput: {
+    where: { __type: "ProjectPlanConnectionWhere" },
+    disconnect: { __type: "TimelineItemDisconnectInput" },
+  },
+  ProjectPlanFieldInput: {
+    create: { __type: "[ProjectPlanCreateFieldInput!]" },
+    connect: { __type: "[ProjectPlanConnectFieldInput!]" },
+  },
+  ProjectPlanUpdateConnectionInput: {
+    node: { __type: "TimelineItemUpdateInput" },
+  },
+  ProjectPlanUpdateFieldInput: {
+    where: { __type: "ProjectPlanConnectionWhere" },
+    update: { __type: "ProjectPlanUpdateConnectionInput" },
+    connect: { __type: "[ProjectPlanConnectFieldInput!]" },
+    disconnect: { __type: "[ProjectPlanDisconnectFieldInput!]" },
+    create: { __type: "[ProjectPlanCreateFieldInput!]" },
+    delete: { __type: "[ProjectPlanDeleteFieldInput!]" },
+  },
+  ProjectRelationInput: {
+    organisation: { __type: "ProjectOrganisationCreateFieldInput" },
+    schedule: { __type: "[ProjectScheduleCreateFieldInput!]" },
+    plan: { __type: "[ProjectPlanCreateFieldInput!]" },
+  },
+  ProjectScheduleConnectFieldInput: {
+    where: { __type: "ScheduleItemConnectWhere" },
+    connect: { __type: "[ScheduleItemConnectInput!]" },
+  },
+  ProjectScheduleConnectionSort: { node: { __type: "ScheduleItemSort" } },
+  ProjectScheduleConnectionWhere: {
+    AND: { __type: "[ProjectScheduleConnectionWhere!]" },
+    OR: { __type: "[ProjectScheduleConnectionWhere!]" },
+    node: { __type: "ScheduleItemWhere" },
+    node_NOT: { __type: "ScheduleItemWhere" },
+  },
+  ProjectScheduleCreateFieldInput: {
+    node: { __type: "ScheduleItemCreateInput!" },
+  },
+  ProjectScheduleDeleteFieldInput: {
+    where: { __type: "ProjectScheduleConnectionWhere" },
+    delete: { __type: "ScheduleItemDeleteInput" },
+  },
+  ProjectScheduleDisconnectFieldInput: {
+    where: { __type: "ProjectScheduleConnectionWhere" },
+    disconnect: { __type: "ScheduleItemDisconnectInput" },
+  },
+  ProjectScheduleFieldInput: {
+    create: { __type: "[ProjectScheduleCreateFieldInput!]" },
+    connect: { __type: "[ProjectScheduleConnectFieldInput!]" },
+  },
+  ProjectScheduleUpdateConnectionInput: {
+    node: { __type: "ScheduleItemUpdateInput" },
+  },
+  ProjectScheduleUpdateFieldInput: {
+    where: { __type: "ProjectScheduleConnectionWhere" },
+    update: { __type: "ProjectScheduleUpdateConnectionInput" },
+    connect: { __type: "[ProjectScheduleConnectFieldInput!]" },
+    disconnect: { __type: "[ProjectScheduleDisconnectFieldInput!]" },
+    create: { __type: "[ProjectScheduleCreateFieldInput!]" },
+    delete: { __type: "[ProjectScheduleDeleteFieldInput!]" },
+  },
+  ProjectSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    status: { __type: "SortDirection" },
+    startDate: { __type: "SortDirection" },
+    endDate: { __type: "SortDirection" },
+  },
+  ProjectUpdateInput: {
+    name: { __type: "String" },
+    status: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    organisation: { __type: "ProjectOrganisationUpdateFieldInput" },
+    schedule: { __type: "[ProjectScheduleUpdateFieldInput!]" },
+    plan: { __type: "[ProjectPlanUpdateFieldInput!]" },
+  },
+  ProjectWhere: {
+    OR: { __type: "[ProjectWhere!]" },
+    AND: { __type: "[ProjectWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    status: { __type: "String" },
+    status_NOT: { __type: "String" },
+    status_IN: { __type: "[String]" },
+    status_NOT_IN: { __type: "[String]" },
+    status_CONTAINS: { __type: "String" },
+    status_NOT_CONTAINS: { __type: "String" },
+    status_STARTS_WITH: { __type: "String" },
+    status_NOT_STARTS_WITH: { __type: "String" },
+    status_ENDS_WITH: { __type: "String" },
+    status_NOT_ENDS_WITH: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    startDate_NOT: { __type: "DateTime" },
+    startDate_IN: { __type: "[DateTime]" },
+    startDate_NOT_IN: { __type: "[DateTime]" },
+    startDate_LT: { __type: "DateTime" },
+    startDate_LTE: { __type: "DateTime" },
+    startDate_GT: { __type: "DateTime" },
+    startDate_GTE: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    endDate_NOT: { __type: "DateTime" },
+    endDate_IN: { __type: "[DateTime]" },
+    endDate_NOT_IN: { __type: "[DateTime]" },
+    endDate_LT: { __type: "DateTime" },
+    endDate_LTE: { __type: "DateTime" },
+    endDate_GT: { __type: "DateTime" },
+    endDate_GTE: { __type: "DateTime" },
+    organisation: { __type: "HiveOrganisationWhere" },
+    organisation_NOT: { __type: "HiveOrganisationWhere" },
+    schedule: { __type: "ScheduleItemWhere" },
+    schedule_NOT: { __type: "ScheduleItemWhere" },
+    plan: { __type: "TimelineItemWhere" },
+    plan_NOT: { __type: "TimelineItemWhere" },
+    organisationConnection: { __type: "ProjectOrganisationConnectionWhere" },
+    organisationConnection_NOT: {
+      __type: "ProjectOrganisationConnectionWhere",
+    },
+    scheduleConnection: { __type: "ProjectScheduleConnectionWhere" },
+    scheduleConnection_NOT: { __type: "ProjectScheduleConnectionWhere" },
+    planConnection: { __type: "ProjectPlanConnectionWhere" },
+    planConnection_NOT: { __type: "ProjectPlanConnectionWhere" },
   },
   QueryOptions: { offset: { __type: "Int" }, limit: { __type: "Int" } },
   RoleAppliancesConnectFieldInput: {
@@ -11939,123 +14484,666 @@ export const generatedSchema = {
     organisationConnection: { __type: "RoleOrganisationConnectionWhere" },
     organisationConnection_NOT: { __type: "RoleOrganisationConnectionWhere" },
   },
-  Project: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    name: { __type: "String" },
-    files: { __type: "[File]" },
-    status: { __type: "String" },
-    startDate: { __type: "Date" },
-    endDate: { __type: "Date" },
+  ScheduleItemConnectInput: {
+    project: { __type: "ScheduleItemProjectConnectFieldInput" },
+    people: { __type: "[ScheduleItemPeopleConnectFieldInput!]" },
+    equipment: { __type: "[ScheduleItemEquipmentConnectFieldInput!]" },
+    owner: { __type: "ScheduleItemOwnerConnectFieldInput" },
+    managers: { __type: "[ScheduleItemManagersConnectFieldInput!]" },
   },
-  File: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    cid: { __type: "String" },
-    name: { __type: "String" },
-    extension: { __type: "String" },
-    mimeType: { __type: "String" },
-    timestamp: { __type: "Date" },
-    status: { __type: "String" },
-    owner: { __type: "User" },
-    url: { __type: "String" },
-  },
-  User: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    name: { __type: "String" },
-  },
-  Quote: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    name: { __type: "String" },
-    customer: { __type: "String" },
-    date: { __type: "Date" },
-    status: { __type: "String" },
-    price: { __type: "Float" },
-  },
-  Equipment: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    name: { __type: "String" },
-    registration: { __type: "String" },
-    status: { __type: "String" },
-  },
-  ScheduleItem: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    date: { __type: "Date" },
-    project: { __type: "Project" },
-    people: { __type: "[String]" },
-    managers: { __type: "[String]" },
-    owner: { __type: "User" },
+  ScheduleItemConnectWhere: { node: { __type: "ScheduleItemWhere!" } },
+  ScheduleItemCreateInput: {
     notes: { __type: "[String]" },
-    equipment: { __type: "[String]" },
+    date: { __type: "DateTime" },
+    project: { __type: "ScheduleItemProjectFieldInput" },
+    people: { __type: "ScheduleItemPeopleFieldInput" },
+    equipment: { __type: "ScheduleItemEquipmentFieldInput" },
+    owner: { __type: "ScheduleItemOwnerFieldInput" },
+    managers: { __type: "ScheduleItemManagersFieldInput" },
   },
-  TimelineItem: {
-    __typename: { __type: "String!" },
+  ScheduleItemDeleteInput: {
+    project: { __type: "ScheduleItemProjectDeleteFieldInput" },
+    people: { __type: "[ScheduleItemPeopleDeleteFieldInput!]" },
+    equipment: { __type: "[ScheduleItemEquipmentDeleteFieldInput!]" },
+    owner: { __type: "ScheduleItemOwnerDeleteFieldInput" },
+    managers: { __type: "[ScheduleItemManagersDeleteFieldInput!]" },
+  },
+  ScheduleItemDisconnectInput: {
+    project: { __type: "ScheduleItemProjectDisconnectFieldInput" },
+    people: { __type: "[ScheduleItemPeopleDisconnectFieldInput!]" },
+    equipment: { __type: "[ScheduleItemEquipmentDisconnectFieldInput!]" },
+    owner: { __type: "ScheduleItemOwnerDisconnectFieldInput" },
+    managers: { __type: "[ScheduleItemManagersDisconnectFieldInput!]" },
+  },
+  ScheduleItemEquipmentConnectFieldInput: {
+    where: { __type: "EquipmentConnectWhere" },
+    connect: { __type: "[EquipmentConnectInput!]" },
+  },
+  ScheduleItemEquipmentConnectionSort: { node: { __type: "EquipmentSort" } },
+  ScheduleItemEquipmentConnectionWhere: {
+    AND: { __type: "[ScheduleItemEquipmentConnectionWhere!]" },
+    OR: { __type: "[ScheduleItemEquipmentConnectionWhere!]" },
+    node: { __type: "EquipmentWhere" },
+    node_NOT: { __type: "EquipmentWhere" },
+  },
+  ScheduleItemEquipmentCreateFieldInput: {
+    node: { __type: "EquipmentCreateInput!" },
+  },
+  ScheduleItemEquipmentDeleteFieldInput: {
+    where: { __type: "ScheduleItemEquipmentConnectionWhere" },
+    delete: { __type: "EquipmentDeleteInput" },
+  },
+  ScheduleItemEquipmentDisconnectFieldInput: {
+    where: { __type: "ScheduleItemEquipmentConnectionWhere" },
+    disconnect: { __type: "EquipmentDisconnectInput" },
+  },
+  ScheduleItemEquipmentFieldInput: {
+    create: { __type: "[ScheduleItemEquipmentCreateFieldInput!]" },
+    connect: { __type: "[ScheduleItemEquipmentConnectFieldInput!]" },
+  },
+  ScheduleItemEquipmentUpdateConnectionInput: {
+    node: { __type: "EquipmentUpdateInput" },
+  },
+  ScheduleItemEquipmentUpdateFieldInput: {
+    where: { __type: "ScheduleItemEquipmentConnectionWhere" },
+    update: { __type: "ScheduleItemEquipmentUpdateConnectionInput" },
+    connect: { __type: "[ScheduleItemEquipmentConnectFieldInput!]" },
+    disconnect: { __type: "[ScheduleItemEquipmentDisconnectFieldInput!]" },
+    create: { __type: "[ScheduleItemEquipmentCreateFieldInput!]" },
+    delete: { __type: "[ScheduleItemEquipmentDeleteFieldInput!]" },
+  },
+  ScheduleItemManagersConnectFieldInput: {
+    where: { __type: "HiveUserConnectWhere" },
+    connect: { __type: "[HiveUserConnectInput!]" },
+  },
+  ScheduleItemManagersConnectionSort: { node: { __type: "HiveUserSort" } },
+  ScheduleItemManagersConnectionWhere: {
+    AND: { __type: "[ScheduleItemManagersConnectionWhere!]" },
+    OR: { __type: "[ScheduleItemManagersConnectionWhere!]" },
+    node: { __type: "HiveUserWhere" },
+    node_NOT: { __type: "HiveUserWhere" },
+  },
+  ScheduleItemManagersCreateFieldInput: {
+    node: { __type: "HiveUserCreateInput!" },
+  },
+  ScheduleItemManagersDeleteFieldInput: {
+    where: { __type: "ScheduleItemManagersConnectionWhere" },
+    delete: { __type: "HiveUserDeleteInput" },
+  },
+  ScheduleItemManagersDisconnectFieldInput: {
+    where: { __type: "ScheduleItemManagersConnectionWhere" },
+    disconnect: { __type: "HiveUserDisconnectInput" },
+  },
+  ScheduleItemManagersFieldInput: {
+    create: { __type: "[ScheduleItemManagersCreateFieldInput!]" },
+    connect: { __type: "[ScheduleItemManagersConnectFieldInput!]" },
+  },
+  ScheduleItemManagersUpdateConnectionInput: {
+    node: { __type: "HiveUserUpdateInput" },
+  },
+  ScheduleItemManagersUpdateFieldInput: {
+    where: { __type: "ScheduleItemManagersConnectionWhere" },
+    update: { __type: "ScheduleItemManagersUpdateConnectionInput" },
+    connect: { __type: "[ScheduleItemManagersConnectFieldInput!]" },
+    disconnect: { __type: "[ScheduleItemManagersDisconnectFieldInput!]" },
+    create: { __type: "[ScheduleItemManagersCreateFieldInput!]" },
+    delete: { __type: "[ScheduleItemManagersDeleteFieldInput!]" },
+  },
+  ScheduleItemOptions: {
+    sort: { __type: "[ScheduleItemSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  ScheduleItemOwnerConnectFieldInput: {
+    where: { __type: "HiveUserConnectWhere" },
+    connect: { __type: "HiveUserConnectInput" },
+  },
+  ScheduleItemOwnerConnectionSort: { node: { __type: "HiveUserSort" } },
+  ScheduleItemOwnerConnectionWhere: {
+    AND: { __type: "[ScheduleItemOwnerConnectionWhere!]" },
+    OR: { __type: "[ScheduleItemOwnerConnectionWhere!]" },
+    node: { __type: "HiveUserWhere" },
+    node_NOT: { __type: "HiveUserWhere" },
+  },
+  ScheduleItemOwnerCreateFieldInput: {
+    node: { __type: "HiveUserCreateInput!" },
+  },
+  ScheduleItemOwnerDeleteFieldInput: {
+    where: { __type: "ScheduleItemOwnerConnectionWhere" },
+    delete: { __type: "HiveUserDeleteInput" },
+  },
+  ScheduleItemOwnerDisconnectFieldInput: {
+    where: { __type: "ScheduleItemOwnerConnectionWhere" },
+    disconnect: { __type: "HiveUserDisconnectInput" },
+  },
+  ScheduleItemOwnerFieldInput: {
+    create: { __type: "ScheduleItemOwnerCreateFieldInput" },
+    connect: { __type: "ScheduleItemOwnerConnectFieldInput" },
+  },
+  ScheduleItemOwnerUpdateConnectionInput: {
+    node: { __type: "HiveUserUpdateInput" },
+  },
+  ScheduleItemOwnerUpdateFieldInput: {
+    where: { __type: "ScheduleItemOwnerConnectionWhere" },
+    update: { __type: "ScheduleItemOwnerUpdateConnectionInput" },
+    connect: { __type: "ScheduleItemOwnerConnectFieldInput" },
+    disconnect: { __type: "ScheduleItemOwnerDisconnectFieldInput" },
+    create: { __type: "ScheduleItemOwnerCreateFieldInput" },
+    delete: { __type: "ScheduleItemOwnerDeleteFieldInput" },
+  },
+  ScheduleItemPeopleConnectFieldInput: {
+    where: { __type: "PeopleConnectWhere" },
+    connect: { __type: "[PeopleConnectInput!]" },
+  },
+  ScheduleItemPeopleConnectionSort: { node: { __type: "PeopleSort" } },
+  ScheduleItemPeopleConnectionWhere: {
+    AND: { __type: "[ScheduleItemPeopleConnectionWhere!]" },
+    OR: { __type: "[ScheduleItemPeopleConnectionWhere!]" },
+    node: { __type: "PeopleWhere" },
+    node_NOT: { __type: "PeopleWhere" },
+  },
+  ScheduleItemPeopleCreateFieldInput: {
+    node: { __type: "PeopleCreateInput!" },
+  },
+  ScheduleItemPeopleDeleteFieldInput: {
+    where: { __type: "ScheduleItemPeopleConnectionWhere" },
+    delete: { __type: "PeopleDeleteInput" },
+  },
+  ScheduleItemPeopleDisconnectFieldInput: {
+    where: { __type: "ScheduleItemPeopleConnectionWhere" },
+    disconnect: { __type: "PeopleDisconnectInput" },
+  },
+  ScheduleItemPeopleFieldInput: {
+    create: { __type: "[ScheduleItemPeopleCreateFieldInput!]" },
+    connect: { __type: "[ScheduleItemPeopleConnectFieldInput!]" },
+  },
+  ScheduleItemPeopleUpdateConnectionInput: {
+    node: { __type: "PeopleUpdateInput" },
+  },
+  ScheduleItemPeopleUpdateFieldInput: {
+    where: { __type: "ScheduleItemPeopleConnectionWhere" },
+    update: { __type: "ScheduleItemPeopleUpdateConnectionInput" },
+    connect: { __type: "[ScheduleItemPeopleConnectFieldInput!]" },
+    disconnect: { __type: "[ScheduleItemPeopleDisconnectFieldInput!]" },
+    create: { __type: "[ScheduleItemPeopleCreateFieldInput!]" },
+    delete: { __type: "[ScheduleItemPeopleDeleteFieldInput!]" },
+  },
+  ScheduleItemProjectConnectFieldInput: {
+    where: { __type: "ProjectConnectWhere" },
+    connect: { __type: "ProjectConnectInput" },
+  },
+  ScheduleItemProjectConnectionSort: { node: { __type: "ProjectSort" } },
+  ScheduleItemProjectConnectionWhere: {
+    AND: { __type: "[ScheduleItemProjectConnectionWhere!]" },
+    OR: { __type: "[ScheduleItemProjectConnectionWhere!]" },
+    node: { __type: "ProjectWhere" },
+    node_NOT: { __type: "ProjectWhere" },
+  },
+  ScheduleItemProjectCreateFieldInput: {
+    node: { __type: "ProjectCreateInput!" },
+  },
+  ScheduleItemProjectDeleteFieldInput: {
+    where: { __type: "ScheduleItemProjectConnectionWhere" },
+    delete: { __type: "ProjectDeleteInput" },
+  },
+  ScheduleItemProjectDisconnectFieldInput: {
+    where: { __type: "ScheduleItemProjectConnectionWhere" },
+    disconnect: { __type: "ProjectDisconnectInput" },
+  },
+  ScheduleItemProjectFieldInput: {
+    create: { __type: "ScheduleItemProjectCreateFieldInput" },
+    connect: { __type: "ScheduleItemProjectConnectFieldInput" },
+  },
+  ScheduleItemProjectUpdateConnectionInput: {
+    node: { __type: "ProjectUpdateInput" },
+  },
+  ScheduleItemProjectUpdateFieldInput: {
+    where: { __type: "ScheduleItemProjectConnectionWhere" },
+    update: { __type: "ScheduleItemProjectUpdateConnectionInput" },
+    connect: { __type: "ScheduleItemProjectConnectFieldInput" },
+    disconnect: { __type: "ScheduleItemProjectDisconnectFieldInput" },
+    create: { __type: "ScheduleItemProjectCreateFieldInput" },
+    delete: { __type: "ScheduleItemProjectDeleteFieldInput" },
+  },
+  ScheduleItemRelationInput: {
+    project: { __type: "ScheduleItemProjectCreateFieldInput" },
+    people: { __type: "[ScheduleItemPeopleCreateFieldInput!]" },
+    equipment: { __type: "[ScheduleItemEquipmentCreateFieldInput!]" },
+    owner: { __type: "ScheduleItemOwnerCreateFieldInput" },
+    managers: { __type: "[ScheduleItemManagersCreateFieldInput!]" },
+  },
+  ScheduleItemSort: {
+    id: { __type: "SortDirection" },
+    date: { __type: "SortDirection" },
+  },
+  ScheduleItemUpdateInput: {
+    notes: { __type: "[String]" },
+    date: { __type: "DateTime" },
+    project: { __type: "ScheduleItemProjectUpdateFieldInput" },
+    people: { __type: "[ScheduleItemPeopleUpdateFieldInput!]" },
+    equipment: { __type: "[ScheduleItemEquipmentUpdateFieldInput!]" },
+    owner: { __type: "ScheduleItemOwnerUpdateFieldInput" },
+    managers: { __type: "[ScheduleItemManagersUpdateFieldInput!]" },
+  },
+  ScheduleItemWhere: {
+    OR: { __type: "[ScheduleItemWhere!]" },
+    AND: { __type: "[ScheduleItemWhere!]" },
     id: { __type: "ID" },
-    timeline: { __type: "String" },
-    startDate: { __type: "Date" },
-    endDate: { __type: "Date" },
-    notes: { __type: "String" },
-    items: { __type: "[TimelineItemItems]" },
-    project: { __type: "TimelineProject" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    notes: { __type: "[String]" },
+    notes_NOT: { __type: "[String]" },
+    notes_INCLUDES: { __type: "String" },
+    notes_NOT_INCLUDES: { __type: "String" },
+    date: { __type: "DateTime" },
+    date_NOT: { __type: "DateTime" },
+    date_IN: { __type: "[DateTime]" },
+    date_NOT_IN: { __type: "[DateTime]" },
+    date_LT: { __type: "DateTime" },
+    date_LTE: { __type: "DateTime" },
+    date_GT: { __type: "DateTime" },
+    date_GTE: { __type: "DateTime" },
+    project: { __type: "ProjectWhere" },
+    project_NOT: { __type: "ProjectWhere" },
+    people: { __type: "PeopleWhere" },
+    people_NOT: { __type: "PeopleWhere" },
+    equipment: { __type: "EquipmentWhere" },
+    equipment_NOT: { __type: "EquipmentWhere" },
+    owner: { __type: "HiveUserWhere" },
+    owner_NOT: { __type: "HiveUserWhere" },
+    managers: { __type: "HiveUserWhere" },
+    managers_NOT: { __type: "HiveUserWhere" },
+    projectConnection: { __type: "ScheduleItemProjectConnectionWhere" },
+    projectConnection_NOT: { __type: "ScheduleItemProjectConnectionWhere" },
+    peopleConnection: { __type: "ScheduleItemPeopleConnectionWhere" },
+    peopleConnection_NOT: { __type: "ScheduleItemPeopleConnectionWhere" },
+    equipmentConnection: { __type: "ScheduleItemEquipmentConnectionWhere" },
+    equipmentConnection_NOT: { __type: "ScheduleItemEquipmentConnectionWhere" },
+    ownerConnection: { __type: "ScheduleItemOwnerConnectionWhere" },
+    ownerConnection_NOT: { __type: "ScheduleItemOwnerConnectionWhere" },
+    managersConnection: { __type: "ScheduleItemManagersConnectionWhere" },
+    managersConnection_NOT: { __type: "ScheduleItemManagersConnectionWhere" },
   },
-  TimelineItemItems: {
-    __typename: { __type: "String!" },
+  TimelineItemConnectInput: {
+    items: { __type: "[TimelineItemItemsConnectFieldInput!]" },
+    project: { __type: "TimelineItemProjectConnectInput" },
+  },
+  TimelineItemConnectWhere: { node: { __type: "TimelineItemWhere!" } },
+  TimelineItemCreateInput: {
+    timeline: { __type: "String" },
+    notes: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    items: { __type: "TimelineItemItemsFieldInput" },
+    project: { __type: "TimelineItemProjectCreateInput" },
+  },
+  TimelineItemDeleteInput: {
+    items: { __type: "[TimelineItemItemsDeleteFieldInput!]" },
+    project: { __type: "TimelineItemProjectDeleteInput" },
+  },
+  TimelineItemDisconnectInput: {
+    items: { __type: "[TimelineItemItemsDisconnectFieldInput!]" },
+    project: { __type: "TimelineItemProjectDisconnectInput" },
+  },
+  TimelineItemItemsConnectFieldInput: {
+    where: { __type: "TimelineItemItemsConnectWhere" },
+    connect: { __type: "[TimelineItemItemsConnectInput!]" },
+  },
+  TimelineItemItemsConnectInput: {
+    item: { __type: "TimelineItemItemsItemConnectFieldInput" },
+  },
+  TimelineItemItemsConnectionSort: {
+    node: { __type: "TimelineItemItemsSort" },
+  },
+  TimelineItemItemsConnectionWhere: {
+    AND: { __type: "[TimelineItemItemsConnectionWhere!]" },
+    OR: { __type: "[TimelineItemItemsConnectionWhere!]" },
+    node: { __type: "TimelineItemItemsWhere" },
+    node_NOT: { __type: "TimelineItemItemsWhere" },
+  },
+  TimelineItemItemsConnectWhere: {
+    node: { __type: "TimelineItemItemsWhere!" },
+  },
+  TimelineItemItemsCreateFieldInput: {
+    node: { __type: "TimelineItemItemsCreateInput!" },
+  },
+  TimelineItemItemsCreateInput: {
     type: { __type: "String" },
     location: { __type: "String" },
     estimate: { __type: "Float" },
+    item: { __type: "TimelineItemItemsItemFieldInput" },
   },
-  TimelineProject: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    name: { __type: "String" },
-    type: { __type: "String" },
+  TimelineItemItemsDeleteFieldInput: {
+    where: { __type: "TimelineItemItemsConnectionWhere" },
+    delete: { __type: "TimelineItemItemsDeleteInput" },
   },
-  People: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    name: { __type: "String" },
+  TimelineItemItemsDeleteInput: {
+    item: { __type: "TimelineItemItemsItemDeleteFieldInput" },
   },
-  ProjectInput: {
-    _id: { __type: "ID" },
-    id: { __type: "String" },
-    name: { __type: "String" },
-    files: { __type: "[FileInput]" },
-    status: { __type: "String" },
-    startDate: { __type: "Date" },
-    endDate: { __type: "Date" },
+  TimelineItemItemsDisconnectFieldInput: {
+    where: { __type: "TimelineItemItemsConnectionWhere" },
+    disconnect: { __type: "TimelineItemItemsDisconnectInput" },
   },
-  FileInput: {
-    id: { __type: "ID" },
-    name: { __type: "String" },
-    extension: { __type: "String" },
-    mimeType: { __type: "String" },
+  TimelineItemItemsDisconnectInput: {
+    item: { __type: "TimelineItemItemsItemDisconnectFieldInput" },
   },
-  ScheduleItemInput: {
-    project: { __type: "String" },
-    people: { __type: "[String]" },
-    equipment: { __type: "[String]" },
-    notes: { __type: "[String]" },
-    managers: { __type: "[String]" },
-    owner: { __type: "String" },
-    date: { __type: "Date" },
+  TimelineItemItemsFieldInput: {
+    create: { __type: "[TimelineItemItemsCreateFieldInput!]" },
+    connect: { __type: "[TimelineItemItemsConnectFieldInput!]" },
   },
-  TimelineItemInput: {
-    timeline: { __type: "String" },
-    startDate: { __type: "Date" },
-    endDate: { __type: "Date" },
-    notes: { __type: "String" },
-    project: { __type: "TimelineProjectInput" },
-    items: { __type: "[TimelineItemItemsInput]" },
+  TimelineItemItemsItemConnectFieldInput: {
+    where: { __type: "TimelineItemConnectWhere" },
+    connect: { __type: "TimelineItemConnectInput" },
   },
-  TimelineProjectInput: { id: { __type: "ID" }, type: { __type: "String" } },
-  TimelineItemItemsInput: {
+  TimelineItemItemsItemConnectionSort: { node: { __type: "TimelineItemSort" } },
+  TimelineItemItemsItemConnectionWhere: {
+    AND: { __type: "[TimelineItemItemsItemConnectionWhere!]" },
+    OR: { __type: "[TimelineItemItemsItemConnectionWhere!]" },
+    node: { __type: "TimelineItemWhere" },
+    node_NOT: { __type: "TimelineItemWhere" },
+  },
+  TimelineItemItemsItemCreateFieldInput: {
+    node: { __type: "TimelineItemCreateInput!" },
+  },
+  TimelineItemItemsItemDeleteFieldInput: {
+    where: { __type: "TimelineItemItemsItemConnectionWhere" },
+    delete: { __type: "TimelineItemDeleteInput" },
+  },
+  TimelineItemItemsItemDisconnectFieldInput: {
+    where: { __type: "TimelineItemItemsItemConnectionWhere" },
+    disconnect: { __type: "TimelineItemDisconnectInput" },
+  },
+  TimelineItemItemsItemFieldInput: {
+    create: { __type: "TimelineItemItemsItemCreateFieldInput" },
+    connect: { __type: "TimelineItemItemsItemConnectFieldInput" },
+  },
+  TimelineItemItemsItemUpdateConnectionInput: {
+    node: { __type: "TimelineItemUpdateInput" },
+  },
+  TimelineItemItemsItemUpdateFieldInput: {
+    where: { __type: "TimelineItemItemsItemConnectionWhere" },
+    update: { __type: "TimelineItemItemsItemUpdateConnectionInput" },
+    connect: { __type: "TimelineItemItemsItemConnectFieldInput" },
+    disconnect: { __type: "TimelineItemItemsItemDisconnectFieldInput" },
+    create: { __type: "TimelineItemItemsItemCreateFieldInput" },
+    delete: { __type: "TimelineItemItemsItemDeleteFieldInput" },
+  },
+  TimelineItemItemsOptions: {
+    sort: { __type: "[TimelineItemItemsSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  TimelineItemItemsRelationInput: {
+    item: { __type: "TimelineItemItemsItemCreateFieldInput" },
+  },
+  TimelineItemItemsSort: {
+    id: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+    location: { __type: "SortDirection" },
+    estimate: { __type: "SortDirection" },
+  },
+  TimelineItemItemsUpdateConnectionInput: {
+    node: { __type: "TimelineItemItemsUpdateInput" },
+  },
+  TimelineItemItemsUpdateFieldInput: {
+    where: { __type: "TimelineItemItemsConnectionWhere" },
+    update: { __type: "TimelineItemItemsUpdateConnectionInput" },
+    connect: { __type: "[TimelineItemItemsConnectFieldInput!]" },
+    disconnect: { __type: "[TimelineItemItemsDisconnectFieldInput!]" },
+    create: { __type: "[TimelineItemItemsCreateFieldInput!]" },
+    delete: { __type: "[TimelineItemItemsDeleteFieldInput!]" },
+  },
+  TimelineItemItemsUpdateInput: {
     type: { __type: "String" },
     location: { __type: "String" },
     estimate: { __type: "Float" },
+    item: { __type: "TimelineItemItemsItemUpdateFieldInput" },
+  },
+  TimelineItemItemsWhere: {
+    OR: { __type: "[TimelineItemItemsWhere!]" },
+    AND: { __type: "[TimelineItemItemsWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    location: { __type: "String" },
+    location_NOT: { __type: "String" },
+    location_IN: { __type: "[String]" },
+    location_NOT_IN: { __type: "[String]" },
+    location_CONTAINS: { __type: "String" },
+    location_NOT_CONTAINS: { __type: "String" },
+    location_STARTS_WITH: { __type: "String" },
+    location_NOT_STARTS_WITH: { __type: "String" },
+    location_ENDS_WITH: { __type: "String" },
+    location_NOT_ENDS_WITH: { __type: "String" },
+    estimate: { __type: "Float" },
+    estimate_NOT: { __type: "Float" },
+    estimate_IN: { __type: "[Float]" },
+    estimate_NOT_IN: { __type: "[Float]" },
+    estimate_LT: { __type: "Float" },
+    estimate_LTE: { __type: "Float" },
+    estimate_GT: { __type: "Float" },
+    estimate_GTE: { __type: "Float" },
+    item: { __type: "TimelineItemWhere" },
+    item_NOT: { __type: "TimelineItemWhere" },
+    itemConnection: { __type: "TimelineItemItemsItemConnectionWhere" },
+    itemConnection_NOT: { __type: "TimelineItemItemsItemConnectionWhere" },
+  },
+  TimelineItemOptions: {
+    sort: { __type: "[TimelineItemSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  TimelineItemProjectConnectInput: {
+    Project: { __type: "TimelineItemProjectProjectConnectFieldInput" },
+    Estimate: { __type: "TimelineItemProjectEstimateConnectFieldInput" },
+  },
+  TimelineItemProjectConnectionEstimateWhere: {
+    OR: { __type: "[TimelineItemProjectConnectionEstimateWhere]" },
+    AND: { __type: "[TimelineItemProjectConnectionEstimateWhere]" },
+    node: { __type: "EstimateWhere" },
+    node_NOT: { __type: "EstimateWhere" },
+  },
+  TimelineItemProjectConnectionProjectWhere: {
+    OR: { __type: "[TimelineItemProjectConnectionProjectWhere]" },
+    AND: { __type: "[TimelineItemProjectConnectionProjectWhere]" },
+    node: { __type: "ProjectWhere" },
+    node_NOT: { __type: "ProjectWhere" },
+  },
+  TimelineItemProjectConnectionWhere: {
+    Project: { __type: "TimelineItemProjectConnectionProjectWhere" },
+    Estimate: { __type: "TimelineItemProjectConnectionEstimateWhere" },
+  },
+  TimelineItemProjectCreateFieldInput: {
+    Project: { __type: "[TimelineItemProjectProjectCreateFieldInput!]" },
+    Estimate: { __type: "[TimelineItemProjectEstimateCreateFieldInput!]" },
+  },
+  TimelineItemProjectCreateInput: {
+    Project: { __type: "TimelineItemProjectProjectFieldInput" },
+    Estimate: { __type: "TimelineItemProjectEstimateFieldInput" },
+  },
+  TimelineItemProjectDeleteInput: {
+    Project: { __type: "TimelineItemProjectProjectDeleteFieldInput" },
+    Estimate: { __type: "TimelineItemProjectEstimateDeleteFieldInput" },
+  },
+  TimelineItemProjectDisconnectInput: {
+    Project: { __type: "TimelineItemProjectProjectDisconnectFieldInput" },
+    Estimate: { __type: "TimelineItemProjectEstimateDisconnectFieldInput" },
+  },
+  TimelineItemProjectEstimateConnectFieldInput: {
+    where: { __type: "EstimateConnectWhere" },
+  },
+  TimelineItemProjectEstimateConnectionWhere: {
+    node: { __type: "EstimateWhere" },
+    node_NOT: { __type: "EstimateWhere" },
+    AND: { __type: "[TimelineItemProjectEstimateConnectionWhere!]" },
+    OR: { __type: "[TimelineItemProjectEstimateConnectionWhere!]" },
+  },
+  TimelineItemProjectEstimateCreateFieldInput: {
+    node: { __type: "EstimateCreateInput!" },
+  },
+  TimelineItemProjectEstimateDeleteFieldInput: {
+    where: { __type: "TimelineItemProjectEstimateConnectionWhere" },
+  },
+  TimelineItemProjectEstimateDisconnectFieldInput: {
+    where: { __type: "TimelineItemProjectEstimateConnectionWhere" },
+  },
+  TimelineItemProjectEstimateFieldInput: {
+    create: { __type: "TimelineItemProjectEstimateCreateFieldInput" },
+    connect: { __type: "TimelineItemProjectEstimateConnectFieldInput" },
+  },
+  TimelineItemProjectEstimateUpdateConnectionInput: {
+    node: { __type: "EstimateUpdateInput" },
+  },
+  TimelineItemProjectEstimateUpdateFieldInput: {
+    where: { __type: "TimelineItemProjectEstimateConnectionWhere" },
+    update: { __type: "TimelineItemProjectEstimateUpdateConnectionInput" },
+    connect: { __type: "TimelineItemProjectEstimateConnectFieldInput" },
+    disconnect: { __type: "TimelineItemProjectEstimateDisconnectFieldInput" },
+    create: { __type: "TimelineItemProjectEstimateCreateFieldInput" },
+    delete: { __type: "TimelineItemProjectEstimateDeleteFieldInput" },
+  },
+  TimelineItemProjectProjectConnectFieldInput: {
+    where: { __type: "ProjectConnectWhere" },
+    connect: { __type: "ProjectConnectInput" },
+  },
+  TimelineItemProjectProjectConnectionWhere: {
+    node: { __type: "ProjectWhere" },
+    node_NOT: { __type: "ProjectWhere" },
+    AND: { __type: "[TimelineItemProjectProjectConnectionWhere!]" },
+    OR: { __type: "[TimelineItemProjectProjectConnectionWhere!]" },
+  },
+  TimelineItemProjectProjectCreateFieldInput: {
+    node: { __type: "ProjectCreateInput!" },
+  },
+  TimelineItemProjectProjectDeleteFieldInput: {
+    where: { __type: "TimelineItemProjectProjectConnectionWhere" },
+    delete: { __type: "ProjectDeleteInput" },
+  },
+  TimelineItemProjectProjectDisconnectFieldInput: {
+    where: { __type: "TimelineItemProjectProjectConnectionWhere" },
+    disconnect: { __type: "ProjectDisconnectInput" },
+  },
+  TimelineItemProjectProjectFieldInput: {
+    create: { __type: "TimelineItemProjectProjectCreateFieldInput" },
+    connect: { __type: "TimelineItemProjectProjectConnectFieldInput" },
+  },
+  TimelineItemProjectProjectUpdateConnectionInput: {
+    node: { __type: "ProjectUpdateInput" },
+  },
+  TimelineItemProjectProjectUpdateFieldInput: {
+    where: { __type: "TimelineItemProjectProjectConnectionWhere" },
+    update: { __type: "TimelineItemProjectProjectUpdateConnectionInput" },
+    connect: { __type: "TimelineItemProjectProjectConnectFieldInput" },
+    disconnect: { __type: "TimelineItemProjectProjectDisconnectFieldInput" },
+    create: { __type: "TimelineItemProjectProjectCreateFieldInput" },
+    delete: { __type: "TimelineItemProjectProjectDeleteFieldInput" },
+  },
+  TimelineItemProjectUpdateInput: {
+    Project: { __type: "TimelineItemProjectProjectUpdateFieldInput" },
+    Estimate: { __type: "TimelineItemProjectEstimateUpdateFieldInput" },
+  },
+  TimelineItemRelationInput: {
+    items: { __type: "[TimelineItemItemsCreateFieldInput!]" },
+    project: { __type: "TimelineItemProjectCreateFieldInput" },
+  },
+  TimelineItemSort: {
+    id: { __type: "SortDirection" },
+    timeline: { __type: "SortDirection" },
+    notes: { __type: "SortDirection" },
+    startDate: { __type: "SortDirection" },
+    endDate: { __type: "SortDirection" },
+  },
+  TimelineItemUpdateInput: {
+    timeline: { __type: "String" },
+    notes: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    items: { __type: "[TimelineItemItemsUpdateFieldInput!]" },
+    project: { __type: "TimelineItemProjectUpdateInput" },
+  },
+  TimelineItemWhere: {
+    OR: { __type: "[TimelineItemWhere!]" },
+    AND: { __type: "[TimelineItemWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    timeline: { __type: "String" },
+    timeline_NOT: { __type: "String" },
+    timeline_IN: { __type: "[String]" },
+    timeline_NOT_IN: { __type: "[String]" },
+    timeline_CONTAINS: { __type: "String" },
+    timeline_NOT_CONTAINS: { __type: "String" },
+    timeline_STARTS_WITH: { __type: "String" },
+    timeline_NOT_STARTS_WITH: { __type: "String" },
+    timeline_ENDS_WITH: { __type: "String" },
+    timeline_NOT_ENDS_WITH: { __type: "String" },
+    notes: { __type: "String" },
+    notes_NOT: { __type: "String" },
+    notes_IN: { __type: "[String]" },
+    notes_NOT_IN: { __type: "[String]" },
+    notes_CONTAINS: { __type: "String" },
+    notes_NOT_CONTAINS: { __type: "String" },
+    notes_STARTS_WITH: { __type: "String" },
+    notes_NOT_STARTS_WITH: { __type: "String" },
+    notes_ENDS_WITH: { __type: "String" },
+    notes_NOT_ENDS_WITH: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    startDate_NOT: { __type: "DateTime" },
+    startDate_IN: { __type: "[DateTime]" },
+    startDate_NOT_IN: { __type: "[DateTime]" },
+    startDate_LT: { __type: "DateTime" },
+    startDate_LTE: { __type: "DateTime" },
+    startDate_GT: { __type: "DateTime" },
+    startDate_GTE: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    endDate_NOT: { __type: "DateTime" },
+    endDate_IN: { __type: "[DateTime]" },
+    endDate_NOT_IN: { __type: "[DateTime]" },
+    endDate_LT: { __type: "DateTime" },
+    endDate_LTE: { __type: "DateTime" },
+    endDate_GT: { __type: "DateTime" },
+    endDate_GTE: { __type: "DateTime" },
+    items: { __type: "TimelineItemItemsWhere" },
+    items_NOT: { __type: "TimelineItemItemsWhere" },
+    itemsConnection: { __type: "TimelineItemItemsConnectionWhere" },
+    itemsConnection_NOT: { __type: "TimelineItemItemsConnectionWhere" },
+    projectConnection: { __type: "TimelineItemProjectConnectionWhere" },
+    projectConnection_NOT: { __type: "TimelineItemProjectConnectionWhere" },
+  },
+  TimelineProjectWhere: {
+    Project: { __type: "ProjectWhere" },
+    Estimate: { __type: "EstimateWhere" },
   },
   ValidationError: {
     __typename: { __type: "String!" },
@@ -14178,6 +17266,7 @@ export const generatedSchema = {
   },
   [SchemaUnionsKey]: {
     HivePipelineRunner: ["HiveProcess", "HivePipelineTrigger"],
+    TimelineProject: ["Project", "Estimate"],
     HivePipelineFlowPath: [
       "HivePipelineNodeCallerRelationship",
       "HivePipelineNodeNextRelationship",
@@ -14306,47 +17395,53 @@ export interface Query {
   permissionsCount: (args?: {
     where?: Maybe<PermissionWhere>;
   }) => ScalarsEnums["Int"];
-  ProjectById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Project>;
-  ProjectMany: (args?: {
-    status?: Maybe<Scalars["String"]>;
-    statusList?: Maybe<Array<Maybe<Scalars["String"]>>>;
-    startDate?: Maybe<Scalars["Date"]>;
-    endDate?: Maybe<Scalars["Date"]>;
-  }) => Maybe<Array<Maybe<Project>>>;
-  UserMany?: Maybe<Array<Maybe<User>>>;
-  FileMany?: Maybe<Array<Maybe<File>>>;
-  FileByProject: (args?: {
-    id?: Maybe<Scalars["String"]>;
-  }) => Maybe<Array<Maybe<File>>>;
-  QuoteById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Quote>;
-  QuoteMany: (args?: {
-    status?: Maybe<Scalars["String"]>;
-    startDate?: Maybe<Scalars["Date"]>;
-    endDate?: Maybe<Scalars["Date"]>;
-  }) => Maybe<Array<Maybe<Quote>>>;
-  EquipmentById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Equipment>;
-  EquipmentMany: (args?: {
-    status?: Maybe<Scalars["String"]>;
-  }) => Maybe<Array<Maybe<Equipment>>>;
-  ScheduleById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<ScheduleItem>;
-  ScheduleMany: (args?: {
-    project?: Maybe<Scalars["String"]>;
-    status?: Maybe<Scalars["String"]>;
-    startDate?: Maybe<Scalars["Date"]>;
-    endDate?: Maybe<Scalars["Date"]>;
-  }) => Maybe<Array<Maybe<ScheduleItem>>>;
-  TimelineItemById: (args?: {
-    id?: Maybe<Scalars["ID"]>;
-  }) => Maybe<TimelineItem>;
-  TimelineItemMany: (args?: {
-    timeline?: Maybe<Scalars["String"]>;
-    startDate?: Maybe<Scalars["Date"]>;
-    endDate?: Maybe<Scalars["Date"]>;
-  }) => Maybe<Array<Maybe<TimelineItem>>>;
-  PeopleById: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<People>;
-  PeopleMany: (args?: {
-    status?: Maybe<Scalars["String"]>;
-  }) => Maybe<Array<Maybe<People>>>;
+  projects: (args?: {
+    where?: Maybe<ProjectWhere>;
+    options?: Maybe<ProjectOptions>;
+  }) => Array<Project>;
+  projectsCount: (args?: {
+    where?: Maybe<ProjectWhere>;
+  }) => ScalarsEnums["Int"];
+  estimates: (args?: {
+    where?: Maybe<EstimateWhere>;
+    options?: Maybe<EstimateOptions>;
+  }) => Array<Estimate>;
+  estimatesCount: (args?: {
+    where?: Maybe<EstimateWhere>;
+  }) => ScalarsEnums["Int"];
+  people: (args?: {
+    where?: Maybe<PeopleWhere>;
+    options?: Maybe<PeopleOptions>;
+  }) => Array<People>;
+  peopleCount: (args?: { where?: Maybe<PeopleWhere> }) => ScalarsEnums["Int"];
+  equipment: (args?: {
+    where?: Maybe<EquipmentWhere>;
+    options?: Maybe<EquipmentOptions>;
+  }) => Array<Equipment>;
+  equipmentCount: (args?: {
+    where?: Maybe<EquipmentWhere>;
+  }) => ScalarsEnums["Int"];
+  timelineItemItems: (args?: {
+    where?: Maybe<TimelineItemItemsWhere>;
+    options?: Maybe<TimelineItemItemsOptions>;
+  }) => Array<TimelineItemItems>;
+  timelineItemItemsCount: (args?: {
+    where?: Maybe<TimelineItemItemsWhere>;
+  }) => ScalarsEnums["Int"];
+  timelineItems: (args?: {
+    where?: Maybe<TimelineItemWhere>;
+    options?: Maybe<TimelineItemOptions>;
+  }) => Array<TimelineItem>;
+  timelineItemsCount: (args?: {
+    where?: Maybe<TimelineItemWhere>;
+  }) => ScalarsEnums["Int"];
+  scheduleItems: (args?: {
+    where?: Maybe<ScheduleItemWhere>;
+    options?: Maybe<ScheduleItemOptions>;
+  }) => Array<ScheduleItem>;
+  scheduleItemsCount: (args?: {
+    where?: Maybe<ScheduleItemWhere>;
+  }) => ScalarsEnums["Int"];
   ProgramShard: (args?: { id?: Maybe<Scalars["String"]> }) => Maybe<Program>;
   ProgramShards?: Maybe<Array<Maybe<Program>>>;
   DeviceById: (args: { _id: Scalars["MongoID"] }) => Maybe<Device>;
@@ -15190,55 +18285,104 @@ export interface Mutation {
     create?: Maybe<PermissionRelationInput>;
     delete?: Maybe<PermissionDeleteInput>;
   }) => UpdatePermissionsMutationResponse;
-  addProject: (args?: { project?: Maybe<ProjectInput> }) => Maybe<Project>;
-  updateProject: (args?: {
-    id?: Maybe<Scalars["String"]>;
-    project?: Maybe<ProjectInput>;
-  }) => Maybe<Project>;
-  removeFileFromProject: (args?: {
-    project?: Maybe<Scalars["String"]>;
-    id?: Maybe<Scalars["String"]>;
-  }) => Maybe<ScalarsEnums["Boolean"]>;
-  updateFile: (args?: {
-    id?: Maybe<Scalars["String"]>;
-    name?: Maybe<Scalars["String"]>;
-    status?: Maybe<Scalars["String"]>;
-  }) => Maybe<File>;
-  updateFiles: (args?: {
-    ids?: Maybe<Array<Maybe<Scalars["String"]>>>;
-    status?: Maybe<Scalars["String"]>;
-  }) => Maybe<Array<Maybe<File>>>;
-  removeProject?: Maybe<ScalarsEnums["Boolean"]>;
-  createScheduleItem: (args?: {
-    item?: Maybe<ScheduleItemInput>;
-  }) => Maybe<ScheduleItem>;
-  updateScheduleItem: (args?: {
-    id?: Maybe<Scalars["String"]>;
-    item?: Maybe<ScheduleItemInput>;
-  }) => Maybe<ScheduleItem>;
-  removeScheduleItem: (args?: {
-    id?: Maybe<Scalars["String"]>;
-  }) => Maybe<ScalarsEnums["Boolean"]>;
-  joinScheduleItem: (args?: {
-    id?: Maybe<Scalars["String"]>;
-  }) => Maybe<ScalarsEnums["Boolean"]>;
-  leaveScheduleItem: (args?: {
-    id?: Maybe<Scalars["String"]>;
-  }) => Maybe<ScalarsEnums["Boolean"]>;
-  cloneScheduleItem: (args?: {
-    id?: Maybe<Scalars["String"]>;
-    cloneTo?: Maybe<Array<Maybe<Scalars["Date"]>>>;
-  }) => Maybe<ScalarsEnums["Boolean"]>;
-  createTimelineItem: (args?: {
-    item?: Maybe<TimelineItemInput>;
-  }) => Maybe<TimelineItem>;
-  updateTimelineItem: (args?: {
-    id?: Maybe<Scalars["String"]>;
-    item?: Maybe<TimelineItemInput>;
-  }) => Maybe<TimelineItem>;
-  removeTimelineItem: (args?: {
-    id?: Maybe<Scalars["String"]>;
-  }) => Maybe<ScalarsEnums["Boolean"]>;
+  createProjects: (args: {
+    input: Array<ProjectCreateInput>;
+  }) => CreateProjectsMutationResponse;
+  deleteProjects: (args?: {
+    where?: Maybe<ProjectWhere>;
+    delete?: Maybe<ProjectDeleteInput>;
+  }) => DeleteInfo;
+  updateProjects: (args?: {
+    where?: Maybe<ProjectWhere>;
+    update?: Maybe<ProjectUpdateInput>;
+    connect?: Maybe<ProjectConnectInput>;
+    disconnect?: Maybe<ProjectDisconnectInput>;
+    create?: Maybe<ProjectRelationInput>;
+    delete?: Maybe<ProjectDeleteInput>;
+  }) => UpdateProjectsMutationResponse;
+  createEstimates: (args: {
+    input: Array<EstimateCreateInput>;
+  }) => CreateEstimatesMutationResponse;
+  deleteEstimates: (args?: { where?: Maybe<EstimateWhere> }) => DeleteInfo;
+  updateEstimates: (args?: {
+    where?: Maybe<EstimateWhere>;
+    update?: Maybe<EstimateUpdateInput>;
+  }) => UpdateEstimatesMutationResponse;
+  createPeople: (args: {
+    input: Array<PeopleCreateInput>;
+  }) => CreatePeopleMutationResponse;
+  deletePeople: (args?: {
+    where?: Maybe<PeopleWhere>;
+    delete?: Maybe<PeopleDeleteInput>;
+  }) => DeleteInfo;
+  updatePeople: (args?: {
+    where?: Maybe<PeopleWhere>;
+    update?: Maybe<PeopleUpdateInput>;
+    connect?: Maybe<PeopleConnectInput>;
+    disconnect?: Maybe<PeopleDisconnectInput>;
+    create?: Maybe<PeopleRelationInput>;
+    delete?: Maybe<PeopleDeleteInput>;
+  }) => UpdatePeopleMutationResponse;
+  createEquipment: (args: {
+    input: Array<EquipmentCreateInput>;
+  }) => CreateEquipmentMutationResponse;
+  deleteEquipment: (args?: {
+    where?: Maybe<EquipmentWhere>;
+    delete?: Maybe<EquipmentDeleteInput>;
+  }) => DeleteInfo;
+  updateEquipment: (args?: {
+    where?: Maybe<EquipmentWhere>;
+    update?: Maybe<EquipmentUpdateInput>;
+    connect?: Maybe<EquipmentConnectInput>;
+    disconnect?: Maybe<EquipmentDisconnectInput>;
+    create?: Maybe<EquipmentRelationInput>;
+    delete?: Maybe<EquipmentDeleteInput>;
+  }) => UpdateEquipmentMutationResponse;
+  createTimelineItemItems: (args: {
+    input: Array<TimelineItemItemsCreateInput>;
+  }) => CreateTimelineItemItemsMutationResponse;
+  deleteTimelineItemItems: (args?: {
+    where?: Maybe<TimelineItemItemsWhere>;
+    delete?: Maybe<TimelineItemItemsDeleteInput>;
+  }) => DeleteInfo;
+  updateTimelineItemItems: (args?: {
+    where?: Maybe<TimelineItemItemsWhere>;
+    update?: Maybe<TimelineItemItemsUpdateInput>;
+    connect?: Maybe<TimelineItemItemsConnectInput>;
+    disconnect?: Maybe<TimelineItemItemsDisconnectInput>;
+    create?: Maybe<TimelineItemItemsRelationInput>;
+    delete?: Maybe<TimelineItemItemsDeleteInput>;
+  }) => UpdateTimelineItemItemsMutationResponse;
+  createTimelineItems: (args: {
+    input: Array<TimelineItemCreateInput>;
+  }) => CreateTimelineItemsMutationResponse;
+  deleteTimelineItems: (args?: {
+    where?: Maybe<TimelineItemWhere>;
+    delete?: Maybe<TimelineItemDeleteInput>;
+  }) => DeleteInfo;
+  updateTimelineItems: (args?: {
+    where?: Maybe<TimelineItemWhere>;
+    update?: Maybe<TimelineItemUpdateInput>;
+    connect?: Maybe<TimelineItemConnectInput>;
+    disconnect?: Maybe<TimelineItemDisconnectInput>;
+    create?: Maybe<TimelineItemRelationInput>;
+    delete?: Maybe<TimelineItemDeleteInput>;
+  }) => UpdateTimelineItemsMutationResponse;
+  createScheduleItems: (args: {
+    input: Array<ScheduleItemCreateInput>;
+  }) => CreateScheduleItemsMutationResponse;
+  deleteScheduleItems: (args?: {
+    where?: Maybe<ScheduleItemWhere>;
+    delete?: Maybe<ScheduleItemDeleteInput>;
+  }) => DeleteInfo;
+  updateScheduleItems: (args?: {
+    where?: Maybe<ScheduleItemWhere>;
+    update?: Maybe<ScheduleItemUpdateInput>;
+    connect?: Maybe<ScheduleItemConnectInput>;
+    disconnect?: Maybe<ScheduleItemDisconnectInput>;
+    create?: Maybe<ScheduleItemRelationInput>;
+    delete?: Maybe<ScheduleItemDeleteInput>;
+  }) => UpdateScheduleItemsMutationResponse;
   addProgramIO: (args?: {
     program?: Maybe<Scalars["String"]>;
     name?: Maybe<Scalars["String"]>;
@@ -15719,6 +18863,11 @@ export interface HivePipelineRunner {
   $on: $HivePipelineRunner;
 }
 
+export interface TimelineProject {
+  __typename?: "Project" | "Estimate";
+  $on: $TimelineProject;
+}
+
 export interface HivePipelineFlowPath {
   __typename?:
     | "HivePipelineNodeCallerRelationship"
@@ -15727,6 +18876,18 @@ export interface HivePipelineFlowPath {
   source?: Maybe<ScalarsEnums["String"]>;
   target?: Maybe<ScalarsEnums["String"]>;
   $on: $HivePipelineFlowPath;
+}
+
+export interface CreateEquipmentMutationResponse {
+  __typename?: "CreateEquipmentMutationResponse";
+  info: CreateInfo;
+  equipment: Array<Equipment>;
+}
+
+export interface CreateEstimatesMutationResponse {
+  __typename?: "CreateEstimatesMutationResponse";
+  info: CreateInfo;
+  estimates: Array<Estimate>;
 }
 
 export interface CreateFileSystemsMutationResponse {
@@ -15826,10 +18987,22 @@ export interface CreateInfo {
   relationshipsCreated: ScalarsEnums["Int"];
 }
 
+export interface CreatePeopleMutationResponse {
+  __typename?: "CreatePeopleMutationResponse";
+  info: CreateInfo;
+  people: Array<People>;
+}
+
 export interface CreatePermissionsMutationResponse {
   __typename?: "CreatePermissionsMutationResponse";
   info: CreateInfo;
   permissions: Array<Permission>;
+}
+
+export interface CreateProjectsMutationResponse {
+  __typename?: "CreateProjectsMutationResponse";
+  info: CreateInfo;
+  projects: Array<Project>;
 }
 
 export interface CreateRolesMutationResponse {
@@ -15838,11 +19011,68 @@ export interface CreateRolesMutationResponse {
   roles: Array<Role>;
 }
 
+export interface CreateScheduleItemsMutationResponse {
+  __typename?: "CreateScheduleItemsMutationResponse";
+  info: CreateInfo;
+  scheduleItems: Array<ScheduleItem>;
+}
+
+export interface CreateTimelineItemItemsMutationResponse {
+  __typename?: "CreateTimelineItemItemsMutationResponse";
+  info: CreateInfo;
+  timelineItemItems: Array<TimelineItemItems>;
+}
+
+export interface CreateTimelineItemsMutationResponse {
+  __typename?: "CreateTimelineItemsMutationResponse";
+  info: CreateInfo;
+  timelineItems: Array<TimelineItem>;
+}
+
 export interface DeleteInfo {
   __typename?: "DeleteInfo";
   bookmark?: Maybe<ScalarsEnums["String"]>;
   nodesDeleted: ScalarsEnums["Int"];
   relationshipsDeleted: ScalarsEnums["Int"];
+}
+
+export interface Equipment {
+  __typename?: "Equipment";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  registration?: Maybe<ScalarsEnums["String"]>;
+  organisation: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Maybe<HiveOrganisation>;
+  organisationConnection: (args?: {
+    where?: Maybe<EquipmentOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<EquipmentOrganisationConnectionSort>>;
+  }) => EquipmentOrganisationConnection;
+}
+
+export interface EquipmentOrganisationConnection {
+  __typename?: "EquipmentOrganisationConnection";
+  edges: Array<EquipmentOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface EquipmentOrganisationRelationship {
+  __typename?: "EquipmentOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveOrganisation;
+}
+
+export interface Estimate {
+  __typename?: "Estimate";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  status?: Maybe<ScalarsEnums["String"]>;
+  price?: Maybe<ScalarsEnums["Float"]>;
+  date?: Maybe<ScalarsEnums["DateTime"]>;
 }
 
 export interface FileSystem {
@@ -16261,6 +19491,10 @@ export interface HiveOrganisation {
     where?: Maybe<HiveApplianceWhere>;
     options?: Maybe<HiveApplianceOptions>;
   }) => Maybe<Array<Maybe<HiveAppliance>>>;
+  schedule: (args?: {
+    where?: Maybe<ScheduleItemWhere>;
+    options?: Maybe<ScheduleItemOptions>;
+  }) => Maybe<Array<Maybe<ScheduleItem>>>;
   filesystems: (args?: {
     where?: Maybe<FileSystemWhere>;
     options?: Maybe<FileSystemOptions>;
@@ -16283,6 +19517,12 @@ export interface HiveOrganisation {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<HiveOrganisationAppliancesConnectionSort>>;
   }) => HiveOrganisationAppliancesConnection;
+  scheduleConnection: (args?: {
+    where?: Maybe<HiveOrganisationScheduleConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HiveOrganisationScheduleConnectionSort>>;
+  }) => HiveOrganisationScheduleConnection;
   filesystemsConnection: (args?: {
     where?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -16341,6 +19581,19 @@ export interface HiveOrganisationRolesRelationship {
   __typename?: "HiveOrganisationRolesRelationship";
   cursor: ScalarsEnums["String"];
   node: Role;
+}
+
+export interface HiveOrganisationScheduleConnection {
+  __typename?: "HiveOrganisationScheduleConnection";
+  edges: Array<HiveOrganisationScheduleRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HiveOrganisationScheduleRelationship {
+  __typename?: "HiveOrganisationScheduleRelationship";
+  cursor: ScalarsEnums["String"];
+  node: ScheduleItem;
 }
 
 export interface HivePipeline {
@@ -16816,6 +20069,35 @@ export interface PageInfo {
   endCursor?: Maybe<ScalarsEnums["String"]>;
 }
 
+export interface People {
+  __typename?: "People";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  organisation: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Maybe<HiveOrganisation>;
+  organisationConnection: (args?: {
+    where?: Maybe<PeopleOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<PeopleOrganisationConnectionSort>>;
+  }) => PeopleOrganisationConnection;
+}
+
+export interface PeopleOrganisationConnection {
+  __typename?: "PeopleOrganisationConnection";
+  edges: Array<PeopleOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface PeopleOrganisationRelationship {
+  __typename?: "PeopleOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveOrganisation;
+}
+
 export interface Permission {
   __typename?: "Permission";
   id: ScalarsEnums["ID"];
@@ -16845,6 +20127,84 @@ export interface PermissionRolesRelationship {
   __typename?: "PermissionRolesRelationship";
   cursor: ScalarsEnums["String"];
   node: Role;
+}
+
+export interface Project {
+  __typename?: "Project";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  status?: Maybe<ScalarsEnums["String"]>;
+  startDate?: Maybe<ScalarsEnums["DateTime"]>;
+  endDate?: Maybe<ScalarsEnums["DateTime"]>;
+  organisation: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Maybe<HiveOrganisation>;
+  schedule: (args?: {
+    where?: Maybe<ScheduleItemWhere>;
+    options?: Maybe<ScheduleItemOptions>;
+  }) => Maybe<Array<Maybe<ScheduleItem>>>;
+  plan: (args?: {
+    where?: Maybe<TimelineItemWhere>;
+    options?: Maybe<TimelineItemOptions>;
+  }) => Maybe<Array<Maybe<TimelineItem>>>;
+  organisationConnection: (args?: {
+    where?: Maybe<ProjectOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ProjectOrganisationConnectionSort>>;
+  }) => ProjectOrganisationConnection;
+  scheduleConnection: (args?: {
+    where?: Maybe<ProjectScheduleConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ProjectScheduleConnectionSort>>;
+  }) => ProjectScheduleConnection;
+  planConnection: (args?: {
+    where?: Maybe<ProjectPlanConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ProjectPlanConnectionSort>>;
+  }) => ProjectPlanConnection;
+}
+
+export interface ProjectOrganisationConnection {
+  __typename?: "ProjectOrganisationConnection";
+  edges: Array<ProjectOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ProjectOrganisationRelationship {
+  __typename?: "ProjectOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveOrganisation;
+}
+
+export interface ProjectPlanConnection {
+  __typename?: "ProjectPlanConnection";
+  edges: Array<ProjectPlanRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ProjectPlanRelationship {
+  __typename?: "ProjectPlanRelationship";
+  cursor: ScalarsEnums["String"];
+  node: TimelineItem;
+}
+
+export interface ProjectScheduleConnection {
+  __typename?: "ProjectScheduleConnection";
+  edges: Array<ProjectScheduleRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ProjectScheduleRelationship {
+  __typename?: "ProjectScheduleRelationship";
+  cursor: ScalarsEnums["String"];
+  node: ScheduleItem;
 }
 
 export interface Role {
@@ -16920,6 +20280,223 @@ export interface RolePermissionsRelationship {
   __typename?: "RolePermissionsRelationship";
   cursor: ScalarsEnums["String"];
   node: Permission;
+}
+
+export interface ScheduleItem {
+  __typename?: "ScheduleItem";
+  id?: Maybe<ScalarsEnums["ID"]>;
+  notes?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
+  date?: Maybe<ScalarsEnums["DateTime"]>;
+  project: (args?: {
+    where?: Maybe<ProjectWhere>;
+    options?: Maybe<ProjectOptions>;
+  }) => Maybe<Project>;
+  people: (args?: {
+    where?: Maybe<PeopleWhere>;
+    options?: Maybe<PeopleOptions>;
+  }) => Maybe<Array<Maybe<People>>>;
+  equipment: (args?: {
+    where?: Maybe<EquipmentWhere>;
+    options?: Maybe<EquipmentOptions>;
+  }) => Maybe<Array<Maybe<Equipment>>>;
+  owner: (args?: {
+    where?: Maybe<HiveUserWhere>;
+    options?: Maybe<HiveUserOptions>;
+  }) => Maybe<HiveUser>;
+  managers: (args?: {
+    where?: Maybe<HiveUserWhere>;
+    options?: Maybe<HiveUserOptions>;
+  }) => Maybe<Array<Maybe<HiveUser>>>;
+  projectConnection: (args?: {
+    where?: Maybe<ScheduleItemProjectConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ScheduleItemProjectConnectionSort>>;
+  }) => ScheduleItemProjectConnection;
+  peopleConnection: (args?: {
+    where?: Maybe<ScheduleItemPeopleConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ScheduleItemPeopleConnectionSort>>;
+  }) => ScheduleItemPeopleConnection;
+  equipmentConnection: (args?: {
+    where?: Maybe<ScheduleItemEquipmentConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ScheduleItemEquipmentConnectionSort>>;
+  }) => ScheduleItemEquipmentConnection;
+  ownerConnection: (args?: {
+    where?: Maybe<ScheduleItemOwnerConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ScheduleItemOwnerConnectionSort>>;
+  }) => ScheduleItemOwnerConnection;
+  managersConnection: (args?: {
+    where?: Maybe<ScheduleItemManagersConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ScheduleItemManagersConnectionSort>>;
+  }) => ScheduleItemManagersConnection;
+}
+
+export interface ScheduleItemEquipmentConnection {
+  __typename?: "ScheduleItemEquipmentConnection";
+  edges: Array<ScheduleItemEquipmentRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ScheduleItemEquipmentRelationship {
+  __typename?: "ScheduleItemEquipmentRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Equipment;
+}
+
+export interface ScheduleItemManagersConnection {
+  __typename?: "ScheduleItemManagersConnection";
+  edges: Array<ScheduleItemManagersRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ScheduleItemManagersRelationship {
+  __typename?: "ScheduleItemManagersRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveUser;
+}
+
+export interface ScheduleItemOwnerConnection {
+  __typename?: "ScheduleItemOwnerConnection";
+  edges: Array<ScheduleItemOwnerRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ScheduleItemOwnerRelationship {
+  __typename?: "ScheduleItemOwnerRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveUser;
+}
+
+export interface ScheduleItemPeopleConnection {
+  __typename?: "ScheduleItemPeopleConnection";
+  edges: Array<ScheduleItemPeopleRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ScheduleItemPeopleRelationship {
+  __typename?: "ScheduleItemPeopleRelationship";
+  cursor: ScalarsEnums["String"];
+  node: People;
+}
+
+export interface ScheduleItemProjectConnection {
+  __typename?: "ScheduleItemProjectConnection";
+  edges: Array<ScheduleItemProjectRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ScheduleItemProjectRelationship {
+  __typename?: "ScheduleItemProjectRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Project;
+}
+
+export interface TimelineItem {
+  __typename?: "TimelineItem";
+  id?: Maybe<ScalarsEnums["ID"]>;
+  timeline?: Maybe<ScalarsEnums["String"]>;
+  notes?: Maybe<ScalarsEnums["String"]>;
+  startDate?: Maybe<ScalarsEnums["DateTime"]>;
+  endDate?: Maybe<ScalarsEnums["DateTime"]>;
+  items: (args?: {
+    where?: Maybe<TimelineItemItemsWhere>;
+    options?: Maybe<TimelineItemItemsOptions>;
+  }) => Maybe<Array<Maybe<TimelineItemItems>>>;
+  project: (args?: {
+    options?: Maybe<QueryOptions>;
+    where?: Maybe<TimelineProjectWhere>;
+  }) => Maybe<TimelineProject>;
+  itemsConnection: (args?: {
+    where?: Maybe<TimelineItemItemsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<TimelineItemItemsConnectionSort>>;
+  }) => TimelineItemItemsConnection;
+  projectConnection: (args?: {
+    where?: Maybe<TimelineItemProjectConnectionWhere>;
+  }) => TimelineItemProjectConnection;
+}
+
+export interface TimelineItemItems {
+  __typename?: "TimelineItemItems";
+  id?: Maybe<ScalarsEnums["ID"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
+  location?: Maybe<ScalarsEnums["String"]>;
+  estimate?: Maybe<ScalarsEnums["Float"]>;
+  item: (args?: {
+    where?: Maybe<TimelineItemWhere>;
+    options?: Maybe<TimelineItemOptions>;
+  }) => Maybe<TimelineItem>;
+  itemConnection: (args?: {
+    where?: Maybe<TimelineItemItemsItemConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<TimelineItemItemsItemConnectionSort>>;
+  }) => TimelineItemItemsItemConnection;
+}
+
+export interface TimelineItemItemsConnection {
+  __typename?: "TimelineItemItemsConnection";
+  edges: Array<TimelineItemItemsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface TimelineItemItemsItemConnection {
+  __typename?: "TimelineItemItemsItemConnection";
+  edges: Array<TimelineItemItemsItemRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface TimelineItemItemsItemRelationship {
+  __typename?: "TimelineItemItemsItemRelationship";
+  cursor: ScalarsEnums["String"];
+  node: TimelineItem;
+}
+
+export interface TimelineItemItemsRelationship {
+  __typename?: "TimelineItemItemsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: TimelineItemItems;
+}
+
+export interface TimelineItemProjectConnection {
+  __typename?: "TimelineItemProjectConnection";
+  edges: Array<TimelineItemProjectRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface TimelineItemProjectRelationship {
+  __typename?: "TimelineItemProjectRelationship";
+  cursor: ScalarsEnums["String"];
+  node: TimelineProject;
+}
+
+export interface UpdateEquipmentMutationResponse {
+  __typename?: "UpdateEquipmentMutationResponse";
+  info: UpdateInfo;
+  equipment: Array<Equipment>;
+}
+
+export interface UpdateEstimatesMutationResponse {
+  __typename?: "UpdateEstimatesMutationResponse";
+  info: UpdateInfo;
+  estimates: Array<Estimate>;
 }
 
 export interface UpdateFileSystemsMutationResponse {
@@ -17021,10 +20598,22 @@ export interface UpdateInfo {
   relationshipsDeleted: ScalarsEnums["Int"];
 }
 
+export interface UpdatePeopleMutationResponse {
+  __typename?: "UpdatePeopleMutationResponse";
+  info: UpdateInfo;
+  people: Array<People>;
+}
+
 export interface UpdatePermissionsMutationResponse {
   __typename?: "UpdatePermissionsMutationResponse";
   info: UpdateInfo;
   permissions: Array<Permission>;
+}
+
+export interface UpdateProjectsMutationResponse {
+  __typename?: "UpdateProjectsMutationResponse";
+  info: UpdateInfo;
+  projects: Array<Project>;
 }
 
 export interface UpdateRolesMutationResponse {
@@ -17033,94 +20622,22 @@ export interface UpdateRolesMutationResponse {
   roles: Array<Role>;
 }
 
-export interface Project {
-  __typename?: "Project";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
-  files?: Maybe<Array<Maybe<File>>>;
-  status?: Maybe<ScalarsEnums["String"]>;
-  startDate?: Maybe<ScalarsEnums["Date"]>;
-  endDate?: Maybe<ScalarsEnums["Date"]>;
+export interface UpdateScheduleItemsMutationResponse {
+  __typename?: "UpdateScheduleItemsMutationResponse";
+  info: UpdateInfo;
+  scheduleItems: Array<ScheduleItem>;
 }
 
-export interface File {
-  __typename?: "File";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  cid?: Maybe<ScalarsEnums["String"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
-  extension?: Maybe<ScalarsEnums["String"]>;
-  mimeType?: Maybe<ScalarsEnums["String"]>;
-  timestamp?: Maybe<ScalarsEnums["Date"]>;
-  status?: Maybe<ScalarsEnums["String"]>;
-  owner?: Maybe<User>;
-  url?: Maybe<ScalarsEnums["String"]>;
+export interface UpdateTimelineItemItemsMutationResponse {
+  __typename?: "UpdateTimelineItemItemsMutationResponse";
+  info: UpdateInfo;
+  timelineItemItems: Array<TimelineItemItems>;
 }
 
-export interface User {
-  __typename?: "User";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
-}
-
-export interface Quote {
-  __typename?: "Quote";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
-  customer?: Maybe<ScalarsEnums["String"]>;
-  date?: Maybe<ScalarsEnums["Date"]>;
-  status?: Maybe<ScalarsEnums["String"]>;
-  price?: Maybe<ScalarsEnums["Float"]>;
-}
-
-export interface Equipment {
-  __typename?: "Equipment";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
-  registration?: Maybe<ScalarsEnums["String"]>;
-  status?: Maybe<ScalarsEnums["String"]>;
-}
-
-export interface ScheduleItem {
-  __typename?: "ScheduleItem";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  date?: Maybe<ScalarsEnums["Date"]>;
-  project?: Maybe<Project>;
-  people?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
-  managers?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
-  owner?: Maybe<User>;
-  notes?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
-  equipment?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
-}
-
-export interface TimelineItem {
-  __typename?: "TimelineItem";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  timeline?: Maybe<ScalarsEnums["String"]>;
-  startDate?: Maybe<ScalarsEnums["Date"]>;
-  endDate?: Maybe<ScalarsEnums["Date"]>;
-  notes?: Maybe<ScalarsEnums["String"]>;
-  items?: Maybe<Array<Maybe<TimelineItemItems>>>;
-  project?: Maybe<TimelineProject>;
-}
-
-export interface TimelineItemItems {
-  __typename?: "TimelineItemItems";
-  type?: Maybe<ScalarsEnums["String"]>;
-  location?: Maybe<ScalarsEnums["String"]>;
-  estimate?: Maybe<ScalarsEnums["Float"]>;
-}
-
-export interface TimelineProject {
-  __typename?: "TimelineProject";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
-  type?: Maybe<ScalarsEnums["String"]>;
-}
-
-export interface People {
-  __typename?: "People";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
+export interface UpdateTimelineItemsMutationResponse {
+  __typename?: "UpdateTimelineItemsMutationResponse";
+  info: UpdateInfo;
+  timelineItems: Array<TimelineItem>;
 }
 
 export interface ValidationError {
@@ -18213,6 +21730,8 @@ export interface SchemaObjectTypes {
   OctoPrintProgress: OctoPrintProgress;
   OctoPrintFilament: OctoPrintFilament;
   OctoPrintFile: OctoPrintFile;
+  CreateEquipmentMutationResponse: CreateEquipmentMutationResponse;
+  CreateEstimatesMutationResponse: CreateEstimatesMutationResponse;
   CreateFileSystemsMutationResponse: CreateFileSystemsMutationResponse;
   CreateHiveAppliancesMutationResponse: CreateHiveAppliancesMutationResponse;
   CreateHiveFilesMutationResponse: CreateHiveFilesMutationResponse;
@@ -18229,9 +21748,18 @@ export interface SchemaObjectTypes {
   CreateHiveServicesMutationResponse: CreateHiveServicesMutationResponse;
   CreateHiveUsersMutationResponse: CreateHiveUsersMutationResponse;
   CreateInfo: CreateInfo;
+  CreatePeopleMutationResponse: CreatePeopleMutationResponse;
   CreatePermissionsMutationResponse: CreatePermissionsMutationResponse;
+  CreateProjectsMutationResponse: CreateProjectsMutationResponse;
   CreateRolesMutationResponse: CreateRolesMutationResponse;
+  CreateScheduleItemsMutationResponse: CreateScheduleItemsMutationResponse;
+  CreateTimelineItemItemsMutationResponse: CreateTimelineItemItemsMutationResponse;
+  CreateTimelineItemsMutationResponse: CreateTimelineItemsMutationResponse;
   DeleteInfo: DeleteInfo;
+  Equipment: Equipment;
+  EquipmentOrganisationConnection: EquipmentOrganisationConnection;
+  EquipmentOrganisationRelationship: EquipmentOrganisationRelationship;
+  Estimate: Estimate;
   FileSystem: FileSystem;
   FileSystemFilesConnection: FileSystemFilesConnection;
   FileSystemFilesRelationship: FileSystemFilesRelationship;
@@ -18277,6 +21805,8 @@ export interface SchemaObjectTypes {
   HiveOrganisationMembersRelationship: HiveOrganisationMembersRelationship;
   HiveOrganisationRolesConnection: HiveOrganisationRolesConnection;
   HiveOrganisationRolesRelationship: HiveOrganisationRolesRelationship;
+  HiveOrganisationScheduleConnection: HiveOrganisationScheduleConnection;
+  HiveOrganisationScheduleRelationship: HiveOrganisationScheduleRelationship;
   HivePipeline: HivePipeline;
   HivePipelineInputsConnection: HivePipelineInputsConnection;
   HivePipelineInputsRelationship: HivePipelineInputsRelationship;
@@ -18321,9 +21851,19 @@ export interface SchemaObjectTypes {
   HiveUserRolesConnection: HiveUserRolesConnection;
   HiveUserRolesRelationship: HiveUserRolesRelationship;
   PageInfo: PageInfo;
+  People: People;
+  PeopleOrganisationConnection: PeopleOrganisationConnection;
+  PeopleOrganisationRelationship: PeopleOrganisationRelationship;
   Permission: Permission;
   PermissionRolesConnection: PermissionRolesConnection;
   PermissionRolesRelationship: PermissionRolesRelationship;
+  Project: Project;
+  ProjectOrganisationConnection: ProjectOrganisationConnection;
+  ProjectOrganisationRelationship: ProjectOrganisationRelationship;
+  ProjectPlanConnection: ProjectPlanConnection;
+  ProjectPlanRelationship: ProjectPlanRelationship;
+  ProjectScheduleConnection: ProjectScheduleConnection;
+  ProjectScheduleRelationship: ProjectScheduleRelationship;
   Role: Role;
   RoleAppliancesConnection: RoleAppliancesConnection;
   RoleAppliancesRelationship: RoleAppliancesRelationship;
@@ -18331,6 +21871,27 @@ export interface SchemaObjectTypes {
   RoleOrganisationRelationship: RoleOrganisationRelationship;
   RolePermissionsConnection: RolePermissionsConnection;
   RolePermissionsRelationship: RolePermissionsRelationship;
+  ScheduleItem: ScheduleItem;
+  ScheduleItemEquipmentConnection: ScheduleItemEquipmentConnection;
+  ScheduleItemEquipmentRelationship: ScheduleItemEquipmentRelationship;
+  ScheduleItemManagersConnection: ScheduleItemManagersConnection;
+  ScheduleItemManagersRelationship: ScheduleItemManagersRelationship;
+  ScheduleItemOwnerConnection: ScheduleItemOwnerConnection;
+  ScheduleItemOwnerRelationship: ScheduleItemOwnerRelationship;
+  ScheduleItemPeopleConnection: ScheduleItemPeopleConnection;
+  ScheduleItemPeopleRelationship: ScheduleItemPeopleRelationship;
+  ScheduleItemProjectConnection: ScheduleItemProjectConnection;
+  ScheduleItemProjectRelationship: ScheduleItemProjectRelationship;
+  TimelineItem: TimelineItem;
+  TimelineItemItems: TimelineItemItems;
+  TimelineItemItemsConnection: TimelineItemItemsConnection;
+  TimelineItemItemsItemConnection: TimelineItemItemsItemConnection;
+  TimelineItemItemsItemRelationship: TimelineItemItemsItemRelationship;
+  TimelineItemItemsRelationship: TimelineItemItemsRelationship;
+  TimelineItemProjectConnection: TimelineItemProjectConnection;
+  TimelineItemProjectRelationship: TimelineItemProjectRelationship;
+  UpdateEquipmentMutationResponse: UpdateEquipmentMutationResponse;
+  UpdateEstimatesMutationResponse: UpdateEstimatesMutationResponse;
   UpdateFileSystemsMutationResponse: UpdateFileSystemsMutationResponse;
   UpdateHiveAppliancesMutationResponse: UpdateHiveAppliancesMutationResponse;
   UpdateHiveFilesMutationResponse: UpdateHiveFilesMutationResponse;
@@ -18347,18 +21908,13 @@ export interface SchemaObjectTypes {
   UpdateHiveServicesMutationResponse: UpdateHiveServicesMutationResponse;
   UpdateHiveUsersMutationResponse: UpdateHiveUsersMutationResponse;
   UpdateInfo: UpdateInfo;
+  UpdatePeopleMutationResponse: UpdatePeopleMutationResponse;
   UpdatePermissionsMutationResponse: UpdatePermissionsMutationResponse;
+  UpdateProjectsMutationResponse: UpdateProjectsMutationResponse;
   UpdateRolesMutationResponse: UpdateRolesMutationResponse;
-  Project: Project;
-  File: File;
-  User: User;
-  Quote: Quote;
-  Equipment: Equipment;
-  ScheduleItem: ScheduleItem;
-  TimelineItem: TimelineItem;
-  TimelineItemItems: TimelineItemItems;
-  TimelineProject: TimelineProject;
-  People: People;
+  UpdateScheduleItemsMutationResponse: UpdateScheduleItemsMutationResponse;
+  UpdateTimelineItemItemsMutationResponse: UpdateTimelineItemItemsMutationResponse;
+  UpdateTimelineItemsMutationResponse: UpdateTimelineItemsMutationResponse;
   ValidationError: ValidationError;
   ValidatorError: ValidatorError;
   MongoError: MongoError;
@@ -18443,6 +21999,8 @@ export type SchemaObjectTypesNames =
   | "OctoPrintProgress"
   | "OctoPrintFilament"
   | "OctoPrintFile"
+  | "CreateEquipmentMutationResponse"
+  | "CreateEstimatesMutationResponse"
   | "CreateFileSystemsMutationResponse"
   | "CreateHiveAppliancesMutationResponse"
   | "CreateHiveFilesMutationResponse"
@@ -18459,9 +22017,18 @@ export type SchemaObjectTypesNames =
   | "CreateHiveServicesMutationResponse"
   | "CreateHiveUsersMutationResponse"
   | "CreateInfo"
+  | "CreatePeopleMutationResponse"
   | "CreatePermissionsMutationResponse"
+  | "CreateProjectsMutationResponse"
   | "CreateRolesMutationResponse"
+  | "CreateScheduleItemsMutationResponse"
+  | "CreateTimelineItemItemsMutationResponse"
+  | "CreateTimelineItemsMutationResponse"
   | "DeleteInfo"
+  | "Equipment"
+  | "EquipmentOrganisationConnection"
+  | "EquipmentOrganisationRelationship"
+  | "Estimate"
   | "FileSystem"
   | "FileSystemFilesConnection"
   | "FileSystemFilesRelationship"
@@ -18507,6 +22074,8 @@ export type SchemaObjectTypesNames =
   | "HiveOrganisationMembersRelationship"
   | "HiveOrganisationRolesConnection"
   | "HiveOrganisationRolesRelationship"
+  | "HiveOrganisationScheduleConnection"
+  | "HiveOrganisationScheduleRelationship"
   | "HivePipeline"
   | "HivePipelineInputsConnection"
   | "HivePipelineInputsRelationship"
@@ -18551,9 +22120,19 @@ export type SchemaObjectTypesNames =
   | "HiveUserRolesConnection"
   | "HiveUserRolesRelationship"
   | "PageInfo"
+  | "People"
+  | "PeopleOrganisationConnection"
+  | "PeopleOrganisationRelationship"
   | "Permission"
   | "PermissionRolesConnection"
   | "PermissionRolesRelationship"
+  | "Project"
+  | "ProjectOrganisationConnection"
+  | "ProjectOrganisationRelationship"
+  | "ProjectPlanConnection"
+  | "ProjectPlanRelationship"
+  | "ProjectScheduleConnection"
+  | "ProjectScheduleRelationship"
   | "Role"
   | "RoleAppliancesConnection"
   | "RoleAppliancesRelationship"
@@ -18561,6 +22140,27 @@ export type SchemaObjectTypesNames =
   | "RoleOrganisationRelationship"
   | "RolePermissionsConnection"
   | "RolePermissionsRelationship"
+  | "ScheduleItem"
+  | "ScheduleItemEquipmentConnection"
+  | "ScheduleItemEquipmentRelationship"
+  | "ScheduleItemManagersConnection"
+  | "ScheduleItemManagersRelationship"
+  | "ScheduleItemOwnerConnection"
+  | "ScheduleItemOwnerRelationship"
+  | "ScheduleItemPeopleConnection"
+  | "ScheduleItemPeopleRelationship"
+  | "ScheduleItemProjectConnection"
+  | "ScheduleItemProjectRelationship"
+  | "TimelineItem"
+  | "TimelineItemItems"
+  | "TimelineItemItemsConnection"
+  | "TimelineItemItemsItemConnection"
+  | "TimelineItemItemsItemRelationship"
+  | "TimelineItemItemsRelationship"
+  | "TimelineItemProjectConnection"
+  | "TimelineItemProjectRelationship"
+  | "UpdateEquipmentMutationResponse"
+  | "UpdateEstimatesMutationResponse"
   | "UpdateFileSystemsMutationResponse"
   | "UpdateHiveAppliancesMutationResponse"
   | "UpdateHiveFilesMutationResponse"
@@ -18577,18 +22177,13 @@ export type SchemaObjectTypesNames =
   | "UpdateHiveServicesMutationResponse"
   | "UpdateHiveUsersMutationResponse"
   | "UpdateInfo"
+  | "UpdatePeopleMutationResponse"
   | "UpdatePermissionsMutationResponse"
+  | "UpdateProjectsMutationResponse"
   | "UpdateRolesMutationResponse"
-  | "Project"
-  | "File"
-  | "User"
-  | "Quote"
-  | "Equipment"
-  | "ScheduleItem"
-  | "TimelineItem"
-  | "TimelineItemItems"
-  | "TimelineProject"
-  | "People"
+  | "UpdateScheduleItemsMutationResponse"
+  | "UpdateTimelineItemItemsMutationResponse"
+  | "UpdateTimelineItemsMutationResponse"
   | "ValidationError"
   | "ValidatorError"
   | "MongoError"
@@ -18666,6 +22261,11 @@ export type SchemaObjectTypesNames =
 export interface $HivePipelineRunner {
   HiveProcess?: HiveProcess;
   HivePipelineTrigger?: HivePipelineTrigger;
+}
+
+export interface $TimelineProject {
+  Project?: Project;
+  Estimate?: Estimate;
 }
 
 export interface $HivePipelineFlowPath {

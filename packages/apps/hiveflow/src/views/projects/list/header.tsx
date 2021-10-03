@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, TextInput, Select } from 'grommet'
 import { Maybe } from '@hexhive/client';
 
-export interface JobHeaderProps {
+export interface HeaderProps {
     jobs?: Maybe<{
         status?: Maybe<string>;
     }>[]
@@ -11,7 +11,7 @@ export interface JobHeaderProps {
     onFilterChange?: (filter: {search?: string, status?: string}) => void;
 }
 
-export const JobHeader : React.FC<JobHeaderProps> = (props) => {
+export const Header : React.FC<HeaderProps> = (props) => {
     return (
         <Box
             pad={{horizontal: 'xsmall'}}

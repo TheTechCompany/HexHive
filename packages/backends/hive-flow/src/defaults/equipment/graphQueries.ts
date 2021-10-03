@@ -29,62 +29,10 @@ import { Connector } from "../../connector";
 
 const Queries = (connector: Connector) => {
     let query :  ObjectTypeComposerFieldConfigMapDefinition<any, any> = {
-    EquipmentById: {
-        type: 'Equipment',
-        args: {
-            id: 'ID'
-        },
-        resolve: async (root, args) => {
-            let query = `SELECT ID as id, Name as name, Registration as registration FROM dbo.vw_Sched_Machinery WHERE id=@id`;
-            let request = new sql.Request(connector.pool)
-            request.input('id', sql.Int, parseInt(args.id))
-
-            const result = await request.query(query)
-            console.log(result)
-            return result.recordset
-        }
-    },
-    EquipmentMany: {
-        type: '[Equipment]',
-        args: {
-            status: "String"
-        },
-        resolve: async (root, args) => {
-            //TODO add OR operator to status search
-            let request = new sql.Request(connector.pool)
-
-            let sqlQuery = `SELECT ID as id, Name as name, Registration as registration FROM dbo.vw_Sched_Machinery`;
-
-            // let whereClauses = [];
-
-            // if(args.status || args.startDate || args.endDate) sqlQuery += " WHERE ";
-            // if(args.status){
-            //     whereClauses.push(`status = @status`)
-            //     request.input('status', sql.VarChar, args.status)
-            // }
-            
-            // if(args.startDate && args.endDate){
-            //     let startDate = moment(new Date(args.startDate)).format("DD/MM/YYYY")
-            //     let endDate = moment(new Date(args.endDate)).format("DD/MM/YYYY");
-
-            //     console.log(startDate, endDate)
-            //     whereClauses.push(`CONVERT(date, StartDate, 103) <= CONVERT(date, @endTime, 103) AND \
-            //     CASE \
-            //         WHEN DurationType = 'Weeks'    THEN DATEADD(DAY, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 7)), CONVERT(date, StartDate, 103)) \
-            //         WHEN DurationType = 'Man Days' THEN DATEADD(HOUR, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 24)), CONVERT(datetime, StartDate, 103)) \
-            //         WHEN DurationType = 'Months'   THEN DATEADD(DAY, CONVERT(int, CEILING(CAST(Duration AS FLOAT) * 30)), CONVERT(date, StartDate, 103)) \
-            //     END >= CONVERT(date, @startTime, 103)`)
-            //     request.input('startTime', sql.VarChar, startDate)
-            //     request.input('endTime', sql.VarChar, endDate)
-            // }
-
-            // console.log(sqlQuery + whereClauses.join(' AND '))
-
-            return (await request.query(sqlQuery)).recordset
-        }
+    
+    
     }
-}
-return query;
+    return query;
 }
 
 const Mutations = (connector: Connector) : ObjectTypeComposerFieldConfigMapDefinition<any, any>  => {

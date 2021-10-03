@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { stringToColor } from '@hexhive/utils';
 
 
-export default (props: any) => {
+export const PeopleSingle =  (props: any) => {
   const [ employees, setEmployees ] = useState<any[]>([])
   const [ contactDetails, setContactDetails ] = useState<{number: string, email: string}>({number: '', email: ''})
   const [ contactChanged, setContactChanged ] = useState<boolean>(false);

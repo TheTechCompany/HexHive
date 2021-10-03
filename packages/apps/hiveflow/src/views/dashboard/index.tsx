@@ -20,12 +20,12 @@ import {
 } from '../../assets'
 
 import { Box, Spinner, Text } from 'grommet';
-import { JobList } from '../jobs/job-list';
-import { SingleJob } from '../jobs/job-one';
-import { StaffList } from '../staff/employee-list';
+import { ProjectList } from '../projects/list';
+import { ProjectSingle } from '../projects/single';
+import { PeopleList } from '../people/list';
 import {Schedule as ScheduleView } from '../schedule';
-import employeeOne from '../staff/employee-one';
-import { PlantList } from '../plant/plant-list';
+import {PeopleSingle} from '../people/single';
+import { EquipmentList } from '../equipment/list';
 import Quotes from '../quotes';
 
 const Timeline = React.lazy(() => import('../timeline/Timeline'))
@@ -169,12 +169,12 @@ export const Dashboard = withRouter((props: any) => {
             )}>
             <Switch>
                 <Route path={`/schedule`} component={ScheduleView} />
-                <Route path={`/projects`} exact component={JobList} />
-                <Route path={`/projects/:id`} component={SingleJob} />
+                <Route path={`/projects`} exact component={ProjectList} />
+                <Route path={`/projects/:id`} component={ProjectSingle} />
                 <Route path={`/estimates`} exact component={Quotes} />
-                <Route path={`/people`} exact component={StaffList} />
-                <Route path={`/people/:id`} component={employeeOne} />
-                <Route path={`/equipment`} exact component={PlantList} />
+                <Route path={`/people`} exact component={PeopleList} />
+                <Route path={`/people/:id`} component={PeopleSingle} />
+                <Route path={`/equipment`} exact component={EquipmentList} />
                 <Route path={`/timeline`} component={Timeline} />
             </Switch>
               

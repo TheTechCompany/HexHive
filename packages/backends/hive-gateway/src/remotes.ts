@@ -5,6 +5,5 @@ const FLOW_URL = (!isDev ? process.env.FLOW_SERVER : "http://localhost:7003/grap
 const COMMAND_URL = (!isDev ? process.env.COMMAND_SERVER : "http://localhost:7002/graphql") || ""
 
 export const REMOTE_SCHEMA : string[] = [
-	FLOW_URL,
 	COMMAND_URL
 ]
