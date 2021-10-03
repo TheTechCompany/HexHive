@@ -25,13 +25,12 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
   const [ selectedRight, setRight ] = useState<any[]>([])
 
 
-
   const _addToDeselection = (item: any) => {
     let selected = selectedRight.slice();
-    if(!selected.includes(item)){
-      selected.push(item.id)
+    if(!selected.map((x) => x.id).includes(item)){
+      selected.push(item)
     }else{
-      var ix = selected.indexOf(item.id);
+      var ix = selected.map((x) => x.id).indexOf(item.id);
       selected.splice(ix, 1);
     }
     setRight(selected)
@@ -39,10 +38,10 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
 
   const _addToSelection = (item: any) => {
     let selected = selectedLeft.slice();
-    if(!selected.includes(item.id)){
-      selected.push(item.id)
+    if(!selected.map((x) => x.id).includes(item.id)){
+      selected.push(item)
     }else{
-      var ix = selected.indexOf(item.id);
+      var ix = selected.map((x) => x.id).indexOf(item.id);
       selected.splice(ix, 1);
     }
     setLeft(selected)
@@ -134,7 +133,7 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
             >
             {(item: any) => (
               <Box direction="row" align="center">
-                <CheckBox checked={selectedLeft.indexOf(item.id) > -1} onChange={(e) => _addToSelection(item)} />
+                <CheckBox checked={selectedLeft.map((x) => x.id)?.indexOf(item.id) > -1} onChange={(e) => _addToSelection(item)} />
                 <Text margin={{left: 'small'}}>{item.name}</Text>
               </Box>
             )}
@@ -161,7 +160,7 @@ export const TransferList : React.FC<TransferListProps> = (props) => {
             data={props.selected}>
             {(item: any) => (
               <Box direction="row" align="center">
-                <CheckBox checked={selectedRight.indexOf(item.id) > -1} onChange={(e) => _addToDeselection(item)}/>
+                <CheckBox checked={selectedRight.map((x) => x.id).indexOf(item.id) > -1} onChange={(e) => _addToDeselection(item)}/>
                 <Text margin={{left: 'small'}}>{item[props.labelKey || '']}</Text>
               </Box>
             )}
