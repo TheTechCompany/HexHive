@@ -37,7 +37,7 @@ export const Schedule : React.FC<any> = (props) =>  {
   // const [schedule, setSchedule] = useState<any[]>([])//?.map((x) => ({...x, project: x?.project})) || [];
 //query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})
 
-const { data: slowData } = useApollo(gql`
+const slowResult = useApollo(gql`
 query Slow {
   hiveUsers {
     id
@@ -57,6 +57,7 @@ query Slow {
   }
 }
 `)
+const slowData = slowResult.data;
   const {data } = useApollo(gql`
    query Q {
     scheduleItems {
@@ -243,7 +244,7 @@ query Slow {
           onHorizonChanged={async (start, end) => {
             console.log("Horizon", start, end)
             setHorizon({start, end})
-            
+
             refetchSchedule()
             // scheduleActions.getScheduleItems({start, end}, '').then((schedule) => {
             //   setSchedule(schedule)
