@@ -105,21 +105,59 @@ const slowData = slowResult.data;
   const users = slowData?.hiveUsers || [] //query.hiveUsers({})?.map((x) => ({...x})) || []
 
   const [createItem, info] = useMutation((mutation, args: {item: any}) => {
+    console.log("CREATE", args)
+    let query = {};
+
+    if(args.item.equipment?.length > 0){
+      query = {
+        ...query,
+        equipment: {
+          connect: [{where: {node: {id_IN: args.item?.equipment?.map((x) => x.id)}}}]
+        },
+      }
+    }
+
+    if(args.item.people?.length > 0){
+      query = {
+        ...query,
+        people: {
+          connect: [{where: {node: {id_IN: args.item?.people?.map((x) => x.id)}}}]
+        },
+      }
+    }
+    if(args.item.notes){
+      query = {
+        ...query,
+        notes: args.item.nodes,
+        creator: {
+          connect: {where: {node: {id: activeUser.id}}}
+        }
+      }
+    }
     const result = mutation.updateHiveOrganisations({ 
+ 
       update: {
-        schedule: [{create: {node: args.item}}]
+        schedule: [{create: [{node: {
+          date: args.item.date,
+          project: {
+            connect: {where: {node: {
+              id: args.item.project
+             }}}
+          },
+          ...query,
+        }}]}]
       }
     })
     return {
       item: {
-        ...result
+        ...result.hiveOrganisations[0]
       },
       error: null
     }
   }, {
     onCompleted(data) {},
     onError(error) {},
-    refetchQueries: [query.scheduleItems({where: {date_GT: horizon.start?.toISOString(), date_LT: horizon.end?.toISOString()}})],
+    refetchQueries: [],
     awaitRefetchQueries: true,
     suspense: false,  
   })
@@ -156,7 +194,7 @@ const slowData = slowResult.data;
 
   const [joinCard, joinInfo] = useMutation((mutation, args: {id: string}) => {
     const result = mutation.updateScheduleItems({where: {id: args.id}, connect: {
-        managers: [{where: {id: activeUser?.id}}]
+        managers: [{where: {node: {id: activeUser?.id}}}]
     }})
     return {
       item: result,
@@ -173,7 +211,7 @@ const slowData = slowResult.data;
 
   const [leaveCard, leaveInfo] = useMutation((mutation, args: {id: string}) => {
     const result = mutation.updateScheduleItems({where: {id: args.id}, disconnect: {
-      managers: [{where: {id: activeUser?.id}}]
+      managers: [{where: {node: {id: activeUser?.id}}}]
     }})
     return {
       item: result,
@@ -275,6 +313,7 @@ const slowData = slowResult.data;
             }}}).then(async (data) => {
               //const info = await refetch(query.ScheduleMany({startDate: horizon.start, endDate: horizon.end}))
 
+              refetchSchedule()
               //await refetch(() => query.ScheduleMany)
              
               // scheduleActions.getScheduleItems({start: horizon.start, end: horizon.end}, '').then((schedule) => {
