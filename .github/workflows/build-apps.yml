@@ -13,7 +13,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 15.x
-      - run: npm i
+      - run: yarn
 
       - run: lerna bootstrap --scope @hexhive/root-config --include-dependencies
 
@@ -83,7 +83,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 15.x
-      - run: npm i
+      - run: yarn
 
       - run: lerna bootstrap --scope @hexhive-apps/${{ matrix.apps }} --include-dependencies
 
