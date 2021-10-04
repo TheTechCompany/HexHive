@@ -197,10 +197,10 @@ export const Explorer: React.FC<{
 
         if (data?.hiveFiles?.[0] && parentId && parentId != "null") {
             let file = data?.hiveFiles?.[0];
-            let crumb_name = file.path.split('/')
-            let crumb_id = file.path_id.split('/')
+            let crumb_name = file?.path?.split('/')
+            let crumb_id = file?.path_id?.split('/')
 
-            return crumb_name.map((x, ix) => ({ id: crumb_id[ix], name: x }))
+            return (crumb_name || []).map((x, ix) => ({ id: crumb_id[ix], name: x }))
         } else {
             return [{ id: "null", name: "/Shared FS" }]
         }
