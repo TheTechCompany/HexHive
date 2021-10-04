@@ -1,12 +1,12 @@
 import { Box } from 'grommet';
-import { Add, SettingsOption, Shop, Spa, Robot, Document, Folder} from 'grommet-icons'
+import { Add, Shop, Spa, Robot, Document, Folder} from 'grommet-icons'
 import React, { useEffect, useState } from 'react';
 import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
 import { useQuery } from '@hexhive/client';
 import { AppModal } from '../app-modal';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Files, Flow, Market, Command, Automate } from '../../assets/icons';
+import { Files, Flow, Market, Command, Automate, Settings } from '../../assets/icons';
 
 import Fonts from '../../assets/fonts';
 import { useAuth } from '@hexhive/auth-ui';
@@ -65,7 +65,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
         },
         {
             id: '',
-            icon: <SettingsOption color="black" size="30px" />,
+            icon: <Settings color="black" height="50px" width="50" />,
             top: 3,
             title: "Settings",
             left: 8,
@@ -121,7 +121,7 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             },
             {
                 id: 'hCnbZc6H0F4ehaqQlENqc',
-                icon: <SettingsOption color="black" size="30px" />,
+                icon: <Settings color="black" height="50px" width="50px" />,
                 top: 3,
                 title: "Settings",
                 left: 8,
