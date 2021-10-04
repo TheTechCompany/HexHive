@@ -56,7 +56,8 @@ module.exports = (webpackConfigEnv, argv) => {
           'single-spa-react': {eager: true}
         },
         remotes: {
-          'hexhive_root': 'hexhive_root'
+          'hexhive_root': 'hexhive_root',
+          'hexhive_hivefiles': 'hexhive_hivefiles'
         },
         exposes: {
           '.': './src/HexHive-HiveFlow'
