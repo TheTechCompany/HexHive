@@ -18,3 +18,5 @@ jwks.json
 
 last_dump.json
 patch.json
+patch-*.json
+last_dump-*.json
