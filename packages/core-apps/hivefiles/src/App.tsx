@@ -14,7 +14,7 @@ export const App = (props: any)  => {
 
   return (
    
-  <Box background="neutral-2" height={'100%'} width={'100%'} flex direction="column">
+  <Box pad="xsmall" background="neutral-2" height={'100%'} width={'100%'} flex direction="column">
 
     <Switch>
       <Route path={"/"} exact component={Explorer} />

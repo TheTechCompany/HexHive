@@ -2,12 +2,29 @@ import { useAuth } from '@hexhive/auth-ui';
 import { Box, Text, Collapsible, Layer, List, Menu } from 'grommet';
 import React, { useState } from 'react';
 import { withTheme } from 'styled-components';
-import { Profile } from '@hexhive/icons';
+import { Logout } from 'grommet-icons'
+import { Profile, Settings } from '@hexhive/icons';
 
 export const UserDropdown = () => {
     const { activeUser } = useAuth()
     const [ open, setOpen ] = useState<boolean>(false);
     
+    const menu = [
+        {
+            icon: <Settings height="30px" width="20px" />, 
+            label: "Settings",
+            onClick: () => {
+
+            }
+        }, {
+            icon: <Logout color="black" size="15px" />, 
+            label: "Log out",
+            onClick: () => {
+                window.location.href = 'https://auth.hexhive.io/session/end'
+            }
+        }
+    ]
+
     console.log("user dropdown", activeUser)
     return <>
         <Box 
@@ -28,13 +45,28 @@ export const UserDropdown = () => {
         <Profile height="15px" />
         
 
-        {/* <Box 
-            background="neutral-1"
-            style={{position: 'absolute', top: '110%', left: 0, right: 0}}>
+        <Box 
+            background="brand"
+            style={{filter: "invert(0.222)", position: 'absolute', top: '110%', left: 0, right: 0}}>
             <Collapsible direction="vertical" open={open}>
-                <List data={["Organisation", "Profile", "Settings", "Log out"]} />
+                <List 
+                    pad="none"
+                    onClickItem={({item}) => item.onClick()}
+                    data={menu} >
+                    {(datum) => (
+                        <Box
+                        pad='xsmall'
+                            gap="xsmall"
+                            align="center"
+                            justify="between"
+                            direction="row">
+                            {datum.icon}
+                            <Text size="small">{datum.label}</Text>
+                        </Box>
+                    )}
+                </List>
             </Collapsible>
-        </Box> */}
+        </Box>
 
     </Box>
         

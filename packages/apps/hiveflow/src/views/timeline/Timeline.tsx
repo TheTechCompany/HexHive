@@ -396,7 +396,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                                     <Box align="center" direction="row" justify="between">
                                             <Box direction="row" align="center">
                                                 <ColorDot color={StatusTypes[x || '']} size={10}/>
-                                                <Text>{x}</Text>
+                                                <Text>{((item / value )* 100).toFixed(2)}% - {x}</Text>
                                             </Box>
                                         <Text margin={{left: 'small'}}>{formatter.format(item)}</Text>
                                     </Box>
@@ -570,7 +570,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
     return (
         <Box
             flex
-            gap="xsmall" direction="column">
+            direction="column">
             <ERPModal
                 type={view}
                 selected={selected}
@@ -593,6 +593,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 onViewChange={(view) => setView(view)} />
 
             <Box
+                margin={{top: 'xsmall'}}
                 overflow="hidden"
                 flex
                 round="small">
