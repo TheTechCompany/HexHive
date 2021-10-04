@@ -20,7 +20,7 @@ const kafka = new Kafka({
     brokers: [KAFKA_URL]
 })
 
-const TOPIC = 'LOAD-STREAM';
+const TOPIC = 'LOAD-STREAM-IN';
 
 interface HiveEvent {
     id: string;

@@ -25,8 +25,8 @@ const { REACT_APP_API, PUBLIC_URL, REACT_APP_URL, NODE_ENV } = process.env;
     {(user) => user ? (
       <ApolloProvider client={client}>
       <Grommet  
-          full
-          style={{display: 'flex'}}
+          
+          style={{display: 'flex', width: '100%', height: '100%'}}
           themeMode="dark"
           plain 
           theme={BaseStyle}>  

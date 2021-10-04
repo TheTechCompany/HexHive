@@ -32,7 +32,7 @@ console.log("ACTIVE", activeUser)
   })
 
 
-  const draftSchedule = query.timelineItems({ where: {timeline: "Projects", startDate: horizon.start?.toISOString(), endDate: horizon.end?.toISOString()} })?.map((x) => ({...x})) || [];
+  // const draftSchedule = query.timelineItems({ where: {timeline: "Projects", startDate_LTE: horizon.end?.toISOString(), endDate_GTE: horizon.start?.toISOString()} })?.map((x) => ({...x, project: x.project({}), items: x.items({})})) || [];
 
   // const [schedule, setSchedule] = useState<any[]>([])//?.map((x) => ({...x, project: x?.project})) || [];
 //query.ScheduleMany({startDate: horizon.start, endDate: horizon.end})
@@ -59,8 +59,26 @@ query Slow {
 `)
 const slowData = slowResult.data;
   const {data } = useApollo(gql`
-   query Q {
-    scheduleItems {
+   query Q ($startDate: DateTime, $endDate: DateTime) {
+     timelineItems (where: {timeline: "Projects", startDate_LTE: $endDate, endDate_GTE: $startDate}){
+       id
+       project{
+          ... on Project { 
+            id
+            name
+          }
+          ... on Estimate {
+            id
+            name
+          }
+       }
+       items {
+          type
+          location
+          estimate
+       }
+     }
+    scheduleItems (where: {date_GTE: $startDate, date_LTE: $endDate} ) {
       id
       date
       people{
@@ -87,7 +105,12 @@ const slowData = slowResult.data;
     }
    
   }
-  `)
+  `, {
+    variables: {
+      startDate: horizon?.start?.toISOString(),
+      endDate: horizon?.end?.toISOString()
+    }
+  })
 
   const refetchSchedule = () => {
     client.refetchQueries({
@@ -96,6 +119,7 @@ const slowData = slowResult.data;
   }
   console.log(data)
 
+  const draftSchedule = data?.timelineItems || []
   const schedule = data?.scheduleItems || []//query.scheduleItems({where: {date_GT: horizon.start?.toISOString(), date_LT: horizon.end?.toISOString()}})
 
   const projects = slowData?.projects || []// query.projects({})?.map((x) => ({...x})) || [];

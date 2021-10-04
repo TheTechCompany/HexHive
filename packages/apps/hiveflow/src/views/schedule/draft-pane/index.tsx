@@ -6,7 +6,7 @@ export const DraftPane = (props) => {
 console.log(props)
 
 	const getHours = (item: any) => {
-		return item?.items?.reduce((prev, curr) => {
+		return (item?.items || []).reduce((prev, curr) => {
 			if(!prev[curr.location]) prev[curr.location] = 0;
 			prev[curr.location] += curr.estimate;
 			return prev;

@@ -63,6 +63,7 @@ const jwks = require('./jwks/jwks.json');
             required: () => false
         },
         ttl: {
+            Interaction: 24 * 60 * 60 * 1000,
             Session: 24 * 60 * 60 * 1000
         },
         jwks,

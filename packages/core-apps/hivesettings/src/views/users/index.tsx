@@ -3,9 +3,11 @@ import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { resolved, useMutation, useQuery } from '@hexhive/client'
 import { UserModal } from "../../components/modals/UserModal/UserModal";
-import { gql, useQuery as useApollo } from '@apollo/client'
+import { gql, useQuery as useApollo, useApolloClient } from '@apollo/client'
 
 export const Users = () => {
+	const client = useApolloClient()
+
 	const [ selected, setSelected ] = useState<any>(undefined)
 	const [ modalOpen, openModal ] = useState<boolean>(false)
 	const query = useQuery({suspense: false, staleWhileRevalidate: true})
@@ -27,6 +29,10 @@ export const Users = () => {
 			}
 		}
 	`)
+
+	const refetch = () => {
+		client.refetchQueries({include: ['Q']})
+	}
 
 	const users = data?.hiveUsers || [];
 	const roles = data?.roles || [];
@@ -89,10 +95,12 @@ export const Users = () => {
 							createUser({args: {...user}}).then((data) => {
 								console.log(data)
 								openModal(false)
+								refetch()
 							})
 						}else{
 							updateUser({args: {...user}}).then((data) => {
 								openModal(false)
+								refetch()
 							})
 						}
 						console.log(user)

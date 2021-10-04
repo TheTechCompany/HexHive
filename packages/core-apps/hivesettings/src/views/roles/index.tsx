@@ -3,8 +3,10 @@ import { Box, List } from "grommet";
 import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { RoleModal } from "../../components/modals/RoleModal/RoleModal";
-import { gql, useQuery as useApollo } from '@apollo/client'
+import { gql, useQuery as useApollo, useApolloClient } from '@apollo/client'
 export const Roles = () => {
+
+	const client = useApolloClient()
 
 	const [ selected, setSelected ] = useState<any>(undefined)
 	const [ modalOpen, openModal ] = useState<boolean>(false);
@@ -29,6 +31,10 @@ export const Roles = () => {
 			}
 		}
 	`)
+	const refetch = () => {
+		client.refetchQueries({include: ['Q']})
+	}
+
 	const roles = data?.roles || [];
 	const apps = data?.hiveOrganisations?.[0]?.appliances || [];
 
@@ -73,10 +79,12 @@ export const Roles = () => {
 					if(role.id){
 						updateRole({args: {...role}}).then(() => {
 							openModal(false)
+							refetch()
 						})
 					}else{
 						createRole({args: {...role}}).then(() => {
 							openModal(false)
+							refetch()
 						})
 					}
 				}}

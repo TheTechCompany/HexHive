@@ -26,6 +26,9 @@ export const CRUDList : React.FC<CRUDListProps> = (props) => {
 					hoverIndicator 
 					icon={<Add />} />
 			</Box>
+			<Box
+				overflow="scroll"
+				flex>
 			<List 
 				pad="none"
 				data={props.data}
@@ -42,6 +45,7 @@ export const CRUDList : React.FC<CRUDListProps> = (props) => {
 					</Box>
 				)}
 			</List>
+			</Box>
 		</Box>
 	)
 }
