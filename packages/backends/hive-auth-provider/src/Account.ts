@@ -9,7 +9,8 @@ export class Account {
 
         const user = await session?.readTransaction(async (tx) => {
             const result = await tx.run(`
-                MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})-[:HAS_ROLE]->(role)-[:USES_APP]->(app)
+                MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+                OPTIONAL MATCH (user)-[:HAS_ROLE]->(role)-[:USES_APP]->(app)
                 RETURN user{
                     .*,
                     apps: collect(app{.*}),
@@ -21,6 +22,7 @@ export class Account {
             return result.records.map((x) => x.get(0))[0];
         })
 
+        console.log("USER FOUND", user, id)
         if(!user) return;
 
         return {

@@ -1,29 +1,5 @@
 [
-	{
-		"family": {
-				"cluster": "dbo.vw_Sched_Jobs",
-				"species": "id"
-		},
-		"type": "Project",
-		"collect": [{"key": "JobID", "to": "id", "type": "String"}, {"key": "JobName", "to": "name", "type": "String"}, {"key": "Status", "type": "Status", "to": "status"}, {"key": "StartDate", "type": "Date", "to": "startDate"}, {"to": "endDate", "type": "Function", "keys": ["DurationType", "Duration", "StartDate"], "math": "let diff = parseFloat(Duration) * textToDurationType(DurationType); let parts = StartDate.split('/'); let date = new Date(parts[1] + '/' + parts[0] + '/' + parts[2]); date.setDate(date.getDate() + diff); return date.getDate() + '/' + (date.getMonth() + 1 )+ '/' + date.getFullYear();"}]
-	}, 
-	{
-		"family": {
-			"cluster": "dbo.vw_Sched_Machinery",
-			"species": "id"
-		},
-		"type": "Equipment",
-		"collect": [{"key": "ID", "to": "id", "type": "String"}, {"key": "Name", "to": "name", "type": "String"}, {"key": "Registration", "type": "String", "to": "registration"}]
-	},
 	
-	{
-		"family": {
-			"cluster": "vw_Sched_Staff",
-			"species": "id"
-		},
-		"type": "People",
-		"collect": [{"key": "Name", "to": "name", "type": "String"}, {"key": "ID", "to": "id", "type": "String"}]
-	},
 {
 	"family": {
 		"cluster": "vwosQuotes",
@@ -31,6 +7,7 @@
 	},
 	"type": "Estimate",
 	"join": {"inner": {"join": "dbo.vwosQuoteData", "on": "dbo.vwosQuoteData.OurRef = vwosQuotes.osqhQuoteID"}},
+	"group": ["vwosQuotes.osqhQuoteID", "osqhCustName", "osqhStatus", "osqhtOther11", "osqhDate"],
 	"reduce": {"key": "id", "to": "price", "sum": "price"},
-	"collect": [{"key": "vwosQuotes.osqhQuoteID as id", "to": "id", "type": "String"}, {"key": "osqhtOther11", "to": "name"}, {"key": "convert(datetime, osqhDate)", "type": "Date", "to": "date"}, {"key": "osqhCustName", "type": "String", "to": "companyName"}, {"key": "osqhStatus", "to": "status", "type": "String"},  {"key": "SUM(dbo.vwosQuoteData.osqlLinePrice) as price", "to": "price", "type": "Number"}]
+	"collect": [{"key": "vwosQuotes.osqhQuoteID", "to": "id", "type": "String"}, {"key": "osqhtOther11", "to": "name"}, {"key": "convert(datetime, osqhDate)", "type": "Date", "to": "date"}, {"key": "osqhCustName", "type": "String", "to": "companyName"}, {"key": "osqhStatus", "to": "status", "type": "String"},  {"key": "SUM(dbo.vwosQuoteData.osqlLinePrice)", "to": "price", "type": "Number"}]
 }]

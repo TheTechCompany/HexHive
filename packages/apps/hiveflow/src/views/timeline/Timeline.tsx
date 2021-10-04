@@ -146,7 +146,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         suspense: false,
     })
 
-    const quotes = query.estimates({})?.map((quote) => ({
+    const quotes = query.estimates({
+        where: {date_GTE: horizon?.start?.toISOString(), date_LTE: horizon?.end?.toISOString()}
+    })?.map((quote) => ({
         start: new Date(moment(quote?.date).startOf('isoWeek').valueOf()),
         end: new Date(moment(quote?.date).endOf('isoWeek').valueOf()),
         ...quote,
@@ -369,7 +371,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             }, _weeks)
 
             console.log(weeks)
-            setTimeline(Object.keys(weeks).map((start, ix) => {
+            setTimeline(Object.keys(weeks).sort((a, b) => a == b ? 0 : a > b ? -1 : 1).map((start, ix) => {
                 let value = weeks[start].value;
                 delete weeks[start].value;
                 return {

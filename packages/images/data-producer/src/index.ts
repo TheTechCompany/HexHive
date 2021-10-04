@@ -22,7 +22,7 @@ const kafka = new Kafka({
     brokers: [KAFKA_URL]
 })
 
-const TOPIC = 'LOAD-STREAM';
+const TOPIC = 'LOAD-STREAM-IN';
 
 interface HiveEvent {
     id: string;
@@ -101,11 +101,15 @@ const main = async () => {
                 }
             ]
         })
+
+
         console.log("NEW", event)
     })
 
     worker.on('UPDATE', async (event: any) => {
         console.log("UPDATE", event)
+       
+       
         await producer.send({
             topic: TOPIC,
             messages: [

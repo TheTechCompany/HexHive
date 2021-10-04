@@ -48,13 +48,17 @@ export class MSSQLWorker extends EventEmitter {
 		let sql = 'SELECT ';
 
 		let keys = [...new Set(task.collect.reduce<any[]>((prev, curr) => {
-			return prev.concat(curr.keys ? curr.keys : [curr.key])
+			return prev.concat(curr.keys ? curr.keys : [`${curr.key} as ${curr.to}`])
 		}, []))]
 		sql += task.collect && task.collect.length > 0 ? keys.join(', ') : '*'
 		sql += ' FROM ' + task.family.cluster
 
 		if(task.join?.inner){
 			sql += ` INNER JOIN ${task.join.inner.join} ON ${task.join.inner.on}`
+		}
+
+		if(task.group){
+			sql += ` GROUP BY ${task.group.join(', ')}`
 		}
 
 		console.log(sql)
@@ -93,13 +97,13 @@ export class MSSQLWorker extends EventEmitter {
 		let q = this.getQuery(task)
 
 		const result_q = await mssql.query(q)
-		console.log("FIND", result_q.recordset.find((a) => a.QuoteID == 1687))
+		// console.log("FIND", result_q)
 		let result : any[] = result_q.recordset.map((item) => {
 			return task.collect.map((collect) => {
 				if(typeof(collect) == "object"){
 					switch(collect.type){
 						case 'Date':
-							return {[collect.to]: item[collect.key] /*new Date(item[collect.key])*/}
+							return {[collect.to]: item[collect.to] /*new Date(item[collect.key])*/}
 						case 'Function':
 							let script = `
 							function textToDurationType(duration){
@@ -122,7 +126,7 @@ export class MSSQLWorker extends EventEmitter {
 							return {[collect.to]: eval(script)}
 							break;
 						default:
-							return {[collect.to]: item[collect.key]}
+							return {[collect.to]: item[collect.to]}
 					}
 					// if(collect.type == "Date"){
 						// return 
