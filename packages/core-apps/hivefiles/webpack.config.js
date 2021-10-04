@@ -79,7 +79,8 @@ module.exports = (webpackConfigEnv, argv) => {
           'hexhive_root': 'hexhive_root'
         },
         exposes: {
-          '.': './src/HexHive-HiveFiles'
+          '.': './src/HexHive-HiveFiles',
+          './Explorer': './src/components/explorer'
         },
       })
     ]

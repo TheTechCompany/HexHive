@@ -1,4 +1,5 @@
 import React, {
+  lazy,
 	Component, useEffect, useState
 } from 'react';
 
@@ -18,15 +19,27 @@ import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
 import { useMutation, useQuery, useRefetch } from '@hexhive/client';
 import { KanbanModal } from './KanbanModal';
 import { dateFromObjectID } from '@hexhive/utils';
+import { useApolloClient } from '@apollo/client'
+import { RouteComponentProps } from 'react-router';
 
-export interface ProjectSingleProps{
-  match?: any;
+const FileExplorer = lazy(() => {
+  //@ts-ignore
+  return import('hexhive_hivefiles/Explorer').then((r) => {
+    console.log(r)
+    return {default: r.Explorer}
+  })
+})
+console.log(FileExplorer) 
+
+export interface ProjectSingleProps extends RouteComponentProps<{id?: string, job?: string}> {
 }
 
 const STATUS = [ "Issued", "Workshop", "Finished" ];
 
 
 export const ProjectSingle : React.FC<ProjectSingleProps> = (props) => {
+
+const client = useApolloClient()
 
   const [ kanbanMenuVisible, showKanbanMenu ] = useState<boolean>(false);
 
@@ -104,6 +117,8 @@ export const ProjectSingle : React.FC<ProjectSingleProps> = (props) => {
   //   awaitRefetchQueries: true
   // })
 
+  const [ parentId, setParentId ] = useState<string>(undefined)
+
   const job = query.projects({where: {id: job_id}})?.[0]
 
   useEffect(() => {
@@ -117,46 +132,54 @@ export const ProjectSingle : React.FC<ProjectSingleProps> = (props) => {
   const _tabs = [
     {
       title: "Files",
-      component: (
-      <SharedFiles
-        loading={loadingFiles}
-        uploading={uploadingFiles}
+      component:(<FileExplorer 
+          apolloClient={client}
+          parentId={parentId}
+          onNavigate={(path) => {
+            setParentId(path.id)
+            // props.history.push(path.path)
+          }}
+        />) 
+      // (
+      // <SharedFiles
+      //   loading={loadingFiles}
+      //   uploading={uploadingFiles}
 
-        onClick={(item) => {
-          setShowFiles([item])
-          openDialog(true)
-        }}
-        files={(files || []).filter((a) => {
-          if(a.status == "Finished"){
-            let ttl = 14 * 24 * 60 * 60 * 1000;
-            return Date.now() - dateFromObjectID(a.id).getTime() < ttl;
-          }
-          return true;
-        })
-        }
-        onDelete={async (_files) => {
-          console.log(_files)
-          await Promise.all(_files.map(async (file) => {
-            // if(job?.id) await removeFile({args: {project: job?.id, id: file._id}})
-          }))
+      //   onClick={(item) => {
+      //     setShowFiles([item])
+      //     openDialog(true)
+      //   }}
+      //   files={(files || []).filter((a) => {
+      //     if(a.status == "Finished"){
+      //       let ttl = 14 * 24 * 60 * 60 * 1000;
+      //       return Date.now() - dateFromObjectID(a.id).getTime() < ttl;
+      //     }
+      //     return true;
+      //   })
+        // }
+        // onDelete={async (_files) => {
+        //   console.log(_files)
+        //   await Promise.all(_files.map(async (file) => {
+        //     // if(job?.id) await removeFile({args: {project: job?.id, id: file._id}})
+        //   }))
 
-        }}
-        onUpload={(files) => {
-          fileActions.addFilesToJob(job_id, files).then(async (result) => {
-            console.log("Upload result", result)
-            await refetch(query.projects({where: {id: job_id}}))
-          })
-        }}
-        onEdit={(files) => {
-          openDialog(true)
-          setShowFiles(files)
-        }}
-        onView={(files) => {
-          openDialog(true)
-          setShowFiles(files)
-        }}
-        onChange={(files) => setFiles(files)}
-        jobId={job_id} />)
+        // }}
+        // onUpload={(files) => {
+        //   fileActions.addFilesToJob(job_id, files).then(async (result) => {
+        //     console.log("Upload result", result)
+        //     await refetch(query.projects({where: {id: job_id}}))
+        //   })
+        // }}
+        // onEdit={(files) => {
+        //   openDialog(true)
+        //   setShowFiles(files)
+        // }}
+        // onView={(files) => {
+        //   openDialog(true)
+        //   setShowFiles(files)
+        // }}
+        // onChange={(files) => setFiles(files)}
+        // jobId={job_id} />)
     },
     {
       title: "Project board",
@@ -350,7 +373,7 @@ export const ProjectSingle : React.FC<ProjectSingleProps> = (props) => {
 
                   // console.log(results)
 
-                  
+
                   // const results = await Promise.all(_files.map(async (file :any) => {
                   //   await updateFile({args: {id: file.id, status: file.status}})
                   // }))
