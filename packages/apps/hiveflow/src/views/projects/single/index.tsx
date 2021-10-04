@@ -20,9 +20,10 @@ import { useMutation, useQuery, useRefetch } from '@hexhive/client';
 import { KanbanModal } from './KanbanModal';
 import { dateFromObjectID } from '@hexhive/utils';
 import { useApolloClient } from '@apollo/client'
+import { RouteComponentProps } from 'react-router';
 
-//@ts-ignore
 const FileExplorer = lazy(() => {
+  //@ts-ignore
   return import('hexhive_hivefiles/Explorer').then((r) => {
     console.log(r)
     return {default: r.Explorer}
@@ -30,8 +31,7 @@ const FileExplorer = lazy(() => {
 })
 console.log(FileExplorer) 
 
-export interface ProjectSingleProps{
-  match?: any;
+export interface ProjectSingleProps extends RouteComponentProps<{id?: string, job?: string}> {
 }
 
 const STATUS = [ "Issued", "Workshop", "Finished" ];
@@ -117,6 +117,8 @@ const client = useApolloClient()
   //   awaitRefetchQueries: true
   // })
 
+  const [ parentId, setParentId ] = useState<string>(undefined)
+
   const job = query.projects({where: {id: job_id}})?.[0]
 
   useEffect(() => {
@@ -131,8 +133,12 @@ const client = useApolloClient()
     {
       title: "Files",
       component:(<FileExplorer 
-      apolloClient={client}
-          onNavigate={(path) => props.history.push(path)}
+          apolloClient={client}
+          parentId={parentId}
+          onNavigate={(path) => {
+            setParentId(path.id)
+            // props.history.push(path.path)
+          }}
         />) 
       // (
       // <SharedFiles

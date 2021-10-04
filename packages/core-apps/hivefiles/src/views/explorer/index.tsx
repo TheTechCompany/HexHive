@@ -36,6 +36,10 @@ export const Explorer: React.FC<RouteComponentProps<{id: string}>> = (props) => 
 
     return (
         <FileExplorer
+            onNavigate={(path) => {
+                setParentId(path.id)
+                props.history.push(path.path)
+            }}
             parentId={parentId} />
     )
 }

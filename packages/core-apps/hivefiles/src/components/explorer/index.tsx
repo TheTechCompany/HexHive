@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Text, Box, Collapsible, Spinner } from 'grommet'
 import { FileExplorer } from '@hexhive/ui';
-import { gql, useQuery, useApolloClient } from '@apollo/client';
+import { gql, useQuery, useApolloClient, ApolloClient, InMemoryCache } from '@apollo/client';
 import { mutation, useMutation } from '@hexhive/client';
 import { useMemo } from 'react';
 import { uploadFiles } from '../../actions';
 import { Folder, Download, CloudComputer, Inspect } from 'grommet-icons';
 import { FolderModal } from '../../components/folder-modal';
 import { ConvertModal } from '../../components/convert-modal';
-import { SidePane } from './side-pane';
 import {  GLBPreview } from './previews/GLB'
 import { nanoid } from 'nanoid';
 import { useRef } from 'react';
@@ -20,8 +19,8 @@ import { useAuth } from '@hexhive/auth-ui';
 
 export const Explorer: React.FC<{
 	parentId?: string;
-	onNavigate: (path: string) => void;
-	apolloClient?: ApolloClient
+	onNavigate: (path: {id: string, path: string}) => void;
+	apolloClient?: ApolloClient<InMemoryCache>
 }> = ({
 	onNavigate,
 	parentId,
@@ -33,13 +32,12 @@ export const Explorer: React.FC<{
 
     console.log(parentId)
     const exploreFolder = (folderId: string) => {
-        setParentId(folderId)
 
         console.log("EXPLORE", folderId)
         if (folderId && folderId != "null") {
-			onNavigate(`/explore/${folderId}`)
+			onNavigate({id: folderId, path: `/explore/${folderId}`})
         } else {
-            onNavigate(`/`)
+            onNavigate({id: undefined, path: `/`})
         }
     }
 
@@ -166,7 +164,7 @@ export const Explorer: React.FC<{
         }
 
       }
-    `, { fetchPolicy: 'no-cache'. client: apolloClient})
+    `, { fetchPolicy: 'no-cache', client: apolloClient})
 
     const files = useMemo(() => {
         return parentId && parentId != "null" ? 
@@ -247,8 +245,7 @@ export const Explorer: React.FC<{
     return (
         <Box
             round="xsmall"
-            flex
-            pad="xsmall">
+            flex>
             <FolderModal
                 onSubmit={(folder) => {
                     newFolder({ args: { organisation: (activeUser as any)?.organisation, name: folder.name, cwd: parentId && parentId != "null" ? parentId : undefined } }).then((resp) => {
@@ -273,7 +270,6 @@ export const Explorer: React.FC<{
                 onClose={() => openConvertModal(false)}
                 open={convertModal} />
             <Box
-                gap="xsmall"
                 round="xsmall"
                 flex
                 direction="row">
