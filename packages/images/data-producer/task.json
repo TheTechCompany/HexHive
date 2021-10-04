@@ -1,5 +1,29 @@
 [
+	{
+		"family": {
+				"cluster": "dbo.vw_Sched_Jobs",
+				"species": "id"
+		},
+		"type": "Project",
+		"collect": [{"key": "JobID", "to": "id", "type": "String"}, {"key": "JobName", "to": "name", "type": "String"}, {"key": "Status", "type": "Status", "to": "status"}, {"key": "StartDate", "type": "Date", "to": "startDate"}, {"to": "endDate", "type": "Function", "keys": ["DurationType", "Duration", "StartDate"], "math": "let diff = parseFloat(Duration) * textToDurationType(DurationType); let parts = StartDate.split('/'); let date = new Date(parts[1] + '/' + parts[0] + '/' + parts[2]); date.setDate(date.getDate() + diff); return date.getDate() + '/' + (date.getMonth() + 1 )+ '/' + date.getFullYear();"}]
+	}, 
+	{
+		"family": {
+			"cluster": "dbo.vw_Sched_Machinery",
+			"species": "id"
+		},
+		"type": "Equipment",
+		"collect": [{"key": "ID", "to": "id", "type": "String"}, {"key": "Name", "to": "name", "type": "String"}, {"key": "Registration", "type": "String", "to": "registration"}]
+	},
 	
+	{
+		"family": {
+			"cluster": "vw_Sched_Staff",
+			"species": "id"
+		},
+		"type": "People",
+		"collect": [{"key": "Name", "to": "name", "type": "String"}, {"key": "ID", "to": "id", "type": "String"}]
+	},
 {
 	"family": {
 		"cluster": "vwosQuotes",
