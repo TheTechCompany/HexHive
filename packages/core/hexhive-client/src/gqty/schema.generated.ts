@@ -170,6 +170,10 @@ export interface EquipmentWhere {
   organisationConnection_NOT?: Maybe<EquipmentOrganisationConnectionWhere>;
 }
 
+export interface EstimateConnectInput {
+  organisation?: Maybe<EstimateOrganisationConnectFieldInput>;
+}
+
 export interface EstimateConnectWhere {
   node: EstimateWhere;
 }
@@ -179,6 +183,15 @@ export interface EstimateCreateInput {
   status?: Maybe<Scalars["String"]>;
   price?: Maybe<Scalars["Float"]>;
   date?: Maybe<Scalars["DateTime"]>;
+  organisation?: Maybe<EstimateOrganisationFieldInput>;
+}
+
+export interface EstimateDeleteInput {
+  organisation?: Maybe<EstimateOrganisationDeleteFieldInput>;
+}
+
+export interface EstimateDisconnectInput {
+  organisation?: Maybe<EstimateOrganisationDisconnectFieldInput>;
 }
 
 export interface EstimateOptions {
@@ -186,6 +199,58 @@ export interface EstimateOptions {
   sort?: Maybe<Array<Maybe<EstimateSort>>>;
   limit?: Maybe<Scalars["Int"]>;
   offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface EstimateOrganisationConnectFieldInput {
+  where?: Maybe<HiveOrganisationConnectWhere>;
+  connect?: Maybe<HiveOrganisationConnectInput>;
+}
+
+export interface EstimateOrganisationConnectionSort {
+  node?: Maybe<HiveOrganisationSort>;
+}
+
+export interface EstimateOrganisationConnectionWhere {
+  AND?: Maybe<Array<EstimateOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<EstimateOrganisationConnectionWhere>>;
+  node?: Maybe<HiveOrganisationWhere>;
+  node_NOT?: Maybe<HiveOrganisationWhere>;
+}
+
+export interface EstimateOrganisationCreateFieldInput {
+  node: HiveOrganisationCreateInput;
+}
+
+export interface EstimateOrganisationDeleteFieldInput {
+  where?: Maybe<EstimateOrganisationConnectionWhere>;
+  delete?: Maybe<HiveOrganisationDeleteInput>;
+}
+
+export interface EstimateOrganisationDisconnectFieldInput {
+  where?: Maybe<EstimateOrganisationConnectionWhere>;
+  disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+}
+
+export interface EstimateOrganisationFieldInput {
+  create?: Maybe<EstimateOrganisationCreateFieldInput>;
+  connect?: Maybe<EstimateOrganisationConnectFieldInput>;
+}
+
+export interface EstimateOrganisationUpdateConnectionInput {
+  node?: Maybe<HiveOrganisationUpdateInput>;
+}
+
+export interface EstimateOrganisationUpdateFieldInput {
+  where?: Maybe<EstimateOrganisationConnectionWhere>;
+  update?: Maybe<EstimateOrganisationUpdateConnectionInput>;
+  connect?: Maybe<EstimateOrganisationConnectFieldInput>;
+  disconnect?: Maybe<EstimateOrganisationDisconnectFieldInput>;
+  create?: Maybe<EstimateOrganisationCreateFieldInput>;
+  delete?: Maybe<EstimateOrganisationDeleteFieldInput>;
+}
+
+export interface EstimateRelationInput {
+  organisation?: Maybe<EstimateOrganisationCreateFieldInput>;
 }
 
 /** Fields to sort Estimates by. The order in which sorts are applied is not guaranteed when specifying many fields in one EstimateSort object. */
@@ -202,6 +267,7 @@ export interface EstimateUpdateInput {
   status?: Maybe<Scalars["String"]>;
   price?: Maybe<Scalars["Float"]>;
   date?: Maybe<Scalars["DateTime"]>;
+  organisation?: Maybe<EstimateOrganisationUpdateFieldInput>;
 }
 
 export interface EstimateWhere {
@@ -253,6 +319,10 @@ export interface EstimateWhere {
   date_LTE?: Maybe<Scalars["DateTime"]>;
   date_GT?: Maybe<Scalars["DateTime"]>;
   date_GTE?: Maybe<Scalars["DateTime"]>;
+  organisation?: Maybe<HiveOrganisationWhere>;
+  organisation_NOT?: Maybe<HiveOrganisationWhere>;
+  organisationConnection?: Maybe<EstimateOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<EstimateOrganisationConnectionWhere>;
 }
 
 export interface FileSystemConnectInput {
@@ -1540,6 +1610,7 @@ export interface HiveOrganisationConnectInput {
   members?: Maybe<Array<HiveOrganisationMembersConnectFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesConnectFieldInput>>;
   schedule?: Maybe<Array<HiveOrganisationScheduleConnectFieldInput>>;
+  timeline?: Maybe<Array<HiveOrganisationTimelineConnectFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsConnectFieldInput>>;
 }
 
@@ -1553,6 +1624,7 @@ export interface HiveOrganisationCreateInput {
   members?: Maybe<HiveOrganisationMembersFieldInput>;
   appliances?: Maybe<HiveOrganisationAppliancesFieldInput>;
   schedule?: Maybe<HiveOrganisationScheduleFieldInput>;
+  timeline?: Maybe<HiveOrganisationTimelineFieldInput>;
   filesystems?: Maybe<HiveOrganisationFilesystemsFieldInput>;
 }
 
@@ -1561,6 +1633,7 @@ export interface HiveOrganisationDeleteInput {
   members?: Maybe<Array<HiveOrganisationMembersDeleteFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesDeleteFieldInput>>;
   schedule?: Maybe<Array<HiveOrganisationScheduleDeleteFieldInput>>;
+  timeline?: Maybe<Array<HiveOrganisationTimelineDeleteFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsDeleteFieldInput>>;
 }
 
@@ -1569,6 +1642,7 @@ export interface HiveOrganisationDisconnectInput {
   members?: Maybe<Array<HiveOrganisationMembersDisconnectFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesDisconnectFieldInput>>;
   schedule?: Maybe<Array<HiveOrganisationScheduleDisconnectFieldInput>>;
+  timeline?: Maybe<Array<HiveOrganisationTimelineDisconnectFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsDisconnectFieldInput>>;
 }
 
@@ -1680,6 +1754,7 @@ export interface HiveOrganisationRelationInput {
   members?: Maybe<Array<HiveOrganisationMembersCreateFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesCreateFieldInput>>;
   schedule?: Maybe<Array<HiveOrganisationScheduleCreateFieldInput>>;
+  timeline?: Maybe<Array<HiveOrganisationTimelineCreateFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsCreateFieldInput>>;
 }
 
@@ -1785,12 +1860,61 @@ export interface HiveOrganisationSort {
   name?: Maybe<SortDirection>;
 }
 
+export interface HiveOrganisationTimelineConnectFieldInput {
+  where?: Maybe<TimelineItemConnectWhere>;
+  connect?: Maybe<Array<TimelineItemConnectInput>>;
+}
+
+export interface HiveOrganisationTimelineConnectionSort {
+  node?: Maybe<TimelineItemSort>;
+}
+
+export interface HiveOrganisationTimelineConnectionWhere {
+  AND?: Maybe<Array<HiveOrganisationTimelineConnectionWhere>>;
+  OR?: Maybe<Array<HiveOrganisationTimelineConnectionWhere>>;
+  node?: Maybe<TimelineItemWhere>;
+  node_NOT?: Maybe<TimelineItemWhere>;
+}
+
+export interface HiveOrganisationTimelineCreateFieldInput {
+  node: TimelineItemCreateInput;
+}
+
+export interface HiveOrganisationTimelineDeleteFieldInput {
+  where?: Maybe<HiveOrganisationTimelineConnectionWhere>;
+  delete?: Maybe<TimelineItemDeleteInput>;
+}
+
+export interface HiveOrganisationTimelineDisconnectFieldInput {
+  where?: Maybe<HiveOrganisationTimelineConnectionWhere>;
+  disconnect?: Maybe<TimelineItemDisconnectInput>;
+}
+
+export interface HiveOrganisationTimelineFieldInput {
+  create?: Maybe<Array<HiveOrganisationTimelineCreateFieldInput>>;
+  connect?: Maybe<Array<HiveOrganisationTimelineConnectFieldInput>>;
+}
+
+export interface HiveOrganisationTimelineUpdateConnectionInput {
+  node?: Maybe<TimelineItemUpdateInput>;
+}
+
+export interface HiveOrganisationTimelineUpdateFieldInput {
+  where?: Maybe<HiveOrganisationTimelineConnectionWhere>;
+  update?: Maybe<HiveOrganisationTimelineUpdateConnectionInput>;
+  connect?: Maybe<Array<HiveOrganisationTimelineConnectFieldInput>>;
+  disconnect?: Maybe<Array<HiveOrganisationTimelineDisconnectFieldInput>>;
+  create?: Maybe<Array<HiveOrganisationTimelineCreateFieldInput>>;
+  delete?: Maybe<Array<HiveOrganisationTimelineDeleteFieldInput>>;
+}
+
 export interface HiveOrganisationUpdateInput {
   name?: Maybe<Scalars["String"]>;
   roles?: Maybe<Array<HiveOrganisationRolesUpdateFieldInput>>;
   members?: Maybe<Array<HiveOrganisationMembersUpdateFieldInput>>;
   appliances?: Maybe<Array<HiveOrganisationAppliancesUpdateFieldInput>>;
   schedule?: Maybe<Array<HiveOrganisationScheduleUpdateFieldInput>>;
+  timeline?: Maybe<Array<HiveOrganisationTimelineUpdateFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsUpdateFieldInput>>;
 }
 
@@ -1825,6 +1949,8 @@ export interface HiveOrganisationWhere {
   appliances_NOT?: Maybe<HiveApplianceWhere>;
   schedule?: Maybe<ScheduleItemWhere>;
   schedule_NOT?: Maybe<ScheduleItemWhere>;
+  timeline?: Maybe<TimelineItemWhere>;
+  timeline_NOT?: Maybe<TimelineItemWhere>;
   filesystems?: Maybe<FileSystemWhere>;
   filesystems_NOT?: Maybe<FileSystemWhere>;
   rolesConnection?: Maybe<HiveOrganisationRolesConnectionWhere>;
@@ -1835,6 +1961,8 @@ export interface HiveOrganisationWhere {
   appliancesConnection_NOT?: Maybe<HiveOrganisationAppliancesConnectionWhere>;
   scheduleConnection?: Maybe<HiveOrganisationScheduleConnectionWhere>;
   scheduleConnection_NOT?: Maybe<HiveOrganisationScheduleConnectionWhere>;
+  timelineConnection?: Maybe<HiveOrganisationTimelineConnectionWhere>;
+  timelineConnection_NOT?: Maybe<HiveOrganisationTimelineConnectionWhere>;
   filesystemsConnection?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
   filesystemsConnection_NOT?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
 }
@@ -4929,6 +5057,7 @@ export interface ScheduleItemWhere {
 export interface TimelineItemConnectInput {
   items?: Maybe<Array<TimelineItemItemsConnectFieldInput>>;
   project?: Maybe<TimelineItemProjectConnectInput>;
+  organisation?: Maybe<TimelineItemOrganisationConnectFieldInput>;
 }
 
 export interface TimelineItemConnectWhere {
@@ -4942,16 +5071,19 @@ export interface TimelineItemCreateInput {
   endDate?: Maybe<Scalars["DateTime"]>;
   items?: Maybe<TimelineItemItemsFieldInput>;
   project?: Maybe<TimelineItemProjectCreateInput>;
+  organisation?: Maybe<TimelineItemOrganisationFieldInput>;
 }
 
 export interface TimelineItemDeleteInput {
   items?: Maybe<Array<TimelineItemItemsDeleteFieldInput>>;
   project?: Maybe<TimelineItemProjectDeleteInput>;
+  organisation?: Maybe<TimelineItemOrganisationDeleteFieldInput>;
 }
 
 export interface TimelineItemDisconnectInput {
   items?: Maybe<Array<TimelineItemItemsDisconnectFieldInput>>;
   project?: Maybe<TimelineItemProjectDisconnectInput>;
+  organisation?: Maybe<TimelineItemOrganisationDisconnectFieldInput>;
 }
 
 export interface TimelineItemItemsConnectFieldInput {
@@ -5153,6 +5285,54 @@ export interface TimelineItemOptions {
   offset?: Maybe<Scalars["Int"]>;
 }
 
+export interface TimelineItemOrganisationConnectFieldInput {
+  where?: Maybe<HiveOrganisationConnectWhere>;
+  connect?: Maybe<HiveOrganisationConnectInput>;
+}
+
+export interface TimelineItemOrganisationConnectionSort {
+  node?: Maybe<HiveOrganisationSort>;
+}
+
+export interface TimelineItemOrganisationConnectionWhere {
+  AND?: Maybe<Array<TimelineItemOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<TimelineItemOrganisationConnectionWhere>>;
+  node?: Maybe<HiveOrganisationWhere>;
+  node_NOT?: Maybe<HiveOrganisationWhere>;
+}
+
+export interface TimelineItemOrganisationCreateFieldInput {
+  node: HiveOrganisationCreateInput;
+}
+
+export interface TimelineItemOrganisationDeleteFieldInput {
+  where?: Maybe<TimelineItemOrganisationConnectionWhere>;
+  delete?: Maybe<HiveOrganisationDeleteInput>;
+}
+
+export interface TimelineItemOrganisationDisconnectFieldInput {
+  where?: Maybe<TimelineItemOrganisationConnectionWhere>;
+  disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+}
+
+export interface TimelineItemOrganisationFieldInput {
+  create?: Maybe<TimelineItemOrganisationCreateFieldInput>;
+  connect?: Maybe<TimelineItemOrganisationConnectFieldInput>;
+}
+
+export interface TimelineItemOrganisationUpdateConnectionInput {
+  node?: Maybe<HiveOrganisationUpdateInput>;
+}
+
+export interface TimelineItemOrganisationUpdateFieldInput {
+  where?: Maybe<TimelineItemOrganisationConnectionWhere>;
+  update?: Maybe<TimelineItemOrganisationUpdateConnectionInput>;
+  connect?: Maybe<TimelineItemOrganisationConnectFieldInput>;
+  disconnect?: Maybe<TimelineItemOrganisationDisconnectFieldInput>;
+  create?: Maybe<TimelineItemOrganisationCreateFieldInput>;
+  delete?: Maybe<TimelineItemOrganisationDeleteFieldInput>;
+}
+
 export interface TimelineItemProjectConnectInput {
   Project?: Maybe<TimelineItemProjectProjectConnectFieldInput>;
   Estimate?: Maybe<TimelineItemProjectEstimateConnectFieldInput>;
@@ -5199,6 +5379,7 @@ export interface TimelineItemProjectDisconnectInput {
 
 export interface TimelineItemProjectEstimateConnectFieldInput {
   where?: Maybe<EstimateConnectWhere>;
+  connect?: Maybe<EstimateConnectInput>;
 }
 
 export interface TimelineItemProjectEstimateConnectionWhere {
@@ -5214,10 +5395,12 @@ export interface TimelineItemProjectEstimateCreateFieldInput {
 
 export interface TimelineItemProjectEstimateDeleteFieldInput {
   where?: Maybe<TimelineItemProjectEstimateConnectionWhere>;
+  delete?: Maybe<EstimateDeleteInput>;
 }
 
 export interface TimelineItemProjectEstimateDisconnectFieldInput {
   where?: Maybe<TimelineItemProjectEstimateConnectionWhere>;
+  disconnect?: Maybe<EstimateDisconnectInput>;
 }
 
 export interface TimelineItemProjectEstimateFieldInput {
@@ -5290,6 +5473,7 @@ export interface TimelineItemProjectUpdateInput {
 export interface TimelineItemRelationInput {
   items?: Maybe<Array<TimelineItemItemsCreateFieldInput>>;
   project?: Maybe<TimelineItemProjectCreateFieldInput>;
+  organisation?: Maybe<TimelineItemOrganisationCreateFieldInput>;
 }
 
 /** Fields to sort TimelineItems by. The order in which sorts are applied is not guaranteed when specifying many fields in one TimelineItemSort object. */
@@ -5308,6 +5492,7 @@ export interface TimelineItemUpdateInput {
   endDate?: Maybe<Scalars["DateTime"]>;
   items?: Maybe<Array<TimelineItemItemsUpdateFieldInput>>;
   project?: Maybe<TimelineItemProjectUpdateInput>;
+  organisation?: Maybe<TimelineItemOrganisationUpdateFieldInput>;
 }
 
 export interface TimelineItemWhere {
@@ -5361,10 +5546,14 @@ export interface TimelineItemWhere {
   endDate_GTE?: Maybe<Scalars["DateTime"]>;
   items?: Maybe<TimelineItemItemsWhere>;
   items_NOT?: Maybe<TimelineItemItemsWhere>;
+  organisation?: Maybe<HiveOrganisationWhere>;
+  organisation_NOT?: Maybe<HiveOrganisationWhere>;
   itemsConnection?: Maybe<TimelineItemItemsConnectionWhere>;
   itemsConnection_NOT?: Maybe<TimelineItemItemsConnectionWhere>;
   projectConnection?: Maybe<TimelineItemProjectConnectionWhere>;
   projectConnection_NOT?: Maybe<TimelineItemProjectConnectionWhere>;
+  organisationConnection?: Maybe<TimelineItemOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<TimelineItemOrganisationConnectionWhere>;
 }
 
 export interface TimelineProjectWhere {
@@ -8549,11 +8738,18 @@ export const generatedSchema = {
     },
     deleteEstimates: {
       __type: "DeleteInfo!",
-      __args: { where: "EstimateWhere" },
+      __args: { where: "EstimateWhere", delete: "EstimateDeleteInput" },
     },
     updateEstimates: {
       __type: "UpdateEstimatesMutationResponse!",
-      __args: { where: "EstimateWhere", update: "EstimateUpdateInput" },
+      __args: {
+        where: "EstimateWhere",
+        update: "EstimateUpdateInput",
+        connect: "EstimateConnectInput",
+        disconnect: "EstimateDisconnectInput",
+        create: "EstimateRelationInput",
+        delete: "EstimateDeleteInput",
+      },
     },
     createPeople: {
       __type: "CreatePeopleMutationResponse!",
@@ -9156,6 +9352,33 @@ export const generatedSchema = {
     status: { __type: "String" },
     price: { __type: "Float" },
     date: { __type: "DateTime" },
+    organisation: {
+      __type: "HiveOrganisation",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
+    organisationConnection: {
+      __type: "EstimateOrganisationConnection!",
+      __args: {
+        where: "EstimateOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[EstimateOrganisationConnectionSort!]",
+      },
+    },
+  },
+  EstimateOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[EstimateOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  EstimateOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveOrganisation!" },
   },
   FileSystem: {
     __typename: { __type: "String!" },
@@ -9601,6 +9824,10 @@ export const generatedSchema = {
       __type: "[ScheduleItem]",
       __args: { where: "ScheduleItemWhere", options: "ScheduleItemOptions" },
     },
+    timeline: {
+      __type: "[TimelineItem]",
+      __args: { where: "TimelineItemWhere", options: "TimelineItemOptions" },
+    },
     filesystems: {
       __type: "[FileSystem]",
       __args: { where: "FileSystemWhere", options: "FileSystemOptions" },
@@ -9639,6 +9866,15 @@ export const generatedSchema = {
         first: "Int",
         after: "String",
         sort: "[HiveOrganisationScheduleConnectionSort!]",
+      },
+    },
+    timelineConnection: {
+      __type: "HiveOrganisationTimelineConnection!",
+      __args: {
+        where: "HiveOrganisationTimelineConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HiveOrganisationTimelineConnectionSort!]",
       },
     },
     filesystemsConnection: {
@@ -9705,6 +9941,17 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "ScheduleItem!" },
+  },
+  HiveOrganisationTimelineConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HiveOrganisationTimelineRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HiveOrganisationTimelineRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "TimelineItem!" },
   },
   HivePipeline: {
     __typename: { __type: "String!" },
@@ -10596,6 +10843,13 @@ export const generatedSchema = {
       __type: "TimelineProject",
       __args: { options: "QueryOptions", where: "TimelineProjectWhere" },
     },
+    organisation: {
+      __type: "HiveOrganisation",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
     itemsConnection: {
       __type: "TimelineItemItemsConnection!",
       __args: {
@@ -10608,6 +10862,15 @@ export const generatedSchema = {
     projectConnection: {
       __type: "TimelineItemProjectConnection!",
       __args: { where: "TimelineItemProjectConnectionWhere" },
+    },
+    organisationConnection: {
+      __type: "TimelineItemOrganisationConnection!",
+      __args: {
+        where: "TimelineItemOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[TimelineItemOrganisationConnectionSort!]",
+      },
     },
   },
   TimelineItemItems: {
@@ -10651,6 +10914,17 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "TimelineItemItems!" },
+  },
+  TimelineItemOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[TimelineItemOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  TimelineItemOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveOrganisation!" },
   },
   TimelineItemProjectConnection: {
     __typename: { __type: "String!" },
@@ -10903,17 +11177,69 @@ export const generatedSchema = {
       __type: "EquipmentOrganisationConnectionWhere",
     },
   },
+  EstimateConnectInput: {
+    organisation: { __type: "EstimateOrganisationConnectFieldInput" },
+  },
   EstimateConnectWhere: { node: { __type: "EstimateWhere!" } },
   EstimateCreateInput: {
     name: { __type: "String" },
     status: { __type: "String" },
     price: { __type: "Float" },
     date: { __type: "DateTime" },
+    organisation: { __type: "EstimateOrganisationFieldInput" },
+  },
+  EstimateDeleteInput: {
+    organisation: { __type: "EstimateOrganisationDeleteFieldInput" },
+  },
+  EstimateDisconnectInput: {
+    organisation: { __type: "EstimateOrganisationDisconnectFieldInput" },
   },
   EstimateOptions: {
     sort: { __type: "[EstimateSort]" },
     limit: { __type: "Int" },
     offset: { __type: "Int" },
+  },
+  EstimateOrganisationConnectFieldInput: {
+    where: { __type: "HiveOrganisationConnectWhere" },
+    connect: { __type: "HiveOrganisationConnectInput" },
+  },
+  EstimateOrganisationConnectionSort: {
+    node: { __type: "HiveOrganisationSort" },
+  },
+  EstimateOrganisationConnectionWhere: {
+    AND: { __type: "[EstimateOrganisationConnectionWhere!]" },
+    OR: { __type: "[EstimateOrganisationConnectionWhere!]" },
+    node: { __type: "HiveOrganisationWhere" },
+    node_NOT: { __type: "HiveOrganisationWhere" },
+  },
+  EstimateOrganisationCreateFieldInput: {
+    node: { __type: "HiveOrganisationCreateInput!" },
+  },
+  EstimateOrganisationDeleteFieldInput: {
+    where: { __type: "EstimateOrganisationConnectionWhere" },
+    delete: { __type: "HiveOrganisationDeleteInput" },
+  },
+  EstimateOrganisationDisconnectFieldInput: {
+    where: { __type: "EstimateOrganisationConnectionWhere" },
+    disconnect: { __type: "HiveOrganisationDisconnectInput" },
+  },
+  EstimateOrganisationFieldInput: {
+    create: { __type: "EstimateOrganisationCreateFieldInput" },
+    connect: { __type: "EstimateOrganisationConnectFieldInput" },
+  },
+  EstimateOrganisationUpdateConnectionInput: {
+    node: { __type: "HiveOrganisationUpdateInput" },
+  },
+  EstimateOrganisationUpdateFieldInput: {
+    where: { __type: "EstimateOrganisationConnectionWhere" },
+    update: { __type: "EstimateOrganisationUpdateConnectionInput" },
+    connect: { __type: "EstimateOrganisationConnectFieldInput" },
+    disconnect: { __type: "EstimateOrganisationDisconnectFieldInput" },
+    create: { __type: "EstimateOrganisationCreateFieldInput" },
+    delete: { __type: "EstimateOrganisationDeleteFieldInput" },
+  },
+  EstimateRelationInput: {
+    organisation: { __type: "EstimateOrganisationCreateFieldInput" },
   },
   EstimateSort: {
     id: { __type: "SortDirection" },
@@ -10927,6 +11253,7 @@ export const generatedSchema = {
     status: { __type: "String" },
     price: { __type: "Float" },
     date: { __type: "DateTime" },
+    organisation: { __type: "EstimateOrganisationUpdateFieldInput" },
   },
   EstimateWhere: {
     OR: { __type: "[EstimateWhere!]" },
@@ -10977,6 +11304,12 @@ export const generatedSchema = {
     date_LTE: { __type: "DateTime" },
     date_GT: { __type: "DateTime" },
     date_GTE: { __type: "DateTime" },
+    organisation: { __type: "HiveOrganisationWhere" },
+    organisation_NOT: { __type: "HiveOrganisationWhere" },
+    organisationConnection: { __type: "EstimateOrganisationConnectionWhere" },
+    organisationConnection_NOT: {
+      __type: "EstimateOrganisationConnectionWhere",
+    },
   },
   FileSystemConnectInput: {
     organisation: { __type: "FileSystemOrganisationConnectFieldInput" },
@@ -12039,6 +12372,7 @@ export const generatedSchema = {
     members: { __type: "[HiveOrganisationMembersConnectFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesConnectFieldInput!]" },
     schedule: { __type: "[HiveOrganisationScheduleConnectFieldInput!]" },
+    timeline: { __type: "[HiveOrganisationTimelineConnectFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsConnectFieldInput!]" },
   },
   HiveOrganisationConnectWhere: { node: { __type: "HiveOrganisationWhere!" } },
@@ -12048,6 +12382,7 @@ export const generatedSchema = {
     members: { __type: "HiveOrganisationMembersFieldInput" },
     appliances: { __type: "HiveOrganisationAppliancesFieldInput" },
     schedule: { __type: "HiveOrganisationScheduleFieldInput" },
+    timeline: { __type: "HiveOrganisationTimelineFieldInput" },
     filesystems: { __type: "HiveOrganisationFilesystemsFieldInput" },
   },
   HiveOrganisationDeleteInput: {
@@ -12055,6 +12390,7 @@ export const generatedSchema = {
     members: { __type: "[HiveOrganisationMembersDeleteFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesDeleteFieldInput!]" },
     schedule: { __type: "[HiveOrganisationScheduleDeleteFieldInput!]" },
+    timeline: { __type: "[HiveOrganisationTimelineDeleteFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsDeleteFieldInput!]" },
   },
   HiveOrganisationDisconnectInput: {
@@ -12062,6 +12398,7 @@ export const generatedSchema = {
     members: { __type: "[HiveOrganisationMembersDisconnectFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesDisconnectFieldInput!]" },
     schedule: { __type: "[HiveOrganisationScheduleDisconnectFieldInput!]" },
+    timeline: { __type: "[HiveOrganisationTimelineDisconnectFieldInput!]" },
     filesystems: {
       __type: "[HiveOrganisationFilesystemsDisconnectFieldInput!]",
     },
@@ -12154,6 +12491,7 @@ export const generatedSchema = {
     members: { __type: "[HiveOrganisationMembersCreateFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesCreateFieldInput!]" },
     schedule: { __type: "[HiveOrganisationScheduleCreateFieldInput!]" },
+    timeline: { __type: "[HiveOrganisationTimelineCreateFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsCreateFieldInput!]" },
   },
   HiveOrganisationRolesConnectFieldInput: {
@@ -12236,12 +12574,52 @@ export const generatedSchema = {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
   },
+  HiveOrganisationTimelineConnectFieldInput: {
+    where: { __type: "TimelineItemConnectWhere" },
+    connect: { __type: "[TimelineItemConnectInput!]" },
+  },
+  HiveOrganisationTimelineConnectionSort: {
+    node: { __type: "TimelineItemSort" },
+  },
+  HiveOrganisationTimelineConnectionWhere: {
+    AND: { __type: "[HiveOrganisationTimelineConnectionWhere!]" },
+    OR: { __type: "[HiveOrganisationTimelineConnectionWhere!]" },
+    node: { __type: "TimelineItemWhere" },
+    node_NOT: { __type: "TimelineItemWhere" },
+  },
+  HiveOrganisationTimelineCreateFieldInput: {
+    node: { __type: "TimelineItemCreateInput!" },
+  },
+  HiveOrganisationTimelineDeleteFieldInput: {
+    where: { __type: "HiveOrganisationTimelineConnectionWhere" },
+    delete: { __type: "TimelineItemDeleteInput" },
+  },
+  HiveOrganisationTimelineDisconnectFieldInput: {
+    where: { __type: "HiveOrganisationTimelineConnectionWhere" },
+    disconnect: { __type: "TimelineItemDisconnectInput" },
+  },
+  HiveOrganisationTimelineFieldInput: {
+    create: { __type: "[HiveOrganisationTimelineCreateFieldInput!]" },
+    connect: { __type: "[HiveOrganisationTimelineConnectFieldInput!]" },
+  },
+  HiveOrganisationTimelineUpdateConnectionInput: {
+    node: { __type: "TimelineItemUpdateInput" },
+  },
+  HiveOrganisationTimelineUpdateFieldInput: {
+    where: { __type: "HiveOrganisationTimelineConnectionWhere" },
+    update: { __type: "HiveOrganisationTimelineUpdateConnectionInput" },
+    connect: { __type: "[HiveOrganisationTimelineConnectFieldInput!]" },
+    disconnect: { __type: "[HiveOrganisationTimelineDisconnectFieldInput!]" },
+    create: { __type: "[HiveOrganisationTimelineCreateFieldInput!]" },
+    delete: { __type: "[HiveOrganisationTimelineDeleteFieldInput!]" },
+  },
   HiveOrganisationUpdateInput: {
     name: { __type: "String" },
     roles: { __type: "[HiveOrganisationRolesUpdateFieldInput!]" },
     members: { __type: "[HiveOrganisationMembersUpdateFieldInput!]" },
     appliances: { __type: "[HiveOrganisationAppliancesUpdateFieldInput!]" },
     schedule: { __type: "[HiveOrganisationScheduleUpdateFieldInput!]" },
+    timeline: { __type: "[HiveOrganisationTimelineUpdateFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsUpdateFieldInput!]" },
   },
   HiveOrganisationWhere: {
@@ -12275,6 +12653,8 @@ export const generatedSchema = {
     appliances_NOT: { __type: "HiveApplianceWhere" },
     schedule: { __type: "ScheduleItemWhere" },
     schedule_NOT: { __type: "ScheduleItemWhere" },
+    timeline: { __type: "TimelineItemWhere" },
+    timeline_NOT: { __type: "TimelineItemWhere" },
     filesystems: { __type: "FileSystemWhere" },
     filesystems_NOT: { __type: "FileSystemWhere" },
     rolesConnection: { __type: "HiveOrganisationRolesConnectionWhere" },
@@ -12290,6 +12670,10 @@ export const generatedSchema = {
     scheduleConnection: { __type: "HiveOrganisationScheduleConnectionWhere" },
     scheduleConnection_NOT: {
       __type: "HiveOrganisationScheduleConnectionWhere",
+    },
+    timelineConnection: { __type: "HiveOrganisationTimelineConnectionWhere" },
+    timelineConnection_NOT: {
+      __type: "HiveOrganisationTimelineConnectionWhere",
     },
     filesystemsConnection: {
       __type: "HiveOrganisationFilesystemsConnectionWhere",
@@ -14917,6 +15301,7 @@ export const generatedSchema = {
   TimelineItemConnectInput: {
     items: { __type: "[TimelineItemItemsConnectFieldInput!]" },
     project: { __type: "TimelineItemProjectConnectInput" },
+    organisation: { __type: "TimelineItemOrganisationConnectFieldInput" },
   },
   TimelineItemConnectWhere: { node: { __type: "TimelineItemWhere!" } },
   TimelineItemCreateInput: {
@@ -14926,14 +15311,17 @@ export const generatedSchema = {
     endDate: { __type: "DateTime" },
     items: { __type: "TimelineItemItemsFieldInput" },
     project: { __type: "TimelineItemProjectCreateInput" },
+    organisation: { __type: "TimelineItemOrganisationFieldInput" },
   },
   TimelineItemDeleteInput: {
     items: { __type: "[TimelineItemItemsDeleteFieldInput!]" },
     project: { __type: "TimelineItemProjectDeleteInput" },
+    organisation: { __type: "TimelineItemOrganisationDeleteFieldInput" },
   },
   TimelineItemDisconnectInput: {
     items: { __type: "[TimelineItemItemsDisconnectFieldInput!]" },
     project: { __type: "TimelineItemProjectDisconnectInput" },
+    organisation: { __type: "TimelineItemOrganisationDisconnectFieldInput" },
   },
   TimelineItemItemsConnectFieldInput: {
     where: { __type: "TimelineItemItemsConnectWhere" },
@@ -15100,6 +15488,45 @@ export const generatedSchema = {
     limit: { __type: "Int" },
     offset: { __type: "Int" },
   },
+  TimelineItemOrganisationConnectFieldInput: {
+    where: { __type: "HiveOrganisationConnectWhere" },
+    connect: { __type: "HiveOrganisationConnectInput" },
+  },
+  TimelineItemOrganisationConnectionSort: {
+    node: { __type: "HiveOrganisationSort" },
+  },
+  TimelineItemOrganisationConnectionWhere: {
+    AND: { __type: "[TimelineItemOrganisationConnectionWhere!]" },
+    OR: { __type: "[TimelineItemOrganisationConnectionWhere!]" },
+    node: { __type: "HiveOrganisationWhere" },
+    node_NOT: { __type: "HiveOrganisationWhere" },
+  },
+  TimelineItemOrganisationCreateFieldInput: {
+    node: { __type: "HiveOrganisationCreateInput!" },
+  },
+  TimelineItemOrganisationDeleteFieldInput: {
+    where: { __type: "TimelineItemOrganisationConnectionWhere" },
+    delete: { __type: "HiveOrganisationDeleteInput" },
+  },
+  TimelineItemOrganisationDisconnectFieldInput: {
+    where: { __type: "TimelineItemOrganisationConnectionWhere" },
+    disconnect: { __type: "HiveOrganisationDisconnectInput" },
+  },
+  TimelineItemOrganisationFieldInput: {
+    create: { __type: "TimelineItemOrganisationCreateFieldInput" },
+    connect: { __type: "TimelineItemOrganisationConnectFieldInput" },
+  },
+  TimelineItemOrganisationUpdateConnectionInput: {
+    node: { __type: "HiveOrganisationUpdateInput" },
+  },
+  TimelineItemOrganisationUpdateFieldInput: {
+    where: { __type: "TimelineItemOrganisationConnectionWhere" },
+    update: { __type: "TimelineItemOrganisationUpdateConnectionInput" },
+    connect: { __type: "TimelineItemOrganisationConnectFieldInput" },
+    disconnect: { __type: "TimelineItemOrganisationDisconnectFieldInput" },
+    create: { __type: "TimelineItemOrganisationCreateFieldInput" },
+    delete: { __type: "TimelineItemOrganisationDeleteFieldInput" },
+  },
   TimelineItemProjectConnectInput: {
     Project: { __type: "TimelineItemProjectProjectConnectFieldInput" },
     Estimate: { __type: "TimelineItemProjectEstimateConnectFieldInput" },
@@ -15138,6 +15565,7 @@ export const generatedSchema = {
   },
   TimelineItemProjectEstimateConnectFieldInput: {
     where: { __type: "EstimateConnectWhere" },
+    connect: { __type: "EstimateConnectInput" },
   },
   TimelineItemProjectEstimateConnectionWhere: {
     node: { __type: "EstimateWhere" },
@@ -15150,9 +15578,11 @@ export const generatedSchema = {
   },
   TimelineItemProjectEstimateDeleteFieldInput: {
     where: { __type: "TimelineItemProjectEstimateConnectionWhere" },
+    delete: { __type: "EstimateDeleteInput" },
   },
   TimelineItemProjectEstimateDisconnectFieldInput: {
     where: { __type: "TimelineItemProjectEstimateConnectionWhere" },
+    disconnect: { __type: "EstimateDisconnectInput" },
   },
   TimelineItemProjectEstimateFieldInput: {
     create: { __type: "TimelineItemProjectEstimateCreateFieldInput" },
@@ -15212,6 +15642,7 @@ export const generatedSchema = {
   TimelineItemRelationInput: {
     items: { __type: "[TimelineItemItemsCreateFieldInput!]" },
     project: { __type: "TimelineItemProjectCreateFieldInput" },
+    organisation: { __type: "TimelineItemOrganisationCreateFieldInput" },
   },
   TimelineItemSort: {
     id: { __type: "SortDirection" },
@@ -15227,6 +15658,7 @@ export const generatedSchema = {
     endDate: { __type: "DateTime" },
     items: { __type: "[TimelineItemItemsUpdateFieldInput!]" },
     project: { __type: "TimelineItemProjectUpdateInput" },
+    organisation: { __type: "TimelineItemOrganisationUpdateFieldInput" },
   },
   TimelineItemWhere: {
     OR: { __type: "[TimelineItemWhere!]" },
@@ -15279,10 +15711,18 @@ export const generatedSchema = {
     endDate_GTE: { __type: "DateTime" },
     items: { __type: "TimelineItemItemsWhere" },
     items_NOT: { __type: "TimelineItemItemsWhere" },
+    organisation: { __type: "HiveOrganisationWhere" },
+    organisation_NOT: { __type: "HiveOrganisationWhere" },
     itemsConnection: { __type: "TimelineItemItemsConnectionWhere" },
     itemsConnection_NOT: { __type: "TimelineItemItemsConnectionWhere" },
     projectConnection: { __type: "TimelineItemProjectConnectionWhere" },
     projectConnection_NOT: { __type: "TimelineItemProjectConnectionWhere" },
+    organisationConnection: {
+      __type: "TimelineItemOrganisationConnectionWhere",
+    },
+    organisationConnection_NOT: {
+      __type: "TimelineItemOrganisationConnectionWhere",
+    },
   },
   TimelineProjectWhere: {
     Project: { __type: "ProjectWhere" },
@@ -18451,10 +18891,17 @@ export interface Mutation {
   createEstimates: (args: {
     input: Array<EstimateCreateInput>;
   }) => CreateEstimatesMutationResponse;
-  deleteEstimates: (args?: { where?: Maybe<EstimateWhere> }) => DeleteInfo;
+  deleteEstimates: (args?: {
+    where?: Maybe<EstimateWhere>;
+    delete?: Maybe<EstimateDeleteInput>;
+  }) => DeleteInfo;
   updateEstimates: (args?: {
     where?: Maybe<EstimateWhere>;
     update?: Maybe<EstimateUpdateInput>;
+    connect?: Maybe<EstimateConnectInput>;
+    disconnect?: Maybe<EstimateDisconnectInput>;
+    create?: Maybe<EstimateRelationInput>;
+    delete?: Maybe<EstimateDeleteInput>;
   }) => UpdateEstimatesMutationResponse;
   createPeople: (args: {
     input: Array<PeopleCreateInput>;
@@ -19221,6 +19668,29 @@ export interface Estimate {
   status?: Maybe<ScalarsEnums["String"]>;
   price?: Maybe<ScalarsEnums["Float"]>;
   date?: Maybe<ScalarsEnums["DateTime"]>;
+  organisation: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Maybe<HiveOrganisation>;
+  organisationConnection: (args?: {
+    where?: Maybe<EstimateOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<EstimateOrganisationConnectionSort>>;
+  }) => EstimateOrganisationConnection;
+}
+
+export interface EstimateOrganisationConnection {
+  __typename?: "EstimateOrganisationConnection";
+  edges: Array<EstimateOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface EstimateOrganisationRelationship {
+  __typename?: "EstimateOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveOrganisation;
 }
 
 export interface FileSystem {
@@ -19643,6 +20113,10 @@ export interface HiveOrganisation {
     where?: Maybe<ScheduleItemWhere>;
     options?: Maybe<ScheduleItemOptions>;
   }) => Maybe<Array<Maybe<ScheduleItem>>>;
+  timeline: (args?: {
+    where?: Maybe<TimelineItemWhere>;
+    options?: Maybe<TimelineItemOptions>;
+  }) => Maybe<Array<Maybe<TimelineItem>>>;
   filesystems: (args?: {
     where?: Maybe<FileSystemWhere>;
     options?: Maybe<FileSystemOptions>;
@@ -19671,6 +20145,12 @@ export interface HiveOrganisation {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<HiveOrganisationScheduleConnectionSort>>;
   }) => HiveOrganisationScheduleConnection;
+  timelineConnection: (args?: {
+    where?: Maybe<HiveOrganisationTimelineConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HiveOrganisationTimelineConnectionSort>>;
+  }) => HiveOrganisationTimelineConnection;
   filesystemsConnection: (args?: {
     where?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -19742,6 +20222,19 @@ export interface HiveOrganisationScheduleRelationship {
   __typename?: "HiveOrganisationScheduleRelationship";
   cursor: ScalarsEnums["String"];
   node: ScheduleItem;
+}
+
+export interface HiveOrganisationTimelineConnection {
+  __typename?: "HiveOrganisationTimelineConnection";
+  edges: Array<HiveOrganisationTimelineRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HiveOrganisationTimelineRelationship {
+  __typename?: "HiveOrganisationTimelineRelationship";
+  cursor: ScalarsEnums["String"];
+  node: TimelineItem;
 }
 
 export interface HivePipeline {
@@ -20590,6 +21083,10 @@ export interface TimelineItem {
     options?: Maybe<QueryOptions>;
     where?: Maybe<TimelineProjectWhere>;
   }) => Maybe<TimelineProject>;
+  organisation: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Maybe<HiveOrganisation>;
   itemsConnection: (args?: {
     where?: Maybe<TimelineItemItemsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -20599,6 +21096,12 @@ export interface TimelineItem {
   projectConnection: (args?: {
     where?: Maybe<TimelineItemProjectConnectionWhere>;
   }) => TimelineItemProjectConnection;
+  organisationConnection: (args?: {
+    where?: Maybe<TimelineItemOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<TimelineItemOrganisationConnectionSort>>;
+  }) => TimelineItemOrganisationConnection;
 }
 
 export interface TimelineItemItems {
@@ -20643,6 +21146,19 @@ export interface TimelineItemItemsRelationship {
   __typename?: "TimelineItemItemsRelationship";
   cursor: ScalarsEnums["String"];
   node: TimelineItemItems;
+}
+
+export interface TimelineItemOrganisationConnection {
+  __typename?: "TimelineItemOrganisationConnection";
+  edges: Array<TimelineItemOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface TimelineItemOrganisationRelationship {
+  __typename?: "TimelineItemOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveOrganisation;
 }
 
 export interface TimelineItemProjectConnection {
@@ -21931,6 +22447,8 @@ export interface SchemaObjectTypes {
   EquipmentOrganisationConnection: EquipmentOrganisationConnection;
   EquipmentOrganisationRelationship: EquipmentOrganisationRelationship;
   Estimate: Estimate;
+  EstimateOrganisationConnection: EstimateOrganisationConnection;
+  EstimateOrganisationRelationship: EstimateOrganisationRelationship;
   FileSystem: FileSystem;
   FileSystemFilesConnection: FileSystemFilesConnection;
   FileSystemFilesRelationship: FileSystemFilesRelationship;
@@ -21978,6 +22496,8 @@ export interface SchemaObjectTypes {
   HiveOrganisationRolesRelationship: HiveOrganisationRolesRelationship;
   HiveOrganisationScheduleConnection: HiveOrganisationScheduleConnection;
   HiveOrganisationScheduleRelationship: HiveOrganisationScheduleRelationship;
+  HiveOrganisationTimelineConnection: HiveOrganisationTimelineConnection;
+  HiveOrganisationTimelineRelationship: HiveOrganisationTimelineRelationship;
   HivePipeline: HivePipeline;
   HivePipelineInputsConnection: HivePipelineInputsConnection;
   HivePipelineInputsRelationship: HivePipelineInputsRelationship;
@@ -22061,6 +22581,8 @@ export interface SchemaObjectTypes {
   TimelineItemItemsItemConnection: TimelineItemItemsItemConnection;
   TimelineItemItemsItemRelationship: TimelineItemItemsItemRelationship;
   TimelineItemItemsRelationship: TimelineItemItemsRelationship;
+  TimelineItemOrganisationConnection: TimelineItemOrganisationConnection;
+  TimelineItemOrganisationRelationship: TimelineItemOrganisationRelationship;
   TimelineItemProjectConnection: TimelineItemProjectConnection;
   TimelineItemProjectRelationship: TimelineItemProjectRelationship;
   UpdateEquipmentMutationResponse: UpdateEquipmentMutationResponse;
@@ -22202,6 +22724,8 @@ export type SchemaObjectTypesNames =
   | "EquipmentOrganisationConnection"
   | "EquipmentOrganisationRelationship"
   | "Estimate"
+  | "EstimateOrganisationConnection"
+  | "EstimateOrganisationRelationship"
   | "FileSystem"
   | "FileSystemFilesConnection"
   | "FileSystemFilesRelationship"
@@ -22249,6 +22773,8 @@ export type SchemaObjectTypesNames =
   | "HiveOrganisationRolesRelationship"
   | "HiveOrganisationScheduleConnection"
   | "HiveOrganisationScheduleRelationship"
+  | "HiveOrganisationTimelineConnection"
+  | "HiveOrganisationTimelineRelationship"
   | "HivePipeline"
   | "HivePipelineInputsConnection"
   | "HivePipelineInputsRelationship"
@@ -22332,6 +22858,8 @@ export type SchemaObjectTypesNames =
   | "TimelineItemItemsItemConnection"
   | "TimelineItemItemsItemRelationship"
   | "TimelineItemItemsRelationship"
+  | "TimelineItemOrganisationConnection"
+  | "TimelineItemOrganisationRelationship"
   | "TimelineItemProjectConnection"
   | "TimelineItemProjectRelationship"
   | "UpdateEquipmentMutationResponse"

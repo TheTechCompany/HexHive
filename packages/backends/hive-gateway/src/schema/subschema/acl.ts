@@ -16,6 +16,8 @@ export default `
 		appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
 
 		schedule: [ScheduleItem] @relationship(type: "SCHEDULE", direction: OUT)
+		timeline: [TimelineItem] @relationship(type: "PLANNING", direction: OUT)
+
 		filesystems: [FileSystem] @relationship(type: "HAS_FS", direction: OUT)
 	}
 
