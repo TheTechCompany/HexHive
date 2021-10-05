@@ -24,6 +24,8 @@ const TOPIC = 'SPINE';
 
 interface HiveEvent {
     id: string;
+    token: string;
+
     appliance?: string; //Appliance ID
     routingKey?: string; //Appliance Event Key
     clientId?: string; //Client ID of message origin
@@ -52,7 +54,7 @@ const parseEvent = async (event: HiveEvent) => {
 
 
     
-    return await submitFileEvent({id: event.id, pipeline: result.id})
+    return await submitFileEvent({id: event.id, token: event.token, pipeline: result.id})
 
     // switch(event.service){
     //     case 'Files':
@@ -65,7 +67,7 @@ const parseEvent = async (event: HiveEvent) => {
     // }
 }
 
-const submitFileEvent = async (event: {id: string, pipeline: string}) => {
+const submitFileEvent = async (event: {id: string, token: string, pipeline: string}) => {
     const r = await axios({
         method: "POST",
         url: `http://${WEBHOOK_URL}`,
@@ -77,6 +79,7 @@ const submitFileEvent = async (event: {id: string, pipeline: string}) => {
             "Content-Type": "application/json",
             "JobID": event.id,
             "Pipeline": event.pipeline,
+            "Token": event.token
         }
     });
     return await r.data;
