@@ -15,6 +15,7 @@ import { FileManager } from "./files/util"
 import { Driver, session } from "neo4j-driver"
 import { TaskRegistry } from "../task-registry"
 import { HiveEvents } from "@hexhive/events-client"
+import passport from "passport"
 // import { InteractionRouter } from './interaction';
 
 const whitelist = ["http://localhost:3001", "https://matrix.hexhive.io", "http://localhost:3002", "http://localhost:3000", "https://hexhive.io", "https://next.hexhive.io", "https://go.hexhive.io"]
@@ -52,47 +53,38 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 
 	router.use(cors(corsOptions))
 
+	const ensureLoggedIn = (req: any, res: any, next: any) => {
+		if(req.isAuthenticated()){
+			return next();
+		}
+
+		res.redirect('/login')
+	}
+
 	// router.use('/interaction', InteractionRouter())
 	router.use("/oauth", AuthRouter(neo_session))
 
-	router.use(['/api/files'],  requiresAuth(), async (req, res, next) => {
-		if(!req.oidc.accessToken) return next("No access token present");
-			const { isExpired, refresh } = req.oidc.accessToken
+	// router.use(['/api/files'], passport.authenticate('oidc'));
 
-			// if(isExpired()){
-			// 	await refresh();
-			// }
-		try{
-			const user = await req.oidc.fetchUserInfo(); 
-			
-			(req as any).user = {
-				...user
-			}
-
-			next();
-		}catch(e){
-			next(e)
-		}
-
-	})
+	router.use(['/api/files'], passport.authenticate('jwt', {session: false}))
 
 	if(fileManager) router.use("/api/files", FileRouter(fileManager, eventClient, neo_session))
 	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
 
 	router.use("/api/events", EventRouter(neo_session))
 
-	router.get("/login", (req, res) => {
-		res.oidc.login({ returnTo: req.query.returnTo?.toString() || process.env.UI_URL || "https://next.hexhive.io/dashboard" })
-	})
+	// router.get("/login", (req, res) => {
+	// 	res.oidc.login({ returnTo: req.query.returnTo?.toString() || process.env.UI_URL || "https://next.hexhive.io/dashboard" })
+	// })
 
-	router.get("/me", requiresAuth(), async (req, res) => {
+
+	router.get("/me", ensureLoggedIn, async (req: any, res) => {
+		let user = JSON.parse(req.user._raw)
 		try{
-			const userinfo = await req.oidc.fetchUserInfo()
-			res.send({...userinfo})
+			res.send({...user})
 		}catch(e){
 			res.status(400).send({error: e})
 		}
-
 	})
 	// router.use('/user', UserRouter(cas, methods))
 	return router

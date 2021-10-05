@@ -65,13 +65,13 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
         },
         {
             id: '',
-            icon: <Settings color="black" height="50px" width="50" />,
+            icon: <Settings color="black" height="50" width="50" />,
             top: 3,
             title: "Settings",
             left: 8,
             path: '/settings'
         }
-    ].filter((a) => user.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
+    ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
 
     const query = useQuery({suspense: false, staleWhileRevalidate: true})
     
@@ -121,18 +121,18 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
             },
             {
                 id: 'hCnbZc6H0F4ehaqQlENqc',
-                icon: <Settings color="black" height="50px" width="50px" />,
+                icon: <Settings />,
                 top: 3,
                 title: "Settings",
                 left: 8,
                 path: '/settings'
             }
-        ].filter((a) => user.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
+        ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
     }
 
     useEffect(() => {
         refreshApplications()
-    }, [user.activeUser])
+    }, [user?.activeUser])
     return (
         <Box overflow="hidden">
             <AppModal   

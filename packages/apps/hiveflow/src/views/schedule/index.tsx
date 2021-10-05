@@ -322,10 +322,55 @@ const slowData = slowResult.data;
     suspense: false,  
   })
 
-  const [cloneItem, cloenInfo] = useMutation((mutation, args: {id: string, dates: Date[]}) => {
+  const [cloneItem, cloenInfo] = useMutation((mutation, args: {item: any, dates: Date[]}) => {
+    
+    let query : any = {};
+    if(args.item.notes) query.notes = args.item.notes;
+
+    if(args.item.people.length > 0){
+      query = {
+        ...query,
+        people: {
+          ...query.people,
+          connect: [{where: {node: {id_IN: args.item.people.map((x) => x.id)}}}]
+        }
+      }
+    }
+
+    if(args.item.equipment.length > 0){
+      query = {
+        ...query,
+        equipment: {
+          ...query.equipment,
+          connect: [{where: {node: {id_IN: args.item.equipment.map((x) => x.id)}}}]
+        }
+      }
+    }
+
+
+    const item = mutation.updateHiveOrganisations({
+      update: {
+        schedule: [{create: args.dates.map((date) => ({
+          node: {
+            date: date.toISOString(),
+            project: {
+              connect: {where: {node: {
+                id: args.item.project
+               }}}
+            },
+            ...query,
+            owner: {
+              connect: {where: {node: {id: activeUser.sub}}}
+            }
+          }
+        }))}]
+      }
+    })
     // const result = mutation.cloneScheduleItem({id: args.id, cloneTo: args.dates})
     return {
-      item:  false, //result ||
+      item:  {
+        ...item.hiveOrganisations[0]
+      }, //result ||
       error: null
     }
   }, {
@@ -440,7 +485,7 @@ const slowData = slowResult.data;
             })
           }}
           onCloneItem={(item, dates, newDates) => {
-            cloneItem({args: {id: item.id, dates: newDates}}).then((resp) => {
+            cloneItem({args: {item, dates: newDates}}).then((resp) => {
               console.log("Clone resp", resp, newDates)
             })
           }}

@@ -41,7 +41,10 @@ export const HexButton : React.FC<HexButtonProps> = (props) => {
                 align="center"
                 justify="center"
                 >
-                <Box align="center" justify="center" flex direction="column">
+                <Box
+                    width="50px"
+                    height="50px"
+                    align="center" justify="center" flex direction="column">
                     {props.logo}
                 </Box>
                 <Text size="small" style={{fontFamily: "'BebasNeue', sans-serif"}}>{props.text}</Text>

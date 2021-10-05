@@ -20,7 +20,7 @@ export const UserDropdown = () => {
             icon: <Logout color="black" size="15px" />, 
             label: "Log out",
             onClick: () => {
-                window.location.href = 'https://auth.hexhive.io/session/end'
+                window.location.href = `${process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}/logout`
             }
         }
     ]
