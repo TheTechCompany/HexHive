@@ -107,12 +107,11 @@ export const FileExplorer : React.FC<FileExplorerProps> = (props) => {
         }
     }
 
-    const onDrop = useCallback(acceptedFiles => {
+    const onDrop = (acceptedFiles: File[]) => {
         // Do something with the files
         console.log(acceptedFiles)
         props.onDrop(acceptedFiles)
-    }, [])
-    
+    }
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, noClick: true})
     
     const getPath = () => {
