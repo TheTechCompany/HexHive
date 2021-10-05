@@ -212,7 +212,7 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 	const neoSession = driver.session()
 
 	//JWT Auth for CI Jobs
-	passport.use(new JwtStrategy(opts,  (jwt_payload: any, done: any) => {
+	passport.use('jwt', new JwtStrategy(opts,  (jwt_payload: any, done: any) => {
 		neoSession.readTransaction(async (tx) => {
 			const result = await tx.run(`
 				MATCH (run:HivePipelineRun {id: $id})
@@ -257,41 +257,18 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 			}
 		);
 
-	app.get("/profile", requiresAuth(), async (req, res) => {
-		const userInfo = await req.oidc.fetchUserInfo()
-
-		res.send({user: req.oidc.user, info: userInfo})
-	})  
-	/*AuthServer, {
-        findUser: async (auth_blob: any) => {
-            console.log("AUTH BLOB", auth_blob)
-            if(!auth_blob) return;
-            if (auth_blob.user && isValidObjectId(auth_blob.user)) {
-                return await User.findById(auth_blob.user).populate('organisation');
-            } else {
-                const pass_hash = crypto.createHash('sha256').update(auth_blob.password).digest('hex')
-
-                return await User.findOne({
-                    username: auth_blob.username,
-                    password: pass_hash
-                }).populate('organisation')
-            }
-        }
-    }))*/
-	// const { constructor: { errors: { SessionNotFound } } } = oidc as any;
-
 	if (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "local-auth") {
 
 		app.use("/graphql", async (req, res, next) => {
 
 			try {
 
+				console.log(req.user);
 					(req as any).jwt = {
 						iat: 1516239022,
 						roles: ["admin"],
-						...req.user
-					};
-				
+						...JSON.parse((req.user as any)._raw)
+					}
 
 				next()
 			}catch(e){
