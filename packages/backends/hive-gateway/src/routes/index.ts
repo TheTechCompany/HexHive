@@ -66,8 +66,16 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 
 	// router.use(['/api/files'], passport.authenticate('oidc'));
 
-	router.use(['/api/files'], passport.authenticate('jwt', {session: false}))
+	// router.use(['/api/files'], passport.authenticate([ 'oidc','jwt']))
 
+	router.use((req, res, next) => {
+		if(req.user){
+			req.user = {
+				...JSON.parse((req.user as any)._raw)
+			}
+		}
+		next()
+	})
 	if(fileManager) router.use("/api/files", FileRouter(fileManager, eventClient, neo_session))
 	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
 
@@ -79,9 +87,9 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 
 
 	router.get("/me", ensureLoggedIn, async (req: any, res) => {
-		let user = JSON.parse(req.user._raw)
+		
 		try{
-			res.send({...user})
+			res.send({...req.user})
 		}catch(e){
 			res.status(400).send({error: e})
 		}

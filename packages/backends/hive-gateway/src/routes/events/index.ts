@@ -102,8 +102,10 @@ export default (neo: Session) => {
 
 				let results = await Promise.all(runs.map(async (run) => {
 					const result = await mq.emitEvent("SPINE", run)
-
+					return result
 				}))
+
+				console.log("SPINE", results)
 				res.send({results})
 			})
 
