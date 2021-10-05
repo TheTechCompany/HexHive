@@ -70,8 +70,9 @@ export class MSSQLWorker extends EventEmitter {
 	}
 
 	updatedItem(task: WorkerTask, ix: number, value: any){
+		console.log(this.patcher[task.family.cluster].find(ix), task.collect, task.family.species)
 		this.emit(`UPDATE`, {
-			valueId: this.patcher[task.family.cluster].find(ix)[task.collect.find((a) => a.key == task.family.species)?.to || ''], 
+			valueId: this.patcher[task.family.cluster].find(ix)[task.collect.find((a) => a.to == task.family.species)?.to || ''], 
 			value, 
 			id: task.family.cluster
 		})

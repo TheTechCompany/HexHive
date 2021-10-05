@@ -86,21 +86,22 @@ const main = async () => {
 	await worker.start()
 
     worker.on('NEW', async (event: any) => {
+        console.log("NEW EVENT", event)
         const new_task = task.find((a: any) => a.family.cluster == event.id)
-        await producer.send({
-            topic: TOPIC,
-            messages: [
-                {
-                    value: JSON.stringify({
-                        action: 'CREATE',
-                        data: event.value,
-                        primaryKey: new_task?.family.species,
-                        id: event.value[new_task?.family.species],
-                        type: new_task?.type
-                    })
-                }
-            ]
-        })
+        // await producer.send({
+        //     topic: TOPIC,
+        //     messages: [
+        //         {
+        //             value: JSON.stringify({
+        //                 action: 'CREATE',
+        //                 data: event.value,
+        //                 primaryKey: new_task?.family.species,
+        //                 id: event.value[new_task?.family.species],
+        //                 type: new_task?.type
+        //             })
+        //         }
+        //     ]
+        // })
 
 
         console.log("NEW", event)
@@ -110,19 +111,19 @@ const main = async () => {
         console.log("UPDATE", event)
        
        
-        await producer.send({
-            topic: TOPIC,
-            messages: [
-                {
-                    value: JSON.stringify({
-                        action: 'UPDATE',
-                        id: event.valueId,
-                        data: event.value,
-                        type: task.find((a: any) => a.family.cluster == event.id)?.type
-                    })
-                }
-            ]
-        })
+        // await producer.send({
+        //     topic: TOPIC,
+        //     messages: [
+        //         {
+        //             value: JSON.stringify({
+        //                 action: 'UPDATE',
+        //                 id: event.valueId,
+        //                 data: event.value,
+        //                 type: task.find((a: any) => a.family.cluster == event.id)?.type
+        //             })
+        //         }
+        //     ]
+        // })
     })
 
     // await producer.send({
