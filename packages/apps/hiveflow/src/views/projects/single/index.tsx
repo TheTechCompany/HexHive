@@ -132,14 +132,19 @@ const client = useApolloClient()
   const _tabs = [
     {
       title: "Files",
-      component:(<FileExplorer 
-          apolloClient={client}
-          parentId={parentId}
-          onNavigate={(path) => {
-            setParentId(path.id)
-            // props.history.push(path.path)
-          }}
-        />) 
+      component: (
+        <FileExplorer 
+            apolloClient={client}
+            parentId={parentId}
+
+            application={"HiveFlow"}
+            mountPath={`/Projects/${job_id}`}
+            onNavigate={(path) => {
+              setParentId(path.id)
+              // props.history.push(path.path)
+            }}
+          />
+      ) 
       // (
       // <SharedFiles
       //   loading={loadingFiles}

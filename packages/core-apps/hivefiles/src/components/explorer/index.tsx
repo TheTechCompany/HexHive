@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Text, Box, Collapsible, Spinner } from 'grommet'
 import { FileExplorer } from '@hexhive/ui';
-import { gql, useQuery, useApolloClient, ApolloClient, InMemoryCache } from '@apollo/client';
-import { mutation, useMutation } from '@hexhive/client';
+import { gql, useQuery as useApollo, useApolloClient, ApolloClient, InMemoryCache } from '@apollo/client';
+import { mutation, resolved, useMutation, useQuery } from '@hexhive/client';
 import { useMemo } from 'react';
 import { uploadFiles } from '../../actions';
 import { Folder, Download, CloudComputer, Inspect } from 'grommet-icons';
@@ -19,18 +19,49 @@ import { useAuth } from '@hexhive/auth-ui';
 
 export const Explorer: React.FC<{
 	parentId?: string;
+    
+    application?: string;
+    mountPath?: string;
+
 	onNavigate: (path: {id: string, path: string}) => void;
 	apolloClient?: ApolloClient<InMemoryCache>
 }> = ({
 	onNavigate,
 	parentId,
-	apolloClient
+	apolloClient,
+    
+    application,
+    mountPath
 }) => {
+
+    console.log(application, mountPath)
+
     const { activeUser } = useAuth()
     const [ inspector, setInspector ] = useState<boolean>(false)
 
 
     console.log(parentId)
+
+
+
+    useEffect(() => {
+        if(application && mountPath){
+            console.log("INIT")
+            const d = resolved(() => {
+                return {...query.resolveFS({appId: application, mountPath})}
+            })
+
+            d.then((data) => {
+                if(data.id){
+                    onNavigate({
+                        id: data.id,
+                        path: `/explore/${data.id}`
+                    })       
+                }
+            })
+        }
+    }, [application, mountPath])
+
     const exploreFolder = (folderId: string) => {
 
         console.log("EXPLORE", folderId)
@@ -109,9 +140,13 @@ export const Explorer: React.FC<{
             suspense: false,
         })
 
-    let query;
+    let query = useQuery({
+        suspense: false,
+        staleWhileRevalidate: true
+    })
 
-    const { data } = useQuery(gql`
+
+    const { data } = useApollo(gql`
       query GET_FILES {
         hiveFiles(where: ${parentId && parentId != "null" ? `{id: "${parentId}"}` : `{parent: null }`}){
             id
@@ -191,7 +226,7 @@ export const Explorer: React.FC<{
     
         fetchFiles();
 
-         }, [parentId])
+    }, [parentId])
 
     const breadcrumbs = useMemo(() => {
 
@@ -207,7 +242,7 @@ export const Explorer: React.FC<{
         return []
     }, [data])
 
-    const onDrop = (files: File[]) => {
+    const onDrop = useCallback((files: File[]) => {
    
             let ids = breadcrumb.ids.split('/')
             console.log(ids)
@@ -230,7 +265,7 @@ export const Explorer: React.FC<{
                 console.log(response)
                 fetchFiles()
             })
-    }
+    }, [parentId])
     
     const getDuration = (start: string, end?: string) => {
        

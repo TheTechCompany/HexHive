@@ -5,6 +5,7 @@ export const createFile = async (tx: Transaction, filesystem: string, file: { na
 	let query = ""
 	query += cwd ? "MATCH (org:HiveOrganisation {id: $fs})-[*1..]->(parent:HiveFile {id: $cwd})" : "MATCH (org:HiveOrganisation {id: $fs})-[:HAS_FS]->(fs:FileSystem)"
 	query += `
+		WITH ${cwd ? 'distinct(parent)' : 'fs'}
         CREATE (file:HiveFile {id: $id, name: $name, mimetype: $mimetype, cid: $cid, size: $size })
         CREATE (${cwd ? "parent" : "fs"})-[rel:${!cwd ? "HAS_FILE" : "CONTAINS"}]->(file)
         RETURN file`

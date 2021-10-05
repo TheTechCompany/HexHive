@@ -141,7 +141,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 
 		const resp = await neo.writeTransaction(async (tx) => {
 			return await Promise.all(files.map(async (file) => {
-                
+                console.log("Create file", file, (req as any).user, cwd)
 				const item = await createFile(tx, (req as any).user.organisation, file, cwd)
 				if(!item) return;
 				return {
