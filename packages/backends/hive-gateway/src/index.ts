@@ -8,6 +8,7 @@ import neo4j from "neo4j-driver"
 import { graphqlHTTP } from "express-graphql" // ES6
 
 import { connect_data, User } from "@hexhive/types"
+import session from 'express-session'
 
 import { stitchSchemas } from "@graphql-tools/stitch"
 import { mergeSchemas } from "@graphql-tools/merge"
@@ -29,6 +30,14 @@ import printerSchema from "./schema/3d"
 import { auth, ConfigParams, requiresAuth} from "express-openid-connect"
 import { TaskRegistry } from "./task-registry"
 
+import jwt from 'jsonwebtoken'
+import passport from 'passport'
+
+var OidcStrategy = require('passport-openidconnect').Strategy;
+var JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt;
+
+
 const greenlock = require("greenlock-express")
 
 const app = express()
@@ -41,31 +50,50 @@ const {NODE_ENV} = process.env
 const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next.hexhive.io", ISSUER = `http://localhost:${PORT}` } = process.env
 
 // const jwks = require('./jwks/jwks.json');
-
-
-const config : ConfigParams = {
-	authRequired: false,
-	auth0Logout: false,
-	authorizationParams: {
-		response_type: "code",
-		scope: process.env.SCOPE || "openid email name groups offline_access",
-		redirect_uri: process.env.REDIRECT_URI || "https://staging-api.hexhive.io/callback" || "http://localhost:7000/callback" || `https://${NODE_ENV != "production" ? "dashboard": "next"}.hexhive.io/dashboard`
-	},
-	clientAuthMethod: "client_secret_basic",
-	baseURL: process.env.BASE_URL || "https://staging-api.hexhive.io" || "http://localhost:7000" || `https://${NODE_ENV != "production" ? "dashboard": "next"}.hexhive.io`,
-	afterCallback: (req, res, session, decodedState) => {
-		// res.redirect(process.env.UI_URL || 'https://next.hexhive.io/dashboard')
-		(req as any).openidState.returnTo = (req as any).openidState.returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard"
-		return session
-	},
-	routes: {
-		login: false
-	},
-	clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
-	issuerBaseURL: process.env.AUTH_SERVER || "https://auth.hexhive.io",
-	secret: "JWT_SECRET",
-	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`
+const url = process.env.AUTH_SERVER || "auth.hexhive.io"
+const config = {
+	issuer: `https://${url}`,
+	authorizationURL: `https://${url}/auth`,
+	tokenURL: `https://${url}/token`,
+	userInfoURL: `https://${url}/me`,
+ 	clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
+ 	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
+	callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
+	scope: process.env.SCOPE || "openid email name groups"
 };
+
+
+var opts : any = {}
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = 'secret';
+opts.issuer = url;
+
+
+opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard").host;
+
+// const config : ConfigParams = {
+// 	authRequired: false,
+// 	auth0Logout: false,
+// 	authorizationParams: {
+// 		response_type: "code",
+// 		scope: process.env.SCOPE || "openid email name groups offline_access",
+// 		redirect_uri: process.env.REDIRECT_URI || "https://staging-api.hexhive.io/callback" || "http://localhost:7000/callback" || `https://${NODE_ENV != "production" ? "dashboard": "next"}.hexhive.io/dashboard`
+// 	},
+// 	clientAuthMethod: "client_secret_basic",
+// 	baseURL: process.env.BASE_URL || "https://staging-api.hexhive.io" || "http://localhost:7000" || `https://${NODE_ENV != "production" ? "dashboard": "next"}.hexhive.io`,
+// 	afterCallback: (req, res, session, decodedState) => {
+// 		// res.redirect(process.env.UI_URL || 'https://next.hexhive.io/dashboard')
+// 		(req as any).openidState.returnTo = (req as any).openidState.returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard"
+// 		return session
+// 	},
+// 	routes: {
+// 		login: false
+// 	},
+// 	clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
+// 	issuerBaseURL: process.env.AUTH_SERVER || "https://auth.hexhive.io",
+// 	secret: "JWT_SECRET",
+// 	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`
+// };
 
   
 (async () => {
@@ -166,9 +194,68 @@ const config : ConfigParams = {
 	app.use(cookieParser())
 	app.use(helmet())
 
-	app.use(auth(config))
+	app.use(session({
+		secret: 'MyVoiceIsMyPassportVerifyMe',
+		resave: false,
+		saveUninitialized: true
+	}));
+
+	// app.use(auth(config))
+
+	app.use(passport.initialize())
+	app.use(passport.session())
+
+	passport.use('oidc', new OidcStrategy(config, (issuer: any, sub: any, profile: any, accessToken: any, refreshToken: any, done: any) => {
+		return done(null, profile)
+	}))
+
+	const neoSession = driver.session()
+
+	//JWT Auth for CI Jobs
+	passport.use(new JwtStrategy(opts,  (jwt_payload: any, done: any) => {
+		neoSession.readTransaction(async (tx) => {
+			const result = await tx.run(`
+				MATCH (run:HivePipelineRun {id: $id})
+				RETURN run
+			`, {
+				id: jwt_payload.sub
+			})
+			return result.records?.[0]?.get(0).properties;
+		}).then((user) => {
+			if(user){
+				return done(null, user)
+			}else{
+				return done("Couldn't validate accessToken", false)
+			}
+			return done(null, false)
+		})
+	}));
+
+	passport.serializeUser((user, next) => {
+		next(null, user);
+	});
+	  
+	passport.deserializeUser((obj: any, next) => {
+		next(null, obj);
+	});
 
 	app.use(DefaultRouter(driver, taskRegistry)) 
+
+	// const ensureLoggedIn = (req: any, res: any, next: any) => {
+	// 	if(req.isAuthenticated()){
+	// 		return next();
+	// 	}
+
+	// 	// res.redirect('/login')
+	// }
+
+	app.use('/login', passport.authenticate('oidc'))
+	app.use('/callback',
+		passport.authenticate('oidc', { failureRedirect: '/error' }),
+			(req, res) => {
+				res.redirect(process.env.UI_URL || "https://next.hexhive.io/dashboard");
+			}
+		);
 
 	app.get("/profile", requiresAuth(), async (req, res) => {
 		const userInfo = await req.oidc.fetchUserInfo()
@@ -195,33 +282,16 @@ const config : ConfigParams = {
 
 	if (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "local-auth") {
 
-		app.use("/graphql", requiresAuth(), async (req, res, next) => {
-			if(!req.oidc.accessToken) return next("No access token present");
-			try{
-				const { isExpired, refresh } = req.oidc.accessToken
-
-				if(isExpired()){
-					await refresh();
-				}
-			}catch(e){
-				next("No user info found")
-			}
+		app.use("/graphql", async (req, res, next) => {
 
 			try {
-				if(!(req as any).user){
-					const user = await req.oidc.fetchUserInfo(); 
-
-					(req as any).user = {
-						_id: user.sub,
-						...user
-					};
 
 					(req as any).jwt = {
 						iat: 1516239022,
 						roles: ["admin"],
-						...user
+						...req.user
 					};
-				}
+				
 
 				next()
 			}catch(e){

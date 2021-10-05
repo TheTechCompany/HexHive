@@ -5,6 +5,7 @@ import { nanoid } from "nanoid"
 import { addStepResult, createPipelineRun, getPipelinesByTrigger, getPipelineTriggers } from "../../queries/pipeline"
 import { HiveTriggerEvent } from "core/hexhive-events/src/types"
 import { pipeline } from "stream"
+import jwt from 'jsonwebtoken'
 
 const apiKeyAuth = require("api-key-auth")
 
@@ -74,11 +75,22 @@ export default (neo: Session) => {
 					console.log("Found pipelines", pipelines)
 					return await Promise.all(pipelines.map(async (pipeline) => {
 						const run_id = await createPipelineRun(tx, pipeline.id, req.body)
+
+						//Add token
+
+						let token = jwt.sign({
+							sub: run_id,
+							iss: process.env.AUTH_SERVER || "auth.hexhive.io",
+							aud:  new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard").host
+						}, 'secret')
+				
+
 						await addStepResult(tx, run_id, pipeline.trigger, req.body)
 
 						console.log("Created run", run_id)
 						return Object.assign({
-							id: run_id
+							id: run_id,
+							token: token,
 						}, message_template)
 					}))
 		

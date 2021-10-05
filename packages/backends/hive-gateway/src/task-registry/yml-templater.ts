@@ -34,6 +34,7 @@ export const createTask = (id: string, steps: string, inputs: TaskInput[], outpu
 
 	const params = inputs.concat([
 		{ name: "JOB_ID", type: "string" },
+		{ name: "TOKEN", type: "string"},
 		{ name: "STEP_ID", type: "string" }
 	]).map((input) => {
 		return { name: input.name, type: "string", default: "empty" }
@@ -78,7 +79,7 @@ ${getPostResults(API_URL, outputs)}`
 
 
 export const createWorkflow = (id: string, steps: Task[], inputs: TaskInput[]) => {
-	const params = inputs.concat([{name: "JOB_ID", type: "string"}]).map((input) => {
+	const params = inputs.concat([{name: "JOB_ID", type: "string"}, {name: "TOKEN", type: "string"}]).map((input) => {
 		return {name: input.name, type: "string"}
 	})
 
@@ -95,6 +96,7 @@ export const createWorkflow = (id: string, steps: Task[], inputs: TaskInput[]) =
 			},
 			params: [
 				{name: "STEP_ID", value: STEP_ID},
+				{ name: "TOKEN", value: "$(params.TOKEN)"},
 				{name: "JOB_ID", value: "$(params.JOB_ID)"}
 			].concat(params),
 			runAfter: runAfter,
