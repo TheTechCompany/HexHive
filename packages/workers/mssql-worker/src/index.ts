@@ -7,6 +7,7 @@ import mssql from 'mssql';
 import { WorkerTask } from './task';
 import Patch from '@hexhive/patch'
 import { dateReviver } from 'jsondiffpatch'
+export * from './task'
 
 export class MSSQLWorker extends EventEmitter {
 
@@ -17,7 +18,7 @@ export class MSSQLWorker extends EventEmitter {
 
 	private patcher: {[key: string]: Patch} = {}
 
-	constructor(config: mssql.config, task: WorkerTask[]){
+	constructor(config: mssql.config, task: WorkerTask[], initialState?: {[key: string]: any[]}){
 		super();
 
 		this.config = config;
@@ -26,6 +27,9 @@ export class MSSQLWorker extends EventEmitter {
 
 		this.task.forEach((task) => {
 			this.patcher[task.family.cluster] = new Patch({key: task.family.species, id: `${task.family.cluster}-${task.family.species}`})
+			if(initialState?.[task.family.cluster]){
+				this.patcher[task.family.cluster].snapshot(initialState[task.family.cluster])
+			}
 		})
 	}
 
@@ -61,7 +65,7 @@ export class MSSQLWorker extends EventEmitter {
 			sql += ` GROUP BY ${task.group.join(', ')}`
 		}
 
-		console.log(sql)
+		// console.log(sql)
 		return sql;
 	}
 
@@ -70,7 +74,6 @@ export class MSSQLWorker extends EventEmitter {
 	}
 
 	updatedItem(task: WorkerTask, ix: number, value: any){
-		console.log(this.patcher[task.family.cluster].find(ix), task.collect, task.family.species)
 		this.emit(`UPDATE`, {
 			valueId: this.patcher[task.family.cluster].find(ix)[task.collect.find((a) => a.to == task.family.species)?.to || ''], 
 			value, 
@@ -170,6 +173,8 @@ export class MSSQLWorker extends EventEmitter {
 					this.newItem(task, item)
 				}else if(typeof(item) == 'object' && !Array.isArray(item)){
 					this.updatedItem(task, parseInt(k), item)
+				}else{
+					console.log(item)
 				}
 			}
 		}
