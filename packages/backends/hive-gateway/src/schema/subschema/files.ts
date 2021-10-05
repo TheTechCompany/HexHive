@@ -1,5 +1,9 @@
 export default `
 
+extend type Query {
+    resolveFS(appId: String, mountPath: String): HiveFile
+}
+
 type FileSystem {
     name: String!
     organisation: HiveOrganisation @relationship(type: "HAS_FS", direction: IN)

@@ -7490,8 +7490,8 @@ export interface FilterRemoveManyStack_idOperatorsInput {
 
 export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   ID: true,
-  Int: true,
   String: true,
+  Int: true,
   Float: true,
   DateTime: true,
   SortDirection: true,
@@ -7539,6 +7539,11 @@ export const generatedSchema = {
   query: {
     __typename: { __type: "String!" },
     printer: { __type: "Printer", __args: { id: "ID" } },
+    empty: { __type: "String" },
+    resolveFS: {
+      __type: "HiveFile",
+      __args: { appId: "String", mountPath: "String" },
+    },
     hiveServices: {
       __type: "[HiveService!]!",
       __args: { where: "HiveServiceWhere", options: "HiveServiceOptions" },
@@ -17416,6 +17421,11 @@ export const generatedSchema = {
 export interface Query {
   __typename?: "Query";
   printer: (args?: { id?: Maybe<Scalars["ID"]> }) => Maybe<Printer>;
+  empty?: Maybe<ScalarsEnums["String"]>;
+  resolveFS: (args?: {
+    appId?: Maybe<Scalars["String"]>;
+    mountPath?: Maybe<Scalars["String"]>;
+  }) => Maybe<HiveFile>;
   hiveServices: (args?: {
     where?: Maybe<HiveServiceWhere>;
     options?: Maybe<HiveServiceOptions>;

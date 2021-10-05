@@ -208,19 +208,20 @@ const config : ConfigParams = {
 			}
 
 			try {
-				const user = await req.oidc.fetchUserInfo(); 
+				if(!(req as any).user){
+					const user = await req.oidc.fetchUserInfo(); 
 
-				(req as any).user = {
-					_id: user.sub,
-					...user
-				};
+					(req as any).user = {
+						_id: user.sub,
+						...user
+					};
 
-				(req as any).jwt = {
-					iat: 1516239022,
-					roles: ["admin"],
-					...user
-				};
-				console.log("OIDC", (req as any).user)
+					(req as any).jwt = {
+						iat: 1516239022,
+						roles: ["admin"],
+						...user
+					};
+				}
 
 				next()
 			}catch(e){

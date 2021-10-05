@@ -20,6 +20,7 @@ import { getPortEnv } from "../routes/pipelines/util"
 import acl from "./subschema/acl"
 import { createHash } from "crypto"
 import { sendInvite } from "../email"
+import { text } from "stream/consumers"
 
 require("dotenv").config()
 
@@ -55,6 +56,10 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	await event_producer.connect()
 
 	const typeDefs = gql`
+
+	type Query {
+		empty: String
+	}
 
 	type Mutation {
 		convertFiles(files: [ID], pipeline: String): HiveFileProcess
@@ -113,6 +118,108 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 			//     if(source.parent?.name ) prefix += source.parent.name 
 			//     return prefix + '/' + source.name
 			// }
+		},
+		Query: {
+			resolveFS: async (root: any, args: {appId: string, mountPath: string}, context: any) => {
+				
+				let parts = args.mountPath.split('/')
+
+				console.log(args, parts)
+
+				const appFolder = await session.readTransaction(async (tx) => {
+					const result = await tx.run(`
+						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+						RETURN appFolder	
+					`, {
+						org: context.user.organisation
+					})
+					return result.records?.[0]?.get(0).properties
+				})
+
+				if(!appFolder){
+					await session.writeTransaction(async (tx) => {
+						await tx.run(`
+							MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)
+							CREATE (appFolder:HiveFile {id: $id, name: "Applications", isFolder: true})
+							CREATE (fs)-[:HAS_FILE]->(appFolder)
+							RETURN appFolder
+						`, {
+							org: context.user.organisation,
+							id: nanoid()
+						})
+					})
+				}
+
+				const result =  await session.readTransaction(async (tx) => {
+					const result = await tx.run(`
+						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+						MATCH (appFolder)-[:CONTAINS]->(parentFolder:HiveFile {name: $parentPath})
+						RETURN parentFolder
+					`, {
+						org: context.user.organisation,
+						parentPath: parts[1],
+						childPath: parts[2]
+					})
+					return result.records.map((x) => x.get(0).properties)
+				})
+
+				if(result.length == 0){
+					await session.writeTransaction(async (tx) => {
+						await tx.run(`
+						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+						CREATE (parentFolder:HiveFile {id: $id, name: $parentPath, isFolder: true})
+						CREATE (appFolder)-[:CONTAINS]->(parentFolder)
+						CREATE (fs)-[:HAS_FILE]->(parentFolder)
+						`, {
+							org: context.user.organisation,
+							id: nanoid(),
+							parentPath: parts[1],
+						})
+					})
+				}
+
+				let child;
+
+				const endPath =  await session.readTransaction(async (tx) => {
+					const r = await tx.run(`
+						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+						MATCH (appFolder)-[:CONTAINS]->(:HiveFile {name: $parentPath})-[:CONTAINS]->(endPath:HiveFile {name: $childPath})
+						RETURN endPath
+					`, {
+						org: context.user.organisation,
+						parentPath: parts[1],
+						childPath: parts[2]
+					})
+					return r.records?.map((x) => x.get(0).properties)
+				})
+
+				if(endPath.length == 0){
+					const r = await session.writeTransaction(async (tx) => {
+						const result = await tx.run(`
+						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+						MATCH (appFolder)-[:CONTAINS]->(parentFolder:HiveFile {name: $parentPath})
+						CREATE (childFolder:HiveFile {id: $id, name: $childPath, isFolder: true})
+						CREATE (parentFolder)-[:CONTAINS]->(childFolder)
+						CREATE (fs)-[:HAS_FILE]->(childFolder)
+						RETURN childFolder
+						`, {
+							org: context.user.organisation,
+							id: nanoid(),
+							parentPath: parts[1],
+							childPath: parts[2]
+						})
+						return result.records?.map((x) => x.get(0).properties)
+					})
+					console.log(r)
+					child = r[0]
+				}else{
+					console.log(endPath)
+					child = endPath[0]
+				}
+				console.log("RESOLVE FS", child)
+				return child;
+
+			}
 		},
 		Mutation: {
 			inviteHiveUser: async (root: any, args: {name: string, email: string}, context: any) => {
