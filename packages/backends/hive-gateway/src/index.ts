@@ -250,6 +250,10 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 	// }
 
 	app.use('/login', passport.authenticate('oidc'))
+	app.get('/logout', function(req, res){
+		req.logout();
+		res.redirect('/');
+	  });
 	app.use('/callback',
 		passport.authenticate('oidc', { failureRedirect: '/error' }),
 			(req, res) => {
