@@ -261,7 +261,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 notes: capacity_plan.notes,
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
-                color: getColorBars({ hatched: project.__type == "Estimate", items: capacity_plan?.items || [] }),
+                color: getColorBars({ hatched: project?.__type == "Estimate", items: capacity_plan?.items || [] }),
                 hoverInfo: (
                     <Box round="xsmall" overflow="hidden"  direction="column">
                         <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
