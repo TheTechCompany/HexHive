@@ -13,7 +13,7 @@ import { result } from "lodash"
 import { nanoid } from "nanoid"
 import { HiveEvents } from "@hexhive/events-client"
 import { createFile } from "../../queries/file"
-
+import passport from 'passport'
 const upload = multer()
 
 const router = Router()
@@ -108,12 +108,13 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 
 	})
 
-	router.post('/graph/:fileID/attach', upload.array('files'), async (req, res) => {
-		const files = await uploadFiles(req.files as any[])
+	router.post('/graph/:fileID/attach', passport.authenticate('jwt', {session: false}), upload.array('files'), async (req, res) => {
+		const files = await uploadFiles((req.files || []) as any[])
 
 		const result = await neo.writeTransaction(async (tx) => {
 			return await Promise.all(files.map(async (file) => {
 
+				console.log("USER", req.user, JSON.stringify(req.user))
 				const conversion = await createFile(tx, (req as any).user.organisation, file, req.params.fileID)
 
 				const res = await tx.run(`
@@ -132,6 +133,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 	})
 
 	router.post("/file-graph", upload.array("files"), async (req, res) => {
+		if(!req.isAuthenticated()) return res.send({error: "No auth present"})
 		console.log("USER", (req as any).user)
 
 		const files = await uploadFiles(req.files as any[])
@@ -152,7 +154,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		})
 		if(!resp) res.send({error: "No response"}) 
 
-		eventClient.eventRequest("UPLOAD_FILE", {"Uploaded File": resp})
+		eventClient.eventRequest("UPLOAD_FILE", {"Uploaded File": resp }, (req.user as any).organisation)
 	
 	
 		// mq.post('UPLOAD_FILE')

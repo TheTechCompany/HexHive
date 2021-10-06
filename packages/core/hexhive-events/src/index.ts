@@ -40,7 +40,7 @@ export class HiveEvents {
     }
 
 
-    async eventRequest(topic: string, event: any){
+    async eventRequest(topic: string, event: any, org: string){
         let target = `/api/events/${topic}`
         let url = `${ this.url || 'http://localhost:7000'}${target}`
         let headers = {
@@ -58,6 +58,8 @@ export class HiveEvents {
             method: method,
             headers: {
                 ...headers,
+                Organisation: org,
+
                 // '(request-target)': target,
                 'authorization': `Signature keyId="${this.apiKey.key}",algorithm="hmac-sha256",signature="${signature}"`
             },
