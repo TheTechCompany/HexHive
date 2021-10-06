@@ -10,30 +10,15 @@ export interface DeploymentListProps {
 
     programs?: Program[];
     devices?: {
-        _id: string;
+        id: string;
         name?: Maybe<string>;
-        program?: string;
-        connected?: boolean | null;
+        online?: boolean | null;
         lastSeen?: Date;
     }[];
 
     selected?: string[];
 }
 
-const mockData = [{
-    _id: '1',
-    name: 'mk1',
-    version: '0.0.1',
-    connected: true,
-    lastCheckin: new Date()
-},
-{
-    _id: '2',
-    name: 'hashy-apple',
-    version: '0.0.1',
-    connected: false,
-    lastCheckin: new Date()
-}]
 
 export const DeploymentList : React.FC<DeploymentListProps> = (props) => {
     return (
@@ -49,7 +34,7 @@ export const DeploymentList : React.FC<DeploymentListProps> = (props) => {
                 columns={[
                     {
                         property: 'selected',
-                        render: (datum) => <CheckBox checked={(props.selected || []).indexOf(datum._id) > -1} />,
+                        render: (datum) => <CheckBox checked={(props.selected || []).indexOf(datum.id) > -1} />,
                         header: <CheckBox />
                     },
                     {
@@ -60,7 +45,7 @@ export const DeploymentList : React.FC<DeploymentListProps> = (props) => {
                     {
                         property: 'program',
                         size: 'small',
-                        render: (datum) => props.programs?.find((a) => a._id == datum.program)?.name,
+                        // render: (datum) => props.programs?.find((a) => a._id == datum.program)?.name,
                         header: <Text>Program</Text>
                     },
                     {
@@ -79,8 +64,8 @@ export const DeploymentList : React.FC<DeploymentListProps> = (props) => {
                                     width="7px" 
                                     height="7px" 
                                     round="small" 
-                                    background={datum.connected ? 'green' : 'red'} />
-                                {datum.connected ? 'Online' : 'Offline'}
+                                    background={datum.online ? 'green' : 'red'} />
+                                {datum.online ? 'Online' : 'Offline'}
                             </Box>
                         )
                     },

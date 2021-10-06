@@ -6,6 +6,7 @@ import {OGM} from "@neo4j/graphql-ogm"
 import { nanoid } from "nanoid"
 import apps from "./subschema/apps"
 import automate from "./subschema/automate"
+import command from "./subschema/command"
 import flow from "./subschema/flow"
 
 import files from "./subschema/files"
@@ -75,6 +76,7 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	${acl}
 	${flow}
 
+	${command}
  
 	`
 	// MATCH path = (root:File)-[:HAS_CHILD]->(m:File)

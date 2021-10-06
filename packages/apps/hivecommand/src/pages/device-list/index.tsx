@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DeviceModal } from '../../components/modals/device';
 import { deviceActions } from '../../actions'
-import { Device, Program, useQuery } from '@hexhive/client'
+import { Device, Program, CommandDevice, useQuery } from '@hexhive/client'
 import { DeploymentList, DeploymentInfo } from '../../components/deployment-list';
 import { Box, TextInput, Button } from 'grommet';
 import * as Icons from 'grommet-icons';
@@ -18,14 +18,14 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
 
     const [ selectedDevice, setSelectedDevice ] = useState<any>();
     const [ editDevice, setEditDevice ] = useState<any>();
-    const [ _devices, setDevices ] = useState<Device[]>([])
+    const [ _devices, setDevices ] = useState<CommandDevice[]>([])
 
     const query = useQuery({
         staleWhileRevalidate: true,
         suspense: false
     })
 
-    const devices = query.DeviceMany();
+    const devices = query.commandDevices({});
     const programs = query.ProgramMany()
 
     useEffect(() => {

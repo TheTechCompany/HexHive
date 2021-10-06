@@ -37,6 +37,131 @@ export enum SortDirection {
   DESC = "DESC",
 }
 
+export interface CommandDeviceConnectInput {
+  organisation?: Maybe<CommandDeviceOrganisationConnectFieldInput>;
+}
+
+export interface CommandDeviceConnectWhere {
+  node: CommandDeviceWhere;
+}
+
+export interface CommandDeviceCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  online?: Maybe<Scalars["Boolean"]>;
+  organisation?: Maybe<CommandDeviceOrganisationFieldInput>;
+}
+
+export interface CommandDeviceDeleteInput {
+  organisation?: Maybe<CommandDeviceOrganisationDeleteFieldInput>;
+}
+
+export interface CommandDeviceDisconnectInput {
+  organisation?: Maybe<CommandDeviceOrganisationDisconnectFieldInput>;
+}
+
+export interface CommandDeviceOptions {
+  /** Specify one or more CommandDeviceSort objects to sort CommandDevices by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandDeviceSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandDeviceOrganisationConnectFieldInput {
+  where?: Maybe<HiveOrganisationConnectWhere>;
+  connect?: Maybe<HiveOrganisationConnectInput>;
+}
+
+export interface CommandDeviceOrganisationConnectionSort {
+  node?: Maybe<HiveOrganisationSort>;
+}
+
+export interface CommandDeviceOrganisationConnectionWhere {
+  AND?: Maybe<Array<CommandDeviceOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<CommandDeviceOrganisationConnectionWhere>>;
+  node?: Maybe<HiveOrganisationWhere>;
+  node_NOT?: Maybe<HiveOrganisationWhere>;
+}
+
+export interface CommandDeviceOrganisationCreateFieldInput {
+  node: HiveOrganisationCreateInput;
+}
+
+export interface CommandDeviceOrganisationDeleteFieldInput {
+  where?: Maybe<CommandDeviceOrganisationConnectionWhere>;
+  delete?: Maybe<HiveOrganisationDeleteInput>;
+}
+
+export interface CommandDeviceOrganisationDisconnectFieldInput {
+  where?: Maybe<CommandDeviceOrganisationConnectionWhere>;
+  disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+}
+
+export interface CommandDeviceOrganisationFieldInput {
+  create?: Maybe<CommandDeviceOrganisationCreateFieldInput>;
+  connect?: Maybe<CommandDeviceOrganisationConnectFieldInput>;
+}
+
+export interface CommandDeviceOrganisationUpdateConnectionInput {
+  node?: Maybe<HiveOrganisationUpdateInput>;
+}
+
+export interface CommandDeviceOrganisationUpdateFieldInput {
+  where?: Maybe<CommandDeviceOrganisationConnectionWhere>;
+  update?: Maybe<CommandDeviceOrganisationUpdateConnectionInput>;
+  connect?: Maybe<CommandDeviceOrganisationConnectFieldInput>;
+  disconnect?: Maybe<CommandDeviceOrganisationDisconnectFieldInput>;
+  create?: Maybe<CommandDeviceOrganisationCreateFieldInput>;
+  delete?: Maybe<CommandDeviceOrganisationDeleteFieldInput>;
+}
+
+export interface CommandDeviceRelationInput {
+  organisation?: Maybe<CommandDeviceOrganisationCreateFieldInput>;
+}
+
+/** Fields to sort CommandDevices by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandDeviceSort object. */
+export interface CommandDeviceSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  online?: Maybe<SortDirection>;
+}
+
+export interface CommandDeviceUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  online?: Maybe<Scalars["Boolean"]>;
+  organisation?: Maybe<CommandDeviceOrganisationUpdateFieldInput>;
+}
+
+export interface CommandDeviceWhere {
+  OR?: Maybe<Array<CommandDeviceWhere>>;
+  AND?: Maybe<Array<CommandDeviceWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  online?: Maybe<Scalars["Boolean"]>;
+  online_NOT?: Maybe<Scalars["Boolean"]>;
+  organisation?: Maybe<HiveOrganisationWhere>;
+  organisation_NOT?: Maybe<HiveOrganisationWhere>;
+  organisationConnection?: Maybe<CommandDeviceOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<CommandDeviceOrganisationConnectionWhere>;
+}
+
 export interface EquipmentConnectInput {
   organisation?: Maybe<EquipmentOrganisationConnectFieldInput>;
 }
@@ -1612,6 +1737,7 @@ export interface HiveOrganisationConnectInput {
   schedule?: Maybe<Array<HiveOrganisationScheduleConnectFieldInput>>;
   timeline?: Maybe<Array<HiveOrganisationTimelineConnectFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsConnectFieldInput>>;
+  devices?: Maybe<Array<HiveOrganisationDevicesConnectFieldInput>>;
 }
 
 export interface HiveOrganisationConnectWhere {
@@ -1626,6 +1752,7 @@ export interface HiveOrganisationCreateInput {
   schedule?: Maybe<HiveOrganisationScheduleFieldInput>;
   timeline?: Maybe<HiveOrganisationTimelineFieldInput>;
   filesystems?: Maybe<HiveOrganisationFilesystemsFieldInput>;
+  devices?: Maybe<HiveOrganisationDevicesFieldInput>;
 }
 
 export interface HiveOrganisationDeleteInput {
@@ -1635,6 +1762,55 @@ export interface HiveOrganisationDeleteInput {
   schedule?: Maybe<Array<HiveOrganisationScheduleDeleteFieldInput>>;
   timeline?: Maybe<Array<HiveOrganisationTimelineDeleteFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsDeleteFieldInput>>;
+  devices?: Maybe<Array<HiveOrganisationDevicesDeleteFieldInput>>;
+}
+
+export interface HiveOrganisationDevicesConnectFieldInput {
+  where?: Maybe<CommandDeviceConnectWhere>;
+  connect?: Maybe<Array<CommandDeviceConnectInput>>;
+}
+
+export interface HiveOrganisationDevicesConnectionSort {
+  node?: Maybe<CommandDeviceSort>;
+}
+
+export interface HiveOrganisationDevicesConnectionWhere {
+  AND?: Maybe<Array<HiveOrganisationDevicesConnectionWhere>>;
+  OR?: Maybe<Array<HiveOrganisationDevicesConnectionWhere>>;
+  node?: Maybe<CommandDeviceWhere>;
+  node_NOT?: Maybe<CommandDeviceWhere>;
+}
+
+export interface HiveOrganisationDevicesCreateFieldInput {
+  node: CommandDeviceCreateInput;
+}
+
+export interface HiveOrganisationDevicesDeleteFieldInput {
+  where?: Maybe<HiveOrganisationDevicesConnectionWhere>;
+  delete?: Maybe<CommandDeviceDeleteInput>;
+}
+
+export interface HiveOrganisationDevicesDisconnectFieldInput {
+  where?: Maybe<HiveOrganisationDevicesConnectionWhere>;
+  disconnect?: Maybe<CommandDeviceDisconnectInput>;
+}
+
+export interface HiveOrganisationDevicesFieldInput {
+  create?: Maybe<Array<HiveOrganisationDevicesCreateFieldInput>>;
+  connect?: Maybe<Array<HiveOrganisationDevicesConnectFieldInput>>;
+}
+
+export interface HiveOrganisationDevicesUpdateConnectionInput {
+  node?: Maybe<CommandDeviceUpdateInput>;
+}
+
+export interface HiveOrganisationDevicesUpdateFieldInput {
+  where?: Maybe<HiveOrganisationDevicesConnectionWhere>;
+  update?: Maybe<HiveOrganisationDevicesUpdateConnectionInput>;
+  connect?: Maybe<Array<HiveOrganisationDevicesConnectFieldInput>>;
+  disconnect?: Maybe<Array<HiveOrganisationDevicesDisconnectFieldInput>>;
+  create?: Maybe<Array<HiveOrganisationDevicesCreateFieldInput>>;
+  delete?: Maybe<Array<HiveOrganisationDevicesDeleteFieldInput>>;
 }
 
 export interface HiveOrganisationDisconnectInput {
@@ -1644,6 +1820,7 @@ export interface HiveOrganisationDisconnectInput {
   schedule?: Maybe<Array<HiveOrganisationScheduleDisconnectFieldInput>>;
   timeline?: Maybe<Array<HiveOrganisationTimelineDisconnectFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsDisconnectFieldInput>>;
+  devices?: Maybe<Array<HiveOrganisationDevicesDisconnectFieldInput>>;
 }
 
 export interface HiveOrganisationFilesystemsConnectFieldInput {
@@ -1756,6 +1933,7 @@ export interface HiveOrganisationRelationInput {
   schedule?: Maybe<Array<HiveOrganisationScheduleCreateFieldInput>>;
   timeline?: Maybe<Array<HiveOrganisationTimelineCreateFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsCreateFieldInput>>;
+  devices?: Maybe<Array<HiveOrganisationDevicesCreateFieldInput>>;
 }
 
 export interface HiveOrganisationRolesConnectFieldInput {
@@ -1916,6 +2094,7 @@ export interface HiveOrganisationUpdateInput {
   schedule?: Maybe<Array<HiveOrganisationScheduleUpdateFieldInput>>;
   timeline?: Maybe<Array<HiveOrganisationTimelineUpdateFieldInput>>;
   filesystems?: Maybe<Array<HiveOrganisationFilesystemsUpdateFieldInput>>;
+  devices?: Maybe<Array<HiveOrganisationDevicesUpdateFieldInput>>;
 }
 
 export interface HiveOrganisationWhere {
@@ -1953,6 +2132,8 @@ export interface HiveOrganisationWhere {
   timeline_NOT?: Maybe<TimelineItemWhere>;
   filesystems?: Maybe<FileSystemWhere>;
   filesystems_NOT?: Maybe<FileSystemWhere>;
+  devices?: Maybe<CommandDeviceWhere>;
+  devices_NOT?: Maybe<CommandDeviceWhere>;
   rolesConnection?: Maybe<HiveOrganisationRolesConnectionWhere>;
   rolesConnection_NOT?: Maybe<HiveOrganisationRolesConnectionWhere>;
   membersConnection?: Maybe<HiveOrganisationMembersConnectionWhere>;
@@ -1965,6 +2146,8 @@ export interface HiveOrganisationWhere {
   timelineConnection_NOT?: Maybe<HiveOrganisationTimelineConnectionWhere>;
   filesystemsConnection?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
   filesystemsConnection_NOT?: Maybe<HiveOrganisationFilesystemsConnectionWhere>;
+  devicesConnection?: Maybe<HiveOrganisationDevicesConnectionWhere>;
+  devicesConnection_NOT?: Maybe<HiveOrganisationDevicesConnectionWhere>;
 }
 
 export interface HivePipelineConnectInput {
@@ -7925,6 +8108,14 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "ScheduleItemWhere" },
     },
+    commandDevices: {
+      __type: "[CommandDevice!]!",
+      __args: { where: "CommandDeviceWhere", options: "CommandDeviceOptions" },
+    },
+    commandDevicesCount: {
+      __type: "Int!",
+      __args: { where: "CommandDeviceWhere" },
+    },
     ProgramShard: { __type: "Program", __args: { id: "String" } },
     ProgramShards: { __type: "[Program]" },
     DeviceById: { __type: "Device", __args: { _id: "MongoID!" } },
@@ -8849,6 +9040,28 @@ export const generatedSchema = {
         delete: "ScheduleItemDeleteInput",
       },
     },
+    createCommandDevices: {
+      __type: "CreateCommandDevicesMutationResponse!",
+      __args: { input: "[CommandDeviceCreateInput!]!" },
+    },
+    deleteCommandDevices: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandDeviceWhere",
+        delete: "CommandDeviceDeleteInput",
+      },
+    },
+    updateCommandDevices: {
+      __type: "UpdateCommandDevicesMutationResponse!",
+      __args: {
+        where: "CommandDeviceWhere",
+        update: "CommandDeviceUpdateInput",
+        connect: "CommandDeviceConnectInput",
+        disconnect: "CommandDeviceDisconnectInput",
+        create: "CommandDeviceRelationInput",
+        delete: "CommandDeviceDeleteInput",
+      },
+    },
     addProgramIO: {
       __type: "ProgramIo",
       __args: { program: "String", name: "String", type: "String" },
@@ -9179,6 +9392,44 @@ export const generatedSchema = {
     source: { __type: "String" },
     target: { __type: "String" },
     $on: { __type: "$HivePipelineFlowPath!" },
+  },
+  CommandDevice: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    online: { __type: "Boolean" },
+    organisation: {
+      __type: "HiveOrganisation",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
+    organisationConnection: {
+      __type: "CommandDeviceOrganisationConnection!",
+      __args: {
+        where: "CommandDeviceOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandDeviceOrganisationConnectionSort!]",
+      },
+    },
+  },
+  CommandDeviceOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandDeviceOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandDeviceOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveOrganisation!" },
+  },
+  CreateCommandDevicesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandDevices: { __type: "[CommandDevice!]!" },
   },
   CreateEquipmentMutationResponse: {
     __typename: { __type: "String!" },
@@ -9832,6 +10083,10 @@ export const generatedSchema = {
       __type: "[FileSystem]",
       __args: { where: "FileSystemWhere", options: "FileSystemOptions" },
     },
+    devices: {
+      __type: "[CommandDevice]",
+      __args: { where: "CommandDeviceWhere", options: "CommandDeviceOptions" },
+    },
     rolesConnection: {
       __type: "HiveOrganisationRolesConnection!",
       __args: {
@@ -9886,6 +10141,15 @@ export const generatedSchema = {
         sort: "[HiveOrganisationFilesystemsConnectionSort!]",
       },
     },
+    devicesConnection: {
+      __type: "HiveOrganisationDevicesConnection!",
+      __args: {
+        where: "HiveOrganisationDevicesConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[HiveOrganisationDevicesConnectionSort!]",
+      },
+    },
   },
   HiveOrganisationAppliancesConnection: {
     __typename: { __type: "String!" },
@@ -9897,6 +10161,17 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "HiveAppliance!" },
+  },
+  HiveOrganisationDevicesConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[HiveOrganisationDevicesRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  HiveOrganisationDevicesRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandDevice!" },
   },
   HiveOrganisationFilesystemsConnection: {
     __typename: { __type: "String!" },
@@ -10937,6 +11212,11 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "TimelineProject!" },
   },
+  UpdateCommandDevicesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandDevices: { __type: "[CommandDevice!]!" },
+  },
   UpdateEquipmentMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -11064,6 +11344,112 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     timelineItems: { __type: "[TimelineItem!]!" },
+  },
+  CommandDeviceConnectInput: {
+    organisation: { __type: "CommandDeviceOrganisationConnectFieldInput" },
+  },
+  CommandDeviceConnectWhere: { node: { __type: "CommandDeviceWhere!" } },
+  CommandDeviceCreateInput: {
+    name: { __type: "String" },
+    online: { __type: "Boolean" },
+    organisation: { __type: "CommandDeviceOrganisationFieldInput" },
+  },
+  CommandDeviceDeleteInput: {
+    organisation: { __type: "CommandDeviceOrganisationDeleteFieldInput" },
+  },
+  CommandDeviceDisconnectInput: {
+    organisation: { __type: "CommandDeviceOrganisationDisconnectFieldInput" },
+  },
+  CommandDeviceOptions: {
+    sort: { __type: "[CommandDeviceSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandDeviceOrganisationConnectFieldInput: {
+    where: { __type: "HiveOrganisationConnectWhere" },
+    connect: { __type: "HiveOrganisationConnectInput" },
+  },
+  CommandDeviceOrganisationConnectionSort: {
+    node: { __type: "HiveOrganisationSort" },
+  },
+  CommandDeviceOrganisationConnectionWhere: {
+    AND: { __type: "[CommandDeviceOrganisationConnectionWhere!]" },
+    OR: { __type: "[CommandDeviceOrganisationConnectionWhere!]" },
+    node: { __type: "HiveOrganisationWhere" },
+    node_NOT: { __type: "HiveOrganisationWhere" },
+  },
+  CommandDeviceOrganisationCreateFieldInput: {
+    node: { __type: "HiveOrganisationCreateInput!" },
+  },
+  CommandDeviceOrganisationDeleteFieldInput: {
+    where: { __type: "CommandDeviceOrganisationConnectionWhere" },
+    delete: { __type: "HiveOrganisationDeleteInput" },
+  },
+  CommandDeviceOrganisationDisconnectFieldInput: {
+    where: { __type: "CommandDeviceOrganisationConnectionWhere" },
+    disconnect: { __type: "HiveOrganisationDisconnectInput" },
+  },
+  CommandDeviceOrganisationFieldInput: {
+    create: { __type: "CommandDeviceOrganisationCreateFieldInput" },
+    connect: { __type: "CommandDeviceOrganisationConnectFieldInput" },
+  },
+  CommandDeviceOrganisationUpdateConnectionInput: {
+    node: { __type: "HiveOrganisationUpdateInput" },
+  },
+  CommandDeviceOrganisationUpdateFieldInput: {
+    where: { __type: "CommandDeviceOrganisationConnectionWhere" },
+    update: { __type: "CommandDeviceOrganisationUpdateConnectionInput" },
+    connect: { __type: "CommandDeviceOrganisationConnectFieldInput" },
+    disconnect: { __type: "CommandDeviceOrganisationDisconnectFieldInput" },
+    create: { __type: "CommandDeviceOrganisationCreateFieldInput" },
+    delete: { __type: "CommandDeviceOrganisationDeleteFieldInput" },
+  },
+  CommandDeviceRelationInput: {
+    organisation: { __type: "CommandDeviceOrganisationCreateFieldInput" },
+  },
+  CommandDeviceSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    online: { __type: "SortDirection" },
+  },
+  CommandDeviceUpdateInput: {
+    name: { __type: "String" },
+    online: { __type: "Boolean" },
+    organisation: { __type: "CommandDeviceOrganisationUpdateFieldInput" },
+  },
+  CommandDeviceWhere: {
+    OR: { __type: "[CommandDeviceWhere!]" },
+    AND: { __type: "[CommandDeviceWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    online: { __type: "Boolean" },
+    online_NOT: { __type: "Boolean" },
+    organisation: { __type: "HiveOrganisationWhere" },
+    organisation_NOT: { __type: "HiveOrganisationWhere" },
+    organisationConnection: {
+      __type: "CommandDeviceOrganisationConnectionWhere",
+    },
+    organisationConnection_NOT: {
+      __type: "CommandDeviceOrganisationConnectionWhere",
+    },
   },
   EquipmentConnectInput: {
     organisation: { __type: "EquipmentOrganisationConnectFieldInput" },
@@ -12374,6 +12760,7 @@ export const generatedSchema = {
     schedule: { __type: "[HiveOrganisationScheduleConnectFieldInput!]" },
     timeline: { __type: "[HiveOrganisationTimelineConnectFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsConnectFieldInput!]" },
+    devices: { __type: "[HiveOrganisationDevicesConnectFieldInput!]" },
   },
   HiveOrganisationConnectWhere: { node: { __type: "HiveOrganisationWhere!" } },
   HiveOrganisationCreateInput: {
@@ -12384,6 +12771,7 @@ export const generatedSchema = {
     schedule: { __type: "HiveOrganisationScheduleFieldInput" },
     timeline: { __type: "HiveOrganisationTimelineFieldInput" },
     filesystems: { __type: "HiveOrganisationFilesystemsFieldInput" },
+    devices: { __type: "HiveOrganisationDevicesFieldInput" },
   },
   HiveOrganisationDeleteInput: {
     roles: { __type: "[HiveOrganisationRolesDeleteFieldInput!]" },
@@ -12392,6 +12780,46 @@ export const generatedSchema = {
     schedule: { __type: "[HiveOrganisationScheduleDeleteFieldInput!]" },
     timeline: { __type: "[HiveOrganisationTimelineDeleteFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsDeleteFieldInput!]" },
+    devices: { __type: "[HiveOrganisationDevicesDeleteFieldInput!]" },
+  },
+  HiveOrganisationDevicesConnectFieldInput: {
+    where: { __type: "CommandDeviceConnectWhere" },
+    connect: { __type: "[CommandDeviceConnectInput!]" },
+  },
+  HiveOrganisationDevicesConnectionSort: {
+    node: { __type: "CommandDeviceSort" },
+  },
+  HiveOrganisationDevicesConnectionWhere: {
+    AND: { __type: "[HiveOrganisationDevicesConnectionWhere!]" },
+    OR: { __type: "[HiveOrganisationDevicesConnectionWhere!]" },
+    node: { __type: "CommandDeviceWhere" },
+    node_NOT: { __type: "CommandDeviceWhere" },
+  },
+  HiveOrganisationDevicesCreateFieldInput: {
+    node: { __type: "CommandDeviceCreateInput!" },
+  },
+  HiveOrganisationDevicesDeleteFieldInput: {
+    where: { __type: "HiveOrganisationDevicesConnectionWhere" },
+    delete: { __type: "CommandDeviceDeleteInput" },
+  },
+  HiveOrganisationDevicesDisconnectFieldInput: {
+    where: { __type: "HiveOrganisationDevicesConnectionWhere" },
+    disconnect: { __type: "CommandDeviceDisconnectInput" },
+  },
+  HiveOrganisationDevicesFieldInput: {
+    create: { __type: "[HiveOrganisationDevicesCreateFieldInput!]" },
+    connect: { __type: "[HiveOrganisationDevicesConnectFieldInput!]" },
+  },
+  HiveOrganisationDevicesUpdateConnectionInput: {
+    node: { __type: "CommandDeviceUpdateInput" },
+  },
+  HiveOrganisationDevicesUpdateFieldInput: {
+    where: { __type: "HiveOrganisationDevicesConnectionWhere" },
+    update: { __type: "HiveOrganisationDevicesUpdateConnectionInput" },
+    connect: { __type: "[HiveOrganisationDevicesConnectFieldInput!]" },
+    disconnect: { __type: "[HiveOrganisationDevicesDisconnectFieldInput!]" },
+    create: { __type: "[HiveOrganisationDevicesCreateFieldInput!]" },
+    delete: { __type: "[HiveOrganisationDevicesDeleteFieldInput!]" },
   },
   HiveOrganisationDisconnectInput: {
     roles: { __type: "[HiveOrganisationRolesDisconnectFieldInput!]" },
@@ -12402,6 +12830,7 @@ export const generatedSchema = {
     filesystems: {
       __type: "[HiveOrganisationFilesystemsDisconnectFieldInput!]",
     },
+    devices: { __type: "[HiveOrganisationDevicesDisconnectFieldInput!]" },
   },
   HiveOrganisationFilesystemsConnectFieldInput: {
     where: { __type: "FileSystemConnectWhere" },
@@ -12493,6 +12922,7 @@ export const generatedSchema = {
     schedule: { __type: "[HiveOrganisationScheduleCreateFieldInput!]" },
     timeline: { __type: "[HiveOrganisationTimelineCreateFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsCreateFieldInput!]" },
+    devices: { __type: "[HiveOrganisationDevicesCreateFieldInput!]" },
   },
   HiveOrganisationRolesConnectFieldInput: {
     where: { __type: "RoleConnectWhere" },
@@ -12621,6 +13051,7 @@ export const generatedSchema = {
     schedule: { __type: "[HiveOrganisationScheduleUpdateFieldInput!]" },
     timeline: { __type: "[HiveOrganisationTimelineUpdateFieldInput!]" },
     filesystems: { __type: "[HiveOrganisationFilesystemsUpdateFieldInput!]" },
+    devices: { __type: "[HiveOrganisationDevicesUpdateFieldInput!]" },
   },
   HiveOrganisationWhere: {
     OR: { __type: "[HiveOrganisationWhere!]" },
@@ -12657,6 +13088,8 @@ export const generatedSchema = {
     timeline_NOT: { __type: "TimelineItemWhere" },
     filesystems: { __type: "FileSystemWhere" },
     filesystems_NOT: { __type: "FileSystemWhere" },
+    devices: { __type: "CommandDeviceWhere" },
+    devices_NOT: { __type: "CommandDeviceWhere" },
     rolesConnection: { __type: "HiveOrganisationRolesConnectionWhere" },
     rolesConnection_NOT: { __type: "HiveOrganisationRolesConnectionWhere" },
     membersConnection: { __type: "HiveOrganisationMembersConnectionWhere" },
@@ -12681,6 +13114,8 @@ export const generatedSchema = {
     filesystemsConnection_NOT: {
       __type: "HiveOrganisationFilesystemsConnectionWhere",
     },
+    devicesConnection: { __type: "HiveOrganisationDevicesConnectionWhere" },
+    devicesConnection_NOT: { __type: "HiveOrganisationDevicesConnectionWhere" },
   },
   HivePipelineConnectInput: {
     inputs: { __type: "[HivePipelineInputsConnectFieldInput!]" },
@@ -18030,6 +18465,13 @@ export interface Query {
   scheduleItemsCount: (args?: {
     where?: Maybe<ScheduleItemWhere>;
   }) => ScalarsEnums["Int"];
+  commandDevices: (args?: {
+    where?: Maybe<CommandDeviceWhere>;
+    options?: Maybe<CommandDeviceOptions>;
+  }) => Array<CommandDevice>;
+  commandDevicesCount: (args?: {
+    where?: Maybe<CommandDeviceWhere>;
+  }) => ScalarsEnums["Int"];
   ProgramShard: (args?: { id?: Maybe<Scalars["String"]> }) => Maybe<Program>;
   ProgramShards?: Maybe<Array<Maybe<Program>>>;
   DeviceById: (args: { _id: Scalars["MongoID"] }) => Maybe<Device>;
@@ -18978,6 +19420,21 @@ export interface Mutation {
     create?: Maybe<ScheduleItemRelationInput>;
     delete?: Maybe<ScheduleItemDeleteInput>;
   }) => UpdateScheduleItemsMutationResponse;
+  createCommandDevices: (args: {
+    input: Array<CommandDeviceCreateInput>;
+  }) => CreateCommandDevicesMutationResponse;
+  deleteCommandDevices: (args?: {
+    where?: Maybe<CommandDeviceWhere>;
+    delete?: Maybe<CommandDeviceDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandDevices: (args?: {
+    where?: Maybe<CommandDeviceWhere>;
+    update?: Maybe<CommandDeviceUpdateInput>;
+    connect?: Maybe<CommandDeviceConnectInput>;
+    disconnect?: Maybe<CommandDeviceDisconnectInput>;
+    create?: Maybe<CommandDeviceRelationInput>;
+    delete?: Maybe<CommandDeviceDeleteInput>;
+  }) => UpdateCommandDevicesMutationResponse;
   addProgramIO: (args?: {
     program?: Maybe<Scalars["String"]>;
     name?: Maybe<Scalars["String"]>;
@@ -19471,6 +19928,42 @@ export interface HivePipelineFlowPath {
   source?: Maybe<ScalarsEnums["String"]>;
   target?: Maybe<ScalarsEnums["String"]>;
   $on: $HivePipelineFlowPath;
+}
+
+export interface CommandDevice {
+  __typename?: "CommandDevice";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  online?: Maybe<ScalarsEnums["Boolean"]>;
+  organisation: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Maybe<HiveOrganisation>;
+  organisationConnection: (args?: {
+    where?: Maybe<CommandDeviceOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandDeviceOrganisationConnectionSort>>;
+  }) => CommandDeviceOrganisationConnection;
+}
+
+export interface CommandDeviceOrganisationConnection {
+  __typename?: "CommandDeviceOrganisationConnection";
+  edges: Array<CommandDeviceOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandDeviceOrganisationRelationship {
+  __typename?: "CommandDeviceOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveOrganisation;
+}
+
+export interface CreateCommandDevicesMutationResponse {
+  __typename?: "CreateCommandDevicesMutationResponse";
+  info: CreateInfo;
+  commandDevices: Array<CommandDevice>;
 }
 
 export interface CreateEquipmentMutationResponse {
@@ -20121,6 +20614,10 @@ export interface HiveOrganisation {
     where?: Maybe<FileSystemWhere>;
     options?: Maybe<FileSystemOptions>;
   }) => Maybe<Array<Maybe<FileSystem>>>;
+  devices: (args?: {
+    where?: Maybe<CommandDeviceWhere>;
+    options?: Maybe<CommandDeviceOptions>;
+  }) => Maybe<Array<Maybe<CommandDevice>>>;
   rolesConnection: (args?: {
     where?: Maybe<HiveOrganisationRolesConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -20157,6 +20654,12 @@ export interface HiveOrganisation {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<HiveOrganisationFilesystemsConnectionSort>>;
   }) => HiveOrganisationFilesystemsConnection;
+  devicesConnection: (args?: {
+    where?: Maybe<HiveOrganisationDevicesConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<HiveOrganisationDevicesConnectionSort>>;
+  }) => HiveOrganisationDevicesConnection;
 }
 
 export interface HiveOrganisationAppliancesConnection {
@@ -20170,6 +20673,19 @@ export interface HiveOrganisationAppliancesRelationship {
   __typename?: "HiveOrganisationAppliancesRelationship";
   cursor: ScalarsEnums["String"];
   node: HiveAppliance;
+}
+
+export interface HiveOrganisationDevicesConnection {
+  __typename?: "HiveOrganisationDevicesConnection";
+  edges: Array<HiveOrganisationDevicesRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface HiveOrganisationDevicesRelationship {
+  __typename?: "HiveOrganisationDevicesRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandDevice;
 }
 
 export interface HiveOrganisationFilesystemsConnection {
@@ -21172,6 +21688,12 @@ export interface TimelineItemProjectRelationship {
   __typename?: "TimelineItemProjectRelationship";
   cursor: ScalarsEnums["String"];
   node: TimelineProject;
+}
+
+export interface UpdateCommandDevicesMutationResponse {
+  __typename?: "UpdateCommandDevicesMutationResponse";
+  info: UpdateInfo;
+  commandDevices: Array<CommandDevice>;
 }
 
 export interface UpdateEquipmentMutationResponse {
@@ -22417,6 +22939,10 @@ export interface SchemaObjectTypes {
   OctoPrintProgress: OctoPrintProgress;
   OctoPrintFilament: OctoPrintFilament;
   OctoPrintFile: OctoPrintFile;
+  CommandDevice: CommandDevice;
+  CommandDeviceOrganisationConnection: CommandDeviceOrganisationConnection;
+  CommandDeviceOrganisationRelationship: CommandDeviceOrganisationRelationship;
+  CreateCommandDevicesMutationResponse: CreateCommandDevicesMutationResponse;
   CreateEquipmentMutationResponse: CreateEquipmentMutationResponse;
   CreateEstimatesMutationResponse: CreateEstimatesMutationResponse;
   CreateFileSystemsMutationResponse: CreateFileSystemsMutationResponse;
@@ -22488,6 +23014,8 @@ export interface SchemaObjectTypes {
   HiveOrganisation: HiveOrganisation;
   HiveOrganisationAppliancesConnection: HiveOrganisationAppliancesConnection;
   HiveOrganisationAppliancesRelationship: HiveOrganisationAppliancesRelationship;
+  HiveOrganisationDevicesConnection: HiveOrganisationDevicesConnection;
+  HiveOrganisationDevicesRelationship: HiveOrganisationDevicesRelationship;
   HiveOrganisationFilesystemsConnection: HiveOrganisationFilesystemsConnection;
   HiveOrganisationFilesystemsRelationship: HiveOrganisationFilesystemsRelationship;
   HiveOrganisationMembersConnection: HiveOrganisationMembersConnection;
@@ -22585,6 +23113,7 @@ export interface SchemaObjectTypes {
   TimelineItemOrganisationRelationship: TimelineItemOrganisationRelationship;
   TimelineItemProjectConnection: TimelineItemProjectConnection;
   TimelineItemProjectRelationship: TimelineItemProjectRelationship;
+  UpdateCommandDevicesMutationResponse: UpdateCommandDevicesMutationResponse;
   UpdateEquipmentMutationResponse: UpdateEquipmentMutationResponse;
   UpdateEstimatesMutationResponse: UpdateEstimatesMutationResponse;
   UpdateFileSystemsMutationResponse: UpdateFileSystemsMutationResponse;
@@ -22694,6 +23223,10 @@ export type SchemaObjectTypesNames =
   | "OctoPrintProgress"
   | "OctoPrintFilament"
   | "OctoPrintFile"
+  | "CommandDevice"
+  | "CommandDeviceOrganisationConnection"
+  | "CommandDeviceOrganisationRelationship"
+  | "CreateCommandDevicesMutationResponse"
   | "CreateEquipmentMutationResponse"
   | "CreateEstimatesMutationResponse"
   | "CreateFileSystemsMutationResponse"
@@ -22765,6 +23298,8 @@ export type SchemaObjectTypesNames =
   | "HiveOrganisation"
   | "HiveOrganisationAppliancesConnection"
   | "HiveOrganisationAppliancesRelationship"
+  | "HiveOrganisationDevicesConnection"
+  | "HiveOrganisationDevicesRelationship"
   | "HiveOrganisationFilesystemsConnection"
   | "HiveOrganisationFilesystemsRelationship"
   | "HiveOrganisationMembersConnection"
@@ -22862,6 +23397,7 @@ export type SchemaObjectTypesNames =
   | "TimelineItemOrganisationRelationship"
   | "TimelineItemProjectConnection"
   | "TimelineItemProjectRelationship"
+  | "UpdateCommandDevicesMutationResponse"
   | "UpdateEquipmentMutationResponse"
   | "UpdateEstimatesMutationResponse"
   | "UpdateFileSystemsMutationResponse"
