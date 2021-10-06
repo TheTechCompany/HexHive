@@ -19,6 +19,8 @@ export default `
 		timeline: [TimelineItem] @relationship(type: "PLANNING", direction: OUT)
 
 		filesystems: [FileSystem] @relationship(type: "HAS_FS", direction: OUT)
+
+		devices: [CommandDevice] @relationship(type: "HAS_DEVICE", direction: OUT)
 	}
 
 	type HiveUser @auth(rules: [
