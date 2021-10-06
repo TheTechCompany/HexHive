@@ -223,7 +223,10 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 			return result.records?.[0]?.get(0).properties;
 		}).then((user) => {
 			if(user){
-				return done(null, user)
+				return done(null, {
+					...user,
+					organisation: jwt_payload.organisation
+				})
 			}else{
 				return done("Couldn't validate accessToken", false)
 			}
