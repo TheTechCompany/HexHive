@@ -13,7 +13,7 @@ type FileSystem {
 type HiveFile  @auth(rules: [
     {
         operations: [READ, DELETE],
-        where: {OR: [{fs: {organisation: {id: "$jwt.organisation"}} }, {parent: {fs: {organisation: {id: "$jwt.organisation"}}}}]}
+        where: {OR: [{convertedFrom: {parent: {fs: {organisation: {id: "$jwt.organisation"}}}}}, {fs: {organisation: {id: "$jwt.organisation"}} }, {parent: {fs: {organisation: {id: "$jwt.organisation"}}}}]}
     },
     {
         operations: [UPDATE],
@@ -28,7 +28,7 @@ type HiveFile  @auth(rules: [
     path_id: String
         @cypher(
             statement: """
-            MATCH path = (root:FileSystem)-[:HAS_FILE]->(m:HiveFile {id: this.id})
+            MATCH path = (root:FileSystem)-[*..]->(m:HiveFile {id: this.id})
             OPTIONAL MATCH real = (root)-[:HAS_FILE]->(rootFolder)-[:CONTAINS *..]->(m)
             WHERE NOT ()-[:CONTAINS]->(rootFolder)
         
@@ -39,7 +39,7 @@ type HiveFile  @auth(rules: [
     path: String
         @cypher(
             statement: """
-            MATCH path = (root:FileSystem)-[:HAS_FILE]->(m:HiveFile {id: this.id})
+            MATCH path = (root:FileSystem)-[*..]->(m:HiveFile {id: this.id})
             OPTIONAL MATCH real = (root)-[:HAS_FILE]->(rootFolder)-[:CONTAINS *..]->(m)
             WHERE NOT ()-[:CONTAINS]->(rootFolder)
         

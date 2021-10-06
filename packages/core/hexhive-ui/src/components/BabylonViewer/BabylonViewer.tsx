@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Engine, Scene, Vector3, ArcRotateCamera, SceneLoader } from '@babylonjs/core';
+import { Engine, Scene, Vector3, ArcRotateCamera, SceneLoader, WebRequest } from '@babylonjs/core';
 import "@babylonjs/loaders/glTF";
 import { useRef } from 'react';
 import { Box } from 'grommet';
@@ -19,6 +19,13 @@ export const BabylonViewer : React.FC<BabylonViewerProps> = (props) => {
   const engineRef = useRef<any>(null);
 
   React.useEffect(() => {
+    WebRequest.CustomRequestModifiers.push((request, url) => {
+      request.withCredentials = true;
+    })
+  }, [])
+  React.useEffect(() => {
+
+
     const onResizeWindow = () => {
       if (engineRef.current) {
         engineRef.current.resize();
@@ -47,6 +54,7 @@ export const BabylonViewer : React.FC<BabylonViewerProps> = (props) => {
       camera.speed = 0.5;
 
       console.log(props.data)
+
 
       SceneLoader.ImportMesh(null, props.rootUrl, props.data, sceneRef.current, (e) => {
         console.log(e)
