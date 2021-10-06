@@ -19,6 +19,8 @@ export const BabylonViewer : React.FC<BabylonViewerProps> = (props) => {
   const engineRef = useRef<any>(null);
 
   React.useEffect(() => {
+
+
     const onResizeWindow = () => {
       if (engineRef.current) {
         engineRef.current.resize();
@@ -48,17 +50,24 @@ export const BabylonViewer : React.FC<BabylonViewerProps> = (props) => {
 
       console.log(props.data)
 
-      SceneLoader.ImportMesh(null, props.rootUrl, props.data, sceneRef.current, (e) => {
-        console.log(e)
-        e[0].normalizeToUnitCube(true)
-        e[0].position = Vector3.Zero()
-      }, null, null, ".glb")
+      fetch(`${props.rootUrl}${props.data}`, {
+        credentials: 'include'
+      }).then((data) => data.blob()).then((data) => {
+        const url = URL.createObjectURL(data)
+        SceneLoader.ImportMesh(null, '', url, sceneRef.current, (e) => {
+          console.log(e)
+          e[0].normalizeToUnitCube(true)
+          e[0].position = Vector3.Zero()
+        }, null, null, ".glb")
+  
+        camera.attachControl(canvasRef.current, false);
+        window.addEventListener("resize", onResizeWindow);
+        engineRef.current.runRenderLoop(function () {
+          sceneRef.current.render();
+        });
+      })
 
-      camera.attachControl(canvasRef.current, false);
-      window.addEventListener("resize", onResizeWindow);
-      engineRef.current.runRenderLoop(function () {
-        sceneRef.current.render();
-      });
+     
 
 
     }
