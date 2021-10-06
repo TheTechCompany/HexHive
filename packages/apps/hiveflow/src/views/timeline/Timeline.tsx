@@ -9,7 +9,7 @@ import {TimelineItem, TimelineItemCreateInput, TimelineItemItems, TimelineItemUp
 import { TimelineHeader, TimelineView } from './Header';
 import _, { filter, toUpper } from 'lodash';
 import { BaseStyle } from '@hexhive/styles';
-import { useQuery as useApollo, gql } from '@apollo/client';
+import { useQuery as useApollo, useApolloClient, gql } from '@apollo/client';
 
 interface TimelineProps {
 
@@ -37,6 +37,8 @@ const StatusTypes : any = {
 
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
+    const client = useApolloClient()
+
     const [selected, setSelected] = useState<any | undefined>()
     const [erpModal, openERP] = useState<boolean>(false);
 
@@ -57,7 +59,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 id
                 startDate
                 endDate
-                
+                notes
                 project {
                     ... on Project {
                         id
@@ -71,6 +73,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 }
 
                 items {
+                    id
                     type
                     location
                     estimate
@@ -85,63 +88,125 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     })
 
+    const refetchTimeline = () => {
+        client.refetchQueries({include: ['Q']})
+    }
+
     const capacity = data?.timelineItems || []
 
     console.log(data)
 
     const [createTimelineItem, createInfo] = useMutation((mutation, args: { item: TimelineItemCreateInput }) => {
-        const item = mutation.createTimelineItems({ input: [{...args.item}] })
+        const item = mutation.updateHiveOrganisations({ 
+            update: {
+                timeline: [{create: [{node: args.item }]}]
+            }
+        })
         return {
             item: {
-                ...item
+                ...item.hiveOrganisations[0]
             },
             error: null
         }
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.timelineItems({ where: {timeline: view} })],
+        refetchQueries: [],
         awaitRefetchQueries: true,
         suspense: false,
     })
 
     const [deleteTimelineItem, deleteInfo] = useMutation((mutation, args: { id: string }) => {
         if(!args.id) return {err: "No ID Supplied"}
-        const result = mutation.deleteTimelineItems({ where: { id: args.id }})
+        const result = mutation.updateHiveOrganisations({ 
+            update: {
+                timeline: [{ delete: [{where: { node: {id: args.id} }}]}]
+            }
+        })
         return {
-            item: result,
+            item: {
+                ...result.hiveOrganisations[0],
+            },
             error: null
         }
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.timelineItems({ where: {timeline: view} })],
+        refetchQueries: [],
         awaitRefetchQueries: true,
         suspense: false,
     })
 
-    const [updateTimelineItem, updateInfo] = useMutation((mutation, args: { id: string, item: { project?: string, notes?: string, items?: any[], startDate?: string, endDate?: string} }) => {
-        let items = args.item.items?.map((x) => ({
-            id: x?.id,
-            type: x?.type,
-            location: x?.location,
-            estimate: x?.estimate
-        }))
-        let _item = {
-            items
+    const [updateTimelineItem, updateInfo] = useMutation((mutation, args: { id: string, item: { 
+        project?: string, 
+        notes?: string, 
+        items?: any[], 
+        startDate?: string, 
+        endDate?: string
+    } }) => {
+       
+        let update : any = {};
+
+        if(args.item.startDate) update.startDate = args.item.startDate;
+        if(args.item.endDate) update.endDate = args.item.endDate;
+
+        if(args.item.notes) update.notes = args.item.notes;
+
+        if(args.item.items){
+            let items = args.item.items?.map((x) => ({
+                id: x?.id,
+                type: x?.type,
+                location: x?.location,
+                estimate: x?.estimate
+            }))
+    
+            let old_item = capacity.find((a) => a.id == args.id)
+    
+            let delete_items = old_item.items?.filter((a) => items?.map((x) => x.id).indexOf(a.id) < 0)
+            let update_items = items?.filter((a) => a.id)
+            let create_items = items?.filter((a) => !a.id)
+            
+            update = {
+                ...update,
+                items: (delete_items?.map((item) => ({
+                    delete: {
+                        where: {node: {id: item.id}}
+                    }
+                }))).concat((create_items?.map((item) => ({
+                    create: [{node: item}]
+                })) as any[]).concat(update_items?.map((item) => ({
+                    where: {node: {id: item.id}}, update: {node: {
+                        location: item.location,
+                        type: item.type,
+                        estimate: item.estimate
+                    }}
+                }))
+                )
+                )
+            }
         }
-        // const item = mutation.updateTimelineItems({ where: { id: args.id }, update: {
-        //     items: [{where: {node: {id: _item.id}}, update: {node: {..._item}}}]
-        // }})
+        const item = mutation.updateHiveOrganisations({
+            update: {
+                timeline: [{
+                    where: {node: {id: args.id}}, 
+                    update: {
+                        node: {
+                            ...update,
+                        }
+                }}]
+            }
+        })
 
         return {
-            item: null,
+            item: {
+                ...item.hiveOrganisations[0]
+            },
             error: null
         }
     }, {
         onCompleted(data) { },
         onError(error) { },
-        refetchQueries: [query.timelineItems({ where: {timeline: view} })],
+        refetchQueries: [],
         awaitRefetchQueries: true,
         suspense: false,
     })
@@ -261,7 +326,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 notes: capacity_plan.notes,
                 start: new Date(capacity_plan?.startDate),
                 end: new Date(capacity_plan?.endDate),
-                color: getColorBars({ hatched: project?.__type == "Estimate", items: capacity_plan?.items || [] }),
+                color: getColorBars({ hatched: (project || {})?.__type == "Estimate", items: capacity_plan?.items || [] }),
                 hoverInfo: (
                     <Box round="xsmall" overflow="hidden"  direction="column">
                         <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
@@ -341,7 +406,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                             </Box>
                         </Box>
                     ),
-                    color: getColorBars({ hatched: project?.__type == "Estimate", items: capacity_plan?.items || [] }),
+                    color: getColorBars({ hatched: (project || {}).__type == "Estimate", items: capacity_plan?.items || [] }),
                     showLabel: `${(capacity_plan?.items?.reduce((previous: any, current: any) => {
                         return previous += (current?.estimate || 0)
                     }, 0) * 45)}hrs/week`,
@@ -500,18 +565,22 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         if (plan.id) {
             console.log("Update", plan)
 
+            let endDate = plan.endDate;
+            endDate.setDate(endDate.getDate() - 1)
+
             updateTimelineItem({
                 args: {
                     id: plan.id,
                     item: {
                         project: plan.project.id,
-                        startDate: plan.startDate.toUTCString(),
-                        endDate: plan.endDate.toUTCString(),
+                        startDate: plan.startDate.toISOString(),
+                        endDate: endDate.toISOString(),
                         notes: plan.notes,
                         items: plan.items || []
                     }
                 }
             }).then(() => {
+                refetchTimeline()
                 openERP(false)
             })
         } else {
@@ -521,14 +590,15 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     item: {
                         timeline: view,
                         project: {Project: {connect: {where: {node: {id: plan.project.id}}}}},
-                        startDate: plan.startDate.toUTCString(),
-                        endDate: plan.endDate.toUTCString(),
+                        startDate: plan.startDate.toISOString(),
+                        endDate: plan.endDate.toISOString(),
                         notes: plan.notes,
                         // items: {create: plan.items.map((x) => ({node: x})) } || []
                     }
                 }
             }).then((data) => {
                 openERP(false);
+                refetchTimeline()
                 console.log("Create timeline view", data)
             })
         }
@@ -553,15 +623,18 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 args: {
                     id: id?.toString() || '',
                     item: {
-                        startDate: item.start.toUTCString(),
-                        endDate: item.end.toUTCString(),
+                        startDate: item.start?.toISOString(),
+                        endDate: item.end?.toISOString(),
                         notes: item.notes
                     }
                 }
             })
+            refetchTimeline()
         } catch (e) {
             times[ix] = old;
             setTimeline(times)
+
+            console.log(e)
         }
         return true;
 
@@ -581,7 +654,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 onDelete={() => {
                     openERP(false);
                     if (!selected) return;
-                    deleteTimelineItem({ args: { id: selected } })
+                    deleteTimelineItem({ args: { id: selected.id } }).then(() => {
+                        refetchTimeline()
+                    })
                     setSelected(undefined)
                 }}
                 onSubmit={createTimelinePlan}
@@ -642,7 +717,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                     onSelectItem={(item) => {
                         console.log(item, capacity)
                         openERP(true)
-                        setSelected(capacity?.find((a) => a?.id == (item as any)?.id))
+                        setSelected(_.cloneDeep(capacity?.find((a) => a?.id == (item as any)?.id)))
                         console.log(item)
                     }}
                     loading={query.$state.isLoading}

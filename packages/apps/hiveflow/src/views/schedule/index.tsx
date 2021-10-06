@@ -426,7 +426,8 @@ const slowData = slowResult.data;
             console.log("Horizon", start, end)
             setHorizon({start, end})
 
-            refetchSchedule()
+            // refetchSchedule()
+            
             // scheduleActions.getScheduleItems({start, end}, '').then((schedule) => {
             //   setSchedule(schedule)
             //   console.log("Schedule", schedule);

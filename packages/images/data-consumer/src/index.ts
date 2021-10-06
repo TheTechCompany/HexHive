@@ -62,6 +62,22 @@ const parseEvent = async (event: HiveEvent) => {
     // }
 }
 
+const stringToDate = (date: any) => {
+    console.log(date)
+   if(date instanceof Date){
+    return date;
+    }
+    let parts = date.split('/')
+    if(parts.indexOf('NaN') > -1){
+        return undefined
+    }
+    if(parts.length === 3){
+        return new Date(parts[2] + '-' + parts[1] + '-' + parts[0]).toISOString()
+    }else{
+        return new Date(date).toISOString()
+    }
+    
+}
 
 const main = async () => {
     // const producer = kafka.producer()
@@ -94,43 +110,95 @@ const main = async () => {
 
                 switch(json.action){
                     case 'CREATE':
+                        let create : any = {}
+                        Object.keys(json.data).forEach((key) => {
+                            if(json.data[key].type == "Date" || json.data[key].type == "Function"){
+                                create[key] = stringToDate(json.data[key].value)
+                            }else{
+                                create[key] = json.data[key].value;
+                            }
+                        })
+
+                        console.log(json.data)
+                        let firstSet = Object.keys(json.data || {}).filter((a) => {
+                            if(json.data[a].type == "Date" || json.data[a].type == "Function"){
+                                return json.data[a].value && json.data[a].value.indexOf('NaN') <0
+                            }
+                            return json.data[a].value
+                        }).map((key) => {
+                            return `SET item.${key} = ${json.data[key]?.type == "Date" || json.data[key]?.type == "Function" ? `datetime($${key})` : `$${key}`}`;
+                        }).join('\n')
+    
                         const items =  await session.run(`
-                            MATCH (org:HiveOrganisation {id: "6109254ac84bdb80e6b027e0"})
+                            MATCH (org:HiveOrganisation {id: $orgId})
                             MATCH (org)-[:HAS_${json.type.toUpperCase()}]->(item:${json.type} {${json.primaryKey}: $${json.primaryKey}})
-                            ${Object.keys(json.data[0]).map((key) => `SET item.${key} = $${key}`).join('\n')}
+                            ${firstSet}
                             RETURN item
                         `, {
+                            orgId: process.env.ORG_ID,
                             [json.primaryKey]: json.id,
-                            ...json.data[0]
+                            ...create
                         })
                         if(items.records.length < 1){
 
-                        
+                            
+                            let createSet = Object.keys(json.data).filter((a) => {
+                                if(json.data[a].type == "Date" || json.data[a].type == "Function"){
+                                    return json.data[a].value && json.data[a].value.indexOf('NaN') <0
+                                }
+                                return json.data[a].value
+                            }).map((key) => {
+                               return `${key}: ${json.data[key]?.type == "Date" || json.data[key]?.type == "Function" ? `datetime($${key})` : `$${key}`}`
+                            }).join(', ')
 
-                        await session.run(`
-                            MATCH (org:HiveOrganisation {id: "6109254ac84bdb80e6b027e0"})
-                            CREATE (item:${json.type} {${Object.keys(json.data[0]).map((key) => `${key}: $${key}`).join(', ')}})
-                            CREATE (org)-[:HAS_${json.type.toUpperCase()}]->(item)
-                        `, {
-                            ...json.data[0]
-                        })
-                    }
+                            await session.run(`
+                                MATCH (org:HiveOrganisation {id: $orgId})
+                                CREATE (item:${json.type} {${createSet}})
+                                CREATE (org)-[:HAS_${json.type.toUpperCase()}]->(item)
+                                RETURN item
+                            `, {
+                                orgId: process.env.ORG_ID,
+                                ...create
+                            })
+                        }
                         break;
                     case 'UPDATE':
-                    console.log("UPDATE", json)  
-                    await session.run(`
-                        MATCH (org:HiveOrganisation {id: "6109254ac84bdb80e6b027e0"})
-                        MATCH (item:${json.type} {id: $id})
-                        ${Object.keys(json.data[0]).map((key) => `SET item.${key} = $${key}`).join('\n')}
-                    `, {
-                        id: json.id,
-                        ...json.data[0]
-                    })
+                    let update : any = {}
+                    Object.keys(json.data).forEach((key) => {
+                        if(json.data[key].type == "Date" || json.data[key].type == "Function"){
+                            update[key] = stringToDate(json.data[key].value)
+                        }else{
+                            update[key] = json.data[key].value;
+                        }                   
+                     })
+
+                    let set = Object.keys(json.data || {}).filter((a) => {
+                        if(json.data[a].type == "Date" || json.data[a].type == "Function"){
+                            return json.data[a].value && json.data[a].value.indexOf('NaN') <0
+                        }
+                        return json.data[a].value
+                    }).map((key) => {
+                        return `SET item.${key} = ${json.data[key]?.type == "Date" || json.data[key]?.type == "Function" ? `datetime($${key})` : `$${key}`}`;
+                    }).join('\n')
+
+                    console.log("Update Set", set)
+                    if(set && set.length > 0){
+                        await session.run(`
+                            MATCH (org:HiveOrganisation {id: $orgId})
+                            MATCH (item:${json.type} {id: $id})
+                            ${set}
+                            RETURN item
+                        `, {
+                            orgId: process.env.ORG_ID,
+                            id: json.id,
+                            ...update
+                        })
+                    }
                     break;
                 }
             
                 
-            console.log(json)
+            // console.log(json)
             // await parseEvent(json)
 
         }

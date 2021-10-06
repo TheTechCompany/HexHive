@@ -249,7 +249,13 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 	// 	// res.redirect('/login')
 	// }
 
-	app.use('/login', passport.authenticate('oidc'))
+	app.use('/login', (req, res, next) => {
+		if(req.query.returnTo){
+			(req.session as any).returnTo = req.query.returnTo
+		}
+		next();
+	}, passport.authenticate('oidc'))
+
 	app.get('/logout', function(req, res){
 		req.logout();
 		res.redirect('/');
@@ -257,7 +263,11 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 	app.use('/callback',
 		passport.authenticate('oidc', { failureRedirect: '/error' }),
 			(req, res) => {
-				res.redirect(process.env.UI_URL || "https://next.hexhive.io/dashboard");
+
+				const returnTo = (req.session as any).returnTo;
+				(req.session as any).returnTo = undefined;
+				console.log(req)
+				res.redirect(returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard");
 			}
 		);
 
@@ -271,7 +281,7 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 					(req as any).jwt = {
 						iat: 1516239022,
 						roles: ["admin"],
-						...JSON.parse((req.user as any)._raw)
+						...req.user
 					}
 
 				next()
