@@ -18,13 +18,16 @@ export default `
 
 	}
 
-	type Estimate {
+	type Estimate @auth(rules: [
+		{operations: [READ], where: {organisation: {id: "$jwt.organisation"}}},
+		{operations: [UPDATE], bind: {organisation: {id: "$jwt.organisation"}}}
+	]) {
 		id: ID! @id
 		name: String
 		status: String
 		date: DateTime
 		price: Float
-
+		organisation: HiveOrganisation @relationship(type: "HAS_ESTIMATE", direction: IN)
 	}
 
 	type People @auth(rules: [
@@ -50,7 +53,10 @@ export default `
 
 	}
 
-	type TimelineItemItems {
+	type TimelineItemItems @auth(rules: [
+		{operations: [READ], where: {item:  {organisation: {id: "$jwt.organisation"}}}},
+		{operations: [UPDATE], bind: {item: { organisation: {id: "$jwt.organisation"}}}}
+	]) {
 		id: ID @id
 		type: String
 		location: String
@@ -59,9 +65,10 @@ export default `
 	}
 	
 	union TimelineProject = Project | Estimate
+
 	type TimelineItem @auth(rules: [
 		{operations: [READ], where: {organisation: {id: "$jwt.organisation"}}},
-		{operations: [UPDATE], bind: {organisation: {id: "$jwt.organisation"}}}
+		{operations: [UPDATE], bind: { organisation: {id: "$jwt.organisation"}}}
 	]) {
 		id: ID @id
         timeline: String
@@ -70,6 +77,7 @@ export default `
         notes: String
         items: [TimelineItemItems] @relationship(type: "PROJECTED", direction: OUT)
         project: TimelineProject @relationship(type: "PLANNING", direction: OUT)
+		organisation: HiveOrganisation @relationship(type: "PLANNING", direction: IN)
 	}
 
 	type ScheduleItem @auth(rules: [
