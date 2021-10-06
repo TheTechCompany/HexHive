@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import {Box, Grommet} from 'grommet'
+import {Box, Button, Grommet} from 'grommet'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { AuthProvider, Loader } from '@hexhive/auth-ui';
 import {Dashboard} from './views/dashboard';
@@ -32,7 +32,6 @@ const { REACT_APP_API, PUBLIC_URL, REACT_APP_URL, NODE_ENV } = process.env;
           theme={BaseStyle}>  
             <Router basename={process.env.PUBLIC_URL}>
                 <Box flex>
-                  
                   <Route path={`/`} component={Dashboard} />
                 </Box>
               </Router>
