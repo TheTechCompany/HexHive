@@ -72,7 +72,7 @@ export default (neo: Session) => {
 						return prev.concat(curr)
 					}, [])
 
-					console.log("Found pipelines", pipelines)
+					console.log("Found pipelines", pipelines, req.headers)
 					return await Promise.all(pipelines.map(async (pipeline) => {
 						const run_id = await createPipelineRun(tx, pipeline.id, req.body)
 
@@ -80,6 +80,7 @@ export default (neo: Session) => {
 
 						let token = jwt.sign({
 							sub: run_id,
+							organisation: req.headers.organisation,
 							iss: process.env.AUTH_SERVER || "auth.hexhive.io",
 							aud:  new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard").host
 						}, 'secret')
