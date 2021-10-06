@@ -157,6 +157,11 @@ export const Explorer: React.FC<{
             isFolder
             path_id
             cid
+            convertedFrom {
+                id
+                
+            }
+
             conversions {
                 createdAt
                 completedAt
@@ -184,6 +189,9 @@ export const Explorer: React.FC<{
                     id
                     cid
                     name
+                }
+                convertedFrom{
+                    id
                 }
                 conversions {
                     createdAt
@@ -315,6 +323,7 @@ export const Explorer: React.FC<{
                 uploading={_uploading}
                 previewEngines={[
                     {filetype: 'glb', component: GLBPreview},
+                    {filetype: 'stp', component: GLBPreview},
                     {filetype: 'pdf', component: PDFPreview}
                 ]}
                 selected={selected}
