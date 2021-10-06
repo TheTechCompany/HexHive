@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Engine, Scene, Vector3, ArcRotateCamera, SceneLoader, WebRequest } from '@babylonjs/core';
+import { Engine, Scene, Vector3, ArcRotateCamera, SceneLoader } from '@babylonjs/core';
 import "@babylonjs/loaders/glTF";
 import { useRef } from 'react';
 import { Box } from 'grommet';
@@ -18,11 +18,6 @@ export const BabylonViewer : React.FC<BabylonViewerProps> = (props) => {
   const sceneRef = useRef<any>(null);
   const engineRef = useRef<any>(null);
 
-  React.useEffect(() => {
-    WebRequest.CustomRequestModifiers.push((request, url) => {
-      request.withCredentials = true;
-    })
-  }, [])
   React.useEffect(() => {
 
 
@@ -55,18 +50,24 @@ export const BabylonViewer : React.FC<BabylonViewerProps> = (props) => {
 
       console.log(props.data)
 
+      fetch(`${props.rootUrl}${props.data}`, {
+        credentials: 'include'
+      }).then((data) => data.blob()).then((data) => {
+        const url = URL.createObjectURL(data)
+        SceneLoader.ImportMesh(null, '', url, sceneRef.current, (e) => {
+          console.log(e)
+          e[0].normalizeToUnitCube(true)
+          e[0].position = Vector3.Zero()
+        }, null, null, ".glb")
+  
+        camera.attachControl(canvasRef.current, false);
+        window.addEventListener("resize", onResizeWindow);
+        engineRef.current.runRenderLoop(function () {
+          sceneRef.current.render();
+        });
+      })
 
-      SceneLoader.ImportMesh(null, props.rootUrl, props.data, sceneRef.current, (e) => {
-        console.log(e)
-        e[0].normalizeToUnitCube(true)
-        e[0].position = Vector3.Zero()
-      }, null, null, ".glb")
-
-      camera.attachControl(canvasRef.current, false);
-      window.addEventListener("resize", onResizeWindow);
-      engineRef.current.runRenderLoop(function () {
-        sceneRef.current.render();
-      });
+     
 
 
     }
