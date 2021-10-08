@@ -48,6 +48,7 @@ export type TimelineProps = {
   onHorizonChange?: (start: Date, end: Date) => void;
   onNeedData?: any;
 
+  dayInfo?: (day?: Moment) => any;
   dayStatus?: (day: Moment) => any;
 };
 
@@ -66,6 +67,7 @@ const BaseTimeline : React.FC<TimelineProps> = ({
   selectedItem,
   style,
   dayStatus,
+  dayInfo,
   config,
   nonEditableName,
   resizable,
@@ -472,6 +474,7 @@ const BaseTimeline : React.FC<TimelineProps> = ({
         <Box style={{position: 'absolute', height: '100%', width: '100%', top: 0, left: 0}} className="header-container">
           <Header
               dayStatus={dayStatus}
+              dayInfo={dayInfo}
               headerData={headerData}
               numVisibleDays={numVisibleDays}
               currentday={currentday}

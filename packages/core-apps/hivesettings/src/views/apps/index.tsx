@@ -4,7 +4,7 @@ import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { useQuery } from '@hexhive/client'
 import { useQuery as useApollo, gql } from '@apollo/client'
 
-export const Apps = () => {
+export const Apps = (props) => {
 
 	const { data } = useApollo(gql`
 		query Q {
@@ -31,6 +31,9 @@ export const Apps = () => {
 	return (
 		<Box flex>
 			<CRUDList	
+				onClick={(item) => {
+					props.history.push(`/apps/${item.id}`)
+				}}
 				displayKeys={["name"]}
 				data={apps}/>
 		</Box>
