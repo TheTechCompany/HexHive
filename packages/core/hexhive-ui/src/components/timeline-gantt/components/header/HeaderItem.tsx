@@ -2,7 +2,7 @@ import React, {useRef, useState} from "react";
 import { PureComponent } from "react";
 import styled from "styled-components";
 import Popover from "react-popover";
-import { Box, Drop } from "grommet";
+import { Box, Text, Drop } from "grommet";
 import { Moment } from "moment";
 export interface HeaderItemProps{
     left?: number;
