@@ -140,7 +140,13 @@ export const PluginEditorMenu : React.FC<PluginEditorMenuProps> = (props) => {
           id: node?.id.toString(),
           isLeaf: (node?.children || []).length == 0,
           isSelected: node?.id == props.selected,
-          onClick: () => ((node?.children || []).length == 0) && props.onClick?.(node?.id),
+          onClick: () => {
+            console.log(node);
+            if((node?.children || []).length == 0){ 
+              props.onClick?.(node?.id)
+            }
+
+          },
           onRightAction: () => openModal(true),
           isOpenByDefault: true,
           name: node?.name,
@@ -196,7 +202,8 @@ export const PluginEditorMenu : React.FC<PluginEditorMenuProps> = (props) => {
     }, [props.plugin?.items])
       
     return (
-        <Box   
+        <Box
+          background="neutral-1"   
             style={{height: '100%', position: 'relative'}}
             elevation="medium"
             width="18vw">
@@ -215,6 +222,7 @@ export const PluginEditorMenu : React.FC<PluginEditorMenuProps> = (props) => {
             {resizeListener}
             <TreeView 
                 nodes={nodes}
+                onClickRow={props.onClick}
                 width={`${sizes.width || 100}px`} />
             </Box>
             

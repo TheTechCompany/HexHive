@@ -5,7 +5,7 @@ import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
 import { Box, Button, Select, Spinner, Text } from 'grommet';
 import { Add } from 'grommet-icons';
-import {TimelineItem, TimelineItemCreateInput, TimelineItemItems, TimelineItemUpdateInput, useMutation, useQuery } from '@hexhive/client';
+import {TimelineItem, TimelineItemCreateInput, TimelineItemItems, TimelineItemProjectCreateFieldInput, TimelineItemProjectCreateInput, TimelineItemUpdateInput, useMutation, useQuery } from '@hexhive/client';
 import { TimelineHeader, TimelineView } from './Header';
 import _, { filter, toUpper } from 'lodash';
 import { BaseStyle } from '@hexhive/styles';
@@ -35,6 +35,10 @@ const StatusTypes : any = {
     "Open": '#EEBC1D' 
 }
 
+const sampleDate = new Date()
+
+sampleDate.setDate(sampleDate.getDate() - 14)
+
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const client = useApolloClient()
@@ -44,7 +48,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const [view, setView] = useState<TimelineView>("Projects");
 
-    const [date, setDate] = useState<Date>(new Date())
+    const [date, setDate] = useState<Date>(sampleDate)
     const [horizon, setHorizon] = useState<{ start: Date, end: Date } | undefined>()
 
     const query = useQuery({
@@ -96,10 +100,26 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     console.log(data)
 
-    const [createTimelineItem, createInfo] = useMutation((mutation, args: { item: TimelineItemCreateInput }) => {
+    const [createTimelineItem, createInfo] = useMutation((mutation, args: { item:  { 
+        timeline: string,
+        project?: TimelineItemProjectCreateInput, 
+        notes?: string, 
+        items?: any[], 
+        startDate?: string, 
+        endDate?: string
+    }  }) => {
+   //{create: plan.items.map((x) => ({node: x})) } || []
         const item = mutation.updateHiveOrganisations({ 
             update: {
-                timeline: [{create: [{node: args.item }]}]
+                timeline: [{create: [{node: {
+                    ...args.item,
+                    items: {
+                        create: args.item.items.map((item) => ({
+                            node: item
+                        }))
+                    
+                }
+                }}]}]
             }
         })
         return {
@@ -593,7 +613,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                         startDate: plan.startDate.toISOString(),
                         endDate: plan.endDate.toISOString(),
                         notes: plan.notes,
-                        // items: {create: plan.items.map((x) => ({node: x})) } || []
+                        items:  plan.items || []
                     }
                 }
             }).then((data) => {

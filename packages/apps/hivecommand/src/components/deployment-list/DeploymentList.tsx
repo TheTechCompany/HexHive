@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, DataTable, Text, CheckBox, Button } from 'grommet';
 import moment from 'moment';
-import { Maybe, Program } from '@hexhive/client'
+import { CommandDevice, Maybe, Program } from '@hexhive/client'
 import * as Icons from 'grommet-icons'
 
 export interface DeploymentListProps {
@@ -9,12 +9,7 @@ export interface DeploymentListProps {
     onEditRow?: (row: any) => void;
 
     programs?: Program[];
-    devices?: {
-        id: string;
-        name?: Maybe<string>;
-        online?: boolean | null;
-        lastSeen?: Date;
-    }[];
+    devices?: CommandDevice[];
 
     selected?: string[];
 }
@@ -74,7 +69,7 @@ export const DeploymentList : React.FC<DeploymentListProps> = (props) => {
                         align: 'end',
                         size: 'small',
                         header: <Text>Last Seen</Text>,
-                        render: (datum) => moment(datum.lastSeen).fromNow()
+                        render: (datum) => moment(datum.lastOnline).fromNow()
                     },
                     {
                         property: 'edit',

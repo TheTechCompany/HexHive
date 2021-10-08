@@ -1060,6 +1060,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@gqty/react@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@gqty/react/-/react-2.0.0.tgz#257b7685c46fca4fa1d197ea69b71ce4a5b11bbe"
+  integrity sha512-HhZQtCI+HvixWez16fQ9iK+zQvijwaBzUQfCTDoHAEpyO+5JvQHhRxWtY0PLxhySuvK2KONyQLdBlp9TIYaCyw==
+  dependencies:
+    react-ssr-prepass "^1.4.0"
+
 "@graphql-typed-document-node/core@^3.0.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
@@ -5973,6 +5980,11 @@ react-smooth@^2.0.0:
     fast-equals "^2.0.0"
     raf "^3.4.0"
     react-transition-group "2.9.0"
+
+react-ssr-prepass@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-ssr-prepass/-/react-ssr-prepass-1.4.0.tgz#33a3db19414f0f8f9f3f781c88f760ae366b4f51"
+  integrity sha512-0SzdmiQUtHvhxCabHg9BI/pkJfijGkQ0jQL6fC4YFy7idaDOuaiQLsajIkkNxffFXtJFHIWFITlve2WB88e0Jw==
 
 react-transition-group@2.9.0:
   version "2.9.0"
