@@ -487,6 +487,7 @@ const slowData = slowResult.data;
           }}
           onCloneItem={(item, dates, newDates) => {
             cloneItem({args: {item, dates: newDates}}).then((resp) => {
+              refetchSchedule()
               console.log("Clone resp", resp, newDates)
             })
           }}
