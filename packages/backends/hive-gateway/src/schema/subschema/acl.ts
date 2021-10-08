@@ -13,7 +13,9 @@ export default `
 
 		roles: [Role] @relationship(type: "USES_ROLE", direction: OUT)
 		members: [HiveUser] @relationship(type: "TRUSTS", direction: OUT)
+
 		appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
+		integrations: [HiveIntegrationInstance] @relationship(type: "USES_INTEGRATION", direction: OUT)
 
 		schedule: [ScheduleItem] @relationship(type: "SCHEDULE", direction: OUT)
 		timeline: [TimelineItem] @relationship(type: "PLANNING", direction: OUT)

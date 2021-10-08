@@ -21,6 +21,8 @@ export interface HeaderProps {
   currentday?: number;
   mode?: string;
   dayStatus?: (date: moment.Moment) => any;
+  dayInfo?: (date?: moment.Moment) => any;
+
   dayWidth?: number;
   currentDate?: Date;
   numVisibleDays?: number;
@@ -127,7 +129,7 @@ const Header : React.FC<HeaderProps> = (props) => {
       setDayStatus({})
   }, [data])
 
-  const dayStatuses = useMemo(() => {
+  useEffect(() => {
     let _status : any = Object.assign({}, status);
     let visibleDays = (props.numVisibleDays || 1);
     for(var i = -visibleDays; i < (visibleDays || 0); i++){
@@ -142,13 +144,13 @@ const Header : React.FC<HeaderProps> = (props) => {
     return _status;
   }, [props.dayStatus, props.currentday, status, props.numVisibleDays])
 
-  const dayStatus = memoizeOne((currentDate: string) => {
-   // console.log(currentDate.toISOString())
-  //  console.log(currentDate)
-    return props.dayStatus?.(moment(currentDate))
-  }, ([newDate], [lastDate]) => {
-    return newDate != lastDate 
-  })
+  // const dayStatus = memoizeOne((currentDate: string) => {
+  //  // console.log(currentDate.toISOString())
+  // //  console.log(currentDate)
+  //   return props.dayStatus?.(moment(currentDate))
+  // }, ([newDate], [lastDate]) => {
+  //   return newDate != lastDate 
+  // })
 
 
   //TODO change type to enum of options
@@ -193,7 +195,10 @@ const Header : React.FC<HeaderProps> = (props) => {
           result.bottom.push(renderTime(box.left, box.width, bottom, i));
         } else {
           result.background.push(<BackgroundStripe key={`tile-${i}`} left={box.left} width={box.width} border={{size: !(currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7) && 'xsmall', color: '#00000020'}} background={currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7 ? 'light-1' : 'neutral-1'} />)
-          result.bottom.push(<HeaderItem background={status[currentDate.format('DD/MM/yyyy')]} key={i} left={box.left} width={box.width} label={currentBottom} />);
+          result.bottom.push(<HeaderItem
+            date={moment().add((props.currentday || 0)+ i, 'days')}
+                dayInfo={props.dayInfo}
+            y={2} background={status[currentDate.format('DD/MM/yyyy')]} key={i} left={box.left} width={box.width} label={currentBottom} />);
         }
 
         

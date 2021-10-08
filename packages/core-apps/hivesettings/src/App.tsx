@@ -7,6 +7,7 @@ import { Roles } from './views/roles';
 import { Usage } from './views/usage';
 import { Users } from './views/users';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { AppSingle } from './views/app-single/AppSingle';
 
 
 const client = new ApolloClient({
@@ -37,7 +38,9 @@ export const App = (props)=> {
 					<Route path="/" exact component={Home} />
 					<Route path="/users" component={Users} />
 					<Route path="/roles" component={Roles} />
-					<Route path="/apps" component={Apps} />
+					<Route path="/apps" exact component={Apps} />
+					<Route path="/apps/:id" component={AppSingle} />
+
 					<Route path="/usage" component={Usage} />
 				</Switch>
 			</Box>
