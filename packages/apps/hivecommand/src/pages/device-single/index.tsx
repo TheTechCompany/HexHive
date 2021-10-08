@@ -31,8 +31,18 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
     }
 
     return  query.$state.isLoading ? null : (
-        <Box style={{flex: 1, backgroundColor: '#dfdfdf', padding: 8, display: 'flex', flexDirection: 'column'}}>
-            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12}}>
+        <Box 
+            round="xsmall"
+            overflow="hidden"
+            background="neutral-2"
+            style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+            <Box 
+                direction="row"
+                align="center"
+                justify="between"
+                pad="xsmall"
+                background="accent-2"
+                style={{marginBottom: 12}}>
                 <Text>
                     {device?.name}
                 </Text>
@@ -40,7 +50,7 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                     onClick={() => goToControls()}
                     label="Go to controls" />
                 
-            </div>
+            </Box>
 
             <div className="top-row">
                 <Box className="detail-col">

@@ -144,7 +144,7 @@ const renderEditor = () => {
     let currentItem = props.plugin?.items?.find((a: any) => a._id == selected)
     switch(currentItem?.type){
         case 'ui':
-            return selected && (
+            return selected &&   (
                 <UIEditor
                     plugin={currentItem} 
                     onPluginChanged={(plugin) => {
@@ -169,9 +169,12 @@ const renderEditor = () => {
 
     return !props.plugin ? null : (
         <Box 
+            round="xsmall"
+            overflow="hidden"
             flex
             direction="column">
             <Box
+                background="accent-2"
                 elevation="small"
                 justify="between"
                 align="center"
@@ -203,10 +206,12 @@ const renderEditor = () => {
                 plugin={props.plugin}
                 onAdd={props.onCreateItem}
                 selected={selected}
-                onClick={(id) => setSelected(id)} />
+                onClick={(id) => {
+                    setSelected(id)
+                }} />
 
             <Box 
-                margin={'xsmall'}   
+                background="neutral-2"
                 direction="column"
                 flex>
                 {renderEditor()}

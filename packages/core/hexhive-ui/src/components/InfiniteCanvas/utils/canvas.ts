@@ -1,5 +1,5 @@
 import { throttle } from "lodash"
-import { Ref, RefObject } from "react"
+import { Ref, RefObject, TouchEvent } from "react"
 import { getHostForElement } from "."
 import { InfiniteCanvasNode, InfiniteCanvasPath, InfiniteCanvasPosition } from "../types/canvas"
 
@@ -111,6 +111,62 @@ export const lockToGrid = (point: InfiniteCanvasPosition, snapToGrid: boolean, g
     }
 
     return point;
+}
+
+export const onTouchDrag = ( evt: React.TouchEvent, 
+    drag_event?: (
+        event?: TouchEvent,
+        position?: {
+         x: number, 
+         y: number
+        }, 
+        lastPos?: {
+            x: number, 
+            y: number
+        },
+        finished?:boolean
+    ) => void) => {
+
+    let lastPos = {
+        x: evt.touches[0].clientX,
+        y: evt.touches[0].clientY
+    }
+
+    evt.stopPropagation()
+
+    let doc = getHostForElement(evt.target as HTMLElement)
+
+    lastPos = {
+        x: evt.touches[0].clientX,
+        y: evt.touches[0].clientY
+    }
+
+    const onMouseMove = (move_evt: TouchEvent) => {
+        drag_event?.(
+            move_evt,
+            {x: move_evt.touches[0].clientX, y: move_evt.touches[0].clientY},
+            Object.assign({}, lastPos),
+            false
+        )
+        lastPos = {
+            x: move_evt.touches[0].clientX,
+            y: move_evt.touches[0].clientY
+        }
+    }
+
+    const onMouseUp = () => {
+        drag_event?.(
+            undefined,
+            undefined,
+            undefined,
+            true
+        )
+        doc.removeEventListener('touchmove', onMouseMove as any)
+        doc.removeEventListener('touchend', onMouseUp as EventListenerOrEventListenerObject)
+
+    }
+    doc.addEventListener('touchmove', onMouseMove as any)
+    doc.addEventListener('touchend', onMouseUp as EventListenerOrEventListenerObject)
 }
 
 export const onDrag = (

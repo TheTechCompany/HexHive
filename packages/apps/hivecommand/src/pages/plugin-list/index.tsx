@@ -6,6 +6,7 @@ import { useQuery, useMutation, Stack } from '@hexhive/client'
 import styled from 'styled-components'
 import { Box, Button, CheckBox, TextInput, Text } from 'grommet'
 import { PluginStore } from '../../components/plugin-store/PluginStore'
+import { NestedList } from '../../components/ui/nested-list';
 export interface StackListProps {
     className? :string;
     history?: any;
@@ -14,23 +15,39 @@ export interface StackListProps {
 
 export const BaseStackList : React.FC<StackListProps> = (props) => {
 
-    
-    const [ createStack, {isLoading, data, error }] = stackActions.useCreateStack();
 
     const query = useQuery({
         suspense: false,
         staleWhileRevalidate: false
     })
 
-    const stacks = query.StackMany()
+    const plugins = query.commandPlugins()
 
-    const [ _stacks, setStacks ] = useState<Stack[]>(stacks)
-
-    useEffect(() => {
-        if(stacks){
-            setStacks(stacks)
+    
+    const [ createStack, {isLoading, data, error }] =  useMutation((mutation, args: {name: string}) => {
+        const result = mutation.createCommandPlugins({input: [{name: args.name}]})
+       
+        if(result){
+            return {
+                item: {
+                    ...result.commandPlugins[0]
+                },
+                error: null
+            }
         }
-    }, [stacks])
+        return {
+            error: "no access"
+        }
+        
+    }, {
+        
+            onCompleted(data) {},
+            onError(error) {},
+            refetchQueries: [query.commandPlugins()],
+            awaitRefetchQueries: true,
+            suspense: false,
+          
+    })
     
     const [ modalOpen, openModal ] = useState<boolean>(false)
     
@@ -50,44 +67,22 @@ export const BaseStackList : React.FC<StackListProps> = (props) => {
                         
                         createStack({args: {name: stack.name}}).then(({item, error}) => {
                            console.log(item, error)
-                            if(item){
-                                let s : any[] = _stacks.slice()
-                                s.push(item)
-                               setStacks(s)
-                            }
+                            // if(item){
+                            //     let s : any[] = _stacks.slice()
+                            //     s.push(item)
+                            // //    setStacks(s)
+                            // }
                         })
                     }
                 }}
                 onClose={() => openModal(false)} />
-            <Box 
-                pad="small"
-                elevation="small"
-                gap="small"
-                background="neutral-1"
-                direction="column"
-                width={'20vw'}>
-                <Text style={{textDecoration: 'underline'}}>Plugins</Text>
-                <Button 
-                    plain
-                    label="Control nodes" />
-
-                <Button 
-                    plain
-                    label="Function nodes" />
-                <Button 
-                    plain
-                    label="Control platforms" />
-            </Box>
+        
             
-            <PluginStore
-                onClickRow={(plugin) => {
-                    props.history.push(`${props.match.url}/${plugin._id}`)
-                }}
-                onCreate={() => {
-                    openModal(true)
-                }}
-                plugins={stacks as any}
-                 />
+            <NestedList
+                data={plugins}
+                onClick={({item}) => props.history.push(`${props.match.url}/${item.id}`)}
+                renderItem={(item) => item.name}
+                onAdd={() => openModal(true)} />
         </Box>
     )
 }
