@@ -6,15 +6,13 @@ import { FormInput } from '../../FormInput/FormInput';
 import { FormLabel } from '../../FormInput/wrapper';
 import { HiveIntegration, HiveIntegrationInstance } from '@hexhive/client';
 
-export const IntegrationModal = (props) => {
-
-	const [ integration, setIntegration ] = useState<HiveIntegrationInstance>()
+export const AppModal = (props) => {
 
 	const [ selectedApps, setSelectedApps ] = useState<any[]>([])
 
 	useEffect(() => {
 		if(props.selected){
-			setIntegration(props.selected)
+			// setIntegration(props.selected)
 			// setSelectedApps(props.selected?.appliances?.map((x) => x.id))
 		}
 	}, [props.selected])
@@ -37,7 +35,7 @@ export const IntegrationModal = (props) => {
 			open={props.open}
 			onSubmit={() => {
 				props.onSubmit?.({
-					...integration,
+					// ...integration,
 					// add_apps: selectedApps.filter((selected) => role.appliances?.map((x) => x.id).indexOf(selected) < 0),
 					// remove_apps: role.appliances?.filter((role) => selectedApps.indexOf(role.id) < 0).map((x) => x.id)
 			
@@ -45,14 +43,14 @@ export const IntegrationModal = (props) => {
 			}}
 			onClose={props.onClose}>
 			<Box gap="xsmall">
-				<FormInput
+				{/* <FormInput
 					value={integration?.name}
 					onChange={(e) => setIntegration({...integration, name: e.target.value})}
-					label="Name" />
+					label="Name" /> */}
 
-				<FormLabel label="Worker">
+				<FormLabel label="Application">
 					<Select 
-						placeholder="Worker"
+						placeholder="Application"
 						labelKey="name"
 						options={props.workers} />
 				</FormLabel>

@@ -14,7 +14,7 @@ export const AppSingle = (props) => {
 				name
 			}
 
-			hiveIntegrationInstances{
+			hiveIntegrationInstances(where: {appliance: {id: $id}}){
 				id
 				name
 			}
@@ -36,15 +36,27 @@ export const AppSingle = (props) => {
 		})
 	}
 
-	const [ createIntegration, info ] = useMutation((mutation, args: {item: {name: string}}) => {
-		const integration = mutation.createHiveIntegrationInstances({
-			input: [{
-				name: args.item.name
-			}]
+	const [ createIntegration, info ] = useMutation((mutation, args: {item: {name: string, integration?: string}}) => {
+		let update = {
+		}
+		if(args.item.integration){
+			update = {
+				...update,
+				integration: {connect: {where: {node: {id: args.item.integration}}}},
+			}
+		}
+		const integration = mutation.updateHiveOrganisations({
+			update: {
+				integrations: [{create: [{node: {
+					...update,
+					name: args.item.name,
+					appliances: {connect: [{where: {node: {id: props.match.params.id}}}]}
+				}}]}]
+			}
 		})
 		return {
 			item: {
-				...integration.hiveIntegrationInstances[0]
+				...integration.hiveOrganisations[0]
 			}
 		}
 	})
