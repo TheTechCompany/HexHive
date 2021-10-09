@@ -16,7 +16,10 @@ console.log(props)
 	const renderHours = (x: any) => {
 		const hours = getHours(x)
 		return Object.keys(hours).map((key) => (
-			<Text size="small">{key} - {hours[key]}hrs</Text>
+			<Box direction="column" justify="end">
+			<Text size="small">{key}</Text>
+			<Text size="small">{hours[key]}hrs</Text>
+			</Box>
 		))
 	}
 	return (
@@ -26,22 +29,24 @@ console.log(props)
 			pad={{right: 'xxsmall'}}
 			width={props.drafts.length > 0 ? props.open ? '200px' : '42px' : `0px`}>
         {props.drafts.filter((a) => a.project).map((x) => (
-			<Box round="small" 
+			<Box
+				height={{min: 'min-content'}}
+			justify="between"
+			 round="small" 
 			background={stringToColor(`${x.project?.id} - ${props.projects.find((a) => a?.id == x.project?.id)?.name}`)}
-			pad="4px" direction="row">
-            <Box
-				align={props.open ? 'start': 'center'} 
-				direction="column" 
-				>
-				{props.open && <Text size="small">{props.projects.find((a) => a?.id == x.project?.id)?.name}</Text>}
-             
-			 	<Box direction="row">
-			 	 <Text size="small">{x.project?.id}</Text>
+			pad={{vertical: '4px', horizontal: '4px'}} direction="row">
+				<Box
+					flex
+					align={props.open ? 'start': 'center'} 
+					direction="column" 
+					>
+					{props.open && <Text size="small">{props.projects.find((a) => a?.id == x.project?.id)?.name}</Text>}
+				
+					<Text size="small">{x.project?.id}</Text>
 				</Box>
-            </Box>
-			{props.open && <Box direction="column">
-				{renderHours(x)}
-			</Box>}
+				{props.open && <Box direction="column">
+					{renderHours(x)}
+				</Box>}
 			</Box>
 
           ))}  
