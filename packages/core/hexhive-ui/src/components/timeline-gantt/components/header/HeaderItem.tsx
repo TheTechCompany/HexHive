@@ -58,9 +58,11 @@ export interface HeaderItemProps{
 
           {hovering && <Drop
             round="xsmall"
+            overflow="hidden"
             align={{top: 'bottom'}}
             target={ref.current || undefined}>
               <Box 
+                background="neutral-2"
                 overflow="hidden"
                 round="xsmall"
                 width="small">
@@ -69,9 +71,8 @@ export interface HeaderItemProps{
                   align="center"
                   direction="row" 
                   pad="xsmall">
-                  <Text size="small">Info</Text>
+                  <Text size="small">Week capacity: {info}</Text>
                 </Box>
-                {info}
               </Box>
           </Drop>}
         </div>
