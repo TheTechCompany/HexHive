@@ -737,8 +737,10 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
                         let alarm_level = (job_week || 0) > (week_power || 0) ? ((job_week || 0) / (week_power || 0)) : 0;
                        
-                        return (alarm_level > 0 && alarm_level != Infinity) && (
-                            <Text>{(alarm_level * 100).toFixed(2)}%</Text>
+                        return (alarm_level > 0) && (
+                            <Text 
+                                color={alarm_level == Infinity ? 'red' : undefined}
+                                size="small">{alarm_level != Infinity ? `${(alarm_level * 100).toFixed(2)}%` : "No people available"}</Text>
                         )
                     }}
                     dayStatus={(day) => {
