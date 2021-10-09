@@ -701,16 +701,20 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
                 <Timeline
                     dayInfo={(day) => {
+                        
                         let horizonStart = day.clone().startOf('isoWeek').valueOf()
                         let horizonEnd = day.clone().endOf('isoWeek').valueOf()
 
+                        console.log(day, people, horizonStart, horizonEnd)
                         let people_power = people?.filter((a) => {
+                            console.log(horizonEnd, new Date(a.startDate).getTime(), horizonStart < (new Date(a.endDate).getTime()))
                             return (horizonEnd > (new Date(a?.startDate).getTime() || 0) && horizonStart < (new Date(a?.endDate).getTime() || 0))
                         })
 
                         let job_power = capacity?.filter((a) => {
                             return (horizonEnd > (new Date(a?.startDate).getTime() || 0) && horizonStart < (new Date(a?.endDate).getTime() || 0))
                         })
+                        console.log(people_power)
 
                         let week_power = people_power?.reduce((previous, current) => {
                             let weeks = moment(current?.endDate).diff(moment(current?.startDate), 'weeks')
@@ -734,6 +738,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
                             return previous + (week && week > 0 ? (week) / weeks : 0) //((week || 0) / weeks)
                         }, 0)
+
+                        console.log(job_week, week_power)
 
                         let alarm_level = (job_week || 0) > (week_power || 0) ? ((job_week || 0) / (week_power || 0)) : 0;
                        

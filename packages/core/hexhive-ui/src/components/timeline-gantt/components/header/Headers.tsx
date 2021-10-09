@@ -167,7 +167,10 @@ const Header : React.FC<HeaderProps> = (props) => {
     let end = ( props.currentday || 0 ) + (props.numVisibleDays||0);
 
     for (let i = (start||0) - BUFFER_DAYS; i < end + BUFFER_DAYS; i++) {
+
+      // let date = moment().clone().add((props.currentday || 0)+ i, 'days')
       //The unit of iteration is day
+
       currentDate = moment().add(i, 'days');
       if (currentTop != currentDate.format(getFormat(top, 'top'))) {
         currentTop = currentDate.format(getFormat(top, 'top'));
@@ -196,8 +199,8 @@ const Header : React.FC<HeaderProps> = (props) => {
         } else {
           result.background.push(<BackgroundStripe key={`tile-${i}`} left={box.left} width={box.width} border={{size: !(currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7) && 'xsmall', color: '#00000020'}} background={currentDate.isoWeekday() == 6 || currentDate.isoWeekday() == 7 ? 'light-1' : 'neutral-1'} />)
           result.bottom.push(<HeaderItem
-            date={moment().add((props.currentday || 0)+ i, 'days')}
-                dayInfo={props.dayInfo}
+            date={currentDate}
+            dayInfo={props.dayInfo}
             y={2} background={status[currentDate.format('DD/MM/yyyy')]} key={i} left={box.left} width={box.width} label={currentBottom} />);
         }
 
