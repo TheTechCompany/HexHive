@@ -1,5 +1,8 @@
 export default `
 
+extend type Mutation {
+    updateHiveIntegrationInstanceState(id: ID, state: Boolean): Boolean
+}
 
 type HiveService {
     id: ID!
@@ -19,6 +22,13 @@ type HiveAppliance {
 
 }
 
+type HiveIntegrationPath {
+    id: ID! @id
+    name: String
+    data: String
+    instance: HiveIntegrationInstance @relationship(type: "USES_CONNECTION", direction: IN)
+}
+
 type HiveIntegration {
     id: ID! @id
     name: String
@@ -28,8 +38,12 @@ type HiveIntegration {
 type HiveIntegrationInstance {
     id: ID! @id
     name: String
+
+    isRunning: Boolean @readonly
+
+    connections: [HiveIntegrationPath] @relationship(type: "USES_CONNECTION", direction: OUT)
     integration: HiveIntegration @relationship(type: "USES_INTEGRATION", direction: OUT)
-    appliance: HiveAppliance @relationship(type: "USES_APPLIANCE", direction: OUT)
+    appliances: [HiveAppliance] @relationship(type: "USES_APPLIANCE", direction: OUT)
     config: String
     organisation: HiveOrganisation @relationship(type: "USES_INTEGRATION", direction: IN)
 }
