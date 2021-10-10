@@ -47,19 +47,6 @@ const parseEvent = async (event: HiveEvent) => {
         return pipeline;
     })
 
-
-    
-    // return await submitFileEvent({id: event.id, pipeline: result.id})
-
-    // switch(event.service){
-    //     case 'Files':
-    //         submitFileEvent(event).then((parsed) => {
-    //             console.log("File Event", parsed)
-    //         })
-    //         break;
-    //     default:
-    //         break;
-    // }
 }
 
 const stringToDate = (date: any) => {
@@ -80,22 +67,6 @@ const stringToDate = (date: any) => {
 }
 
 const main = async () => {
-    // const producer = kafka.producer()
-
-    // await producer.connect()
-
-    // await producer.send({
-    //     topic: TOPIC,
-    //     messages: [
-    //         {value: JSON.stringify({
-    //             service: "Files",
-    //             event: "convert_files",
-    //             data: {
-    //                 inputs: ["123"]
-    //             }c
-    //         })}
-    //     ]
-    // })
 
     const consumer = kafka.consumer({groupId: 'data-in-worker'})
 
@@ -203,17 +174,11 @@ const main = async () => {
                     break;
                 }
             
-                
-            // console.log(json)
-            // await parseEvent(json)
-
         }
 
     
     })
 
-    // await consumer.disconnect()
-    // await producer.disconnect()
 }
 
 main()
