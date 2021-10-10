@@ -14,7 +14,7 @@ export const AppSingle = (props) => {
 				name
 			}
 
-			hiveIntegrationInstances(where: {appliance: {id: $id}}){
+			hiveIntegrationInstances(where: {appliances: {id: $id}}){
 				id
 				name
 			}
