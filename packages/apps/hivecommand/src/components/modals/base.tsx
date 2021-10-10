@@ -42,17 +42,19 @@ export class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
     render() {
         return !this.props.open ? null : (
             <Layer
+        
                 background="transparent"
                 onClickOutside={this.onClose}
                 onEsc={this.onClose} >
                 <Box
+                overflow="hidden"
                     round="small"
 
-                    background="brand"
+                    background="neutral-2"
                     width={this.props.width || "medium"}
-                    gap="small"
-                    pad="xsmall">
+                    gap="small">
                     <Box
+                        background="accent-2"
                         pad="small"
                         border={{ side: 'bottom', size: 'small' }}>
                         {this.props.title}
@@ -64,7 +66,9 @@ export class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
                             {this.props.children}
                         </Box>
                     </Box>
-                    <Box direction="row" justify="end">
+                    <Box
+                        pad="xsmall"
+                        direction="row" justify="end">
                         <Button margin={{ right: 'small' }} label="Cancel" plain onClick={this.onClose} />
 
                         <Button label="Save" primary onClick={this.onSubmit} />

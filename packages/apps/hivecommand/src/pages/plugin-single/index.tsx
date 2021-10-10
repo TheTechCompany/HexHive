@@ -31,7 +31,7 @@ export const PluginSingle = styled((props: any) => {
         }
     }, [stack])
  
-    const [ createStackItem, {isLoading, data}] = stackActions.useCreateStackItem(props.match.params.id)
+    // const [ createStackItem, {isLoading, data}] = stackActions.useCreateStackItem(props.match.params.id)
 
     return query.$state.isLoading? null:  (
         <Box>
@@ -74,12 +74,13 @@ export const PluginSingle = styled((props: any) => {
 
                     console.log(items)
                     if(stackItem){
-                        createStackItem({args: {
-                            stack_id: props.match.params.id,
-                            items: stackItem as any
-                        }}).then((stack) => {
-                            console.log("Stack item", stack)
-                        })
+                        // createStackItem({args: {
+                        //     stack_id: props.match.params.id,
+                        //     items: stackItem as any
+                        // }}).then((stack) => {
+                        //     console.log("Stack item", stack)
+                        // })
+                        
                         /*.then((result) => {
                             let p = Object.assign({}, plugin)
                             let items : any[] = plugin?.items?.slice() || [];

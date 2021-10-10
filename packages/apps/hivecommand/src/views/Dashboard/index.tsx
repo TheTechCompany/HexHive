@@ -37,11 +37,11 @@ const pages = [
         path: "/plugins",
         component: PluginList
     },
-    {
-        icon: <GraphQl color="neutral-1"  />,
-        label: "Reports",
-        path: "/reports"
-    }
+    // {
+    //     icon: <GraphQl color="neutral-1"  />,
+    //     label: "Reports",
+    //     path: "/reports"
+    // }
 ]
 
 const drawerWidth = 240;

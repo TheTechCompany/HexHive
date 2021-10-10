@@ -357,7 +357,7 @@ export const HiveFlowEditor: React.FC<EditorProps> = (props) => {
             <Box
                 direction="row"
                 flex>
-
+{/* 
                 <Box
 
                     height="100%"
@@ -367,19 +367,19 @@ export const HiveFlowEditor: React.FC<EditorProps> = (props) => {
                     direction="row"
                     width={selectedMenu > -1 ? "270px" : 'xxsmall'}>
 
-                    <Box
+                    {/* <Box
                         elevation="medium"
                         overflow="hidden"
                         direction="column"
                         width="xxsmall">
                         {renderMenu() || []} 
-                    </Box>
+                    </Box> 
                     <Box
                         overflow="hidden"
                         flex>
                         {renderSelectedMenu()}
                     </Box>
-                </Box>
+                </Box> */}
                 <Box
                     style={{ position: 'relative' }}
                     direction="row"

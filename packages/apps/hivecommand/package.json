@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.7",
+    "@gqty/react": "^2.0.0",
     "@hexhive/auth-ui": "^0.0.6-alpha.0",
     "@hexhive/client": "^0.0.6-alpha.0",
     "@hexhive/collaboration-client": "^0.0.6-alpha.0",

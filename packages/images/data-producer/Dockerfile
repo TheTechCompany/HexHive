@@ -7,6 +7,8 @@ ADD tsconfig.json .
 
 RUN yarn
 
-COPY . .
+COPY ./src ./src
+
+ADD task.json .
 
 CMD [ "yarn", "start"]

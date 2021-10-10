@@ -17,11 +17,10 @@ export interface PluginStoreProps {
 export const PluginStore: React.FC<PluginStoreProps> = (props) => {
     return (
         <Box
-        
+            flex
             background="neutral-1"
             elevation="small"
-            direction="column"
-            width={'80vw'}>
+            direction="column">
 
             <Box 
                 pad="small"

@@ -18,7 +18,7 @@ import { AbstractWidgetFactory } from './models/abstract-widget-factory';
 
 import { reducer } from './store';
 import * as actions from './store/actions'
-import { addPathSegment, getRelativeCanvasPos, linkPath, lockToGrid, moveNode, onDrag, updatePathSegment } from './utils/canvas';
+import { addPathSegment, getRelativeCanvasPos, linkPath, lockToGrid, moveNode, onDrag, onTouchDrag, updatePathSegment } from './utils/canvas';
 import { InfiniteCanvasNode, InfiniteCanvasPath, InfiniteCanvasPosition, InfinitePort } from './types/canvas';
 import { HMIPosition } from './assets/hmi-spec';
 import { ContextMenu } from './components/context-menu/ContextMenu';
@@ -247,6 +247,23 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         } else if (evt.button == 2) {
             //Right
         }
+    }
+
+    const onTouchStart = (evt: React.TouchEvent) => {
+        setMenuPos(undefined)
+        console.log("TOUCH BASED")
+            //Left
+            isDragging.current.dragging = true
+            onTouchDrag(evt, (evt, position, lastPos, finished) => {
+                console.log("Drag")
+                if(!finished && isDragging && position && lastPos){
+                    updateOffset(position, lastPos)
+                }
+                if(finished){
+                    isDragging.current.dragging = false
+                }
+            })
+       
     }
 
     const onWheel = (evt: React.WheelEvent) => {
@@ -538,6 +555,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
                 onContextMenu={onContextMenu}
                 ref={canvasRef}
                 onMouseDown={onMouseDown}
+                onTouchStart={onTouchStart}
                 onWheel={onWheel}
                 onDragOver={onDragOver}
                 onDrop={_onDrop}

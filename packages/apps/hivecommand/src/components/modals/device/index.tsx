@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { deviceActions } from '../../../actions';
 import { BaseModal } from '../base';
-import { Device, Program } from '@hexhive/client'
+import { CommandDevice, Device, Program } from '@hexhive/client'
 import { TextInput, Text, Box, Select } from 'grommet';
 import { nanoid } from 'nanoid';
 
@@ -9,7 +9,7 @@ export interface DeviceModalProps {
     open: boolean;
     
     onClose?: () => void;
-    onSubmit?: (data: Device) => void;
+    onSubmit?: (data: CommandDevice) => void;
     selected?: any; // change to device interface
 
     programs?: Program[]
@@ -18,7 +18,7 @@ export interface DeviceModalProps {
 
 export const DeviceModal : React.FC<DeviceModalProps> = (props) => {
 
-    const [ device, setDevice ] = useState<any & Device>({
+    const [ device, setDevice ] = useState<any & CommandDevice>({
         name: '',
         program: '',
         network_name: nanoid().substring(0, 8)
@@ -36,7 +36,7 @@ export const DeviceModal : React.FC<DeviceModalProps> = (props) => {
     }
 
     const onSubmit = () => {
-        if(device.program && device.program._id && device.name) props.onSubmit?.(device) 
+        if(device.name) props.onSubmit?.(device) 
     }
 
     const generateName = () => {
@@ -52,7 +52,7 @@ export const DeviceModal : React.FC<DeviceModalProps> = (props) => {
         if(props.selected){
             setDevice({
                 ...props.selected,
-                program: props.programs?.find((a) => a._id == props.selected.program)
+                // program: props.programs?.find((a) => a.id == props.selected.program)
             })
         
         }
@@ -102,7 +102,7 @@ export const DeviceModal : React.FC<DeviceModalProps> = (props) => {
                     options={props.programs || []}
                     value={device.program || {}}
                     labelKey={"name"}
-                    valueKey={"_id"}
+                    valueKey={"id"}
                     onChange={({value, option}) => setDevice({...device, program: option})} />
                     
          

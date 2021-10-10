@@ -1,6 +1,6 @@
-import { Box, Text, Select, Button } from 'grommet';
-import React from 'react';
-import { Add } from 'grommet-icons';
+import { Box, Text, Select, Button, Layer, Drop, List, CheckBox } from 'grommet';
+import React, { useRef, useState } from 'react';
+import { Add, Filter } from 'grommet-icons';
 import styled from 'styled-components';
 
 export interface TimelineProps{
@@ -8,11 +8,30 @@ export interface TimelineProps{
     view?: TimelineView;
     onViewChange?: (view: TimelineView) => void;
     className?: string;
+
+    filter?: string[]
+    filters?: string[]
+
+    onFilterChanged?: (filter: string[]) => void;
 }
 
 export type TimelineView = "Projects" | "People" | "Estimates" ;
 export const BaseTimelineHeader: React.FC<TimelineProps> = (props) => {
     console.log(props.view)
+    const [ filterOpen, openFilter ] = useState<boolean>(false);
+    const targetRef = useRef();
+
+    const toggleFilter = (id: string) => {
+        let f = props.filter.slice();
+
+        if(f.indexOf(id) > -1){
+            f.splice(f.indexOf(id), 1)
+        }else{
+            f.push(id)
+        }
+        props.onFilterChanged(f)
+    }
+
     return (
         <Box
             className={props.className}
@@ -36,7 +55,51 @@ export const BaseTimelineHeader: React.FC<TimelineProps> = (props) => {
                     options={["Projects", "People", "Estimates"]} />
             </Box>
             <Box background="#ffffff42" round="xsmall">
-                {(props.view == "Projects" || props.view == "People") && <Button plain style={{padding: 6}} size="small" onClick={props.onAdd} icon={<Add size="20px" />} />}
+                {(props.view == "Projects" || props.view == "People") ? (
+                     <Button plain style={{padding: 6}} size="small" onClick={props.onAdd} icon={<Add size="20px" />} />
+                ) : (
+                    <>
+                    <Button 
+                        ref={targetRef}
+                        onClick={() => {
+                            openFilter(!filterOpen)
+                        }}
+                        plain 
+                        style={{padding: 6}} 
+                        size="small" 
+                        icon={<Filter size="20px" />} />
+                    {filterOpen && 
+                        <Drop
+                            onEsc={() => openFilter(false)}
+                            onClickOutside={() => openFilter(false)}
+                            target={targetRef.current}
+                            align={{right: 'right', top: 'top'}}
+                            >
+                            <Box>
+                                <Text size="small">Filter</Text>
+                                <List 
+                                    onClickItem={({item}) => toggleFilter(item)}
+                                    pad="xsmall"
+                                    data={props.filters}>
+                                    {(datum) => (
+                                        <Box gap="xsmall" direction="row">
+                                            <CheckBox 
+                                                size={15} 
+                                                onChange={(e) => {
+                                                    toggleFilter(datum)
+                                                    
+                                                }}
+                                                checked={props.filter.indexOf(datum) > -1} />
+                                            <Text size="small">{datum}</Text>
+                                        </Box>
+                                    )}
+                                </List>
+                            </Box>
+                        </Drop>}
+                    
+                    </>
+                    
+                )}
             </Box>
         </Box>
     );

@@ -186,6 +186,9 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                             <Box flex>
                                 <Text alignSelf="start" size="small">Start Date</Text>
                                 <DateInput
+                                    calendarProps={{
+                                        daysOfWeek: true
+                                    }}
                                     value={plan.startDate instanceof Date ? plan.startDate.toISOString() : plan.startDate || ''}
                                     onChange={({ value }) => setPlan({ ...plan, startDate: value instanceof Date ? value : new Date(value as string) })}
                                     format="dd/mm/yyyy" />
@@ -193,6 +196,9 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                             <Box flex>
                                 <Text alignSelf="start" size="small">End Date</Text>
                                 <DateInput
+                                    calendarProps={{
+                                        daysOfWeek: true
+                                    }}
                                     value={plan.endDate instanceof Date ? plan.endDate.toISOString() : plan.endDate || ''}
                                     onChange={({ value }) => setPlan({ ...plan, endDate: value instanceof Date ? value : new Date(value as string) })}
                                     format="dd/mm/yyyy" />
