@@ -18,30 +18,30 @@ export const PluginEditorPage : React.FC<any> = (props) => {
         setPlugin(_plugin)
     }, [_plugin])
 
-    const [createStackItem, info] = stackActions.useCreateStackItem(props.match.params.id)
+    // const [createStackItem, info] = stackActions.useCreateStackItem(props.match.params.id)
 
-    const [ updateStack, updateInfo ] = stackActions.useUpdateStack(props.match.params.id)
+    // const [ updateStack, updateInfo ] = stackActions.useUpdateStack(props.match.params.id)
 
     return query.$state.isLoading ? null : (
         <PluginEditor
             plugin={plugin}
             onSave={() => {
                 if(!plugin?._id) return;
-                updateStack({args: {id: plugin?._id, update: plugin}}).then(() => {
-                    console.log("Updated stack")
-                })
+                // updateStack({args: {id: plugin?._id, update: plugin}}).then(() => {
+                //     console.log("Updated stack")
+                // })
             }}
             onPluginChanged={(plugin: any) => {
                 setPlugin(plugin as any)
                 console.log("PLUGIN", plugin)
             }}
             onCreateItem={(item: any) => {
-                createStackItem({args: {
-                    stack_id: props.match.params.id,
-                    items: item
-                }}).then((result) => {
-                    console.log("REsult", result)
-                })
+                // createStackItem({args: {
+                //     stack_id: props.match.params.id,
+                //     items: item
+                // }}).then((result) => {
+                //     console.log("REsult", result)
+                // })
             }}
              />
     )

@@ -38,7 +38,7 @@ const toggleSelected = (item: any) => {
 				props.onSubmit?.({
 					...user,
 					add_roles: selectedRoles?.filter((selected) => user.roles?.map((x) => x.id).indexOf(selected) < 0),
-					remove_roles: user.roles?.filter((role) => selectedRoles?.map((x) => x.id).indexOf(role.id) < 0).map((x) => x.id)
+					remove_roles: user.roles?.filter((role) => selectedRoles?.indexOf(role.id) < 0).map((x) => x.id)
 				})
 			}}
 			onClose={props.onClose}>
@@ -55,11 +55,11 @@ const toggleSelected = (item: any) => {
 				
 			<Box>
 				<Text size="small">Roles</Text>
-				<TextInput 	
+				{/* <TextInput 	
 					size="small"
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
-					placeholder="Search..." />
+					placeholder="Search..." /> */}
 				<List
 					pad="none"
 					primaryKey="name"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { deviceActions, programActions } from '../../actions'
 import { ProgramModal } from '../../components/modals/program';
-import { useQuery, Program } from '@hexhive/client'
+import { useQuery, Program, CommandProgram, useMutation } from '@hexhive/client'
 import { Box } from 'grommet';
 import { NestedList } from '../../components/ui/nested-list';
 import { RouteComponentProps } from 'react-router-dom'
@@ -13,15 +13,36 @@ export const ProgramList: React.FC<ProgramListProps> = (props) => {
     const [ modalOpen, openModal ] = useState(false)
     const [ selectedProgram, setSelectedProgram ] = useState<any>()
 
-    const [ addProgram, { isLoading, data}] = programActions.useAddProgram()
-    const [ programs, setPrograms ] = useState<Array<Program>>([])
+    
+    
+    const [ programs, setPrograms ] = useState<Array<CommandProgram>>([])
 
     const query = useQuery({
         suspense: false,
         staleWhileRevalidate: true
     })
+    
+    const [ addProgram, { isLoading, data}] =  useMutation((mutation, args: {
+        record: any
+    }) => {
+        const result = mutation.createCommandPrograms({
+            input: [args.record]
+        })
 
-    const _programs = query.ProgramMany()
+        return {
+            item: {
+                ...result?.commandPrograms[0]
+            },
+            error: null
+        }
+    }, {
+        onCompleted(data) {},
+        onError(error) {},
+        refetchQueries: [query.commandPrograms()],
+        suspense: false,
+        awaitRefetchQueries: true,
+    })
+    const _programs = query.commandPrograms()
     
     useEffect(() => {
         if(_programs){
@@ -58,7 +79,7 @@ export const ProgramList: React.FC<ProgramListProps> = (props) => {
 
             <NestedList
                 data={programs}
-                onClick={({item}) => props.history.push(`${props.match.url}/${item._id}`)}
+                onClick={({item}) => props.history.push(`${props.match.url}/${item.id}`)}
                 renderItem={(item) => item.name}
                 onAdd={() => openModal(true)} />
             {/*<PaperList 

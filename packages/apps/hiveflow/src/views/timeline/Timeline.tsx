@@ -5,7 +5,7 @@ import moment from 'moment';
 import { stringToColor } from '@hexhive/utils';
 import { Box, Button, Select, Spinner, Text } from 'grommet';
 import { Add } from 'grommet-icons';
-import {TimelineItem, TimelineItemCreateInput, TimelineItemItems, TimelineItemUpdateInput, useMutation, useQuery } from '@hexhive/client';
+import {TimelineItem, TimelineItemCreateInput, TimelineItemItems, TimelineItemProjectCreateFieldInput, TimelineItemProjectCreateInput, TimelineItemUpdateInput, useMutation, useQuery } from '@hexhive/client';
 import { TimelineHeader, TimelineView } from './Header';
 import _, { filter, toUpper } from 'lodash';
 import { BaseStyle } from '@hexhive/styles';
@@ -35,7 +35,15 @@ const StatusTypes : any = {
     "Open": '#EEBC1D' 
 }
 
+const sampleDate = new Date()
+
+sampleDate.setDate(sampleDate.getDate() - 14)
+
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
+
+    
+    const [filter, setFilter] = useState<string[]>([])
+    const [filters, setFilters] = useState<string[]>([])
 
     const client = useApolloClient()
 
@@ -44,7 +52,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const [view, setView] = useState<TimelineView>("Projects");
 
-    const [date, setDate] = useState<Date>(new Date())
+    const [date, setDate] = useState<Date>(sampleDate)
     const [horizon, setHorizon] = useState<{ start: Date, end: Date } | undefined>()
 
     const query = useQuery({
@@ -55,6 +63,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     const { data } = useApollo(gql`
         query Q{
+
             timelineItems(where: {timeline: "${view}"}){
                 id
                 startDate
@@ -88,6 +97,36 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         }
     })
 
+    const peopleData = useApollo(gql`
+        query People {
+            timelineItems(where: {timeline: "People"}){
+                id
+                startDate
+                endDate
+                notes
+                project {
+                    ... on Project {
+                        id
+                        name
+                    }
+
+                    ... on Estimate {
+                        id
+                        name
+                    }
+                }
+
+                items {
+                    id
+                    type
+                    location
+                    estimate
+                }
+           
+            }
+        }
+    `)
+
     const refetchTimeline = () => {
         client.refetchQueries({include: ['Q']})
     }
@@ -96,10 +135,26 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     console.log(data)
 
-    const [createTimelineItem, createInfo] = useMutation((mutation, args: { item: TimelineItemCreateInput }) => {
+    const [createTimelineItem, createInfo] = useMutation((mutation, args: { item:  { 
+        timeline: string,
+        project?: TimelineItemProjectCreateInput, 
+        notes?: string, 
+        items?: any[], 
+        startDate?: string, 
+        endDate?: string
+    }  }) => {
+   //{create: plan.items.map((x) => ({node: x})) } || []
         const item = mutation.updateHiveOrganisations({ 
             update: {
-                timeline: [{create: [{node: args.item }]}]
+                timeline: [{create: [{node: {
+                    ...args.item,
+                    items: {
+                        create: args.item.items.map((item) => ({
+                            node: item
+                        }))
+                    
+                }
+                }}]}]
             }
         })
         return {
@@ -226,7 +281,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     // const capacity = query.timelineItems({ where: {timeline: view}});
 
-    const people = query.timelineItems({ where: {timeline: "People"} })
+    const people = peopleData?.data?.timelineItems;
 
     const [timeline, setTimeline] = useState<any[]>([])
 
@@ -237,13 +292,6 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             gradient.push({color: StatusTypes[k], percent: item[k] / total})
         }
         
-        // console.log(item, lostPercent, wonPercent, 1 - (lostPercent + wonPercent))
-
-        //  gradient.push({color: 'red', percent: lostPercent})
-        // gradient.push({color: 'green', percent: wonPercent})
-        // gradient.push({color: default_color, percent: 1 - (lostPercent + wonPercent)})
-
-        // for()
 
         return generateStripes(gradient, false)
     }
@@ -266,6 +314,65 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         })
 
         return generateStripes(gradient, plan.hatched);
+    }
+
+    const parseEstimates = () => {
+        let _weeks: any = {};
+        const weeks = quotes?.filter((a) => {
+            return filter.indexOf(a.status) > -1
+        }).reduce((previous, current) => {
+            let start = current.start.getTime();
+            console.log(current)
+            if (!previous[start]) previous[start] = {
+                value: 0
+            };
+            previous[start].value += current.price
+
+            if(!previous[start][current.status]) previous[start][current.status] = 0;
+            previous[start][current.status] += current.price
+            
+            return previous
+        }, _weeks)
+
+        console.log(weeks)
+        setTimeline(Object.keys(weeks).sort((a, b) => a == b ? 0 : a > b ? -1 : 1).map((start, ix) => {
+            let value = weeks[start].value;
+            delete weeks[start].value;
+            return {
+                id: `${start}`,
+                name: `Week ${moment(new Date(parseInt(start))).format("W/yyyy")}`,
+                color: getWonLost(value, weeks[start], stringToColor(moment(new Date(parseInt(start))).format("DD/mm/yyyy"))),
+                start: new Date(parseInt(start)),
+                end: new Date(moment(new Date(parseInt(start))).add(7, 'days').valueOf()),
+                showLabel: formatter.format(value),
+                hoverInfo: (
+                    <Box round="xsmall" overflow="hidden"  direction="column">
+                        <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
+                            {/* <Text weight="bold">{capacity_plan?.project?.name?.substring(0, 15)}</Text> */}
+                            <Text>
+                                {formatter.format(value)}
+                            </Text>
+                        </Box>
+                        <Box pad="xsmall">
+                            {Object.keys(weeks[start]).map((x) => {
+                                let item = weeks[start][x]
+                                return (
+                                <Box align="center" direction="row" justify="between">
+                                        <Box direction="row" align="center">
+                                            <ColorDot color={StatusTypes[x || '']} size={10}/>
+                                            <Text>{((item / value )* 100).toFixed(2)}% - {x}</Text>
+                                        </Box>
+                                    <Text margin={{left: 'small'}}>{formatter.format(item)}</Text>
+                                </Box>
+                                )
+                            }
+                            )}
+                        </Box>
+                 
+                    </Box>
+                ),
+            }
+        }))
     }
 
 
@@ -420,85 +527,20 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     useEffect(() => {
         if (quotes && view == 'Estimates') {
-            let _weeks: any = {};
-            const weeks = quotes?.reduce((previous, current) => {
-                let start = current.start.getTime();
-                console.log(current)
-                if (!previous[start]) previous[start] = {
-                    value: 0
-                };
-                previous[start].value += current.price
+            let status = [...new Set(quotes.map((x) => x.status))]
+            if(filter.length == 0){
+                setFilter(status)
+            }
+            setFilters(status)
 
-                if(!previous[start][current.status]) previous[start][current.status] = 0;
-                previous[start][current.status] += current.price
-                
-                return previous
-            }, _weeks)
-
-            console.log(weeks)
-            setTimeline(Object.keys(weeks).sort((a, b) => a == b ? 0 : a > b ? -1 : 1).map((start, ix) => {
-                let value = weeks[start].value;
-                delete weeks[start].value;
-                return {
-                    id: `${start}`,
-                    name: `Week ${moment(new Date(parseInt(start))).format("W/yyyy")}`,
-                    color: getWonLost(value, weeks[start], stringToColor(moment(new Date(parseInt(start))).format("DD/mm/yyyy"))),
-                    start: new Date(parseInt(start)),
-                    end: new Date(moment(new Date(parseInt(start))).add(7, 'days').valueOf()),
-                    showLabel: formatter.format(value),
-                    hoverInfo: (
-                        <Box round="xsmall" overflow="hidden"  direction="column">
-                            <Box pad="xsmall" background="accent-2" margin={{bottom: 'xsmall'}} direction="row" justify="between">
-                                {/* <Text weight="bold">{capacity_plan?.project?.name?.substring(0, 15)}</Text> */}
-                                <Text>
-                                    {formatter.format(value)}
-                                </Text>
-                            </Box>
-                            <Box pad="xsmall">
-                                {Object.keys(weeks[start]).map((x) => {
-                                    let item = weeks[start][x]
-                                    return (
-                                    <Box align="center" direction="row" justify="between">
-                                            <Box direction="row" align="center">
-                                                <ColorDot color={StatusTypes[x || '']} size={10}/>
-                                                <Text>{((item / value )* 100).toFixed(2)}% - {x}</Text>
-                                            </Box>
-                                        <Text margin={{left: 'small'}}>{formatter.format(item)}</Text>
-                                    </Box>
-                                    )
-                                }
-                                )}
-                            </Box>
-                     
-                        </Box>
-                    ),
-                }
-            }))
+            parseEstimates()
+          
         }
     }, [JSON.stringify(quotes), view])
 
     useEffect(() => {
-        // utils.quote.getAll().then((quotes) => {
-
-        //   setData(quotes.map((x: any) => 
-        //   {
-        //       let start = new Date(moment(x.StartDate).startOf('isoWeek').valueOf())
-        //       let end =  new Date(moment(start).add(7, 'days').valueOf())
-
-        //       console.log(start, end)
-        //   return {
-        //        id: `${x?.QuoteID}`, 
-        //        status: x?.Status,
-        //        color: stringToColor(x?.Name), 
-        //        name: x?.Name, 
-        //        start: start,
-        //        showLabel: formatter.format(parseInt(x?.TotalLinePrice?.toFixed(0) || 0)),
-        //        end: end,
-        //        price: parseInt(x?.TotalLinePrice?.toFixed(0)) || 0 
-        //     }
-        //   }))
-        // })
-    }, [])
+        parseEstimates()
+    }, [filter])        
 
     useEffect(() => {
         let year = moment(horizon?.start).get('year')
@@ -506,28 +548,6 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         if (year != oldYear) {
             if (horizon?.start) setDate(horizon?.start)
 
-            // utils.quote.fetchMonthQuotes(year).then((quotes) => {
-            //     console.log(quotes)
-
-            //     setData(quotes.map((x: any) => 
-            //     {
-            //         let start = new Date(moment(x.StartDate).startOf('isoWeek').valueOf())
-            //         let end =  new Date(moment(start).add(7, 'days').valueOf())
-
-            //         console.log(start, end)
-            //     return {
-            //          id: `${x?.QuoteID}`, 
-            //          status: x?.Status,
-            //          color: stringToColor(x?.Name), 
-            //          name: x?.Name, 
-            //          start: start,
-            //          showLabel: formatter.format(parseInt(x?.TotalLinePrice?.toFixed(0) || 0)),
-            //          end: end,
-            //          price: parseInt(x?.TotalLinePrice?.toFixed(0)) || 0 
-            //       }
-            //     }))
-
-            // })
         }
     }, [horizon?.start])
 
@@ -593,7 +613,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                         startDate: plan.startDate.toISOString(),
                         endDate: plan.endDate.toISOString(),
                         notes: plan.notes,
-                        // items: {create: plan.items.map((x) => ({node: x})) } || []
+                        items:  plan.items || []
                     }
                 }
             }).then((data) => {
@@ -663,6 +683,11 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                 projects={projects?.map((x) => ({ id: x.id, name: x.name, type: "Project" })).concat(estimates?.map((x) => ({ id: x.id, name: x.name, type: "Estimate" })) || []) || []}
                 open={erpModal} />
             <TimelineHeader
+                filter={filter}
+                filters={filters}
+                onFilterChanged={(filter) => {
+                    setFilter(filter)
+                }}
                 onAdd={() => openERP(true)}
                 view={view}
                 onViewChange={(view) => setView(view)} />
@@ -675,6 +700,55 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
 
                 <Timeline
+                    dayInfo={(day) => {
+                        
+                        let horizonStart = day.clone().startOf('isoWeek').valueOf()
+                        let horizonEnd = day.clone().endOf('isoWeek').valueOf()
+
+                        console.log(day, people, horizonStart, horizonEnd)
+                        let people_power = people?.filter((a) => {
+                            console.log(horizonEnd, new Date(a.startDate).getTime(), horizonStart < (new Date(a.endDate).getTime()))
+                            return (horizonEnd > (new Date(a?.startDate).getTime() || 0) && horizonStart < (new Date(a?.endDate).getTime() || 0))
+                        })
+
+                        let job_power = capacity?.filter((a) => {
+                            return (horizonEnd > (new Date(a?.startDate).getTime() || 0) && horizonStart < (new Date(a?.endDate).getTime() || 0))
+                        })
+                        console.log(people_power)
+
+                        let week_power = people_power?.reduce((previous, current) => {
+                            let weeks = moment(current?.endDate).diff(moment(current?.startDate), 'weeks')
+                            // console.log(current.items({}))
+                            let week = current?.items?.reduce((prev, cur) => {
+                                return prev + (cur?.estimate || 0)
+                            }, 0)
+
+                            return previous + ((week || 0) * 45) //((week || 0) / weeks)
+                        }, 0)
+
+                        let job_week = job_power?.reduce((previous, current) => {
+                            let weeks = moment(current?.endDate).diff(moment(current?.startDate), 'weeks') || 1
+
+                            let week = _.reduce(current?.items, (prev, curr) => prev + (curr?.estimate || 0), 0)
+                            // let week = (current?.items && current?.items.length > 0) ? (current?.items || []).reduce((prev, cur) => {
+                            //     return prev + (cur?.estimate && !isNaN(cur?.estimate) ? cur?.estimate : 0)
+                            // }, 0) : 0;
+
+                            // if(week != undefined && week > 0) week = week / weeks;
+
+                            return previous + (week && week > 0 ? (week) / weeks : 0) //((week || 0) / weeks)
+                        }, 0)
+
+                        console.log(job_week, week_power)
+
+                        let alarm_level = (job_week || 0) > (week_power || 0) ? ((job_week || 0) / (week_power || 0)) : 0;
+                       
+                        return (alarm_level > 0) && (
+                            <Text 
+                                color={alarm_level == Infinity ? 'red' : undefined}
+                                size="small">{alarm_level != Infinity ? `${(alarm_level * 100).toFixed(2)}%` : "No people available"}</Text>
+                        )
+                    }}
                     dayStatus={(day) => {
                         let horizonStart = day.clone().startOf('isoWeek').valueOf()
                         let horizonEnd = day.clone().endOf('isoWeek').valueOf()
@@ -689,7 +763,8 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
                         let week_power = people_power?.reduce((previous, current) => {
                             let weeks = moment(current?.endDate).diff(moment(current?.startDate), 'weeks')
-                            let week = current?.items?.({})?.reduce((prev, cur) => {
+                            // console.log(current.items({}))
+                            let week = current?.items?.reduce((prev, cur) => {
                                 return prev + (cur?.estimate || 0)
                             }, 0)
 
@@ -701,13 +776,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
                             let week = _.reduce(current?.items, (prev, curr) => prev + (curr?.estimate || 0), 0)
 
-                            // let week = (current?.items && current?.items.length > 0) ? (current?.items || []).reduce((prev, cur) => {
-                            //     return prev + (cur?.estimate && !isNaN(cur?.estimate) ? cur?.estimate : 0)
-                            // }, 0) : 0;
-
-                            // if(week != undefined && week > 0) week = week / weeks;
-
-                            return previous + ((week || 0) / weeks) //((week || 0) / weeks)
+                            return previous + (week && week > 0 ? (week) / weeks : 0) //((week || 0) / weeks)
                         }, 0)
 
                         let alarm_level = (job_week || 0) > (week_power || 0) ? ((job_week || 0) / (week_power || 0)) : 0;

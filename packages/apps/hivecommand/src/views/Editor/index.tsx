@@ -33,7 +33,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
 
     console.log("PROGRAM", program)
     
-    const [ updateProject, updateInfo ] = programActions.useUpdateProgram(props.match.params.id)
+    // const [ updateProject, updateInfo ] = programActions.useUpdateProgram(props.match.params.id)
 
     const query = qs.parse(props.location.search, {ignoreQueryPrefix: true})
 
@@ -47,6 +47,8 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 <Spinner size="medium"/>
                 <Text>Loading Editor ...</Text>
             </Box>)}>
+
+        <Text>{program.name}</Text>
         <Editor
             onBack={() => {
                 props.history.push(`/dashboard/programs`)
@@ -232,7 +234,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 })
             }}
             onPublish={(program) => {
-                updateProject(  {args: {id: props.match.params.id, update: program}})
+                // updateProject(  {args: {id: props.match.params.id, update: program}})
                 console.log("PROGRAM", program)
             }}
             view={(query.view || 'program') as any}

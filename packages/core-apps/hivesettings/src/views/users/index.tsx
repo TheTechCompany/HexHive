@@ -59,7 +59,25 @@ export const Users = () => {
 	const [ updateUser, updateInfo ] = useMutation((mutation, args: {id: string, name: string, email: string, add_roles: string[], remove_roles: string[]}) => {
 		if(!args.id) return {err: "No ID"}
 		const user = mutation.updateHiveOrganisations({update: {
-			members: [{update: {node: {name: args.name, username: args.email, roles: [{connect: [{where: {node: {id_IN: args.add_roles}}}], disconnect: [{where: {node: {id_IN: args.remove_roles}}}]}]}}, where: {node: {id: args.id}}}]
+			members: [{
+				update: {
+					node: {
+						name: args.name, 
+						username: args.email, 
+						roles: [
+							{
+								connect: [
+									{where: {node: {id_IN: args.add_roles}}}
+								], 
+								disconnect: [
+									{where: {node: {id_IN: args.remove_roles}}}
+								]
+							}
+						]
+					}
+				}, 
+				where: {node: {id: args.id}}
+			}]
 		}})
 		return {
 			item : {
@@ -98,6 +116,7 @@ export const Users = () => {
 								refetch()
 							})
 						}else{
+							console.log(user)
 							updateUser({args: {...user}}).then((data) => {
 								openModal(false)
 								refetch()

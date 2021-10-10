@@ -44,7 +44,7 @@ export class MSSQLWorker extends EventEmitter {
 		this.pool = await mssql.connect(this.config)
 		// await this.discover();
 		this.task.forEach((task) => {
-			setInterval(this.poll.bind(this, task), 10000)
+			setInterval(this.poll.bind(this, task), 60 * 1000)
 		})
 	}
 

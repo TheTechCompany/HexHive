@@ -112,7 +112,12 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 		}
 	`)
 	const resolvers = {
-		
+		HiveIntegrationPath: {
+			collections: (source: any, args: any, context: any) => {
+				return [{name: "vw_Jsis_Jobs"}]
+				console.log(source, args, context)
+			}
+		},
 		HiveFile: {
 			// path: (source: any, args: any, context: any) => {
 			//     console.log(source, args, context)
@@ -224,6 +229,23 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 			}
 		},
 		Mutation: {
+			updateHiveIntegrationInstanceState: async (root: any, args: any, context: any) => {
+				let org = context.user.organisation;
+
+				const result = await session.writeTransaction(async (tx) => {
+					const r = await tx.run(`
+						MATCH (org:HiveOrganisation {id: $org})-[:USES_INTEGRATION]->(inst:HiveIntegrationInstance {id: $id})\
+						SET inst.isRunning = $state
+						RETURN inst
+					`, {
+						org,
+						id: args.id,
+						state: args.state
+					})
+					return r.records.map((x) => x.get(0).properties)
+				})
+				return result !== undefined
+			},
 			inviteHiveUser: async (root: any, args: {name: string, email: string}, context: any) => {
 				const users = await HiveUser.find({where: {username: args.email}, selectionSet: `
 					{
