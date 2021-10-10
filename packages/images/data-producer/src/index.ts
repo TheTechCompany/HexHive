@@ -23,7 +23,7 @@ const kafka = new Kafka({
     brokers: [KAFKA_URL]
 })
 
-const TOPIC = 'LOAD-STREAM-IN';
+const TOPIC = 'LOADER-STREAM';
 
 interface HiveEvent {
     id: string;
@@ -33,32 +33,17 @@ interface HiveEvent {
     actions: "CREATE" | "UPDATE";
 }
 
-const parseEvent = async (event: HiveEvent) => {
-    
-
-
-    
-    // return await submitFileEvent({id: event.id, pipeline: result.id})
-
-    // switch(event.service){
-    //     case 'Files':
-    //         submitFileEvent(event).then((parsed) => {
-    //             console.log("File Event", parsed)
-    //         })
-    //         break;
-    //     default:
-    //         break;
-    // }
-}
-
 
 const main = async () => {
+    console.log('=> Data Collector starting...')
+
     const producer = kafka.producer()
 
     const task = JSON.parse(readFileSync('./task.json', 'utf8'))
 
     await producer.connect()
 
+    console.log('=> Fetching initial state')
     const initialState = await session.readTransaction(async (tx) => {
         const r = await Promise.all<any[]>(task.map(async (t: WorkerTask) => {
             const r = await tx.run(`
@@ -83,7 +68,7 @@ const main = async () => {
         return r.reduce<any>((prev, curr) => ({...prev, ...curr}), {})
     })
 
-
+    console.log("Starting worker...")
 	const worker = new MSSQLWorker({
 		server: process.env.SQL_SERVER || ``,
 		user: process.env.SQL_USER,
@@ -157,38 +142,6 @@ const main = async () => {
             ]
         })
     })
-
-    // await producer.send({
-    //     topic: TOPIC,
-    //     messages: [
-    //         {value: JSON.stringify({
-    //             service: "Files",
-    //             event: "convert_files",
-    //             data: {
-    //                 inputs: ["123"]
-    //             }
-    //         })}
-    //     ]
-    // })
-
-    
-    // const consumer = kafka.consumer({groupId: 'data-worker'})
-
-    // await consumer.connect()
-
-    // await consumer.subscribe({topic: TOPIC, fromBeginning: true})
-
-    // await consumer.run({
-    //     eachMessage: async ({topic, partition, message}) => {
-    //         let json = JSON.parse(message.value?.toString() || '{}')
-            
-    //         await parseEvent(json)
-
-    //     }
-    // })
-
-    // await consumer.disconnect()
-    // await producer.disconnect()
 }
 
 main()

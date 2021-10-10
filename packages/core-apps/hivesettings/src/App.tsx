@@ -10,6 +10,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client
 import { AppSingle } from './views/app-single/AppSingle';
 import { IntegrationList } from './views/integration-list';
 import { IntegrationSingle } from './views/integration-single';
+import { IntegrationEditor } from './views/integration-editor';
 
 
 const client = new ApolloClient({
@@ -48,6 +49,7 @@ export const App = (props)=> {
 					<Route path="/apps" exact component={Apps} />
 					<Route path="/integrations" exact component={IntegrationList} />
 					<Route path="/integrations/:id" exact component={IntegrationSingle} />
+					<Route path="/integrations/:id/edit" exact component={IntegrationEditor} />
 					<Route path="/apps/:id" component={AppSingle} />
 
 					<Route path="/usage" component={Usage} />

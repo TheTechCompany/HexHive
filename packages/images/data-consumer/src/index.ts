@@ -20,7 +20,7 @@ const kafka = new Kafka({
     brokers: [KAFKA_URL]
 })
 
-const TOPIC = 'LOAD-STREAM-IN';
+const TOPIC = 'LOADER-STREAM';
 
 interface HiveEvent {
     id: string;
@@ -111,6 +111,9 @@ const main = async () => {
                 switch(json.action){
                     case 'CREATE':
                         let create : any = {}
+                        if(Array.isArray(json.data)){
+                            json.data = json.data[0]
+                        }
                         Object.keys(json.data).forEach((key) => {
                             if(json.data[key].type == "Date" || json.data[key].type == "Function"){
                                 create[key] = stringToDate(json.data[key].value)
@@ -119,7 +122,7 @@ const main = async () => {
                             }
                         })
 
-                        console.log(json.data)
+                        console.log(json)
                         let firstSet = Object.keys(json.data || {}).filter((a) => {
                             if(json.data[a].type == "Date" || json.data[a].type == "Function"){
                                 return json.data[a].value && json.data[a].value.indexOf('NaN') <0
@@ -129,6 +132,9 @@ const main = async () => {
                             return `SET item.${key} = ${json.data[key]?.type == "Date" || json.data[key]?.type == "Function" ? `datetime($${key})` : `$${key}`}`;
                         }).join('\n')
     
+                        let keyField = {[json.primaryKey]: json.data[json.primaryKey]}
+                        console.log(keyField)
+
                         const items =  await session.run(`
                             MATCH (org:HiveOrganisation {id: $orgId})
                             MATCH (org)-[:HAS_${json.type.toUpperCase()}]->(item:${json.type} {${json.primaryKey}: $${json.primaryKey}})
@@ -136,7 +142,7 @@ const main = async () => {
                             RETURN item
                         `, {
                             orgId: process.env.ORG_ID,
-                            [json.primaryKey]: json.id,
+                            ...keyField,
                             ...create
                         })
                         if(items.records.length < 1){

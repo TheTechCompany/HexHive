@@ -112,7 +112,12 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 		}
 	`)
 	const resolvers = {
-		
+		HiveIntegrationPath: {
+			collections: (source: any, args: any, context: any) => {
+				return [{name: "vw_Jsis_Jobs"}]
+				console.log(source, args, context)
+			}
+		},
 		HiveFile: {
 			// path: (source: any, args: any, context: any) => {
 			//     console.log(source, args, context)

@@ -1,5 +1,5 @@
 import { Box, Button, List, Text } from 'grommet';
-import { Add, Play, Stop } from 'grommet-icons';
+import { Add, Play, Edit, Stop } from 'grommet-icons';
 import React, { useState } from 'react';
 import { useQuery as useApollo, gql, useApolloClient } from '@apollo/client'
 import { IntegrationModal } from '../../components/modals/IntegrationModal/IntegrationModal';
@@ -142,19 +142,30 @@ export const IntegrationSingle = (props) => {
 					pad="xsmall"
 					background="accent-2">
 					<Text>{instances?.name}</Text>
-					<Button 
-						onClick={() => {
-							updateState({args: {
-								id: props.match.params.id,
-								state: !instances?.isRunning
-							}}).then(() => {
-								refetchIntegrations()
-							})
-						}}
-						plain 
-						style={{padding: 6, borderRadius: 3}} 
-						hoverIndicator 
-						icon={instances?.isRunning ? <Stop size="small" /> : <Play size="small" />} />
+					<Box direction="row" align="center">
+						<Button 
+							onClick={() => {
+								updateState({args: {
+									id: props.match.params.id,
+									state: !instances?.isRunning
+								}}).then(() => {
+									refetchIntegrations()
+								})
+							}}
+							plain 
+							style={{padding: 6, borderRadius: 3}} 
+							hoverIndicator 
+							icon={instances?.isRunning ? <Stop size="small" /> : <Play size="small" />} />
+						<Button
+							onClick={() => {
+								props.history.push(`${props.match.url}/edit`)
+							}}
+							hoverIndicator
+							plain
+							style={{padding: 6, borderRadius: 3}}
+							size="small"
+							icon={<Edit size="small" />} />	
+					</Box>
 				</Box>
 				<Box gap="xsmall" flex direction="row">
 					<Box gap="xsmall" flex>

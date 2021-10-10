@@ -10,11 +10,28 @@ type HiveService {
 }
 
 
+type HiveType {
+    id: ID! @id
+    name: String
+    fields: [HiveTypeField] @relationship(type: "HAS_FIELD", direction: OUT)
+
+    usedIn: [HiveAppliance] @relationship(type: "USES_TYPE", direction: IN)
+    
+}
+
+type HiveTypeField {
+    id: ID! @id
+    name: String
+    type: String
+}
+
 type HiveAppliance {
     id: ID! @id
     name: String!
     label: String
     description: String
+
+    types: [HiveType] @relationship(type: "USES_TYPE", direction: OUT)
     
     permissions: [Permission] @relationship(type: "PROVIDES", direction: OUT)
     services: [HiveService] @relationship(type: "USES", direction: OUT)
@@ -22,10 +39,16 @@ type HiveAppliance {
 
 }
 
+type HiveIntegrationPathCollection {
+    name: String
+}
+
 type HiveIntegrationPath {
     id: ID! @id
     name: String
-    data: String
+    type: String
+    collections: [HiveIntegrationPathCollection]
+    connectionBlob: String
     instance: HiveIntegrationInstance @relationship(type: "USES_CONNECTION", direction: IN)
 }
 
