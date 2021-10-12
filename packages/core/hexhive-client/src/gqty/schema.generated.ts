@@ -762,6 +762,7 @@ export interface CommandProgramFlowConnectWhere {
 }
 
 export interface CommandProgramFlowCreateInput {
+  name?: Maybe<Scalars["String"]>;
   nodes?: Maybe<CommandProgramFlowNodesFieldInput>;
   programs?: Maybe<CommandProgramFlowProgramsFieldInput>;
 }
@@ -887,9 +888,11 @@ export interface CommandProgramFlowRelationInput {
 /** Fields to sort CommandProgramFlows by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramFlowSort object. */
 export interface CommandProgramFlowSort {
   id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
 }
 
 export interface CommandProgramFlowUpdateInput {
+  name?: Maybe<Scalars["String"]>;
   nodes?: Maybe<Array<CommandProgramFlowNodesUpdateFieldInput>>;
   programs?: Maybe<Array<CommandProgramFlowProgramsUpdateFieldInput>>;
 }
@@ -907,6 +910,16 @@ export interface CommandProgramFlowWhere {
   id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
   id_ENDS_WITH?: Maybe<Scalars["ID"]>;
   id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   nodes?: Maybe<CommandProgramNodeWhere>;
   nodes_NOT?: Maybe<CommandProgramNodeWhere>;
   programs?: Maybe<CommandProgramWhere>;
@@ -947,6 +960,7 @@ export interface CommandProgramHmiCreateFieldInput {
 }
 
 export interface CommandProgramHMICreateInput {
+  name?: Maybe<Scalars["String"]>;
   nodes?: Maybe<CommandProgramHMINodesFieldInput>;
   programs?: Maybe<CommandProgramHMIProgramsFieldInput>;
 }
@@ -1087,6 +1101,7 @@ export interface CommandProgramHMIRelationInput {
 /** Fields to sort CommandProgramHMIS by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramHMISort object. */
 export interface CommandProgramHMISort {
   id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
 }
 
 export interface CommandProgramHmiUpdateConnectionInput {
@@ -1103,6 +1118,7 @@ export interface CommandProgramHmiUpdateFieldInput {
 }
 
 export interface CommandProgramHMIUpdateInput {
+  name?: Maybe<Scalars["String"]>;
   nodes?: Maybe<Array<CommandProgramHMINodesUpdateFieldInput>>;
   programs?: Maybe<Array<CommandProgramHMIProgramsUpdateFieldInput>>;
 }
@@ -1120,6 +1136,16 @@ export interface CommandProgramHMIWhere {
   id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
   id_ENDS_WITH?: Maybe<Scalars["ID"]>;
   id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   nodes?: Maybe<CommandProgramNodeWhere>;
   nodes_NOT?: Maybe<CommandProgramNodeWhere>;
   programs?: Maybe<CommandProgramWhere>;
@@ -12450,6 +12476,7 @@ export const generatedSchema = {
   CommandProgramFlow: {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
+    name: { __type: "String" },
     nodes: {
       __type: "[CommandProgramNode]",
       __args: {
@@ -12508,6 +12535,7 @@ export const generatedSchema = {
   CommandProgramHMI: {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
+    name: { __type: "String" },
     nodes: {
       __type: "[CommandProgramNode]",
       __args: {
@@ -15680,6 +15708,7 @@ export const generatedSchema = {
     node: { __type: "CommandProgramFlowWhere!" },
   },
   CommandProgramFlowCreateInput: {
+    name: { __type: "String" },
     nodes: { __type: "CommandProgramFlowNodesFieldInput" },
     programs: { __type: "CommandProgramFlowProgramsFieldInput" },
   },
@@ -15778,8 +15807,12 @@ export const generatedSchema = {
     nodes: { __type: "[CommandProgramFlowNodesCreateFieldInput!]" },
     programs: { __type: "[CommandProgramFlowProgramsCreateFieldInput!]" },
   },
-  CommandProgramFlowSort: { id: { __type: "SortDirection" } },
+  CommandProgramFlowSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
   CommandProgramFlowUpdateInput: {
+    name: { __type: "String" },
     nodes: { __type: "[CommandProgramFlowNodesUpdateFieldInput!]" },
     programs: { __type: "[CommandProgramFlowProgramsUpdateFieldInput!]" },
   },
@@ -15796,6 +15829,16 @@ export const generatedSchema = {
     id_NOT_STARTS_WITH: { __type: "ID" },
     id_ENDS_WITH: { __type: "ID" },
     id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
     nodes: { __type: "CommandProgramNodeWhere" },
     nodes_NOT: { __type: "CommandProgramNodeWhere" },
     programs: { __type: "CommandProgramWhere" },
@@ -15831,6 +15874,7 @@ export const generatedSchema = {
     node: { __type: "CommandProgramHMICreateInput!" },
   },
   CommandProgramHMICreateInput: {
+    name: { __type: "String" },
     nodes: { __type: "CommandProgramHMINodesFieldInput" },
     programs: { __type: "CommandProgramHMIProgramsFieldInput" },
   },
@@ -15941,7 +15985,10 @@ export const generatedSchema = {
     nodes: { __type: "[CommandProgramHMINodesCreateFieldInput!]" },
     programs: { __type: "[CommandProgramHMIProgramsCreateFieldInput!]" },
   },
-  CommandProgramHMISort: { id: { __type: "SortDirection" } },
+  CommandProgramHMISort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
   CommandProgramHmiUpdateConnectionInput: {
     node: { __type: "CommandProgramHMIUpdateInput" },
   },
@@ -15954,6 +16001,7 @@ export const generatedSchema = {
     delete: { __type: "[CommandProgramHmiDeleteFieldInput!]" },
   },
   CommandProgramHMIUpdateInput: {
+    name: { __type: "String" },
     nodes: { __type: "[CommandProgramHMINodesUpdateFieldInput!]" },
     programs: { __type: "[CommandProgramHMIProgramsUpdateFieldInput!]" },
   },
@@ -15970,6 +16018,16 @@ export const generatedSchema = {
     id_NOT_STARTS_WITH: { __type: "ID" },
     id_ENDS_WITH: { __type: "ID" },
     id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
     nodes: { __type: "CommandProgramNodeWhere" },
     nodes_NOT: { __type: "CommandProgramNodeWhere" },
     programs: { __type: "CommandProgramWhere" },
@@ -26242,6 +26300,7 @@ export interface CommandProgram {
 export interface CommandProgramFlow {
   __typename?: "CommandProgramFlow";
   id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
   nodes: (args?: {
     where?: Maybe<CommandProgramNodeWhere>;
     options?: Maybe<CommandProgramNodeOptions>;
@@ -26293,6 +26352,7 @@ export interface CommandProgramFlowProgramsRelationship {
 export interface CommandProgramHMI {
   __typename?: "CommandProgramHMI";
   id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
   nodes: (args?: {
     where?: Maybe<CommandProgramNodeWhere>;
     options?: Maybe<CommandProgramNodeOptions>;

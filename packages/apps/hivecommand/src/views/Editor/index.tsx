@@ -1,7 +1,7 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useApolloClient, useQuery } from '@apollo/client';
 import React, { Suspense, lazy, useEffect, useRef, useState, useCallback } from 'react';
 import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-shards';
-import { Box, Text, Spinner, Button } from 'grommet';
+import { Box, Text, Spinner, Button, Collapsible, List } from 'grommet';
 import { programActions } from '../../actions';
 import { Program, useQuery as useQLess} from '@hexhive/client';
 import Editor from '@hexhive/command-editor'
@@ -15,7 +15,7 @@ import { IFlowShardPaths } from '@hexhive/types/dist/interfaces';
 import { ZoomControls } from '../../components/zoom-controls';
 import { NodeDropdown } from '../../components/node-dropdown';
 import { nanoid } from 'nanoid';
-import { Action, Trigger } from 'grommet-icons'
+import { Action, Add, Trigger, Menu } from 'grommet-icons'
 import { useMutation } from '@hexhive/client';
 
 export interface EditorProps extends RouteComponentProps<{id: string}> {
@@ -24,8 +24,13 @@ export interface EditorProps extends RouteComponentProps<{id: string}> {
 
 export const EditorPage: React.FC<EditorProps> = (props) => {
 
+    const [ sidebarOpen, openSidebar ] = useState<boolean>(false);
+
     const [ nodes, setNodes ] = useState<InfiniteCanvasNode[]>([]);
     const [ paths, _setPaths ] = useState<InfiniteCanvasPath[]>([]);
+
+
+    const [ activeProgram, setActiveProgram ] = useState<string>('')
 
     const pathRef = useRef<{paths: InfiniteCanvasPath[]}>({paths: []})
 
@@ -48,12 +53,16 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
         }
     })
 
+    const client = useApolloClient()
+
     const { data } = useQuery(gql`
         query Q ($id: ID){
             commandPrograms(where: {id: $id}){
                 id
                 name
                 program {
+                    id
+                    name
                     nodes {
                         x 
                         y
@@ -61,6 +70,8 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 }
 
                 hmi {
+                    id
+                    name
                     nodes {
                         x
                         y
@@ -79,7 +90,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
             where: {id: props.match.params.id},
             update: {
                 program: [{
-                    where: {node: {id: 'default'}},
+                    where: {node: {id: activeProgram}},
                     update: {
                         node: {
                             nodes: [{create: [{node: {
@@ -97,6 +108,39 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
             }
         }
     })
+
+    const [ addProgram, addProgramInfo ] = useMutation((mutation, args) => {
+        const program = mutation.updateCommandPrograms({
+            where: {id: props.match.params.id},
+            update: {
+                program: [{create: [{node: {
+                    name: "Default"
+                }}]}]
+            }
+        })
+        return {
+            item: {
+                ...program.commandPrograms[0]
+            }
+        }
+    })
+
+    useEffect(() => {
+        let program = data?.commandPrograms?.[0]
+        if(program && activeProgram){
+            console.log(program, activeProgram, program.program.find((a) => a.id == activeProgram))
+            setNodes(program.program.find((a) => a.id == activeProgram).nodes.map((x) => ({
+                x: x.x,
+                y: x.y,
+                type: 'icon-node',
+                
+            })))
+        }
+    }, [data?.commandPrograms?.[0], activeProgram])
+
+    const refetch = () => {
+        client.refetchQueries({include: ['Q']})
+    }
     // const program = gqless.commandPrograms
    
     const program = data?.commandPrograms?.[0] || {};
@@ -140,7 +184,19 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 pad="xsmall" 
                 direction="row" 
                 background="accent-2">
-                <Text>{program.name}</Text>
+                <Box 
+                    align="center"
+                    direction="row">
+                    <Button 
+                        onClick={() => {
+                            openSidebar(!sidebarOpen)
+                        }}
+                        plain 
+                        hoverIndicator 
+                        style={{padding: 6, borderRadius: 3}} 
+                        icon={<Menu size="small" />} />
+                    <Text>{program.name}</Text>
+                </Box>
 
                 <Box 
                     align="center"
@@ -154,7 +210,42 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     <Button style={{padding: 3}} plain label="HMI" />
                 </Box>
             </Box>
-            
+            <Box
+                flex
+                direction="row">
+                <Collapsible    
+                    direction="horizontal"
+                    open={sidebarOpen}>
+                    <Box 
+                        flex
+                        width="small">
+                        <Box 
+                            pad="xsmall"
+                            border={{side: 'bottom', size: 'small'}}
+                            direction="row" 
+                            align="center" 
+                            justify="between">
+                            <Text size="small">Programs</Text>
+                            <Button
+                                onClick={() => {
+                                    addProgram().then(() => {
+                                        refetch()
+                                    })
+                                }}
+                                hoverIndicator
+                                plain
+                                style={{padding: 6, borderRadius: 3}}
+                                icon={<Add size="small" />} />
+                        </Box>
+                        <List 
+                            onClickItem={({item}) => {
+                                console.log(item)
+                                setActiveProgram(item.id)
+                            }}
+                            primaryKey="name"
+                            data={program.program} />
+                    </Box>
+                </Collapsible>
             <InfiniteCanvas 
                 editable={true}
                 nodes={nodes}
@@ -220,6 +311,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     />
                 <ZoomControls />
             </InfiniteCanvas>
+            </Box>
         </Box>
         </Suspense>
     )

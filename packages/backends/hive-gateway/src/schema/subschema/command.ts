@@ -45,12 +45,14 @@ export default `
 
 	type CommandProgramFlow {
 		id: ID! @id
+		name: String
 		nodes: [CommandProgramNode] @relationship(type: "USES_NODE", direction: OUT)
 		programs: [CommandProgram] @relationship(type: "USES_FLOW", direction: IN)
 	}
 
 	type CommandProgramHMI {
 		id: ID! @id
+		name: String
 		nodes: [CommandProgramNode] @relationship(type: "USES_NODE", direction: OUT)
 		programs: [CommandProgram] @relationship(type: "USES_HMI", direction: IN)
 	}
