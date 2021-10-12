@@ -48,7 +48,7 @@ export const ZoomControls : React.FC<ZoomControlProps> = (props) => {
                 height="30px"/>
 
             <Publish
-                onClick={() => publishChanges?.()}
+                // onClick={() => publishChanges?.()}
                 style={{cursor: 'pointer', marginLeft: 12}}
                 height="30px" />
             </Box>
