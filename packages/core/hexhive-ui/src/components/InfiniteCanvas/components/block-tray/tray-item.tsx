@@ -1,3 +1,4 @@
+import { Box } from 'grommet';
 import React from 'react';
 import styled from 'styled-components'
 import { Block } from '../../InfiniteCanvas';
@@ -9,7 +10,8 @@ export interface TrayItemProps {
 
 const BaseTrayItem : React.FC<TrayItemProps> = (props) => {
     return (
-        <div
+        <Box
+            round="xsmall"
             draggable
             className={`tray-item ${props.className}`}
             onDragStart={(event) => {
@@ -17,12 +19,10 @@ const BaseTrayItem : React.FC<TrayItemProps> = (props) => {
                 event.stopPropagation()
             }}>
             {props.children}
-        </div>
+        </Box>
     )
 }
 
 export const TrayItem = styled(BaseTrayItem)`
-    border-color: white;
-    border-radius: 3px;
-    border: 1px solid white;
+
 `

@@ -11,12 +11,24 @@ export default `
 		name: String
 
 		network_name: String
+
+		peripherals: [CommandDevicePeripheral] @relationship(type: "HAS_PERIPHERAL", direction: OUT)
 		
 		online: Boolean
 		lastOnline: DateTime
 
 		organisation: HiveOrganisation @relationship(type: "HAS_DEVICE", direction: IN)
 
+	}
+
+	type CommandDevicePeripheral {
+		id: ID! @id
+		name: String
+		type: String
+		value: Float
+		lastUpdated: DateTime
+
+		device: CommandDevice @relationship(type: "HAS_PERIPHERAL", direction: IN)
 	}
 
 	type CommandProgram {
