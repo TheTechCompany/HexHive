@@ -9,7 +9,7 @@ export interface IconNodeProps{
     extras?: {
         label?: string;
         color?: string;
-        icon?: string;
+        icon?: any;
     },
     width?: any;
     height?: any
@@ -19,7 +19,7 @@ export interface IconNodeProps{
 const _Icons : any = Icons;
 
 export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
-    const Icon = props.extras?.icon ? _Icons[props.extras?.icon] : Icons.Previous;
+    const Icon = props.extras?.icon ? (Icons as any)[props.extras.icon] : Icons.Previous;
 
     return (
         <Box 
@@ -30,7 +30,7 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
             round="small"
             border={{style: 'dotted', size: 'small', color: props.extras?.color || 'brand'}}
             className={props.className}>
-            {props.children?.(<Icon size={"medium"} />)}
+            {props.children?.(<Icon size="medium" />)}
         </Box>
     )
 }
@@ -50,7 +50,7 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
                     justify={props.extras?.label ? 'between' : 'center'}
                     align={props.extras?.label ? 'center': 'center'}
                     direction={props.extras?.label ? 'row': 'column'}>
-                    <PortWidget type="in" id="in" />
+                    <PortWidget direction="center" type="in" id="in" />
                     {icon}
                     {props.extras?.label && (
                         <Box
@@ -61,7 +61,7 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
                         <Text>{props.extras?.label}</Text>
                         </Box>
                     )}
-                    <PortWidget type="out" id="out"    />
+                    <PortWidget direction="center" type="out" id="out"    />
                 </Box>
             )}
     

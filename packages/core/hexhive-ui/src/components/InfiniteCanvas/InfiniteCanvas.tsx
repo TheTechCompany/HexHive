@@ -37,6 +37,7 @@ export {
     PortWidget
 }
 export interface Block {
+    icon?: any;
     label?: string;
     blockType?: string;
     content?: any;

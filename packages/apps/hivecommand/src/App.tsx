@@ -5,7 +5,13 @@ import { AuthProvider, Loader } from '@hexhive/auth-ui'
 import { Grommet, Box } from 'grommet';
 import Dashboard from './views/Dashboard';
 import {BaseStyle} from '@hexhive/styles'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_API ?  `${process.env.REACT_APP_API}/graphql` : 'http://localhost:7000/graphql',
+  cache: new InMemoryCache(),
+  credentials: 'include'
+})
 function App(props: any) {
   console.log(JSON.stringify(process.env))
   return (
@@ -18,6 +24,7 @@ function App(props: any) {
  full
  theme={BaseStyle}
  plain>
+      <ApolloProvider client={client}>
 
    <Router basename={process.env.PUBLIC_URL || '/dashboard/command'}>
      <Box
@@ -28,6 +35,7 @@ function App(props: any) {
        <Route path={`/`} component={Dashboard} />
      </Box>
    </Router>
+   </ApolloProvider>
 </Grommet>
       ) : <Loader />}
      
