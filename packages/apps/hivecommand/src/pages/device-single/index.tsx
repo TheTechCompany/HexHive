@@ -8,14 +8,18 @@ import { useQuery } from '@hexhive/client'
 
 import MarkerIcon from 'leaflet/dist/images/marker-icon.png';
 import { useQuery as useApollo, gql } from '@apollo/client'
+import { BusMap } from '../../components/bus-map/BusMap';
+import { DeviceBusModal } from '../../components/modals/device-bus/DeviceBusModal';
 export interface DeviceSingleProps {
     match?: any;
     history?: any;
 }
 
 export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
-  
-
+    
+    // const [ selectedBus, setSelectedBus ] = useState<{id?: string, name: string}>({})
+    const [ modalOpen, openModal ] = useState<boolean>(false);
+    
     const query = useQuery({
         suspense: false,
         staleWhileRevalidate: true
@@ -31,6 +35,17 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                     type
                 }
 
+                activeProgram {
+                    devices {
+                        id
+                        name
+                        type {
+                            id
+                            name
+                        }
+                    }
+                }
+
             }
         }
     `)
@@ -41,8 +56,10 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
         props.history.push(`${props.match.url}/controls`)
     }
 
+    console.log(device)
     return  query.$state.isLoading ? null : (
         <Box 
+            elevation="small"
             round="xsmall"
             overflow="hidden"
             background="neutral-2"
@@ -56,39 +73,65 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                 <Text>
                     {device?.name}
                 </Text>
-                <Button icon={<ExitToApp />}
+                <Button 
+                    onClick={() => {
+                        openModal(true);
+                    }}
+                    hoverIndicator 
+                    plain 
+                    style={{padding:6, borderRadius: 3}} 
+                    size="small" 
+                    icon={<Add size="small" />} />
+                {/* <Button icon={<ExitToApp />}
                     onClick={() => goToControls()}
-                    label="Go to controls" />
+                    label="Go to controls" /> */}
             </Box>
 
+            <DeviceBusModal
+                open={modalOpen}
+                onClose={() => {
+                    openModal(false)
+                }}
+                />
             <Box 
-                background="neutral-1"
-                direction="row"
+                background="#dfdfdf"
                 flex>
+                    
+                <BusMap
+                    add
+                    devices={device?.activeProgram?.devices}
+                    buses={[
+                        {
+                            id: '1', 
+                            name: "IO-master",
+                            ports: 8
+                        },
+                        {
+                            id: '2', 
+                            name: "IOT Master",
+                            ports: 8
+                        },
+                        {
+                            id: '3',
+                            name: 'RevPi DIO',
+                            ports: {
+                                inputs: 14,
+                                outputs: 14
+                            }
+                        }
+                    ]}/>
+{/* 
                 <Box 
-                    width="small" 
-                    elevation="small">
-                    <Box 
-                        background="accent-1"
-                        direction="row" 
-                        align="center" 
-                        justify="between" 
-                        pad="xsmall">
-                        <Text size="small">Devices</Text>
-                        <Button 
-                            plain
-                            style={{padding: 6, borderRadius: 3}}
-                            size="small"
-                            hoverIndicator
-                            icon={<Add size="small" />} />
-                    </Box>
-                    <List 
-                        primaryKey="name"
-                        data={device.peripherals} />
-                </Box>
-                <Box flex>
-                </Box>
+                    background="neutral-1"
+                    round={{corner: 'top', size: 'small'}}
+                    elevation="medium"
+                    align="center"
+                    justify="center"
+                    flex>
+                        <Text size="small">Select a Bus to configure...</Text>
+                </Box> */}
             </Box>
+        
                 {/* <Box className="detail-col">
                     <Box>
                         <Select 

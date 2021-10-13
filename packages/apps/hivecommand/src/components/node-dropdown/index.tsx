@@ -54,12 +54,12 @@ export const BaseNodeDropdown : React.FC<NodeDropdownProps> = (props) => {
                             background="accent-1"
                             pad="xsmall"
                             round="xsmall"
-                            justify={block.extras.dimensions ? "center" : 'start'}
+                            justify={block.extras?.dimensions ? "center" : 'start'}
                             align="center"
                             direction="row">
                             {block.icon}
                             <Box 
-                                style={block.extras.dimensions || {marginLeft: 8}}>{block.content || block.extras.label}</Box>
+                                style={block.extras?.dimensions || {marginLeft: 8}}>{block.content || block?.label}</Box>
                         </Box>)}
                         blocks={props.items as any} />
 

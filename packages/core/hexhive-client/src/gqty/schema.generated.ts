@@ -37,7 +37,56 @@ export enum SortDirection {
   DESC = "DESC",
 }
 
+export interface CommandDeviceActiveProgramConnectFieldInput {
+  where?: Maybe<CommandProgramConnectWhere>;
+  connect?: Maybe<CommandProgramConnectInput>;
+}
+
+export interface CommandDeviceActiveProgramConnectionSort {
+  node?: Maybe<CommandProgramSort>;
+}
+
+export interface CommandDeviceActiveProgramConnectionWhere {
+  AND?: Maybe<Array<CommandDeviceActiveProgramConnectionWhere>>;
+  OR?: Maybe<Array<CommandDeviceActiveProgramConnectionWhere>>;
+  node?: Maybe<CommandProgramWhere>;
+  node_NOT?: Maybe<CommandProgramWhere>;
+}
+
+export interface CommandDeviceActiveProgramCreateFieldInput {
+  node: CommandProgramCreateInput;
+}
+
+export interface CommandDeviceActiveProgramDeleteFieldInput {
+  where?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
+  delete?: Maybe<CommandProgramDeleteInput>;
+}
+
+export interface CommandDeviceActiveProgramDisconnectFieldInput {
+  where?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDisconnectInput>;
+}
+
+export interface CommandDeviceActiveProgramFieldInput {
+  create?: Maybe<CommandDeviceActiveProgramCreateFieldInput>;
+  connect?: Maybe<CommandDeviceActiveProgramConnectFieldInput>;
+}
+
+export interface CommandDeviceActiveProgramUpdateConnectionInput {
+  node?: Maybe<CommandProgramUpdateInput>;
+}
+
+export interface CommandDeviceActiveProgramUpdateFieldInput {
+  where?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
+  update?: Maybe<CommandDeviceActiveProgramUpdateConnectionInput>;
+  connect?: Maybe<CommandDeviceActiveProgramConnectFieldInput>;
+  disconnect?: Maybe<CommandDeviceActiveProgramDisconnectFieldInput>;
+  create?: Maybe<CommandDeviceActiveProgramCreateFieldInput>;
+  delete?: Maybe<CommandDeviceActiveProgramDeleteFieldInput>;
+}
+
 export interface CommandDeviceConnectInput {
+  activeProgram?: Maybe<CommandDeviceActiveProgramConnectFieldInput>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsConnectFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationConnectFieldInput>;
 }
@@ -51,16 +100,19 @@ export interface CommandDeviceCreateInput {
   network_name?: Maybe<Scalars["String"]>;
   online?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
+  activeProgram?: Maybe<CommandDeviceActiveProgramFieldInput>;
   peripherals?: Maybe<CommandDevicePeripheralsFieldInput>;
   organisation?: Maybe<CommandDeviceOrganisationFieldInput>;
 }
 
 export interface CommandDeviceDeleteInput {
+  activeProgram?: Maybe<CommandDeviceActiveProgramDeleteFieldInput>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsDeleteFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationDeleteFieldInput>;
 }
 
 export interface CommandDeviceDisconnectInput {
+  activeProgram?: Maybe<CommandDeviceActiveProgramDisconnectFieldInput>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsDisconnectFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationDisconnectFieldInput>;
 }
@@ -324,6 +376,7 @@ export interface CommandDevicePeripheralWhere {
 }
 
 export interface CommandDeviceRelationInput {
+  activeProgram?: Maybe<CommandDeviceActiveProgramCreateFieldInput>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsCreateFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationCreateFieldInput>;
 }
@@ -342,6 +395,7 @@ export interface CommandDeviceUpdateInput {
   network_name?: Maybe<Scalars["String"]>;
   online?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
+  activeProgram?: Maybe<CommandDeviceActiveProgramUpdateFieldInput>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsUpdateFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationUpdateFieldInput>;
 }
@@ -389,14 +443,276 @@ export interface CommandDeviceWhere {
   lastOnline_LTE?: Maybe<Scalars["DateTime"]>;
   lastOnline_GT?: Maybe<Scalars["DateTime"]>;
   lastOnline_GTE?: Maybe<Scalars["DateTime"]>;
+  activeProgram?: Maybe<CommandProgramWhere>;
+  activeProgram_NOT?: Maybe<CommandProgramWhere>;
   peripherals?: Maybe<CommandDevicePeripheralWhere>;
   peripherals_NOT?: Maybe<CommandDevicePeripheralWhere>;
   organisation?: Maybe<HiveOrganisationWhere>;
   organisation_NOT?: Maybe<HiveOrganisationWhere>;
+  activeProgramConnection?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
+  activeProgramConnection_NOT?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
   peripheralsConnection?: Maybe<CommandDevicePeripheralsConnectionWhere>;
   peripheralsConnection_NOT?: Maybe<CommandDevicePeripheralsConnectionWhere>;
   organisationConnection?: Maybe<CommandDeviceOrganisationConnectionWhere>;
   organisationConnection_NOT?: Maybe<CommandDeviceOrganisationConnectionWhere>;
+}
+
+export interface CommandHMINodeConnectInput {
+  flow?: Maybe<Array<CommandHMINodeFlowConnectFieldInput>>;
+  previous?: Maybe<Array<CommandHMINodePreviousConnectFieldInput>>;
+  next?: Maybe<Array<CommandHMINodeNextConnectFieldInput>>;
+}
+
+export interface CommandHMINodeConnectWhere {
+  node: CommandHMINodeWhere;
+}
+
+export interface CommandHMINodeCreateInput {
+  x?: Maybe<Scalars["Float"]>;
+  y?: Maybe<Scalars["Float"]>;
+  type?: Maybe<Scalars["String"]>;
+  flow?: Maybe<CommandHMINodeFlowFieldInput>;
+  previous?: Maybe<CommandHMINodePreviousFieldInput>;
+  next?: Maybe<CommandHMINodeNextFieldInput>;
+}
+
+export interface CommandHMINodeDeleteInput {
+  flow?: Maybe<Array<CommandHMINodeFlowDeleteFieldInput>>;
+  previous?: Maybe<Array<CommandHMINodePreviousDeleteFieldInput>>;
+  next?: Maybe<Array<CommandHMINodeNextDeleteFieldInput>>;
+}
+
+export interface CommandHMINodeDisconnectInput {
+  flow?: Maybe<Array<CommandHMINodeFlowDisconnectFieldInput>>;
+  previous?: Maybe<Array<CommandHMINodePreviousDisconnectFieldInput>>;
+  next?: Maybe<Array<CommandHMINodeNextDisconnectFieldInput>>;
+}
+
+export interface CommandHMINodeFlowConnectFieldInput {
+  where?: Maybe<CommandProgramHMIConnectWhere>;
+  connect?: Maybe<Array<CommandProgramHMIConnectInput>>;
+}
+
+export interface CommandHMINodeFlowConnectionSort {
+  node?: Maybe<CommandProgramHMISort>;
+}
+
+export interface CommandHMINodeFlowConnectionWhere {
+  AND?: Maybe<Array<CommandHMINodeFlowConnectionWhere>>;
+  OR?: Maybe<Array<CommandHMINodeFlowConnectionWhere>>;
+  node?: Maybe<CommandProgramHMIWhere>;
+  node_NOT?: Maybe<CommandProgramHMIWhere>;
+}
+
+export interface CommandHMINodeFlowCreateFieldInput {
+  node: CommandProgramHMICreateInput;
+}
+
+export interface CommandHMINodeFlowDeleteFieldInput {
+  where?: Maybe<CommandHMINodeFlowConnectionWhere>;
+  delete?: Maybe<CommandProgramHMIDeleteInput>;
+}
+
+export interface CommandHMINodeFlowDisconnectFieldInput {
+  where?: Maybe<CommandHMINodeFlowConnectionWhere>;
+  disconnect?: Maybe<CommandProgramHMIDisconnectInput>;
+}
+
+export interface CommandHMINodeFlowFieldInput {
+  create?: Maybe<Array<CommandHMINodeFlowCreateFieldInput>>;
+  connect?: Maybe<Array<CommandHMINodeFlowConnectFieldInput>>;
+}
+
+export interface CommandHMINodeFlowUpdateConnectionInput {
+  node?: Maybe<CommandProgramHMIUpdateInput>;
+}
+
+export interface CommandHMINodeFlowUpdateFieldInput {
+  where?: Maybe<CommandHMINodeFlowConnectionWhere>;
+  update?: Maybe<CommandHMINodeFlowUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandHMINodeFlowConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandHMINodeFlowDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandHMINodeFlowCreateFieldInput>>;
+  delete?: Maybe<Array<CommandHMINodeFlowDeleteFieldInput>>;
+}
+
+export interface CommandHMINodeNextConnectFieldInput {
+  where?: Maybe<CommandHMINodeConnectWhere>;
+  connect?: Maybe<Array<CommandHMINodeConnectInput>>;
+}
+
+export interface CommandHMINodeNextConnectionSort {
+  node?: Maybe<CommandHMINodeSort>;
+}
+
+export interface CommandHMINodeNextConnectionWhere {
+  AND?: Maybe<Array<CommandHMINodeNextConnectionWhere>>;
+  OR?: Maybe<Array<CommandHMINodeNextConnectionWhere>>;
+  node?: Maybe<CommandHMINodeWhere>;
+  node_NOT?: Maybe<CommandHMINodeWhere>;
+}
+
+export interface CommandHMINodeNextCreateFieldInput {
+  node: CommandHMINodeCreateInput;
+}
+
+export interface CommandHMINodeNextDeleteFieldInput {
+  where?: Maybe<CommandHMINodeNextConnectionWhere>;
+  delete?: Maybe<CommandHMINodeDeleteInput>;
+}
+
+export interface CommandHMINodeNextDisconnectFieldInput {
+  where?: Maybe<CommandHMINodeNextConnectionWhere>;
+  disconnect?: Maybe<CommandHMINodeDisconnectInput>;
+}
+
+export interface CommandHMINodeNextFieldInput {
+  create?: Maybe<Array<CommandHMINodeNextCreateFieldInput>>;
+  connect?: Maybe<Array<CommandHMINodeNextConnectFieldInput>>;
+}
+
+export interface CommandHMINodeNextUpdateConnectionInput {
+  node?: Maybe<CommandHMINodeUpdateInput>;
+}
+
+export interface CommandHMINodeNextUpdateFieldInput {
+  where?: Maybe<CommandHMINodeNextConnectionWhere>;
+  update?: Maybe<CommandHMINodeNextUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandHMINodeNextConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandHMINodeNextDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandHMINodeNextCreateFieldInput>>;
+  delete?: Maybe<Array<CommandHMINodeNextDeleteFieldInput>>;
+}
+
+export interface CommandHMINodeOptions {
+  /** Specify one or more CommandHMINodeSort objects to sort CommandHMINodes by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandHMINodeSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandHMINodePreviousConnectFieldInput {
+  where?: Maybe<CommandHMINodeConnectWhere>;
+  connect?: Maybe<Array<CommandHMINodeConnectInput>>;
+}
+
+export interface CommandHMINodePreviousConnectionSort {
+  node?: Maybe<CommandHMINodeSort>;
+}
+
+export interface CommandHMINodePreviousConnectionWhere {
+  AND?: Maybe<Array<CommandHMINodePreviousConnectionWhere>>;
+  OR?: Maybe<Array<CommandHMINodePreviousConnectionWhere>>;
+  node?: Maybe<CommandHMINodeWhere>;
+  node_NOT?: Maybe<CommandHMINodeWhere>;
+}
+
+export interface CommandHMINodePreviousCreateFieldInput {
+  node: CommandHMINodeCreateInput;
+}
+
+export interface CommandHMINodePreviousDeleteFieldInput {
+  where?: Maybe<CommandHMINodePreviousConnectionWhere>;
+  delete?: Maybe<CommandHMINodeDeleteInput>;
+}
+
+export interface CommandHMINodePreviousDisconnectFieldInput {
+  where?: Maybe<CommandHMINodePreviousConnectionWhere>;
+  disconnect?: Maybe<CommandHMINodeDisconnectInput>;
+}
+
+export interface CommandHMINodePreviousFieldInput {
+  create?: Maybe<Array<CommandHMINodePreviousCreateFieldInput>>;
+  connect?: Maybe<Array<CommandHMINodePreviousConnectFieldInput>>;
+}
+
+export interface CommandHMINodePreviousUpdateConnectionInput {
+  node?: Maybe<CommandHMINodeUpdateInput>;
+}
+
+export interface CommandHMINodePreviousUpdateFieldInput {
+  where?: Maybe<CommandHMINodePreviousConnectionWhere>;
+  update?: Maybe<CommandHMINodePreviousUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandHMINodePreviousConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandHMINodePreviousDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandHMINodePreviousCreateFieldInput>>;
+  delete?: Maybe<Array<CommandHMINodePreviousDeleteFieldInput>>;
+}
+
+export interface CommandHMINodeRelationInput {
+  flow?: Maybe<Array<CommandHMINodeFlowCreateFieldInput>>;
+  previous?: Maybe<Array<CommandHMINodePreviousCreateFieldInput>>;
+  next?: Maybe<Array<CommandHMINodeNextCreateFieldInput>>;
+}
+
+/** Fields to sort CommandHMINodes by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandHMINodeSort object. */
+export interface CommandHMINodeSort {
+  id?: Maybe<SortDirection>;
+  x?: Maybe<SortDirection>;
+  y?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+}
+
+export interface CommandHMINodeUpdateInput {
+  x?: Maybe<Scalars["Float"]>;
+  y?: Maybe<Scalars["Float"]>;
+  type?: Maybe<Scalars["String"]>;
+  flow?: Maybe<Array<CommandHMINodeFlowUpdateFieldInput>>;
+  previous?: Maybe<Array<CommandHMINodePreviousUpdateFieldInput>>;
+  next?: Maybe<Array<CommandHMINodeNextUpdateFieldInput>>;
+}
+
+export interface CommandHMINodeWhere {
+  OR?: Maybe<Array<CommandHMINodeWhere>>;
+  AND?: Maybe<Array<CommandHMINodeWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  x?: Maybe<Scalars["Float"]>;
+  x_NOT?: Maybe<Scalars["Float"]>;
+  x_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  x_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  x_LT?: Maybe<Scalars["Float"]>;
+  x_LTE?: Maybe<Scalars["Float"]>;
+  x_GT?: Maybe<Scalars["Float"]>;
+  x_GTE?: Maybe<Scalars["Float"]>;
+  y?: Maybe<Scalars["Float"]>;
+  y_NOT?: Maybe<Scalars["Float"]>;
+  y_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  y_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  y_LT?: Maybe<Scalars["Float"]>;
+  y_LTE?: Maybe<Scalars["Float"]>;
+  y_GT?: Maybe<Scalars["Float"]>;
+  y_GTE?: Maybe<Scalars["Float"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  flow?: Maybe<CommandProgramHMIWhere>;
+  flow_NOT?: Maybe<CommandProgramHMIWhere>;
+  previous?: Maybe<CommandHMINodeWhere>;
+  previous_NOT?: Maybe<CommandHMINodeWhere>;
+  next?: Maybe<CommandHMINodeWhere>;
+  next_NOT?: Maybe<CommandHMINodeWhere>;
+  flowConnection?: Maybe<CommandHMINodeFlowConnectionWhere>;
+  flowConnection_NOT?: Maybe<CommandHMINodeFlowConnectionWhere>;
+  previousConnection?: Maybe<CommandHMINodePreviousConnectionWhere>;
+  previousConnection_NOT?: Maybe<CommandHMINodePreviousConnectionWhere>;
+  nextConnection?: Maybe<CommandHMINodeNextConnectionWhere>;
+  nextConnection_NOT?: Maybe<CommandHMINodeNextConnectionWhere>;
 }
 
 export interface CommandPluginConnectInput {
@@ -723,10 +1039,122 @@ export interface CommandPluginWhere {
   organisationConnection_NOT?: Maybe<CommandPluginOrganisationConnectionWhere>;
 }
 
+export interface CommandProgramAlarmConnectWhere {
+  node: CommandProgramAlarmWhere;
+}
+
+export interface CommandProgramAlarmCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  trigger?: Maybe<Scalars["String"]>;
+}
+
+export interface CommandProgramAlarmOptions {
+  /** Specify one or more CommandProgramAlarmSort objects to sort CommandProgramAlarms by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandProgramAlarmSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandProgramAlarmsConnectFieldInput {
+  where?: Maybe<CommandProgramAlarmConnectWhere>;
+}
+
+export interface CommandProgramAlarmsConnectionSort {
+  node?: Maybe<CommandProgramAlarmSort>;
+}
+
+export interface CommandProgramAlarmsConnectionWhere {
+  AND?: Maybe<Array<CommandProgramAlarmsConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramAlarmsConnectionWhere>>;
+  node?: Maybe<CommandProgramAlarmWhere>;
+  node_NOT?: Maybe<CommandProgramAlarmWhere>;
+}
+
+export interface CommandProgramAlarmsCreateFieldInput {
+  node: CommandProgramAlarmCreateInput;
+}
+
+export interface CommandProgramAlarmsDeleteFieldInput {
+  where?: Maybe<CommandProgramAlarmsConnectionWhere>;
+}
+
+export interface CommandProgramAlarmsDisconnectFieldInput {
+  where?: Maybe<CommandProgramAlarmsConnectionWhere>;
+}
+
+export interface CommandProgramAlarmsFieldInput {
+  create?: Maybe<Array<CommandProgramAlarmsCreateFieldInput>>;
+  connect?: Maybe<Array<CommandProgramAlarmsConnectFieldInput>>;
+}
+
+/** Fields to sort CommandProgramAlarms by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramAlarmSort object. */
+export interface CommandProgramAlarmSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  trigger?: Maybe<SortDirection>;
+}
+
+export interface CommandProgramAlarmsUpdateConnectionInput {
+  node?: Maybe<CommandProgramAlarmUpdateInput>;
+}
+
+export interface CommandProgramAlarmsUpdateFieldInput {
+  where?: Maybe<CommandProgramAlarmsConnectionWhere>;
+  update?: Maybe<CommandProgramAlarmsUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandProgramAlarmsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandProgramAlarmsDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandProgramAlarmsCreateFieldInput>>;
+  delete?: Maybe<Array<CommandProgramAlarmsDeleteFieldInput>>;
+}
+
+export interface CommandProgramAlarmUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  trigger?: Maybe<Scalars["String"]>;
+}
+
+export interface CommandProgramAlarmWhere {
+  OR?: Maybe<Array<CommandProgramAlarmWhere>>;
+  AND?: Maybe<Array<CommandProgramAlarmWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  trigger?: Maybe<Scalars["String"]>;
+  trigger_NOT?: Maybe<Scalars["String"]>;
+  trigger_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  trigger_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  trigger_CONTAINS?: Maybe<Scalars["String"]>;
+  trigger_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  trigger_STARTS_WITH?: Maybe<Scalars["String"]>;
+  trigger_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  trigger_ENDS_WITH?: Maybe<Scalars["String"]>;
+  trigger_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+}
+
 export interface CommandProgramConnectInput {
+  documentation?: Maybe<Array<CommandProgramDocumentationConnectFieldInput>>;
   program?: Maybe<Array<CommandProgramProgramConnectFieldInput>>;
   hmi?: Maybe<Array<CommandProgramHmiConnectFieldInput>>;
+  devices?: Maybe<Array<CommandProgramDevicesConnectFieldInput>>;
+  alarms?: Maybe<Array<CommandProgramAlarmsConnectFieldInput>>;
   organisation?: Maybe<CommandProgramOrganisationConnectFieldInput>;
+  usedOn?: Maybe<CommandProgramUsedOnConnectFieldInput>;
 }
 
 export interface CommandProgramConnectWhere {
@@ -735,21 +1163,435 @@ export interface CommandProgramConnectWhere {
 
 export interface CommandProgramCreateInput {
   name?: Maybe<Scalars["String"]>;
+  documentation?: Maybe<CommandProgramDocumentationFieldInput>;
   program?: Maybe<CommandProgramProgramFieldInput>;
   hmi?: Maybe<CommandProgramHmiFieldInput>;
+  devices?: Maybe<CommandProgramDevicesFieldInput>;
+  alarms?: Maybe<CommandProgramAlarmsFieldInput>;
   organisation?: Maybe<CommandProgramOrganisationFieldInput>;
+  usedOn?: Maybe<CommandProgramUsedOnFieldInput>;
 }
 
 export interface CommandProgramDeleteInput {
+  documentation?: Maybe<Array<CommandProgramDocumentationDeleteFieldInput>>;
   program?: Maybe<Array<CommandProgramProgramDeleteFieldInput>>;
   hmi?: Maybe<Array<CommandProgramHmiDeleteFieldInput>>;
+  devices?: Maybe<Array<CommandProgramDevicesDeleteFieldInput>>;
+  alarms?: Maybe<Array<CommandProgramAlarmsDeleteFieldInput>>;
   organisation?: Maybe<CommandProgramOrganisationDeleteFieldInput>;
+  usedOn?: Maybe<CommandProgramUsedOnDeleteFieldInput>;
+}
+
+export interface CommandProgramDeviceConnectWhere {
+  node: CommandProgramDeviceWhere;
+}
+
+export interface CommandProgramDeviceCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+}
+
+export interface CommandProgramDeviceOptions {
+  /** Specify one or more CommandProgramDeviceSort objects to sort CommandProgramDevices by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandProgramDeviceSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandProgramDevicePlaceholderConnectInput {
+  type?: Maybe<CommandProgramDevicePlaceholderTypeConnectFieldInput>;
+}
+
+export interface CommandProgramDevicePlaceholderConnectWhere {
+  node: CommandProgramDevicePlaceholderWhere;
+}
+
+export interface CommandProgramDevicePlaceholderCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<CommandProgramDevicePlaceholderTypeFieldInput>;
+}
+
+export interface CommandProgramDevicePlaceholderDeleteInput {
+  type?: Maybe<CommandProgramDevicePlaceholderTypeDeleteFieldInput>;
+}
+
+export interface CommandProgramDevicePlaceholderDisconnectInput {
+  type?: Maybe<CommandProgramDevicePlaceholderTypeDisconnectFieldInput>;
+}
+
+export interface CommandProgramDevicePlaceholderOptions {
+  /** Specify one or more CommandProgramDevicePlaceholderSort objects to sort CommandProgramDevicePlaceholders by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandProgramDevicePlaceholderSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandProgramDevicePlaceholderRelationInput {
+  type?: Maybe<CommandProgramDevicePlaceholderTypeCreateFieldInput>;
+}
+
+/** Fields to sort CommandProgramDevicePlaceholders by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramDevicePlaceholderSort object. */
+export interface CommandProgramDevicePlaceholderSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+}
+
+export interface CommandProgramDevicePlaceholderTypeConnectFieldInput {
+  where?: Maybe<CommandProgramDeviceConnectWhere>;
+}
+
+export interface CommandProgramDevicePlaceholderTypeConnectionSort {
+  node?: Maybe<CommandProgramDeviceSort>;
+}
+
+export interface CommandProgramDevicePlaceholderTypeConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDevicePlaceholderTypeConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDevicePlaceholderTypeConnectionWhere>>;
+  node?: Maybe<CommandProgramDeviceWhere>;
+  node_NOT?: Maybe<CommandProgramDeviceWhere>;
+}
+
+export interface CommandProgramDevicePlaceholderTypeCreateFieldInput {
+  node: CommandProgramDeviceCreateInput;
+}
+
+export interface CommandProgramDevicePlaceholderTypeDeleteFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
+}
+
+export interface CommandProgramDevicePlaceholderTypeDisconnectFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
+}
+
+export interface CommandProgramDevicePlaceholderTypeFieldInput {
+  create?: Maybe<CommandProgramDevicePlaceholderTypeCreateFieldInput>;
+  connect?: Maybe<CommandProgramDevicePlaceholderTypeConnectFieldInput>;
+}
+
+export interface CommandProgramDevicePlaceholderTypeUpdateConnectionInput {
+  node?: Maybe<CommandProgramDeviceUpdateInput>;
+}
+
+export interface CommandProgramDevicePlaceholderTypeUpdateFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
+  update?: Maybe<CommandProgramDevicePlaceholderTypeUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramDevicePlaceholderTypeConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramDevicePlaceholderTypeDisconnectFieldInput>;
+  create?: Maybe<CommandProgramDevicePlaceholderTypeCreateFieldInput>;
+  delete?: Maybe<CommandProgramDevicePlaceholderTypeDeleteFieldInput>;
+}
+
+export interface CommandProgramDevicePlaceholderUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<CommandProgramDevicePlaceholderTypeUpdateFieldInput>;
+}
+
+export interface CommandProgramDevicePlaceholderWhere {
+  OR?: Maybe<Array<CommandProgramDevicePlaceholderWhere>>;
+  AND?: Maybe<Array<CommandProgramDevicePlaceholderWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type?: Maybe<CommandProgramDeviceWhere>;
+  type_NOT?: Maybe<CommandProgramDeviceWhere>;
+  typeConnection?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
+  typeConnection_NOT?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
+}
+
+export interface CommandProgramDevicesConnectFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderConnectWhere>;
+  connect?: Maybe<Array<CommandProgramDevicePlaceholderConnectInput>>;
+}
+
+export interface CommandProgramDevicesConnectionSort {
+  node?: Maybe<CommandProgramDevicePlaceholderSort>;
+}
+
+export interface CommandProgramDevicesConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDevicesConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDevicesConnectionWhere>>;
+  node?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  node_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
+}
+
+export interface CommandProgramDevicesCreateFieldInput {
+  node: CommandProgramDevicePlaceholderCreateInput;
+}
+
+export interface CommandProgramDevicesDeleteFieldInput {
+  where?: Maybe<CommandProgramDevicesConnectionWhere>;
+  delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
+}
+
+export interface CommandProgramDevicesDisconnectFieldInput {
+  where?: Maybe<CommandProgramDevicesConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDevicePlaceholderDisconnectInput>;
+}
+
+export interface CommandProgramDevicesFieldInput {
+  create?: Maybe<Array<CommandProgramDevicesCreateFieldInput>>;
+  connect?: Maybe<Array<CommandProgramDevicesConnectFieldInput>>;
+}
+
+/** Fields to sort CommandProgramDevices by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramDeviceSort object. */
+export interface CommandProgramDeviceSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+}
+
+export interface CommandProgramDevicesUpdateConnectionInput {
+  node?: Maybe<CommandProgramDevicePlaceholderUpdateInput>;
+}
+
+export interface CommandProgramDevicesUpdateFieldInput {
+  where?: Maybe<CommandProgramDevicesConnectionWhere>;
+  update?: Maybe<CommandProgramDevicesUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandProgramDevicesConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandProgramDevicesDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandProgramDevicesCreateFieldInput>>;
+  delete?: Maybe<Array<CommandProgramDevicesDeleteFieldInput>>;
+}
+
+export interface CommandProgramDeviceUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+}
+
+export interface CommandProgramDeviceWhere {
+  OR?: Maybe<Array<CommandProgramDeviceWhere>>;
+  AND?: Maybe<Array<CommandProgramDeviceWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
 }
 
 export interface CommandProgramDisconnectInput {
+  documentation?: Maybe<Array<CommandProgramDocumentationDisconnectFieldInput>>;
   program?: Maybe<Array<CommandProgramProgramDisconnectFieldInput>>;
   hmi?: Maybe<Array<CommandProgramHmiDisconnectFieldInput>>;
+  devices?: Maybe<Array<CommandProgramDevicesDisconnectFieldInput>>;
+  alarms?: Maybe<Array<CommandProgramAlarmsDisconnectFieldInput>>;
   organisation?: Maybe<CommandProgramOrganisationDisconnectFieldInput>;
+  usedOn?: Maybe<CommandProgramUsedOnDisconnectFieldInput>;
+}
+
+export interface CommandProgramDocumentationConnectFieldInput {
+  where?: Maybe<CommandProgramDocumentationConnectWhere>;
+  connect?: Maybe<Array<CommandProgramDocumentationConnectInput>>;
+}
+
+export interface CommandProgramDocumentationConnectInput {
+  program?: Maybe<CommandProgramDocumentationProgramConnectFieldInput>;
+}
+
+export interface CommandProgramDocumentationConnectionSort {
+  node?: Maybe<CommandProgramDocumentationSort>;
+}
+
+export interface CommandProgramDocumentationConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDocumentationConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDocumentationConnectionWhere>>;
+  node?: Maybe<CommandProgramDocumentationWhere>;
+  node_NOT?: Maybe<CommandProgramDocumentationWhere>;
+}
+
+export interface CommandProgramDocumentationConnectWhere {
+  node: CommandProgramDocumentationWhere;
+}
+
+export interface CommandProgramDocumentationCreateFieldInput {
+  node: CommandProgramDocumentationCreateInput;
+}
+
+export interface CommandProgramDocumentationCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  blocks?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  program?: Maybe<CommandProgramDocumentationProgramFieldInput>;
+}
+
+export interface CommandProgramDocumentationDeleteFieldInput {
+  where?: Maybe<CommandProgramDocumentationConnectionWhere>;
+  delete?: Maybe<CommandProgramDocumentationDeleteInput>;
+}
+
+export interface CommandProgramDocumentationDeleteInput {
+  program?: Maybe<CommandProgramDocumentationProgramDeleteFieldInput>;
+}
+
+export interface CommandProgramDocumentationDisconnectFieldInput {
+  where?: Maybe<CommandProgramDocumentationConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDocumentationDisconnectInput>;
+}
+
+export interface CommandProgramDocumentationDisconnectInput {
+  program?: Maybe<CommandProgramDocumentationProgramDisconnectFieldInput>;
+}
+
+export interface CommandProgramDocumentationFieldInput {
+  create?: Maybe<Array<CommandProgramDocumentationCreateFieldInput>>;
+  connect?: Maybe<Array<CommandProgramDocumentationConnectFieldInput>>;
+}
+
+export interface CommandProgramDocumentationOptions {
+  /** Specify one or more CommandProgramDocumentationSort objects to sort CommandProgramDocumentations by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandProgramDocumentationSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandProgramDocumentationProgramConnectFieldInput {
+  where?: Maybe<CommandProgramConnectWhere>;
+  connect?: Maybe<CommandProgramConnectInput>;
+}
+
+export interface CommandProgramDocumentationProgramConnectionSort {
+  node?: Maybe<CommandProgramSort>;
+}
+
+export interface CommandProgramDocumentationProgramConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDocumentationProgramConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDocumentationProgramConnectionWhere>>;
+  node?: Maybe<CommandProgramWhere>;
+  node_NOT?: Maybe<CommandProgramWhere>;
+}
+
+export interface CommandProgramDocumentationProgramCreateFieldInput {
+  node: CommandProgramCreateInput;
+}
+
+export interface CommandProgramDocumentationProgramDeleteFieldInput {
+  where?: Maybe<CommandProgramDocumentationProgramConnectionWhere>;
+  delete?: Maybe<CommandProgramDeleteInput>;
+}
+
+export interface CommandProgramDocumentationProgramDisconnectFieldInput {
+  where?: Maybe<CommandProgramDocumentationProgramConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDisconnectInput>;
+}
+
+export interface CommandProgramDocumentationProgramFieldInput {
+  create?: Maybe<CommandProgramDocumentationProgramCreateFieldInput>;
+  connect?: Maybe<CommandProgramDocumentationProgramConnectFieldInput>;
+}
+
+export interface CommandProgramDocumentationProgramUpdateConnectionInput {
+  node?: Maybe<CommandProgramUpdateInput>;
+}
+
+export interface CommandProgramDocumentationProgramUpdateFieldInput {
+  where?: Maybe<CommandProgramDocumentationProgramConnectionWhere>;
+  update?: Maybe<CommandProgramDocumentationProgramUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramDocumentationProgramConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramDocumentationProgramDisconnectFieldInput>;
+  create?: Maybe<CommandProgramDocumentationProgramCreateFieldInput>;
+  delete?: Maybe<CommandProgramDocumentationProgramDeleteFieldInput>;
+}
+
+export interface CommandProgramDocumentationRelationInput {
+  program?: Maybe<CommandProgramDocumentationProgramCreateFieldInput>;
+}
+
+/** Fields to sort CommandProgramDocumentations by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramDocumentationSort object. */
+export interface CommandProgramDocumentationSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+}
+
+export interface CommandProgramDocumentationUpdateConnectionInput {
+  node?: Maybe<CommandProgramDocumentationUpdateInput>;
+}
+
+export interface CommandProgramDocumentationUpdateFieldInput {
+  where?: Maybe<CommandProgramDocumentationConnectionWhere>;
+  update?: Maybe<CommandProgramDocumentationUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandProgramDocumentationConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandProgramDocumentationDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandProgramDocumentationCreateFieldInput>>;
+  delete?: Maybe<Array<CommandProgramDocumentationDeleteFieldInput>>;
+}
+
+export interface CommandProgramDocumentationUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  blocks?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  program?: Maybe<CommandProgramDocumentationProgramUpdateFieldInput>;
+}
+
+export interface CommandProgramDocumentationWhere {
+  OR?: Maybe<Array<CommandProgramDocumentationWhere>>;
+  AND?: Maybe<Array<CommandProgramDocumentationWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  blocks?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  blocks_NOT?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  blocks_INCLUDES?: Maybe<Scalars["String"]>;
+  blocks_NOT_INCLUDES?: Maybe<Scalars["String"]>;
+  program?: Maybe<CommandProgramWhere>;
+  program_NOT?: Maybe<CommandProgramWhere>;
+  programConnection?: Maybe<CommandProgramDocumentationProgramConnectionWhere>;
+  programConnection_NOT?: Maybe<CommandProgramDocumentationProgramConnectionWhere>;
 }
 
 export interface CommandProgramFlowConnectInput {
@@ -991,33 +1833,33 @@ export interface CommandProgramHmiFieldInput {
 }
 
 export interface CommandProgramHMINodesConnectFieldInput {
-  where?: Maybe<CommandProgramNodeConnectWhere>;
-  connect?: Maybe<Array<CommandProgramNodeConnectInput>>;
+  where?: Maybe<CommandHMINodeConnectWhere>;
+  connect?: Maybe<Array<CommandHMINodeConnectInput>>;
 }
 
 export interface CommandProgramHMINodesConnectionSort {
-  node?: Maybe<CommandProgramNodeSort>;
+  node?: Maybe<CommandHMINodeSort>;
 }
 
 export interface CommandProgramHMINodesConnectionWhere {
   AND?: Maybe<Array<CommandProgramHMINodesConnectionWhere>>;
   OR?: Maybe<Array<CommandProgramHMINodesConnectionWhere>>;
-  node?: Maybe<CommandProgramNodeWhere>;
-  node_NOT?: Maybe<CommandProgramNodeWhere>;
+  node?: Maybe<CommandHMINodeWhere>;
+  node_NOT?: Maybe<CommandHMINodeWhere>;
 }
 
 export interface CommandProgramHMINodesCreateFieldInput {
-  node: CommandProgramNodeCreateInput;
+  node: CommandHMINodeCreateInput;
 }
 
 export interface CommandProgramHMINodesDeleteFieldInput {
   where?: Maybe<CommandProgramHMINodesConnectionWhere>;
-  delete?: Maybe<CommandProgramNodeDeleteInput>;
+  delete?: Maybe<CommandHMINodeDeleteInput>;
 }
 
 export interface CommandProgramHMINodesDisconnectFieldInput {
   where?: Maybe<CommandProgramHMINodesConnectionWhere>;
-  disconnect?: Maybe<CommandProgramNodeDisconnectInput>;
+  disconnect?: Maybe<CommandHMINodeDisconnectInput>;
 }
 
 export interface CommandProgramHMINodesFieldInput {
@@ -1026,7 +1868,7 @@ export interface CommandProgramHMINodesFieldInput {
 }
 
 export interface CommandProgramHMINodesUpdateConnectionInput {
-  node?: Maybe<CommandProgramNodeUpdateInput>;
+  node?: Maybe<CommandHMINodeUpdateInput>;
 }
 
 export interface CommandProgramHMINodesUpdateFieldInput {
@@ -1146,8 +1988,8 @@ export interface CommandProgramHMIWhere {
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  nodes?: Maybe<CommandProgramNodeWhere>;
-  nodes_NOT?: Maybe<CommandProgramNodeWhere>;
+  nodes?: Maybe<CommandHMINodeWhere>;
+  nodes_NOT?: Maybe<CommandHMINodeWhere>;
   programs?: Maybe<CommandProgramWhere>;
   programs_NOT?: Maybe<CommandProgramWhere>;
   nodesConnection?: Maybe<CommandProgramHMINodesConnectionWhere>;
@@ -1169,6 +2011,7 @@ export interface CommandProgramNodeConnectWhere {
 export interface CommandProgramNodeCreateInput {
   x?: Maybe<Scalars["Float"]>;
   y?: Maybe<Scalars["Float"]>;
+  type?: Maybe<Scalars["String"]>;
   flow?: Maybe<CommandProgramNodeFlowFieldInput>;
   previous?: Maybe<CommandProgramNodePreviousFieldInput>;
   next?: Maybe<CommandProgramNodeNextFieldInput>;
@@ -1348,11 +2191,13 @@ export interface CommandProgramNodeSort {
   id?: Maybe<SortDirection>;
   x?: Maybe<SortDirection>;
   y?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
 }
 
 export interface CommandProgramNodeUpdateInput {
   x?: Maybe<Scalars["Float"]>;
   y?: Maybe<Scalars["Float"]>;
+  type?: Maybe<Scalars["String"]>;
   flow?: Maybe<Array<CommandProgramNodeFlowUpdateFieldInput>>;
   previous?: Maybe<Array<CommandProgramNodePreviousUpdateFieldInput>>;
   next?: Maybe<Array<CommandProgramNodeNextUpdateFieldInput>>;
@@ -1387,6 +2232,16 @@ export interface CommandProgramNodeWhere {
   y_LTE?: Maybe<Scalars["Float"]>;
   y_GT?: Maybe<Scalars["Float"]>;
   y_GTE?: Maybe<Scalars["Float"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   flow?: Maybe<CommandProgramFlowWhere>;
   flow_NOT?: Maybe<CommandProgramFlowWhere>;
   previous?: Maybe<CommandProgramNodeWhere>;
@@ -1505,9 +2360,13 @@ export interface CommandProgramProgramUpdateFieldInput {
 }
 
 export interface CommandProgramRelationInput {
+  documentation?: Maybe<Array<CommandProgramDocumentationCreateFieldInput>>;
   program?: Maybe<Array<CommandProgramProgramCreateFieldInput>>;
   hmi?: Maybe<Array<CommandProgramHmiCreateFieldInput>>;
+  devices?: Maybe<Array<CommandProgramDevicesCreateFieldInput>>;
+  alarms?: Maybe<Array<CommandProgramAlarmsCreateFieldInput>>;
   organisation?: Maybe<CommandProgramOrganisationCreateFieldInput>;
+  usedOn?: Maybe<CommandProgramUsedOnCreateFieldInput>;
 }
 
 /** Fields to sort CommandPrograms by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramSort object. */
@@ -1519,9 +2378,61 @@ export interface CommandProgramSort {
 
 export interface CommandProgramUpdateInput {
   name?: Maybe<Scalars["String"]>;
+  documentation?: Maybe<Array<CommandProgramDocumentationUpdateFieldInput>>;
   program?: Maybe<Array<CommandProgramProgramUpdateFieldInput>>;
   hmi?: Maybe<Array<CommandProgramHmiUpdateFieldInput>>;
+  devices?: Maybe<Array<CommandProgramDevicesUpdateFieldInput>>;
+  alarms?: Maybe<Array<CommandProgramAlarmsUpdateFieldInput>>;
   organisation?: Maybe<CommandProgramOrganisationUpdateFieldInput>;
+  usedOn?: Maybe<CommandProgramUsedOnUpdateFieldInput>;
+}
+
+export interface CommandProgramUsedOnConnectFieldInput {
+  where?: Maybe<CommandDeviceConnectWhere>;
+  connect?: Maybe<CommandDeviceConnectInput>;
+}
+
+export interface CommandProgramUsedOnConnectionSort {
+  node?: Maybe<CommandDeviceSort>;
+}
+
+export interface CommandProgramUsedOnConnectionWhere {
+  AND?: Maybe<Array<CommandProgramUsedOnConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramUsedOnConnectionWhere>>;
+  node?: Maybe<CommandDeviceWhere>;
+  node_NOT?: Maybe<CommandDeviceWhere>;
+}
+
+export interface CommandProgramUsedOnCreateFieldInput {
+  node: CommandDeviceCreateInput;
+}
+
+export interface CommandProgramUsedOnDeleteFieldInput {
+  where?: Maybe<CommandProgramUsedOnConnectionWhere>;
+  delete?: Maybe<CommandDeviceDeleteInput>;
+}
+
+export interface CommandProgramUsedOnDisconnectFieldInput {
+  where?: Maybe<CommandProgramUsedOnConnectionWhere>;
+  disconnect?: Maybe<CommandDeviceDisconnectInput>;
+}
+
+export interface CommandProgramUsedOnFieldInput {
+  create?: Maybe<CommandProgramUsedOnCreateFieldInput>;
+  connect?: Maybe<CommandProgramUsedOnConnectFieldInput>;
+}
+
+export interface CommandProgramUsedOnUpdateConnectionInput {
+  node?: Maybe<CommandDeviceUpdateInput>;
+}
+
+export interface CommandProgramUsedOnUpdateFieldInput {
+  where?: Maybe<CommandProgramUsedOnConnectionWhere>;
+  update?: Maybe<CommandProgramUsedOnUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramUsedOnConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramUsedOnDisconnectFieldInput>;
+  create?: Maybe<CommandProgramUsedOnCreateFieldInput>;
+  delete?: Maybe<CommandProgramUsedOnDeleteFieldInput>;
 }
 
 export interface CommandProgramWhere {
@@ -1555,18 +2466,34 @@ export interface CommandProgramWhere {
   createdAt_LTE?: Maybe<Scalars["DateTime"]>;
   createdAt_GT?: Maybe<Scalars["DateTime"]>;
   createdAt_GTE?: Maybe<Scalars["DateTime"]>;
+  documentation?: Maybe<CommandProgramDocumentationWhere>;
+  documentation_NOT?: Maybe<CommandProgramDocumentationWhere>;
   program?: Maybe<CommandProgramFlowWhere>;
   program_NOT?: Maybe<CommandProgramFlowWhere>;
   hmi?: Maybe<CommandProgramHMIWhere>;
   hmi_NOT?: Maybe<CommandProgramHMIWhere>;
+  devices?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  devices_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  alarms?: Maybe<CommandProgramAlarmWhere>;
+  alarms_NOT?: Maybe<CommandProgramAlarmWhere>;
   organisation?: Maybe<HiveOrganisationWhere>;
   organisation_NOT?: Maybe<HiveOrganisationWhere>;
+  usedOn?: Maybe<CommandDeviceWhere>;
+  usedOn_NOT?: Maybe<CommandDeviceWhere>;
+  documentationConnection?: Maybe<CommandProgramDocumentationConnectionWhere>;
+  documentationConnection_NOT?: Maybe<CommandProgramDocumentationConnectionWhere>;
   programConnection?: Maybe<CommandProgramProgramConnectionWhere>;
   programConnection_NOT?: Maybe<CommandProgramProgramConnectionWhere>;
   hmiConnection?: Maybe<CommandProgramHmiConnectionWhere>;
   hmiConnection_NOT?: Maybe<CommandProgramHmiConnectionWhere>;
+  devicesConnection?: Maybe<CommandProgramDevicesConnectionWhere>;
+  devicesConnection_NOT?: Maybe<CommandProgramDevicesConnectionWhere>;
+  alarmsConnection?: Maybe<CommandProgramAlarmsConnectionWhere>;
+  alarmsConnection_NOT?: Maybe<CommandProgramAlarmsConnectionWhere>;
   organisationConnection?: Maybe<CommandProgramOrganisationConnectionWhere>;
   organisationConnection_NOT?: Maybe<CommandProgramOrganisationConnectionWhere>;
+  usedOnConnection?: Maybe<CommandProgramUsedOnConnectionWhere>;
+  usedOnConnection_NOT?: Maybe<CommandProgramUsedOnConnectionWhere>;
 }
 
 export interface EquipmentConnectInput {
@@ -10640,6 +11567,50 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "CommandProgramWhere" },
     },
+    commandProgramAlarms: {
+      __type: "[CommandProgramAlarm!]!",
+      __args: {
+        where: "CommandProgramAlarmWhere",
+        options: "CommandProgramAlarmOptions",
+      },
+    },
+    commandProgramAlarmsCount: {
+      __type: "Int!",
+      __args: { where: "CommandProgramAlarmWhere" },
+    },
+    commandProgramDevicePlaceholders: {
+      __type: "[CommandProgramDevicePlaceholder!]!",
+      __args: {
+        where: "CommandProgramDevicePlaceholderWhere",
+        options: "CommandProgramDevicePlaceholderOptions",
+      },
+    },
+    commandProgramDevicePlaceholdersCount: {
+      __type: "Int!",
+      __args: { where: "CommandProgramDevicePlaceholderWhere" },
+    },
+    commandProgramDevices: {
+      __type: "[CommandProgramDevice!]!",
+      __args: {
+        where: "CommandProgramDeviceWhere",
+        options: "CommandProgramDeviceOptions",
+      },
+    },
+    commandProgramDevicesCount: {
+      __type: "Int!",
+      __args: { where: "CommandProgramDeviceWhere" },
+    },
+    commandProgramDocumentations: {
+      __type: "[CommandProgramDocumentation!]!",
+      __args: {
+        where: "CommandProgramDocumentationWhere",
+        options: "CommandProgramDocumentationOptions",
+      },
+    },
+    commandProgramDocumentationsCount: {
+      __type: "Int!",
+      __args: { where: "CommandProgramDocumentationWhere" },
+    },
     commandProgramFlows: {
       __type: "[CommandProgramFlow!]!",
       __args: {
@@ -10672,6 +11643,17 @@ export const generatedSchema = {
     commandProgramNodesCount: {
       __type: "Int!",
       __args: { where: "CommandProgramNodeWhere" },
+    },
+    commandHmiNodes: {
+      __type: "[CommandHMINode!]!",
+      __args: {
+        where: "CommandHMINodeWhere",
+        options: "CommandHMINodeOptions",
+      },
+    },
+    commandHmiNodesCount: {
+      __type: "Int!",
+      __args: { where: "CommandHMINodeWhere" },
     },
     commandPlugins: {
       __type: "[CommandPlugin!]!",
@@ -11794,6 +12776,80 @@ export const generatedSchema = {
         delete: "CommandProgramDeleteInput",
       },
     },
+    createCommandProgramAlarms: {
+      __type: "CreateCommandProgramAlarmsMutationResponse!",
+      __args: { input: "[CommandProgramAlarmCreateInput!]!" },
+    },
+    deleteCommandProgramAlarms: {
+      __type: "DeleteInfo!",
+      __args: { where: "CommandProgramAlarmWhere" },
+    },
+    updateCommandProgramAlarms: {
+      __type: "UpdateCommandProgramAlarmsMutationResponse!",
+      __args: {
+        where: "CommandProgramAlarmWhere",
+        update: "CommandProgramAlarmUpdateInput",
+      },
+    },
+    createCommandProgramDevicePlaceholders: {
+      __type: "CreateCommandProgramDevicePlaceholdersMutationResponse!",
+      __args: { input: "[CommandProgramDevicePlaceholderCreateInput!]!" },
+    },
+    deleteCommandProgramDevicePlaceholders: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandProgramDevicePlaceholderWhere",
+        delete: "CommandProgramDevicePlaceholderDeleteInput",
+      },
+    },
+    updateCommandProgramDevicePlaceholders: {
+      __type: "UpdateCommandProgramDevicePlaceholdersMutationResponse!",
+      __args: {
+        where: "CommandProgramDevicePlaceholderWhere",
+        update: "CommandProgramDevicePlaceholderUpdateInput",
+        connect: "CommandProgramDevicePlaceholderConnectInput",
+        disconnect: "CommandProgramDevicePlaceholderDisconnectInput",
+        create: "CommandProgramDevicePlaceholderRelationInput",
+        delete: "CommandProgramDevicePlaceholderDeleteInput",
+      },
+    },
+    createCommandProgramDevices: {
+      __type: "CreateCommandProgramDevicesMutationResponse!",
+      __args: { input: "[CommandProgramDeviceCreateInput!]!" },
+    },
+    deleteCommandProgramDevices: {
+      __type: "DeleteInfo!",
+      __args: { where: "CommandProgramDeviceWhere" },
+    },
+    updateCommandProgramDevices: {
+      __type: "UpdateCommandProgramDevicesMutationResponse!",
+      __args: {
+        where: "CommandProgramDeviceWhere",
+        update: "CommandProgramDeviceUpdateInput",
+      },
+    },
+    createCommandProgramDocumentations: {
+      __type: "CreateCommandProgramDocumentationsMutationResponse!",
+      __args: { input: "[CommandProgramDocumentationCreateInput!]!" },
+    },
+    deleteCommandProgramDocumentations: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandProgramDocumentationWhere",
+        delete: "CommandProgramDocumentationDeleteInput",
+      },
+    },
+    updateCommandProgramDocumentations: {
+      __type: "UpdateCommandProgramDocumentationsMutationResponse!",
+      __args: {
+        where: "CommandProgramDocumentationWhere",
+        update: "CommandProgramDocumentationUpdateInput",
+        connect: "CommandProgramDocumentationConnectInput",
+        disconnect: "CommandProgramDocumentationDisconnectInput",
+        create: "CommandProgramDocumentationRelationInput",
+        delete: "CommandProgramDocumentationDeleteInput",
+      },
+    },
     createCommandProgramFlows: {
       __type: "CreateCommandProgramFlowsMutationResponse!",
       __args: { input: "[CommandProgramFlowCreateInput!]!" },
@@ -11858,6 +12914,28 @@ export const generatedSchema = {
         disconnect: "CommandProgramNodeDisconnectInput",
         create: "CommandProgramNodeRelationInput",
         delete: "CommandProgramNodeDeleteInput",
+      },
+    },
+    createCommandHMINodes: {
+      __type: "CreateCommandHMINodesMutationResponse!",
+      __args: { input: "[CommandHMINodeCreateInput!]!" },
+    },
+    deleteCommandHMINodes: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandHMINodeWhere",
+        delete: "CommandHMINodeDeleteInput",
+      },
+    },
+    updateCommandHMINodes: {
+      __type: "UpdateCommandHMINodesMutationResponse!",
+      __args: {
+        where: "CommandHMINodeWhere",
+        update: "CommandHMINodeUpdateInput",
+        connect: "CommandHMINodeConnectInput",
+        disconnect: "CommandHMINodeDisconnectInput",
+        create: "CommandHMINodeRelationInput",
+        delete: "CommandHMINodeDeleteInput",
       },
     },
     createCommandPlugins: {
@@ -12242,6 +13320,13 @@ export const generatedSchema = {
     network_name: { __type: "String" },
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
+    activeProgram: {
+      __type: "CommandProgram",
+      __args: {
+        where: "CommandProgramWhere",
+        options: "CommandProgramOptions",
+      },
+    },
     peripherals: {
       __type: "[CommandDevicePeripheral]",
       __args: {
@@ -12254,6 +13339,15 @@ export const generatedSchema = {
       __args: {
         where: "HiveOrganisationWhere",
         options: "HiveOrganisationOptions",
+      },
+    },
+    activeProgramConnection: {
+      __type: "CommandDeviceActiveProgramConnection!",
+      __args: {
+        where: "CommandDeviceActiveProgramConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandDeviceActiveProgramConnectionSort!]",
       },
     },
     peripheralsConnection: {
@@ -12274,6 +13368,17 @@ export const generatedSchema = {
         sort: "[CommandDeviceOrganisationConnectionSort!]",
       },
     },
+  },
+  CommandDeviceActiveProgramConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandDeviceActiveProgramRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandDeviceActiveProgramRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgram!" },
   },
   CommandDeviceOrganisationConnection: {
     __typename: { __type: "String!" },
@@ -12328,6 +13433,94 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "CommandDevicePeripheral!" },
+  },
+  CommandHMINode: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    x: { __type: "Float" },
+    y: { __type: "Float" },
+    type: { __type: "String" },
+    flow: {
+      __type: "[CommandProgramHMI]",
+      __args: {
+        where: "CommandProgramHMIWhere",
+        options: "CommandProgramHMIOptions",
+      },
+    },
+    previous: {
+      __type: "[CommandHMINode]",
+      __args: {
+        where: "CommandHMINodeWhere",
+        options: "CommandHMINodeOptions",
+      },
+    },
+    next: {
+      __type: "[CommandHMINode]",
+      __args: {
+        where: "CommandHMINodeWhere",
+        options: "CommandHMINodeOptions",
+      },
+    },
+    flowConnection: {
+      __type: "CommandHMINodeFlowConnection!",
+      __args: {
+        where: "CommandHMINodeFlowConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandHMINodeFlowConnectionSort!]",
+      },
+    },
+    previousConnection: {
+      __type: "CommandHMINodePreviousConnection!",
+      __args: {
+        where: "CommandHMINodePreviousConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandHMINodePreviousConnectionSort!]",
+      },
+    },
+    nextConnection: {
+      __type: "CommandHMINodeNextConnection!",
+      __args: {
+        where: "CommandHMINodeNextConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandHMINodeNextConnectionSort!]",
+      },
+    },
+  },
+  CommandHMINodeFlowConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandHMINodeFlowRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandHMINodeFlowRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramHMI!" },
+  },
+  CommandHMINodeNextConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandHMINodeNextRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandHMINodeNextRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandHMINode!" },
+  },
+  CommandHMINodePreviousConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandHMINodePreviousRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandHMINodePreviousRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandHMINode!" },
   },
   CommandPlugin: {
     __typename: { __type: "String!" },
@@ -12424,6 +13617,13 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String" },
     createdAt: { __type: "DateTime" },
+    documentation: {
+      __type: "[CommandProgramDocumentation]",
+      __args: {
+        where: "CommandProgramDocumentationWhere",
+        options: "CommandProgramDocumentationOptions",
+      },
+    },
     program: {
       __type: "[CommandProgramFlow]",
       __args: {
@@ -12438,11 +13638,38 @@ export const generatedSchema = {
         options: "CommandProgramHMIOptions",
       },
     },
+    devices: {
+      __type: "[CommandProgramDevicePlaceholder]",
+      __args: {
+        where: "CommandProgramDevicePlaceholderWhere",
+        options: "CommandProgramDevicePlaceholderOptions",
+      },
+    },
+    alarms: {
+      __type: "[CommandProgramAlarm]",
+      __args: {
+        where: "CommandProgramAlarmWhere",
+        options: "CommandProgramAlarmOptions",
+      },
+    },
     organisation: {
       __type: "HiveOrganisation",
       __args: {
         where: "HiveOrganisationWhere",
         options: "HiveOrganisationOptions",
+      },
+    },
+    usedOn: {
+      __type: "CommandDevice",
+      __args: { where: "CommandDeviceWhere", options: "CommandDeviceOptions" },
+    },
+    documentationConnection: {
+      __type: "CommandProgramDocumentationConnection!",
+      __args: {
+        where: "CommandProgramDocumentationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDocumentationConnectionSort!]",
       },
     },
     programConnection: {
@@ -12463,6 +13690,24 @@ export const generatedSchema = {
         sort: "[CommandProgramHmiConnectionSort!]",
       },
     },
+    devicesConnection: {
+      __type: "CommandProgramDevicesConnection!",
+      __args: {
+        where: "CommandProgramDevicesConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDevicesConnectionSort!]",
+      },
+    },
+    alarmsConnection: {
+      __type: "CommandProgramAlarmsConnection!",
+      __args: {
+        where: "CommandProgramAlarmsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramAlarmsConnectionSort!]",
+      },
+    },
     organisationConnection: {
       __type: "CommandProgramOrganisationConnection!",
       __args: {
@@ -12472,6 +13717,125 @@ export const generatedSchema = {
         sort: "[CommandProgramOrganisationConnectionSort!]",
       },
     },
+    usedOnConnection: {
+      __type: "CommandProgramUsedOnConnection!",
+      __args: {
+        where: "CommandProgramUsedOnConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramUsedOnConnectionSort!]",
+      },
+    },
+  },
+  CommandProgramAlarm: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    trigger: { __type: "String" },
+  },
+  CommandProgramAlarmsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramAlarmsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramAlarmsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramAlarm!" },
+  },
+  CommandProgramDevice: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    type: { __type: "String" },
+  },
+  CommandProgramDevicePlaceholder: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    type: {
+      __type: "CommandProgramDevice",
+      __args: {
+        where: "CommandProgramDeviceWhere",
+        options: "CommandProgramDeviceOptions",
+      },
+    },
+    typeConnection: {
+      __type: "CommandProgramDevicePlaceholderTypeConnection!",
+      __args: {
+        where: "CommandProgramDevicePlaceholderTypeConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDevicePlaceholderTypeConnectionSort!]",
+      },
+    },
+  },
+  CommandProgramDevicePlaceholderTypeConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramDevicePlaceholderTypeRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDevicePlaceholderTypeRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramDevice!" },
+  },
+  CommandProgramDevicesConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramDevicesRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDevicesRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramDevicePlaceholder!" },
+  },
+  CommandProgramDocumentation: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    blocks: { __type: "[String]" },
+    program: {
+      __type: "CommandProgram",
+      __args: {
+        where: "CommandProgramWhere",
+        options: "CommandProgramOptions",
+      },
+    },
+    programConnection: {
+      __type: "CommandProgramDocumentationProgramConnection!",
+      __args: {
+        where: "CommandProgramDocumentationProgramConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDocumentationProgramConnectionSort!]",
+      },
+    },
+  },
+  CommandProgramDocumentationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramDocumentationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDocumentationProgramConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramDocumentationProgramRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDocumentationProgramRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgram!" },
+  },
+  CommandProgramDocumentationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramDocumentation!" },
   },
   CommandProgramFlow: {
     __typename: { __type: "String!" },
@@ -12537,10 +13901,10 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String" },
     nodes: {
-      __type: "[CommandProgramNode]",
+      __type: "[CommandHMINode]",
       __args: {
-        where: "CommandProgramNodeWhere",
-        options: "CommandProgramNodeOptions",
+        where: "CommandHMINodeWhere",
+        options: "CommandHMINodeOptions",
       },
     },
     programs: {
@@ -12584,7 +13948,7 @@ export const generatedSchema = {
   CommandProgramHMINodesRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
-    node: { __type: "CommandProgramNode!" },
+    node: { __type: "CommandHMINode!" },
   },
   CommandProgramHMIProgramsConnection: {
     __typename: { __type: "String!" },
@@ -12607,6 +13971,7 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     x: { __type: "Float" },
     y: { __type: "Float" },
+    type: { __type: "String" },
     flow: {
       __type: "[CommandProgramFlow]",
       __args: {
@@ -12711,6 +14076,17 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "CommandProgramFlow!" },
   },
+  CommandProgramUsedOnConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramUsedOnRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramUsedOnRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandDevice!" },
+  },
   CreateCommandDevicePeripheralsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -12721,6 +14097,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandDevices: { __type: "[CommandDevice!]!" },
   },
+  CreateCommandHMINodesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandHmiNodes: { __type: "[CommandHMINode!]!" },
+  },
   CreateCommandPluginItemsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -12730,6 +14111,28 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
     commandPlugins: { __type: "[CommandPlugin!]!" },
+  },
+  CreateCommandProgramAlarmsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandProgramAlarms: { __type: "[CommandProgramAlarm!]!" },
+  },
+  CreateCommandProgramDevicePlaceholdersMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandProgramDevicePlaceholders: {
+      __type: "[CommandProgramDevicePlaceholder!]!",
+    },
+  },
+  CreateCommandProgramDevicesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandProgramDevices: { __type: "[CommandProgramDevice!]!" },
+  },
+  CreateCommandProgramDocumentationsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandProgramDocumentations: { __type: "[CommandProgramDocumentation!]!" },
   },
   CreateCommandProgramFlowsMutationResponse: {
     __typename: { __type: "String!" },
@@ -14892,6 +16295,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandDevices: { __type: "[CommandDevice!]!" },
   },
+  UpdateCommandHMINodesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandHmiNodes: { __type: "[CommandHMINode!]!" },
+  },
   UpdateCommandPluginItemsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -14901,6 +16309,28 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     commandPlugins: { __type: "[CommandPlugin!]!" },
+  },
+  UpdateCommandProgramAlarmsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandProgramAlarms: { __type: "[CommandProgramAlarm!]!" },
+  },
+  UpdateCommandProgramDevicePlaceholdersMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandProgramDevicePlaceholders: {
+      __type: "[CommandProgramDevicePlaceholder!]!",
+    },
+  },
+  UpdateCommandProgramDevicesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandProgramDevices: { __type: "[CommandProgramDevice!]!" },
+  },
+  UpdateCommandProgramDocumentationsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandProgramDocumentations: { __type: "[CommandProgramDocumentation!]!" },
   },
   UpdateCommandProgramFlowsMutationResponse: {
     __typename: { __type: "String!" },
@@ -15082,7 +16512,47 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     timelineItems: { __type: "[TimelineItem!]!" },
   },
+  CommandDeviceActiveProgramConnectFieldInput: {
+    where: { __type: "CommandProgramConnectWhere" },
+    connect: { __type: "CommandProgramConnectInput" },
+  },
+  CommandDeviceActiveProgramConnectionSort: {
+    node: { __type: "CommandProgramSort" },
+  },
+  CommandDeviceActiveProgramConnectionWhere: {
+    AND: { __type: "[CommandDeviceActiveProgramConnectionWhere!]" },
+    OR: { __type: "[CommandDeviceActiveProgramConnectionWhere!]" },
+    node: { __type: "CommandProgramWhere" },
+    node_NOT: { __type: "CommandProgramWhere" },
+  },
+  CommandDeviceActiveProgramCreateFieldInput: {
+    node: { __type: "CommandProgramCreateInput!" },
+  },
+  CommandDeviceActiveProgramDeleteFieldInput: {
+    where: { __type: "CommandDeviceActiveProgramConnectionWhere" },
+    delete: { __type: "CommandProgramDeleteInput" },
+  },
+  CommandDeviceActiveProgramDisconnectFieldInput: {
+    where: { __type: "CommandDeviceActiveProgramConnectionWhere" },
+    disconnect: { __type: "CommandProgramDisconnectInput" },
+  },
+  CommandDeviceActiveProgramFieldInput: {
+    create: { __type: "CommandDeviceActiveProgramCreateFieldInput" },
+    connect: { __type: "CommandDeviceActiveProgramConnectFieldInput" },
+  },
+  CommandDeviceActiveProgramUpdateConnectionInput: {
+    node: { __type: "CommandProgramUpdateInput" },
+  },
+  CommandDeviceActiveProgramUpdateFieldInput: {
+    where: { __type: "CommandDeviceActiveProgramConnectionWhere" },
+    update: { __type: "CommandDeviceActiveProgramUpdateConnectionInput" },
+    connect: { __type: "CommandDeviceActiveProgramConnectFieldInput" },
+    disconnect: { __type: "CommandDeviceActiveProgramDisconnectFieldInput" },
+    create: { __type: "CommandDeviceActiveProgramCreateFieldInput" },
+    delete: { __type: "CommandDeviceActiveProgramDeleteFieldInput" },
+  },
   CommandDeviceConnectInput: {
+    activeProgram: { __type: "CommandDeviceActiveProgramConnectFieldInput" },
     peripherals: { __type: "[CommandDevicePeripheralsConnectFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationConnectFieldInput" },
   },
@@ -15092,14 +16562,17 @@ export const generatedSchema = {
     network_name: { __type: "String" },
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
+    activeProgram: { __type: "CommandDeviceActiveProgramFieldInput" },
     peripherals: { __type: "CommandDevicePeripheralsFieldInput" },
     organisation: { __type: "CommandDeviceOrganisationFieldInput" },
   },
   CommandDeviceDeleteInput: {
+    activeProgram: { __type: "CommandDeviceActiveProgramDeleteFieldInput" },
     peripherals: { __type: "[CommandDevicePeripheralsDeleteFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationDeleteFieldInput" },
   },
   CommandDeviceDisconnectInput: {
+    activeProgram: { __type: "CommandDeviceActiveProgramDisconnectFieldInput" },
     peripherals: { __type: "[CommandDevicePeripheralsDisconnectFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationDisconnectFieldInput" },
   },
@@ -15325,6 +16798,7 @@ export const generatedSchema = {
     },
   },
   CommandDeviceRelationInput: {
+    activeProgram: { __type: "CommandDeviceActiveProgramCreateFieldInput" },
     peripherals: { __type: "[CommandDevicePeripheralsCreateFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationCreateFieldInput" },
   },
@@ -15340,6 +16814,7 @@ export const generatedSchema = {
     network_name: { __type: "String" },
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
+    activeProgram: { __type: "CommandDeviceActiveProgramUpdateFieldInput" },
     peripherals: { __type: "[CommandDevicePeripheralsUpdateFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationUpdateFieldInput" },
   },
@@ -15386,10 +16861,18 @@ export const generatedSchema = {
     lastOnline_LTE: { __type: "DateTime" },
     lastOnline_GT: { __type: "DateTime" },
     lastOnline_GTE: { __type: "DateTime" },
+    activeProgram: { __type: "CommandProgramWhere" },
+    activeProgram_NOT: { __type: "CommandProgramWhere" },
     peripherals: { __type: "CommandDevicePeripheralWhere" },
     peripherals_NOT: { __type: "CommandDevicePeripheralWhere" },
     organisation: { __type: "HiveOrganisationWhere" },
     organisation_NOT: { __type: "HiveOrganisationWhere" },
+    activeProgramConnection: {
+      __type: "CommandDeviceActiveProgramConnectionWhere",
+    },
+    activeProgramConnection_NOT: {
+      __type: "CommandDeviceActiveProgramConnectionWhere",
+    },
     peripheralsConnection: {
       __type: "CommandDevicePeripheralsConnectionWhere",
     },
@@ -15402,6 +16885,221 @@ export const generatedSchema = {
     organisationConnection_NOT: {
       __type: "CommandDeviceOrganisationConnectionWhere",
     },
+  },
+  CommandHMINodeConnectInput: {
+    flow: { __type: "[CommandHMINodeFlowConnectFieldInput!]" },
+    previous: { __type: "[CommandHMINodePreviousConnectFieldInput!]" },
+    next: { __type: "[CommandHMINodeNextConnectFieldInput!]" },
+  },
+  CommandHMINodeConnectWhere: { node: { __type: "CommandHMINodeWhere!" } },
+  CommandHMINodeCreateInput: {
+    x: { __type: "Float" },
+    y: { __type: "Float" },
+    type: { __type: "String" },
+    flow: { __type: "CommandHMINodeFlowFieldInput" },
+    previous: { __type: "CommandHMINodePreviousFieldInput" },
+    next: { __type: "CommandHMINodeNextFieldInput" },
+  },
+  CommandHMINodeDeleteInput: {
+    flow: { __type: "[CommandHMINodeFlowDeleteFieldInput!]" },
+    previous: { __type: "[CommandHMINodePreviousDeleteFieldInput!]" },
+    next: { __type: "[CommandHMINodeNextDeleteFieldInput!]" },
+  },
+  CommandHMINodeDisconnectInput: {
+    flow: { __type: "[CommandHMINodeFlowDisconnectFieldInput!]" },
+    previous: { __type: "[CommandHMINodePreviousDisconnectFieldInput!]" },
+    next: { __type: "[CommandHMINodeNextDisconnectFieldInput!]" },
+  },
+  CommandHMINodeFlowConnectFieldInput: {
+    where: { __type: "CommandProgramHMIConnectWhere" },
+    connect: { __type: "[CommandProgramHMIConnectInput!]" },
+  },
+  CommandHMINodeFlowConnectionSort: {
+    node: { __type: "CommandProgramHMISort" },
+  },
+  CommandHMINodeFlowConnectionWhere: {
+    AND: { __type: "[CommandHMINodeFlowConnectionWhere!]" },
+    OR: { __type: "[CommandHMINodeFlowConnectionWhere!]" },
+    node: { __type: "CommandProgramHMIWhere" },
+    node_NOT: { __type: "CommandProgramHMIWhere" },
+  },
+  CommandHMINodeFlowCreateFieldInput: {
+    node: { __type: "CommandProgramHMICreateInput!" },
+  },
+  CommandHMINodeFlowDeleteFieldInput: {
+    where: { __type: "CommandHMINodeFlowConnectionWhere" },
+    delete: { __type: "CommandProgramHMIDeleteInput" },
+  },
+  CommandHMINodeFlowDisconnectFieldInput: {
+    where: { __type: "CommandHMINodeFlowConnectionWhere" },
+    disconnect: { __type: "CommandProgramHMIDisconnectInput" },
+  },
+  CommandHMINodeFlowFieldInput: {
+    create: { __type: "[CommandHMINodeFlowCreateFieldInput!]" },
+    connect: { __type: "[CommandHMINodeFlowConnectFieldInput!]" },
+  },
+  CommandHMINodeFlowUpdateConnectionInput: {
+    node: { __type: "CommandProgramHMIUpdateInput" },
+  },
+  CommandHMINodeFlowUpdateFieldInput: {
+    where: { __type: "CommandHMINodeFlowConnectionWhere" },
+    update: { __type: "CommandHMINodeFlowUpdateConnectionInput" },
+    connect: { __type: "[CommandHMINodeFlowConnectFieldInput!]" },
+    disconnect: { __type: "[CommandHMINodeFlowDisconnectFieldInput!]" },
+    create: { __type: "[CommandHMINodeFlowCreateFieldInput!]" },
+    delete: { __type: "[CommandHMINodeFlowDeleteFieldInput!]" },
+  },
+  CommandHMINodeNextConnectFieldInput: {
+    where: { __type: "CommandHMINodeConnectWhere" },
+    connect: { __type: "[CommandHMINodeConnectInput!]" },
+  },
+  CommandHMINodeNextConnectionSort: { node: { __type: "CommandHMINodeSort" } },
+  CommandHMINodeNextConnectionWhere: {
+    AND: { __type: "[CommandHMINodeNextConnectionWhere!]" },
+    OR: { __type: "[CommandHMINodeNextConnectionWhere!]" },
+    node: { __type: "CommandHMINodeWhere" },
+    node_NOT: { __type: "CommandHMINodeWhere" },
+  },
+  CommandHMINodeNextCreateFieldInput: {
+    node: { __type: "CommandHMINodeCreateInput!" },
+  },
+  CommandHMINodeNextDeleteFieldInput: {
+    where: { __type: "CommandHMINodeNextConnectionWhere" },
+    delete: { __type: "CommandHMINodeDeleteInput" },
+  },
+  CommandHMINodeNextDisconnectFieldInput: {
+    where: { __type: "CommandHMINodeNextConnectionWhere" },
+    disconnect: { __type: "CommandHMINodeDisconnectInput" },
+  },
+  CommandHMINodeNextFieldInput: {
+    create: { __type: "[CommandHMINodeNextCreateFieldInput!]" },
+    connect: { __type: "[CommandHMINodeNextConnectFieldInput!]" },
+  },
+  CommandHMINodeNextUpdateConnectionInput: {
+    node: { __type: "CommandHMINodeUpdateInput" },
+  },
+  CommandHMINodeNextUpdateFieldInput: {
+    where: { __type: "CommandHMINodeNextConnectionWhere" },
+    update: { __type: "CommandHMINodeNextUpdateConnectionInput" },
+    connect: { __type: "[CommandHMINodeNextConnectFieldInput!]" },
+    disconnect: { __type: "[CommandHMINodeNextDisconnectFieldInput!]" },
+    create: { __type: "[CommandHMINodeNextCreateFieldInput!]" },
+    delete: { __type: "[CommandHMINodeNextDeleteFieldInput!]" },
+  },
+  CommandHMINodeOptions: {
+    sort: { __type: "[CommandHMINodeSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandHMINodePreviousConnectFieldInput: {
+    where: { __type: "CommandHMINodeConnectWhere" },
+    connect: { __type: "[CommandHMINodeConnectInput!]" },
+  },
+  CommandHMINodePreviousConnectionSort: {
+    node: { __type: "CommandHMINodeSort" },
+  },
+  CommandHMINodePreviousConnectionWhere: {
+    AND: { __type: "[CommandHMINodePreviousConnectionWhere!]" },
+    OR: { __type: "[CommandHMINodePreviousConnectionWhere!]" },
+    node: { __type: "CommandHMINodeWhere" },
+    node_NOT: { __type: "CommandHMINodeWhere" },
+  },
+  CommandHMINodePreviousCreateFieldInput: {
+    node: { __type: "CommandHMINodeCreateInput!" },
+  },
+  CommandHMINodePreviousDeleteFieldInput: {
+    where: { __type: "CommandHMINodePreviousConnectionWhere" },
+    delete: { __type: "CommandHMINodeDeleteInput" },
+  },
+  CommandHMINodePreviousDisconnectFieldInput: {
+    where: { __type: "CommandHMINodePreviousConnectionWhere" },
+    disconnect: { __type: "CommandHMINodeDisconnectInput" },
+  },
+  CommandHMINodePreviousFieldInput: {
+    create: { __type: "[CommandHMINodePreviousCreateFieldInput!]" },
+    connect: { __type: "[CommandHMINodePreviousConnectFieldInput!]" },
+  },
+  CommandHMINodePreviousUpdateConnectionInput: {
+    node: { __type: "CommandHMINodeUpdateInput" },
+  },
+  CommandHMINodePreviousUpdateFieldInput: {
+    where: { __type: "CommandHMINodePreviousConnectionWhere" },
+    update: { __type: "CommandHMINodePreviousUpdateConnectionInput" },
+    connect: { __type: "[CommandHMINodePreviousConnectFieldInput!]" },
+    disconnect: { __type: "[CommandHMINodePreviousDisconnectFieldInput!]" },
+    create: { __type: "[CommandHMINodePreviousCreateFieldInput!]" },
+    delete: { __type: "[CommandHMINodePreviousDeleteFieldInput!]" },
+  },
+  CommandHMINodeRelationInput: {
+    flow: { __type: "[CommandHMINodeFlowCreateFieldInput!]" },
+    previous: { __type: "[CommandHMINodePreviousCreateFieldInput!]" },
+    next: { __type: "[CommandHMINodeNextCreateFieldInput!]" },
+  },
+  CommandHMINodeSort: {
+    id: { __type: "SortDirection" },
+    x: { __type: "SortDirection" },
+    y: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+  },
+  CommandHMINodeUpdateInput: {
+    x: { __type: "Float" },
+    y: { __type: "Float" },
+    type: { __type: "String" },
+    flow: { __type: "[CommandHMINodeFlowUpdateFieldInput!]" },
+    previous: { __type: "[CommandHMINodePreviousUpdateFieldInput!]" },
+    next: { __type: "[CommandHMINodeNextUpdateFieldInput!]" },
+  },
+  CommandHMINodeWhere: {
+    OR: { __type: "[CommandHMINodeWhere!]" },
+    AND: { __type: "[CommandHMINodeWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    x: { __type: "Float" },
+    x_NOT: { __type: "Float" },
+    x_IN: { __type: "[Float]" },
+    x_NOT_IN: { __type: "[Float]" },
+    x_LT: { __type: "Float" },
+    x_LTE: { __type: "Float" },
+    x_GT: { __type: "Float" },
+    x_GTE: { __type: "Float" },
+    y: { __type: "Float" },
+    y_NOT: { __type: "Float" },
+    y_IN: { __type: "[Float]" },
+    y_NOT_IN: { __type: "[Float]" },
+    y_LT: { __type: "Float" },
+    y_LTE: { __type: "Float" },
+    y_GT: { __type: "Float" },
+    y_GTE: { __type: "Float" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    flow: { __type: "CommandProgramHMIWhere" },
+    flow_NOT: { __type: "CommandProgramHMIWhere" },
+    previous: { __type: "CommandHMINodeWhere" },
+    previous_NOT: { __type: "CommandHMINodeWhere" },
+    next: { __type: "CommandHMINodeWhere" },
+    next_NOT: { __type: "CommandHMINodeWhere" },
+    flowConnection: { __type: "CommandHMINodeFlowConnectionWhere" },
+    flowConnection_NOT: { __type: "CommandHMINodeFlowConnectionWhere" },
+    previousConnection: { __type: "CommandHMINodePreviousConnectionWhere" },
+    previousConnection_NOT: { __type: "CommandHMINodePreviousConnectionWhere" },
+    nextConnection: { __type: "CommandHMINodeNextConnectionWhere" },
+    nextConnection_NOT: { __type: "CommandHMINodeNextConnectionWhere" },
   },
   CommandPluginConnectInput: {
     items: { __type: "[CommandPluginItemsConnectFieldInput!]" },
@@ -15678,27 +17376,492 @@ export const generatedSchema = {
       __type: "CommandPluginOrganisationConnectionWhere",
     },
   },
+  CommandProgramAlarmConnectWhere: {
+    node: { __type: "CommandProgramAlarmWhere!" },
+  },
+  CommandProgramAlarmCreateInput: {
+    name: { __type: "String" },
+    trigger: { __type: "String" },
+  },
+  CommandProgramAlarmOptions: {
+    sort: { __type: "[CommandProgramAlarmSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandProgramAlarmsConnectFieldInput: {
+    where: { __type: "CommandProgramAlarmConnectWhere" },
+  },
+  CommandProgramAlarmsConnectionSort: {
+    node: { __type: "CommandProgramAlarmSort" },
+  },
+  CommandProgramAlarmsConnectionWhere: {
+    AND: { __type: "[CommandProgramAlarmsConnectionWhere!]" },
+    OR: { __type: "[CommandProgramAlarmsConnectionWhere!]" },
+    node: { __type: "CommandProgramAlarmWhere" },
+    node_NOT: { __type: "CommandProgramAlarmWhere" },
+  },
+  CommandProgramAlarmsCreateFieldInput: {
+    node: { __type: "CommandProgramAlarmCreateInput!" },
+  },
+  CommandProgramAlarmsDeleteFieldInput: {
+    where: { __type: "CommandProgramAlarmsConnectionWhere" },
+  },
+  CommandProgramAlarmsDisconnectFieldInput: {
+    where: { __type: "CommandProgramAlarmsConnectionWhere" },
+  },
+  CommandProgramAlarmsFieldInput: {
+    create: { __type: "[CommandProgramAlarmsCreateFieldInput!]" },
+    connect: { __type: "[CommandProgramAlarmsConnectFieldInput!]" },
+  },
+  CommandProgramAlarmSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    trigger: { __type: "SortDirection" },
+  },
+  CommandProgramAlarmsUpdateConnectionInput: {
+    node: { __type: "CommandProgramAlarmUpdateInput" },
+  },
+  CommandProgramAlarmsUpdateFieldInput: {
+    where: { __type: "CommandProgramAlarmsConnectionWhere" },
+    update: { __type: "CommandProgramAlarmsUpdateConnectionInput" },
+    connect: { __type: "[CommandProgramAlarmsConnectFieldInput!]" },
+    disconnect: { __type: "[CommandProgramAlarmsDisconnectFieldInput!]" },
+    create: { __type: "[CommandProgramAlarmsCreateFieldInput!]" },
+    delete: { __type: "[CommandProgramAlarmsDeleteFieldInput!]" },
+  },
+  CommandProgramAlarmUpdateInput: {
+    name: { __type: "String" },
+    trigger: { __type: "String" },
+  },
+  CommandProgramAlarmWhere: {
+    OR: { __type: "[CommandProgramAlarmWhere!]" },
+    AND: { __type: "[CommandProgramAlarmWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    trigger: { __type: "String" },
+    trigger_NOT: { __type: "String" },
+    trigger_IN: { __type: "[String]" },
+    trigger_NOT_IN: { __type: "[String]" },
+    trigger_CONTAINS: { __type: "String" },
+    trigger_NOT_CONTAINS: { __type: "String" },
+    trigger_STARTS_WITH: { __type: "String" },
+    trigger_NOT_STARTS_WITH: { __type: "String" },
+    trigger_ENDS_WITH: { __type: "String" },
+    trigger_NOT_ENDS_WITH: { __type: "String" },
+  },
   CommandProgramConnectInput: {
+    documentation: {
+      __type: "[CommandProgramDocumentationConnectFieldInput!]",
+    },
     program: { __type: "[CommandProgramProgramConnectFieldInput!]" },
     hmi: { __type: "[CommandProgramHmiConnectFieldInput!]" },
+    devices: { __type: "[CommandProgramDevicesConnectFieldInput!]" },
+    alarms: { __type: "[CommandProgramAlarmsConnectFieldInput!]" },
     organisation: { __type: "CommandProgramOrganisationConnectFieldInput" },
+    usedOn: { __type: "CommandProgramUsedOnConnectFieldInput" },
   },
   CommandProgramConnectWhere: { node: { __type: "CommandProgramWhere!" } },
   CommandProgramCreateInput: {
     name: { __type: "String" },
+    documentation: { __type: "CommandProgramDocumentationFieldInput" },
     program: { __type: "CommandProgramProgramFieldInput" },
     hmi: { __type: "CommandProgramHmiFieldInput" },
+    devices: { __type: "CommandProgramDevicesFieldInput" },
+    alarms: { __type: "CommandProgramAlarmsFieldInput" },
     organisation: { __type: "CommandProgramOrganisationFieldInput" },
+    usedOn: { __type: "CommandProgramUsedOnFieldInput" },
   },
   CommandProgramDeleteInput: {
+    documentation: { __type: "[CommandProgramDocumentationDeleteFieldInput!]" },
     program: { __type: "[CommandProgramProgramDeleteFieldInput!]" },
     hmi: { __type: "[CommandProgramHmiDeleteFieldInput!]" },
+    devices: { __type: "[CommandProgramDevicesDeleteFieldInput!]" },
+    alarms: { __type: "[CommandProgramAlarmsDeleteFieldInput!]" },
     organisation: { __type: "CommandProgramOrganisationDeleteFieldInput" },
+    usedOn: { __type: "CommandProgramUsedOnDeleteFieldInput" },
+  },
+  CommandProgramDeviceConnectWhere: {
+    node: { __type: "CommandProgramDeviceWhere!" },
+  },
+  CommandProgramDeviceCreateInput: {
+    name: { __type: "String" },
+    type: { __type: "String" },
+  },
+  CommandProgramDeviceOptions: {
+    sort: { __type: "[CommandProgramDeviceSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandProgramDevicePlaceholderConnectInput: {
+    type: { __type: "CommandProgramDevicePlaceholderTypeConnectFieldInput" },
+  },
+  CommandProgramDevicePlaceholderConnectWhere: {
+    node: { __type: "CommandProgramDevicePlaceholderWhere!" },
+  },
+  CommandProgramDevicePlaceholderCreateInput: {
+    name: { __type: "String" },
+    type: { __type: "CommandProgramDevicePlaceholderTypeFieldInput" },
+  },
+  CommandProgramDevicePlaceholderDeleteInput: {
+    type: { __type: "CommandProgramDevicePlaceholderTypeDeleteFieldInput" },
+  },
+  CommandProgramDevicePlaceholderDisconnectInput: {
+    type: { __type: "CommandProgramDevicePlaceholderTypeDisconnectFieldInput" },
+  },
+  CommandProgramDevicePlaceholderOptions: {
+    sort: { __type: "[CommandProgramDevicePlaceholderSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandProgramDevicePlaceholderRelationInput: {
+    type: { __type: "CommandProgramDevicePlaceholderTypeCreateFieldInput" },
+  },
+  CommandProgramDevicePlaceholderSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
+  CommandProgramDevicePlaceholderTypeConnectFieldInput: {
+    where: { __type: "CommandProgramDeviceConnectWhere" },
+  },
+  CommandProgramDevicePlaceholderTypeConnectionSort: {
+    node: { __type: "CommandProgramDeviceSort" },
+  },
+  CommandProgramDevicePlaceholderTypeConnectionWhere: {
+    AND: { __type: "[CommandProgramDevicePlaceholderTypeConnectionWhere!]" },
+    OR: { __type: "[CommandProgramDevicePlaceholderTypeConnectionWhere!]" },
+    node: { __type: "CommandProgramDeviceWhere" },
+    node_NOT: { __type: "CommandProgramDeviceWhere" },
+  },
+  CommandProgramDevicePlaceholderTypeCreateFieldInput: {
+    node: { __type: "CommandProgramDeviceCreateInput!" },
+  },
+  CommandProgramDevicePlaceholderTypeDeleteFieldInput: {
+    where: { __type: "CommandProgramDevicePlaceholderTypeConnectionWhere" },
+  },
+  CommandProgramDevicePlaceholderTypeDisconnectFieldInput: {
+    where: { __type: "CommandProgramDevicePlaceholderTypeConnectionWhere" },
+  },
+  CommandProgramDevicePlaceholderTypeFieldInput: {
+    create: { __type: "CommandProgramDevicePlaceholderTypeCreateFieldInput" },
+    connect: { __type: "CommandProgramDevicePlaceholderTypeConnectFieldInput" },
+  },
+  CommandProgramDevicePlaceholderTypeUpdateConnectionInput: {
+    node: { __type: "CommandProgramDeviceUpdateInput" },
+  },
+  CommandProgramDevicePlaceholderTypeUpdateFieldInput: {
+    where: { __type: "CommandProgramDevicePlaceholderTypeConnectionWhere" },
+    update: {
+      __type: "CommandProgramDevicePlaceholderTypeUpdateConnectionInput",
+    },
+    connect: { __type: "CommandProgramDevicePlaceholderTypeConnectFieldInput" },
+    disconnect: {
+      __type: "CommandProgramDevicePlaceholderTypeDisconnectFieldInput",
+    },
+    create: { __type: "CommandProgramDevicePlaceholderTypeCreateFieldInput" },
+    delete: { __type: "CommandProgramDevicePlaceholderTypeDeleteFieldInput" },
+  },
+  CommandProgramDevicePlaceholderUpdateInput: {
+    name: { __type: "String" },
+    type: { __type: "CommandProgramDevicePlaceholderTypeUpdateFieldInput" },
+  },
+  CommandProgramDevicePlaceholderWhere: {
+    OR: { __type: "[CommandProgramDevicePlaceholderWhere!]" },
+    AND: { __type: "[CommandProgramDevicePlaceholderWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    type: { __type: "CommandProgramDeviceWhere" },
+    type_NOT: { __type: "CommandProgramDeviceWhere" },
+    typeConnection: {
+      __type: "CommandProgramDevicePlaceholderTypeConnectionWhere",
+    },
+    typeConnection_NOT: {
+      __type: "CommandProgramDevicePlaceholderTypeConnectionWhere",
+    },
+  },
+  CommandProgramDevicesConnectFieldInput: {
+    where: { __type: "CommandProgramDevicePlaceholderConnectWhere" },
+    connect: { __type: "[CommandProgramDevicePlaceholderConnectInput!]" },
+  },
+  CommandProgramDevicesConnectionSort: {
+    node: { __type: "CommandProgramDevicePlaceholderSort" },
+  },
+  CommandProgramDevicesConnectionWhere: {
+    AND: { __type: "[CommandProgramDevicesConnectionWhere!]" },
+    OR: { __type: "[CommandProgramDevicesConnectionWhere!]" },
+    node: { __type: "CommandProgramDevicePlaceholderWhere" },
+    node_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
+  },
+  CommandProgramDevicesCreateFieldInput: {
+    node: { __type: "CommandProgramDevicePlaceholderCreateInput!" },
+  },
+  CommandProgramDevicesDeleteFieldInput: {
+    where: { __type: "CommandProgramDevicesConnectionWhere" },
+    delete: { __type: "CommandProgramDevicePlaceholderDeleteInput" },
+  },
+  CommandProgramDevicesDisconnectFieldInput: {
+    where: { __type: "CommandProgramDevicesConnectionWhere" },
+    disconnect: { __type: "CommandProgramDevicePlaceholderDisconnectInput" },
+  },
+  CommandProgramDevicesFieldInput: {
+    create: { __type: "[CommandProgramDevicesCreateFieldInput!]" },
+    connect: { __type: "[CommandProgramDevicesConnectFieldInput!]" },
+  },
+  CommandProgramDeviceSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+  },
+  CommandProgramDevicesUpdateConnectionInput: {
+    node: { __type: "CommandProgramDevicePlaceholderUpdateInput" },
+  },
+  CommandProgramDevicesUpdateFieldInput: {
+    where: { __type: "CommandProgramDevicesConnectionWhere" },
+    update: { __type: "CommandProgramDevicesUpdateConnectionInput" },
+    connect: { __type: "[CommandProgramDevicesConnectFieldInput!]" },
+    disconnect: { __type: "[CommandProgramDevicesDisconnectFieldInput!]" },
+    create: { __type: "[CommandProgramDevicesCreateFieldInput!]" },
+    delete: { __type: "[CommandProgramDevicesDeleteFieldInput!]" },
+  },
+  CommandProgramDeviceUpdateInput: {
+    name: { __type: "String" },
+    type: { __type: "String" },
+  },
+  CommandProgramDeviceWhere: {
+    OR: { __type: "[CommandProgramDeviceWhere!]" },
+    AND: { __type: "[CommandProgramDeviceWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
   },
   CommandProgramDisconnectInput: {
+    documentation: {
+      __type: "[CommandProgramDocumentationDisconnectFieldInput!]",
+    },
     program: { __type: "[CommandProgramProgramDisconnectFieldInput!]" },
     hmi: { __type: "[CommandProgramHmiDisconnectFieldInput!]" },
+    devices: { __type: "[CommandProgramDevicesDisconnectFieldInput!]" },
+    alarms: { __type: "[CommandProgramAlarmsDisconnectFieldInput!]" },
     organisation: { __type: "CommandProgramOrganisationDisconnectFieldInput" },
+    usedOn: { __type: "CommandProgramUsedOnDisconnectFieldInput" },
+  },
+  CommandProgramDocumentationConnectFieldInput: {
+    where: { __type: "CommandProgramDocumentationConnectWhere" },
+    connect: { __type: "[CommandProgramDocumentationConnectInput!]" },
+  },
+  CommandProgramDocumentationConnectInput: {
+    program: { __type: "CommandProgramDocumentationProgramConnectFieldInput" },
+  },
+  CommandProgramDocumentationConnectionSort: {
+    node: { __type: "CommandProgramDocumentationSort" },
+  },
+  CommandProgramDocumentationConnectionWhere: {
+    AND: { __type: "[CommandProgramDocumentationConnectionWhere!]" },
+    OR: { __type: "[CommandProgramDocumentationConnectionWhere!]" },
+    node: { __type: "CommandProgramDocumentationWhere" },
+    node_NOT: { __type: "CommandProgramDocumentationWhere" },
+  },
+  CommandProgramDocumentationConnectWhere: {
+    node: { __type: "CommandProgramDocumentationWhere!" },
+  },
+  CommandProgramDocumentationCreateFieldInput: {
+    node: { __type: "CommandProgramDocumentationCreateInput!" },
+  },
+  CommandProgramDocumentationCreateInput: {
+    name: { __type: "String" },
+    blocks: { __type: "[String]" },
+    program: { __type: "CommandProgramDocumentationProgramFieldInput" },
+  },
+  CommandProgramDocumentationDeleteFieldInput: {
+    where: { __type: "CommandProgramDocumentationConnectionWhere" },
+    delete: { __type: "CommandProgramDocumentationDeleteInput" },
+  },
+  CommandProgramDocumentationDeleteInput: {
+    program: { __type: "CommandProgramDocumentationProgramDeleteFieldInput" },
+  },
+  CommandProgramDocumentationDisconnectFieldInput: {
+    where: { __type: "CommandProgramDocumentationConnectionWhere" },
+    disconnect: { __type: "CommandProgramDocumentationDisconnectInput" },
+  },
+  CommandProgramDocumentationDisconnectInput: {
+    program: {
+      __type: "CommandProgramDocumentationProgramDisconnectFieldInput",
+    },
+  },
+  CommandProgramDocumentationFieldInput: {
+    create: { __type: "[CommandProgramDocumentationCreateFieldInput!]" },
+    connect: { __type: "[CommandProgramDocumentationConnectFieldInput!]" },
+  },
+  CommandProgramDocumentationOptions: {
+    sort: { __type: "[CommandProgramDocumentationSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandProgramDocumentationProgramConnectFieldInput: {
+    where: { __type: "CommandProgramConnectWhere" },
+    connect: { __type: "CommandProgramConnectInput" },
+  },
+  CommandProgramDocumentationProgramConnectionSort: {
+    node: { __type: "CommandProgramSort" },
+  },
+  CommandProgramDocumentationProgramConnectionWhere: {
+    AND: { __type: "[CommandProgramDocumentationProgramConnectionWhere!]" },
+    OR: { __type: "[CommandProgramDocumentationProgramConnectionWhere!]" },
+    node: { __type: "CommandProgramWhere" },
+    node_NOT: { __type: "CommandProgramWhere" },
+  },
+  CommandProgramDocumentationProgramCreateFieldInput: {
+    node: { __type: "CommandProgramCreateInput!" },
+  },
+  CommandProgramDocumentationProgramDeleteFieldInput: {
+    where: { __type: "CommandProgramDocumentationProgramConnectionWhere" },
+    delete: { __type: "CommandProgramDeleteInput" },
+  },
+  CommandProgramDocumentationProgramDisconnectFieldInput: {
+    where: { __type: "CommandProgramDocumentationProgramConnectionWhere" },
+    disconnect: { __type: "CommandProgramDisconnectInput" },
+  },
+  CommandProgramDocumentationProgramFieldInput: {
+    create: { __type: "CommandProgramDocumentationProgramCreateFieldInput" },
+    connect: { __type: "CommandProgramDocumentationProgramConnectFieldInput" },
+  },
+  CommandProgramDocumentationProgramUpdateConnectionInput: {
+    node: { __type: "CommandProgramUpdateInput" },
+  },
+  CommandProgramDocumentationProgramUpdateFieldInput: {
+    where: { __type: "CommandProgramDocumentationProgramConnectionWhere" },
+    update: {
+      __type: "CommandProgramDocumentationProgramUpdateConnectionInput",
+    },
+    connect: { __type: "CommandProgramDocumentationProgramConnectFieldInput" },
+    disconnect: {
+      __type: "CommandProgramDocumentationProgramDisconnectFieldInput",
+    },
+    create: { __type: "CommandProgramDocumentationProgramCreateFieldInput" },
+    delete: { __type: "CommandProgramDocumentationProgramDeleteFieldInput" },
+  },
+  CommandProgramDocumentationRelationInput: {
+    program: { __type: "CommandProgramDocumentationProgramCreateFieldInput" },
+  },
+  CommandProgramDocumentationSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
+  CommandProgramDocumentationUpdateConnectionInput: {
+    node: { __type: "CommandProgramDocumentationUpdateInput" },
+  },
+  CommandProgramDocumentationUpdateFieldInput: {
+    where: { __type: "CommandProgramDocumentationConnectionWhere" },
+    update: { __type: "CommandProgramDocumentationUpdateConnectionInput" },
+    connect: { __type: "[CommandProgramDocumentationConnectFieldInput!]" },
+    disconnect: {
+      __type: "[CommandProgramDocumentationDisconnectFieldInput!]",
+    },
+    create: { __type: "[CommandProgramDocumentationCreateFieldInput!]" },
+    delete: { __type: "[CommandProgramDocumentationDeleteFieldInput!]" },
+  },
+  CommandProgramDocumentationUpdateInput: {
+    name: { __type: "String" },
+    blocks: { __type: "[String]" },
+    program: { __type: "CommandProgramDocumentationProgramUpdateFieldInput" },
+  },
+  CommandProgramDocumentationWhere: {
+    OR: { __type: "[CommandProgramDocumentationWhere!]" },
+    AND: { __type: "[CommandProgramDocumentationWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    blocks: { __type: "[String]" },
+    blocks_NOT: { __type: "[String]" },
+    blocks_INCLUDES: { __type: "String" },
+    blocks_NOT_INCLUDES: { __type: "String" },
+    program: { __type: "CommandProgramWhere" },
+    program_NOT: { __type: "CommandProgramWhere" },
+    programConnection: {
+      __type: "CommandProgramDocumentationProgramConnectionWhere",
+    },
+    programConnection_NOT: {
+      __type: "CommandProgramDocumentationProgramConnectionWhere",
+    },
   },
   CommandProgramFlowConnectInput: {
     nodes: { __type: "[CommandProgramFlowNodesConnectFieldInput!]" },
@@ -15899,35 +18062,35 @@ export const generatedSchema = {
     connect: { __type: "[CommandProgramHmiConnectFieldInput!]" },
   },
   CommandProgramHMINodesConnectFieldInput: {
-    where: { __type: "CommandProgramNodeConnectWhere" },
-    connect: { __type: "[CommandProgramNodeConnectInput!]" },
+    where: { __type: "CommandHMINodeConnectWhere" },
+    connect: { __type: "[CommandHMINodeConnectInput!]" },
   },
   CommandProgramHMINodesConnectionSort: {
-    node: { __type: "CommandProgramNodeSort" },
+    node: { __type: "CommandHMINodeSort" },
   },
   CommandProgramHMINodesConnectionWhere: {
     AND: { __type: "[CommandProgramHMINodesConnectionWhere!]" },
     OR: { __type: "[CommandProgramHMINodesConnectionWhere!]" },
-    node: { __type: "CommandProgramNodeWhere" },
-    node_NOT: { __type: "CommandProgramNodeWhere" },
+    node: { __type: "CommandHMINodeWhere" },
+    node_NOT: { __type: "CommandHMINodeWhere" },
   },
   CommandProgramHMINodesCreateFieldInput: {
-    node: { __type: "CommandProgramNodeCreateInput!" },
+    node: { __type: "CommandHMINodeCreateInput!" },
   },
   CommandProgramHMINodesDeleteFieldInput: {
     where: { __type: "CommandProgramHMINodesConnectionWhere" },
-    delete: { __type: "CommandProgramNodeDeleteInput" },
+    delete: { __type: "CommandHMINodeDeleteInput" },
   },
   CommandProgramHMINodesDisconnectFieldInput: {
     where: { __type: "CommandProgramHMINodesConnectionWhere" },
-    disconnect: { __type: "CommandProgramNodeDisconnectInput" },
+    disconnect: { __type: "CommandHMINodeDisconnectInput" },
   },
   CommandProgramHMINodesFieldInput: {
     create: { __type: "[CommandProgramHMINodesCreateFieldInput!]" },
     connect: { __type: "[CommandProgramHMINodesConnectFieldInput!]" },
   },
   CommandProgramHMINodesUpdateConnectionInput: {
-    node: { __type: "CommandProgramNodeUpdateInput" },
+    node: { __type: "CommandHMINodeUpdateInput" },
   },
   CommandProgramHMINodesUpdateFieldInput: {
     where: { __type: "CommandProgramHMINodesConnectionWhere" },
@@ -16028,8 +18191,8 @@ export const generatedSchema = {
     name_NOT_STARTS_WITH: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
-    nodes: { __type: "CommandProgramNodeWhere" },
-    nodes_NOT: { __type: "CommandProgramNodeWhere" },
+    nodes: { __type: "CommandHMINodeWhere" },
+    nodes_NOT: { __type: "CommandHMINodeWhere" },
     programs: { __type: "CommandProgramWhere" },
     programs_NOT: { __type: "CommandProgramWhere" },
     nodesConnection: { __type: "CommandProgramHMINodesConnectionWhere" },
@@ -16050,6 +18213,7 @@ export const generatedSchema = {
   CommandProgramNodeCreateInput: {
     x: { __type: "Float" },
     y: { __type: "Float" },
+    type: { __type: "String" },
     flow: { __type: "CommandProgramNodeFlowFieldInput" },
     previous: { __type: "CommandProgramNodePreviousFieldInput" },
     next: { __type: "CommandProgramNodeNextFieldInput" },
@@ -16195,10 +18359,12 @@ export const generatedSchema = {
     id: { __type: "SortDirection" },
     x: { __type: "SortDirection" },
     y: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
   },
   CommandProgramNodeUpdateInput: {
     x: { __type: "Float" },
     y: { __type: "Float" },
+    type: { __type: "String" },
     flow: { __type: "[CommandProgramNodeFlowUpdateFieldInput!]" },
     previous: { __type: "[CommandProgramNodePreviousUpdateFieldInput!]" },
     next: { __type: "[CommandProgramNodeNextUpdateFieldInput!]" },
@@ -16232,6 +18398,16 @@ export const generatedSchema = {
     y_LTE: { __type: "Float" },
     y_GT: { __type: "Float" },
     y_GTE: { __type: "Float" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
     flow: { __type: "CommandProgramFlowWhere" },
     flow_NOT: { __type: "CommandProgramFlowWhere" },
     previous: { __type: "CommandProgramNodeWhere" },
@@ -16331,9 +18507,13 @@ export const generatedSchema = {
     delete: { __type: "[CommandProgramProgramDeleteFieldInput!]" },
   },
   CommandProgramRelationInput: {
+    documentation: { __type: "[CommandProgramDocumentationCreateFieldInput!]" },
     program: { __type: "[CommandProgramProgramCreateFieldInput!]" },
     hmi: { __type: "[CommandProgramHmiCreateFieldInput!]" },
+    devices: { __type: "[CommandProgramDevicesCreateFieldInput!]" },
+    alarms: { __type: "[CommandProgramAlarmsCreateFieldInput!]" },
     organisation: { __type: "CommandProgramOrganisationCreateFieldInput" },
+    usedOn: { __type: "CommandProgramUsedOnCreateFieldInput" },
   },
   CommandProgramSort: {
     id: { __type: "SortDirection" },
@@ -16342,9 +18522,50 @@ export const generatedSchema = {
   },
   CommandProgramUpdateInput: {
     name: { __type: "String" },
+    documentation: { __type: "[CommandProgramDocumentationUpdateFieldInput!]" },
     program: { __type: "[CommandProgramProgramUpdateFieldInput!]" },
     hmi: { __type: "[CommandProgramHmiUpdateFieldInput!]" },
+    devices: { __type: "[CommandProgramDevicesUpdateFieldInput!]" },
+    alarms: { __type: "[CommandProgramAlarmsUpdateFieldInput!]" },
     organisation: { __type: "CommandProgramOrganisationUpdateFieldInput" },
+    usedOn: { __type: "CommandProgramUsedOnUpdateFieldInput" },
+  },
+  CommandProgramUsedOnConnectFieldInput: {
+    where: { __type: "CommandDeviceConnectWhere" },
+    connect: { __type: "CommandDeviceConnectInput" },
+  },
+  CommandProgramUsedOnConnectionSort: { node: { __type: "CommandDeviceSort" } },
+  CommandProgramUsedOnConnectionWhere: {
+    AND: { __type: "[CommandProgramUsedOnConnectionWhere!]" },
+    OR: { __type: "[CommandProgramUsedOnConnectionWhere!]" },
+    node: { __type: "CommandDeviceWhere" },
+    node_NOT: { __type: "CommandDeviceWhere" },
+  },
+  CommandProgramUsedOnCreateFieldInput: {
+    node: { __type: "CommandDeviceCreateInput!" },
+  },
+  CommandProgramUsedOnDeleteFieldInput: {
+    where: { __type: "CommandProgramUsedOnConnectionWhere" },
+    delete: { __type: "CommandDeviceDeleteInput" },
+  },
+  CommandProgramUsedOnDisconnectFieldInput: {
+    where: { __type: "CommandProgramUsedOnConnectionWhere" },
+    disconnect: { __type: "CommandDeviceDisconnectInput" },
+  },
+  CommandProgramUsedOnFieldInput: {
+    create: { __type: "CommandProgramUsedOnCreateFieldInput" },
+    connect: { __type: "CommandProgramUsedOnConnectFieldInput" },
+  },
+  CommandProgramUsedOnUpdateConnectionInput: {
+    node: { __type: "CommandDeviceUpdateInput" },
+  },
+  CommandProgramUsedOnUpdateFieldInput: {
+    where: { __type: "CommandProgramUsedOnConnectionWhere" },
+    update: { __type: "CommandProgramUsedOnUpdateConnectionInput" },
+    connect: { __type: "CommandProgramUsedOnConnectFieldInput" },
+    disconnect: { __type: "CommandProgramUsedOnDisconnectFieldInput" },
+    create: { __type: "CommandProgramUsedOnCreateFieldInput" },
+    delete: { __type: "CommandProgramUsedOnDeleteFieldInput" },
   },
   CommandProgramWhere: {
     OR: { __type: "[CommandProgramWhere!]" },
@@ -16377,22 +18598,42 @@ export const generatedSchema = {
     createdAt_LTE: { __type: "DateTime" },
     createdAt_GT: { __type: "DateTime" },
     createdAt_GTE: { __type: "DateTime" },
+    documentation: { __type: "CommandProgramDocumentationWhere" },
+    documentation_NOT: { __type: "CommandProgramDocumentationWhere" },
     program: { __type: "CommandProgramFlowWhere" },
     program_NOT: { __type: "CommandProgramFlowWhere" },
     hmi: { __type: "CommandProgramHMIWhere" },
     hmi_NOT: { __type: "CommandProgramHMIWhere" },
+    devices: { __type: "CommandProgramDevicePlaceholderWhere" },
+    devices_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
+    alarms: { __type: "CommandProgramAlarmWhere" },
+    alarms_NOT: { __type: "CommandProgramAlarmWhere" },
     organisation: { __type: "HiveOrganisationWhere" },
     organisation_NOT: { __type: "HiveOrganisationWhere" },
+    usedOn: { __type: "CommandDeviceWhere" },
+    usedOn_NOT: { __type: "CommandDeviceWhere" },
+    documentationConnection: {
+      __type: "CommandProgramDocumentationConnectionWhere",
+    },
+    documentationConnection_NOT: {
+      __type: "CommandProgramDocumentationConnectionWhere",
+    },
     programConnection: { __type: "CommandProgramProgramConnectionWhere" },
     programConnection_NOT: { __type: "CommandProgramProgramConnectionWhere" },
     hmiConnection: { __type: "CommandProgramHmiConnectionWhere" },
     hmiConnection_NOT: { __type: "CommandProgramHmiConnectionWhere" },
+    devicesConnection: { __type: "CommandProgramDevicesConnectionWhere" },
+    devicesConnection_NOT: { __type: "CommandProgramDevicesConnectionWhere" },
+    alarmsConnection: { __type: "CommandProgramAlarmsConnectionWhere" },
+    alarmsConnection_NOT: { __type: "CommandProgramAlarmsConnectionWhere" },
     organisationConnection: {
       __type: "CommandProgramOrganisationConnectionWhere",
     },
     organisationConnection_NOT: {
       __type: "CommandProgramOrganisationConnectionWhere",
     },
+    usedOnConnection: { __type: "CommandProgramUsedOnConnectionWhere" },
+    usedOnConnection_NOT: { __type: "CommandProgramUsedOnConnectionWhere" },
   },
   EquipmentConnectInput: {
     organisation: { __type: "EquipmentOrganisationConnectFieldInput" },
@@ -24413,6 +26654,34 @@ export interface Query {
   commandProgramsCount: (args?: {
     where?: Maybe<CommandProgramWhere>;
   }) => ScalarsEnums["Int"];
+  commandProgramAlarms: (args?: {
+    where?: Maybe<CommandProgramAlarmWhere>;
+    options?: Maybe<CommandProgramAlarmOptions>;
+  }) => Array<CommandProgramAlarm>;
+  commandProgramAlarmsCount: (args?: {
+    where?: Maybe<CommandProgramAlarmWhere>;
+  }) => ScalarsEnums["Int"];
+  commandProgramDevicePlaceholders: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+    options?: Maybe<CommandProgramDevicePlaceholderOptions>;
+  }) => Array<CommandProgramDevicePlaceholder>;
+  commandProgramDevicePlaceholdersCount: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  }) => ScalarsEnums["Int"];
+  commandProgramDevices: (args?: {
+    where?: Maybe<CommandProgramDeviceWhere>;
+    options?: Maybe<CommandProgramDeviceOptions>;
+  }) => Array<CommandProgramDevice>;
+  commandProgramDevicesCount: (args?: {
+    where?: Maybe<CommandProgramDeviceWhere>;
+  }) => ScalarsEnums["Int"];
+  commandProgramDocumentations: (args?: {
+    where?: Maybe<CommandProgramDocumentationWhere>;
+    options?: Maybe<CommandProgramDocumentationOptions>;
+  }) => Array<CommandProgramDocumentation>;
+  commandProgramDocumentationsCount: (args?: {
+    where?: Maybe<CommandProgramDocumentationWhere>;
+  }) => ScalarsEnums["Int"];
   commandProgramFlows: (args?: {
     where?: Maybe<CommandProgramFlowWhere>;
     options?: Maybe<CommandProgramFlowOptions>;
@@ -24433,6 +26702,13 @@ export interface Query {
   }) => Array<CommandProgramNode>;
   commandProgramNodesCount: (args?: {
     where?: Maybe<CommandProgramNodeWhere>;
+  }) => ScalarsEnums["Int"];
+  commandHmiNodes: (args?: {
+    where?: Maybe<CommandHMINodeWhere>;
+    options?: Maybe<CommandHMINodeOptions>;
+  }) => Array<CommandHMINode>;
+  commandHmiNodesCount: (args?: {
+    where?: Maybe<CommandHMINodeWhere>;
   }) => ScalarsEnums["Int"];
   commandPlugins: (args?: {
     where?: Maybe<CommandPluginWhere>;
@@ -25520,6 +27796,56 @@ export interface Mutation {
     create?: Maybe<CommandProgramRelationInput>;
     delete?: Maybe<CommandProgramDeleteInput>;
   }) => UpdateCommandProgramsMutationResponse;
+  createCommandProgramAlarms: (args: {
+    input: Array<CommandProgramAlarmCreateInput>;
+  }) => CreateCommandProgramAlarmsMutationResponse;
+  deleteCommandProgramAlarms: (args?: {
+    where?: Maybe<CommandProgramAlarmWhere>;
+  }) => DeleteInfo;
+  updateCommandProgramAlarms: (args?: {
+    where?: Maybe<CommandProgramAlarmWhere>;
+    update?: Maybe<CommandProgramAlarmUpdateInput>;
+  }) => UpdateCommandProgramAlarmsMutationResponse;
+  createCommandProgramDevicePlaceholders: (args: {
+    input: Array<CommandProgramDevicePlaceholderCreateInput>;
+  }) => CreateCommandProgramDevicePlaceholdersMutationResponse;
+  deleteCommandProgramDevicePlaceholders: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+    delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandProgramDevicePlaceholders: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+    update?: Maybe<CommandProgramDevicePlaceholderUpdateInput>;
+    connect?: Maybe<CommandProgramDevicePlaceholderConnectInput>;
+    disconnect?: Maybe<CommandProgramDevicePlaceholderDisconnectInput>;
+    create?: Maybe<CommandProgramDevicePlaceholderRelationInput>;
+    delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
+  }) => UpdateCommandProgramDevicePlaceholdersMutationResponse;
+  createCommandProgramDevices: (args: {
+    input: Array<CommandProgramDeviceCreateInput>;
+  }) => CreateCommandProgramDevicesMutationResponse;
+  deleteCommandProgramDevices: (args?: {
+    where?: Maybe<CommandProgramDeviceWhere>;
+  }) => DeleteInfo;
+  updateCommandProgramDevices: (args?: {
+    where?: Maybe<CommandProgramDeviceWhere>;
+    update?: Maybe<CommandProgramDeviceUpdateInput>;
+  }) => UpdateCommandProgramDevicesMutationResponse;
+  createCommandProgramDocumentations: (args: {
+    input: Array<CommandProgramDocumentationCreateInput>;
+  }) => CreateCommandProgramDocumentationsMutationResponse;
+  deleteCommandProgramDocumentations: (args?: {
+    where?: Maybe<CommandProgramDocumentationWhere>;
+    delete?: Maybe<CommandProgramDocumentationDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandProgramDocumentations: (args?: {
+    where?: Maybe<CommandProgramDocumentationWhere>;
+    update?: Maybe<CommandProgramDocumentationUpdateInput>;
+    connect?: Maybe<CommandProgramDocumentationConnectInput>;
+    disconnect?: Maybe<CommandProgramDocumentationDisconnectInput>;
+    create?: Maybe<CommandProgramDocumentationRelationInput>;
+    delete?: Maybe<CommandProgramDocumentationDeleteInput>;
+  }) => UpdateCommandProgramDocumentationsMutationResponse;
   createCommandProgramFlows: (args: {
     input: Array<CommandProgramFlowCreateInput>;
   }) => CreateCommandProgramFlowsMutationResponse;
@@ -25565,6 +27891,21 @@ export interface Mutation {
     create?: Maybe<CommandProgramNodeRelationInput>;
     delete?: Maybe<CommandProgramNodeDeleteInput>;
   }) => UpdateCommandProgramNodesMutationResponse;
+  createCommandHMINodes: (args: {
+    input: Array<CommandHMINodeCreateInput>;
+  }) => CreateCommandHMINodesMutationResponse;
+  deleteCommandHMINodes: (args?: {
+    where?: Maybe<CommandHMINodeWhere>;
+    delete?: Maybe<CommandHMINodeDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandHMINodes: (args?: {
+    where?: Maybe<CommandHMINodeWhere>;
+    update?: Maybe<CommandHMINodeUpdateInput>;
+    connect?: Maybe<CommandHMINodeConnectInput>;
+    disconnect?: Maybe<CommandHMINodeDisconnectInput>;
+    create?: Maybe<CommandHMINodeRelationInput>;
+    delete?: Maybe<CommandHMINodeDeleteInput>;
+  }) => UpdateCommandHMINodesMutationResponse;
   createCommandPlugins: (args: {
     input: Array<CommandPluginCreateInput>;
   }) => CreateCommandPluginsMutationResponse;
@@ -26097,6 +28438,10 @@ export interface CommandDevice {
   network_name?: Maybe<ScalarsEnums["String"]>;
   online?: Maybe<ScalarsEnums["Boolean"]>;
   lastOnline?: Maybe<ScalarsEnums["DateTime"]>;
+  activeProgram: (args?: {
+    where?: Maybe<CommandProgramWhere>;
+    options?: Maybe<CommandProgramOptions>;
+  }) => Maybe<CommandProgram>;
   peripherals: (args?: {
     where?: Maybe<CommandDevicePeripheralWhere>;
     options?: Maybe<CommandDevicePeripheralOptions>;
@@ -26105,6 +28450,12 @@ export interface CommandDevice {
     where?: Maybe<HiveOrganisationWhere>;
     options?: Maybe<HiveOrganisationOptions>;
   }) => Maybe<HiveOrganisation>;
+  activeProgramConnection: (args?: {
+    where?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandDeviceActiveProgramConnectionSort>>;
+  }) => CommandDeviceActiveProgramConnection;
   peripheralsConnection: (args?: {
     where?: Maybe<CommandDevicePeripheralsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -26117,6 +28468,19 @@ export interface CommandDevice {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandDeviceOrganisationConnectionSort>>;
   }) => CommandDeviceOrganisationConnection;
+}
+
+export interface CommandDeviceActiveProgramConnection {
+  __typename?: "CommandDeviceActiveProgramConnection";
+  edges: Array<CommandDeviceActiveProgramRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandDeviceActiveProgramRelationship {
+  __typename?: "CommandDeviceActiveProgramRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgram;
 }
 
 export interface CommandDeviceOrganisationConnection {
@@ -26175,6 +28539,83 @@ export interface CommandDevicePeripheralsRelationship {
   __typename?: "CommandDevicePeripheralsRelationship";
   cursor: ScalarsEnums["String"];
   node: CommandDevicePeripheral;
+}
+
+export interface CommandHMINode {
+  __typename?: "CommandHMINode";
+  id: ScalarsEnums["ID"];
+  x?: Maybe<ScalarsEnums["Float"]>;
+  y?: Maybe<ScalarsEnums["Float"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
+  flow: (args?: {
+    where?: Maybe<CommandProgramHMIWhere>;
+    options?: Maybe<CommandProgramHMIOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramHMI>>>;
+  previous: (args?: {
+    where?: Maybe<CommandHMINodeWhere>;
+    options?: Maybe<CommandHMINodeOptions>;
+  }) => Maybe<Array<Maybe<CommandHMINode>>>;
+  next: (args?: {
+    where?: Maybe<CommandHMINodeWhere>;
+    options?: Maybe<CommandHMINodeOptions>;
+  }) => Maybe<Array<Maybe<CommandHMINode>>>;
+  flowConnection: (args?: {
+    where?: Maybe<CommandHMINodeFlowConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandHMINodeFlowConnectionSort>>;
+  }) => CommandHMINodeFlowConnection;
+  previousConnection: (args?: {
+    where?: Maybe<CommandHMINodePreviousConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandHMINodePreviousConnectionSort>>;
+  }) => CommandHMINodePreviousConnection;
+  nextConnection: (args?: {
+    where?: Maybe<CommandHMINodeNextConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandHMINodeNextConnectionSort>>;
+  }) => CommandHMINodeNextConnection;
+}
+
+export interface CommandHMINodeFlowConnection {
+  __typename?: "CommandHMINodeFlowConnection";
+  edges: Array<CommandHMINodeFlowRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandHMINodeFlowRelationship {
+  __typename?: "CommandHMINodeFlowRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramHMI;
+}
+
+export interface CommandHMINodeNextConnection {
+  __typename?: "CommandHMINodeNextConnection";
+  edges: Array<CommandHMINodeNextRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandHMINodeNextRelationship {
+  __typename?: "CommandHMINodeNextRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandHMINode;
+}
+
+export interface CommandHMINodePreviousConnection {
+  __typename?: "CommandHMINodePreviousConnection";
+  edges: Array<CommandHMINodePreviousRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandHMINodePreviousRelationship {
+  __typename?: "CommandHMINodePreviousRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandHMINode;
 }
 
 export interface CommandPlugin {
@@ -26265,6 +28706,10 @@ export interface CommandProgram {
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   createdAt?: Maybe<ScalarsEnums["DateTime"]>;
+  documentation: (args?: {
+    where?: Maybe<CommandProgramDocumentationWhere>;
+    options?: Maybe<CommandProgramDocumentationOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramDocumentation>>>;
   program: (args?: {
     where?: Maybe<CommandProgramFlowWhere>;
     options?: Maybe<CommandProgramFlowOptions>;
@@ -26273,10 +28718,28 @@ export interface CommandProgram {
     where?: Maybe<CommandProgramHMIWhere>;
     options?: Maybe<CommandProgramHMIOptions>;
   }) => Maybe<Array<Maybe<CommandProgramHMI>>>;
+  devices: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+    options?: Maybe<CommandProgramDevicePlaceholderOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramDevicePlaceholder>>>;
+  alarms: (args?: {
+    where?: Maybe<CommandProgramAlarmWhere>;
+    options?: Maybe<CommandProgramAlarmOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramAlarm>>>;
   organisation: (args?: {
     where?: Maybe<HiveOrganisationWhere>;
     options?: Maybe<HiveOrganisationOptions>;
   }) => Maybe<HiveOrganisation>;
+  usedOn: (args?: {
+    where?: Maybe<CommandDeviceWhere>;
+    options?: Maybe<CommandDeviceOptions>;
+  }) => Maybe<CommandDevice>;
+  documentationConnection: (args?: {
+    where?: Maybe<CommandProgramDocumentationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDocumentationConnectionSort>>;
+  }) => CommandProgramDocumentationConnection;
   programConnection: (args?: {
     where?: Maybe<CommandProgramProgramConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -26289,12 +28752,142 @@ export interface CommandProgram {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandProgramHmiConnectionSort>>;
   }) => CommandProgramHmiConnection;
+  devicesConnection: (args?: {
+    where?: Maybe<CommandProgramDevicesConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDevicesConnectionSort>>;
+  }) => CommandProgramDevicesConnection;
+  alarmsConnection: (args?: {
+    where?: Maybe<CommandProgramAlarmsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramAlarmsConnectionSort>>;
+  }) => CommandProgramAlarmsConnection;
   organisationConnection: (args?: {
     where?: Maybe<CommandProgramOrganisationConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandProgramOrganisationConnectionSort>>;
   }) => CommandProgramOrganisationConnection;
+  usedOnConnection: (args?: {
+    where?: Maybe<CommandProgramUsedOnConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramUsedOnConnectionSort>>;
+  }) => CommandProgramUsedOnConnection;
+}
+
+export interface CommandProgramAlarm {
+  __typename?: "CommandProgramAlarm";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  trigger?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface CommandProgramAlarmsConnection {
+  __typename?: "CommandProgramAlarmsConnection";
+  edges: Array<CommandProgramAlarmsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramAlarmsRelationship {
+  __typename?: "CommandProgramAlarmsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramAlarm;
+}
+
+export interface CommandProgramDevice {
+  __typename?: "CommandProgramDevice";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface CommandProgramDevicePlaceholder {
+  __typename?: "CommandProgramDevicePlaceholder";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  type: (args?: {
+    where?: Maybe<CommandProgramDeviceWhere>;
+    options?: Maybe<CommandProgramDeviceOptions>;
+  }) => Maybe<CommandProgramDevice>;
+  typeConnection: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDevicePlaceholderTypeConnectionSort>>;
+  }) => CommandProgramDevicePlaceholderTypeConnection;
+}
+
+export interface CommandProgramDevicePlaceholderTypeConnection {
+  __typename?: "CommandProgramDevicePlaceholderTypeConnection";
+  edges: Array<CommandProgramDevicePlaceholderTypeRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDevicePlaceholderTypeRelationship {
+  __typename?: "CommandProgramDevicePlaceholderTypeRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramDevice;
+}
+
+export interface CommandProgramDevicesConnection {
+  __typename?: "CommandProgramDevicesConnection";
+  edges: Array<CommandProgramDevicesRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDevicesRelationship {
+  __typename?: "CommandProgramDevicesRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramDevicePlaceholder;
+}
+
+export interface CommandProgramDocumentation {
+  __typename?: "CommandProgramDocumentation";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  blocks?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
+  program: (args?: {
+    where?: Maybe<CommandProgramWhere>;
+    options?: Maybe<CommandProgramOptions>;
+  }) => Maybe<CommandProgram>;
+  programConnection: (args?: {
+    where?: Maybe<CommandProgramDocumentationProgramConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDocumentationProgramConnectionSort>>;
+  }) => CommandProgramDocumentationProgramConnection;
+}
+
+export interface CommandProgramDocumentationConnection {
+  __typename?: "CommandProgramDocumentationConnection";
+  edges: Array<CommandProgramDocumentationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDocumentationProgramConnection {
+  __typename?: "CommandProgramDocumentationProgramConnection";
+  edges: Array<CommandProgramDocumentationProgramRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDocumentationProgramRelationship {
+  __typename?: "CommandProgramDocumentationProgramRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgram;
+}
+
+export interface CommandProgramDocumentationRelationship {
+  __typename?: "CommandProgramDocumentationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramDocumentation;
 }
 
 export interface CommandProgramFlow {
@@ -26354,9 +28947,9 @@ export interface CommandProgramHMI {
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   nodes: (args?: {
-    where?: Maybe<CommandProgramNodeWhere>;
-    options?: Maybe<CommandProgramNodeOptions>;
-  }) => Maybe<Array<Maybe<CommandProgramNode>>>;
+    where?: Maybe<CommandHMINodeWhere>;
+    options?: Maybe<CommandHMINodeOptions>;
+  }) => Maybe<Array<Maybe<CommandHMINode>>>;
   programs: (args?: {
     where?: Maybe<CommandProgramWhere>;
     options?: Maybe<CommandProgramOptions>;
@@ -26392,7 +28985,7 @@ export interface CommandProgramHMINodesConnection {
 export interface CommandProgramHMINodesRelationship {
   __typename?: "CommandProgramHMINodesRelationship";
   cursor: ScalarsEnums["String"];
-  node: CommandProgramNode;
+  node: CommandHMINode;
 }
 
 export interface CommandProgramHMIProgramsConnection {
@@ -26419,6 +29012,7 @@ export interface CommandProgramNode {
   id: ScalarsEnums["ID"];
   x?: Maybe<ScalarsEnums["Float"]>;
   y?: Maybe<ScalarsEnums["Float"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
   flow: (args?: {
     where?: Maybe<CommandProgramFlowWhere>;
     options?: Maybe<CommandProgramFlowOptions>;
@@ -26516,6 +29110,19 @@ export interface CommandProgramProgramRelationship {
   node: CommandProgramFlow;
 }
 
+export interface CommandProgramUsedOnConnection {
+  __typename?: "CommandProgramUsedOnConnection";
+  edges: Array<CommandProgramUsedOnRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramUsedOnRelationship {
+  __typename?: "CommandProgramUsedOnRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandDevice;
+}
+
 export interface CreateCommandDevicePeripheralsMutationResponse {
   __typename?: "CreateCommandDevicePeripheralsMutationResponse";
   info: CreateInfo;
@@ -26528,6 +29135,12 @@ export interface CreateCommandDevicesMutationResponse {
   commandDevices: Array<CommandDevice>;
 }
 
+export interface CreateCommandHMINodesMutationResponse {
+  __typename?: "CreateCommandHMINodesMutationResponse";
+  info: CreateInfo;
+  commandHmiNodes: Array<CommandHMINode>;
+}
+
 export interface CreateCommandPluginItemsMutationResponse {
   __typename?: "CreateCommandPluginItemsMutationResponse";
   info: CreateInfo;
@@ -26538,6 +29151,30 @@ export interface CreateCommandPluginsMutationResponse {
   __typename?: "CreateCommandPluginsMutationResponse";
   info: CreateInfo;
   commandPlugins: Array<CommandPlugin>;
+}
+
+export interface CreateCommandProgramAlarmsMutationResponse {
+  __typename?: "CreateCommandProgramAlarmsMutationResponse";
+  info: CreateInfo;
+  commandProgramAlarms: Array<CommandProgramAlarm>;
+}
+
+export interface CreateCommandProgramDevicePlaceholdersMutationResponse {
+  __typename?: "CreateCommandProgramDevicePlaceholdersMutationResponse";
+  info: CreateInfo;
+  commandProgramDevicePlaceholders: Array<CommandProgramDevicePlaceholder>;
+}
+
+export interface CreateCommandProgramDevicesMutationResponse {
+  __typename?: "CreateCommandProgramDevicesMutationResponse";
+  info: CreateInfo;
+  commandProgramDevices: Array<CommandProgramDevice>;
+}
+
+export interface CreateCommandProgramDocumentationsMutationResponse {
+  __typename?: "CreateCommandProgramDocumentationsMutationResponse";
+  info: CreateInfo;
+  commandProgramDocumentations: Array<CommandProgramDocumentation>;
 }
 
 export interface CreateCommandProgramFlowsMutationResponse {
@@ -28631,6 +31268,12 @@ export interface UpdateCommandDevicesMutationResponse {
   commandDevices: Array<CommandDevice>;
 }
 
+export interface UpdateCommandHMINodesMutationResponse {
+  __typename?: "UpdateCommandHMINodesMutationResponse";
+  info: UpdateInfo;
+  commandHmiNodes: Array<CommandHMINode>;
+}
+
 export interface UpdateCommandPluginItemsMutationResponse {
   __typename?: "UpdateCommandPluginItemsMutationResponse";
   info: UpdateInfo;
@@ -28641,6 +31284,30 @@ export interface UpdateCommandPluginsMutationResponse {
   __typename?: "UpdateCommandPluginsMutationResponse";
   info: UpdateInfo;
   commandPlugins: Array<CommandPlugin>;
+}
+
+export interface UpdateCommandProgramAlarmsMutationResponse {
+  __typename?: "UpdateCommandProgramAlarmsMutationResponse";
+  info: UpdateInfo;
+  commandProgramAlarms: Array<CommandProgramAlarm>;
+}
+
+export interface UpdateCommandProgramDevicePlaceholdersMutationResponse {
+  __typename?: "UpdateCommandProgramDevicePlaceholdersMutationResponse";
+  info: UpdateInfo;
+  commandProgramDevicePlaceholders: Array<CommandProgramDevicePlaceholder>;
+}
+
+export interface UpdateCommandProgramDevicesMutationResponse {
+  __typename?: "UpdateCommandProgramDevicesMutationResponse";
+  info: UpdateInfo;
+  commandProgramDevices: Array<CommandProgramDevice>;
+}
+
+export interface UpdateCommandProgramDocumentationsMutationResponse {
+  __typename?: "UpdateCommandProgramDocumentationsMutationResponse";
+  info: UpdateInfo;
+  commandProgramDocumentations: Array<CommandProgramDocumentation>;
 }
 
 export interface UpdateCommandProgramFlowsMutationResponse {
@@ -29947,6 +32614,8 @@ export interface SchemaObjectTypes {
   OctoPrintFilament: OctoPrintFilament;
   OctoPrintFile: OctoPrintFile;
   CommandDevice: CommandDevice;
+  CommandDeviceActiveProgramConnection: CommandDeviceActiveProgramConnection;
+  CommandDeviceActiveProgramRelationship: CommandDeviceActiveProgramRelationship;
   CommandDeviceOrganisationConnection: CommandDeviceOrganisationConnection;
   CommandDeviceOrganisationRelationship: CommandDeviceOrganisationRelationship;
   CommandDevicePeripheral: CommandDevicePeripheral;
@@ -29954,6 +32623,13 @@ export interface SchemaObjectTypes {
   CommandDevicePeripheralDeviceRelationship: CommandDevicePeripheralDeviceRelationship;
   CommandDevicePeripheralsConnection: CommandDevicePeripheralsConnection;
   CommandDevicePeripheralsRelationship: CommandDevicePeripheralsRelationship;
+  CommandHMINode: CommandHMINode;
+  CommandHMINodeFlowConnection: CommandHMINodeFlowConnection;
+  CommandHMINodeFlowRelationship: CommandHMINodeFlowRelationship;
+  CommandHMINodeNextConnection: CommandHMINodeNextConnection;
+  CommandHMINodeNextRelationship: CommandHMINodeNextRelationship;
+  CommandHMINodePreviousConnection: CommandHMINodePreviousConnection;
+  CommandHMINodePreviousRelationship: CommandHMINodePreviousRelationship;
   CommandPlugin: CommandPlugin;
   CommandPluginItem: CommandPluginItem;
   CommandPluginItemsConnection: CommandPluginItemsConnection;
@@ -29963,6 +32639,20 @@ export interface SchemaObjectTypes {
   CommandPluginOrganisationConnection: CommandPluginOrganisationConnection;
   CommandPluginOrganisationRelationship: CommandPluginOrganisationRelationship;
   CommandProgram: CommandProgram;
+  CommandProgramAlarm: CommandProgramAlarm;
+  CommandProgramAlarmsConnection: CommandProgramAlarmsConnection;
+  CommandProgramAlarmsRelationship: CommandProgramAlarmsRelationship;
+  CommandProgramDevice: CommandProgramDevice;
+  CommandProgramDevicePlaceholder: CommandProgramDevicePlaceholder;
+  CommandProgramDevicePlaceholderTypeConnection: CommandProgramDevicePlaceholderTypeConnection;
+  CommandProgramDevicePlaceholderTypeRelationship: CommandProgramDevicePlaceholderTypeRelationship;
+  CommandProgramDevicesConnection: CommandProgramDevicesConnection;
+  CommandProgramDevicesRelationship: CommandProgramDevicesRelationship;
+  CommandProgramDocumentation: CommandProgramDocumentation;
+  CommandProgramDocumentationConnection: CommandProgramDocumentationConnection;
+  CommandProgramDocumentationProgramConnection: CommandProgramDocumentationProgramConnection;
+  CommandProgramDocumentationProgramRelationship: CommandProgramDocumentationProgramRelationship;
+  CommandProgramDocumentationRelationship: CommandProgramDocumentationRelationship;
   CommandProgramFlow: CommandProgramFlow;
   CommandProgramFlowNodesConnection: CommandProgramFlowNodesConnection;
   CommandProgramFlowNodesRelationship: CommandProgramFlowNodesRelationship;
@@ -29986,10 +32676,17 @@ export interface SchemaObjectTypes {
   CommandProgramOrganisationRelationship: CommandProgramOrganisationRelationship;
   CommandProgramProgramConnection: CommandProgramProgramConnection;
   CommandProgramProgramRelationship: CommandProgramProgramRelationship;
+  CommandProgramUsedOnConnection: CommandProgramUsedOnConnection;
+  CommandProgramUsedOnRelationship: CommandProgramUsedOnRelationship;
   CreateCommandDevicePeripheralsMutationResponse: CreateCommandDevicePeripheralsMutationResponse;
   CreateCommandDevicesMutationResponse: CreateCommandDevicesMutationResponse;
+  CreateCommandHMINodesMutationResponse: CreateCommandHMINodesMutationResponse;
   CreateCommandPluginItemsMutationResponse: CreateCommandPluginItemsMutationResponse;
   CreateCommandPluginsMutationResponse: CreateCommandPluginsMutationResponse;
+  CreateCommandProgramAlarmsMutationResponse: CreateCommandProgramAlarmsMutationResponse;
+  CreateCommandProgramDevicePlaceholdersMutationResponse: CreateCommandProgramDevicePlaceholdersMutationResponse;
+  CreateCommandProgramDevicesMutationResponse: CreateCommandProgramDevicesMutationResponse;
+  CreateCommandProgramDocumentationsMutationResponse: CreateCommandProgramDocumentationsMutationResponse;
   CreateCommandProgramFlowsMutationResponse: CreateCommandProgramFlowsMutationResponse;
   CreateCommandProgramHMISMutationResponse: CreateCommandProgramHMISMutationResponse;
   CreateCommandProgramNodesMutationResponse: CreateCommandProgramNodesMutationResponse;
@@ -30200,8 +32897,13 @@ export interface SchemaObjectTypes {
   TimelineItemProjectRelationship: TimelineItemProjectRelationship;
   UpdateCommandDevicePeripheralsMutationResponse: UpdateCommandDevicePeripheralsMutationResponse;
   UpdateCommandDevicesMutationResponse: UpdateCommandDevicesMutationResponse;
+  UpdateCommandHMINodesMutationResponse: UpdateCommandHMINodesMutationResponse;
   UpdateCommandPluginItemsMutationResponse: UpdateCommandPluginItemsMutationResponse;
   UpdateCommandPluginsMutationResponse: UpdateCommandPluginsMutationResponse;
+  UpdateCommandProgramAlarmsMutationResponse: UpdateCommandProgramAlarmsMutationResponse;
+  UpdateCommandProgramDevicePlaceholdersMutationResponse: UpdateCommandProgramDevicePlaceholdersMutationResponse;
+  UpdateCommandProgramDevicesMutationResponse: UpdateCommandProgramDevicesMutationResponse;
+  UpdateCommandProgramDocumentationsMutationResponse: UpdateCommandProgramDocumentationsMutationResponse;
   UpdateCommandProgramFlowsMutationResponse: UpdateCommandProgramFlowsMutationResponse;
   UpdateCommandProgramHMISMutationResponse: UpdateCommandProgramHMISMutationResponse;
   UpdateCommandProgramNodesMutationResponse: UpdateCommandProgramNodesMutationResponse;
@@ -30322,6 +33024,8 @@ export type SchemaObjectTypesNames =
   | "OctoPrintFilament"
   | "OctoPrintFile"
   | "CommandDevice"
+  | "CommandDeviceActiveProgramConnection"
+  | "CommandDeviceActiveProgramRelationship"
   | "CommandDeviceOrganisationConnection"
   | "CommandDeviceOrganisationRelationship"
   | "CommandDevicePeripheral"
@@ -30329,6 +33033,13 @@ export type SchemaObjectTypesNames =
   | "CommandDevicePeripheralDeviceRelationship"
   | "CommandDevicePeripheralsConnection"
   | "CommandDevicePeripheralsRelationship"
+  | "CommandHMINode"
+  | "CommandHMINodeFlowConnection"
+  | "CommandHMINodeFlowRelationship"
+  | "CommandHMINodeNextConnection"
+  | "CommandHMINodeNextRelationship"
+  | "CommandHMINodePreviousConnection"
+  | "CommandHMINodePreviousRelationship"
   | "CommandPlugin"
   | "CommandPluginItem"
   | "CommandPluginItemsConnection"
@@ -30338,6 +33049,20 @@ export type SchemaObjectTypesNames =
   | "CommandPluginOrganisationConnection"
   | "CommandPluginOrganisationRelationship"
   | "CommandProgram"
+  | "CommandProgramAlarm"
+  | "CommandProgramAlarmsConnection"
+  | "CommandProgramAlarmsRelationship"
+  | "CommandProgramDevice"
+  | "CommandProgramDevicePlaceholder"
+  | "CommandProgramDevicePlaceholderTypeConnection"
+  | "CommandProgramDevicePlaceholderTypeRelationship"
+  | "CommandProgramDevicesConnection"
+  | "CommandProgramDevicesRelationship"
+  | "CommandProgramDocumentation"
+  | "CommandProgramDocumentationConnection"
+  | "CommandProgramDocumentationProgramConnection"
+  | "CommandProgramDocumentationProgramRelationship"
+  | "CommandProgramDocumentationRelationship"
   | "CommandProgramFlow"
   | "CommandProgramFlowNodesConnection"
   | "CommandProgramFlowNodesRelationship"
@@ -30361,10 +33086,17 @@ export type SchemaObjectTypesNames =
   | "CommandProgramOrganisationRelationship"
   | "CommandProgramProgramConnection"
   | "CommandProgramProgramRelationship"
+  | "CommandProgramUsedOnConnection"
+  | "CommandProgramUsedOnRelationship"
   | "CreateCommandDevicePeripheralsMutationResponse"
   | "CreateCommandDevicesMutationResponse"
+  | "CreateCommandHMINodesMutationResponse"
   | "CreateCommandPluginItemsMutationResponse"
   | "CreateCommandPluginsMutationResponse"
+  | "CreateCommandProgramAlarmsMutationResponse"
+  | "CreateCommandProgramDevicePlaceholdersMutationResponse"
+  | "CreateCommandProgramDevicesMutationResponse"
+  | "CreateCommandProgramDocumentationsMutationResponse"
   | "CreateCommandProgramFlowsMutationResponse"
   | "CreateCommandProgramHMISMutationResponse"
   | "CreateCommandProgramNodesMutationResponse"
@@ -30575,8 +33307,13 @@ export type SchemaObjectTypesNames =
   | "TimelineItemProjectRelationship"
   | "UpdateCommandDevicePeripheralsMutationResponse"
   | "UpdateCommandDevicesMutationResponse"
+  | "UpdateCommandHMINodesMutationResponse"
   | "UpdateCommandPluginItemsMutationResponse"
   | "UpdateCommandPluginsMutationResponse"
+  | "UpdateCommandProgramAlarmsMutationResponse"
+  | "UpdateCommandProgramDevicePlaceholdersMutationResponse"
+  | "UpdateCommandProgramDevicesMutationResponse"
+  | "UpdateCommandProgramDocumentationsMutationResponse"
   | "UpdateCommandProgramFlowsMutationResponse"
   | "UpdateCommandProgramHMISMutationResponse"
   | "UpdateCommandProgramNodesMutationResponse"
