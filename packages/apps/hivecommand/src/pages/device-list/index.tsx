@@ -119,7 +119,7 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
 
 
 
-    const onSubmit = (device: CommandDevice) => {
+    const onSubmit = (device: CommandDevice & any) => {
         console.log("Submit", device)
         if(device.id){
             updateDevice({args: {
