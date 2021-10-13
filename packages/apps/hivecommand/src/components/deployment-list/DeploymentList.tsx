@@ -1,14 +1,14 @@
 import React from 'react';
 import { Box, DataTable, Text, CheckBox, Button } from 'grommet';
 import moment from 'moment';
-import { CommandDevice, Maybe, Program } from '@hexhive/client'
+import { CommandDevice, CommandProgram, Maybe, Program } from '@hexhive/client'
 import * as Icons from 'grommet-icons'
 
 export interface DeploymentListProps {
     onClickRow?: (row: any) => void;
     onEditRow?: (row: any) => void;
 
-    programs?: Program[];
+    programs?: CommandProgram[];
     devices?: CommandDevice[];
 
     selected?: string[];
@@ -38,9 +38,9 @@ export const DeploymentList : React.FC<DeploymentListProps> = (props) => {
                         header: <Text>Name</Text>
                     },
                     {
-                        property: 'program',
+                        property: 'activeProgram',
                         size: 'small',
-                        // render: (datum) => props.programs?.find((a) => a._id == datum.program)?.name,
+                        render: (datum) => datum?.activeProgram?.name,
                         header: <Text>Program</Text>
                     },
                     {

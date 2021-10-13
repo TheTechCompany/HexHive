@@ -3,10 +3,10 @@ import React, { Suspense, lazy, useEffect, useRef, useState, useCallback } from 
 import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-shards';
 import { Box, Text, Spinner, Button, Collapsible, List } from 'grommet';
 import { programActions } from '../../actions';
-import { Program, useQuery as useQLess} from '@hexhive/client';
+import { useQuery as useQLess} from '@hexhive/client';
 import Editor from '@hexhive/command-editor'
 import qs from 'qs';
-import { RouteComponentProps } from 'react-router-dom';
+import { matchPath, RouteComponentProps } from 'react-router-dom';
 import { IconNodeFactory, InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath } from '@hexhive/ui'
 import { useAutomergeDoc } from '@hexhive/collaboration-client'
 import { IEditorProgram } from '@hexhive/command-editor';
@@ -17,12 +17,23 @@ import { NodeDropdown } from '../../components/node-dropdown';
 import { nanoid } from 'nanoid';
 import { Action, Add, Trigger, Menu } from 'grommet-icons'
 import { useMutation } from '@hexhive/client';
+import { BallValve, Blower, Conductivity, DiaphragmValve, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank } from '../../assets/hmi-elements';
+import * as HMIIcons from '../../assets/hmi-elements'
+import { HMINodeFactory } from '../../components/hmi-node/HMINodeFactory';
+import { Switch, Route } from 'react-router-dom';
+import {Program} from './pages/program'
+import {Controls} from './pages/controls'
+import { Alarms } from './pages/alarms';
+import { Devices } from './pages/devices';
+import { Documentation } from './pages/documentation';
 
 export interface EditorProps extends RouteComponentProps<{id: string}> {
 
 }
 
 export const EditorPage: React.FC<EditorProps> = (props) => {
+
+    const [ view, setView ] = useState<"Documentation" | "Program" | "HMI" | "Devices" | "Alarms">("Program")
 
     const [ sidebarOpen, openSidebar ] = useState<boolean>(false);
 
@@ -64,6 +75,8 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     id
                     name
                     nodes {
+                        id
+                        type
                         x 
                         y
                     }
@@ -73,6 +86,8 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     id
                     name
                     nodes {
+                        id
+                        type
                         x
                         y
                     }
@@ -85,7 +100,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
         }
     })
 
-    const [ addNode, addInfo ] = useMutation((mutation, args: {x: number, y: number}) => {
+    const [ addProgramNode, addInfo ] = useMutation((mutation, args: {type: string, x: number, y: number}) => {
         const program = mutation.updateCommandPrograms({
             where: {id: props.match.params.id},
             update: {
@@ -94,6 +109,32 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     update: {
                         node: {
                             nodes: [{create: [{node: {
+                                type: args.type,
+                                x: args.x,
+                                y: args.y
+                            }}]}]
+                        }
+                    }
+                }]
+            }
+        })
+        return {
+            item: {
+                ...program.commandPrograms[0]
+            }
+        }
+    })
+
+    const [ addHMINode, addHMIInfo ] = useMutation((mutation, args: {type: string, x: number, y: number}) => {
+        const program = mutation.updateCommandPrograms({
+            where: {id: props.match.params.id},
+            update: {
+                hmi: [{
+                    where: {node: {id: activeProgram}},
+                    update: {
+                        node: {
+                            nodes: [{create: [{node: {
+                                type: args.type,
                                 x: args.x,
                                 y: args.y
                             }}]}]
@@ -125,14 +166,36 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
         }
     })
 
+
+    const [ addHMI, addHMIParentInfo ] = useMutation((mutation, args) => {
+        const program = mutation.updateCommandPrograms({
+            where: {id: props.match.params.id},
+            update: {
+                hmi: [{create: [{node: {
+                    name: "Default"
+                }}]}]
+            }
+        })
+        return {
+            item: {
+                ...program.commandPrograms[0]
+            }
+        }
+    })
+
+
     useEffect(() => {
         let program = data?.commandPrograms?.[0]
         if(program && activeProgram){
             console.log(program, activeProgram, program.program.find((a) => a.id == activeProgram))
-            setNodes(program.program.find((a) => a.id == activeProgram).nodes.map((x) => ({
+            setNodes((view == "Program" ? program.program : program.hmi).find((a) => a.id == activeProgram).nodes.map((x) => ({
+                id: x.id,
                 x: x.x,
                 y: x.y,
-                type: 'icon-node',
+                extras: {
+                    icon: view == "Program" ? x.type : HMIIcons[x.type],
+                },
+                type: view == "Program" ? 'icon-node' : 'hmi-node',
                 
             })))
         }
@@ -163,6 +226,29 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
 
     const query = qs.parse(props.location.search, {ignoreQueryPrefix: true})
 
+    const menu = [
+        "Documentation",
+        "Program",
+        "Controls",
+        "Devices",
+        "Alarms"
+    ]
+
+    useEffect(() => {
+
+        menu.forEach((item, ix) => {
+            const match =  matchPath(window.location.pathname, {
+                path: `${process.env.PUBLIC_URL}${props.match.url}/${item.toLowerCase()}`,
+            })
+            if(match){
+                setView(item as any)
+            }
+
+        })
+
+    }, [window.location.pathname])
+
+    console.log(props.match)
     return (
         <Suspense fallback={(
             <Box 
@@ -199,15 +285,25 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 </Box>
 
                 <Box 
+                    justify="between"
                     align="center"
                     overflow="hidden"
-                    gap="xsmall"
-                    round="small"
-                    background="accent-1"
-                    border={{size: 'small'}}
                     direction="row">
-                    <Button style={{padding: 3}} active plain label="Program" />
-                    <Button style={{padding: 3}} plain label="HMI" />
+                    {menu.map((menu_item) => (
+                        <Button 
+                            hoverIndicator
+                            onClick={() => {
+                                setActiveProgram(undefined)
+                                setView(menu_item as any)
+                                props.history.push(`${props.match.url}/${menu_item.toLowerCase()}`)
+                            }}
+                            style={{padding: 6}} 
+                            active={view == menu_item} 
+                            plain 
+                            label={menu_item} />
+                    ))}
+                   
+                    
                 </Box>
             </Box>
             <Box
@@ -225,12 +321,19 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                             direction="row" 
                             align="center" 
                             justify="between">
-                            <Text size="small">Programs</Text>
+                            <Text size="small">{view}</Text>
                             <Button
                                 onClick={() => {
-                                    addProgram().then(() => {
-                                        refetch()
-                                    })
+                                    if(view == "Program"){
+                                        addProgram().then(() => {
+                                            refetch()
+                                        })
+                                    }else{
+                                        addHMI().then(() => {
+                                            refetch()
+                                        })
+                                    }
+                                 
                                 }}
                                 hoverIndicator
                                 plain
@@ -243,74 +346,19 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                                 setActiveProgram(item.id)
                             }}
                             primaryKey="name"
-                            data={program.program} />
+                            data={view == "Program" ? program.program : program.hmi} />
                     </Box>
                 </Collapsible>
-            <InfiniteCanvas 
-                editable={true}
-                nodes={nodes}
-                paths={pathRef.current.paths}
-                factories={[new IconNodeFactory()]}
-                onPathCreate={(path) => {
-                    // console.log("CREATE", path)
-                    // setPaths([...paths, path])
-                    updateRef.current?.addPath(path);
-                }}
-                onPathUpdate={(path) => {
-                    // console.log("UPDATE", path)
-                    // let p = paths.slice()
-                    // let ix = p.map((x) => x.id).indexOf(path.id)
-                    // p[ix] = path;
-                    // setPaths(p)
-
-                    updateRef.current?.updatePath(path)
-                }}
-                onNodeUpdate={(node) => {
-                    let n = nodes.slice()
-                    let ix = n.map((x) => x.id).indexOf(node.id)
-                    n[ix] = node;
-                    setNodes(n)
-                    // console.log("NODES", node)
-                }}
-                onDrop={(position, data) => {
-                    addNode({args: {
-                        x: position.x,
-                        y: position.y
-                    }})
-                    console.log(position, data)
-                    setNodes([...nodes, {
-                        id: nanoid(),
-                        x: position.x,
-                        y: position.y,
-                        extras: {
-                            icon: data.extras.icon
-                        },
-                        type: IconNodeFactory.TAG
-                    }])
-                }}
-                >
-                <NodeDropdown
-                    items={[
-                        {
-                            icon: <Action />,
-                            label: "Action",
-                            extras: {
-                                label: "Action",
-                                icon: 'Action'
-                            },
-                        },
-                        {
-                            icon: <Trigger />,
-                            label: "Trigger",
-                            extras: {
-                                label: "Trigger",
-                                icon: 'Trigger'
-                            }
-                        }
-                    ]}
-                    />
-                <ZoomControls />
-            </InfiniteCanvas>
+                <Box flex>
+                    <Switch>
+                        <Route path={[`${props.match.path}/program`, `${props.match.url}/`, `${props.match.url}`]} exact render={(props) => <Program {...props} activeProgram={activeProgram} />} />
+                        <Route path={`${props.match.path}/controls`} render={(props) => <Controls {...props} activeProgram={activeProgram} />} />
+                        <Route path={`${props.match.path}/devices`} component={Devices} />
+                        <Route path={`${props.match.path}/alarms`} component={Alarms} />
+                        <Route path={`${props.match.path}/documentation`} component={Documentation} />
+                    </Switch>
+                </Box>
+                
             </Box>
         </Box>
         </Suspense>

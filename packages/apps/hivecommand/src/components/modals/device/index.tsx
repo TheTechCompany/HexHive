@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { deviceActions } from '../../../actions';
 import { BaseModal } from '../base';
-import { CommandDevice, Device, Program } from '@hexhive/client'
+import { CommandDevice, CommandProgram, Device, Program } from '@hexhive/client'
 import { TextInput, Text, Box, Select } from 'grommet';
 import { nanoid } from 'nanoid';
 
@@ -12,7 +12,7 @@ export interface DeviceModalProps {
     onSubmit?: (data: CommandDevice) => void;
     selected?: any; // change to device interface
 
-    programs?: Program[]
+    programs?: CommandProgram[]
 
 }
 
@@ -100,10 +100,10 @@ export const DeviceModal : React.FC<DeviceModalProps> = (props) => {
                 <Select
                     placeholder="Program"
                     options={props.programs || []}
-                    value={device.program || {}}
+                    value={device.activeProgram || {}}
                     labelKey={"name"}
-                    valueKey={"id"}
-                    onChange={({value, option}) => setDevice({...device, program: option})} />
+                    valueKey={{key: "id", reduce: false}}
+                    onChange={({value, option}) => setDevice({...device, activeProgram: option})} />
                     
          
         </BaseModal>

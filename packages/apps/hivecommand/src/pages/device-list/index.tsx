@@ -8,6 +8,7 @@ import * as Icons from 'grommet-icons';
 import { isEqual } from 'lodash';
 import { nanoid } from 'nanoid';
 
+import { useQuery as useApollo, gql } from '@apollo/client'
 export interface DevicePageProps {
     match?: any;
     history?: any;
@@ -25,8 +26,27 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
         suspense: false
     })
 
-    const devices = query.commandDevices({});
-    const programs = query.ProgramMany()
+    const { data } = useApollo(gql`
+        query Q {
+            commandDevices { 
+                id
+                name
+
+                activeProgram{ 
+                    id
+                    name
+                }
+            }
+
+            commandPrograms {
+                id
+                name
+            }
+        }
+    ` )
+
+    const devices = data?.commandDevices || [];
+    const programs = data?.commandPrograms || []
 
     // useEffect(() => {
     //     if(devices){
@@ -37,10 +57,21 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
     console.log("Devices", query.DeviceMany())
 
 
-    const [ createDevice, {isLoading, data}] = useMutation((mutation, args: {name: string, network_name: string, program?: string}) => {
+    const [ createDevice, {isLoading}] = useMutation((mutation, args: {
+        name: string, 
+        network_name: string, 
+        program?: string
+    }) => {
+        let program = {};
+        if(args.program){
+            program = {
+                activeProgram: {connect: {where: {node: {id: args.program}}}}
+            }
+        }
         const result = mutation.createCommandDevices({input: [{
             name: args.name,
-            network_name: args.network_name
+            network_name: args.network_name,
+            ...program
         }]})
 
         return {
@@ -56,12 +87,24 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
         awaitRefetchQueries: true,
         suspense: false, 
 })
-    const [ updateDevice, info ] =  useMutation((mutation, args: { id: string, name: string, network_name: string, program?: string}) => {
+    const [ updateDevice, info ] =  useMutation((mutation, args: { 
+        id: string, 
+        name: string, 
+        network_name: string, 
+        program?: string
+    }) => {
+        let programUpdate = {};
+        if(args.program){
+            programUpdate = {
+                activeProgram: {connect: {where: {node: {id: args.program}}}}
+            }
+        }
         const result = mutation.updateCommandDevices({
             where: {id: args.id},
             update: {
                 name: args.name,
                 network_name: args.network_name,
+                ...programUpdate
             }
             // program: args.program
         })
@@ -79,11 +122,20 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
     const onSubmit = (device: CommandDevice) => {
         console.log("Submit", device)
         if(device.id){
-            updateDevice({args: {id: device.id, name: device.name || '', network_name: device.network_name || nanoid().substring(0, 8) }}).then((updated) => {
+            updateDevice({args: {
+                id: device.id, 
+                name: device.name || '', 
+                network_name: device.network_name || nanoid().substring(0, 8),
+                program: device.activeProgram?.id
+            }}).then((updated) => {
                 console.log("Update result", updated)
             })
         }else{
-            createDevice({args: {name: device.name || '', network_name: device.network_name || nanoid().substring(0, 8) }}).then((new_device) => {
+            createDevice({args: {
+                name: device.name || '', 
+                network_name: device.network_name || nanoid().substring(0, 8),
+                program: device.activeProgram?.id
+            }}).then((new_device) => {
                 if(new_device.item){
                     let d: any[] = devices.slice()
                     d.push(new_device.item)

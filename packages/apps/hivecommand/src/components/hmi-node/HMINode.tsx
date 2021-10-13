@@ -2,7 +2,7 @@ import { Box, Text } from 'grommet';
 import React from 'react';
 import styled from 'styled-components'
 import * as Icons from 'grommet-icons'
-import { PortWidget } from '../../ports';
+import { PortWidget } from '@hexhive/ui';
 
 export interface IconNodeProps{
     className?: string;
@@ -26,9 +26,7 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
             width={props.width || '72px'}
             height={props.height || '72px'}
             elevation={'small'}
-            background={"light-2"}
             round="small"
-            border={{style: 'dotted', size: 'small', color: props.extras?.color || 'brand'}}
             className={props.className}>
             {props.children?.(<Icon size="medium" />)}
         </Box>
@@ -70,7 +68,7 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
 }
 
 
-export const IconNode = styled(UnstyledIconNode)`
+export const HMINode = styled(UnstyledIconNode)`
     .port{
         border-radius: 7px;
         height: 12px;
