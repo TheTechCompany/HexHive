@@ -1,2 +1,2 @@
-export * from './IconNode'
-export * from './IconNodeFactory'
+export * from './HMINode'
+export * from './HMINodeFactory'
