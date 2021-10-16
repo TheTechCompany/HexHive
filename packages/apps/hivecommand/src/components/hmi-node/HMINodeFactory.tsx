@@ -13,7 +13,7 @@ export class HMINodeFactory extends AbstractWidgetFactory {
         return (<HMINode  {...event} />)
     }
     public parseModel(model: any) {
-        
+        console.log("Parse", model)
         return {
             ...model,
             ports: model.ports ? model.ports : [
