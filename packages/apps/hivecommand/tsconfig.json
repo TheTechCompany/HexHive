@@ -15,7 +15,8 @@
     {"path": "../../shared/hexhive-types"},
     {"path": "../../core/hive-command-editor"},
     {"path": "../../core/hexhive-client"},
-    {"path": "../../core/collaboration-client"}
+    {"path": "../../core/collaboration-client"},
+    {"path": "../../shared/hexhive-icons"}
   ],
   "include": ["src/**/*", "node_modules/@types"],
   "exclude": ["src/**/*.test*"]

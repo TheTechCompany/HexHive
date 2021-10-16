@@ -13,7 +13,7 @@ export interface PortWidgetProps {
     round?: boolean;
     className?: string;
     label?: string;
-    direction?: "left" | "right"
+    direction?: "left" | "right" | "center";
 }
 
 const Port = styled.div`
@@ -45,7 +45,7 @@ export const UnstyledPortWidget : React.FC<PortWidgetProps> = (props) => {
         <Box 
             gap="xsmall"
             direction="row"
-            style={{display: 'flex', alignItems: 'center', justifyContent: props.direction == "right" ? 'flex-start': 'flex-end' }}
+            style={{display: 'flex', alignItems: 'center', justifyContent: props.direction == "right" ? 'flex-start': (props.direction == 'center') ? 'center': 'flex-end' }}
             className={`port-base`}>
             {props.label && (props.direction == "left" || !props.direction ) && <Text size="small">{props.label}</Text>}
             <Port

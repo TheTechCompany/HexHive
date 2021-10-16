@@ -19,7 +19,7 @@ export const NestedList : React.FC<NestedListProps> = (props) => {
             background={'neutral-1'}>
             <Box   
                 pad="xsmall"
-                background="accent-1" 
+                background="accent-2" 
                 justify="between"
                 border={{side: 'bottom', color: '#dfdfdf', size: '1px'}}
                 direction="row">

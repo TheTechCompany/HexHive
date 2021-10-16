@@ -1,17 +1,31 @@
-import { useQuery } from '@apollo/client';
+import { gql, useApolloClient, useQuery } from '@apollo/client';
 import React, { Suspense, lazy, useEffect, useRef, useState, useCallback } from 'react';
 import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-shards';
-import { Box, Text, Spinner } from 'grommet';
+import { Box, Text, Spinner, Button, Collapsible, List } from 'grommet';
 import { programActions } from '../../actions';
-import { Program, useQuery as useQLess} from '@hexhive/client';
+import { useQuery as useQLess} from '@hexhive/client';
 import Editor from '@hexhive/command-editor'
 import qs from 'qs';
-import { RouteComponentProps } from 'react-router-dom';
-
+import { matchPath, RouteComponentProps } from 'react-router-dom';
+import { IconNodeFactory, InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath } from '@hexhive/ui'
 import { useAutomergeDoc } from '@hexhive/collaboration-client'
 import { IEditorProgram } from '@hexhive/command-editor';
 import { IFlowShardPaths } from '@hexhive/types/dist/interfaces';
 //const Editor = lazy(() => import('@hive-flow/editor'));
+import { ZoomControls } from '../../components/zoom-controls';
+import { NodeDropdown } from '../../components/node-dropdown';
+import { nanoid } from 'nanoid';
+import { Action, Add, Trigger, Menu } from 'grommet-icons'
+import { useMutation } from '@hexhive/client';
+import { BallValve, Blower, Conductivity, DiaphragmValve, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank } from '../../assets/hmi-elements';
+import * as HMIIcons from '../../assets/hmi-elements'
+import { HMINodeFactory } from '../../components/hmi-node/HMINodeFactory';
+import { Switch, Route } from 'react-router-dom';
+import {Program} from './pages/program'
+import {Controls} from './pages/controls'
+import { Alarms } from './pages/alarms';
+import { Devices } from './pages/devices';
+import { Documentation } from './pages/documentation';
 
 export interface EditorProps extends RouteComponentProps<{id: string}> {
 
@@ -19,7 +33,162 @@ export interface EditorProps extends RouteComponentProps<{id: string}> {
 
 export const EditorPage: React.FC<EditorProps> = (props) => {
 
-    const [ program, setProgram ] = useAutomergeDoc<{program: Program[]} & any>('Program', props.match.params.id)
+    const [ view, setView ] = useState<"Documentation" | "Program" | "HMI" | "Devices" | "Alarms">("Program")
+
+    const [ sidebarOpen, openSidebar ] = useState<boolean>(false);
+
+    const [ nodes, setNodes ] = useState<InfiniteCanvasNode[]>([]);
+    const [ paths, _setPaths ] = useState<InfiniteCanvasPath[]>([]);
+
+
+    const [ activeProgram, setActiveProgram ] = useState<string>('')
+
+    const pathRef = useRef<{paths: InfiniteCanvasPath[]}>({paths: []})
+
+    const setPaths = (paths: InfiniteCanvasPath[]) => {
+        _setPaths(paths)
+        pathRef.current.paths = paths;
+    }
+
+    const updateRef = useRef<{addPath?: (path: any) => void, updatePath?: (path: any) => void}>({
+        updatePath: (path) => {
+            let p = pathRef.current.paths.slice()
+            let ix = p.map((x) => x.id).indexOf(path.id)
+            p[ix] = path;
+            setPaths(p)
+        },
+        addPath: (path) => {
+            let p = pathRef.current.paths.slice()
+            p.push(path)
+            setPaths(p)
+        }
+    })
+
+    const client = useApolloClient()
+
+    const { data } = useQuery(gql`
+        query Q ($id: ID){
+            commandPrograms(where: {id: $id}){
+                id
+                name
+                program {
+                    id
+                    name
+                    nodes {
+                        id
+                        type
+                        x 
+                        y
+                    }
+                }
+
+                hmi {
+                    id
+                    name
+                    nodes {
+                        id
+                        type
+                        x
+                        y
+                        devicePlaceholder {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+        }
+    `, {
+        variables: {
+            id: props.match.params.id
+        }
+    })
+
+    const [ addProgramNode, addInfo ] = useMutation((mutation, args: {type: string, x: number, y: number}) => {
+        const program = mutation.updateCommandPrograms({
+            where: {id: props.match.params.id},
+            update: {
+                program: [{
+                    where: {node: {id: activeProgram}},
+                    update: {
+                        node: {
+                            nodes: [{create: [{node: {
+                                type: args.type,
+                                x: args.x,
+                                y: args.y
+                            }}]}]
+                        }
+                    }
+                }]
+            }
+        })
+        return {
+            item: {
+                ...program.commandPrograms[0]
+            }
+        }
+    })
+
+
+    const [ addProgram, addProgramInfo ] = useMutation((mutation, args) => {
+        const program = mutation.updateCommandPrograms({
+            where: {id: props.match.params.id},
+            update: {
+                program: [{create: [{node: {
+                    name: "Default"
+                }}]}]
+            }
+        })
+        return {
+            item: {
+                ...program.commandPrograms[0]
+            }
+        }
+    })
+
+
+    const [ addHMI, addHMIParentInfo ] = useMutation((mutation, args) => {
+        const program = mutation.updateCommandPrograms({
+            where: {id: props.match.params.id},
+            update: {
+                hmi: [{create: [{node: {
+                    name: "Default"
+                }}]}]
+            }
+        })
+        return {
+            item: {
+                ...program.commandPrograms[0]
+            }
+        }
+    })
+
+
+    useEffect(() => {
+        let program = data?.commandPrograms?.[0]
+        if(program && activeProgram){
+            console.log(program, activeProgram, program.program.find((a) => a.id == activeProgram))
+            setNodes((view == "Program" ? program.program : program.hmi).find((a) => a.id == activeProgram).nodes.map((x) => ({
+                id: x.id,
+                x: x.x,
+                y: x.y,
+                extras: {
+                    icon: view == "Program" ? x.type : HMIIcons[x.type],
+                },
+                type: view == "Program" ? 'icon-node' : 'hmi-node',
+                
+            })))
+        }
+    }, [data?.commandPrograms?.[0], activeProgram])
+
+    const refetch = () => {
+        client.refetchQueries({include: ['Q']})
+    }
+    // const program = gqless.commandPrograms
+   
+    const program = data?.commandPrograms?.[0] || {};
+
+    // const [ program, setProgram ] = useAutomergeDoc<{program: Program[]} & any>('Program', props.match.params.id)
 
     // const shardQuery = useQuery(GET_PROGRAM_SHARDS, { variables: { parent: props.match.params.id } })
     // const programQuery = useQuery(GET_PROGRAM, { variables: { id: props.match.params.id } })
@@ -37,6 +206,29 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
 
     const query = qs.parse(props.location.search, {ignoreQueryPrefix: true})
 
+    const menu = [
+        "Documentation",
+        "Program",
+        "Controls",
+        "Devices",
+        "Alarms"
+    ]
+
+    useEffect(() => {
+
+        menu.forEach((item, ix) => {
+            const match =  matchPath(window.location.pathname, {
+                path: `${process.env.PUBLIC_URL}${props.match.url}/${item.toLowerCase()}`,
+            })
+            if(match){
+                setView(item as any)
+            }
+
+        })
+
+    }, [window.location.pathname])
+
+    console.log(props.match)
     return (
         <Suspense fallback={(
             <Box 
@@ -47,209 +239,108 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 <Spinner size="medium"/>
                 <Text>Loading Editor ...</Text>
             </Box>)}>
+        <Box 
+            overflow="hidden"
+            flex
+            round="xsmall" 
+            background="neutral-1">
+            <Box
+                align="center"
+                justify="between" 
+                pad="xsmall" 
+                direction="row" 
+                background="accent-2">
+                <Box 
+                    align="center"
+                    direction="row">
+                    <Button 
+                        onClick={() => {
+                            openSidebar(!sidebarOpen)
+                        }}
+                        plain 
+                        hoverIndicator 
+                        style={{padding: 6, borderRadius: 3}} 
+                        icon={<Menu size="small" />} />
+                    <Text>{program.name}</Text>
+                </Box>
 
-        <Text>{program.name}</Text>
-        <Editor
-            onBack={() => {
-                props.history.push(`/dashboard/programs`)
-            }}
-            onAddProgram={(program) => {
-                console.log("Add program", program)
-                setProgram((doc) => {
-                    console.log("NEw program", program)
-                    doc.program?.push(program)
-                })
-            }}
-            onAddProgramPath={(program_id: string, path : any) => {
-                console.log("ADD PATH", path)
-                setProgram((doc) => {
-                    if(!doc.program.find((a: any) => a._id == program_id).paths) doc.program.find((a: any) => a._id == program_id).paths = {}
-
-                    path.points = Object.assign({}, path.points || [])
-
-                    doc.program.find((a: any) => a._id == program_id).paths[path.id] = path;
-              
-                 //  doc.program.find((a: any) => a._id == program_id).paths[path.id].points.push({x: 100, y: 100}) //[0].x += 100
-                })
-                console.log(program.program.find((a: any) => a._id == program_id))
-            }}
-            onUpdateProgramPath={(program_id, path: IFlowShardPaths & any) => {
-                console.log(path.points)
-
-                const p = Object.assign({}, path)
-                    setProgram((doc) => {
-                        console.log("UPDATE PATH", path.points)
-
-                        if(!doc.program.find((a: any) => a._id == program_id).paths) doc.program.find((a: any) => a._id == program_id).paths = {}
-                        
-                        try{
-                            console.log("UPDATE PATH", path, program_id)
-
-                        // if(path.target && path.targetHandle){
-                            if(path.points.length > 0) {
-                                if(Object.keys(doc.program.find((a: any) => a._id == program_id).paths[path.id].points).length == 0){
-                                    doc.program.find((a: any) => a._id == program_id).paths[path.id].points['0'] = path.points[0]
-                                    console.log("FIRST POINT")
-                                }else{
-                                    console.log("SECOND POINT")
-                                    console.log(path.points)
-
-                                    // console.log("Points exist", doc.program.find((a: any) => a._id == program_id).paths[path.id].points[0])
-
-                                    for(var i = 0; i < path.points.length; i++){
-                                  //  for(var i = 0; i < doc.program.find((a: any) => a._id == program_id).paths[path.id].points.length; i++){
-                                  //      console.log(path.points[i])
-                                        if(!doc.program.find((a: any) => a._id == program_id).paths[path.id].points[`${i}`]){
-                                            doc.program.find((a: any) => a._id == program_id).paths[path.id].points[`${i}`] = {}
-                                        }
-                                     doc.program.find((a: any) => a._id == program_id).paths[path.id].points[`${i}`].x = path.points[i].x
-                                     doc.program.find((a: any) => a._id == program_id).paths[path.id].points[`${i}`].y = path.points[i].y
+                <Box 
+                    justify="between"
+                    align="center"
+                    overflow="hidden"
+                    direction="row">
+                    {menu.map((menu_item) => (
+                        <Button 
+                            hoverIndicator
+                            onClick={() => {
+                                setActiveProgram(undefined)
+                                setView(menu_item as any)
+                                props.history.push(`${props.match.url}/${menu_item.toLowerCase()}`)
+                            }}
+                            style={{padding: 6}} 
+                            active={view == menu_item} 
+                            plain 
+                            label={menu_item} />
+                    ))}
+                   
+                    
+                </Box>
+            </Box>
+            <Box
+                flex
+                direction="row">
+                <Collapsible    
+                    direction="horizontal"
+                    open={sidebarOpen}>
+                    <Box 
+                        flex
+                        width="small">
+                        <Box 
+                            pad="xsmall"
+                            border={{side: 'bottom', size: 'small'}}
+                            direction="row" 
+                            align="center" 
+                            justify="between">
+                            <Text size="small">{view}</Text>
+                            <Button
+                                onClick={() => {
+                                    if(view == "Program"){
+                                        addProgram().then(() => {
+                                            refetch()
+                                        })
+                                    }else{
+                                        addHMI().then(() => {
+                                            refetch()
+                                        })
                                     }
-
-                                    //  doc.program.find((a: any) => a._id == program_id).paths[path.id].points[i].y = path.points[i].y
-
-                              //      } //[0].x = path.points[0].x //path_target.slice(1) //'origin'
-                                    // doc.program.find((a: any) => a._id == program_id).paths[path.id].points[0].y = path.points[0].y //path_target.slice(1) //'origin'
-                                }
-                            }
-
-                                if(path.target !== null && path.target !== undefined) {
-                                    console.log("UPDATE", path, path.target, path.targetHandle)
-
-                                    const path_target = `${(' ' + path.target)}`
-
-                                    doc.program.find((a: any) => a._id == program_id).paths[path.id].target = ` ${Object.assign({}, path).target}`; //path_target.slice(1) //'origin'
-                                    doc.program.find((a: any) => a._id == program_id).paths[path.id].targetHandle = ` ${Object.assign({}, p).targetHandle}`;
-                                    doc.program.find((a: any) => a._id == program_id).paths[path.id].targetHandle =  doc.program.find((a: any) => a._id == program_id).paths[path.id].targetHandle.slice(1)
-                                    doc.program.find((a: any) => a._id == program_id).paths[path.id].target =  doc.program.find((a: any) => a._id == program_id).paths[path.id].target.slice(1)
-
-                                }
-
-                                // if(path.target) doc.program.find((a: any) => a._id == program_id).paths[path.id].target = path.target;
-                                // if(path.targetHandle) doc.program.find((a: any) => a._id == program_id).paths[path.id].targetHandle = path.targetHandle;
-
-
-                            //    doc.program.find((a: any) => a._id == program_id).paths[path.id].points = path.points;
-                            
-                                // path.points = [{x: 100, y: 100}]
-                            //  doc.program.find((a: any) => a._id == program_id).paths[path.id] = path;
-
-                        //  }
-
-
-                    // doc.program.find((a: any) => a._id == program_id).paths[path.id].points[0].y = path.points[0].y;
-                        }catch(e){
-                            console.log("ERR", e)
-                        }
-
-                    })
+                                 
+                                }}
+                                hoverIndicator
+                                plain
+                                style={{padding: 6, borderRadius: 3}}
+                                icon={<Add size="small" />} />
+                        </Box>
+                        <List 
+                            onClickItem={({item}) => {
+                                console.log(item)
+                                setActiveProgram(item.id)
+                            }}
+                            primaryKey="name"
+                            data={view == "Program" ? program.program : program.hmi} />
+                    </Box>
+                </Collapsible>
+                <Box flex>
+                    <Switch>
+                        <Route path={[`${props.match.path}/program`, `${props.match.url}/`, `${props.match.url}`]} exact render={(props) => <Program {...props} activeProgram={activeProgram} />} />
+                        <Route path={`${props.match.path}/controls`} render={(props) => <Controls {...props} activeProgram={activeProgram} />} />
+                        <Route path={`${props.match.path}/devices`} component={Devices} />
+                        <Route path={`${props.match.path}/alarms`} component={Alarms} />
+                        <Route path={`${props.match.path}/documentation`} component={Documentation} />
+                    </Switch>
+                </Box>
                 
-            }}
-            onAddProgramNode={(program: string, node : any) => {
-                console.log("Add node", node, program)
-                setProgram((doc) => {
-                
-                    doc.program.find((a: any) => a._id == program).nodes[node.id] = node
-                })
-            }}
-            onUpdateProgramNode={(program_id, node: any) => {
-                console.log(program, node)
-               // console.log("Update node state", program.program?.find((a) => a._id == program_id)?.nodes)
-                setProgram((doc) => {
-                    try{
-                        if(!doc.program) return;
-                        //if(doc.program.find((a: any) => a._id == program_id).nodes.length > 0){
-                        //doc.program.find((a: any) => a._id == program_id).nodes = [{id: 'id', type: 'icon-node', x: node.x, y: node.y}]
-                   
-                         doc.program.find((a: any) => a._id == program_id).nodes[node.id].x = node.x// node.x // push({id: 'test', type: 'icon-node', x: 20, y: 20})
-                          doc.program.find((a: any) => a._id == program_id).nodes[node.id].y =  node.y
-                        
-                        doc.program.find((a: any) => a._id == program_id).nodes[node.id].ports =  node.ports || []
-
-                   
-                        // }
-                        console.log("UPDATE", node.id, doc.program.find((a: any) => a._id == program_id).nodes[node.id].x)
-                    // if(!doc.program) doc.program = [];
-
-                    // let _program = program.program?.find((a) => a._id == program_id);
-                    // if(!_program || !_program.nodes || !program.program) return;
-                    // let _program_ix = program.program.map((x) => x._id).indexOf(program_id)
-
-                    // console.log("NODE", _program.nodes, program.name)
-
-                    //  let _node_ix = _program.nodes?.map((a:FlowShardNodes) => a.id).indexOf(node.id);
-
-                    // //  (doc.program.find((a) => a._id == program_id)?.nodes?.find((a) => a.id == node.id) as any).x = node.x;
-                    // //  (doc.program.find((a) => a._id == program_id)?.nodes?.find((a) => a.id == node.id) as any).y = node.y;
-                      
-                    //  if(doc.program && doc.program[_program_ix]){
-                    //     let p = doc.program[_program_ix]
-                    //     let n = p.nodes
-                    //      if(n){
-                    //         console.log("Nde", node.x, node.y);
-                    //       //   console.log(doc.program.find((a) => a._id == program_id)?.nodes?.find((a) => a.id == node.id) as any);
-
-                    //      (doc.program.find((a) => a._id == program_id)?.nodes?.find((a: any) => a.id == node.id) as any).x = node.x;
-                    //     //   (doc.program.find((a) => a._id == program_id)?.nodes?.find((a) => a.id == node.id) as any).y = node.y;
-
-
-                    //      }
-                    //  }
-                    }catch(e){
-                        console.log(e)
-                    }
-                //     if(!doc.program || !doc.program.find((a) => a._id == program_id)?.nodes) return;
-                //     let length = doc.program.find((a) => a._id == program_id)?.nodes?.length
-                //     if(length != undefined && length > 0){
-                //         console.log("UPDATE PROGRAM NODE", program.program?.find((a) => a._id == program_id)?.nodes)
-                //    //  let _node = doc.program.find((a) => a._id == program_id)?.nodes?.map((a) => a._id) //== node._id)
-                //     }
-                    // if(_node == undefined) return;
-                    // _node.x = node.x;
-              
-              
-                    //      if(!programRef || !programRef.nodes) return;
-
-                //   //   programRef = Object.assign({}, programRef.nodes)
-                //     console.log("NODES", programRef.nodes[0])
-                //      if(programRef && programRef.nodes  && programRef.nodes.length > 0){
-                //         console.log("UPDATE NODE 1", program, programRef.nodes[0])
-
-                //         let nodeRef = programRef.nodes.find((a: any) => a._id == node._id)
-                //         console.log("UPDATE NODE 2", program, node)
-
-                //         if(!nodeRef) return;
-                //         for(var k in node){
-                //           nodeRef[k] = (node as any)[k];
-                //         }
-                //         console.log("UPDATE NODE 3", program, node)
-
-                    //}
-
-                    // if(!nodeRef) return;
-                    // console.log("PROGRAM REF", program, node, nodeRef, programRef)
-                    // for(var k in node){
-                    // //  nodeRef[k] = (node as any)[k];
-                    // }
-                })
-            }}
-            onPublish={(program) => {
-                // updateProject(  {args: {id: props.match.params.id, update: program}})
-                console.log("PROGRAM", program)
-            }}
-            view={(query.view || 'program') as any}
-            program={{
-                _id: program?._id,
-                name: program?.name || '',
-                program: program.program?.map((x: any) => ({
-                    ...x, 
-                    nodes: Object.keys(x.nodes).map((y) => x.nodes[y]), 
-                    paths: Object.keys(x.paths || {}).map((y) => x.paths[y]).map((y) => ({...y, points: Object.keys(y.points).map((z) => y.points[z])}))
-                })) || [],
-                hmi: program.hmi || [],
-                io: [],
-                plugins: stacks as any
-            }} />
+            </Box>
+        </Box>
         </Suspense>
     )
 }

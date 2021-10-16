@@ -90,7 +90,7 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
     console.log(props.match)
 
     return (
-        <Box flex className="dashboard">
+        <Box flex background="neutral-2" className="dashboard">
        
             <Box
                 flex
@@ -107,7 +107,7 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
                 
                 <Box
                     pad='xsmall'
-                    background={'neutral-4'}
+                    background={'neutral-2'}
                     flex >
                     <React.Suspense fallback={(
                         <Box flex align="center" justify="center">
