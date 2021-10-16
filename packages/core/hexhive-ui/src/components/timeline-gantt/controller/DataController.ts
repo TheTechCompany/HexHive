@@ -1,8 +1,11 @@
 import DateHelper from '../helpers/DateHelper';
-const HORIZON_BUFFER = 1000;
-const HORIZON_BUFFER_ALERT = 500;
+const HORIZON_BUFFER = 500; //1000
+const HORIZON_BUFFER_ALERT = 250; //500;
 
 export default class DataController {
+
+  // public initialized : boolean = false;
+
   lower_limit: number;
   upper_limit: number;
   _dataToRender: never[];
@@ -19,11 +22,13 @@ export default class DataController {
     this.upper_limit = 0;
     this._dataToRender = [];
   }
+
   initialise = (start: any, end: any, nowposition: any, daywidth: number) => {
     this.nowposition = nowposition;
     this.daywidth = daywidth;
     this.setLimits(start, end);
     this.loadDataHorizon();
+    // this.initialized = true;
   };
 
   //OnScroll

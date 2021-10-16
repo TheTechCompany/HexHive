@@ -4,14 +4,15 @@ import { IconNode } from "./IconNode";
 
 export class IconNodeFactory extends AbstractWidgetFactory {
 
+    public static TAG : string = 'icon-node';
     constructor(){
         super('icon-node')
     }
 
-    generateWidget(event: any): JSX.Element {
+    public generateWidget(event: any): JSX.Element {
         return (<IconNode  {...event} />)
     }
-    parseModel(model: any) {
+    public parseModel(model: any) {
         
         return {
             ...model,

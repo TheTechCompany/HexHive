@@ -88,7 +88,7 @@ const BaseTimeline : React.FC<TimelineProps> = ({
   const [ endRow, setEndRow ] = useState<number>(50);
 
   const [ numVisibleRows, setNumVisibleRows ] = useState<number>(40)
-  const [ numVisibleDays, setNumVisibleDays ] = useState<number>(60)
+  const [ numVisibleDays, setNumVisibleDays ] = useState<number>(60) //60
 
   const [ nowposition, setNowPosition ] = useState<number>(0)
 
@@ -100,7 +100,7 @@ const BaseTimeline : React.FC<TimelineProps> = ({
 
   const [ interactiveMode, setInteractiveMode ] = useState<boolean>(false)
 
-  const [ size, setSize ] = useState<{ width: number, height: number }>({ width: 1, height: 1 })    
+  const [ size, setSize ] = useState<{ width: number, height: number }>({ width: window.innerWidth, height: window.innerHeight })    
 
   const [ taskToCreate, setTaskToCreate ] = useState<{task: Task, position: string}>()
   const [ changingTask, setChangingTask ] = useState<any>()
@@ -133,6 +133,7 @@ const BaseTimeline : React.FC<TimelineProps> = ({
   ////////////////////
   
 
+  const [ initialized, setInitialized ] = useState<boolean>(false);
 
   ////////////////////
   //     ON SIZE    //
@@ -143,15 +144,16 @@ const BaseTimeline : React.FC<TimelineProps> = ({
 
     console.log(size, dayWidth)
     calculateVerticalScrollVariables(size);
-    // if (!initialise) {
-    //   dc.current.initialise(
-    //     scrollLeft + nowposition,
-    //     scrollLeft + nowposition + size.width,
-    //     nowposition,
-    //     dayWidth
-    //   );
-    //   initialise = true;
-    // }
+    if (!initialized) {
+      // dc.current.initialise(
+      //   scrollLeft + nowposition,
+      //   scrollLeft + nowposition + size.width,
+      //   nowposition,
+      //   dayWidth.current
+      // );
+      setInitialized(true)
+      // initialise = true;
+    }
     setStartEnd();
     let newNumVisibleRows = Math.ceil(size.height / (itemHeight || 0));
     let newNumVisibleDays = calcNumVisibleDays(size, dayWidth.current);
@@ -171,12 +173,16 @@ const BaseTimeline : React.FC<TimelineProps> = ({
   //   VIEWPORT CHANGES  //
   /////////////////////////
 
-  const verticalChange = (scrollTop: any) => {
-    if (scrollTop == scrollTop) return;
+  const verticalChange = (vertical: any) => {
+    if (scrollTop == vertical) return;
     //Check if we have scrolling rows
-    let rowInfo = calculateStartEndRows(numVisibleRows, data, scrollTop);
+    let rowInfo = calculateStartEndRows(numVisibleRows, data, vertical);
+    console.log("Vertical change", vertical, rowInfo.start, rowInfo)
+    
+    setScrollTop(vertical)
+
     if (rowInfo.start !== startRow) {
-      setScrollTop(scrollTop)
+
 
       setStartRow(rowInfo.start)
       // setEndRow(rowInfo.end)
@@ -761,7 +767,7 @@ export const Timeline = styled(BaseTimeline)`
 .timeLine-side-task-container {
   position: relative;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .timeLine-side-task-row {
@@ -769,7 +775,7 @@ export const Timeline = styled(BaseTimeline)`
   border-bottom-width: 0.5px;
   border-bottom-color: rgb(207, 207, 205);
   border-bottom-style: solid;
-  height: 30px;
+  min-height: 30px;
   color: grey;
   text-align: center;
   text-overflow: ellipsis;

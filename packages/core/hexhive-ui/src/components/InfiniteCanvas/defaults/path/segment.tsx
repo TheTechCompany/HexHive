@@ -24,11 +24,11 @@ export const BaseFlowPathSegment : React.FC<FlowPathSegmentProps> = (props) => {
             className={props.className}
              onMouseDown={props.onMouseDown}>
 
-            <path d={d} className={"flow-path"} {...{"marker-end": "url(#head)"}}/>
-            <path d={d} className={"flow-path__pipe-border"} />
-            <path d={d} className={"flow-path__pipe"} />
+            {/* <path d={d} className={"flow-path__pipe-border"}  /> */}
+            <path d={d} className={"flow-path__pipe"}  />
+            <path d={d} className={"flow-path"} {...{"marker-end": "url(#head)"}} />
 
-            <path d={d} className={"flow-path__highlight"}/>
+            <path d={d} className={"flow-path__highlight"} />
           
         </g>
     )
