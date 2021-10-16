@@ -19,10 +19,11 @@ export class TaskRow extends Component<any, any> {
         <Box
             direction="row"
             align="center"
-            pad="small"
           style={{
             top: this.props.top,
-            height: this.props.itemheight + 5
+            paddingLeft: 12,
+            paddingRight: 12,
+            minHeight: this.props.itemheight + 4
           }}
           onClick={(e) => this.props.onSelectItem(this.props.item)}
         >

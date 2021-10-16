@@ -60,6 +60,7 @@
     "@hexhive/client": "^0.0.6-alpha.0",
     "@hexhive/collaboration-client": "^0.0.6-alpha.0",
     "@hexhive/command-editor": "^0.0.6-alpha.0",
+    "@hexhive/icons": "^0.0.6-alpha.0",
     "@hexhive/styles": "^0.0.6-alpha.0",
     "@hexhive/types": "^0.0.6-alpha.0",
     "@hexhive/ui": "^0.0.6-alpha.0",

@@ -37,8 +37,7 @@ export default `
 
 
 	interface CommandDevicePeripheralPort @relationshipProperties {
-		port: Float
-		
+		port: String
 	}
 
 	type CommandProgram {
@@ -116,6 +115,9 @@ export default `
 		x: Float
 		y: Float
 		type: String
+
+		devicePlaceholder: CommandProgramDevicePlaceholder @relationship(type: "REPRESENTS", direction: OUT)
+
 		flow: [CommandProgramHMI] @relationship(type: "USES_NODE", direction: IN)
 		previous: [CommandHMINode] @relationship(type: "USE_NEXT", direction: IN)
 		next: [CommandHMINode] @relationship(type: "USE_NEXT", direction: OUT)

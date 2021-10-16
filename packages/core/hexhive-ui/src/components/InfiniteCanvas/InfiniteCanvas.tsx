@@ -83,6 +83,8 @@ export interface InfiniteCanvasProps {
         y: number
     }
 
+    menu?: any;
+
     contextMenu?: {
         label?: any;
         icon?: any;
@@ -123,7 +125,8 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     snapToGrid = false,
     grid = {width: 100, height: 100, divisions: 3},
     children,
-    contextMenu
+    contextMenu,
+    menu
 }) => {
 
     const [ ports, _setPorts ] = useState<{[key: string]: {
@@ -572,6 +575,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
                 <NodeLayer />
                 {children}
             </div>
+            {menu}
         </InfiniteCanvasContext.Provider>
     )
 }

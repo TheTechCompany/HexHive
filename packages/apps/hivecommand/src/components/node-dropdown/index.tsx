@@ -14,39 +14,7 @@ export const BaseNodeDropdown : React.FC<NodeDropdownProps> = (props) => {
     const [ expanded, setExpanded ] = useState(false)
 
     return (
-        <Box
-            onMouseDown={(e) => e.stopPropagation()}
-            className={props.className}             
-            style={{position: 'absolute', right: 8, top: 8}}
-            round="medium"
-            border={{size: 'small', color: 'light-1'}}
-            background="brand" 
-            elevation="small">
-
-           <Box
-            pad={{right: 'medium'}}
-            width="small"
-            direction="row"
-            align="center">
-            <Button
-                onClick={() => setExpanded(!expanded)}
-                    margin={{right: 'xsmall'}}
-                    icon={<Icons.Down size="small" />} />
-                <Heading margin="none" level='4'>
-                {props.title || "Nodes"}
-
-                </Heading>
-            </Box>     
-   
-            <Collapsible 
-                open={expanded}>
-                <Box
-                    onWheel={(e) => e.stopPropagation()}
-                    overflow={{vertical: 'auto'}}
-                    pad="xsmall"
-                    direction="column"
-                    width="small"
-                    height="medium">
+      
                     
                     <BlockTray 
                         renderItem={(block) => (
@@ -63,9 +31,6 @@ export const BaseNodeDropdown : React.FC<NodeDropdownProps> = (props) => {
                         </Box>)}
                         blocks={props.items as any} />
 
-                </Box>
-            </Collapsible>
-        </Box>
     )
 }
 

@@ -1,5 +1,5 @@
-import { Box, Text } from 'grommet';
-import React from 'react';
+import { Box, Layer, Text } from 'grommet';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components'
 import * as Icons from 'grommet-icons'
 import { PortWidget } from '@hexhive/ui';
@@ -10,10 +10,12 @@ export interface IconNodeProps{
         label?: string;
         color?: string;
         icon?: any;
+        iconString?: string;
     },
     width?: any;
     height?: any
-    children?: (element: JSX.Element) => JSX.Element
+    onClick?: () => void;
+    children?: (element: JSX.Element) => JSX.Element;
 }
 
 const _Icons : any = Icons;
@@ -23,9 +25,9 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
 
     return (
         <Box 
+            onClick={props.onClick}
             width={props.width || '72px'}
             height={props.height || '72px'}
-            elevation={'small'}
             round="small"
             className={props.className}>
             {props.children?.(<Icon size="medium" />)}
@@ -35,15 +37,20 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
 
 
 export const UnstyledIconNode = (props : IconNodeProps) => {
+    const [actionsOpen, openActions ] = useState<boolean>(false);
 
     return (
+        <>
         <BaseIconNode
+            onClick={() => {
+                openActions(!actionsOpen)
+            }}
             width={{min: props.extras?.label ? '96px' : '55px'}}
             height={props.extras?.label ? '42px' : '55px'}
             {...props}>
             {(icon) => (
+         <>
                 <Box 
-                    pad="small"
                     flex
                     justify={props.extras?.label ? 'between' : 'center'}
                     align={props.extras?.label ? 'center': 'center'}
@@ -60,10 +67,14 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
                         </Box>
                     )}
                     <PortWidget direction="center" type="out" id="out"    />
+         
                 </Box>
+            </>
             )}
-    
+
         </BaseIconNode>
+ 
+    </>
     )
 }
 

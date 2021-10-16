@@ -41,6 +41,7 @@ sampleDate.setDate(sampleDate.getDate() - 14)
 
 const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
+    const [ initialLoad, setInitialLoad ] = useState<boolean>(true);
     
     const [filter, setFilter] = useState<string[]>([])
     const [filters, setFilters] = useState<string[]>([])
@@ -91,9 +92,27 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
             }
         }
     `, {
+        fetchPolicy: 'cache-and-network',
         variables: {
             startDate: horizon?.start?.toISOString(),
             endDate: horizon?.end?.toISOString(),
+        }
+    })
+
+    const quoteData = useApollo(gql`
+        query Quotes ($start: DateTime, $end: DateTime) {
+            estimates(where: {date_GTE: $start, date_LTE: $end}) {
+                id
+                name
+                status
+                date
+                price
+            }
+        }
+    `, {
+        variables: {
+            start: horizon?.start.toISOString(),
+            end: horizon?.end.toISOString()
         }
     })
 
@@ -125,7 +144,9 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
            
             }
         }
-    `)
+    `, {
+        
+    })
 
     const refetchTimeline = () => {
         client.refetchQueries({include: ['Q']})
@@ -266,12 +287,13 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         suspense: false,
     })
 
-    const quotes = query.estimates({
-        where: {date_GTE: horizon?.start?.toISOString(), date_LTE: horizon?.end?.toISOString()}
-    })?.map((quote) => ({
+    console.log("QUOTE DATA", quoteData)
+
+    const quotes = (quoteData.data?.estimates || []).map((quote) => ({
         start: new Date(moment(quote?.date).startOf('isoWeek').valueOf()),
         end: new Date(moment(quote?.date).endOf('isoWeek').valueOf()),
         ...quote,
+        status: quote.status,
         showLabel: formatter.format((quote as any).price),
         color: stringToColor(quote?.name || '')
     }))
@@ -419,6 +441,12 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
         console.log(output)
     }
 
+    //Turn initial load off
+    useEffect(() => {
+        if(initialLoad && !query.$state.isLoading){
+            setInitialLoad(false)
+        }
+    }, [query.$state.isLoading])
     //stringToColor(`${capacity_plan?.project?.id} - ${capacity_plan?.project?.name}` || ''),
 
     useEffect(() => {
@@ -527,7 +555,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
 
     useEffect(() => {
         if (quotes && view == 'Estimates') {
-            let status = [...new Set(quotes.map((x) => x.status))]
+            let status = [...new Set<string>(quotes.map((x) => x.status))]
             if(filter.length == 0){
                 setFilter(status)
             }
@@ -789,7 +817,7 @@ const BaseTimeline: React.FC<TimelineProps> = (props) => {
                         setSelected(_.cloneDeep(capacity?.find((a) => a?.id == (item as any)?.id)))
                         console.log(item)
                     }}
-                    loading={query.$state.isLoading}
+                    loading={initialLoad}
                     onHorizonChange={onHorizonChange}
                     resizable
                     mode="month"

@@ -4,10 +4,10 @@ import { deviceActions, programActions } from '../../actions';
 import { Box, List, Text, Button, Select } from 'grommet';
 //import { Map } from '@thetechcompany/live-ui'
 import { Graph } from '../../components/ui/graph';
-import { useQuery } from '@hexhive/client'
+import { useMutation, useQuery } from '@hexhive/client'
 
 import MarkerIcon from 'leaflet/dist/images/marker-icon.png';
-import { useQuery as useApollo, gql } from '@apollo/client'
+import { useQuery as useApollo, gql, useApolloClient } from '@apollo/client'
 import { BusMap } from '../../components/bus-map/BusMap';
 import { DeviceBusModal } from '../../components/modals/device-bus/DeviceBusModal';
 export interface DeviceSingleProps {
@@ -17,6 +17,8 @@ export interface DeviceSingleProps {
 
 export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
     
+    const client = useApolloClient()
+
     // const [ selectedBus, setSelectedBus ] = useState<{id?: string, name: string}>({})
     const [ modalOpen, openModal ] = useState<boolean>(false);
     
@@ -31,8 +33,19 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                 id
                 name
                 peripherals {
+                    id
                     name
                     type
+
+                    mappedDevices {
+                        id
+                        name
+                    }
+                    mappedDevicesConnection {
+                        edges{
+                            port
+                        }
+                    }
                 }
 
                 activeProgram {
@@ -48,7 +61,70 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
 
             }
         }
-    `)
+    `, {
+        variables: {
+            id: props.match.params.id
+        }
+    })
+
+    const refetch = () => {
+        client.refetchQueries({
+            include: ["Q"]
+        })
+    }
+
+    const [ mapPort, mapInfo ] = useMutation((mutation, args: {
+        id: string, 
+        port: string, 
+        peripheralId: string, 
+        deviceId: string
+    }) => {
+
+        let mapUpdate = {};
+
+        if(!args.deviceId){
+            mapUpdate = {
+                disconnect: [{
+                    where: {edge: {port: args.port}}
+                }]
+            }
+        }else if(args.deviceId){
+            mapUpdate = {
+                // disconnect: [{
+                //     where: {edge: {port: args.port}, node: {id_NOT: args.deviceId}}
+                // }],
+                connect: [{
+                    where: {node: {id: args.deviceId}}, 
+                    edge: {port: args.port} 
+                }]
+            }
+        }
+
+        const device = mutation.updateCommandDevices({
+            where: {id: args.id},
+            update: {
+                peripherals: [{
+                    where: {
+                        node: {
+                            id: args.peripheralId
+                        }
+                    },
+                    update: {
+                        node: {
+                            mappedDevices: [{
+                                ...mapUpdate
+                            }]
+                        }
+                    }
+                }]
+            }
+        })
+        return {
+            item: {
+                ...device.commandDevices?.[0]
+            },
+        }
+    })
     const device = data?.commandDevices?.[0] || {}
     // const programs = query.ProgramMany();
 
@@ -99,27 +175,28 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                     
                 <BusMap
                     add
+                    onMapChanged={(bus, port, device) => {
+                            mapPort({
+                                args: {
+                                    id: props.match.params.id,
+                                    peripheralId: bus,
+                                    port: port,
+                                    deviceId: device
+                                }
+                            }).then(() => {
+                                refetch()
+                            })
+                        
+  
+                        console.log(bus, port, device)
+                    }}
                     devices={device?.activeProgram?.devices}
-                    buses={[
-                        {
-                            id: '1', 
-                            name: "IO-master",
-                            ports: 8
-                        },
-                        {
-                            id: '2', 
-                            name: "IOT Master",
-                            ports: 8
-                        },
-                        {
-                            id: '3',
-                            name: 'RevPi DIO',
-                            ports: {
-                                inputs: 14,
-                                outputs: 14
-                            }
-                        }
-                    ]}/>
+                    buses={(device?.peripherals || []).map((x) => ({
+                        id: x.id,
+                        name: x.name,
+                        mappedDevices: x.mappedDevices.map((dev, ix) => ({...dev, port: x.mappedDevicesConnection.edges[ix].port})),
+                        ports: x.type == "IO-LINK" ? 8 : {inputs: 14, outputs: 14} 
+                    }))}/>
 {/* 
                 <Box 
                     background="neutral-1"

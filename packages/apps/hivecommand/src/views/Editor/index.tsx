@@ -90,6 +90,10 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                         type
                         x
                         y
+                        devicePlaceholder {
+                            id
+                            name
+                        }
                     }
                 }
             }
@@ -125,30 +129,6 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
         }
     })
 
-    const [ addHMINode, addHMIInfo ] = useMutation((mutation, args: {type: string, x: number, y: number}) => {
-        const program = mutation.updateCommandPrograms({
-            where: {id: props.match.params.id},
-            update: {
-                hmi: [{
-                    where: {node: {id: activeProgram}},
-                    update: {
-                        node: {
-                            nodes: [{create: [{node: {
-                                type: args.type,
-                                x: args.x,
-                                y: args.y
-                            }}]}]
-                        }
-                    }
-                }]
-            }
-        })
-        return {
-            item: {
-                ...program.commandPrograms[0]
-            }
-        }
-    })
 
     const [ addProgram, addProgramInfo ] = useMutation((mutation, args) => {
         const program = mutation.updateCommandPrograms({
