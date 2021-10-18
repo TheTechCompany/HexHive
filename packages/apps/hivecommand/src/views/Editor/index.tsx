@@ -43,26 +43,6 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
 
     const [ activeProgram, setActiveProgram ] = useState<string>('')
 
-    const pathRef = useRef<{paths: InfiniteCanvasPath[]}>({paths: []})
-
-    const setPaths = (paths: InfiniteCanvasPath[]) => {
-        _setPaths(paths)
-        pathRef.current.paths = paths;
-    }
-
-    const updateRef = useRef<{addPath?: (path: any) => void, updatePath?: (path: any) => void}>({
-        updatePath: (path) => {
-            let p = pathRef.current.paths.slice()
-            let ix = p.map((x) => x.id).indexOf(path.id)
-            p[ix] = path;
-            setPaths(p)
-        },
-        addPath: (path) => {
-            let p = pathRef.current.paths.slice()
-            p.push(path)
-            setPaths(p)
-        }
-    })
 
     const client = useApolloClient()
 

@@ -51,8 +51,9 @@ const parseEvent = async (event: HiveEvent) => {
 
 const stringToDate = (date: any) => {
     console.log(date)
-   if(date instanceof Date){
-    return date;
+    if(!date) return undefined;
+    if(date instanceof Date){
+        return date;
     }
     let parts = date.split('/')
     if(parts.indexOf('NaN') > -1){

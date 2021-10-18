@@ -552,8 +552,8 @@ export interface CommandDeviceWhere {
 export interface CommandHMINodeConnectInput {
   devicePlaceholder?: Maybe<CommandHMINodeDevicePlaceholderConnectFieldInput>;
   flow?: Maybe<Array<CommandHMINodeFlowConnectFieldInput>>;
-  previous?: Maybe<Array<CommandHMINodePreviousConnectFieldInput>>;
-  next?: Maybe<Array<CommandHMINodeNextConnectFieldInput>>;
+  inputs?: Maybe<Array<CommandHMINodeInputsConnectFieldInput>>;
+  outputs?: Maybe<Array<CommandHMINodeOutputsConnectFieldInput>>;
 }
 
 export interface CommandHMINodeConnectWhere {
@@ -566,15 +566,15 @@ export interface CommandHMINodeCreateInput {
   type?: Maybe<Scalars["String"]>;
   devicePlaceholder?: Maybe<CommandHMINodeDevicePlaceholderFieldInput>;
   flow?: Maybe<CommandHMINodeFlowFieldInput>;
-  previous?: Maybe<CommandHMINodePreviousFieldInput>;
-  next?: Maybe<CommandHMINodeNextFieldInput>;
+  inputs?: Maybe<CommandHMINodeInputsFieldInput>;
+  outputs?: Maybe<CommandHMINodeOutputsFieldInput>;
 }
 
 export interface CommandHMINodeDeleteInput {
   devicePlaceholder?: Maybe<CommandHMINodeDevicePlaceholderDeleteFieldInput>;
   flow?: Maybe<Array<CommandHMINodeFlowDeleteFieldInput>>;
-  previous?: Maybe<Array<CommandHMINodePreviousDeleteFieldInput>>;
-  next?: Maybe<Array<CommandHMINodeNextDeleteFieldInput>>;
+  inputs?: Maybe<Array<CommandHMINodeInputsDeleteFieldInput>>;
+  outputs?: Maybe<Array<CommandHMINodeOutputsDeleteFieldInput>>;
 }
 
 export interface CommandHMINodeDevicePlaceholderConnectFieldInput {
@@ -628,8 +628,8 @@ export interface CommandHMINodeDevicePlaceholderUpdateFieldInput {
 export interface CommandHMINodeDisconnectInput {
   devicePlaceholder?: Maybe<CommandHMINodeDevicePlaceholderDisconnectFieldInput>;
   flow?: Maybe<Array<CommandHMINodeFlowDisconnectFieldInput>>;
-  previous?: Maybe<Array<CommandHMINodePreviousDisconnectFieldInput>>;
-  next?: Maybe<Array<CommandHMINodeNextDisconnectFieldInput>>;
+  inputs?: Maybe<Array<CommandHMINodeInputsDisconnectFieldInput>>;
+  outputs?: Maybe<Array<CommandHMINodeOutputsDisconnectFieldInput>>;
 }
 
 export interface CommandHMINodeFlowConnectFieldInput {
@@ -652,6 +652,12 @@ export interface CommandHMINodeFlowCreateFieldInput {
   node: CommandProgramHMICreateInput;
 }
 
+export interface CommandHMINodeFlowCreateInput {
+  sourceHandle?: Maybe<Scalars["String"]>;
+  targetHandle?: Maybe<Scalars["String"]>;
+  points?: Maybe<Array<Maybe<PointInput>>>;
+}
+
 export interface CommandHMINodeFlowDeleteFieldInput {
   where?: Maybe<CommandHMINodeFlowConnectionWhere>;
   delete?: Maybe<CommandProgramHMIDeleteInput>;
@@ -667,6 +673,13 @@ export interface CommandHMINodeFlowFieldInput {
   connect?: Maybe<Array<CommandHMINodeFlowConnectFieldInput>>;
 }
 
+export interface CommandHMINodeFlowSort {
+  id?: Maybe<SortDirection>;
+  sourceHandle?: Maybe<SortDirection>;
+  targetHandle?: Maybe<SortDirection>;
+  points?: Maybe<SortDirection>;
+}
+
 export interface CommandHMINodeFlowUpdateConnectionInput {
   node?: Maybe<CommandProgramHMIUpdateInput>;
 }
@@ -680,52 +693,103 @@ export interface CommandHMINodeFlowUpdateFieldInput {
   delete?: Maybe<Array<CommandHMINodeFlowDeleteFieldInput>>;
 }
 
-export interface CommandHMINodeNextConnectFieldInput {
+export interface CommandHMINodeFlowUpdateInput {
+  sourceHandle?: Maybe<Scalars["String"]>;
+  targetHandle?: Maybe<Scalars["String"]>;
+  points?: Maybe<Array<Maybe<PointInput>>>;
+}
+
+export interface CommandHMINodeFlowWhere {
+  OR?: Maybe<Array<CommandHMINodeFlowWhere>>;
+  AND?: Maybe<Array<CommandHMINodeFlowWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  sourceHandle?: Maybe<Scalars["String"]>;
+  sourceHandle_NOT?: Maybe<Scalars["String"]>;
+  sourceHandle_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  sourceHandle_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  sourceHandle_CONTAINS?: Maybe<Scalars["String"]>;
+  sourceHandle_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  sourceHandle_STARTS_WITH?: Maybe<Scalars["String"]>;
+  sourceHandle_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  sourceHandle_ENDS_WITH?: Maybe<Scalars["String"]>;
+  sourceHandle_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  targetHandle?: Maybe<Scalars["String"]>;
+  targetHandle_NOT?: Maybe<Scalars["String"]>;
+  targetHandle_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  targetHandle_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  targetHandle_CONTAINS?: Maybe<Scalars["String"]>;
+  targetHandle_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  targetHandle_STARTS_WITH?: Maybe<Scalars["String"]>;
+  targetHandle_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  targetHandle_ENDS_WITH?: Maybe<Scalars["String"]>;
+  targetHandle_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  points?: Maybe<Array<Maybe<PointInput>>>;
+  points_NOT?: Maybe<Array<Maybe<PointInput>>>;
+  points_INCLUDES?: Maybe<PointInput>;
+  points_NOT_INCLUDES?: Maybe<PointInput>;
+}
+
+export interface CommandHMINodeInputsConnectFieldInput {
   where?: Maybe<CommandHMINodeConnectWhere>;
   connect?: Maybe<Array<CommandHMINodeConnectInput>>;
+  edge?: Maybe<CommandHMINodeFlowCreateInput>;
 }
 
-export interface CommandHMINodeNextConnectionSort {
+export interface CommandHMINodeInputsConnectionSort {
   node?: Maybe<CommandHMINodeSort>;
+  edge?: Maybe<CommandHMINodeFlowSort>;
 }
 
-export interface CommandHMINodeNextConnectionWhere {
-  AND?: Maybe<Array<CommandHMINodeNextConnectionWhere>>;
-  OR?: Maybe<Array<CommandHMINodeNextConnectionWhere>>;
+export interface CommandHMINodeInputsConnectionWhere {
+  AND?: Maybe<Array<CommandHMINodeInputsConnectionWhere>>;
+  OR?: Maybe<Array<CommandHMINodeInputsConnectionWhere>>;
+  edge?: Maybe<CommandHMINodeFlowWhere>;
+  edge_NOT?: Maybe<CommandHMINodeFlowWhere>;
   node?: Maybe<CommandHMINodeWhere>;
   node_NOT?: Maybe<CommandHMINodeWhere>;
 }
 
-export interface CommandHMINodeNextCreateFieldInput {
+export interface CommandHMINodeInputsCreateFieldInput {
   node: CommandHMINodeCreateInput;
+  edge?: Maybe<CommandHMINodeFlowCreateInput>;
 }
 
-export interface CommandHMINodeNextDeleteFieldInput {
-  where?: Maybe<CommandHMINodeNextConnectionWhere>;
+export interface CommandHMINodeInputsDeleteFieldInput {
+  where?: Maybe<CommandHMINodeInputsConnectionWhere>;
   delete?: Maybe<CommandHMINodeDeleteInput>;
 }
 
-export interface CommandHMINodeNextDisconnectFieldInput {
-  where?: Maybe<CommandHMINodeNextConnectionWhere>;
+export interface CommandHMINodeInputsDisconnectFieldInput {
+  where?: Maybe<CommandHMINodeInputsConnectionWhere>;
   disconnect?: Maybe<CommandHMINodeDisconnectInput>;
 }
 
-export interface CommandHMINodeNextFieldInput {
-  create?: Maybe<Array<CommandHMINodeNextCreateFieldInput>>;
-  connect?: Maybe<Array<CommandHMINodeNextConnectFieldInput>>;
+export interface CommandHMINodeInputsFieldInput {
+  create?: Maybe<Array<CommandHMINodeInputsCreateFieldInput>>;
+  connect?: Maybe<Array<CommandHMINodeInputsConnectFieldInput>>;
 }
 
-export interface CommandHMINodeNextUpdateConnectionInput {
+export interface CommandHMINodeInputsUpdateConnectionInput {
   node?: Maybe<CommandHMINodeUpdateInput>;
+  edge?: Maybe<CommandHMINodeFlowUpdateInput>;
 }
 
-export interface CommandHMINodeNextUpdateFieldInput {
-  where?: Maybe<CommandHMINodeNextConnectionWhere>;
-  update?: Maybe<CommandHMINodeNextUpdateConnectionInput>;
-  connect?: Maybe<Array<CommandHMINodeNextConnectFieldInput>>;
-  disconnect?: Maybe<Array<CommandHMINodeNextDisconnectFieldInput>>;
-  create?: Maybe<Array<CommandHMINodeNextCreateFieldInput>>;
-  delete?: Maybe<Array<CommandHMINodeNextDeleteFieldInput>>;
+export interface CommandHMINodeInputsUpdateFieldInput {
+  where?: Maybe<CommandHMINodeInputsConnectionWhere>;
+  update?: Maybe<CommandHMINodeInputsUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandHMINodeInputsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandHMINodeInputsDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandHMINodeInputsCreateFieldInput>>;
+  delete?: Maybe<Array<CommandHMINodeInputsDeleteFieldInput>>;
 }
 
 export interface CommandHMINodeOptions {
@@ -735,59 +799,65 @@ export interface CommandHMINodeOptions {
   offset?: Maybe<Scalars["Int"]>;
 }
 
-export interface CommandHMINodePreviousConnectFieldInput {
+export interface CommandHMINodeOutputsConnectFieldInput {
   where?: Maybe<CommandHMINodeConnectWhere>;
   connect?: Maybe<Array<CommandHMINodeConnectInput>>;
+  edge?: Maybe<CommandHMINodeFlowCreateInput>;
 }
 
-export interface CommandHMINodePreviousConnectionSort {
+export interface CommandHMINodeOutputsConnectionSort {
   node?: Maybe<CommandHMINodeSort>;
+  edge?: Maybe<CommandHMINodeFlowSort>;
 }
 
-export interface CommandHMINodePreviousConnectionWhere {
-  AND?: Maybe<Array<CommandHMINodePreviousConnectionWhere>>;
-  OR?: Maybe<Array<CommandHMINodePreviousConnectionWhere>>;
+export interface CommandHMINodeOutputsConnectionWhere {
+  AND?: Maybe<Array<CommandHMINodeOutputsConnectionWhere>>;
+  OR?: Maybe<Array<CommandHMINodeOutputsConnectionWhere>>;
+  edge?: Maybe<CommandHMINodeFlowWhere>;
+  edge_NOT?: Maybe<CommandHMINodeFlowWhere>;
   node?: Maybe<CommandHMINodeWhere>;
   node_NOT?: Maybe<CommandHMINodeWhere>;
 }
 
-export interface CommandHMINodePreviousCreateFieldInput {
+export interface CommandHMINodeOutputsCreateFieldInput {
   node: CommandHMINodeCreateInput;
+  edge?: Maybe<CommandHMINodeFlowCreateInput>;
 }
 
-export interface CommandHMINodePreviousDeleteFieldInput {
-  where?: Maybe<CommandHMINodePreviousConnectionWhere>;
+export interface CommandHMINodeOutputsDeleteFieldInput {
+  where?: Maybe<CommandHMINodeOutputsConnectionWhere>;
   delete?: Maybe<CommandHMINodeDeleteInput>;
 }
 
-export interface CommandHMINodePreviousDisconnectFieldInput {
-  where?: Maybe<CommandHMINodePreviousConnectionWhere>;
+export interface CommandHMINodeOutputsDisconnectFieldInput {
+  where?: Maybe<CommandHMINodeOutputsConnectionWhere>;
   disconnect?: Maybe<CommandHMINodeDisconnectInput>;
 }
 
-export interface CommandHMINodePreviousFieldInput {
-  create?: Maybe<Array<CommandHMINodePreviousCreateFieldInput>>;
-  connect?: Maybe<Array<CommandHMINodePreviousConnectFieldInput>>;
+export interface CommandHMINodeOutputsFieldInput {
+  create?: Maybe<Array<CommandHMINodeOutputsCreateFieldInput>>;
+  connect?: Maybe<Array<CommandHMINodeOutputsConnectFieldInput>>;
 }
 
-export interface CommandHMINodePreviousUpdateConnectionInput {
+export interface CommandHMINodeOutputsUpdateConnectionInput {
   node?: Maybe<CommandHMINodeUpdateInput>;
+  edge?: Maybe<CommandHMINodeFlowUpdateInput>;
 }
 
-export interface CommandHMINodePreviousUpdateFieldInput {
-  where?: Maybe<CommandHMINodePreviousConnectionWhere>;
-  update?: Maybe<CommandHMINodePreviousUpdateConnectionInput>;
-  connect?: Maybe<Array<CommandHMINodePreviousConnectFieldInput>>;
-  disconnect?: Maybe<Array<CommandHMINodePreviousDisconnectFieldInput>>;
-  create?: Maybe<Array<CommandHMINodePreviousCreateFieldInput>>;
-  delete?: Maybe<Array<CommandHMINodePreviousDeleteFieldInput>>;
+export interface CommandHMINodeOutputsUpdateFieldInput {
+  where?: Maybe<CommandHMINodeOutputsConnectionWhere>;
+  update?: Maybe<CommandHMINodeOutputsUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandHMINodeOutputsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandHMINodeOutputsDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandHMINodeOutputsCreateFieldInput>>;
+  delete?: Maybe<Array<CommandHMINodeOutputsDeleteFieldInput>>;
 }
 
 export interface CommandHMINodeRelationInput {
   devicePlaceholder?: Maybe<CommandHMINodeDevicePlaceholderCreateFieldInput>;
   flow?: Maybe<Array<CommandHMINodeFlowCreateFieldInput>>;
-  previous?: Maybe<Array<CommandHMINodePreviousCreateFieldInput>>;
-  next?: Maybe<Array<CommandHMINodeNextCreateFieldInput>>;
+  inputs?: Maybe<Array<CommandHMINodeInputsCreateFieldInput>>;
+  outputs?: Maybe<Array<CommandHMINodeOutputsCreateFieldInput>>;
 }
 
 /** Fields to sort CommandHMINodes by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandHMINodeSort object. */
@@ -804,8 +874,8 @@ export interface CommandHMINodeUpdateInput {
   type?: Maybe<Scalars["String"]>;
   devicePlaceholder?: Maybe<CommandHMINodeDevicePlaceholderUpdateFieldInput>;
   flow?: Maybe<Array<CommandHMINodeFlowUpdateFieldInput>>;
-  previous?: Maybe<Array<CommandHMINodePreviousUpdateFieldInput>>;
-  next?: Maybe<Array<CommandHMINodeNextUpdateFieldInput>>;
+  inputs?: Maybe<Array<CommandHMINodeInputsUpdateFieldInput>>;
+  outputs?: Maybe<Array<CommandHMINodeOutputsUpdateFieldInput>>;
 }
 
 export interface CommandHMINodeWhere {
@@ -851,18 +921,18 @@ export interface CommandHMINodeWhere {
   devicePlaceholder_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
   flow?: Maybe<CommandProgramHMIWhere>;
   flow_NOT?: Maybe<CommandProgramHMIWhere>;
-  previous?: Maybe<CommandHMINodeWhere>;
-  previous_NOT?: Maybe<CommandHMINodeWhere>;
-  next?: Maybe<CommandHMINodeWhere>;
-  next_NOT?: Maybe<CommandHMINodeWhere>;
+  inputs?: Maybe<CommandHMINodeWhere>;
+  inputs_NOT?: Maybe<CommandHMINodeWhere>;
+  outputs?: Maybe<CommandHMINodeWhere>;
+  outputs_NOT?: Maybe<CommandHMINodeWhere>;
   devicePlaceholderConnection?: Maybe<CommandHMINodeDevicePlaceholderConnectionWhere>;
   devicePlaceholderConnection_NOT?: Maybe<CommandHMINodeDevicePlaceholderConnectionWhere>;
   flowConnection?: Maybe<CommandHMINodeFlowConnectionWhere>;
   flowConnection_NOT?: Maybe<CommandHMINodeFlowConnectionWhere>;
-  previousConnection?: Maybe<CommandHMINodePreviousConnectionWhere>;
-  previousConnection_NOT?: Maybe<CommandHMINodePreviousConnectionWhere>;
-  nextConnection?: Maybe<CommandHMINodeNextConnectionWhere>;
-  nextConnection_NOT?: Maybe<CommandHMINodeNextConnectionWhere>;
+  inputsConnection?: Maybe<CommandHMINodeInputsConnectionWhere>;
+  inputsConnection_NOT?: Maybe<CommandHMINodeInputsConnectionWhere>;
+  outputsConnection?: Maybe<CommandHMINodeOutputsConnectionWhere>;
+  outputsConnection_NOT?: Maybe<CommandHMINodeOutputsConnectionWhere>;
 }
 
 export interface CommandPluginConnectInput {
@@ -7833,6 +7903,12 @@ export interface PermissionWhere {
   rolesConnection_NOT?: Maybe<PermissionRolesConnectionWhere>;
 }
 
+export interface PointInput {
+  longitude: Scalars["Float"];
+  latitude: Scalars["Float"];
+  height?: Maybe<Scalars["Float"]>;
+}
+
 export interface ProjectConnectInput {
   organisation?: Maybe<ProjectOrganisationConnectFieldInput>;
   schedule?: Maybe<Array<ProjectScheduleConnectFieldInput>>;
@@ -13461,6 +13537,14 @@ export const generatedSchema = {
     port: { __type: "String" },
     $on: { __type: "$CommandDevicePeripheralPort!" },
   },
+  CommandHMINodeFlow: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID" },
+    sourceHandle: { __type: "String" },
+    targetHandle: { __type: "String" },
+    points: { __type: "[Point]" },
+    $on: { __type: "$CommandHMINodeFlow!" },
+  },
   HivePipelineFlowPath: {
     __typename: { __type: "String!" },
     id: { __type: "ID" },
@@ -13636,14 +13720,14 @@ export const generatedSchema = {
         options: "CommandProgramHMIOptions",
       },
     },
-    previous: {
+    inputs: {
       __type: "[CommandHMINode]",
       __args: {
         where: "CommandHMINodeWhere",
         options: "CommandHMINodeOptions",
       },
     },
-    next: {
+    outputs: {
       __type: "[CommandHMINode]",
       __args: {
         where: "CommandHMINodeWhere",
@@ -13668,22 +13752,22 @@ export const generatedSchema = {
         sort: "[CommandHMINodeFlowConnectionSort!]",
       },
     },
-    previousConnection: {
-      __type: "CommandHMINodePreviousConnection!",
+    inputsConnection: {
+      __type: "CommandHMINodeInputsConnection!",
       __args: {
-        where: "CommandHMINodePreviousConnectionWhere",
+        where: "CommandHMINodeInputsConnectionWhere",
         first: "Int",
         after: "String",
-        sort: "[CommandHMINodePreviousConnectionSort!]",
+        sort: "[CommandHMINodeInputsConnectionSort!]",
       },
     },
-    nextConnection: {
-      __type: "CommandHMINodeNextConnection!",
+    outputsConnection: {
+      __type: "CommandHMINodeOutputsConnection!",
       __args: {
-        where: "CommandHMINodeNextConnectionWhere",
+        where: "CommandHMINodeOutputsConnectionWhere",
         first: "Int",
         after: "String",
-        sort: "[CommandHMINodeNextConnectionSort!]",
+        sort: "[CommandHMINodeOutputsConnectionSort!]",
       },
     },
   },
@@ -13709,27 +13793,35 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "CommandProgramHMI!" },
   },
-  CommandHMINodeNextConnection: {
+  CommandHMINodeInputsConnection: {
     __typename: { __type: "String!" },
-    edges: { __type: "[CommandHMINodeNextRelationship!]!" },
+    edges: { __type: "[CommandHMINodeInputsRelationship!]!" },
     totalCount: { __type: "Int!" },
     pageInfo: { __type: "PageInfo!" },
   },
-  CommandHMINodeNextRelationship: {
+  CommandHMINodeInputsRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "CommandHMINode!" },
+    id: { __type: "ID" },
+    sourceHandle: { __type: "String" },
+    targetHandle: { __type: "String" },
+    points: { __type: "[Point]" },
   },
-  CommandHMINodePreviousConnection: {
+  CommandHMINodeOutputsConnection: {
     __typename: { __type: "String!" },
-    edges: { __type: "[CommandHMINodePreviousRelationship!]!" },
+    edges: { __type: "[CommandHMINodeOutputsRelationship!]!" },
     totalCount: { __type: "Int!" },
     pageInfo: { __type: "PageInfo!" },
   },
-  CommandHMINodePreviousRelationship: {
+  CommandHMINodeOutputsRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "CommandHMINode!" },
+    id: { __type: "ID" },
+    sourceHandle: { __type: "String" },
+    targetHandle: { __type: "String" },
+    points: { __type: "[Point]" },
   },
   CommandPlugin: {
     __typename: { __type: "String!" },
@@ -16066,6 +16158,14 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "Role!" },
   },
+  Point: {
+    __typename: { __type: "String!" },
+    longitude: { __type: "Float!" },
+    latitude: { __type: "Float!" },
+    height: { __type: "Float" },
+    crs: { __type: "String!" },
+    srid: { __type: "Int!" },
+  },
   Project: {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
@@ -17189,8 +17289,8 @@ export const generatedSchema = {
       __type: "CommandHMINodeDevicePlaceholderConnectFieldInput",
     },
     flow: { __type: "[CommandHMINodeFlowConnectFieldInput!]" },
-    previous: { __type: "[CommandHMINodePreviousConnectFieldInput!]" },
-    next: { __type: "[CommandHMINodeNextConnectFieldInput!]" },
+    inputs: { __type: "[CommandHMINodeInputsConnectFieldInput!]" },
+    outputs: { __type: "[CommandHMINodeOutputsConnectFieldInput!]" },
   },
   CommandHMINodeConnectWhere: { node: { __type: "CommandHMINodeWhere!" } },
   CommandHMINodeCreateInput: {
@@ -17199,16 +17299,16 @@ export const generatedSchema = {
     type: { __type: "String" },
     devicePlaceholder: { __type: "CommandHMINodeDevicePlaceholderFieldInput" },
     flow: { __type: "CommandHMINodeFlowFieldInput" },
-    previous: { __type: "CommandHMINodePreviousFieldInput" },
-    next: { __type: "CommandHMINodeNextFieldInput" },
+    inputs: { __type: "CommandHMINodeInputsFieldInput" },
+    outputs: { __type: "CommandHMINodeOutputsFieldInput" },
   },
   CommandHMINodeDeleteInput: {
     devicePlaceholder: {
       __type: "CommandHMINodeDevicePlaceholderDeleteFieldInput",
     },
     flow: { __type: "[CommandHMINodeFlowDeleteFieldInput!]" },
-    previous: { __type: "[CommandHMINodePreviousDeleteFieldInput!]" },
-    next: { __type: "[CommandHMINodeNextDeleteFieldInput!]" },
+    inputs: { __type: "[CommandHMINodeInputsDeleteFieldInput!]" },
+    outputs: { __type: "[CommandHMINodeOutputsDeleteFieldInput!]" },
   },
   CommandHMINodeDevicePlaceholderConnectFieldInput: {
     where: { __type: "CommandProgramDevicePlaceholderConnectWhere" },
@@ -17256,8 +17356,8 @@ export const generatedSchema = {
       __type: "CommandHMINodeDevicePlaceholderDisconnectFieldInput",
     },
     flow: { __type: "[CommandHMINodeFlowDisconnectFieldInput!]" },
-    previous: { __type: "[CommandHMINodePreviousDisconnectFieldInput!]" },
-    next: { __type: "[CommandHMINodeNextDisconnectFieldInput!]" },
+    inputs: { __type: "[CommandHMINodeInputsDisconnectFieldInput!]" },
+    outputs: { __type: "[CommandHMINodeOutputsDisconnectFieldInput!]" },
   },
   CommandHMINodeFlowConnectFieldInput: {
     where: { __type: "CommandProgramHMIConnectWhere" },
@@ -17275,6 +17375,11 @@ export const generatedSchema = {
   CommandHMINodeFlowCreateFieldInput: {
     node: { __type: "CommandProgramHMICreateInput!" },
   },
+  CommandHMINodeFlowCreateInput: {
+    sourceHandle: { __type: "String" },
+    targetHandle: { __type: "String" },
+    points: { __type: "[PointInput]" },
+  },
   CommandHMINodeFlowDeleteFieldInput: {
     where: { __type: "CommandHMINodeFlowConnectionWhere" },
     delete: { __type: "CommandProgramHMIDeleteInput" },
@@ -17287,6 +17392,12 @@ export const generatedSchema = {
     create: { __type: "[CommandHMINodeFlowCreateFieldInput!]" },
     connect: { __type: "[CommandHMINodeFlowConnectFieldInput!]" },
   },
+  CommandHMINodeFlowSort: {
+    id: { __type: "SortDirection" },
+    sourceHandle: { __type: "SortDirection" },
+    targetHandle: { __type: "SortDirection" },
+    points: { __type: "SortDirection" },
+  },
   CommandHMINodeFlowUpdateConnectionInput: {
     node: { __type: "CommandProgramHMIUpdateInput" },
   },
@@ -17298,94 +17409,151 @@ export const generatedSchema = {
     create: { __type: "[CommandHMINodeFlowCreateFieldInput!]" },
     delete: { __type: "[CommandHMINodeFlowDeleteFieldInput!]" },
   },
-  CommandHMINodeNextConnectFieldInput: {
+  CommandHMINodeFlowUpdateInput: {
+    sourceHandle: { __type: "String" },
+    targetHandle: { __type: "String" },
+    points: { __type: "[PointInput]" },
+  },
+  CommandHMINodeFlowWhere: {
+    OR: { __type: "[CommandHMINodeFlowWhere!]" },
+    AND: { __type: "[CommandHMINodeFlowWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    sourceHandle: { __type: "String" },
+    sourceHandle_NOT: { __type: "String" },
+    sourceHandle_IN: { __type: "[String]" },
+    sourceHandle_NOT_IN: { __type: "[String]" },
+    sourceHandle_CONTAINS: { __type: "String" },
+    sourceHandle_NOT_CONTAINS: { __type: "String" },
+    sourceHandle_STARTS_WITH: { __type: "String" },
+    sourceHandle_NOT_STARTS_WITH: { __type: "String" },
+    sourceHandle_ENDS_WITH: { __type: "String" },
+    sourceHandle_NOT_ENDS_WITH: { __type: "String" },
+    targetHandle: { __type: "String" },
+    targetHandle_NOT: { __type: "String" },
+    targetHandle_IN: { __type: "[String]" },
+    targetHandle_NOT_IN: { __type: "[String]" },
+    targetHandle_CONTAINS: { __type: "String" },
+    targetHandle_NOT_CONTAINS: { __type: "String" },
+    targetHandle_STARTS_WITH: { __type: "String" },
+    targetHandle_NOT_STARTS_WITH: { __type: "String" },
+    targetHandle_ENDS_WITH: { __type: "String" },
+    targetHandle_NOT_ENDS_WITH: { __type: "String" },
+    points: { __type: "[PointInput]" },
+    points_NOT: { __type: "[PointInput]" },
+    points_INCLUDES: { __type: "PointInput" },
+    points_NOT_INCLUDES: { __type: "PointInput" },
+  },
+  CommandHMINodeInputsConnectFieldInput: {
     where: { __type: "CommandHMINodeConnectWhere" },
     connect: { __type: "[CommandHMINodeConnectInput!]" },
+    edge: { __type: "CommandHMINodeFlowCreateInput" },
   },
-  CommandHMINodeNextConnectionSort: { node: { __type: "CommandHMINodeSort" } },
-  CommandHMINodeNextConnectionWhere: {
-    AND: { __type: "[CommandHMINodeNextConnectionWhere!]" },
-    OR: { __type: "[CommandHMINodeNextConnectionWhere!]" },
+  CommandHMINodeInputsConnectionSort: {
+    node: { __type: "CommandHMINodeSort" },
+    edge: { __type: "CommandHMINodeFlowSort" },
+  },
+  CommandHMINodeInputsConnectionWhere: {
+    AND: { __type: "[CommandHMINodeInputsConnectionWhere!]" },
+    OR: { __type: "[CommandHMINodeInputsConnectionWhere!]" },
+    edge: { __type: "CommandHMINodeFlowWhere" },
+    edge_NOT: { __type: "CommandHMINodeFlowWhere" },
     node: { __type: "CommandHMINodeWhere" },
     node_NOT: { __type: "CommandHMINodeWhere" },
   },
-  CommandHMINodeNextCreateFieldInput: {
+  CommandHMINodeInputsCreateFieldInput: {
     node: { __type: "CommandHMINodeCreateInput!" },
+    edge: { __type: "CommandHMINodeFlowCreateInput" },
   },
-  CommandHMINodeNextDeleteFieldInput: {
-    where: { __type: "CommandHMINodeNextConnectionWhere" },
+  CommandHMINodeInputsDeleteFieldInput: {
+    where: { __type: "CommandHMINodeInputsConnectionWhere" },
     delete: { __type: "CommandHMINodeDeleteInput" },
   },
-  CommandHMINodeNextDisconnectFieldInput: {
-    where: { __type: "CommandHMINodeNextConnectionWhere" },
+  CommandHMINodeInputsDisconnectFieldInput: {
+    where: { __type: "CommandHMINodeInputsConnectionWhere" },
     disconnect: { __type: "CommandHMINodeDisconnectInput" },
   },
-  CommandHMINodeNextFieldInput: {
-    create: { __type: "[CommandHMINodeNextCreateFieldInput!]" },
-    connect: { __type: "[CommandHMINodeNextConnectFieldInput!]" },
+  CommandHMINodeInputsFieldInput: {
+    create: { __type: "[CommandHMINodeInputsCreateFieldInput!]" },
+    connect: { __type: "[CommandHMINodeInputsConnectFieldInput!]" },
   },
-  CommandHMINodeNextUpdateConnectionInput: {
+  CommandHMINodeInputsUpdateConnectionInput: {
     node: { __type: "CommandHMINodeUpdateInput" },
+    edge: { __type: "CommandHMINodeFlowUpdateInput" },
   },
-  CommandHMINodeNextUpdateFieldInput: {
-    where: { __type: "CommandHMINodeNextConnectionWhere" },
-    update: { __type: "CommandHMINodeNextUpdateConnectionInput" },
-    connect: { __type: "[CommandHMINodeNextConnectFieldInput!]" },
-    disconnect: { __type: "[CommandHMINodeNextDisconnectFieldInput!]" },
-    create: { __type: "[CommandHMINodeNextCreateFieldInput!]" },
-    delete: { __type: "[CommandHMINodeNextDeleteFieldInput!]" },
+  CommandHMINodeInputsUpdateFieldInput: {
+    where: { __type: "CommandHMINodeInputsConnectionWhere" },
+    update: { __type: "CommandHMINodeInputsUpdateConnectionInput" },
+    connect: { __type: "[CommandHMINodeInputsConnectFieldInput!]" },
+    disconnect: { __type: "[CommandHMINodeInputsDisconnectFieldInput!]" },
+    create: { __type: "[CommandHMINodeInputsCreateFieldInput!]" },
+    delete: { __type: "[CommandHMINodeInputsDeleteFieldInput!]" },
   },
   CommandHMINodeOptions: {
     sort: { __type: "[CommandHMINodeSort]" },
     limit: { __type: "Int" },
     offset: { __type: "Int" },
   },
-  CommandHMINodePreviousConnectFieldInput: {
+  CommandHMINodeOutputsConnectFieldInput: {
     where: { __type: "CommandHMINodeConnectWhere" },
     connect: { __type: "[CommandHMINodeConnectInput!]" },
+    edge: { __type: "CommandHMINodeFlowCreateInput" },
   },
-  CommandHMINodePreviousConnectionSort: {
+  CommandHMINodeOutputsConnectionSort: {
     node: { __type: "CommandHMINodeSort" },
+    edge: { __type: "CommandHMINodeFlowSort" },
   },
-  CommandHMINodePreviousConnectionWhere: {
-    AND: { __type: "[CommandHMINodePreviousConnectionWhere!]" },
-    OR: { __type: "[CommandHMINodePreviousConnectionWhere!]" },
+  CommandHMINodeOutputsConnectionWhere: {
+    AND: { __type: "[CommandHMINodeOutputsConnectionWhere!]" },
+    OR: { __type: "[CommandHMINodeOutputsConnectionWhere!]" },
+    edge: { __type: "CommandHMINodeFlowWhere" },
+    edge_NOT: { __type: "CommandHMINodeFlowWhere" },
     node: { __type: "CommandHMINodeWhere" },
     node_NOT: { __type: "CommandHMINodeWhere" },
   },
-  CommandHMINodePreviousCreateFieldInput: {
+  CommandHMINodeOutputsCreateFieldInput: {
     node: { __type: "CommandHMINodeCreateInput!" },
+    edge: { __type: "CommandHMINodeFlowCreateInput" },
   },
-  CommandHMINodePreviousDeleteFieldInput: {
-    where: { __type: "CommandHMINodePreviousConnectionWhere" },
+  CommandHMINodeOutputsDeleteFieldInput: {
+    where: { __type: "CommandHMINodeOutputsConnectionWhere" },
     delete: { __type: "CommandHMINodeDeleteInput" },
   },
-  CommandHMINodePreviousDisconnectFieldInput: {
-    where: { __type: "CommandHMINodePreviousConnectionWhere" },
+  CommandHMINodeOutputsDisconnectFieldInput: {
+    where: { __type: "CommandHMINodeOutputsConnectionWhere" },
     disconnect: { __type: "CommandHMINodeDisconnectInput" },
   },
-  CommandHMINodePreviousFieldInput: {
-    create: { __type: "[CommandHMINodePreviousCreateFieldInput!]" },
-    connect: { __type: "[CommandHMINodePreviousConnectFieldInput!]" },
+  CommandHMINodeOutputsFieldInput: {
+    create: { __type: "[CommandHMINodeOutputsCreateFieldInput!]" },
+    connect: { __type: "[CommandHMINodeOutputsConnectFieldInput!]" },
   },
-  CommandHMINodePreviousUpdateConnectionInput: {
+  CommandHMINodeOutputsUpdateConnectionInput: {
     node: { __type: "CommandHMINodeUpdateInput" },
+    edge: { __type: "CommandHMINodeFlowUpdateInput" },
   },
-  CommandHMINodePreviousUpdateFieldInput: {
-    where: { __type: "CommandHMINodePreviousConnectionWhere" },
-    update: { __type: "CommandHMINodePreviousUpdateConnectionInput" },
-    connect: { __type: "[CommandHMINodePreviousConnectFieldInput!]" },
-    disconnect: { __type: "[CommandHMINodePreviousDisconnectFieldInput!]" },
-    create: { __type: "[CommandHMINodePreviousCreateFieldInput!]" },
-    delete: { __type: "[CommandHMINodePreviousDeleteFieldInput!]" },
+  CommandHMINodeOutputsUpdateFieldInput: {
+    where: { __type: "CommandHMINodeOutputsConnectionWhere" },
+    update: { __type: "CommandHMINodeOutputsUpdateConnectionInput" },
+    connect: { __type: "[CommandHMINodeOutputsConnectFieldInput!]" },
+    disconnect: { __type: "[CommandHMINodeOutputsDisconnectFieldInput!]" },
+    create: { __type: "[CommandHMINodeOutputsCreateFieldInput!]" },
+    delete: { __type: "[CommandHMINodeOutputsDeleteFieldInput!]" },
   },
   CommandHMINodeRelationInput: {
     devicePlaceholder: {
       __type: "CommandHMINodeDevicePlaceholderCreateFieldInput",
     },
     flow: { __type: "[CommandHMINodeFlowCreateFieldInput!]" },
-    previous: { __type: "[CommandHMINodePreviousCreateFieldInput!]" },
-    next: { __type: "[CommandHMINodeNextCreateFieldInput!]" },
+    inputs: { __type: "[CommandHMINodeInputsCreateFieldInput!]" },
+    outputs: { __type: "[CommandHMINodeOutputsCreateFieldInput!]" },
   },
   CommandHMINodeSort: {
     id: { __type: "SortDirection" },
@@ -17401,8 +17569,8 @@ export const generatedSchema = {
       __type: "CommandHMINodeDevicePlaceholderUpdateFieldInput",
     },
     flow: { __type: "[CommandHMINodeFlowUpdateFieldInput!]" },
-    previous: { __type: "[CommandHMINodePreviousUpdateFieldInput!]" },
-    next: { __type: "[CommandHMINodeNextUpdateFieldInput!]" },
+    inputs: { __type: "[CommandHMINodeInputsUpdateFieldInput!]" },
+    outputs: { __type: "[CommandHMINodeOutputsUpdateFieldInput!]" },
   },
   CommandHMINodeWhere: {
     OR: { __type: "[CommandHMINodeWhere!]" },
@@ -17447,10 +17615,10 @@ export const generatedSchema = {
     devicePlaceholder_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
     flow: { __type: "CommandProgramHMIWhere" },
     flow_NOT: { __type: "CommandProgramHMIWhere" },
-    previous: { __type: "CommandHMINodeWhere" },
-    previous_NOT: { __type: "CommandHMINodeWhere" },
-    next: { __type: "CommandHMINodeWhere" },
-    next_NOT: { __type: "CommandHMINodeWhere" },
+    inputs: { __type: "CommandHMINodeWhere" },
+    inputs_NOT: { __type: "CommandHMINodeWhere" },
+    outputs: { __type: "CommandHMINodeWhere" },
+    outputs_NOT: { __type: "CommandHMINodeWhere" },
     devicePlaceholderConnection: {
       __type: "CommandHMINodeDevicePlaceholderConnectionWhere",
     },
@@ -17459,10 +17627,10 @@ export const generatedSchema = {
     },
     flowConnection: { __type: "CommandHMINodeFlowConnectionWhere" },
     flowConnection_NOT: { __type: "CommandHMINodeFlowConnectionWhere" },
-    previousConnection: { __type: "CommandHMINodePreviousConnectionWhere" },
-    previousConnection_NOT: { __type: "CommandHMINodePreviousConnectionWhere" },
-    nextConnection: { __type: "CommandHMINodeNextConnectionWhere" },
-    nextConnection_NOT: { __type: "CommandHMINodeNextConnectionWhere" },
+    inputsConnection: { __type: "CommandHMINodeInputsConnectionWhere" },
+    inputsConnection_NOT: { __type: "CommandHMINodeInputsConnectionWhere" },
+    outputsConnection: { __type: "CommandHMINodeOutputsConnectionWhere" },
+    outputsConnection_NOT: { __type: "CommandHMINodeOutputsConnectionWhere" },
   },
   CommandPluginConnectInput: {
     items: { __type: "[CommandPluginItemsConnectFieldInput!]" },
@@ -23466,6 +23634,11 @@ export const generatedSchema = {
     rolesConnection: { __type: "PermissionRolesConnectionWhere" },
     rolesConnection_NOT: { __type: "PermissionRolesConnectionWhere" },
   },
+  PointInput: {
+    longitude: { __type: "Float!" },
+    latitude: { __type: "Float!" },
+    height: { __type: "Float" },
+  },
   ProjectConnectInput: {
     organisation: { __type: "ProjectOrganisationConnectFieldInput" },
     schedule: { __type: "[ProjectScheduleConnectFieldInput!]" },
@@ -26777,6 +26950,10 @@ export const generatedSchema = {
     CommandDevicePeripheralPort: [
       "CommandDevicePeripheralMappedDevicesRelationship",
     ],
+    CommandHMINodeFlow: [
+      "CommandHMINodeInputsRelationship",
+      "CommandHMINodeOutputsRelationship",
+    ],
     HivePipelineFlowPath: [
       "HivePipelineNodeCallerRelationship",
       "HivePipelineNodeNextRelationship",
@@ -28793,6 +28970,17 @@ export interface CommandDevicePeripheralPort {
   $on: $CommandDevicePeripheralPort;
 }
 
+export interface CommandHMINodeFlow {
+  __typename?:
+    | "CommandHMINodeInputsRelationship"
+    | "CommandHMINodeOutputsRelationship";
+  id?: Maybe<ScalarsEnums["ID"]>;
+  sourceHandle?: Maybe<ScalarsEnums["String"]>;
+  targetHandle?: Maybe<ScalarsEnums["String"]>;
+  points?: Maybe<Array<Maybe<Point>>>;
+  $on: $CommandHMINodeFlow;
+}
+
 export interface HivePipelineFlowPath {
   __typename?:
     | "HivePipelineNodeCallerRelationship"
@@ -28950,11 +29138,11 @@ export interface CommandHMINode {
     where?: Maybe<CommandProgramHMIWhere>;
     options?: Maybe<CommandProgramHMIOptions>;
   }) => Maybe<Array<Maybe<CommandProgramHMI>>>;
-  previous: (args?: {
+  inputs: (args?: {
     where?: Maybe<CommandHMINodeWhere>;
     options?: Maybe<CommandHMINodeOptions>;
   }) => Maybe<Array<Maybe<CommandHMINode>>>;
-  next: (args?: {
+  outputs: (args?: {
     where?: Maybe<CommandHMINodeWhere>;
     options?: Maybe<CommandHMINodeOptions>;
   }) => Maybe<Array<Maybe<CommandHMINode>>>;
@@ -28970,18 +29158,18 @@ export interface CommandHMINode {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandHMINodeFlowConnectionSort>>;
   }) => CommandHMINodeFlowConnection;
-  previousConnection: (args?: {
-    where?: Maybe<CommandHMINodePreviousConnectionWhere>;
+  inputsConnection: (args?: {
+    where?: Maybe<CommandHMINodeInputsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<Array<CommandHMINodePreviousConnectionSort>>;
-  }) => CommandHMINodePreviousConnection;
-  nextConnection: (args?: {
-    where?: Maybe<CommandHMINodeNextConnectionWhere>;
+    sort?: Maybe<Array<CommandHMINodeInputsConnectionSort>>;
+  }) => CommandHMINodeInputsConnection;
+  outputsConnection: (args?: {
+    where?: Maybe<CommandHMINodeOutputsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<Array<CommandHMINodeNextConnectionSort>>;
-  }) => CommandHMINodeNextConnection;
+    sort?: Maybe<Array<CommandHMINodeOutputsConnectionSort>>;
+  }) => CommandHMINodeOutputsConnection;
 }
 
 export interface CommandHMINodeDevicePlaceholderConnection {
@@ -29010,30 +29198,38 @@ export interface CommandHMINodeFlowRelationship {
   node: CommandProgramHMI;
 }
 
-export interface CommandHMINodeNextConnection {
-  __typename?: "CommandHMINodeNextConnection";
-  edges: Array<CommandHMINodeNextRelationship>;
+export interface CommandHMINodeInputsConnection {
+  __typename?: "CommandHMINodeInputsConnection";
+  edges: Array<CommandHMINodeInputsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface CommandHMINodeNextRelationship {
-  __typename?: "CommandHMINodeNextRelationship";
+export interface CommandHMINodeInputsRelationship {
+  __typename?: "CommandHMINodeInputsRelationship";
   cursor: ScalarsEnums["String"];
   node: CommandHMINode;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  sourceHandle?: Maybe<ScalarsEnums["String"]>;
+  targetHandle?: Maybe<ScalarsEnums["String"]>;
+  points?: Maybe<Array<Maybe<Point>>>;
 }
 
-export interface CommandHMINodePreviousConnection {
-  __typename?: "CommandHMINodePreviousConnection";
-  edges: Array<CommandHMINodePreviousRelationship>;
+export interface CommandHMINodeOutputsConnection {
+  __typename?: "CommandHMINodeOutputsConnection";
+  edges: Array<CommandHMINodeOutputsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface CommandHMINodePreviousRelationship {
-  __typename?: "CommandHMINodePreviousRelationship";
+export interface CommandHMINodeOutputsRelationship {
+  __typename?: "CommandHMINodeOutputsRelationship";
   cursor: ScalarsEnums["String"];
   node: CommandHMINode;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  sourceHandle?: Maybe<ScalarsEnums["String"]>;
+  targetHandle?: Maybe<ScalarsEnums["String"]>;
+  points?: Maybe<Array<Maybe<Point>>>;
 }
 
 export interface CommandPlugin {
@@ -31270,6 +31466,15 @@ export interface PermissionRolesRelationship {
   node: Role;
 }
 
+export interface Point {
+  __typename?: "Point";
+  longitude: ScalarsEnums["Float"];
+  latitude: ScalarsEnums["Float"];
+  height?: Maybe<ScalarsEnums["Float"]>;
+  crs: ScalarsEnums["String"];
+  srid: ScalarsEnums["Int"];
+}
+
 export interface Project {
   __typename?: "Project";
   id: ScalarsEnums["ID"];
@@ -33048,10 +33253,10 @@ export interface SchemaObjectTypes {
   CommandHMINodeDevicePlaceholderRelationship: CommandHMINodeDevicePlaceholderRelationship;
   CommandHMINodeFlowConnection: CommandHMINodeFlowConnection;
   CommandHMINodeFlowRelationship: CommandHMINodeFlowRelationship;
-  CommandHMINodeNextConnection: CommandHMINodeNextConnection;
-  CommandHMINodeNextRelationship: CommandHMINodeNextRelationship;
-  CommandHMINodePreviousConnection: CommandHMINodePreviousConnection;
-  CommandHMINodePreviousRelationship: CommandHMINodePreviousRelationship;
+  CommandHMINodeInputsConnection: CommandHMINodeInputsConnection;
+  CommandHMINodeInputsRelationship: CommandHMINodeInputsRelationship;
+  CommandHMINodeOutputsConnection: CommandHMINodeOutputsConnection;
+  CommandHMINodeOutputsRelationship: CommandHMINodeOutputsRelationship;
   CommandPlugin: CommandPlugin;
   CommandPluginItem: CommandPluginItem;
   CommandPluginItemsConnection: CommandPluginItemsConnection;
@@ -33280,6 +33485,7 @@ export interface SchemaObjectTypes {
   Permission: Permission;
   PermissionRolesConnection: PermissionRolesConnection;
   PermissionRolesRelationship: PermissionRolesRelationship;
+  Point: Point;
   Project: Project;
   ProjectOrganisationConnection: ProjectOrganisationConnection;
   ProjectOrganisationRelationship: ProjectOrganisationRelationship;
@@ -33462,10 +33668,10 @@ export type SchemaObjectTypesNames =
   | "CommandHMINodeDevicePlaceholderRelationship"
   | "CommandHMINodeFlowConnection"
   | "CommandHMINodeFlowRelationship"
-  | "CommandHMINodeNextConnection"
-  | "CommandHMINodeNextRelationship"
-  | "CommandHMINodePreviousConnection"
-  | "CommandHMINodePreviousRelationship"
+  | "CommandHMINodeInputsConnection"
+  | "CommandHMINodeInputsRelationship"
+  | "CommandHMINodeOutputsConnection"
+  | "CommandHMINodeOutputsRelationship"
   | "CommandPlugin"
   | "CommandPluginItem"
   | "CommandPluginItemsConnection"
@@ -33694,6 +33900,7 @@ export type SchemaObjectTypesNames =
   | "Permission"
   | "PermissionRolesConnection"
   | "PermissionRolesRelationship"
+  | "Point"
   | "Project"
   | "ProjectOrganisationConnection"
   | "ProjectOrganisationRelationship"
@@ -33861,6 +34068,11 @@ export interface $TimelineProject {
 
 export interface $CommandDevicePeripheralPort {
   CommandDevicePeripheralMappedDevicesRelationship?: CommandDevicePeripheralMappedDevicesRelationship;
+}
+
+export interface $CommandHMINodeFlow {
+  CommandHMINodeInputsRelationship?: CommandHMINodeInputsRelationship;
+  CommandHMINodeOutputsRelationship?: CommandHMINodeOutputsRelationship;
 }
 
 export interface $HivePipelineFlowPath {

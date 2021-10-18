@@ -136,40 +136,5 @@
 				"type": "Number"
 			}
 		]
-	},
-	{
-		"family": {
-			"cluster": "vw_Job_Invoiced",
-			"species": "id"
-		},
-		"type": "ProjectResult",
-		"join": {
-			"inner": {
-				"join": "dbo.vw_Job_Quoted_Amount",
-				"on": "dbo.vw_Job_Quoted_Amount.JobID = vw_Job_Invoiced.osqhJobID"
-			}
-		},
-		"group": [
-			"osqhJobID",
-			"vw_Job_Quoted_Amount.QuotedPrice",
-			"osqlLinePrice"
-		],
-		"collect": [
-			{
-				"key": "osqhJobID",
-				"to": "id",
-				"type": "String"
-			},
-			{
-				"key": "SUM(dbo.vw_Job_Quoted_Amount.QuotedPrice)",
-				"to": "quoted",
-				"type": "Number"
-			},
-			{
-				"key": "osqlLinePrice",
-				"to": "invoiced",
-				"type": "Number"
-			}
-		]
 	}
 ]

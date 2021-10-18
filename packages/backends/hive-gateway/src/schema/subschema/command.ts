@@ -119,8 +119,17 @@ export default `
 		devicePlaceholder: CommandProgramDevicePlaceholder @relationship(type: "REPRESENTS", direction: OUT)
 
 		flow: [CommandProgramHMI] @relationship(type: "USES_NODE", direction: IN)
-		previous: [CommandHMINode] @relationship(type: "USE_NEXT", direction: IN)
-		next: [CommandHMINode] @relationship(type: "USE_NEXT", direction: OUT)
+
+		inputs: [CommandHMINode] @relationship(type: "USE_NEXT", direction: IN, properties: "CommandHMINodeFlow")
+		outputs: [CommandHMINode] @relationship(type: "USE_NEXT", direction: OUT, properties: "CommandHMINodeFlow")
+	}
+
+
+	interface CommandHMINodeFlow @relationshipProperties {
+		id: ID @id
+		sourceHandle: String
+		targetHandle: String
+		points: [Point]
 	}
 
 	type CommandPlugin {
