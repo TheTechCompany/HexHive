@@ -8050,6 +8050,131 @@ export interface ProjectRelationInput {
   plan?: Maybe<Array<ProjectPlanCreateFieldInput>>;
 }
 
+export interface ProjectResultConnectInput {
+  organisation?: Maybe<ProjectResultOrganisationConnectFieldInput>;
+}
+
+export interface ProjectResultCreateInput {
+  quoted?: Maybe<Scalars["Float"]>;
+  invoiced?: Maybe<Scalars["Float"]>;
+  organisation?: Maybe<ProjectResultOrganisationFieldInput>;
+}
+
+export interface ProjectResultDeleteInput {
+  organisation?: Maybe<ProjectResultOrganisationDeleteFieldInput>;
+}
+
+export interface ProjectResultDisconnectInput {
+  organisation?: Maybe<ProjectResultOrganisationDisconnectFieldInput>;
+}
+
+export interface ProjectResultOptions {
+  /** Specify one or more ProjectResultSort objects to sort ProjectResults by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<ProjectResultSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface ProjectResultOrganisationConnectFieldInput {
+  where?: Maybe<HiveOrganisationConnectWhere>;
+  connect?: Maybe<HiveOrganisationConnectInput>;
+}
+
+export interface ProjectResultOrganisationConnectionSort {
+  node?: Maybe<HiveOrganisationSort>;
+}
+
+export interface ProjectResultOrganisationConnectionWhere {
+  AND?: Maybe<Array<ProjectResultOrganisationConnectionWhere>>;
+  OR?: Maybe<Array<ProjectResultOrganisationConnectionWhere>>;
+  node?: Maybe<HiveOrganisationWhere>;
+  node_NOT?: Maybe<HiveOrganisationWhere>;
+}
+
+export interface ProjectResultOrganisationCreateFieldInput {
+  node: HiveOrganisationCreateInput;
+}
+
+export interface ProjectResultOrganisationDeleteFieldInput {
+  where?: Maybe<ProjectResultOrganisationConnectionWhere>;
+  delete?: Maybe<HiveOrganisationDeleteInput>;
+}
+
+export interface ProjectResultOrganisationDisconnectFieldInput {
+  where?: Maybe<ProjectResultOrganisationConnectionWhere>;
+  disconnect?: Maybe<HiveOrganisationDisconnectInput>;
+}
+
+export interface ProjectResultOrganisationFieldInput {
+  create?: Maybe<ProjectResultOrganisationCreateFieldInput>;
+  connect?: Maybe<ProjectResultOrganisationConnectFieldInput>;
+}
+
+export interface ProjectResultOrganisationUpdateConnectionInput {
+  node?: Maybe<HiveOrganisationUpdateInput>;
+}
+
+export interface ProjectResultOrganisationUpdateFieldInput {
+  where?: Maybe<ProjectResultOrganisationConnectionWhere>;
+  update?: Maybe<ProjectResultOrganisationUpdateConnectionInput>;
+  connect?: Maybe<ProjectResultOrganisationConnectFieldInput>;
+  disconnect?: Maybe<ProjectResultOrganisationDisconnectFieldInput>;
+  create?: Maybe<ProjectResultOrganisationCreateFieldInput>;
+  delete?: Maybe<ProjectResultOrganisationDeleteFieldInput>;
+}
+
+export interface ProjectResultRelationInput {
+  organisation?: Maybe<ProjectResultOrganisationCreateFieldInput>;
+}
+
+/** Fields to sort ProjectResults by. The order in which sorts are applied is not guaranteed when specifying many fields in one ProjectResultSort object. */
+export interface ProjectResultSort {
+  id?: Maybe<SortDirection>;
+  quoted?: Maybe<SortDirection>;
+  invoiced?: Maybe<SortDirection>;
+}
+
+export interface ProjectResultUpdateInput {
+  quoted?: Maybe<Scalars["Float"]>;
+  invoiced?: Maybe<Scalars["Float"]>;
+  organisation?: Maybe<ProjectResultOrganisationUpdateFieldInput>;
+}
+
+export interface ProjectResultWhere {
+  OR?: Maybe<Array<ProjectResultWhere>>;
+  AND?: Maybe<Array<ProjectResultWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  quoted?: Maybe<Scalars["Float"]>;
+  quoted_NOT?: Maybe<Scalars["Float"]>;
+  quoted_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  quoted_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  quoted_LT?: Maybe<Scalars["Float"]>;
+  quoted_LTE?: Maybe<Scalars["Float"]>;
+  quoted_GT?: Maybe<Scalars["Float"]>;
+  quoted_GTE?: Maybe<Scalars["Float"]>;
+  invoiced?: Maybe<Scalars["Float"]>;
+  invoiced_NOT?: Maybe<Scalars["Float"]>;
+  invoiced_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  invoiced_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  invoiced_LT?: Maybe<Scalars["Float"]>;
+  invoiced_LTE?: Maybe<Scalars["Float"]>;
+  invoiced_GT?: Maybe<Scalars["Float"]>;
+  invoiced_GTE?: Maybe<Scalars["Float"]>;
+  organisation?: Maybe<HiveOrganisationWhere>;
+  organisation_NOT?: Maybe<HiveOrganisationWhere>;
+  organisationConnection?: Maybe<ProjectResultOrganisationConnectionWhere>;
+  organisationConnection_NOT?: Maybe<ProjectResultOrganisationConnectionWhere>;
+}
+
 export interface ProjectScheduleConnectFieldInput {
   where?: Maybe<ScheduleItemConnectWhere>;
   connect?: Maybe<Array<ScheduleItemConnectInput>>;
@@ -11514,6 +11639,10 @@ export const generatedSchema = {
       __type: "HiveFile",
       __args: { appId: "String", mountPath: "String" },
     },
+    flowWorkInProgress: {
+      __type: "WorkInProgress",
+      __args: { startDate: "DateTime", endDate: "DateTime" },
+    },
     hiveServices: {
       __type: "[HiveService!]!",
       __args: { where: "HiveServiceWhere", options: "HiveServiceOptions" },
@@ -11721,6 +11850,14 @@ export const generatedSchema = {
       __args: { where: "ProjectWhere", options: "ProjectOptions" },
     },
     projectsCount: { __type: "Int!", __args: { where: "ProjectWhere" } },
+    projectResults: {
+      __type: "[ProjectResult!]!",
+      __args: { where: "ProjectResultWhere", options: "ProjectResultOptions" },
+    },
+    projectResultsCount: {
+      __type: "Int!",
+      __args: { where: "ProjectResultWhere" },
+    },
     estimates: {
       __type: "[Estimate!]!",
       __args: { where: "EstimateWhere", options: "EstimateOptions" },
@@ -12817,6 +12954,28 @@ export const generatedSchema = {
         disconnect: "ProjectDisconnectInput",
         create: "ProjectRelationInput",
         delete: "ProjectDeleteInput",
+      },
+    },
+    createProjectResults: {
+      __type: "CreateProjectResultsMutationResponse!",
+      __args: { input: "[ProjectResultCreateInput!]!" },
+    },
+    deleteProjectResults: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "ProjectResultWhere",
+        delete: "ProjectResultDeleteInput",
+      },
+    },
+    updateProjectResults: {
+      __type: "UpdateProjectResultsMutationResponse!",
+      __args: {
+        where: "ProjectResultWhere",
+        update: "ProjectResultUpdateInput",
+        connect: "ProjectResultConnectInput",
+        disconnect: "ProjectResultDisconnectInput",
+        create: "ProjectResultRelationInput",
+        delete: "ProjectResultDeleteInput",
       },
     },
     createEstimates: {
@@ -14588,6 +14747,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     permissions: { __type: "[Permission!]!" },
   },
+  CreateProjectResultsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    projectResults: { __type: "[ProjectResult!]!" },
+  },
   CreateProjectsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -16238,6 +16402,39 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "TimelineItem!" },
   },
+  ProjectResult: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    quoted: { __type: "Float" },
+    invoiced: { __type: "Float" },
+    organisation: {
+      __type: "HiveOrganisation",
+      __args: {
+        where: "HiveOrganisationWhere",
+        options: "HiveOrganisationOptions",
+      },
+    },
+    organisationConnection: {
+      __type: "ProjectResultOrganisationConnection!",
+      __args: {
+        where: "ProjectResultOrganisationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[ProjectResultOrganisationConnectionSort!]",
+      },
+    },
+  },
+  ProjectResultOrganisationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ProjectResultOrganisationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  ProjectResultOrganisationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "HiveOrganisation!" },
+  },
   ProjectScheduleConnection: {
     __typename: { __type: "String!" },
     edges: { __type: "[ProjectScheduleRelationship!]!" },
@@ -16796,6 +16993,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     permissions: { __type: "[Permission!]!" },
   },
+  UpdateProjectResultsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    projectResults: { __type: "[ProjectResult!]!" },
+  },
   UpdateProjectsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -16820,6 +17022,13 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     timelineItems: { __type: "[TimelineItem!]!" },
+  },
+  WorkInProgress: {
+    __typename: { __type: "String!" },
+    quoted: { __type: "Float" },
+    invoiced: { __type: "Float" },
+    start: { __type: "DateTime" },
+    end: { __type: "DateTime" },
   },
   CommandDeviceActiveProgramConnectFieldInput: {
     where: { __type: "CommandProgramConnectWhere" },
@@ -23748,6 +23957,115 @@ export const generatedSchema = {
     schedule: { __type: "[ProjectScheduleCreateFieldInput!]" },
     plan: { __type: "[ProjectPlanCreateFieldInput!]" },
   },
+  ProjectResultConnectInput: {
+    organisation: { __type: "ProjectResultOrganisationConnectFieldInput" },
+  },
+  ProjectResultCreateInput: {
+    quoted: { __type: "Float" },
+    invoiced: { __type: "Float" },
+    organisation: { __type: "ProjectResultOrganisationFieldInput" },
+  },
+  ProjectResultDeleteInput: {
+    organisation: { __type: "ProjectResultOrganisationDeleteFieldInput" },
+  },
+  ProjectResultDisconnectInput: {
+    organisation: { __type: "ProjectResultOrganisationDisconnectFieldInput" },
+  },
+  ProjectResultOptions: {
+    sort: { __type: "[ProjectResultSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  ProjectResultOrganisationConnectFieldInput: {
+    where: { __type: "HiveOrganisationConnectWhere" },
+    connect: { __type: "HiveOrganisationConnectInput" },
+  },
+  ProjectResultOrganisationConnectionSort: {
+    node: { __type: "HiveOrganisationSort" },
+  },
+  ProjectResultOrganisationConnectionWhere: {
+    AND: { __type: "[ProjectResultOrganisationConnectionWhere!]" },
+    OR: { __type: "[ProjectResultOrganisationConnectionWhere!]" },
+    node: { __type: "HiveOrganisationWhere" },
+    node_NOT: { __type: "HiveOrganisationWhere" },
+  },
+  ProjectResultOrganisationCreateFieldInput: {
+    node: { __type: "HiveOrganisationCreateInput!" },
+  },
+  ProjectResultOrganisationDeleteFieldInput: {
+    where: { __type: "ProjectResultOrganisationConnectionWhere" },
+    delete: { __type: "HiveOrganisationDeleteInput" },
+  },
+  ProjectResultOrganisationDisconnectFieldInput: {
+    where: { __type: "ProjectResultOrganisationConnectionWhere" },
+    disconnect: { __type: "HiveOrganisationDisconnectInput" },
+  },
+  ProjectResultOrganisationFieldInput: {
+    create: { __type: "ProjectResultOrganisationCreateFieldInput" },
+    connect: { __type: "ProjectResultOrganisationConnectFieldInput" },
+  },
+  ProjectResultOrganisationUpdateConnectionInput: {
+    node: { __type: "HiveOrganisationUpdateInput" },
+  },
+  ProjectResultOrganisationUpdateFieldInput: {
+    where: { __type: "ProjectResultOrganisationConnectionWhere" },
+    update: { __type: "ProjectResultOrganisationUpdateConnectionInput" },
+    connect: { __type: "ProjectResultOrganisationConnectFieldInput" },
+    disconnect: { __type: "ProjectResultOrganisationDisconnectFieldInput" },
+    create: { __type: "ProjectResultOrganisationCreateFieldInput" },
+    delete: { __type: "ProjectResultOrganisationDeleteFieldInput" },
+  },
+  ProjectResultRelationInput: {
+    organisation: { __type: "ProjectResultOrganisationCreateFieldInput" },
+  },
+  ProjectResultSort: {
+    id: { __type: "SortDirection" },
+    quoted: { __type: "SortDirection" },
+    invoiced: { __type: "SortDirection" },
+  },
+  ProjectResultUpdateInput: {
+    quoted: { __type: "Float" },
+    invoiced: { __type: "Float" },
+    organisation: { __type: "ProjectResultOrganisationUpdateFieldInput" },
+  },
+  ProjectResultWhere: {
+    OR: { __type: "[ProjectResultWhere!]" },
+    AND: { __type: "[ProjectResultWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    quoted: { __type: "Float" },
+    quoted_NOT: { __type: "Float" },
+    quoted_IN: { __type: "[Float]" },
+    quoted_NOT_IN: { __type: "[Float]" },
+    quoted_LT: { __type: "Float" },
+    quoted_LTE: { __type: "Float" },
+    quoted_GT: { __type: "Float" },
+    quoted_GTE: { __type: "Float" },
+    invoiced: { __type: "Float" },
+    invoiced_NOT: { __type: "Float" },
+    invoiced_IN: { __type: "[Float]" },
+    invoiced_NOT_IN: { __type: "[Float]" },
+    invoiced_LT: { __type: "Float" },
+    invoiced_LTE: { __type: "Float" },
+    invoiced_GT: { __type: "Float" },
+    invoiced_GTE: { __type: "Float" },
+    organisation: { __type: "HiveOrganisationWhere" },
+    organisation_NOT: { __type: "HiveOrganisationWhere" },
+    organisationConnection: {
+      __type: "ProjectResultOrganisationConnectionWhere",
+    },
+    organisationConnection_NOT: {
+      __type: "ProjectResultOrganisationConnectionWhere",
+    },
+  },
   ProjectScheduleConnectFieldInput: {
     where: { __type: "ScheduleItemConnectWhere" },
     connect: { __type: "[ScheduleItemConnectInput!]" },
@@ -26970,6 +27288,10 @@ export interface Query {
     appId?: Maybe<Scalars["String"]>;
     mountPath?: Maybe<Scalars["String"]>;
   }) => Maybe<HiveFile>;
+  flowWorkInProgress: (args?: {
+    startDate?: Maybe<Scalars["DateTime"]>;
+    endDate?: Maybe<Scalars["DateTime"]>;
+  }) => Maybe<WorkInProgress>;
   hiveServices: (args?: {
     where?: Maybe<HiveServiceWhere>;
     options?: Maybe<HiveServiceOptions>;
@@ -27135,6 +27457,13 @@ export interface Query {
   }) => Array<Project>;
   projectsCount: (args?: {
     where?: Maybe<ProjectWhere>;
+  }) => ScalarsEnums["Int"];
+  projectResults: (args?: {
+    where?: Maybe<ProjectResultWhere>;
+    options?: Maybe<ProjectResultOptions>;
+  }) => Array<ProjectResult>;
+  projectResultsCount: (args?: {
+    where?: Maybe<ProjectResultWhere>;
   }) => ScalarsEnums["Int"];
   estimates: (args?: {
     where?: Maybe<EstimateWhere>;
@@ -28204,6 +28533,21 @@ export interface Mutation {
     create?: Maybe<ProjectRelationInput>;
     delete?: Maybe<ProjectDeleteInput>;
   }) => UpdateProjectsMutationResponse;
+  createProjectResults: (args: {
+    input: Array<ProjectResultCreateInput>;
+  }) => CreateProjectResultsMutationResponse;
+  deleteProjectResults: (args?: {
+    where?: Maybe<ProjectResultWhere>;
+    delete?: Maybe<ProjectResultDeleteInput>;
+  }) => DeleteInfo;
+  updateProjectResults: (args?: {
+    where?: Maybe<ProjectResultWhere>;
+    update?: Maybe<ProjectResultUpdateInput>;
+    connect?: Maybe<ProjectResultConnectInput>;
+    disconnect?: Maybe<ProjectResultDisconnectInput>;
+    create?: Maybe<ProjectResultRelationInput>;
+    delete?: Maybe<ProjectResultDeleteInput>;
+  }) => UpdateProjectResultsMutationResponse;
   createEstimates: (args: {
     input: Array<EstimateCreateInput>;
   }) => CreateEstimatesMutationResponse;
@@ -29972,6 +30316,12 @@ export interface CreatePermissionsMutationResponse {
   permissions: Array<Permission>;
 }
 
+export interface CreateProjectResultsMutationResponse {
+  __typename?: "CreateProjectResultsMutationResponse";
+  info: CreateInfo;
+  projectResults: Array<ProjectResult>;
+}
+
 export interface CreateProjectsMutationResponse {
   __typename?: "CreateProjectsMutationResponse";
   info: CreateInfo;
@@ -31540,6 +31890,36 @@ export interface ProjectPlanRelationship {
   node: TimelineItem;
 }
 
+export interface ProjectResult {
+  __typename?: "ProjectResult";
+  id: ScalarsEnums["ID"];
+  quoted?: Maybe<ScalarsEnums["Float"]>;
+  invoiced?: Maybe<ScalarsEnums["Float"]>;
+  organisation: (args?: {
+    where?: Maybe<HiveOrganisationWhere>;
+    options?: Maybe<HiveOrganisationOptions>;
+  }) => Maybe<HiveOrganisation>;
+  organisationConnection: (args?: {
+    where?: Maybe<ProjectResultOrganisationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<ProjectResultOrganisationConnectionSort>>;
+  }) => ProjectResultOrganisationConnection;
+}
+
+export interface ProjectResultOrganisationConnection {
+  __typename?: "ProjectResultOrganisationConnection";
+  edges: Array<ProjectResultOrganisationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface ProjectResultOrganisationRelationship {
+  __typename?: "ProjectResultOrganisationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: HiveOrganisation;
+}
+
 export interface ProjectScheduleConnection {
   __typename?: "ProjectScheduleConnection";
   edges: Array<ProjectScheduleRelationship>;
@@ -32116,6 +32496,12 @@ export interface UpdatePermissionsMutationResponse {
   permissions: Array<Permission>;
 }
 
+export interface UpdateProjectResultsMutationResponse {
+  __typename?: "UpdateProjectResultsMutationResponse";
+  info: UpdateInfo;
+  projectResults: Array<ProjectResult>;
+}
+
 export interface UpdateProjectsMutationResponse {
   __typename?: "UpdateProjectsMutationResponse";
   info: UpdateInfo;
@@ -32144,6 +32530,14 @@ export interface UpdateTimelineItemsMutationResponse {
   __typename?: "UpdateTimelineItemsMutationResponse";
   info: UpdateInfo;
   timelineItems: Array<TimelineItem>;
+}
+
+export interface WorkInProgress {
+  __typename?: "WorkInProgress";
+  quoted?: Maybe<ScalarsEnums["Float"]>;
+  invoiced?: Maybe<ScalarsEnums["Float"]>;
+  start?: Maybe<ScalarsEnums["DateTime"]>;
+  end?: Maybe<ScalarsEnums["DateTime"]>;
 }
 
 export interface ValidationError {
@@ -33344,6 +33738,7 @@ export interface SchemaObjectTypes {
   CreateInfo: CreateInfo;
   CreatePeopleMutationResponse: CreatePeopleMutationResponse;
   CreatePermissionsMutationResponse: CreatePermissionsMutationResponse;
+  CreateProjectResultsMutationResponse: CreateProjectResultsMutationResponse;
   CreateProjectsMutationResponse: CreateProjectsMutationResponse;
   CreateRolesMutationResponse: CreateRolesMutationResponse;
   CreateScheduleItemsMutationResponse: CreateScheduleItemsMutationResponse;
@@ -33491,6 +33886,9 @@ export interface SchemaObjectTypes {
   ProjectOrganisationRelationship: ProjectOrganisationRelationship;
   ProjectPlanConnection: ProjectPlanConnection;
   ProjectPlanRelationship: ProjectPlanRelationship;
+  ProjectResult: ProjectResult;
+  ProjectResultOrganisationConnection: ProjectResultOrganisationConnection;
+  ProjectResultOrganisationRelationship: ProjectResultOrganisationRelationship;
   ProjectScheduleConnection: ProjectScheduleConnection;
   ProjectScheduleRelationship: ProjectScheduleRelationship;
   Role: Role;
@@ -33562,11 +33960,13 @@ export interface SchemaObjectTypes {
   UpdateInfo: UpdateInfo;
   UpdatePeopleMutationResponse: UpdatePeopleMutationResponse;
   UpdatePermissionsMutationResponse: UpdatePermissionsMutationResponse;
+  UpdateProjectResultsMutationResponse: UpdateProjectResultsMutationResponse;
   UpdateProjectsMutationResponse: UpdateProjectsMutationResponse;
   UpdateRolesMutationResponse: UpdateRolesMutationResponse;
   UpdateScheduleItemsMutationResponse: UpdateScheduleItemsMutationResponse;
   UpdateTimelineItemItemsMutationResponse: UpdateTimelineItemItemsMutationResponse;
   UpdateTimelineItemsMutationResponse: UpdateTimelineItemsMutationResponse;
+  WorkInProgress: WorkInProgress;
   ValidationError: ValidationError;
   ValidatorError: ValidatorError;
   MongoError: MongoError;
@@ -33759,6 +34159,7 @@ export type SchemaObjectTypesNames =
   | "CreateInfo"
   | "CreatePeopleMutationResponse"
   | "CreatePermissionsMutationResponse"
+  | "CreateProjectResultsMutationResponse"
   | "CreateProjectsMutationResponse"
   | "CreateRolesMutationResponse"
   | "CreateScheduleItemsMutationResponse"
@@ -33906,6 +34307,9 @@ export type SchemaObjectTypesNames =
   | "ProjectOrganisationRelationship"
   | "ProjectPlanConnection"
   | "ProjectPlanRelationship"
+  | "ProjectResult"
+  | "ProjectResultOrganisationConnection"
+  | "ProjectResultOrganisationRelationship"
   | "ProjectScheduleConnection"
   | "ProjectScheduleRelationship"
   | "Role"
@@ -33977,11 +34381,13 @@ export type SchemaObjectTypesNames =
   | "UpdateInfo"
   | "UpdatePeopleMutationResponse"
   | "UpdatePermissionsMutationResponse"
+  | "UpdateProjectResultsMutationResponse"
   | "UpdateProjectsMutationResponse"
   | "UpdateRolesMutationResponse"
   | "UpdateScheduleItemsMutationResponse"
   | "UpdateTimelineItemItemsMutationResponse"
   | "UpdateTimelineItemsMutationResponse"
+  | "WorkInProgress"
   | "ValidationError"
   | "ValidatorError"
   | "MongoError"
