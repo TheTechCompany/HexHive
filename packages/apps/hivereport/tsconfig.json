@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "declarationDir": "dist"
+  },
+  "references": [
+    {"path": "../../core/hexhive-client"},
+    {"path": "../../shared/hexhive-auth-ui"},
+    {"path": "../../shared/hexhive-styles"}
+  ],
+  "files": ["src/HexHive-HiveReport.tsx"],
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test*"]
+}
