@@ -18,6 +18,15 @@ export default `
 
 	}
 
+	type ProjectResult @auth(rules: [
+		{operations: [READ], where: {organisation: {id: "jwt.organisation"}}},
+	]) {
+		id: ID! @id
+		quoted: Float
+		invoiced: Float
+		organisation: HiveOrganisation @relationship(type: "HAS_PROJECTRESULT", direction: IN)
+	}
+
 	type Estimate @auth(rules: [
 		{operations: [READ], where: {organisation: {id: "$jwt.organisation"}}},
 		{operations: [UPDATE], bind: {organisation: {id: "$jwt.organisation"}}}

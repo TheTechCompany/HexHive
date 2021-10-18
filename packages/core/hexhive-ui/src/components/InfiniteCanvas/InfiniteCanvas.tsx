@@ -183,12 +183,13 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     }
 
 
+    //TODO memoize
+
     useEffect(() => {
         if(Object.keys(_factories).length > 0){
             setNodes(nodes?.map((node) => {
                 let type = node.type;
                 let f : AbstractWidgetFactory = _factories[type]
-                console.log(type, f)
                 return f.parseModel(node)
             }) as any)
         }
