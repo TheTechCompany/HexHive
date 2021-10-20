@@ -8,13 +8,14 @@ export interface BusMapProps {
 		id?: string, 
 		name: string, 
 		ports: (number | {inputs: number, outputs: number})
-		mappedDevices: any[]
+		mappedDevices: any[],
+		connectedDevices?: {id: string, name: string, port: string}[]
 	}[];
 
 	devices?: {id?: string, name: string, type: string}[]
 
 	add?: boolean
-	onMapChanged?: (bus: string, port: string, device?: string) => void;
+	onMapChanged?: (bus: string, port: string, device?: string[]) => void;
 	// selected?: {id?: string, name: string};
 	// onClick?: (bus: {id?: string, name: string, ports: (number | {inputs: number, outputs: number}) }) => void;
 }
@@ -22,7 +23,7 @@ export interface BusMapProps {
 export const BusMap : React.FC<BusMapProps> = (props) => {
 
 
-	console.log(props.buses)
+	console.log("BUS", props.buses)
 	return (
 		<Box
 			pad={'xsmall'}
@@ -34,6 +35,7 @@ export const BusMap : React.FC<BusMapProps> = (props) => {
 	
 			{props.buses.map((bus) => (
 				<Bus
+					connectedDevices={bus.connectedDevices}
 					mappedDevices={bus.mappedDevices}
 					onPortsChanged={(port, device) => {
 						props.onMapChanged(
