@@ -21,7 +21,12 @@ import { getPortEnv } from "../routes/pipelines/util"
 import acl from "./subschema/acl"
 import { createHash } from "crypto"
 import { sendInvite } from "../email"
+
+import amqp from 'amqplib'
+
 import { text } from "stream/consumers"
+import { Client, Pool } from "pg"
+import { x } from "tar"
 
 require("dotenv").config()
 
@@ -53,7 +58,7 @@ const event_producer = kafka.producer()
 // const k8sApi = kc.makeApiClient(CoreV1Api);
 // const client = KubernetesObjectApi.makeApiClient(kc)
 
-export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
+export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, taskRegistry: TaskRegistry) => {
 	await event_producer.connect()
 
 	const typeDefs = gql`
@@ -127,6 +132,48 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 			// }
 		},
 		Query: {
+			commandDeviceValue: async (root: any, args: {
+				bus: string,
+				device: string,
+				port: string
+			}) => {
+
+				const client = await pgClient.connect()
+
+				let where = ``;
+				let whereClause : string[] = []
+				let whereArgs : {key: string, value: string}[] = []
+
+				if(args.bus) {
+					// whereClause.push(`bus=$1`)
+					whereArgs.push({value: args.bus, key: 'bus'})
+				}
+
+				if(args.device){
+					whereArgs.push({value: args.device, key: 'device'})
+					// whereClause.push(`device=$2`)
+				}
+
+				if(args.port){
+					whereArgs.push({value: args.port, key: 'bus'})
+				}
+
+				if(whereClause.length > 0){
+					where += `WHERE ${whereArgs.map((x, ix) => `${x.key}=$${ix + 1}`).join(' AND ')}`
+				}
+
+
+				const values = await client.query(
+					`SELECT * FROM commandDeviceValue ${where} LATEST BY device,bus,port,valueKey`,
+					[whereArgs.map((x) => x.value)]
+				)
+
+				console.log("Timeseries", values)
+
+				await client.release()
+				
+				return values.rows;
+			},
 			flowWorkInProgress: async (root: any, args: {startDate: Date, endDate: Date}, context: any) => {
 				return await session.readTransaction(async (tx) => {
 					let q = args.startDate ? 'WHERE p.startDate > datetime($startDate)' : ''
@@ -248,6 +295,34 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 			}
 		},
 		Mutation: {
+			changeDeviceValue: async (root: any, args: any, context: any) => {
+				
+				const device = await session.readTransaction(async (tx) => {
+					const result = await tx.run(`
+						MATCH (device:CommandDevice {id: $id})-[:HAS_PERIPHERAL]->(bus:CommandDevicePeripheral {id: $peripheral})
+						RETURN device{
+							network_name: device.network_name,
+							type: bus.type,
+							id: bus.id
+						}
+					`, {
+						id: args.device,
+						peripheral: args.bus
+					})
+					return result?.records?.[0]?.get(0)
+				})
+				console.log(args.value)
+
+				let stateChange = {
+					device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
+					busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
+					value: args.value == '0' ? false : true //false
+				}
+
+				console.log("Sending state change", stateChange)
+			
+				return await channel.sendToQueue(`device-change`, Buffer.from(JSON.stringify(stateChange)))
+			},
 			updateHiveIntegrationInstanceState: async (root: any, args: any, context: any) => {
 				let org = context.user.organisation;
 

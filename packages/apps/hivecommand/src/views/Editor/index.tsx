@@ -51,6 +51,10 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
             commandPrograms(where: {id: $id}){
                 id
                 name
+                devices {
+                    id
+                    name
+                }
                 program {
                     id
                     name

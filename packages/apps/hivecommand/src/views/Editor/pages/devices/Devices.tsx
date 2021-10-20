@@ -91,9 +91,14 @@ export const Devices = (props) => {
 					icon={<Add size="small" />} 
 					hoverIndicator /> 
 			</Box>
-			<List
-				primaryKey="name"
-				data={devices} />
+			<Box 
+				overflow="scroll"
+				flex>
+				<List
+				
+					primaryKey="name"
+					data={devices} />
+			</Box>
 		</Box>
 
 	)

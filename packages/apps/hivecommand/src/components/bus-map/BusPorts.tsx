@@ -7,7 +7,9 @@ export interface BusPortsProps {
 	ports: BusPortRail
 	devices?: {id?: string, name: string, type: string}[]
 	map: any[];
-	onPortsChanged?: (port: string, device: any) => void;
+	onPortsChanged?: (port: string, device: string[]) => void;
+	connectedDevices?: {id: string, name: string, port: string}[]
+
 }
 
 export const BusPorts: React.FC<BusPortsProps> = (props) => {
@@ -39,6 +41,7 @@ export const BusPorts: React.FC<BusPortsProps> = (props) => {
 		}
 	}
 
+	console.log("CONNECTED", props.connectedDevices)
 	return renderPorts((ix, key, reverse) => {
 		let portKey =  `${key ? key+'_' : ''}${ix + 1}`
 		return (
@@ -47,16 +50,26 @@ export const BusPorts: React.FC<BusPortsProps> = (props) => {
 			align="center"
 			justify="between"
 			direction={reverse ? "row-reverse" : "row"}>
-			<Box pad={{ horizontal: 'xsmall' }} background="#dfdfdf" round={{ corner: reverse ? 'left' : 'right', size: 'small' }} flex>
-				<Text size="small">Port {ix + 1}</Text>
+			<Box align="center">
+				<Box 
+					pad={{ horizontal: 'xsmall' }} 
+					background="#dfdfdf" 
+					round={{ corner: reverse ? 'left' : 'right', size: 'small' }} 
+					flex>
+					<Text size="small">Port {ix + 1}</Text>
+				</Box>
+				<Text size="xsmall">{props.connectedDevices?.find((a) => `${a.port}` == `${portKey}`)?.name}</Text>
+
 			</Box>
-			<Box >
+			<Box align="center">
 				<Select
+					
 					clear={true}
+					multiple
 					plain
-					value={props.map.find((a) => a.port == portKey)?.id}
+					value={props.map.filter((a) => a.port == portKey)?.map((x) => x.id)}
 					onChange={({value}) => {
-				
+						console.log("Change", value)
 						props.onPortsChanged(portKey, value)
 						
 						// console.log(value)

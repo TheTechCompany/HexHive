@@ -406,7 +406,7 @@ export const Controls = (props) => {
                                     refetch()
                                 })
                             }}
-                            options={devices.filter((a) => a.type.name.replace(/ /, '') == item?.extras?.iconString)}
+                            options={devices.filter((a) => a.type.name.replace(/ /, '').indexOf(item?.extras?.iconString) > -1 )}
                             placeholder="Device" />
 
                         <Box>

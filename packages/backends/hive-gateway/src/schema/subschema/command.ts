@@ -6,6 +6,28 @@
 */
 export default `
 
+
+	extend type Query {
+		commandDeviceValue(device: String, bus : String, port : String): [CommandDeviceValue]
+
+	}
+
+	extend type Mutation {
+		changeDeviceValue(device: String, bus: String, port: String, value: String): CommandDeviceResponse
+	}
+
+	type CommandDeviceResponse {
+		success: Boolean
+	}
+
+	type CommandDeviceValue {
+		device: String
+		bus: String
+		port: String
+		value: String
+		valueKey: String
+	}
+
 	type CommandDevice {
 		id: ID! @id
 		name: String
@@ -30,9 +52,18 @@ export default `
 		
 		ports: Int
 
+		connectedDevices: [CommandDevicePeripheralProduct] @relationship(type: "IS_CONNECTED", direction: IN, properties: "CommandDevicePeripheralPort")
+
 		mappedDevices: [CommandProgramDevicePlaceholder] @relationship(type: "PROVIDES_REALITY", direction: OUT, properties: "CommandDevicePeripheralPort")
 
 		device: CommandDevice @relationship(type: "HAS_PERIPHERAL", direction: IN)
+	}
+
+	type CommandDevicePeripheralProduct {
+		id:ID
+		deviceId: String
+		vendorId: String
+		name: String
 	}
 
 
@@ -98,6 +129,11 @@ export default `
 		programs: [CommandProgram] @relationship(type: "USES_HMI", direction: IN)
 	}
 
+	type CommandActionItem {
+		id: ID! @id
+		device: CommandProgramDevicePlaceholder @relationship(type: "ACTIONS", direction: OUT)
+		request: String
+	}
 
 	type CommandProgramNode {
 		id: ID! @id
@@ -105,8 +141,11 @@ export default `
 		y: Float
 		type: String
 		flow: [CommandProgramFlow] @relationship(type: "USES_NODE", direction: IN)
-		previous: [CommandProgramNode] @relationship(type: "USE_NEXT", direction: IN)
-		next: [CommandProgramNode] @relationship(type: "USE_NEXT", direction: OUT)
+
+		actions: [CommandActionItem] @relationship(type: "PERFORMS_ACTION", direction: OUT)
+
+		previous: [CommandProgramNode] @relationship(type: "USE_NEXT", direction: IN, properties: "CommandHMINodeFlow")
+		next: [CommandProgramNode] @relationship(type: "USE_NEXT", direction: OUT, properties: "CommandHMINodeFlow")
 	}
 
 

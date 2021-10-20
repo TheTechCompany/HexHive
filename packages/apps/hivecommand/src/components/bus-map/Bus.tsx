@@ -10,6 +10,8 @@ export interface BusProps {
 
 	ports: (number | {inputs: number, outputs: number});
 	
+	connectedDevices?: {id: string, name: string, port: string}[]
+	
 	mappedDevices: any[];
 
 	onPortsChanged?: (port: string, device: any) => void;
@@ -39,6 +41,7 @@ export const Bus : React.FC<BusProps> = (props) => {
 				</Box>
 				<Box>
 					<BusPorts
+						connectedDevices={props.connectedDevices}
 						map={props.mappedDevices}
 						onPortsChanged={props.onPortsChanged}
 						devices={props.devices || []}

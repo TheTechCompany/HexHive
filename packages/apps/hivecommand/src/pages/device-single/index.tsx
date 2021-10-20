@@ -46,6 +46,17 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                             port
                         }
                     }
+
+                    connectedDevicesConnection {
+                        edges {
+                            port
+                            
+                            node {
+                                id
+                                name
+                            }
+                        }
+                    }
                 }
 
                 activeProgram {
@@ -77,7 +88,7 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
         id: string, 
         port: string, 
         peripheralId: string, 
-        deviceId: string
+        deviceId: string[]
     }) => {
 
         let mapUpdate = {};
@@ -90,11 +101,14 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
             }
         }else if(args.deviceId){
             mapUpdate = {
-                // disconnect: [{
-                //     where: {edge: {port: args.port}, node: {id_NOT: args.deviceId}}
-                // }],
+                disconnect: [{
+                    where: {
+                        edge: {port: args.port},
+                        node: {id_NOT_IN: args.deviceId}
+                    }
+                }],
                 connect: [{
-                    where: {node: {id: args.deviceId}}, 
+                    where: {node: {id_IN: args.deviceId}}, 
                     edge: {port: args.port} 
                 }]
             }
@@ -191,12 +205,16 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                         console.log(bus, port, device)
                     }}
                     devices={device?.activeProgram?.devices}
-                    buses={(device?.peripherals || []).map((x) => ({
-                        id: x.id,
-                        name: x.name,
-                        mappedDevices: x.mappedDevices.map((dev, ix) => ({...dev, port: x.mappedDevicesConnection.edges[ix].port})),
-                        ports: x.type == "IO-LINK" ? 8 : {inputs: 14, outputs: 14} 
-                    }))}/>
+                    buses={(device?.peripherals || []).map((x) => {
+                        console.log(x.connectedDevicesConnection)
+                        return {
+                            id: x.id,
+                            name: x.name,
+                            connectedDevices: x.connectedDevicesConnection.edges.map((connection) => ({...connection.node, port: connection.port})),
+                            mappedDevices: x.mappedDevices.map((dev, ix) => ({...dev, port: x.mappedDevicesConnection.edges[ix].port})),
+                            ports: x.type == "IO-LINK" ? 8 : {inputs: 14, outputs: 14} 
+                        }
+                    })}/>
 {/* 
                 <Box 
                     background="neutral-1"

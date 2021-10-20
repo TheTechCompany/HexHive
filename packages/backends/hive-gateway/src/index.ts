@@ -4,6 +4,7 @@ import express from "express"
 import crypto from "crypto"
 
 import neo4j from "neo4j-driver"
+import pg, {Client, Pool} from 'pg'
 
 import { graphqlHTTP } from "express-graphql" // ES6
 
@@ -29,6 +30,8 @@ import printerSchema from "./schema/3d"
 
 import { auth, ConfigParams, requiresAuth} from "express-openid-connect"
 import { TaskRegistry } from "./task-registry"
+
+import amqp from 'amqplib'
 
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
@@ -100,14 +103,34 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 
 	const taskRegistry = new TaskRegistry()
 
+	const pgClient = new Pool({
+		host: process.env.QUEST_URI || 'localhost',
+		user: process.env.QUEST_USER || 'admin',
+		password: process.env.QUEST_PASS || 'quest',
+		database: 'qdb',
+		port: 8812,
+		connectionTimeoutMillis: 60 * 1000
+	})
+
 	const driver = neo4j.driver(
 		process.env.NEO4J_URI || "localhost",
 		neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
 	)
+
+	const mqConnection = await amqp.connect(
+		process.env.RABBIT_URL || 'amqp://localhost'
+	)
+
+	const mqChannel = await mqConnection.createChannel()
+
+	await mqChannel.assertQueue(`device-change`, {
+		durable: false
+	})
     
 
 	// const collaborationServer = new CollaborationServer();
          
+
 	await connect_data()
 
 	const subschemas = await SubSchema(REMOTE_SCHEMA)
@@ -295,7 +318,7 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 	}
 
 
-	hiveSchema(driver, taskRegistry).then((hive) => {
+	hiveSchema(driver, mqChannel, pgClient,  taskRegistry).then((hive) => {
 		app.use("/graphql", graphqlHTTP({
 			schema: mergeSchemas({schemas: [printerSchema, hive, schema]}),
 			graphiql: true,

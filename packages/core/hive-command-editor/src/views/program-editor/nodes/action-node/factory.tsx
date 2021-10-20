@@ -10,6 +10,8 @@ export interface ActionDevice {
 
 export class ActionNodeFactory extends AbstractWidgetFactory{
 
+    public static TAG = "action-node";
+
     private devices: ActionDevice[];
 
     constructor(devices: ActionDevice[]){
