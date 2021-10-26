@@ -164,7 +164,7 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 
 
 				const values = await client.query(
-					`SELECT * FROM commandDeviceValue ${where} LATEST BY device,bus,port,valueKey`,
+					`SELECT * FROM commandDeviceValues ${where} LATEST BY device,bus,port,valueKey`,
 					[whereArgs.map((x) => x.value)]
 				)
 
@@ -295,6 +295,43 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			}
 		},
 		Mutation: {
+			performDeviceAction: async (root: any, args: any, context: any) => {
+				const device = await session.readTransaction(async (tx) => {
+					const result = await tx.run(`
+						MATCH (hostDevice:CommandDevice)-->(peripheral:CommandDevicePeripheral)-[reality:PROVIDES_REALITY]->(device:CommandDevicePlaceholder {name: $name})
+						MATCH (map:CommandDevicePeripheralMap)-[:USES_DEVICE]->(device)
+						MATCH (map)-[:USES_STATE]->(state:CommandProgramDeviceState {key: $key})
+						MATCH (map)-[:USES_VARIABLE]->(variable)
+						RETURN device {
+							network_name: hostDevice.network_name,
+							type: peripheral.type,
+							id: peripheral.id,
+							valueKey: 
+						}
+						(device:CommandDevice {id: $id})-[:HAS_PERIPHERAL]->(bus:CommandDevicePeripheral {id: $peripheral})
+						RETURN device{
+							network_name: device.network_name,
+							type: bus.type,
+							id: bus.id
+						}
+					`, {
+						name: args.device,
+						key: args.key
+					})
+					return result?.records?.[0]?.get(0)
+				})
+				console.log(args.value)
+
+				let stateChange = {
+					device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
+					busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
+					value: args.value == '0' ? false : true //false
+				}
+
+				console.log("Sending state change", stateChange)
+			
+				return await channel.sendToQueue(`device-change`, Buffer.from(JSON.stringify(stateChange)))
+			},
 			changeDeviceValue: async (root: any, args: any, context: any) => {
 				
 				const device = await session.readTransaction(async (tx) => {
@@ -315,8 +352,8 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 
 				let stateChange = {
 					device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
-					busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
-					value: args.value == '0' ? false : true //false
+					busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:${args.key}`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
+					value: args.value
 				}
 
 				console.log("Sending state change", stateChange)

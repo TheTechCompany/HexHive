@@ -8,9 +8,11 @@ export interface BusMapProps {
 		id?: string, 
 		name: string, 
 		ports: (number | {inputs: number, outputs: number})
-		mappedDevices: any[],
+		mappedDevices: {device: {id: string}, key: {key: string}, value: {key: string}}[],
 		connectedDevices?: {id: string, name: string, port: string}[]
 	}[];
+
+	onPortSelect?: (bus: string, port: string) => void;
 
 	devices?: {id?: string, name: string, type: string}[]
 
@@ -37,6 +39,10 @@ export const BusMap : React.FC<BusMapProps> = (props) => {
 				<Bus
 					connectedDevices={bus.connectedDevices}
 					mappedDevices={bus.mappedDevices}
+					onPortSelect={(port) => {
+						props.onPortSelect(bus.id, port)
+						console.log("SELECT", bus.id, port)
+					}}
 					onPortsChanged={(port, device) => {
 						props.onMapChanged(
 							bus.id,

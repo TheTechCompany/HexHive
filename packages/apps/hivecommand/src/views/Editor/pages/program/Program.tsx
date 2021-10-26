@@ -5,16 +5,18 @@ import { IconNodeFactory, InfiniteCanvasNode, InfiniteCanvas, ZoomControls, Infi
 import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
 import { nanoid } from 'nanoid';
 import { NodeDropdown  } from '../../../../components/node-dropdown';
-import { Action, Trigger, Add, Cycle } from 'grommet-icons';
+import { Action, Trigger, Add, Clock, Cycle } from 'grommet-icons';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import { ProgramCanvas } from '../../../../components/program-canvas';
-import { ActionModal } from '../../../../components/modals/action';
 
 import Settings from './Settings';
 import { client } from 'apps/hivecommand/src/gqless';
+import { ProgramEditorProvider } from './context';
+import { ProgramDrawer } from './Drawer';
 
 export const Program = (props) => {
 
+    const [ conditions, setConditions ] = useState<any[]>([])
     const [ modalOpen, openModal ] = useState<boolean>(false);
 
     const [ selected, _setSelected ] = useState<{key?: "node" | "path", id?: string}>({})
@@ -53,6 +55,14 @@ export const Program = (props) => {
                 label: "PID",
                 icon: "Cycle"
             }
+        },
+        {
+            icon: <Clock />,
+            label: "Timer",
+            extras: {
+                label: "Timer",
+                icon: "Clock"
+            }
         }
     ] 
 
@@ -66,11 +76,25 @@ export const Program = (props) => {
             devices {
                 id
                 name
+                type {
+                    id
+                    name
+                    actions {
+                        id
+                        key
+                    }
+                }
             }
             
             program {
                 id
                 name
+                conditions {
+                    id
+                    input
+                    comparator
+                    assertion
+                }
                 nodes {
                     id
                     type
@@ -83,7 +107,16 @@ export const Program = (props) => {
                             id
                             name
                         }
-                        request
+                        request {
+                            id
+                            key
+                        }
+                    }
+                    configuration {
+                        id
+                        key
+                        
+                        value
                     }
 
                     nextConnection {
@@ -91,6 +124,8 @@ export const Program = (props) => {
                             id
                             sourceHandle
                             targetHandle
+
+                            conditions
 
                             node {
                                 id
@@ -111,8 +146,10 @@ const refetch = () => {
     client.refetchQueries({include: ['Q']})
 }
 
+let program = data?.commandPrograms?.[0]
+
+
 useEffect(() => {
-    let program = data?.commandPrograms?.[0]
     if(program && props.activeProgram){
         setNodes( program.program.find((a) => a.id == props.activeProgram).nodes.map((x) => ({
             id: x.id,
@@ -120,7 +157,11 @@ useEffect(() => {
             y: x.y,
             extras: {
                 icon: x.type,
-                actions: x.actions
+                configuration: [
+                    ...x.configuration,
+                    {key: "actions", value: x.actions}
+                ]
+                // actions: x.actions
             },
             type: 'icon-node'
             
@@ -132,7 +173,12 @@ useEffect(() => {
                 source: x.id,
                 sourceHandle: conn.sourceHandle,
                 target: conn.node.id,
-                targetHandle: conn.targetHandle
+                targetHandle: conn.targetHandle,
+                extras: {
+                    configuration: {
+                        conditions: conn.conditions
+                    }
+                }
             }))
         }).reduce((prev, curr) => prev.concat(curr), []))
     }
@@ -192,27 +238,6 @@ const [ updateNode, updateInfo ] = useMutation((mutation, args: {
     }
 })
 
-const [ createNodeActions, createActionInfo ] = useMutation((mutation, args: {
-    id: string,
-    actions?: {device: string, action: string}[]
-}) => {
-    const addAction = mutation.updateCommandProgramNodes({
-        where: {id: args.id},
-        update: {
-            actions: [{create: args.actions.map((x) => ({node: {
-                device: {connect: {where: {node: {id: x.device}}}},
-                request: x.action
-            }}))}]
-        }
-    })
-
-    return {
-        item: {
-            ...addAction.commandProgramNodes[0]
-        },
-        err: null
-    }
-})
 
 const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
     selected: {type: "node" | "path", id: string}[]
@@ -323,7 +348,7 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
                              
                                 data={node.extras.actions || []}>
                                 {(datum) => (
-                                    <Text size="small">{datum.device.name} - {datum.request}</Text>
+                                    <Text size="small">{datum.device.name} - {datum.request.key}</Text>
                                 )}
                             </List>
                         </Box>
@@ -347,16 +372,16 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
     const watchEditorKeys = (e: KeyboardEvent) => {
         if(e.key == "Delete" || e.key == "Backspace") {
             if(selectedRef.current.selected.id){
-                deleteSelected({
-                    args: {
-                        selected: [selectedRef.current.selected].map((x) => ({
-                            type: x.key,
-                            id: x.id
-                        }))
-                    }
-                }).then(() => {
-                    refetch()
-                })
+                // deleteSelected({
+                //     args: {
+                //         selected: [selectedRef.current.selected].map((x) => ({
+                //             type: x.key,
+                //             id: x.id
+                //         }))
+                //     }
+                // }).then(() => {
+                //     refetch()
+                // })
             }
         }
     }
@@ -364,23 +389,29 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
 
     const devices = data?.commandPrograms?.[0].devices || []
 
+    useEffect(() => {
+        console.log(data?.commandPrograms, props.activeProgram)
+        const active = data?.commandPrograms?.[0]?.program?.find((a) => a.id == props.activeProgram)
+        console.log("ACTIVE", active?.conditions, active)
+        setConditions(active?.conditions)
+    }, [props.activeProgram, data])
+
+    console.log("Conditions", conditions)
+
 	return (
+        <ProgramEditorProvider
+            value={{
+                refresh: refetch,
+                devices,
+                conditions: conditions,
+                program,
+                activeProgram: props.activeProgram,
+                selectedType: selected.key,
+                selected: selected.key == 'node' ? nodes.find((a) => a.id == selected.id) : paths.find((a) => a.id == selected.id)
+            }}
+            >
 		<Box flex>
-            <ActionModal
-                devices={devices}
-                open={modalOpen}
-                onSubmit={(action) => {
-                    console.log("ACTION SUBMIT", action)
-                    createNodeActions({args: {
-                        id: selected.id,
-                        actions: [action]
-                    }}).then(() => {
-                        refetch()
-                    })
-                }}
-                onClose={() => {
-                    openModal(false)
-                }} />
+            
 			<ProgramCanvas 
                 menu={[
                     {
@@ -396,13 +427,11 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
                         key: 'settings',
                         icon: <Settings />,
                         panel: (
-                            <Box>
-                                {renderSelectedSettings()}
-                            </Box>
+                           <ProgramDrawer />
                         )
                     }
                 ]}
-
+                selected={[selected]}
                 onSelect={(selected) => {
                     setSelected(selected)
                 }}
@@ -443,6 +472,7 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
                 paths={paths}
                 />
 		</Box>
+        </ProgramEditorProvider>
 
 	)
 } 

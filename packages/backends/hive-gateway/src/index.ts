@@ -31,6 +31,8 @@ import printerSchema from "./schema/3d"
 import { auth, ConfigParams, requiresAuth} from "express-openid-connect"
 import { TaskRegistry } from "./task-registry"
 
+import {Server} from 'socket.io'
+
 import amqp from 'amqplib'
 
 import jwt from 'jsonwebtoken'
@@ -98,8 +100,22 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 // 	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`
 // };
 
-  
+
+const setupWebsockets = (io: Server) => {
+	
+	io.on('connection', (socket)=> {
+
+		io.in('device:id').emit('device:values', )
+
+		socket.on('disconnect', () => {
+
+		})
+	})
+}
+
 (async () => {
+	console.log(`Setting up data connections...`)
+
 
 	const taskRegistry = new TaskRegistry()
 
@@ -111,15 +127,19 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 		port: 8812,
 		connectionTimeoutMillis: 60 * 1000
 	})
+	console.log(`PG Connection Pool`)
 
 	const driver = neo4j.driver(
 		process.env.NEO4J_URI || "localhost",
 		neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
 	)
+	console.log(`Neo4j...`)
 
 	const mqConnection = await amqp.connect(
 		process.env.RABBIT_URL || 'amqp://localhost'
 	)
+
+	console.log("RabbitMQ")
 
 	const mqChannel = await mqConnection.createChannel()
 
@@ -132,6 +152,8 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
          
 
 	await connect_data()
+
+	console.log(`Data connections setup`)
 
 	const subschemas = await SubSchema(REMOTE_SCHEMA)
 	const schema = stitchSchemas({
@@ -331,6 +353,8 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 	if(process.env.NODE_ENV == "production"){
 		const httpsWorker = (glx: any)  => {
 			const server = glx.httpsServer()
+			
+			const io = new Server(server)
 			// var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
 			// ws.on("connection", function(ws: WebSocket, req: any) {
 			//     // inspect req.headers.authorization (or cookies) for session info
@@ -353,6 +377,11 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 			cluster: false
 		}).ready(httpsWorker)
 	}else{
+
+		const io = new Server(server)
+
+		setupWebsockets(io);
+
 		server.listen(PORT, () => {
 			console.log(`🚀 Server ready at :${PORT}`)
 		})

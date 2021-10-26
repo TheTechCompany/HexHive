@@ -7,10 +7,14 @@ import { PortWidget } from '@hexhive/ui';
 export interface IconNodeProps{
     className?: string;
     extras?: {
+        options?: any;
+        
         label?: string;
         color?: string;
         icon?: any;
         iconString?: string;
+
+        configuration?: any;
     },
     width?: any;
     height?: any
@@ -25,12 +29,13 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
 
     return (
         <Box 
+            style={{position: 'relative'}}
             onClick={props.onClick}
             width={props.width || '72px'}
             height={props.height || '72px'}
             round="small"
             className={props.className}>
-            {props.children?.(<Icon size="medium" />)}
+            {props.children?.(<Icon conf={props.extras.configuration} options={props.extras.options} size="medium" />)}
         </Box>
     )
 }

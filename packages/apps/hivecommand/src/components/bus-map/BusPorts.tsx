@@ -7,12 +7,15 @@ export interface BusPortsProps {
 	ports: BusPortRail
 	devices?: {id?: string, name: string, type: string}[]
 	map: any[];
+	onSelect?: (portKey: string, ix: number) => void;
 	onPortsChanged?: (port: string, device: string[]) => void;
 	connectedDevices?: {id: string, name: string, port: string}[]
 
 }
 
 export const BusPorts: React.FC<BusPortsProps> = (props) => {
+
+	console.log("MAP", props.map)
 
 	const renderPorts = (render_fn: (ix: number, key?: string, mirror?: boolean) => any) => {
 		if(typeof(props.ports) == "object"){
@@ -46,6 +49,7 @@ export const BusPorts: React.FC<BusPortsProps> = (props) => {
 		let portKey =  `${key ? key+'_' : ''}${ix + 1}`
 		return (
 		<Box
+			onClick={() => props.onSelect(portKey, ix)}
 			gap="small"
 			align="center"
 			justify="between"
@@ -67,7 +71,7 @@ export const BusPorts: React.FC<BusPortsProps> = (props) => {
 					clear={true}
 					multiple
 					plain
-					value={props.map.filter((a) => a.port == portKey)?.map((x) => x.id)}
+					value={props.map.filter((a) => a.port == portKey)?.filter((a) => a.device).map((x) => x?.device?.id)}
 					onChange={({value}) => {
 						console.log("Change", value)
 						props.onPortsChanged(portKey, value)

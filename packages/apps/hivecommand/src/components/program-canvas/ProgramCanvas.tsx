@@ -14,6 +14,7 @@ export interface ProgramCanvasProps {
 
 	onPathCreate?: (path: InfiniteCanvasPath) => void;
 
+	selected?: any[];
 	onSelect?: (selected: {key: "node" | "path", id: string}) => void;
 
 
@@ -60,49 +61,39 @@ export const ProgramCanvas : React.FC<ProgramCanvasProps> = (props) => {
 	
 	const [ menu, setMenu ] = useState<string>(undefined)
 
-    const nodeMenu = [
-        {
-            icon: <Action />,
-            label: "Action",
-            extras: {
-                label: "Action",
-                icon: 'Action'
-            },
-        },
-        {
-            icon: <Trigger />,
-            label: "Trigger",
-            extras: {
-                label: "Trigger",
-                icon: 'Trigger'
-            }
-        }
-    ] 
 
 	return (
 		<Box 
 			direction="row"
 			flex>
 			<InfiniteCanvas 
-			 	menu={(<Collapsible 
-					open={Boolean(menu)}
-					direction="horizontal">
-					<Box
-						style={{zIndex: 999999}}
-						onClick={(e) => {
+			 	menu={(
+				 	<Collapsible 
+						onKeyPress={(e) => {
+							console.log("KEY PRESS")
+							e.preventDefault();
 							e.stopPropagation()
-							e.preventDefault()
 						}}
-						pad={'xsmall'} 
-						width="small">
-							{/* {renderMenu()} */}
-							{props.menu.find((a) => a.key == menu)?.panel}
-					
-					</Box>
-				</Collapsible>)}
+						open={Boolean(menu)}
+						direction="horizontal">
+						<Box
+							focusIndicator={false}
+							onClick={(e) => {
+								e.stopPropagation()
+								e.preventDefault()
+							}}
+							pad={'xsmall'} 
+							width="small">
+								{/* {renderMenu()} */}
+								{props.menu.find((a) => a.key == menu)?.panel}
+						
+						</Box>
+					</Collapsible>
+				)}
                 editable={true}
                 nodes={nodes}
 				paths={pathRef.current.paths}
+				selected={props.selected}
 				onSelect={(key, id) => {
 					props.onSelect?.({key, id})
 				}}

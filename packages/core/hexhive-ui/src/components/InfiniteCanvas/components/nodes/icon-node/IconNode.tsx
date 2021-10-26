@@ -11,6 +11,8 @@ export interface IconNodeProps{
         color?: string;
         icon?: any;
     },
+    isSelected?: boolean;
+
     width?: any;
     height?: any
     children?: (element: JSX.Element) => JSX.Element
@@ -28,7 +30,7 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
             elevation={'small'}
             background={"light-2"}
             round="small"
-            border={{style: 'dotted', size: 'small', color: props.extras?.color || 'brand'}}
+            border={{style: props.isSelected ? 'solid' : 'dotted', size: 'small', color: props.isSelected ? 'accent-1' : (props.extras?.color || 'brand')}}
             className={props.className}>
             {props.children?.(<Icon size="medium" />)}
         </Box>

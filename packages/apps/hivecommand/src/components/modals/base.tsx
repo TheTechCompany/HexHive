@@ -7,6 +7,7 @@ export interface BaseModalProps {
     open: boolean;
     width?: string;
     onClose?: () => void;
+    onDelete?: () => void;
     onSubmit?: () => Promise<boolean> | void;
 
     title?: string;
@@ -68,10 +69,13 @@ export class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
                     </Box>
                     <Box
                         pad="xsmall"
+                        gap="xsmall"
                         direction="row" justify="end">
-                        <Button margin={{ right: 'small' }} label="Cancel" plain onClick={this.onClose} />
+                        {this.props.onDelete && <Button hoverIndicator onClick={this.props.onDelete} label="Delete" color="red" />}
 
-                        <Button label="Save" primary onClick={this.onSubmit} />
+                        <Button hoverIndicator label="Cancel" plain onClick={this.onClose} />
+
+                        <Button hoverIndicator label="Save" primary onClick={this.onSubmit} />
 
                     </Box>
                 </Box>
