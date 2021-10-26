@@ -1,6 +1,16 @@
 import * as React from "react";
 
-function SvgTank(props: React.SVGProps<SVGSVGElement>) {
+function SvgTank(props: {options: {level: number}, conf?: {minLevel: number, maxLevel: number}}) {
+
+  const getLevel = () => {
+    if(!props.conf?.minLevel && !props.conf?.maxLevel){
+      return props.options.level;
+    }
+
+    console.log(props.options.level - props.conf.minLevel)
+
+    return (props.options.level - props.conf.minLevel) / ((props.conf.maxLevel - props.conf.minLevel) / 100)
+  }
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -63,9 +73,9 @@ function SvgTank(props: React.SVGProps<SVGSVGElement>) {
         />
         <rect
           x={10.28}
-          y={26.88}
+          y={121.72 - ((120 / 100 * getLevel()) || 86.56)}
           width={74.18}
-          height={86.56}
+          height={(120 / 100 * getLevel()) || 86.56}
           rx={12.41}
           style={{
             mixBlendMode: "overlay",
@@ -74,9 +84,9 @@ function SvgTank(props: React.SVGProps<SVGSVGElement>) {
         />
         <rect
           x={10.28}
-          y={26.88}
+          y={121.72 - ((120 / 100 * getLevel()) || 86.56)}
           width={74.18}
-          height={86.56}
+          height={(120 / 100 * getLevel()) || 86.56}
           rx={12.41}
           fill="none"
           strokeMiterlimit={10}

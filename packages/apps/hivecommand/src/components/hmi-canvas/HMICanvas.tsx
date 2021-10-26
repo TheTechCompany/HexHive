@@ -10,6 +10,9 @@ import { useMutation } from '@hexhive/client';
 
 export interface HMICanvasProps {
 	id: string;
+    
+    deviceValues?: {conf: {device: {id: string}, conf: {key: string}, value: any}[], devicePlaceholder: {id: string, name: string}, values: any}[];
+    program?: any;
 	
 	onConnect?: (path: {
 		source: string,
@@ -62,89 +65,95 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
 
     const client = useApolloClient()
 
-    const { data } = useQuery(gql`
-        query Q ($id: ID){
-            commandPrograms(where: {id: $id}){
-                id
-                name
+    // const { data } = useQuery(gql`
+    //     query Q ($id: ID){
+    //         commandPrograms(where: {id: $id}){
+    //             id
+    //             name
 
-                hmi {
-                    id
-                    name
-                    nodes {
-                        id
-                        type
-                        devicePlaceholder {
-                            id
-                            name
-                        }
-                        x
-                        y
+    //             hmi {
+    //                 id
+    //                 name
+    //                 nodes {
+    //                     id
+    //                     type
+    //                     devicePlaceholder {
+    //                         id
+    //                         name
+    //                     }
+    //                     x
+    //                     y
 
         
-                        inputsConnection {
-                            edges {
-                                id
-                                sourceHandle
-                                targetHandle
-                                node {
-                                    id
-                                }
-                            }
-                        }
+    //                     inputsConnection {
+    //                         edges {
+    //                             id
+    //                             sourceHandle
+    //                             targetHandle
+    //                             node {
+    //                                 id
+    //                             }
+    //                         }
+    //                     }
 
-                        outputsConnection {
-                            edges {
-                                id
-                                sourceHandle
-                                targetHandle
-                                node {
-                                    id
-                                }
-                            }
-                        }
-                    }
-                }
+    //                     outputsConnection {
+    //                         edges {
+    //                             id
+    //                             sourceHandle
+    //                             targetHandle
+    //                             node {
+    //                                 id
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
 
-                devices {
-                    id
-                    name
-                    type {
-                        id
-                        name
-                    }
-                }
-            }
-        }
-    `, {
-        variables: {
-            id: props.id
-        }
-    })
+    //             devices {
+    //                 id
+    //                 name
+    //                 type {
+    //                     id
+    //                     name
+    //                 }
+    //             }
+    //         }
+    //     }
+    // `, {
+    //     variables: {
+    //         id: props.id
+    //     }
+    // })
     
     const refetch = () => {
         client.refetchQueries({include: ['Q']})
     }
 
-    const devices = data?.commandPrograms?.[0]?.devices
     
     useEffect(() => {
-        let program = data?.commandPrograms?.[0]
+        let program = props.program
         if(program){
-            setNodes((program.hmi).find((a) => a.name == "Default").nodes.map((x) => ({
-                id: x.id,
-                x: x.x,
-                y: x.y,
-                extras: {
-                    devicePlaceholder: x.devicePlaceholder,
-                    iconString: x.type,
-                    icon: HMIIcons[x.type],
-                },
-                type: 'hmi-node',
-                
-            })))
+            setNodes((program.hmi)?.find((a) => a.name == "Default")?.nodes?.map((x) => {
+                // console.log( "VAL", x.devicePlaceholder, props.deviceValues, props.deviceValues.find((a) => a.device == x.devicePlaceholder))
 
-            setPaths((program.hmi).find((a) => a.name == "Default").nodes.map((x) => {
+                return {
+                    id: x.id,
+                    x: x.x,
+                    y: x.y,
+                    extras: {
+                        options: props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.values,
+                        configuration: props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.conf.reduce((prev,curr) => ({...prev, [curr.conf.key]: curr.value}), {}),
+                        // color: x.type == 'BallValve' || x.type == "DiaphragmValve" ? (props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.values == "false" ? '0deg' : '60deg') : '0deg',
+                        devicePlaceholder: x.devicePlaceholder,
+                        iconString: x.type,
+                        icon: HMIIcons[x.type],
+                    },
+                    type: 'hmi-node',
+                }
+                
+            }))
+
+            setPaths((program?.hmi)?.find((a) => a.name == "Default")?.nodes?.map((x) => {
                 let connections = x.outputsConnection?.edges?.map((edge) => ({
                     id: edge.id,
                     source: x.id,
@@ -157,7 +166,7 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
                 return prev.concat(curr)
             }, []))
         }
-    }, [data?.commandPrograms?.[0]])
+    }, [props.program, props.deviceValues])
 
     useEffect(() => {
         window.addEventListener('keydown', watchEditorKeys)

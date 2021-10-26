@@ -7,6 +7,7 @@ import { Header } from '../../components/ui/header'
 import {Map, Tools, Previous, Plug, GraphQl} from 'grommet-icons';
 import { EditorPage } from '../Editor';
 import { Sidebar } from '@hexhive/ui'
+import { DeviceDevices } from '../../pages/device-devices';
 const PluginEditor = React.lazy(() => import('../../pages/plugin-editor').then((r) => ({default: r.PluginEditorPage})))
 const DeviceControl = React.lazy(() => import('../../pages/device-control').then((r) => ({default: r.DeviceControl})))
 
@@ -119,6 +120,7 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
                                 <Route exact path={[x.path].map((x) => `${x}`)} component={x.component} />
                             ))}
                             <Route path={`/devices/:id/controls`} component={DeviceControl} />
+                            <Route path={`/devices/:id/devices`} component={DeviceDevices} />
                             <Route path={`/devices/:id`} component={DeviceSingle} />
                             <Route path={`/programs/:id`} component={EditorPage} />
                             <Route path={`/plugins/:id/editor`} exact component={PluginEditor} />

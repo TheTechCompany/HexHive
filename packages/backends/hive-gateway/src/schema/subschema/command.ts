@@ -13,7 +13,8 @@ export default `
 	}
 
 	extend type Mutation {
-		changeDeviceValue(device: String, bus: String, port: String, value: String): CommandDeviceResponse
+		performDeviceAction(device: String, action: String): CommandDeviceResponse
+		changeDeviceValue(device: String, bus: String, port: String, key: String, value: String): CommandDeviceResponse
 	}
 
 	type CommandDeviceResponse {
@@ -36,6 +37,8 @@ export default `
 
 		network_name: String
 
+		configuredDevices: [CommandProgramPeripheralConfiguration] @relationship(type: "HAS_CONF", direction: OUT, properties: "CommandDevicePeripheralPort")
+
 		peripherals: [CommandDevicePeripheral] @relationship(type: "HAS_PERIPHERAL", direction: OUT)
 		
 		online: Boolean
@@ -53,19 +56,43 @@ export default `
 		ports: Int
 
 		connectedDevices: [CommandDevicePeripheralProduct] @relationship(type: "IS_CONNECTED", direction: IN, properties: "CommandDevicePeripheralPort")
-
-		mappedDevices: [CommandProgramDevicePlaceholder] @relationship(type: "PROVIDES_REALITY", direction: OUT, properties: "CommandDevicePeripheralPort")
+		mappedDevices: [CommandDevicePeripheralMap] @relationship(type: "HAS_MAPPING", direction: OUT, properties: "CommandDevicePeripheralPort")
 
 		device: CommandDevice @relationship(type: "HAS_PERIPHERAL", direction: IN)
 	}
+	
+	type CommandProgramPeripheralConfiguration {
+		id: ID @id
+		device: CommandProgramDevicePlaceholder @relationship(type: "USES_DEVICE", direction: OUT)
+		conf: CommandProgramDeviceConfiguration @relationship(type: "CONF_KEY", direction: OUT)
+		value: String
+	}
 
 	type CommandDevicePeripheralProduct {
-		id:ID
+		id:ID @id
 		deviceId: String
 		vendorId: String
 		name: String
+
+		peripheral: CommandDevicePeripheral @relationship(type: "IS_CONNECTED", direction: OUT, properties: "CommandDevicePeripheralPort")
+
+		connections: [CommandPeripheralProductDatapoint] @relationship(type: "HAS_VARIABLE", direction: OUT)
 	}
 
+	type CommandPeripheralProductDatapoint {
+		direction: String
+		key: String
+		type: String
+
+		product: CommandDevicePeripheralProduct  @relationship(type: "HAS_VARIABLE", direction: IN)
+	}
+
+	type CommandDevicePeripheralMap {
+		id: ID! @id
+		key: CommandPeripheralProductDatapoint @relationship(type: "USES_VARIABLE", direction: OUT)
+		device: CommandProgramDevicePlaceholder @relationship(type: "USES_DEVICE", direction: OUT)
+		value: CommandProgramDeviceState @relationship(type: "USES_STATE", direction: OUT)
+	}
 
 	interface CommandDevicePeripheralPort @relationshipProperties {
 		port: String
@@ -104,8 +131,36 @@ export default `
 		id: ID! @id
 		name: String
 		type: String
+
+		configuration: [CommandProgramDeviceConfiguration] @relationship(type: "HAS_CONFIGURATION", direction: OUT)
+
+		usedIn: [CommandProgramDevicePlaceholder] @relationship(type: "USES_TEMPLATE", direction: IN)
+
+		state: [CommandProgramDeviceState] @relationship(type: "HAS_STATE", direction: OUT)
+		actions: [CommandProgramDeviceAction] @relationship(type: "HAS_ACTION", direction: OUT)
 	}
 
+	type CommandProgramDeviceConfiguration {
+		id: ID! @id
+		key: String
+		type: String
+	}
+
+	type CommandProgramDeviceAction {
+		id: ID! @id
+		key: String
+
+		device: CommandProgramDevice @relationship(type: "HAS_ACTION", direction: IN)
+
+	}
+
+	type CommandProgramDeviceState {
+		id: ID! @id
+		key: String
+		type: String
+
+		device: CommandProgramDevice @relationship(type: "HAS_STATE", direction: IN)
+	}
 
 	type CommandProgramDocumentation {
 		id: ID! @id
@@ -119,6 +174,7 @@ export default `
 		id: ID! @id
 		name: String
 		nodes: [CommandProgramNode] @relationship(type: "USES_NODE", direction: OUT)
+		conditions: [CommandProgramNodeFlowConfiguration] @relationship(type: "HAS_CONDITION", direction: OUT)
 		programs: [CommandProgram] @relationship(type: "USES_FLOW", direction: IN)
 	}
 
@@ -132,8 +188,30 @@ export default `
 	type CommandActionItem {
 		id: ID! @id
 		device: CommandProgramDevicePlaceholder @relationship(type: "ACTIONS", direction: OUT)
-		request: String
+		request: CommandProgramDeviceAction @relationship(type: "USES_ACTION", direction: OUT)
 	}
+
+	type PIDTarget {
+		value: String
+		device: [CommandProgramDevicePlaceholder] @relationship(type: "TARGET", direction: OUT)
+		ratio: String
+	}
+
+	type PIDConfiguration {
+		p: String
+		i: String
+		d: String
+		actuator: [CommandProgramDevicePlaceholder] @relationship(type: "ACTUATOR", direction: OUT)
+		target: [PIDTarget] @relationship(type: "TARGET", direction: OUT)
+	}
+	
+
+	type CommandProgramNodeConfiguration {
+		id: ID! @id
+
+		key: String
+		value: String
+	} 
 
 	type CommandProgramNode {
 		id: ID! @id
@@ -142,10 +220,32 @@ export default `
 		type: String
 		flow: [CommandProgramFlow] @relationship(type: "USES_NODE", direction: IN)
 
-		actions: [CommandActionItem] @relationship(type: "PERFORMS_ACTION", direction: OUT)
+		actions: [CommandActionItem] @relationship(type: "HAS_ACTION", direction: OUT)
 
-		previous: [CommandProgramNode] @relationship(type: "USE_NEXT", direction: IN, properties: "CommandHMINodeFlow")
-		next: [CommandProgramNode] @relationship(type: "USE_NEXT", direction: OUT, properties: "CommandHMINodeFlow")
+		configuration: [CommandProgramNodeConfiguration] @relationship(type: "HAS_CONF", direction: OUT)
+
+
+		previous: [CommandProgramNode] @relationship(type: "USE_NEXT", direction: IN, properties: "CommandProgramNodeFlow")
+		next: [CommandProgramNode] @relationship(type: "USE_NEXT", direction: OUT, properties: "CommandProgramNodeFlow")
+	}
+
+
+	type CommandProgramNodeFlowConfiguration {
+		id: ID!
+		input: String
+		comparator: String
+		assertion: String
+
+		flow: CommandProgramFlow @relationship(type: "HAS_CONDITION", direction: IN)
+	}
+
+	interface CommandProgramNodeFlow @relationshipProperties {
+		id: ID @id
+		sourceHandle: String
+		targetHandle: String
+
+		conditions: [String]
+		points: [Point]
 	}
 
 

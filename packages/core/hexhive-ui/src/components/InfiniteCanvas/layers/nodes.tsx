@@ -52,11 +52,14 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
 
     const [ hoverNode, setHoverNode ] = useState<any>(null);
 
-    const renderAssetBundle = (key: string, node: InfiniteCanvasNode) => {
+    const renderAssetBundle = (key: string, node: InfiniteCanvasNode, selected?: boolean) => {
 
         let value = node.value ? status[node.value] : status[key];
 
         let factory = factories?.[node.type];
+     
+        node.isSelected = selected;
+        
         if(factory){
             return factory.generateWidget(node)
         }
@@ -210,7 +213,7 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                             height: node.height || 0
                         }
                     }}>
-                    {renderAssetBundle(node.id, node)}
+                    {renderAssetBundle(node.id, node, (selected?.find((a) => a.key == "node" && a?.id == node.id) != undefined))}
                     </NodeIdContext.Provider>
                 </div>
             ))}
@@ -254,9 +257,6 @@ export const NodeLayer = styled(BaseNodeLayer)`
         cursor: pointer;
     }
 
-    .node-container.selected{
-        border: 1px solid blue;
-    }
    
 
     .started path, .started circle{

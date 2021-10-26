@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import { Stack, StackItems, useQuery } from '@hexhive/client'
+import { gql, useQuery as useApollo } from '@apollo/client'
+import { CommandPlugin, Stack, StackItems, useQuery } from '@hexhive/client'
 // import { GridList, LiveComponent, Paper } from '@thetechcompany/live-ui'
 import { Box, Text, Button  } from 'grommet';
 import { StackItemModal } from '../../components/modals/stacks/item';
@@ -8,6 +9,7 @@ import { stackActions } from '../../actions';
 import { useEffect } from 'react';
 import * as Icons from 'grommet-icons'
 import { Title } from '../../components/ui/title';
+import { GridList } from '@hexhive/ui';
 
 export interface PluginSingleProps {
 
@@ -21,23 +23,44 @@ export const PluginSingle = styled((props: any) => {
         staleWhileRevalidate: true
     })
 
-    const stack = query.StackById({_id: props.match.params.id})
-
-    const [ plugin, setPlugin ] = useState<Stack>()
-
-    useEffect(() => {
-        if(stack){
-            setPlugin(stack)
+    const { data } = useApollo(gql`
+        query Q ($id: ID){
+            commandPlugins (where: {id: $id}){
+                id
+                name
+                items{
+                    id
+                }
+            }
         }
-    }, [stack])
+    `, {
+        variables: {
+            id: props.match.params.id
+        }
+    })
+
+    const plugin = data?.commandPlugins?.[0];
+
+
+    // const [ plugin, setPlugin ] = useState<CommandPlugin>()
+
+    // useEffect(() => {
+    //     if(stack){
+    //         setPlugin(stack)
+    //     }
+    // }, [stack])
  
     // const [ createStackItem, {isLoading, data}] = stackActions.useCreateStackItem(props.match.params.id)
 
     return query.$state.isLoading? null:  (
-        <Box>
+        <Box 
+            flex 
+            pad="xsmall"
+            overflow="hidden"
+            round="xsmall"
+            background="neutral-1">
              <Box
                 justify={"between"}
-                pad={{horizontal: 'small'}}
                 direction="row">
                     <Box 
                         direction="row">
@@ -60,6 +83,9 @@ export const PluginSingle = styled((props: any) => {
                             size="small"
                             color="accent-1" 
                             label="Editor" primary></Button>
+                        <Button
+                            hoverIndicator
+                            icon={<Icons.Add />} />
                     </Box>
                    
                   
@@ -68,12 +94,12 @@ export const PluginSingle = styled((props: any) => {
                 open={modalOpen} 
                 onClose={() => openModal(false)}
                 onSubmit={(stackItem: StackItems) => {
-                    console.log(stackItem)
-                    let items  = stack?.items?.slice() || [];
-                    items?.push(stackItem as any)
+                    // console.log(stackItem)
+                    // let items  = stack?.?.slice() || [];
+                    // items?.push(stackItem as any)
 
-                    console.log(items)
-                    if(stackItem){
+                    // console.log(items)
+                    // if(stackItem){
                         // createStackItem({args: {
                         //     stack_id: props.match.params.id,
                         //     items: stackItem as any
@@ -91,38 +117,18 @@ export const PluginSingle = styled((props: any) => {
                                 setPlugin(p)
                             }
                         })*/
-                    }
+                    // }
                 }}
                 />
             <Box pad="small">
-            {/* <GridList 
-                onClick={(item ) => {
-                    props.history.push(`${props.match.url}/${item._id}/editor`)
-                }}
-                addItem={() => { console.log("Open"); openModal(true)}}
-                items={stack?.items?.map((x) => ({...x})) || []}
+            <GridList 
                 renderItem={(item) => (
-                    <Box
-                        style={{overflow: 'hidden'}}
-                        round={"small"}
-                        flex
-                        justify="between">
-                        <Box 
-                            round={"xsmall"}
-                            pad="xsmall"
-                            direction="column"
-                            style={{color: 'black'}}
-                            flex>
-                            <LiveComponent code={item.ui} />
-                        </Box>
-                        <Box 
-                            alignSelf="center"
-                            pad={{vertical: 'small'}}>
-                            <Text >{item.name}</Text>
-                        </Box>
+                    <Box>
+                        Item
                     </Box>
-                )} /> */}
-            </Box>
+                )}
+                data={plugin?.items || []}/>
+        </Box>
     </Box>        
     )
 })`
