@@ -3,6 +3,7 @@ import Automerge from 'automerge'
 import { AutomergeClient } from "./client"
 import { Document } from './Document'
 import { useAutomergeContext } from "./Provider"
+import {  throttle } from "lodash"
 
 
 export const useAutomergeClient = (url: string) : [AutomergeClient | undefined, boolean] => {
@@ -42,8 +43,10 @@ export const useAutomergeDoc = <T>(collection: string, docId: string) : [Automer
 
     //Build and tear down functions for merge listeners
     useEffect(() => {
+        console.log("REQUEST MERGE", client, isReady, collection, docId)
         if(client){
-            if(isReady){
+            if(collection && docId){
+                console.log("REQUEST MERGE")
                 client.requestMerges(collection, docId)
             }
             client.registerMergeListener(collection, docId, (changes: Automerge.BinaryChange[]) => {
@@ -51,7 +54,7 @@ export const useAutomergeDoc = <T>(collection: string, docId: string) : [Automer
                 applyChanges(changes)
             })
         }
-    }, [client, isReady])
+    }, [client, isReady, collection, docId])
 
     const applyChanges = (changes: Automerge.BinaryChange[]) => {
         let [newDoc, patchInfo] = Automerge.applyChanges(docRef.current, changes)
@@ -59,14 +62,20 @@ export const useAutomergeDoc = <T>(collection: string, docId: string) : [Automer
         setDoc(newDoc)
     }  
 
+    const sendDocChanges = throttle((collection: string, docId: string, newDoc: Automerge.FreezeObject<any>) => {
+        // console.log(changes)
+        let changes = Automerge.getChanges(doc, newDoc)
+        client?.sendDocChanges(collection, docId, changes)
+    }, 2 * 1000);
+
     const updateDoc = (change_fn: Automerge.ChangeFn<any>, message?: string) => {
-        console.log("Update doc")
         let newDoc = Automerge.change(docRef.current, message || '', change_fn)
+        console.log("Update doc", docRef.current)
 
         let changes = Automerge.getChanges(doc, newDoc)
         console.log("Update doc", client)
 
-        client?.sendDocChanges(collection, docId, changes)
+        sendDocChanges(collection, docId, newDoc)
 
         setDoc(newDoc)
     }

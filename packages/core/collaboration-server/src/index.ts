@@ -3,6 +3,9 @@ import { DocSet } from './DocSet'
 import WebSocket, { Server} from 'ws';
 import { nanoid } from 'nanoid';
 import { Model, models } from 'mongoose';
+import { DocumentNode } from 'graphql';
+import { GraphQLParser } from './graphql-parser';
+import { Session, Driver } from 'neo4j-driver'
 
 export type AutomergeSocket = {
     socket: WebSocket,
@@ -11,34 +14,25 @@ export type AutomergeSocket = {
 
 export default class AutomergeServer {
 
+    private driver: Driver;
+
     private docSet : DocSet;
 
     private clients: Array<AutomergeSocket>;
 
-    private mongooseModels : {[key: string]: Model<any>} = {};
 
-    constructor(){
+    constructor(driver: Driver, gql: DocumentNode){
+        this.driver = driver;
         this.receiveMessage = this.receiveMessage.bind(this)
         // this.subscribeDoc = this.subscribeDoc.bind(this);
 
-        this.docSet = new DocSet();
+        // console.log(gql.definitions.filter((a) => a.kind == "ObjectTypeDef"))
+        this.docSet = new GraphQLParser(driver, gql);
 
         this.clients = [];
         
     }
 
-    loadMongoose(models: Model<any>[]){
-        models.forEach((model) => {
-           let name =  model.modelName;
-
-           let fields = Object.keys(model.schema.paths)
-
-           this.mongooseModels[name] = model;
-        })
-
-        this.docSet.setModels(this.mongooseModels)
-        console.log(this.mongooseModels)
-    }
 
     broadcast(action: string, data: any, ignore?: string[] | string){
         let clients = this.clients.slice();
@@ -56,6 +50,7 @@ export default class AutomergeServer {
 
 
     async docChanged(ws: AutomergeSocket, msg: {action: string, data: any}){
+        let docKey = `${msg.data.collection}-${msg.data.id}`
         let doc = await this.docSet.getDoc(msg.data.collection, msg.data.id)
 
         console.log("Doc change", ws.id, msg)
@@ -67,7 +62,8 @@ export default class AutomergeServer {
           
             const [ object, patch ] = Automerge.applyChanges(doc, binaryChanges as any)
 
-            this.docSet.setDoc(msg.data.id, object)
+            await this.docSet.setDoc(docKey, object)
+
             console.log("Doc changed by ", ws.id)
             console.log("Doc value", object)
 

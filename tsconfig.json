@@ -9,6 +9,8 @@
      "react": ["../node_modules/react"],
      "react-dom": ["../node_modules/react-dom"],
      "grommet": ["../node_modules/grommet"],
+     "neo4j-driver": ["../node_modules/neo4j-diver/"],
+     "neo4j-driver-core": ["../node_modules/neo4j-driver-core/"],
      "gqless": ["../node_modules/gqless"],
      "@hexhive/data-core": ["./core/hexhive-data/src"],
      "@gqless/react": ["../node_modules/@gqless/react"],

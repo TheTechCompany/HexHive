@@ -1,7 +1,7 @@
 import { off } from 'process';
 import React, { createRef,  useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import styled from 'styled-components'
-import { isBuffer, isEqual, throttle, update, xor } from 'lodash'
+import _, { isBuffer, isEqual, throttle, update, xor } from 'lodash'
 import { PortWidget } from './components/ports'
 import { getHostForElement } from './utils';
 import { InfiniteCanvasContext } from './context/context';
@@ -69,6 +69,8 @@ export interface InfiniteCanvasProps {
     onNodesChanged?: (nodes: InfiniteCanvasNode[]) => void;
     onPathsChanged?: (paths: InfiniteCanvasPath[]) => void;
 
+    onDelete?: () => void;
+
     assets?: {
         [key: string]: JSX.Element
     }
@@ -117,6 +119,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     onPathCreate,
     onPathUpdate,
     onPathRemove,
+    onDelete,
     nodes,
     paths,
     onDrop,
@@ -498,6 +501,12 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         })
     }
 
+    const onKeyDown = (e: React.KeyboardEvent) => {
+        if(e.key == "Delete" || e.key == "Backspace"){
+            onDelete?.();
+        }
+    }
+
     return (
         <InfiniteCanvasContext.Provider
             value={{
@@ -559,6 +568,8 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
             <div
                 onContextMenu={onContextMenu}
                 ref={canvasRef}
+                tabIndex={0}
+                onKeyDown={onKeyDown}
                 onMouseDown={onMouseDown}
                 onTouchStart={onTouchStart}
                 onWheel={onWheel}

@@ -88,6 +88,13 @@
   resolved "https://registry.npmjs.org/@babel/parser/-/parser-7.14.8.tgz"
   integrity sha512-syoCQFOoo/fzkWDeM0dLEZi5xqurb5vuyzwIMNZRNun+N/9A4cUZeQaE7dTrB8jGaKuJRBtEOajtnmw0I5hvvA==
 
+"@babel/runtime@^7.5.5":
+  version "7.15.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.15.4.tgz#fd17d16bfdf878e6dd02d19753a39fa8a8d9c84a"
+  integrity sha512-99catp6bHCaxr4sJ/DbTGgHS4+Rs2RVd2g7iOap6SLGPDknRK9ztKNsE/Fg6QhSeh1FGE5f6gHGQmvvn3I3xhw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.14.5":
   version "7.14.5"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.14.5.tgz"
@@ -3511,6 +3518,29 @@ neo-async@^2.6.0:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+neo4j-driver-bolt-connection@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/neo4j-driver-bolt-connection/-/neo4j-driver-bolt-connection-4.3.4.tgz#de642bb6a62ffc6ae2e280dccf21395b4d1705a2"
+  integrity sha512-yxbvwGav+N7EYjcEAINqL6D3CZV+ee2qLInpAhx+iNurwbl3zqtBGiVP79SZ+7tU++y3Q1fW5ofikH06yc+LqQ==
+  dependencies:
+    neo4j-driver-core "^4.3.4"
+    text-encoding-utf-8 "^1.0.2"
+
+neo4j-driver-core@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/neo4j-driver-core/-/neo4j-driver-core-4.3.4.tgz#b445a4fbf94dce8441075099bd6ac3133c1cf5ee"
+  integrity sha512-3tn3j6IRUNlpXeehZ9Xv7dLTZPB4a7APaoJ+xhQyMmYQO3ujDM4RFHc0pZcG+GokmaltT5pUCIPTDYx6ODdhcA==
+
+neo4j-driver@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/neo4j-driver/-/neo4j-driver-4.3.4.tgz#a54f0562f868ee94dff7509df74e3eb2c1f95a85"
+  integrity sha512-AGrsFFqnoZv4KhJdmKt4mOBV5mnxmV3+/t8KJTOM68jQuEWoy+RlmAaRRaCSU4eY586OFN/R8lg9MrJpZdSFjw==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    neo4j-driver-bolt-connection "^4.3.4"
+    neo4j-driver-core "^4.3.4"
+    rxjs "^6.6.3"
+
 node-fetch@^2.6.1:
   version "2.6.1"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.1.tgz"
@@ -4302,6 +4332,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+regenerator-runtime@^0.13.4:
+  version "0.13.9"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
+  integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==
+
 regexpp@^3.1.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/regexpp/-/regexpp-3.2.0.tgz"
@@ -4412,7 +4447,7 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-rxjs@^6.6.0:
+rxjs@^6.6.0, rxjs@^6.6.3:
   version "6.6.7"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-6.6.7.tgz"
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==
@@ -4844,6 +4879,11 @@ temp-write@^4.0.0:
     make-dir "^3.0.0"
     temp-dir "^1.0.0"
     uuid "^3.3.2"
+
+text-encoding-utf-8@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/text-encoding-utf-8/-/text-encoding-utf-8-1.0.2.tgz#585b62197b0ae437e3c7b5d0af27ac1021e10d13"
+  integrity sha512-8bw4MY9WjdsD2aMtO0OzOCY3pXGYNx2d2FfHRVUKkiCPDWjKuOlhLVASS+pD7VkLTVjW268LYJHwsnPFlBpbAg==
 
 text-extensions@^1.0.0:
   version "1.9.0"

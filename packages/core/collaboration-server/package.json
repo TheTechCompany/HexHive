@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "automerge": "^1.0.1-preview.3",
+    "graphql-tag": "^2.12.5",
+    "neo4j-driver": "^4.3.4",
     "ws": "^7.5.3"
   },
   "devDependencies": {

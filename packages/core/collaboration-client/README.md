@@ -1,11 +1,39 @@
-# `hexhive-automerge-client`
+# Collaboration Client
 
 > TODO: description
 
 ## Usage
 
+App.tsx
 ```
-const hexhiveAutomergeClient = require('hexhive-automerge-client');
+import { AutomergeClientProvider } from '@hexhive/collaboration-client';
 
-// TODO: DEMONSTRATE API
+const client = new AutomergeClient({
+	url: string,
+	readyCallback: Function
+})
+
+return (
+	<AutomergeClientProvider>
+		<App />
+	</AutomergeClientProvider>
+)
+
 ```
+
+
+Editor.tsx
+```
+import { useAutomergeDoc } from '@hexhive/collaboration-client';
+
+const [doc, docRef, updateDoc, updateRef] = useAutomergeDoc<T>('collection', 'docId')
+
+updateDoc((doc<T>) => {
+	doc.item = "stuff";
+	return doc;
+}, "Commit message")
+
+{doc.item} //Reactive store
+```
+
+

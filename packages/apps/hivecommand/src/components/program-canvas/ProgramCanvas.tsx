@@ -13,7 +13,9 @@ export interface ProgramCanvasProps {
 	onNodeCreate?: (position: InfiniteCanvasPosition, node: InfiniteCanvasNode) => void;
 
 	onPathCreate?: (path: InfiniteCanvasPath) => void;
+	onPathUpdate?: (path: InfiniteCanvasPath) => void;
 
+	onDelete?: () => void;
 	selected?: any[];
 	onSelect?: (selected: {key: "node" | "path", id: string}) => void;
 
@@ -33,21 +35,27 @@ export const ProgramCanvas : React.FC<ProgramCanvasProps> = (props) => {
     const pathRef = useRef<{paths: InfiniteCanvasPath[]}>({paths: []})
 
     const setPaths = (paths: InfiniteCanvasPath[]) => {
+		console.log("SET", paths)
         _setPaths(paths)
         pathRef.current.paths = paths;
     }
 
+	console.log("PROGRAM CANVAS PATHS", paths)
+
     const updateRef = useRef<{addPath?: (path: any) => void, updatePath?: (path: any) => void}>({
         updatePath: (path) => {
-            let p = pathRef.current.paths.slice()
-            let ix = p.map((x) => x.id).indexOf(path.id)
-            p[ix] = path;
-            setPaths(p)
+			props.onPathUpdate?.(path)
+            // let p = pathRef.current.paths.slice()
+            // let ix = p.map((x) => x.id).indexOf(path.id)
+            // p[ix] = path;
+            // setPaths(p)
         },
         addPath: (path) => {
-            let p = pathRef.current.paths.slice()
-            p.push(path)
-            setPaths(p)
+			props.onPathCreate?.(path)
+
+            // let p = pathRef.current.paths.slice()
+            // p.push(path)
+            // setPaths(p)
         }
     })
 
@@ -67,6 +75,7 @@ export const ProgramCanvas : React.FC<ProgramCanvasProps> = (props) => {
 			direction="row"
 			flex>
 			<InfiniteCanvas 
+				onDelete={props.onDelete}
 			 	menu={(
 				 	<Collapsible 
 						onKeyPress={(e) => {
@@ -92,23 +101,26 @@ export const ProgramCanvas : React.FC<ProgramCanvasProps> = (props) => {
 				)}
                 editable={true}
                 nodes={nodes}
-				paths={pathRef.current.paths}
+				paths={props.paths}
 				selected={props.selected}
 				onSelect={(key, id) => {
 					props.onSelect?.({key, id})
 				}}
                 factories={[new IconNodeFactory()]}
                 onPathCreate={(path) => {
+					props.onPathCreate?.(path)
             
-                    updateRef.current?.addPath(path);
+                    // updateRef.current?.addPath(path);
                 }}
                 onPathUpdate={(path) => {
+					// props.onPathUpdate?.(path)
 
-					if(path.source && path.target){
-						props.onPathCreate?.(path)
-					}
-                   
-                    updateRef.current?.updatePath(path)
+					// if(path.source && path.target){
+					// }
+
+					props.onPathUpdate?.(path)
+
+                    // updateRef.current?.updatePath(path)
                 }}
                 onNodeUpdate={(node) => {
 					let n = nodes.slice()

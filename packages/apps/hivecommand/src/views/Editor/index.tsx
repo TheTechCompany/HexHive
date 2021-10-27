@@ -26,6 +26,11 @@ import {Controls} from './pages/controls'
 import { Alarms } from './pages/alarms';
 import { Devices } from './pages/devices';
 import { Documentation } from './pages/documentation';
+import { AutomergeClientProvider, AutomergeClient } from '@hexhive/collaboration-client'
+
+const automergeClient = new AutomergeClient({
+    url: process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API != undefined ? `${process.env.REACT_APP_API}` : '/') : "ws://localhost:7000",
+});
 
 export interface EditorProps extends RouteComponentProps<{id: string}> {
 
@@ -60,7 +65,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     name
                     nodes {
                         id
-                        type
+                        type 
                         x 
                         y
                     }
@@ -220,6 +225,9 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
 
     console.log(props.match)
     return (
+        <AutomergeClientProvider
+            client={automergeClient}
+            >
         <Suspense fallback={(
             <Box 
                 direction="column"
@@ -332,5 +340,6 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
             </Box>
         </Box>
         </Suspense>
+        </AutomergeClientProvider>
     )
 }

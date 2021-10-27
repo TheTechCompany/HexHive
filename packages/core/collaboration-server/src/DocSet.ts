@@ -2,7 +2,48 @@ import Automerge from 'automerge';
 import _ from 'lodash';
 import { Model } from 'mongoose';
 
-export class DocSet {
+export abstract class DocSet {
+  public docs : {[key: string]: Automerge.FreezeObject<any>} = {};
+  private handlers : any[] = [];
+
+  constructor(){
+    
+  }
+
+
+  registerHandler (handler: any) {
+    this.handlers.push(handler)
+  }
+
+  unregisterHandler (handler: any) {
+    this.handlers = this.handlers.filter(h => h !== handler)
+  }
+  
+  setDoc (docId: string, doc: Automerge.FreezeObject<any>) {
+    this.docs[docId] = doc
+    for (let handler of this.handlers) handler(docId, doc)
+  }
+
+  async getDoc (collection: string, docId: string) {
+    let doc = this.docs[docId]
+    if(!doc) {
+        // let tmp_doc = await this.models[collection]?.findById(docId)
+        console.log("Get doc by id", collection, docId, doc)
+
+        doc = Automerge.from({
+          // title: tmp_doc.title,
+          // children: tmp_doc.children || [],
+          // _id: tmp_doc.id
+        })
+
+        
+        this.docs[docId] = doc;
+    }
+    return doc;
+  }
+
+}
+export class OldDocSet {
     private docs : {[key: string]: Automerge.FreezeObject<any>};
     private handlers : any[];
 
@@ -24,13 +65,13 @@ export class DocSet {
   async getDoc (collection: string, docId: string) {
     let doc = this.docs[docId]
     if(!doc) {
-        let tmp_doc = await this.models[collection].findById(docId)
-        console.log("Get doc by id", docId, doc)
+        // let tmp_doc = await this.models[collection]?.findById(docId)
+        console.log("Get doc by id", collection, docId, doc)
 
         doc = Automerge.from({
-          title: tmp_doc.title,
-          children: tmp_doc.children || [],
-          _id: tmp_doc.id
+          // title: tmp_doc.title,
+          // children: tmp_doc.children || [],
+          // _id: tmp_doc.id
         })
 
         

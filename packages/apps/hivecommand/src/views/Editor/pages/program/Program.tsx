@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, List, Text } from 'grommet';
-import { useMutation } from '@hexhive/client';
+import { CommandProgramFlow, useMutation } from '@hexhive/client';
 import { IconNodeFactory, InfiniteCanvasNode, InfiniteCanvas, ZoomControls, InfiniteCanvasPath } from '@hexhive/ui';
 import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
 import { nanoid } from 'nanoid';
@@ -10,11 +10,10 @@ import { gql, useApolloClient, useQuery } from '@apollo/client';
 import { ProgramCanvas } from '../../../../components/program-canvas';
 
 import Settings from './Settings';
-import { client } from 'apps/hivecommand/src/gqless';
 import { ProgramEditorProvider } from './context';
 import { ProgramDrawer } from './Drawer';
 import { useEditor } from './store';
-
+import { useAutomergeDoc } from '@hexhive/collaboration-client';
 const reducer = (state, action) => {
     switch(action.type){
         case 'ADD_NODE':
@@ -29,6 +28,24 @@ const reducer = (state, action) => {
 }
 
 export const Program = (props) => {
+
+
+    const [ program, programRef, updateProgram, updateRef ] = useAutomergeDoc<
+    {
+        nodes: any[], 
+        paths: {
+            id?: string,
+            points?: {
+                x: number,
+                y: number
+            }[]
+            source: string, 
+            sourceHandle: string,
+            target?: string,
+            targetHandle?: string
+        }[]
+    }>('CommandProgramFlow', props.activeProgram)
+
 
     const [ state, dispatch ] = useEditor(reducer, {
         nodes: [],
@@ -165,41 +182,56 @@ const refetch = () => {
     client.refetchQueries({include: ['Q']})
 }
 
-let program = data?.commandPrograms?.[0]
+// let program = data?.commandPrograms?.[0]
 
 
 useEffect(() => {
     if(program && props.activeProgram){
-        setNodes( program.program.find((a) => a.id == props.activeProgram).nodes.map((x) => ({
-            id: x.id,
-            x: x.x,
-            y: x.y,
-            extras: {
-                icon: x.type,
-                configuration: [
-                    ...x.configuration,
-                    {key: "actions", value: x.actions}
-                ]
-                // actions: x.actions
-            },
-            type: 'icon-node'
-            
-        })))
 
-        setPaths(program.program.find((a) => a.id == props.activeProgram).nodes.map((x) => {
-            return x.nextConnection.edges.map((conn) => ({
-                id: conn.id,
-                source: x.id,
-                sourceHandle: conn.sourceHandle,
-                target: conn.node.id,
-                targetHandle: conn.targetHandle,
-                extras: {
-                    configuration: {
-                        conditions: conn.conditions
-                    }
-                }
-            }))
-        }).reduce((prev, curr) => prev.concat(curr), []))
+        // updateProgram((flow) => {
+        //     if(!flow.nodes) flow.nodes = [];
+        //     flow.nodes.push({
+        //         id: '12',
+        //         x: 0,
+        //         y: 0,
+        //         extras: {
+        //             icon: 'Action',
+        //             configuration: []
+        //         },
+        //         type: 'icon-node'
+        //     })
+        //     return flow;
+        // }, "SET")
+        // setNodes( program.program.find((a) => a.id == props.activeProgram).nodes.map((x) => ({
+        //     id: x.id,
+        //     x: x.x,
+        //     y: x.y,
+        //     extras: {
+        //         icon: x.type,
+        //         configuration: [
+        //             ...x.configuration,
+        //             {key: "actions", value: x.actions}
+        //         ]
+        //         // actions: x.actions
+        //     },
+        //     type: 'icon-node'
+            
+        // })))
+
+        // setPaths(program.program.find((a) => a.id == props.activeProgram).nodes.map((x) => {
+        //     return x.nextConnection.edges.map((conn) => ({
+        //         id: conn.id,
+        //         source: x.id,
+        //         sourceHandle: conn.sourceHandle,
+        //         target: conn.node.id,
+        //         targetHandle: conn.targetHandle,
+        //         extras: {
+        //             configuration: {
+        //                 conditions: conn.conditions
+        //             }
+        //         }
+        //     }))
+        // }).reduce((prev, curr) => prev.concat(curr), []))
     }
 }, [data?.commandPrograms?.[0], props.activeProgram])
 
@@ -381,16 +413,28 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
 
 
     useEffect(() => {
-        window.addEventListener('keydown', watchEditorKeys)
+        // window.addEventListener('keydown', watchEditorKeys)
         
-        return () => {
-            window.removeEventListener('keydown', watchEditorKeys)
-        }
+        // return () => {
+        //     window.removeEventListener('keydown', watchEditorKeys)
+        // }
     }, [])
 
-    const watchEditorKeys = (e: KeyboardEvent) => {
-        if(e.key == "Delete" || e.key == "Backspace") {
-            if(selectedRef.current.selected.id){
+    const deleteSelect = () => {
+        updateProgram((program) => {
+            let {key, id} = selectedRef.current.selected;
+            let ix;
+            if(key == "node"){
+                ix = program.nodes.map((x) => x.id).indexOf(id)
+                if(ix < 0) return;
+                program.nodes.splice(ix, 1)
+            }else if(key == "path"){
+                ix = program.paths.map((x) => x.id).indexOf(id)
+                if(ix < 0) return;
+                program.paths.splice(ix, 1)
+            }
+            return program;
+        })
                 // deleteSelected({
                 //     args: {
                 //         selected: [selectedRef.current.selected].map((x) => ({
@@ -401,8 +445,7 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
                 // }).then(() => {
                 //     refetch()
                 // })
-            }
-        }
+            
     }
     
 
@@ -415,7 +458,7 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
         setConditions(active?.conditions)
     }, [props.activeProgram, data])
 
-    console.log("Conditions", conditions)
+    console.log("Conditions", program?.nodes?.slice() )
 
 	return (
         <ProgramEditorProvider
@@ -432,6 +475,7 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
 		<Box flex>
             
 			<ProgramCanvas 
+                onDelete={deleteSelect}
                 menu={[
                     {
                         key: 'nodes', 
@@ -457,11 +501,25 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
 
                 onNodeCreate={(position, node) => {
                     console.log("Node create")
-                    dispatch({type: "ADD_NODE", data: {
-                        x: position.x,
-                        y: position.y,
-                        type: node.extras.icon
-                    }})
+
+                    updateProgram((flow) => {
+                        if(!flow.nodes) flow.nodes = [];
+                        flow.nodes.push({
+                            id: nanoid(),
+                            x: position.x,
+                            y: position.y,
+                            extras: {
+                                icon: node.extras.icon
+                            },
+                            type: node.extras.icon || 'icon-node'
+                        })
+                        return flow;
+                    }, "ADD_NODE")
+                    // dispatch({type: "ADD_NODE", data: {
+                    //     x: position.x,
+                    //     y: position.y,
+                    //     type: node.extras.icon
+                    // }})
 
                     // addNode({args: {
                     //     x: position.x,
@@ -472,30 +530,128 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
                     // })
                 }}
                 onNodeUpdate={(node) => {
-                    updateNode({args:{ 
-                        id: node.id,
-                        x: node.x,
-                        y: node.y
-                    }}).then(() => {
-                        refetch()
-                    })
+
+                    updateProgram((flow) => {
+                        // let nodes = flow.nodes.slice();
+                        let ix = flow.nodes.map((x) => x.id).indexOf(node.id)
+
+                        flow.nodes[ix].x = node.x;
+                        flow.nodes[ix].y = node.y;
+                        
+                        // = {
+                        //     ...nodes[ix],
+                        //     ...node
+                        // }
+                        // flow.nodes = nodes;
+
+                        return flow
+                    }, "UPDATE-NODE");
+
+                    // updateNode({args:{ 
+                    //     id: node.id,
+                    //     x: node.x,
+                    //     y: node.y
+                    // }}).then(() => {
+                    //     refetch()
+                    // })
                 }}
 
                 onPathCreate={(path) => {
-                    connectNodes({
-                        args: {
+                    console.log("ADD PATH", path)
+                    updateProgram((flow) => {
+                        if(!flow.paths) flow.paths = [];
+                        flow.paths.push({
+                            id: path.id,
                             source: path.source,
                             sourceHandle: path.sourceHandle,
-                            target: path.target,
-                            targetHandle: path.targetHandle,
                             points: path.points
-                        }
-                    }).then(() => {
-                        refetch()
-                    })
+                        })
+                        return flow;
+                    }, "ADD_PATH")
+                    // connectNodes({
+                    //     args: {
+                    //         source: path.source,
+                    //         sourceHandle: path.sourceHandle,
+                    //         target: path.target,
+                    //         targetHandle: path.targetHandle,
+                    //         points: path.points
+                    //     }
+                    // }).then(() => {
+                    //     refetch()
+                    // })
                 }}
-                nodes={nodes}
-                paths={paths}
+                onPathUpdate={(path) => {
+                    console.log("Update", path)
+
+                    updateProgram((flow) => {
+                        let ix = flow.paths.map((x) => x.id).indexOf(path.id)
+
+                        console.log(ix,flow.paths, "Path ix")
+                        let _path = flow.paths[ix];
+
+                        _path.target = '';
+                        _path.targetHandle = ''
+
+                        path.points.forEach((point, yx) => {
+                            // if(!flow.paths[ix]?.points) flow.paths[ix].points = [];
+                            
+                            // _path.points.push({x: point.x, y: point.y});
+
+                            // flow.paths[ix].points[yx].x = point.x
+                            // flow.paths[ix].points[yx].y = point.y
+                        })
+
+                        // if(flow.paths[ix].points.length > path.points.length){
+                        //     console.log("Deleting a point")
+                        //     for(var i = 0; i < (flow.paths[ix].points.length  - path.points.length); i++){
+                        //         let cx = path.points.length + i;
+                        //         flow.paths[ix].points.splice(ix, 1)
+                        //     }
+                        // }
+
+                        // if(flow.paths[ix].points){
+                        //     let current = flow.paths[ix].points.map((x) => `${x.x}:${x.y}`);
+
+                        //     //
+                        //     path.points.filter((a) => {
+                        //         return current.indexOf(`${a.x}:${a.y}`) > -1
+                        //     })
+
+                        //     path.points.forEach((point, yx) => {
+                        //         let _point = flow.paths[ix].points[yx];
+                        //         if(!_point) _point = {x: point.x, y: point.y};
+
+                        //         flow.paths[ix].points[yx].x = point.x;
+                        //         flow.paths[ix].points[yx].y = point.y;
+                        //     })
+                        // }else{
+                        //     flow.paths[ix].points = path.points.slice()
+                        // }
+
+                        flow.paths[ix].points = [];
+                        flow.paths[ix].points = path.points || [];
+
+                         if(path.target){
+                             console.log("IT HAS A TARGET")
+                             _path.target = path.target
+                         }
+                        if(path.targetHandle){
+                             _path.targetHandle = path.targetHandle
+                        }
+
+                        return flow;
+                    }, "UPDATE_PATH")
+                }}
+                nodes={program?.nodes?.map((x) => ({
+                    ...x,
+                    extras: {
+                        icon: x.type
+                    },
+                    type: 'icon-node'
+                })) || []}
+                paths={program?.paths?.map((x) => ({
+                    ...x,
+                })) as any || []}
                 />
 		</Box>
         </ProgramEditorProvider>

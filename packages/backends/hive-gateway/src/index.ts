@@ -3,7 +3,7 @@ require("dotenv").config()
 import express from "express"
 import crypto from "crypto"
 
-import neo4j from "neo4j-driver"
+import neo4j, {Driver} from "neo4j-driver"
 import pg, {Client, Pool} from 'pg'
 
 import { graphqlHTTP } from "express-graphql" // ES6
@@ -20,7 +20,7 @@ import { DefaultRouter } from "./routes"
 import { isValidObjectId } from "mongoose"
 
 import { createServer } from "http"
-// import WebSocket, { Server as WebSocketServer } from 'ws';
+import WebSocket, { Server as WebSocketServer } from 'ws';
 // import { CollaborationServer } from './collaboration';
 import { Account } from "./Account"
 import helmet from "helmet"
@@ -38,6 +38,8 @@ import amqp from 'amqplib'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
 
+import AutomergeSever from '@hexhive/collaboration-server'
+import { AutomergeSchema } from "./schema/automerge"
 var OidcStrategy = require('passport-openidconnect').Strategy;
 var JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
@@ -49,6 +51,7 @@ const app = express()
 
 const server = createServer(app)
 // const wss = new WebSocketServer({ server, perMessageDeflate: false });
+
 
 const {NODE_ENV} = process.env
 
@@ -101,18 +104,6 @@ opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard
 // };
 
 
-const setupWebsockets = (io: Server) => {
-	
-	io.on('connection', (socket)=> {
-
-		io.in('device:id').emit('device:values', )
-
-		socket.on('disconnect', () => {
-
-		})
-	})
-}
-
 (async () => {
 	console.log(`Setting up data connections...`)
 
@@ -129,7 +120,7 @@ const setupWebsockets = (io: Server) => {
 	})
 	console.log(`PG Connection Pool`)
 
-	const driver = neo4j.driver(
+	const driver : Driver = neo4j.driver(
 		process.env.NEO4J_URI || "localhost",
 		neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
 	)
@@ -147,6 +138,27 @@ const setupWebsockets = (io: Server) => {
 		durable: false
 	})
     
+
+
+const collaborationServer = new AutomergeSever(driver, AutomergeSchema);
+
+
+const setupWebsockets = (server: any) => {
+	var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
+			ws.on("connection", function(ws: WebSocket, req: any) {
+			    // inspect req.headers.authorization (or cookies) for session info
+			    collaborationServer.handleWebsocket(ws)
+			});
+	
+	// io.on('connection', (socket)=> {
+
+	// 	io.in('device:id').emit('device:values', )
+
+	// 	socket.on('disconnect', () => {
+
+	// 	})
+	// })
+}
 
 	// const collaborationServer = new CollaborationServer();
          
@@ -354,7 +366,8 @@ const setupWebsockets = (io: Server) => {
 		const httpsWorker = (glx: any)  => {
 			const server = glx.httpsServer()
 			
-			const io = new Server(server)
+			// const io = new Server(server)
+			setupWebsockets(server)
 			// var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
 			// ws.on("connection", function(ws: WebSocket, req: any) {
 			//     // inspect req.headers.authorization (or cookies) for session info
@@ -378,9 +391,9 @@ const setupWebsockets = (io: Server) => {
 		}).ready(httpsWorker)
 	}else{
 
-		const io = new Server(server)
+		// const io = new Server(server)
 
-		setupWebsockets(io);
+		setupWebsockets(server);
 
 		server.listen(PORT, () => {
 			console.log(`🚀 Server ready at :${PORT}`)
