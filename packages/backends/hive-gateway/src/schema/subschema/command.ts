@@ -23,8 +23,7 @@ export default `
 
 	type CommandDeviceValue {
 		device: String
-		bus: String
-		port: String
+		deviceId: String
 		value: String
 		valueKey: String
 	}
@@ -125,6 +124,21 @@ export default `
 		id: ID! @id
 		name: String
 		type: CommandProgramDevice @relationship(type: "USES_TEMPLATE", direction: OUT)
+	}
+
+	type CommandHMIDevice {
+		id: ID! @id
+		name: String
+
+		ports: [CommandHMIDevicePort] @relationship(type: "HAS_PORT", direction: OUT)
+	}
+
+	type CommandHMIDevicePort {
+		id: ID! @id
+		x: Float
+		y: Float
+		key: String
+		rotation: Float
 	}
 
 	type CommandProgramDevice {
@@ -245,7 +259,7 @@ export default `
 		targetHandle: String
 
 		conditions: [String]
-		points: [Point]
+		points: [CartesianPoint]
 	}
 
 
@@ -253,7 +267,8 @@ export default `
 		id: ID! @id
 		x: Float
 		y: Float
-		type: String
+		
+		type: CommandHMIDevice @relationship(type: "USES_VISUAL", direction: OUT)
 
 		devicePlaceholder: CommandProgramDevicePlaceholder @relationship(type: "REPRESENTS", direction: OUT)
 
@@ -268,7 +283,7 @@ export default `
 		id: ID @id
 		sourceHandle: String
 		targetHandle: String
-		points: [Point]
+		points: [CartesianPoint]
 	}
 
 	type CommandPlugin {

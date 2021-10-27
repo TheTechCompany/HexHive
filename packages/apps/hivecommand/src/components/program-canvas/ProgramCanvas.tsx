@@ -138,6 +138,7 @@ export const ProgramCanvas : React.FC<ProgramCanvasProps> = (props) => {
 					setNodes(n)
 					console.log(n)
 
+					console.log("DROP")
 					props.onNodeCreate?.(position, node)
 
 

@@ -133,9 +133,10 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
     useEffect(() => {
         let program = props.program
         if(program){
+            console.log("Loading HMI", program)
             setNodes((program.hmi)?.find((a) => a.name == "Default")?.nodes?.map((x) => {
                 // console.log( "VAL", x.devicePlaceholder, props.deviceValues, props.deviceValues.find((a) => a.device == x.devicePlaceholder))
-
+                console.log("NODE", x)
                 return {
                     id: x.id,
                     x: x.x,
@@ -143,10 +144,11 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
                     extras: {
                         options: props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.values,
                         configuration: props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.conf.reduce((prev,curr) => ({...prev, [curr.conf.key]: curr.value}), {}),
+                        ports: x?.type?.ports.map((x) => ({...x, id: x.key})),
                         // color: x.type == 'BallValve' || x.type == "DiaphragmValve" ? (props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.values == "false" ? '0deg' : '60deg') : '0deg',
                         devicePlaceholder: x.devicePlaceholder,
-                        iconString: x.type,
-                        icon: HMIIcons[x.type],
+                        iconString: x?.type?.name,
+                        icon: HMIIcons[x?.type?.name],
                     },
                     type: 'hmi-node',
                 }

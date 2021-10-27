@@ -1,15 +1,14 @@
 import * as React from "react";
 
-function SvgTank(props: {options: {level: number}, conf?: {minLevel: number, maxLevel: number}}) {
+function SvgTank(props: {options?: {level: number}, conf?: {minLevel: number, maxLevel: number}}) {
 
   const getLevel = () => {
     if(!props.conf?.minLevel && !props.conf?.maxLevel){
-      return props.options.level;
+      return props.options?.level;
     }
 
-    console.log(props.options.level - props.conf.minLevel)
 
-    return (props.options.level - props.conf.minLevel) / ((props.conf.maxLevel - props.conf.minLevel) / 100)
+    return (props.options?.level - props.conf?.minLevel) / ((props.conf?.maxLevel - props.conf?.minLevel) / 100)
   }
   return (
     <svg

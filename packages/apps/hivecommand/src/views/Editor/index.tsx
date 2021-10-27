@@ -71,7 +71,13 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     name
                     nodes {
                         id
-                        type
+                        type {
+                            name
+                            ports {
+                                x
+                                y
+                            }
+                        }
                         x
                         y
                         devicePlaceholder {

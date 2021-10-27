@@ -2,7 +2,7 @@ import { Box, Layer, Text } from 'grommet';
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components'
 import * as Icons from 'grommet-icons'
-import { PortWidget } from '@hexhive/ui';
+import { RetractingPort } from '@hexhive/ui';
 
 export interface IconNodeProps{
     className?: string;
@@ -15,6 +15,8 @@ export interface IconNodeProps{
         iconString?: string;
 
         configuration?: any;
+
+        ports?: any[];
     },
     width?: any;
     height?: any
@@ -60,7 +62,14 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
                     justify={props.extras?.label ? 'between' : 'center'}
                     align={props.extras?.label ? 'center': 'center'}
                     direction={props.extras?.label ? 'row': 'column'}>
-                    <PortWidget direction="center" type="in" id="in" />
+
+                    {props.extras.ports && props.extras.ports.map((port) => (
+                        <RetractingPort
+                        id="in"
+                        {...port}
+                        direction="center"   />
+                    ))}
+
                     {icon}
                     {props.extras?.label && (
                         <Box
@@ -71,8 +80,6 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
                         <Text>{props.extras?.label}</Text>
                         </Box>
                     )}
-                    <PortWidget direction="center" type="out" id="out"    />
-         
                 </Box>
             </>
             )}
