@@ -22,8 +22,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     const { data } = useQuery(gql`
         query Q ($id: ID, $idStr: String){
             commandDeviceValue(device: $idStr){
-                port
-                bus
+                device
+                deviceId
                 value
                 valueKey
             }
@@ -74,7 +74,15 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                         name
                         nodes{
                             id
-                            type
+                            type {
+                                name
+                                ports {
+                                    x
+                                    y
+                                    key
+
+                                }
+                            }   
                             x
                             y
 
@@ -142,29 +150,29 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
         if(!name) return;
 
-        let idToBus = peripherals.reduce((prev, curr) => {
-            let map = curr?.mappedDevicesConnection?.edges || [];
+        // let idToBus = peripherals.reduce((prev, curr) => {
+        //     let map = curr?.mappedDevicesConnection?.edges || [];
 
-            return prev.concat(map.map((x) => ({
-                bus: curr.id, 
-                port: x.port, 
-                name: x.node?.device?.name,
-                key: x.node?.key?.key,
-                value: x.node?.value?.key
-            })))
-        }, [])
+        //     return prev.concat(map.map((x) => ({
+        //         deviceId: x
+        //         name: x.node?.device?.name,
+        //         key: x.node?.key?.key,
+        //         value: x.node?.value?.key
+        //     })))
+        // }, [])
 
-        console.log("ID TO BUS", idToBus, name)
+        // console.log("ID TO BUS", idToBus, name)
         
-        return idToBus.filter((a) => a.name == name).map((busPort) => {
-            let v = values.filter((a) => a?.port == busPort.port && a?.bus == busPort.bus);
+        // return idToBus.filter((a) => a.name == name).map((busPort) => {
+            let v = values.filter((a) => a?.deviceId == name);
 
-            console.log(v, busPort)
-            return {key: busPort.value, value: v.find((a) => a.valueKey == busPort.key)?.value};
-        }).reduce((prev, curr) => {
+            // console.log(v, busPort)
+
+            // return {key: busPort.value, value: v.find((a) => a.valueKey == busPort.key)?.value};
+        return v.reduce((prev, curr) => {
             return {
                 ...prev,
-                [curr.key]: curr.value
+                [curr.valueKey]: curr.value
             }
         }, {})
     
@@ -203,11 +211,11 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     const hmi = program?.hmi?.[0]?.nodes || [];
 
     const hmiNodes = useMemo(() => {
-        return hmi.map((node) => {
+        return hmi.filter((a) => a?.devicePlaceholder?.name).map((node) => {
 
-            let device = node.devicePlaceholder.name;
+            let device = node?.devicePlaceholder?.name;
             let value = getDeviceValue(device)
-            let conf =  data?.commandDevices?.[0]?.configuredDevices?.filter((a) => a.device.id == node.devicePlaceholder.id)
+            let conf =  data?.commandDevices?.[0]?.configuredDevices?.filter((a) => a.device?.id == node.devicePlaceholder.id)
 
             console.log("CONF", conf)
             return {

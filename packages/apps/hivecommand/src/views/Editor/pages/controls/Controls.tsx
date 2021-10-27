@@ -10,6 +10,7 @@ import { Nodes } from 'grommet-icons'
 import Settings from './Settings'
 import { nanoid } from 'nanoid';
 import { useMutation } from '@hexhive/client';
+import { pick } from 'lodash';
 
 export const Controls = (props) => {
     
@@ -51,56 +52,155 @@ export const Controls = (props) => {
             icon: <Blower width="40px" height="40px" />,
             label: "Blower",
             extras: {
-                icon: "Blower"
+                icon: "Blower",
+                ports: [
+                    {
+                        id: 'out',
+                        x: -30,
+                        y: 25
+                    }
+                ]
             }
         },
         {
             icon: <Pump width="40px" height="40px" />,
             label: "Pump",
             extras: {
-                icon: "Pump"
+                icon: "Pump",
+                ports: [
+                    {
+                        id: 'in',
+                        x: -30,
+                        y:  35
+                    },
+                    {
+                        id: 'out',
+                        x: 90,
+                        y: 45,
+                        rotation: 180
+                    }
+                ]
             }
         },
         {
             icon: <BallValve width="40px" height="40px" />,
             label: "Ball Valve",
             extras: {
-                icon: "BallValve"
+                icon: "BallValve",
+                ports: [
+                    {
+                        id: 'in',
+                        x: -40,
+                        y: 35
+                    },
+                    {
+                        id: 'out',
+                        x: 100,
+                        y: 55,
+                        rotation: 180
+                    }
+                ]
             }
         },
         {
             icon: <DiaphragmValve width="40px" height="40px" />,
             label: "Diaphragm Valve",
             extras: {
-                icon: "DiaphragmValve"
+                icon: "DiaphragmValve",
+                ports: [
+                    {
+                        id: 'in',
+                        x: -40,
+                        y: 35
+                    },
+                    {
+                        id: 'out',
+                        x: 100,
+                        y: 55,
+                        rotation: 180
+                    }
+                ]
             }
         },
         {
             icon: <Tank width="40px" height="40px" />,
             label: "Tank",
             extras: {
-                icon: "Tank"
+                icon: "Tank",
+                ports: [
+                    {
+                        id: 'in',
+                        x: 10,
+                        y: -20,
+                        rotation: 90
+                    },
+                    {
+                        id: 'out',
+                        x: 70,
+                        y: -20,
+                        rotation: 90
+                    }
+                ]
             }
         },
         {
             icon: <PressureSensor width="40px" height="40px" />,
             label: "Pressure Sensor",
             extras: {
-                icon: "PressureSensor"
+                icon: "PressureSensor",
+                ports: [
+                    {
+                        id: 'in',
+                        x: -5,
+                        y: 65
+                    },
+                    {
+                        id: 'out',
+                        x: 70,
+                        y: 82,
+                        rotation: 180
+                    }
+                ]
             }
         },
         {
             icon: <FlowSensor width="40px" height="40px" />,
             label: "Flow Sensor",
             extras: {
-                icon: "FlowSensor"
+                icon: "FlowSensor",
+                ports: [
+                    {
+                        id: 'in',
+                        x: -5,
+                        y: 65
+                    },
+                    {
+                        id: 'out',
+                        x: 70,
+                        y: 82,
+                        rotation: 180
+                    }
+                ]
             }
         },
         {
             icon: <Conductivity width="40px" height="40px" />,
             label: "Conductivity Sensor",
             extras: {
-                icon: "Conductivity"
+                icon: "Conductivity",
+                ports: [
+                    {
+                        id: 'in',
+                        x: -5,
+                        y: 65
+                    },
+                    {
+                        id: 'out',
+                        x: 70,
+                        y: 82,
+                        rotation: 180
+                    }
+                ]
             }
         },
         {
@@ -133,7 +233,15 @@ export const Controls = (props) => {
                     name
                     nodes {
                         id
-                        type
+                        type {
+                            name
+                            ports {
+                                key
+                                x
+                                y
+                                rotation
+                            }
+                        }
                         devicePlaceholder {
                             id
                             name
@@ -143,7 +251,9 @@ export const Controls = (props) => {
 
                         inputs {
                             id
-                            type
+                            type {
+                                name
+                            }
                         }
 
                         inputsConnection {
@@ -159,7 +269,13 @@ export const Controls = (props) => {
 
                         outputs {
                             id
-                            type
+                            type {
+                                name
+                                ports {
+                                    x
+                                    y
+                                }
+                            }
                         }
 
                         outputsConnection {
@@ -167,6 +283,10 @@ export const Controls = (props) => {
                                 id
                                 sourceHandle
                                 targetHandle
+                                points {
+                                    x
+                                    y
+                                }
                                 node {
                                     id
                                 }
@@ -204,7 +324,7 @@ export const Controls = (props) => {
                     update: {
                         node: {
                             nodes: [{create: [{node: {
-                                type: args.type,
+                                type: {connect: {where: {node: {name: args.type}}}},
                                 x: args.x,
                                 y: args.y
                             }}]}]
@@ -302,6 +422,35 @@ export const Controls = (props) => {
             }
     })
 
+    const [ updateConnection ] = useMutation((mutation, args : {
+        id: string,
+        source: string,
+        points: {x: number, y: number}[]
+    }) => {
+       const item = mutation.updateCommandHMINodes({
+           where: {id: args.source},
+            update: {
+                outputs: [{
+                    where: {
+                        edge: {
+                            id: args.id
+                        }
+                    },
+                    update: {
+                        edge: {
+                            points: args.points
+                        }
+                    }
+                }]
+            }
+        })
+        return {
+            item: {
+                ...item.commandHmiNodes?.[0]
+            }
+        }
+    })
+
     const [ connectNodes, connectInfo ] = useMutation((mutation, args: {
         source: string,
         sourceHandle: string,
@@ -315,7 +464,7 @@ export const Controls = (props) => {
                 outputs: [{connect: [{ where: {node: {id: args.target}}, edge: {
                     sourceHandle: args.sourceHandle,
                     targetHandle: args.targetHandle,
-                    points: args.points
+                    // points: args.points
                 }}] }]
             }
         })
@@ -337,8 +486,9 @@ export const Controls = (props) => {
                 y: x.y,
                 extras: {
                     devicePlaceholder: x.devicePlaceholder,
-                    iconString: x.type,
-                    icon: HMIIcons[x.type],
+                    iconString: x.type?.name,
+                    icon: HMIIcons[x.type?.name],
+                    ports: x?.type?.ports?.map((y) => ({...y, id: y.key})) || []
                 },
                 type: 'hmi-node',
                 
@@ -347,6 +497,7 @@ export const Controls = (props) => {
             setPaths((program.hmi).find((a) => a.id == props.activeProgram).nodes.map((x) => {
                 let connections = x.outputsConnection?.edges?.map((edge) => ({
                     id: edge.id,
+                    points: edge.points,
                     source: x.id,
                     sourceHandle: edge.sourceHandle,
                     target: edge.node.id,
@@ -488,19 +639,32 @@ export const Controls = (props) => {
                     // p[ix] = path;
                     // // setPaths(p)
 
+                    console.log(path)
+
                     if(path.source && path.target){
-                        connectNodes({
+                        updateConnection({
                             args: {
                                 source: path.source,
-                                sourceHandle: path.sourceHandle,
-                                target: path.target,
-                                targetHandle: path.targetHandle
+                                id: path.id,
+                                points: path.points.map((x) => pick(x, ['x', 'y']))
                             }
+
                         }).then(() => {
                             refetch()
                         })
-                    }
-                    updateRef.current?.updatePath(path)
+                        }
+                    //     connectNodes({
+                    //         args: {
+                    //             source: path.source,
+                    //             sourceHandle: path.sourceHandle,
+                    //             target: path.target,
+                    //             targetHandle: path.targetHandle
+                    //         }
+                    //     }).then(() => {
+                    //         refetch()
+                    //     })
+                    // }
+                    // updateRef.current?.updatePath(path)
                 }}
                 onNodeUpdate={(node) => {
 

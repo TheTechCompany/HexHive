@@ -1,11 +1,10 @@
 import * as React from "react";
 
-function SvgBallValve(props: {options: {open: string, opening: string}}) {
-  console.log(props.options, props.options.open == 'true', props.options.open == 'false')
+function SvgBallValve(props: {width?: string, height?: string, options?: { open: string, opening: string}}) {
   return (
     <svg
       style={{
-        filter: `hue-rotate(${props.options.open == 'true' ? '50deg' : '0deg'})`
+        filter: `hue-rotate(${props?.options?.open == 'true' ? '50deg' : '0deg'})`
       }}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -21,9 +20,9 @@ function SvgBallValve(props: {options: {open: string, opening: string}}) {
           y2={240.3}
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset={0} stopColor={(props.options.opening && props.options.opening == 'true') ? '#b2f520' : (props.options.open == 'true' ? '#20f57c' : "#f57f20")} />
-          <stop offset={0.49} stopColor={(props.options.opening && props.options.opening == 'true') ? '#d2fd14' : (props.options.open == 'true' ? '#14fd62' : "#fdb714")} />
-          <stop offset={1} stopColor={(props.options.opening && props.options.opening == 'true') ? '#b2f520' : (props.options.open == 'true' ? '#20f57c' : "#f57f20")} />
+          <stop offset={0} stopColor={(props.options?.opening && props.options.opening == 'true') ? '#b2f520' : (props.options?.open == 'true' ? '#20f57c' : "#f57f20")} />
+          <stop offset={0.49} stopColor={(props.options?.opening && props.options.opening == 'true') ? '#d2fd14' : (props.options?.open == 'true' ? '#14fd62' : "#fdb714")} />
+          <stop offset={1} stopColor={(props.options?.opening && props.options.opening == 'true') ? '#b2f520' : (props.options?.open == 'true' ? '#20f57c' : "#f57f20")} />
         </linearGradient>
         <linearGradient
           id="BallValve_svg__b"

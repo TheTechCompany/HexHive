@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function SvgDiaphragmValve(props: {options: {opening: string, open: string}}) {
+function SvgDiaphragmValve(props: {width?: string, height?: string, options?: {opening: string, open: string}}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,9 +17,9 @@ function SvgDiaphragmValve(props: {options: {opening: string, open: string}}) {
           y2={349.05}
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset={0} stopColor={props.options.opening == 'true' ? '#b2f520' : props.options.open == 'true' ? '#20f57c' : "#f57f20"} />
-          <stop offset={0.49} stopColor={props.options.opening == 'true' ? '#d2fd14' : props.options.open == 'true' ? '#14fd62' : "#fdb714"} />
-          <stop offset={1} stopColor={props.options.opening == 'true' ? '#b2f520' : props.options.open == 'true' ? '#20f57c' : "#f57f20"} />
+          <stop offset={0} stopColor={props.options?.opening == 'true' ? '#b2f520' : props.options?.open == 'true' ? '#20f57c' : "#f57f20"} />
+          <stop offset={0.49} stopColor={props.options?.opening == 'true' ? '#d2fd14' : props.options?.open == 'true' ? '#14fd62' : "#fdb714"} />
+          <stop offset={1} stopColor={props.options?.opening == 'true' ? '#b2f520' : props.options?.open == 'true' ? '#20f57c' : "#f57f20"} />
         </linearGradient>
         <linearGradient
           id="DiaphragmValve_svg__b"

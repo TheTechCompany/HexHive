@@ -164,7 +164,7 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 
 
 				const values = await client.query(
-					`SELECT * FROM commandDeviceValues ${where} LATEST BY device,bus,port,valueKey`,
+					`SELECT * FROM commandDeviceValues ${where} LATEST BY device,deviceId,valueKey`,
 					[whereArgs.map((x) => x.value)]
 				)
 

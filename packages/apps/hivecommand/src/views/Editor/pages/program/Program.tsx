@@ -13,8 +13,27 @@ import Settings from './Settings';
 import { client } from 'apps/hivecommand/src/gqless';
 import { ProgramEditorProvider } from './context';
 import { ProgramDrawer } from './Drawer';
+import { useEditor } from './store';
+
+const reducer = (state, action) => {
+    switch(action.type){
+        case 'ADD_NODE':
+            let newNode = action.data;
+            console.log("ADD")
+
+            return {...state, nodes: [...state.nodes, newNode]}
+            break;
+        default:
+            return state;
+    }
+}
 
 export const Program = (props) => {
+
+    const [ state, dispatch ] = useEditor(reducer, {
+        nodes: [],
+        paths: []
+    })
 
     const [ conditions, setConditions ] = useState<any[]>([])
     const [ modalOpen, openModal ] = useState<boolean>(false);
@@ -290,7 +309,7 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
         sourceHandle: string,
         target: string,
         targetHandle: string,
-        points?: {longitude: number, latitude: number}[]
+        points?: {x: number, y: number}[]
     }) => {
         const updated = mutation.updateCommandProgramNodes({
             where: {id: args.source},
@@ -437,13 +456,20 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
                 }}
 
                 onNodeCreate={(position, node) => {
-                    addNode({args: {
+                    console.log("Node create")
+                    dispatch({type: "ADD_NODE", data: {
                         x: position.x,
                         y: position.y,
                         type: node.extras.icon
-                    }}).then(()=> {
-                        refetch()
-                    })
+                    }})
+
+                    // addNode({args: {
+                    //     x: position.x,
+                    //     y: position.y,
+                    //     type: node.extras.icon
+                    // }}).then(() => {
+                    //     refetch()
+                    // })
                 }}
                 onNodeUpdate={(node) => {
                     updateNode({args:{ 
@@ -462,7 +488,7 @@ const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
                             sourceHandle: path.sourceHandle,
                             target: path.target,
                             targetHandle: path.targetHandle,
-                            points: path.points.map((x) => ({latitude: x.x, longitude: x.y}))
+                            points: path.points
                         }
                     }).then(() => {
                         refetch()
