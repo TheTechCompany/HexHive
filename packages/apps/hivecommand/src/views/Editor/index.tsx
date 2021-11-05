@@ -7,7 +7,7 @@ import { useQuery as useQLess} from '@hexhive/client';
 import Editor from '@hexhive/command-editor'
 import qs from 'qs';
 import { matchPath, RouteComponentProps } from 'react-router-dom';
-import { IconNodeFactory, InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath } from '@hexhive/ui'
+import { IconNodeFactory, InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath, HyperTree } from '@hexhive/ui'
 import { useAutomergeDoc } from '@hexhive/collaboration-client'
 import { IEditorProgram } from '@hexhive/command-editor';
 import { IFlowShardPaths } from '@hexhive/types/dist/interfaces';
@@ -20,18 +20,23 @@ import { useMutation } from '@hexhive/client';
 import { BallValve, Blower, Conductivity, DiaphragmValve, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank } from '../../assets/hmi-elements';
 import * as HMIIcons from '../../assets/hmi-elements'
 import { HMINodeFactory } from '../../components/hmi-node/HMINodeFactory';
+import { ProgramCanvasModal } from '../../components/modals/program-canvas';
+
 import { Switch, Route } from 'react-router-dom';
 import {Program} from './pages/program'
 import {Controls} from './pages/controls'
 import { Alarms } from './pages/alarms';
-import { Devices } from './pages/devices';
+import { Devices, DeviceSingle } from './pages/devices';
 import { Documentation } from './pages/documentation';
-
+import { ObjectTypeDefinitionNode } from 'graphql'
 export interface EditorProps extends RouteComponentProps<{id: string}> {
 
 }
 
 export const EditorPage: React.FC<EditorProps> = (props) => {
+    const [ modalOpen, openModal ] = useState<boolean>(false);
+
+    const [ selectedItem, setSelectedItem ] = useState<any>(undefined);
 
     const [ view, setView ] = useState<"Documentation" | "Program" | "HMI" | "Devices" | "Alarms">("Program")
 
@@ -47,7 +52,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
     const client = useApolloClient()
 
     const { data } = useQuery(gql`
-        query Q ($id: ID){
+        query EditorCommandProgram ($id: ID){
             commandPrograms(where: {id: $id}){
                 id
                 name
@@ -58,33 +63,16 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                 program {
                     id
                     name
-                    nodes {
+                    children {
                         id
-                        type
-                        x 
-                        y
+                        name
                     }
                 }
 
                 hmi {
                     id
                     name
-                    nodes {
-                        id
-                        type {
-                            name
-                            ports {
-                                x
-                                y
-                            }
-                        }
-                        x
-                        y
-                        devicePlaceholder {
-                            id
-                            name
-                        }
-                    }
+                   
                 }
             }
         }
@@ -120,14 +108,36 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
     })
 
 
-    const [ addProgram, addProgramInfo ] = useMutation((mutation, args) => {
+    const [ addProgram, addProgramInfo ] = useMutation((mutation, args: {name: string, parent?: string}) => {
+       let update : any = {};
+
+       if(!args.parent){
+        update = {
+            program: [{
+                create: [{node: {
+                    name: args.name || "Default"
+                }}]
+            }]
+        }
+       }else{
+           update = {
+            program: [{
+                where: {node: {id: args.parent}},
+                update: {
+                    node: {
+                        children: [{
+                            create: [{node: {
+                                name: args.name || "Default"
+                            }}]
+                        }]
+                    }
+                }
+            }]
+           }
+       }
         const program = mutation.updateCommandPrograms({
             where: {id: props.match.params.id},
-            update: {
-                program: [{create: [{node: {
-                    name: "Default"
-                }}]}]
-            }
+            update: update
         })
         return {
             item: {
@@ -137,13 +147,33 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
     })
 
 
-    const [ addHMI, addHMIParentInfo ] = useMutation((mutation, args) => {
-        const program = mutation.updateCommandPrograms({
-            where: {id: props.match.params.id},
-            update: {
+    const [ addHMI, addHMIParentInfo ] = useMutation((mutation, args: {name: string, parent?: string}) => {
+        let update : any = {};
+
+        if(!args.parent){
+            update = {
                 hmi: [{create: [{node: {
-                    name: "Default"
+                    name: args.name || "Default"
                 }}]}]
+            }
+        }else{
+            update = {
+                hmi: [{
+                    where: {id: args.parent},
+                    update: {
+                        children: [{
+                            create: [{node: {
+                                name: args.name || "Default"
+                            }}]
+                        }]
+                    }
+                }]
+            }
+        }
+        const program = mutation.updateCommandPrograms({
+            where: {id: props.match.params.id},
+            update: {
+              
             }
         })
         return {
@@ -154,25 +184,25 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
     })
 
 
-    useEffect(() => {
-        let program = data?.commandPrograms?.[0]
-        if(program && activeProgram){
-            console.log(program, activeProgram, program.program.find((a) => a.id == activeProgram))
-            setNodes((view == "Program" ? program.program : program.hmi).find((a) => a.id == activeProgram).nodes.map((x) => ({
-                id: x.id,
-                x: x.x,
-                y: x.y,
-                extras: {
-                    icon: view == "Program" ? x.type : HMIIcons[x.type],
-                },
-                type: view == "Program" ? 'icon-node' : 'hmi-node',
+    // useEffect(() => {
+    //     let program = data?.commandPrograms?.[0]
+    //     if(program && activeProgram){
+    //         console.log(program, activeProgram, program.program.find((a) => a.id == activeProgram))
+    //         setNodes((view == "Program" ? program.program : program.hmi).find((a) => a.id == activeProgram).nodes.map((x) => ({
+    //             id: x.id,
+    //             x: x.x,
+    //             y: x.y,
+    //             extras: {
+    //                 icon: view == "Program" ? x.type : HMIIcons[x.type],
+    //             },
+    //             type: view == "Program" ? 'icon-node' : 'hmi-node',
                 
-            })))
-        }
-    }, [data?.commandPrograms?.[0], activeProgram])
+    //         })))
+    //     }
+    // }, [data?.commandPrograms?.[0], activeProgram])
 
     const refetch = () => {
-        client.refetchQueries({include: ['Q']})
+        client.refetchQueries({include: ['EditorCommandProgram']})
     }
     // const program = gqless.commandPrograms
    
@@ -218,6 +248,13 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
 
     }, [window.location.pathname])
 
+    const cleanTree = (nodes: any[]) => {
+        return (nodes || []).map((node) => ({
+            ...node,
+            children: cleanTree(node.children)
+        }))
+    }
+
     console.log(props.match)
     return (
         <Suspense fallback={(
@@ -261,13 +298,14 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     direction="row">
                     {menu.map((menu_item) => (
                         <Button 
+                        
                             hoverIndicator
                             onClick={() => {
                                 setActiveProgram(undefined)
                                 setView(menu_item as any)
                                 props.history.push(`${props.match.url}/${menu_item.toLowerCase()}`)
                             }}
-                            style={{padding: 6}} 
+                            style={{padding: 6, borderRadius: 3}} 
                             active={view == menu_item} 
                             plain 
                             label={menu_item} />
@@ -276,6 +314,32 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     
                 </Box>
             </Box>
+
+            <ProgramCanvasModal
+                open={modalOpen}
+                onSubmit={(item) => {
+                    if(view == "Program"){
+                        let parent = selectedItem.id !== 'root' ? selectedItem.id : undefined;
+                        addProgram({args: {name: item.name, parent: parent}}).then(() => {
+                            refetch()
+                        })
+                    }else{
+                        addHMI({args: {name: item.name, parent: selectedItem.id}}).then(() => {
+                            refetch()
+                        })
+                    }
+                    
+                    openModal(false)
+                }}
+                onClose={() => {
+                    setSelectedItem(undefined)
+                    openModal(false)
+                }}
+                modal={(gql`
+                    type ${view} {
+                        name: String
+                    }
+                `).definitions.find((a) => (a as ObjectTypeDefinitionNode).name.value == view) as ObjectTypeDefinitionNode} />
             <Box
                 flex
                 direction="row">
@@ -285,7 +349,7 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                     <Box 
                         flex
                         width="small">
-                        <Box 
+                        {/* <Box 
                             pad="xsmall"
                             border={{side: 'bottom', size: 'small'}}
                             direction="row" 
@@ -309,21 +373,40 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
                                 plain
                                 style={{padding: 6, borderRadius: 3}}
                                 icon={<Add size="small" />} />
-                        </Box>
-                        <List 
+                        </Box> */}
+
+                        <HyperTree 
+                            id="editor-menu"
+                            onCreate={(node) => {
+                                console.log("CREATE", node)
+                                setSelectedItem(node.data)
+                                openModal(true)
+                            }}
+                            onSelect={(node) => {
+                                if(node.data.id !== 'root'){
+                                    setActiveProgram(node.data.id)
+                                }
+                            }}
+                            data={[{
+                                id: 'root',
+                                name: view,
+                                children: (program.program || program.hmi) ? view == "Program" ? cleanTree(program.program) : cleanTree(program.hmi) : []
+                            }]} />
+                        {/* <List 
                             onClickItem={({item}) => {
                                 console.log(item)
                                 setActiveProgram(item.id)
                             }}
                             primaryKey="name"
-                            data={view == "Program" ? program.program : program.hmi} />
+                            data={view == "Program" ? program.program : program.hmi} /> */}
                     </Box>
                 </Collapsible>
                 <Box flex>
                     <Switch>
                         <Route path={[`${props.match.path}/program`, `${props.match.url}/`, `${props.match.url}`]} exact render={(props) => <Program {...props} activeProgram={activeProgram} />} />
                         <Route path={`${props.match.path}/controls`} render={(props) => <Controls {...props} activeProgram={activeProgram} />} />
-                        <Route path={`${props.match.path}/devices`} component={Devices} />
+                        <Route path={`${props.match.path}/devices`} exact component={Devices} />
+                        <Route path={`${props.match.path}/devices/:id`} render={(other) => <DeviceSingle {...other} program={props.match.params.id} />} />
                         <Route path={`${props.match.path}/alarms`} component={Alarms} />
                         <Route path={`${props.match.path}/documentation`} component={Documentation} />
                     </Switch>

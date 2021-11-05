@@ -11,6 +11,9 @@ export interface BaseModalProps {
     onSubmit?: () => Promise<boolean> | void;
 
     title?: string;
+
+    padding?: string;
+    gap?: string;
 }
 
 export interface BaseModalState {
@@ -53,15 +56,15 @@ export class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
 
                     background="neutral-2"
                     width={this.props.width || "medium"}
-                    gap="small">
+                    gap={this.props.gap || 'small'}>
                     <Box
                         background="accent-2"
-                        pad="small"
+                        pad={"small"}
                         border={{ side: 'bottom', size: 'small' }}>
                         {this.props.title}
                     </Box>
                     <Box
-                        pad="small"
+                        pad={this.props.padding || "small"}
                         style={{ display: 'flex', flexDirection: 'column' }}>
                         <Box gap="small">
                             {this.props.children}

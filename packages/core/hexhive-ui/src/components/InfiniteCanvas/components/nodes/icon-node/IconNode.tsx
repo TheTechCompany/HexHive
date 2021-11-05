@@ -42,26 +42,22 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
 
     return (
         <BaseIconNode
-            width={{min: props.extras?.label ? '96px' : '55px'}}
-            height={props.extras?.label ? '42px' : '55px'}
+            width={{min: props.extras?.label ? '72px' : '55px'}}
+            height={props.extras?.label ? '72px' : '55px'}
             {...props}>
             {(icon) => (
                 <Box 
                     pad="small"
                     flex
-                    justify={props.extras?.label ? 'between' : 'center'}
+                    justify={props.extras?.label ? 'center' : 'center'}
                     align={props.extras?.label ? 'center': 'center'}
-                    direction={props.extras?.label ? 'row': 'column'}>
+                    direction={/*props.extras?.label ? 'row':*/ 'column'}>
                     <PortWidget direction="center" type="in" id="in" />
                     {icon}
                     {props.extras?.label && (
-                        <Box
-                            margin={{left: 'small'}} 
-                            direction="row"
-                            justify="center"
-                            flex>
-                        <Text>{props.extras?.label}</Text>
-                        </Box>
+                    
+                        <Text size="small">{props.extras?.label}</Text>
+                   
                     )}
                     <PortWidget direction="center" type="out" id="out"    />
                 </Box>

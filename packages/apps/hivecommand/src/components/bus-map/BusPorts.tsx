@@ -49,6 +49,7 @@ export const BusPorts: React.FC<BusPortsProps> = (props) => {
 		let portKey =  `${key ? key+'_' : ''}${ix + 1}`
 		return (
 		<Box
+			focusIndicator={true}
 			onClick={() => props.onSelect(portKey, ix)}
 			gap="small"
 			align="center"
@@ -65,9 +66,9 @@ export const BusPorts: React.FC<BusPortsProps> = (props) => {
 				<Text size="xsmall">{props.connectedDevices?.find((a) => `${a.port}` == `${portKey}`)?.name}</Text>
 
 			</Box>
-			<Box align="center">
-				<Select
-					
+			<Box width="small" align="center">
+				<Text size="small">{props.map.filter((a) => a.port == portKey)?.filter((a) => a.device).map((x) => x?.device?.name).join(', ')}</Text>
+				{/* <Select
 					clear={true}
 					multiple
 					plain
@@ -83,7 +84,7 @@ export const BusPorts: React.FC<BusPortsProps> = (props) => {
 					labelKey="name"
 					valueKey={{reduce: true, key: 'id'}}
 					options={props.devices}
-					placeholder="Map" />
+					placeholder="Map" /> */}
 			</Box>
 		</Box>
 		)

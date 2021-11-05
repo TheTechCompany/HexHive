@@ -17,7 +17,6 @@ import { mergeSchemas } from "@graphql-tools/merge"
 import SubSchema from "./schema"
 import { REMOTE_SCHEMA } from "./remotes"
 import { DefaultRouter } from "./routes"
-import { isValidObjectId } from "mongoose"
 
 import { createServer } from "http"
 // import WebSocket, { Server as WebSocketServer } from 'ws';
@@ -143,6 +142,8 @@ const setupWebsockets = (io: Server) => {
 
 	const mqChannel = await mqConnection.createChannel()
 
+	await mqChannel.assertQueue(`COMMAND:DEVICE:CONTROL`)
+	
 	await mqChannel.assertQueue(`device-change`, {
 		durable: false
 	})

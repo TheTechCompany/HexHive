@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { InfiniteCanvasContext } from '../../context/context';
 import { NodeIdContext } from '../../context/nodeid';
-import { isEqual } from 'lodash'
+import { isEqual, transform } from 'lodash'
 import styled from 'styled-components';
 
 export interface BasePortProps {
@@ -20,11 +20,12 @@ export const usePort = (props : {id?: string}) => {
 
     const ref = useRef<HTMLDivElement>(null)
     const [ lastPos, setLastPos ] = useState<any>();
-    const { nodeId, dimensions, position } = useContext(NodeIdContext)
+    const { nodeId, dimensions, position, rotation} = useContext(NodeIdContext)
 
     useEffect(() => {
-        if(position && !isEqual(position, lastPos) && props.id && ref.current){
+        if(position && !isEqual({rotation, ...position}, lastPos) && props.id && ref.current){
             let bounds = ref?.current?.getBoundingClientRect()
+            console.log("HIT", rotation)
             reportPosition?.({nodeId: nodeId, handleId: props.id, position: {
                 x: bounds?.x, 
                 y: bounds?.y,
@@ -32,9 +33,9 @@ export const usePort = (props : {id?: string}) => {
                 height: bounds?.height
             }
             })
-            setLastPos(position)
+            setLastPos({rotation, ...position})
         }
-    }, [props.id, position, dimensions])
+    }, [props.id, position, dimensions, rotation])
 
     return {
         dragPort: (e: React.MouseEvent) => {
@@ -58,23 +59,40 @@ export const BasePort : React.FC<BasePortProps> = (props) => {
 
     const [ lastPosition, setLastPosition ] = useState<any>();
 
-    const { nodeId, position } = useContext(NodeIdContext)
+    const { nodeId, position, rotation } = useContext(NodeIdContext)
     const ref = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        if(position && !isEqual(position, lastPosition) && props.handleId && ref.current){
-            let bounds = ref.current.getBoundingClientRect() || {x: 0, y: 0, width: 0, height: 0}
+    // useEffect(() => {
+    //     if(position && !isEqual({rotation, ...position}, lastPosition) && props.handleId && ref.current){
+    //         let bounds = ref.current.getBoundingClientRect() || {x: 0, y: 0, width: 0, height: 0}
             
-            reportPosition?.({nodeId: nodeId, handleId: props.handleId, position: {
-                x: bounds?.x, 
-                y: bounds?.y,
-                width: bounds?.width,
-                height: bounds?.height
-            }
-            })
-            setLastPosition(position)
-        }
-    }, [position, props.handleId])
+    //         console.log("HIT", rotation, bounds)
+    //         reportPosition?.({nodeId: nodeId, handleId: props.handleId, position: {
+    //             x: bounds?.x, 
+    //             y: bounds?.y,
+    //             width: bounds?.width,
+    //             height: bounds?.height
+    //         }
+    //         })
+            
+    //         setLastPosition({rotation, ...position})
+    //     }
+    // }, [position, props.handleId, rotation])
+
+    // useEffect(() => {
+    //     if(props.handleId && ref.current){
+    //         let bounds = ref.current.getBoundingClientRect() || {x: 0, y: 0, width: 0, height: 0}
+            
+    //         console.log("HIT", rotation, bounds)
+    //             reportPosition?.({nodeId: nodeId, handleId: props.handleId, position: {
+    //                 x: bounds?.x, 
+    //                 y: bounds?.y,
+    //                 width: bounds?.width,
+    //                 height: bounds?.height
+    //             }
+    //         })
+    //     }
+    // }, [rotation])
 
     return (
         <div 

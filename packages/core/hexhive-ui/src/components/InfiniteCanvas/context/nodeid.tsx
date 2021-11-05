@@ -6,6 +6,7 @@ export const NodeIdContext = React.createContext({
         x: 0,
         y: 0
     },
+    rotation: 0,
     dimensions: {
         width: 0,
         height: 0

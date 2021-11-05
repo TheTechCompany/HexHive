@@ -31,6 +31,7 @@ export const BaseContextMenu: React.FC<ContextMenuProps> = (props) => {
             elevation="small"
             pad="xxsmall"
             style={{
+                pointerEvents: 'all',
                 zIndex: 20,
                 position: 'absolute',
                 top: props.y,

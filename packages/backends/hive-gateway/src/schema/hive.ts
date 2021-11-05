@@ -22,11 +22,14 @@ import acl from "./subschema/acl"
 import { createHash } from "crypto"
 import { sendInvite } from "../email"
 
+import { DeviceValue } from '@hexhive/types'
+
 import amqp from 'amqplib'
 
 import { text } from "stream/consumers"
 import { Client, Pool } from "pg"
 import { x } from "tar"
+import { getDeviceActions } from "../data/command"
 
 require("dotenv").config()
 
@@ -138,41 +141,41 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 				port: string
 			}) => {
 
-				const client = await pgClient.connect()
+				const values = await DeviceValue.find({device: args.device});
 
-				let where = ``;
-				let whereClause : string[] = []
-				let whereArgs : {key: string, value: string}[] = []
+				// const client = await pgClient.connect()
 
-				if(args.bus) {
-					// whereClause.push(`bus=$1`)
-					whereArgs.push({value: args.bus, key: 'bus'})
-				}
+				// let where = ``;
+				// let whereClause : string[] = []
+				// let whereArgs : {key: string, value: string}[] = []
 
-				if(args.device){
-					whereArgs.push({value: args.device, key: 'device'})
-					// whereClause.push(`device=$2`)
-				}
+				// if(args.bus) {
+				// 	// whereClause.push(`bus=$1`)
+				// 	whereArgs.push({value: args.bus, key: 'bus'})
+				// }
 
-				if(args.port){
-					whereArgs.push({value: args.port, key: 'bus'})
-				}
+				// if(args.device){
+				// 	whereArgs.push({value: args.device, key: 'device'})
+				// 	// whereClause.push(`device=$2`)
+				// }
 
-				if(whereClause.length > 0){
-					where += `WHERE ${whereArgs.map((x, ix) => `${x.key}=$${ix + 1}`).join(' AND ')}`
-				}
+				// if(args.port){
+				// 	whereArgs.push({value: args.port, key: 'bus'})
+				// }
+
+				// if(whereClause.length > 0){
+				// 	where += `WHERE ${whereArgs.map((x, ix) => `${x.key}=$${ix + 1}`).join(' AND ')}`
+				// }
 
 
-				const values = await client.query(
-					`SELECT * FROM commandDeviceValues ${where} LATEST BY device,deviceId,valueKey`,
-					[whereArgs.map((x) => x.value)]
-				)
+				// const values = await client.query(
+				// 	`SELECT * FROM commandDeviceValues ${where} LATEST BY device,deviceId,valueKey`,
+				// 	[whereArgs.map((x) => x.value)]
+				// )
 
-				console.log("Timeseries", values)
-
-				await client.release()
+				// await client.release()
 				
-				return values.rows;
+				return values;
 			},
 			flowWorkInProgress: async (root: any, args: {startDate: Date, endDate: Date}, context: any) => {
 				return await session.readTransaction(async (tx) => {
@@ -296,41 +299,58 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 		},
 		Mutation: {
 			performDeviceAction: async (root: any, args: any, context: any) => {
+				console.log(args)
 				const device = await session.readTransaction(async (tx) => {
-					const result = await tx.run(`
-						MATCH (hostDevice:CommandDevice)-->(peripheral:CommandDevicePeripheral)-[reality:PROVIDES_REALITY]->(device:CommandDevicePlaceholder {name: $name})
-						MATCH (map:CommandDevicePeripheralMap)-[:USES_DEVICE]->(device)
-						MATCH (map)-[:USES_STATE]->(state:CommandProgramDeviceState {key: $key})
-						MATCH (map)-[:USES_VARIABLE]->(variable)
-						RETURN device {
-							network_name: hostDevice.network_name,
-							type: peripheral.type,
-							id: peripheral.id,
-							valueKey: 
-						}
-						(device:CommandDevice {id: $id})-[:HAS_PERIPHERAL]->(bus:CommandDevicePeripheral {id: $peripheral})
-						RETURN device{
-							network_name: device.network_name,
-							type: bus.type,
-							id: bus.id
-						}
-					`, {
-						name: args.device,
-						key: args.key
-					})
-					return result?.records?.[0]?.get(0)
+
+					return await getDeviceActions(tx, args.deviceId, args.deviceName)
+					
+					// const result = await tx.run(`
+					// 	MATCH (hostDevice:CommandDevice)-->(peripheral:CommandDevicePeripheral)-[reality:PROVIDES_REALITY]->(device:CommandDevicePlaceholder {name: $name})
+					// 	MATCH (map:CommandDevicePeripheralMap)-[:USES_DEVICE]->(device)
+					// 	MATCH (map)-[:USES_STATE]->(state:CommandProgramDeviceState {key: $key})
+					// 	MATCH (map)-[:USES_VARIABLE]->(variable)
+					// 	RETURN device {
+					// 		network_name: hostDevice.network_name,
+					// 		type: peripheral.type,
+					// 		id: peripheral.id,
+					// 		valueKey: 
+					// 	}
+					// 	(device:CommandDevice {id: $id})-[:HAS_PERIPHERAL]->(bus:CommandDevicePeripheral {id: $peripheral})
+					// 	RETURN device{
+					// 		network_name: device.network_name,
+					// 		type: bus.type,
+					// 		id: bus.id
+					// 	}
+					// `, {
+					// 	name: args.device,
+					// 	key: args.key
+					// })
+					// return result?.records?.[0]?.get(0)
 				})
-				console.log(args.value)
 
-				let stateChange = {
-					device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
-					busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
-					value: args.value == '0' ? false : true //false
+				let action = device.actions?.find((a: any) => a.key == args.action)
+
+				if(action){
+					let actionRequest = {
+						address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
+						deviceId: args.deviceId,
+						deviceName: args.deviceName,
+						action: action.key
+					}
+
+					return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(actionRequest)))
 				}
+				// console.log("DEVICE ACTION", device, args.action, action)
 
-				console.log("Sending state change", stateChange)
+				// let stateChange = {
+				// 	device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
+				// 	busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
+				// 	value: args.value == '0' ? false : true //false
+				// }
+
+				// console.log("Sending state change", stateChange)
 			
-				return await channel.sendToQueue(`device-change`, Buffer.from(JSON.stringify(stateChange)))
+				// return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(stateChange)))
 			},
 			changeDeviceValue: async (root: any, args: any, context: any) => {
 				

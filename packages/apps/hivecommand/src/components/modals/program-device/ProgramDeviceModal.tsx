@@ -1,5 +1,5 @@
-import { BaseModal } from '@hexhive/ui';
-import { Box, Select, Text, TextInput } from 'grommet';
+import { BaseModal } from '../base';
+import { Box, Select, CheckBox, Text, TextInput } from 'grommet';
 import React, {useState, useEffect} from 'react';
 
 export interface ProgramDeviceModalProps {
@@ -17,9 +17,11 @@ export interface ProgramDeviceModalProps {
 export const ProgramDeviceModal : React.FC<ProgramDeviceModalProps> = (props) => {
 
 	const [ device, setDevice ] = useState<{
+		id?: string;
 		name?: string;
 		type?: string;
-		configuration?: {key: string, type: string, value: any}[];
+		configuration?: {id?: string, key: string, type: string, value: any}[];
+		requiresMutex?: boolean;
 	}>({});
 
 	const [ label, setLabel ] = useState<string>('');
@@ -31,16 +33,37 @@ export const ProgramDeviceModal : React.FC<ProgramDeviceModalProps> = (props) =>
 	}
 
 	useEffect(() => {
+		let configuration = props.selected?.type?.configuration || [];
+		// console.log(props.selected)
+		if(props.selected?.configuration){
+			configuration = props.selected?.type?.configuration?.map((item) => {
+
+				let value = props.selected?.configuration?.find((a) => a?.conf?.id == item.id)
+				
+				console.log(item, value)
+
+				return {
+					id: value?.id,
+					key: item.key,
+					confKey: item.id,
+					type: item.type,
+					value: value?.value
+				}
+			})
+		}
+
+		console.log(configuration)
+
 		setDevice({
 			...props.selected,
 			type: props.selected?.type?.id,
-			configuration: props.selected?.type?.configuration
+			configuration: configuration
 		})
 	}, [props.selected])
 
 	const onChangeConf = (key: string, value: any) => {
 		let conf = device.configuration.slice();
-		let ix =conf.map((x) => x.key).indexOf(key);
+		let ix = conf.map((x) => x.key).indexOf(key);
 
 		if(ix > -1){
 			conf[ix] = {
@@ -84,13 +107,22 @@ export const ProgramDeviceModal : React.FC<ProgramDeviceModalProps> = (props) =>
 					valueKey={{reduce: true, key: 'id'}}
 					placeholder="Device Type" />
 				
+				<Box
+					justify="end" 	
+					direction="row">
+					<CheckBox 
+						checked={device?.requiresMutex}
+						onChange={(e) => setDevice({...device, requiresMutex: e.target.checked})}
+						reverse 
+						label="Requires Mutex" />
+				</Box>
 				{device.configuration && device.configuration?.map((conf) => (
 					<Box
 						gap="xsmall"
 						align="center"
 						direction="row">
-						<Text>{conf.key}</Text>
-						{renderInput(conf.key, conf.type)}
+						<Box flex><Text>{conf.key}</Text></Box>
+						<Box flex>{renderInput(conf.key, conf.type)}</Box>
 					</Box>
 				))}
 			</Box>
