@@ -87,6 +87,7 @@
     "react-big-calendar": "^0.33.6",
     "react-doc-viewer": "^0.1.5",
     "react-dropzone": "^11.3.4",
+    "react-hyper-tree": "^0.2.18",
     "react-multi-date-picker": "^3.0.0",
     "react-popover": "^0.5.10",
     "react-resize-aware": "^3.1.0",

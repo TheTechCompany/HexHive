@@ -1,8 +1,10 @@
 import { Box, Layer, Text } from 'grommet';
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components'
 import * as Icons from 'grommet-icons'
 import { RetractingPort } from '@hexhive/ui';
+import { useSVGStyle } from '../../hooks/svg';
+import { HMIGroup } from './HMIGroup';
 
 export interface IconNodeProps{
     className?: string;
@@ -11,12 +13,23 @@ export interface IconNodeProps{
         
         label?: string;
         color?: string;
+        
         icon?: any;
+
         iconString?: string;
+
+        devicePlaceholder?: {
+            name?: string;
+        }
 
         configuration?: any;
 
         ports?: any[];
+
+        showTotalizer?: boolean;
+        rotation?: number;
+        scaleX?: number;
+        scaleY?: number;
     },
     width?: any;
     height?: any
@@ -27,7 +40,18 @@ export interface IconNodeProps{
 const _Icons : any = Icons;
 
 export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
-    const Icon = props.extras?.icon && typeof(props.extras.icon) === 'string' ? (Icons as any)[props.extras.icon] : (props.extras?.icon) ? props.extras.icon : Icons.Previous;
+
+    const Icon = !(Array.isArray(props.extras.icon)) ? useSVGStyle(props.extras?.icon && typeof(props.extras?.icon) === 'string' ? (Icons as any)[props.extras.icon] : (props.extras?.icon) ? props.extras?.icon : Icons.Previous, (props) => ({
+        stroke: props.options?.open == 'true' || props.options?.on == 'true' ? 'green' : 'gray',
+        filter: `hue-rotate(${((props.options?.open == true || props.options?.open == 'true') || (props.options?.on == 'true')) ? '45' : '0'}deg)`
+    })) : () => <HMIGroup icons={props.extras.icon} />
+    //Array.isArray(props.extras.icon) ?
+//: () => <HMIGroup icons={props.extras.icon} />
+    const [ rotation, setRotation ] = useState<number>(0);
+
+    useEffect(() => {
+        setRotation(props?.extras?.rotation)
+    }, [props?.extras?.rotation])
 
     return (
         <Box 
@@ -37,7 +61,12 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
             height={props.height || '72px'}
             round="small"
             className={props.className}>
-            {props.children?.(<Icon conf={props.extras.configuration} options={props.extras.options} size="medium" />)}
+            {props.children?.(
+                <Icon 
+                    conf={props?.extras?.configuration} 
+                    options={props?.extras?.options} 
+                    size="medium" />
+            )}
         </Box>
     )
 }
@@ -46,8 +75,18 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
 export const UnstyledIconNode = (props : IconNodeProps) => {
     const [actionsOpen, openActions ] = useState<boolean>(false);
 
+    console.log("HMI NOde", props)
     return (
         <>
+        {props.extras?.showTotalizer && (
+            <Box 
+                background="light-1"
+                align="center"
+                justify="center"
+                style={{borderRadius: '100%', width: 33, height: 33, position: 'absolute', top: -50, left: 0, right: 0}}>
+                Total
+            </Box>
+        )}
         <BaseIconNode
             onClick={() => {
                 openActions(!actionsOpen)
@@ -56,7 +95,7 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
             height={props.extras?.label ? '42px' : '55px'}
             {...props}>
             {(icon) => (
-         <>
+            <>
                 <Box 
                     flex
                     justify={props.extras?.label ? 'between' : 'center'}
@@ -67,24 +106,29 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
                         <RetractingPort
                         id="in"
                         {...port}
+                        scaleX={props.extras.scaleX}
+                        scaleY={props.extras.scaleY}
                         direction="center"   />
                     ))}
 
                     {icon}
-                    {props.extras?.label && (
-                        <Box
-                            margin={{left: 'small'}} 
-                            direction="row"
-                            justify="center"
-                            flex>
-                        <Text>{props.extras?.label}</Text>
-                        </Box>
-                    )}
+           
                 </Box>
             </>
             )}
 
         </BaseIconNode>
+        {props.extras?.devicePlaceholder?.name && (
+                        <Box
+                            style={{transform: `
+                            scaleX(${1 / (props.extras?.scaleX || 1)})
+                            scaleY(${1 / (props.extras?.scaleY || 1)})`}}
+                            direction="row"
+                            justify="center"
+                            flex>
+                        <Text size="small" color="white">{props.extras?.devicePlaceholder?.name}</Text>
+                        </Box>
+        )}
  
     </>
     )

@@ -16,7 +16,7 @@ export interface ProgramCanvasProps {
 
 	selected?: any[];
 	onSelect?: (selected: {key: "node" | "path", id: string}) => void;
-
+	onDelete?: () => void;
 
 	menu?: {
 		key: string,
@@ -97,6 +97,7 @@ export const ProgramCanvas : React.FC<ProgramCanvasProps> = (props) => {
 				onSelect={(key, id) => {
 					props.onSelect?.({key, id})
 				}}
+				onDelete={props.onDelete}
                 factories={[new IconNodeFactory()]}
                 onPathCreate={(path) => {
             

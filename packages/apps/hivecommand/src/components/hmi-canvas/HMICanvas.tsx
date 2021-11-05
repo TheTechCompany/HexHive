@@ -141,10 +141,16 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
                     id: x.id,
                     x: x.x,
                     y: x.y,
+                    width: `${x?.type?.width || 50}px`,
+                    height: `${x?.type?.height || 50}px`,
                     extras: {
-                        options: props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.values,
-                        configuration: props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.conf.reduce((prev,curr) => ({...prev, [curr.conf.key]: curr.value}), {}),
+                      
+                        options: props.deviceValues.find((a) => a?.devicePlaceholder?.name == x?.devicePlaceholder?.name)?.values,
+                        configuration: props.deviceValues.find((a) => a?.devicePlaceholder?.name == x?.devicePlaceholder?.name)?.conf.reduce((prev,curr) => ({...prev, [curr.conf.key]: curr.value}), {}),
                         ports: x?.type?.ports.map((x) => ({...x, id: x.key})),
+                        rotation: x?.rotation || 0,
+                        scaleX: x?.scaleX || 1,
+                        scaleY: x?.scaleY || 1,
                         // color: x.type == 'BallValve' || x.type == "DiaphragmValve" ? (props.deviceValues.find((a) => a.devicePlaceholder.name == x.devicePlaceholder.name)?.values == "false" ? '0deg' : '60deg') : '0deg',
                         devicePlaceholder: x.devicePlaceholder,
                         iconString: x?.type?.name,
@@ -159,6 +165,7 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
                 let connections = x.outputsConnection?.edges?.map((edge) => ({
                     id: edge.id,
                     source: x.id,
+                    points: edge.points,
                     sourceHandle: edge.sourceHandle,
                     target: edge.node.id,
                     targetHandle: edge.targetHandle
@@ -215,7 +222,7 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
                     })
                 }} 
 
-                editable={true}
+                editable={false}
                 nodes={nodes}
                 paths={pathRef.current.paths}
                 factories={[new IconNodeFactory(), new HMINodeFactory()]}
@@ -227,62 +234,7 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
 
                     updateRef.current?.addPath(path);
                 }}
-                onPathUpdate={(path) => {
-          
-
-                    if(path.source && path.target){
-						props.onConnect({
-							source: path.source,
-							sourceHandle: path.sourceHandle,
-							target: path.target,
-							targetHandle: path.targetHandle
-						})
-                        // connectNodes({
-                        //     args: {
-                        //         source: path.source,
-                        //         sourceHandle: path.sourceHandle,
-                        //         target: path.target,
-                        //         targetHandle: path.targetHandle
-                        //     }
-                        // }).then(() => {
-                        //     refetch()
-                        // })
-                    }
-                    updateRef.current?.updatePath(path)
-                }}
-                onNodeUpdate={(node) => {
-
-                    console.log("UPDATE", nodes)
-                    let n = nodes.slice()
-                    let ix = n.map((x) => x.id).indexOf(node.id)
-                    n[ix] = node;
-                    setNodes(n)
-
-                    // updateHMINode({args: {id: node.id, x: node.x, y: node.y}}).then(() => {
-                    //     refetch()
-                    // })
-                    // console.log("NODES", node)
-                }}
-                onDrop={(position, data) => {
-      
-                        // addHMINode({args: {
-                        //     x: position.x,
-                        //     y: position.y,
-                        //     type: data.extras.icon
-                        // }})
                
-                    data.extras.icon = HMIIcons[data.extras.icon]
-                    
-                    setNodes([...nodes, {
-                        id: nanoid(),
-                        x: position.x,
-                        y: position.y,
-                        extras: {
-                            icon: data.extras.icon
-                        },
-                        type: HMINodeFactory.TAG
-                    }])
-                }}
                 >
      
                 <ZoomControls anchor={{vertical: 'bottom', horizontal: 'right'}} />

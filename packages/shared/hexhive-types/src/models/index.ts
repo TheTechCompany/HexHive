@@ -14,6 +14,7 @@ import { AuthorizationCode } from './authorization_code';
 import { AccessToken } from './access_token';
 import { App } from './app';
 import { HiveDoc } from './document';
+import DeviceValue from './device-value'
 
 let opts : any = {
     useNewUrlParser: true,
@@ -51,6 +52,7 @@ export const connect_data = () => {
 
 
 export {
+    DeviceValue,
     FlowShard,
     Program,
     AuthorizationCode,

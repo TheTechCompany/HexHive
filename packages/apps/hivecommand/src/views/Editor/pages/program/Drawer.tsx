@@ -22,7 +22,8 @@ const pathType = {
 		}
 
 		type Condition @exclude {
-			input: String @display 
+			inputDevice: Device @display(key:"name")
+			inputDeviceKey: DeviceState @display(key:"key") @requires(key: "inputDevice")
 			comparator: String @display
 			assertion: String @display
 		}
@@ -61,6 +62,7 @@ const types = [
 			type ActionItem @exclude {
 				device: Device @display(key: "name")
 				request: DeviceAction @display(key: "key") @requires(key: "device")
+				release: Boolean
 			}
 		`
 	},
@@ -116,20 +118,25 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 					// 	newConf[conf.key].push({value: conf.value});
 
 					// }else{
-						newConf[conf.key] = {id: conf.id, value: conf.value};
+						if(conf.key != "actions"){
+							newConf[conf.key] = {id: conf.id, value: conf.value};
+						}
 
 					// }
 					
 				})
-				setInfo(newConf)
+				console.log("NEW", selected)
+				setInfo({actions: selected?.extras?.configuration?.find((a) => a.key == "actions") || {value: []}, conf: newConf})
 
 			break;	
 		case 'path':
 			console.log("Path ", conditions, selected?.extras)
 				setInfo({
-					conditions: {
-						value: conditions?.filter((a) => selected?.extras?.configuration?.conditions?.indexOf(a.id) > -1)
-					}
+		
+						conditions: {
+							value: conditions?.filter((a) => selected?.extras?.configuration?.conditions?.indexOf(a.id) > -1)
+						}
+					
 				})
 				
 			break;
@@ -144,7 +151,8 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 		id: string,
 		conditions: {
 			id?: string;
-			input: string,
+			inputDevice: string | {id?: string},
+			inputDeviceKey: string | {id?: string},
 			comparator: string,
 			assertion: string
 		}[]
@@ -184,7 +192,8 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 					
 							node: {
 								id: newIds[ix],
-								input: condition.input,
+								inputDevice: {connect: {where: {node: { id: (typeof(condition.inputDevice) == "object") ? condition.inputDevice.id : condition.inputDevice }}}},
+								inputDeviceKey: {connect: {where: {node: {id: (typeof(condition.inputDeviceKey) == "object") ? condition.inputDeviceKey.id : condition.inputDeviceKey}}}},
 								comparator: condition.comparator,
 								assertion: condition.assertion
 							}
@@ -197,7 +206,8 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 						},
 						update: {
 							node: {
-								input: condition.input,
+								inputDevice: {connect: {where: {node: {id:  (typeof(condition.inputDevice) == "object") ? condition.inputDevice.id :condition.inputDevice}}}},
+								inputDeviceKey: {connect: {where: {node: {id: (typeof(condition.inputDeviceKey) == "object") ? condition.inputDeviceKey.id : condition.inputDeviceKey}}}},
 								comparator: condition.comparator,
 								assertion: condition.assertion
 							}
@@ -261,11 +271,14 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 		id: string,
 		actions?: {
 			id?: string;
-			device: string;
-			request: string;
+			device: {id: string} | string;
+			request: {id: string} | string;
+			release: boolean;
 		}[]
 		configuration?: {id?: string, key: string, value: string}[]
 	}) => {
+
+		console.log(args.configuration)
 
 		let mutationElem = {}
 
@@ -276,8 +289,9 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 				actions: [{
 					create: args.actions.filter((a) => !a.id).map((action) => ({
 							node: {
-								device: {connect: {where: {node: {id: action.device}}}},
-								request: {connect: {where: {node: {id: action.request, device: {usedIn: {id: action.device}}}}}}
+								release: action.release,
+								device: {connect: {where: {node: {id: typeof(action.device) == "object" ? action.device.id : action.device}}}},
+								request: {connect: {where: {node: {id: typeof(action.request) == "object" ? action.request.id : action.request, device: {usedIn: {id: typeof(action.device) == "object" ? action.device.id : action.device}}}}}}
 							}
 						}))
 					},
@@ -285,8 +299,9 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 						where: {node: {id: action.id}},
 						update: {	
 							node: {
-									request: {connect: {where: {node: {id: action.request, device: {usedIn: {id: action.device}}}}}},
-									device: {connect: {where: {node: {id: action.device}}}}
+									release: action.release,
+									request: {connect: {where: {node: {id: typeof(action.request) == "object" ? action.request.id : action.request, device: {usedIn: {id: typeof(action.device) == "object" ? action.device.id : action.device}}}}}},
+									device: {connect: {where: {node: {id: typeof(action.device) == "object" ? action.device.id : action.device}}}}
 								}
 							}
 						}))
@@ -479,6 +494,8 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 			console.log(x.directives)
 			return field ? d?.[field] : d;
 		})
+
+		console.log(datum)
 		// let picked = _.pick(datum, keys)
 		return keys.join(' ')
 	}
@@ -521,7 +538,7 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 				</Box>
 				{form_type?.filter((a) => !a.isInput)?.map((item) => 
 					item.fields.map((field) => {
-						console.log(info[field.key], info)
+						console.log("FIELD", field.key, field, info[field.key], info)
 						return field.isList ? (
 							<Box>
 								<ProgramCanvasModal 
@@ -539,7 +556,8 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 											updateNodeConfiguration({
 												args: {
 													id: selected.id,
-													actions: [item]
+													actions: [item],
+													configuration: []
 												}
 
 											}).then(() => {
@@ -550,7 +568,7 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 											updatePathConditions({
 												args: {
 													id: activeProgram,
-													conditions: [...info[field.key].value, item],
+													conditions: [...(info[field.key].value || []), item],
 												}
 											}).then(() => {
 												refresh()
@@ -620,7 +638,7 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 										value={info['operation']} /> */}
 									<List
 										pad="none"
-										data={info[field.key]?.value}>
+										data={info?.[field.key]?.value}>
 										{(datum) => (
 											<Box 
 												pad={'xsmall'}
@@ -654,7 +672,7 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 								onChange={(value) => {
 									onChange(field.key, value)
 								}}
-								value={info[field.key]?.value}
+								value={info.conf?.[field.key]?.value}
 								placeholder={field.key}
 								options={field.type == "Device" ?  devices : []} />
 						) : ( 
@@ -663,7 +681,7 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 									onChange(field.key, value)
 						
 								}}
-								value={info[field.key]?.value}
+								value={info.conf?.[field.key]?.value}
 								placeholder={field.key} 
 								type={ 'text'}/>
 						)

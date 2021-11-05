@@ -4,16 +4,20 @@ import * as Icons from 'grommet-icons'
 
 const defaultGapStyle = { marginLeft: 6 };
 
-export const TreeNode: FC<any> = ({
+export const TreeNode: FC<any> = (props) => {
+const {
     height,
     data: { isLeaf, isSelected, onRightAction, onClick, name, nestingLevel },
     isOpen,
     resize,
     style,
     items = [],
-    setOpen,
+    toggle,
     treeData: itemSize,
-}) => {
+} = props;
+
+    console.log(props)
+
     const canOpen = height <= itemSize;
     const halfSize = itemSize / 2;
 
@@ -39,11 +43,13 @@ export const TreeNode: FC<any> = ({
                 <div>
                     <Button
                         plain
+                        hoverIndicator
+                        style={{padding: 6, borderRadius: 3}}
                         size="small"
                         icon={isOpen ? <Icons.Down size="small" /> : <Icons.Next size="small" />}
                         onClick={(e) => {
                             e.stopPropagation();
-                            setOpen(!isOpen)
+                            toggle(!isOpen)
                         }} />
                 </div>
             )}

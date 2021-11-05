@@ -12,8 +12,14 @@ export default `
 
 	}
 
+	type CommandKeyValue {
+		id: ID
+		key: String
+		value: String
+	}
+
 	extend type Mutation {
-		performDeviceAction(device: String, action: String): CommandDeviceResponse
+		performDeviceAction(deviceId: String, deviceName: String, action: String): CommandDeviceResponse
 		changeDeviceValue(device: String, bus: String, port: String, key: String, value: String): CommandDeviceResponse
 	}
 
@@ -120,15 +126,65 @@ export default `
 		trigger: String
 	}
 
+	type CommandInterlock {
+		id: ID! @id
+		inputDevice: CommandProgramDevicePlaceholder @relationship(type: "HAS_INPUT", direction: OUT)
+		inputDeviceKey: CommandProgramDeviceState @relationship(type: "HAS_INPUT_KEY", direction: OUT)
+		comparator: String
+		assertion: String
+
+		device: CommandProgramDevicePlaceholder @relationship(type: "HAS_INTERLOCK", direction: IN)
+	}
+
 	type CommandProgramDevicePlaceholder {
 		id: ID! @id
 		name: String
 		type: CommandProgramDevice @relationship(type: "USES_TEMPLATE", direction: OUT)
+
+		requiresMutex: Boolean
+
+		interlocks: [CommandInterlock] @relationship(type: "HAS_INTERLOCK", direction: OUT)
+
+		pluginsConfiguration: [CommandKeyValue] @relationship(type: "USES_KV", direction: OUT)
+		plugins: [CommandProgramDevicePlugin] @relationship(type: "USES_PLUGIN", direction: OUT, properties: "CommandProgramDevicePluginAssignment")
+	}
+
+	interface CommandProgramDevicePluginAssignment @relationshipProperties {
+		configuration: [String]
+	}
+
+	type CommandProgramDevicePlugin {
+		id: ID! @id
+		name: String
+		compatibility: [CommandProgramDevicePluginCompatibility] @relationship(type: "USES_COMPATIBILITY", direction: OUT)
+		config: [CommandProgramDevicePluginConfiguration] @relationship(type: "HAS_CONF", direction: OUT)
+		tick: String
+	}
+
+	type CommandProgramDevicePluginCompatibility {
+		id: ID! @id
+		name: String
+	}
+
+	type CommandProgramDevicePluginConfiguration {
+		id: ID! @id
+		key: String
+		type: String
+		requires: [CommandProgramDevicePluginConfiguration] @relationship(type: "REQUIRES", direction: OUT, properties: "CommandProgramDevicePluginRequires")
+		value: String
+		plugin: CommandProgramDevicePlugin @relationship(type: "HAS_CONF", direction: IN)
+	}
+
+	interface CommandProgramDevicePluginRequires @relationshipProperties {
+		key: String
 	}
 
 	type CommandHMIDevice {
 		id: ID! @id
 		name: String
+
+		width: Float
+		height: Float
 
 		ports: [CommandHMIDevicePort] @relationship(type: "HAS_PORT", direction: OUT)
 	}
@@ -187,6 +243,9 @@ export default `
 	type CommandProgramFlow {
 		id: ID! @id
 		name: String
+		parent: CommandProgramFlow @relationship(type: "HAS_SUBFLOW", direction: IN)
+		children: [CommandProgramFlow] @relationship(type: "HAS_SUBFLOW", direction: OUT)
+
 		nodes: [CommandProgramNode] @relationship(type: "USES_NODE", direction: OUT)
 		conditions: [CommandProgramNodeFlowConfiguration] @relationship(type: "HAS_CONDITION", direction: OUT)
 		programs: [CommandProgram] @relationship(type: "USES_FLOW", direction: IN)
@@ -203,6 +262,7 @@ export default `
 		id: ID! @id
 		device: CommandProgramDevicePlaceholder @relationship(type: "ACTIONS", direction: OUT)
 		request: CommandProgramDeviceAction @relationship(type: "USES_ACTION", direction: OUT)
+		release: Boolean
 	}
 
 	type PIDTarget {
@@ -235,6 +295,7 @@ export default `
 		flow: [CommandProgramFlow] @relationship(type: "USES_NODE", direction: IN)
 
 		actions: [CommandActionItem] @relationship(type: "HAS_ACTION", direction: OUT)
+		subprocess: CommandProgramFlow @relationship(type: "USES_SUBFLOW", direction: OUT)
 
 		configuration: [CommandProgramNodeConfiguration] @relationship(type: "HAS_CONF", direction: OUT)
 
@@ -246,7 +307,8 @@ export default `
 
 	type CommandProgramNodeFlowConfiguration {
 		id: ID!
-		input: String
+		inputDevice: CommandProgramDevicePlaceholder @relationship(type: "HAS_INPUT", direction: OUT)
+		inputDeviceKey: CommandProgramDeviceState @relationship(type: "HAS_INPUT_KEY", direction: OUT)
 		comparator: String
 		assertion: String
 
@@ -267,6 +329,12 @@ export default `
 		id: ID! @id
 		x: Float
 		y: Float
+
+		rotation: Float
+		scaleX: Float
+		scaleY: Float
+
+		showTotalizer : Boolean
 		
 		type: CommandHMIDevice @relationship(type: "USES_VISUAL", direction: OUT)
 

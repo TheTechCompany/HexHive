@@ -4,19 +4,20 @@ import React from 'react';
 export interface FormControlProps {
 	placeholder?: string;
 	options?: any[];
-	
+	valueKey?: string;
+	labelKey?: string;
 	value?: any;
 	onChange?: (value: any) => void;
 }
 export const FormControl : React.FC<FormControlProps> = (props) => {
 	return (
 		<Box 
-			direction="column" 
-			align="start">
-			<Text size="small">{props.placeholder}</Text>
+			flex
+			direction="column" >
+			<Text alignSelf="start" size="small">{props.placeholder}</Text>
 			<Select 
-				valueKey={{key: 'id', reduce: true}}
-				labelKey="name"
+				valueKey={{key: props.valueKey || 'id', reduce: true}}
+				labelKey={props.labelKey || "name"}
 				options={props.options || []}
 				value={props.value}
 				onChange={({value}) => props.onChange?.(value)}/>

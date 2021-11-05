@@ -1,7 +1,7 @@
 import * as React from "react";
 
-function SvgTank(props: {options?: {level: number}, conf?: {minLevel: number, maxLevel: number}}) {
-
+function SvgTank(props: {width: string, height: string, conf?: {minLevel: number, maxLevel: number}, options?: {level: number}}) {
+  
   const getLevel = () => {
     if(!props.conf?.minLevel && !props.conf?.maxLevel){
       return props.options?.level;
@@ -10,10 +10,11 @@ function SvgTank(props: {options?: {level: number}, conf?: {minLevel: number, ma
 
     return (props.options?.level - props.conf?.minLevel) / ((props.conf?.maxLevel - props.conf?.minLevel) / 100)
   }
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 94.74 123.72"
+      viewBox="0 0 123.72 123.72"
       {...props}
     >
       <defs>
@@ -60,38 +61,38 @@ function SvgTank(props: {options?: {level: number}, conf?: {minLevel: number, ma
         }}
       >
         <rect
+
           x={1}
           y={1}
-          width={92.74}
+          width={121.72}
           height={121.72}
           rx={12.41}
           fill="none"
           strokeMiterlimit={10}
           strokeWidth={2}
-          stroke="url(#Tank_svg__a)"
         />
         <rect
-          x={10.28}
+          x={2}
           y={121.72 - ((120 / 100 * getLevel()) || 86.56)}
-          width={74.18}
-          height={(120 / 100 * getLevel()) || 86.56}
+          width={120}
+          height={120 / 100 * getLevel() || 86.56}
           rx={12.41}
           style={{
             mixBlendMode: "overlay",
           }}
-          fill="url(#Tank_svg__b)"
+          fill="#0064b1"
         />
-        <rect
+        {/* <rect
           x={10.28}
-          y={121.72 - ((120 / 100 * getLevel()) || 86.56)}
+          y={26.88}
           width={74.18}
-          height={(120 / 100 * getLevel()) || 86.56}
+          height={86.56}
           rx={12.41}
           fill="none"
           strokeMiterlimit={10}
           strokeWidth={2}
           stroke="url(#Tank_svg__c)"
-        />
+        /> */}
       </g>
     </svg>
   );

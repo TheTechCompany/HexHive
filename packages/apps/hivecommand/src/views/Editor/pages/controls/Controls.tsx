@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Box, Text, List, Button, Collapsible, TextInput, Select } from 'grommet'
-import { InfiniteCanvas, IconNodeFactory, InfiniteCanvasNode, ZoomControls, InfiniteCanvasPath } from '@hexhive/ui';
+import { Box, Text, List, Button, Collapsible, TextInput, Select, CheckBox } from 'grommet'
+import { InfiniteCanvas, ContextMenu, IconNodeFactory, InfiniteCanvasNode, ZoomControls, InfiniteCanvasPath, BumpInput } from '@hexhive/ui';
 import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
 import { NodeDropdown  } from '../../../../components/node-dropdown';
-import { BallValve, Blower, Conductivity, DiaphragmValve, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank } from '../../../../assets/hmi-elements';
+import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank } from '../../../../assets/hmi-elements';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import * as HMIIcons from '../../../../assets/hmi-elements'
-import { Nodes } from 'grommet-icons'
+import { Nodes, Add, Aggregate, Subtract, RotateLeft, RotateRight } from 'grommet-icons'
 import Settings from './Settings'
 import { nanoid } from 'nanoid';
 import { useMutation } from '@hexhive/client';
 import { pick } from 'lodash';
+import { throttle } from 'lodash';
+import { HMIGroupModal } from 'apps/hivecommand/src/components/modals/hmi-group';
 
 export const Controls = (props) => {
     
@@ -20,6 +22,8 @@ export const Controls = (props) => {
         _setSelected(s)
         selectedRef.current.selected = s;
     }
+
+    const [ target, setTarget ] = useState<{x?: number, y?: number}>({})
 
     const [ menuOpen, openMenu ] = useState<string | undefined>(undefined);
 
@@ -51,6 +55,8 @@ export const Controls = (props) => {
         {
             icon: <Blower width="40px" height="40px" />,
             label: "Blower",
+            width: 50,
+            height: 50,
             extras: {
                 icon: "Blower",
                 ports: [
@@ -211,10 +217,17 @@ export const Controls = (props) => {
             }
         },
         {
-            icon: <Filter width="40px" height="40px" />,
-            label: "Filter",
+            icon: <UfMembrane width="40px" height="40px" />,
+            label: "UF Membrane",
             extras: {
-                icon: "Filter"
+                icon: "UFMembrane"
+            }
+        },
+        {
+            icon: <Sump width="40px" height="40px" />,
+            label: "Sump",
+            extras: {
+                icon: "Sump"
             }
         }
     ]
@@ -235,6 +248,8 @@ export const Controls = (props) => {
                         id
                         type {
                             name
+                            width
+                            height
                             ports {
                                 key
                                 x
@@ -248,6 +263,11 @@ export const Controls = (props) => {
                         }
                         x
                         y
+
+                        showTotalizer
+                        rotation
+                        scaleX
+                        scaleY
 
                         inputs {
                             id
@@ -357,6 +377,64 @@ export const Controls = (props) => {
         }
     })
 
+    const [ updateHMINodeRotation, updateRotation ] = useMutation((mutation, args: {
+        id: string,
+        rotation: number
+    }) => {
+        const item = mutation.updateCommandHMINodes({
+            where: {id: args.id},
+            update: {
+                rotation: args.rotation
+            }
+        })
+
+        return {
+            item: {
+                ...item.commandHmiNodes[0]
+            }
+        }
+    })
+
+    const [ updateHMINodeTotalizer, updateTotalizer ] = useMutation((mutation, args: {
+        id: string,
+        totalize: boolean
+    }) => {
+        const item = mutation.updateCommandHMINodes({
+            where: {id: args.id},
+            update: {
+                showTotalizer: args.totalize,
+            }
+        })
+
+        return {
+            item: {
+                ...item.commandHmiNodes[0]
+            }
+        }
+    })
+
+
+    const [ updateHMINodeScale, updateScale ] = useMutation((mutation, args: {
+        id: string,
+        scale: {x?: number, y?: number}
+    }) => {
+
+        let update : any = {};
+        if(args.scale.x) update.scaleX = args.scale.x;
+        if(args.scale.y) update.scaleY = args.scale.y;
+
+        const item = mutation.updateCommandHMINodes({
+            where: {id: args.id},
+            update: update
+        })
+
+        return {
+            item: {
+                ...item.commandHmiNodes[0]
+            }
+        }
+    })
+
     const [ updateHMINode, updateInfo ] = useMutation((mutation, args: {
         id: string,
         x: number,
@@ -387,7 +465,7 @@ export const Controls = (props) => {
         let disconnectInfo : any = {};
         let deleteInfo : any = {};
         if(_paths.length > 0){
-            let path = paths.find((a) => a.id == _paths[0]);
+            let path = paths.find((a) => a.id == _paths?.[0]);
             disconnectInfo = mutation.updateCommandHMINodes({
                 where: {id: path.source},
                 update: {
@@ -417,7 +495,7 @@ export const Controls = (props) => {
           return {
                 item: {
                     ...(deleteInfo || {}),
-                    ...(disconnectInfo?.commandHmiNodes[0] || {})
+                    ...(disconnectInfo?.commandHmiNodes?.[0] || {})
                 }
             }
     })
@@ -425,6 +503,9 @@ export const Controls = (props) => {
     const [ updateConnection ] = useMutation((mutation, args : {
         id: string,
         source: string,
+        sourceHandle: string,
+        target: string,
+        targetHandle: string,
         points: {x: number, y: number}[]
     }) => {
        const item = mutation.updateCommandHMINodes({
@@ -438,7 +519,7 @@ export const Controls = (props) => {
                     },
                     update: {
                         edge: {
-                            points: args.points
+                            points: args.points.map((x) => pick(x, ["x", "y"]))
                         }
                     }
                 }]
@@ -451,21 +532,30 @@ export const Controls = (props) => {
         }
     })
 
-    const [ connectNodes, connectInfo ] = useMutation((mutation, args: {
+    const throttledUpdateConnection = throttle(updateConnection, 500)
+
+    const [ createConnection, connectInfo ] = useMutation((mutation, args: {
         source: string,
         sourceHandle: string,
-        target: string,
-        targetHandle: string,
-        points?: [{longitude: number, latitude: number}]
+        target?: string,
+        targetHandle?: string,
+        points?: {x: number, y: number}[]
     }) => {
+        console.log(args.points)
         const updated = mutation.updateCommandHMINodes({
             where: {id: args.source},
             update: {
-                outputs: [{connect: [{ where: {node: {id: args.target}}, edge: {
-                    sourceHandle: args.sourceHandle,
-                    targetHandle: args.targetHandle,
-                    // points: args.points
-                }}] }]
+                outputs: [{
+                    connect: [{ 
+                        where: {node: {id: args.target}}, 
+                        edge: {
+                            sourceHandle: args.sourceHandle,
+                            points: args.points.map((x) => pick(x, ["x", "y"])) || [],
+                            targetHandle: args.targetHandle,
+                            // points: args.points
+                        }
+                    }] 
+                }]
             }
         })
         return {
@@ -480,12 +570,20 @@ export const Controls = (props) => {
     useEffect(() => {
         let program = data?.commandPrograms?.[0]
         if(program && props.activeProgram){
+
+            console.log("NODES", (program.hmi).find((a) => a.id == props.activeProgram).nodes)
             setNodes((program.hmi).find((a) => a.id == props.activeProgram).nodes.map((x) => ({
                 id: x.id,
                 x: x.x,
                 y: x.y,
+                width: `${x?.type?.width || 50}px`,
+                height: `${x?.type?.height || 50}px`,
                 extras: {
                     devicePlaceholder: x.devicePlaceholder,
+                    rotation: x.rotation || 0,
+                    scaleX: x.scaleX || 1,
+                    scaleY: x.scaleY || 1,
+                    showTotalizer: x.showTotalizer || false,
                     iconString: x.type?.name,
                     icon: HMIIcons[x.type?.name],
                     ports: x?.type?.ports?.map((y) => ({...y, id: y.key})) || []
@@ -497,7 +595,7 @@ export const Controls = (props) => {
             setPaths((program.hmi).find((a) => a.id == props.activeProgram).nodes.map((x) => {
                 let connections = x.outputsConnection?.edges?.map((edge) => ({
                     id: edge.id,
-                    points: edge.points,
+                    points: edge.points || [],
                     source: x.id,
                     sourceHandle: edge.sourceHandle,
                     target: edge.node.id,
@@ -510,13 +608,7 @@ export const Controls = (props) => {
         }
     }, [data?.commandPrograms?.[0], props.activeProgram])
 
-    useEffect(() => {
-        window.addEventListener('keydown', watchEditorKeys)
-        
-        return () => {
-            window.removeEventListener('keydown', watchEditorKeys)
-        }
-    }, [])
+  
     const changeMenu = (view: string) => {
         openMenu(view == menuOpen ? undefined : view)
     }
@@ -543,8 +635,11 @@ export const Controls = (props) => {
             case 'config':
                 let item = selected.key == 'node' ? nodes.find((a) => a.id == selected.id) : undefined
                 return (
-                    <Box>
-                        Config
+                    <Box gap="xsmall" focusIndicator={false}>
+                        <Box justify="between" align="center" direction="row">
+                            <Text>Config</Text>
+                            <Button plain hoverIndicator style={{padding: 6, borderRadius: 3}} icon={<Aggregate size="20px" />} />
+                        </Box>
                         <Select
                             valueKey={{reduce: true, key: "id"}}
                             labelKey="name"
@@ -559,15 +654,141 @@ export const Controls = (props) => {
                             }}
                             options={devices.filter((a) => a.type.name.replace(/ /, '').indexOf(item?.extras?.iconString) > -1 )}
                             placeholder="Device" />
+                        
+                        <Box justify="end" direction="row">
+                            <CheckBox  
+                                checked={item?.extras?.showTotalizer} 
+                                onChange={(e) => {
+                                    updateHMINodeTotalizer({
+                                        args: {
+                                            id: selected.id,
+                                            totalize: e.target.checked
+                                        }
+                                    }).then(() => {
+                                        refetch()
+                                    })
+                                }}
+                                reverse 
+                                label="Show Totalizer" />
+                        </Box>
+                        <BumpInput 
+                            placeholder="Rotation"
+                            type="number"
+                            leftIcon={<RotateLeft size="small" />}
+                            rightIcon={<RotateRight size="small" />}
+                            value={item?.extras?.rotation}
+                            onLeftClick={() => {
+                                updateHMINodeRotation({
+                                    args: {
+                                        id: selected.id,
+                                        rotation: (item?.extras?.rotation || 0) - 90
+                                    }
+                                }).then(() => {
+                                    refetch()
+                                })
+                            }}
+                            onRightClick={() => {
+                                               updateHMINodeRotation({
+                                        args: {
+                                            id: selected.id,
+                                            rotation: (item?.extras?.rotation || 0) + 90
+                                        }
+                                    }).then(() => {
+                                        refetch()
+                                    })
+                            }}
+                            onChange={(e) => {
+                                updateHMINodeRotation({
+                                    args: {
+                                        id: selected.id,
+                                        rotation: parseFloat(e)
+                                    }
+                                }).then(() => {
+                                    refetch()
+                                })
 
+                            }}
+                            />
+
+                        <BumpInput 
+                            placeholder="Scale X"
+                            type="number"
+                            leftIcon={<Subtract size="small" />}
+                            rightIcon={<Add size="small" />}
+                            value={item?.extras?.scaleX}
+                            onLeftClick={() => {
+                                updateHMINodeScale({
+                                    args: {
+                                        id: selected.id,
+                                        scale: {x: parseFloat(item?.extras?.scaleX || 0) - 1}
+                                    }
+                                }).then(() => {
+                                    refetch()
+                                })
+                            }}
+                            onRightClick={() => {
+                                updateHMINodeScale({
+                                        args: {
+                                            id: selected.id,
+                                            scale: {x: parseFloat(item?.extras?.scaleX || 0) + 1}
+                                        }
+                                    }).then(() => {
+                                        refetch()
+                                    })
+                            }}
+                            onChange={(e) => {
+                                updateHMINodeScale({
+                                    args: {
+                                        id: selected.id,
+                                        scale: {x: parseFloat(e)}
+                                    }
+                                }).then(() => {
+                                    refetch()
+                                })
+
+                            }}
+                            />
+                       <BumpInput 
+                            placeholder="Scale Y"
+                            type="number"
+                            leftIcon={<Subtract size="small" />}
+                            rightIcon={<Add size="small" />}
+                            value={item?.extras?.scaleY}
+                            onLeftClick={() => {
+                                updateHMINodeScale({
+                                    args: {
+                                        id: selected.id,
+                                        scale: {y: parseFloat(item?.extras?.scaleY || 0) - 1}
+                                    }
+                                }).then(() => {
+                                    refetch()
+                                })
+                            }}
+                            onRightClick={() => {
+                                updateHMINodeScale({
+                                        args: {
+                                            id: selected.id,
+                                            scale: {y: parseFloat(item?.extras?.scaleY || 0) + 1}
+                                        }
+                                    }).then(() => {
+                                        refetch()
+                                    })
+                            }}
+                            onChange={(e) => {
+                                updateHMINodeScale({
+                                    args: {
+                                        id: selected.id,
+                                        scale: {y: parseFloat(e)}
+                                    }
+                                }).then(() => {
+                                    refetch()
+                                })
+
+                            }}
+                            />
+                      
                         <Box>
-                            {item?.extras?.iconString == "BallValve" && (
-                                <>
-                                <Text size="small">State: OFF</Text>
-
-                                <Button label="Open" />
-                                </>
-                            )}
+                 
                         </Box>
                     </Box>
                 )
@@ -575,10 +796,9 @@ export const Controls = (props) => {
        
     }
 
-    const watchEditorKeys = (e: KeyboardEvent) => {
-        if(e.key == "Delete" || e.key == "Backspace") {
-            console.log("DELETE", selected)
-            if(selectedRef.current.selected.id){
+    const watchEditorKeys = () => {
+        
+            if(selectedRef.current?.selected?.id){
                 deleteSelected({
                     args: {
                         selected: [selectedRef.current.selected].map((x) => ({
@@ -590,14 +810,18 @@ export const Controls = (props) => {
                     refetch()
                 })
             }
-        }
+     
     }
     
 	return (
 		<Box 
             direction="row"
             flex>
+            <HMIGroupModal
+                open={true}
+                nodeMenu={nodeMenu} />
 			<InfiniteCanvas
+                onDelete={watchEditorKeys}
                 onSelect={(key, id) => {
                     console.log("SELECTEDDDD", key, id)
                     setSelected({
@@ -609,7 +833,6 @@ export const Controls = (props) => {
                     open={Boolean(menuOpen)}
                     direction="horizontal">
                     <Box
-                        style={{zIndex: 999999}}
                         onClick={(e) => {
                             e.stopPropagation()
                             e.preventDefault()
@@ -626,45 +849,36 @@ export const Controls = (props) => {
                 factories={[new IconNodeFactory(), new HMINodeFactory()]}
                 onPathCreate={(path) => {
                     // console.log("CREATE", path)
-                    // setPat'hs([...paths, path])
 
+                    // setPaths([...paths, path])
+                    console.log("PATH CREATE ", path)
 
-
+                    
                     updateRef.current?.addPath(path);
                 }}
                 onPathUpdate={(path) => {
-                    // console.log("UPDATE", path)
-                    // let p = paths.slice()
-                    // let ix = p.map((x) => x.id).indexOf(path.id)
-                    // p[ix] = path;
-                    // // setPaths(p)
+              
+                    console.log("UPDATE PATH", path)
 
-                    console.log(path)
+                    if(path.source && path.target && path.targetHandle){
+                        console.log("CREATE PATH")
 
-                    if(path.source && path.target){
-                        updateConnection({
+                        createConnection({
                             args: {
+                                // id: path.id,
                                 source: path.source,
-                                id: path.id,
-                                points: path.points.map((x) => pick(x, ['x', 'y']))
+                                sourceHandle: path.sourceHandle,
+                                target: path.target,
+                                targetHandle: path.targetHandle,
+                                points: path.points
                             }
 
                         }).then(() => {
                             refetch()
                         })
-                        }
-                    //     connectNodes({
-                    //         args: {
-                    //             source: path.source,
-                    //             sourceHandle: path.sourceHandle,
-                    //             target: path.target,
-                    //             targetHandle: path.targetHandle
-                    //         }
-                    //     }).then(() => {
-                    //         refetch()
-                    //     })
-                    // }
-                    // updateRef.current?.updatePath(path)
+                    }
+
+                    updateRef.current?.updatePath(path)
                 }}
                 onNodeUpdate={(node) => {
 
@@ -702,13 +916,18 @@ export const Controls = (props) => {
                         x: position.x,
                         y: position.y,
                         extras: {
-                            icon: data.extras.icon
+                            icon: data.extras.icon,
+                            rotation: 0
                         },
                         type: HMINodeFactory.TAG
                     }])
                 }}
+
+                onRightClick={(target, position) => {
+                    setTarget(position)
+                }}
                 >
-     
+  
                 <ZoomControls anchor={{vertical: 'bottom', horizontal: 'right'}} />
             </InfiniteCanvas>
            

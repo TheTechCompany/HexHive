@@ -2,9 +2,9 @@ import { IconNodeFactory } from '@hexhive/ui';
 import { Box, Button, Text } from 'grommet';
 // import { FlowEditor } from '@hexhive/command-editor';
 import { InfiniteCanvas } from '@hexhive/ui';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { HMINodeFactory } from '../../components/hmi-node/HMINodeFactory';
-import { useQuery, gql} from '@apollo/client';
+import { useQuery, gql, useApolloClient } from '@apollo/client';
 import { RouteComponentProps } from 'react-router';
 // import program from 'shared/hexhive-types/src/models/program';
 import * as HMINodes from '../../assets/hmi-elements'
@@ -18,15 +18,27 @@ export interface DeviceControlProps extends RouteComponentProps<{id: string}>{
 
 export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
+    const client = useApolloClient();
+
     const [ selected, setSelected ] = useState<{key?: string, id?: string}>(undefined)
+
+    const { data : deviceValueData } = useQuery(gql`
+    query DeviceValues( $idStr: String) {
+        commandDeviceValue(device: $idStr){
+            device
+            deviceId
+            value
+            valueKey
+        }
+    }
+    `, {
+        variables: {
+            idStr: props.match.params.id
+        }
+    })
     const { data } = useQuery(gql`
-        query Q ($id: ID, $idStr: String){
-            commandDeviceValue(device: $idStr){
-                device
-                deviceId
-                value
-                valueKey
-            }
+        query Q ($id: ID){
+     
             commandDevices(where: {id: $id}){
 
                 configuredDevices {
@@ -76,15 +88,22 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                             id
                             type {
                                 name
+                                
+                                width
+                                height
+
                                 ports {
                                     x
                                     y
+                                    rotation
                                     key
-
                                 }
                             }   
                             x
                             y
+                            rotation
+                            scaleX
+                            scaleY
 
                             devicePlaceholder {
                                 id
@@ -106,6 +125,10 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                                                             id
                                                             sourceHandle
                                                             targetHandle
+                                                            points {
+                                                                x
+                                                                y
+                                                            }
                                                             node {
                                                                 id
                                                             }
@@ -120,7 +143,20 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     `, {
         variables: {
             id: props.match.params.id,
-            idStr: props.match.params.id
+        }
+    })
+
+    const [ performAction, performInfo ] = useMutation((mutation, args: {
+        deviceId: string,
+        deviceName: string,
+        action: string
+    }) => {
+        const item = mutation.performDeviceAction({deviceId: args.deviceId, deviceName: args.deviceName, action: args.action})
+
+        return {
+            item: {
+                ...item
+            }
         }
     })
 
@@ -143,7 +179,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     //Translates id to bus-port value
     const peripherals = data?.commandDevices?.[0]?.peripherals || []
 
-    const values = data?.commandDeviceValue || []
+    const values = deviceValueData?.commandDeviceValue || []
 
     const getDeviceValue = (name?: string, key?: string) => {
         //Find map between P&ID tag and bus-port
@@ -177,6 +213,16 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }, {})
     
     }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            client.refetchQueries({include: ['DeviceValues']})
+        }, 5 * 1000)
+
+        return () => {
+            clearInterval(timer)
+        }
+    }, [])
 
     // const deviceValueList = useMemo(() => {
     //     let idToBus = peripherals.reduce((prev, curr) => {
@@ -224,7 +270,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 conf
             }
         }) 
-    }, [data])
+    }, [data, deviceValueData])
 
     const nodes = hmi.map((node) => ({
         id: node.id,
@@ -232,8 +278,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         x: node.x,
         y: node.y,
         extras: {
-            iconString: node.type,
-            icon: HMINodes[node.type]
+            iconString: node.type?.name,
+            icon: HMINodes[node.type?.name]
         }
     }))
 
@@ -287,7 +333,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
        if(!node) return ;
 
-       let deviceInfo = node.devicePlaceholder.type;
+       let deviceInfo = node?.devicePlaceholder?.type;
 
        return (
            <Box direction="column">
@@ -297,20 +343,27 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                     direction="row">
                     <Text>{(node?.devicePlaceholder as any)?.name}</Text>
 
-                    <Text size="small">- {node.type}</Text>
+                    <Text size="small">- {node.type?.name}</Text>
                </Box>
 
-               {deviceInfo.state?.map((state) => (
+               {deviceInfo?.state?.map((state) => (
                    <Text size="small">{state.key} - {getDeviceValue(node?.devicePlaceholder?.name)?.[state.key]}</Text>
                ))}
 {/* 
 
                 {deviceValues(node?.devicePlaceholder?.name)} */}
 
-                {deviceInfo.actions?.map((action) => (
+                {deviceInfo?.actions?.map((action) => (
                     <Button 
                         onClick={() => {
-
+                            performAction({
+                                args: {
+                                    deviceId: props.match.params.id, 
+                                    deviceName: node?.devicePlaceholder?.name,
+                                    action: action.key
+                                }
+                                    
+                            })
                         }}
                         label={action.key} />
                 ))}

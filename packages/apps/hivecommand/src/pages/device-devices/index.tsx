@@ -19,6 +19,7 @@ export const DeviceDevices : React.FC<any> = (props) => {
 			commandDevices(where: {id: $id}){
 				name
 				configuredDevices {
+					id
 					device {
 						id
 					}
@@ -64,14 +65,23 @@ export const DeviceDevices : React.FC<any> = (props) => {
 			where: {id: props.match.params.id},
 			update: {
 				configuredDevices: [{
-					create: args.conf.filter((a) => !a.id).map((conf_item) => ({
+					create: args.conf.filter((a) => a.id == undefined).map((conf_item) => ({
 						node: {
 							device: {connect: {where: {node: {id: conf_item.device}}}},
 							conf: {connect: {where: {node: {id: conf_item.conf}}}},
 							value: conf_item.value
 						}
 					}))
-				}]
+				}, ...args.conf.filter((a) => a.id != undefined).map((conf_item) => ({
+					where: {node: {id: conf_item.id}},
+					update: {
+						node: {
+							device: {connect: {where: {node: {id: conf_item.device}}}},
+							conf: {connect: {where: {node: {id: conf_item.conf}}}},
+							value: conf_item.value
+						}
+					}
+				}))]
 			}
 		})
 		return {
@@ -103,8 +113,9 @@ export const DeviceDevices : React.FC<any> = (props) => {
 						updateDeviceConfiguration({
 							args:{ 
 								conf: device.configuration.map((x) => ({
+									id: x.id,
 									device: device.id,
-									conf: x.id,
+									conf: x.confKey,
 									value: x.value
 								}))
 							}
@@ -123,10 +134,14 @@ export const DeviceDevices : React.FC<any> = (props) => {
 				<List
 					pad="none" 
 					onClickItem={({item}) => {
+						let configuration = device.configuredDevices.filter((a) => a.device.id == item.id)
 
-						console.log("Item", item)
+						console.log("Item", configuration)
+
+						// item.configuration = configuration;
+
 						openModal(true)
-						setSelected(item)
+						setSelected({...item, configuration: configuration})
 					}}
 					data={device?.activeProgram?.devices || []} >
 					{(datum) => (

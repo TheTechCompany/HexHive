@@ -7,15 +7,15 @@ import { size } from 'lodash';
 import { TreeNode } from './TreeNode';
 import { WidthType } from 'grommet/utils';
 
-type TreeNode = Readonly<{
-    children?: TreeNode[];
+type TNode = Readonly<{
+    children?: TNode[];
     id: string;
     name: string;
 }>;
 
 type NodeMeta = Readonly<{
     nestingLevel: number;
-    node: TreeNode;
+    node: TNode;
 }>;
 type ExtendedData = VariableSizeNodeData &
     Readonly<{
@@ -31,7 +31,7 @@ export interface TreeViewProps {
     onClickRow?: (id: any) => void;
     onAddItem?: (pwd: any) => void;
 
-    nodes: TreeNode[]
+    nodes: TNode[]
 
     width?: WidthType;
 }
@@ -63,12 +63,12 @@ export const TreeView: React.FC<TreeViewProps> = ({
     // [2] during the treeWalker function work. Except for the mandatory `data`
     // field you can put any additional data here.
     const getNodeData = (
-        node?: TreeNode,
+        node?: TNode,
         parent?: string,
         nestingLevel?: number,
         itemSize?: number,
     ): any => ({
-        data: {
+    
             defaultHeight: itemSize,
             id: node?.id.toString(),
             isLeaf: (node?.children || []).length == 0,
@@ -79,9 +79,9 @@ export const TreeView: React.FC<TreeViewProps> = ({
             name: node?.name,
             nestingLevel,
             parent: parent,
-        },
+        
         isOpen: false,
-        nestingLevel,
+        // nestingLevel,
         node,
     });
 
@@ -91,34 +91,41 @@ export const TreeView: React.FC<TreeViewProps> = ({
         // Step [1]: Define the root node of our tree. There can be one or
         // multiple nodes.
 
+console.log("Nodes", nodes)
         for (let i = 0; i < nodes.length; i++) {
             let item = nodes?.[i]
 
-            yield getNodeData({
+            const nodeData = getNodeData({
                 id: item?.id || `${i}`,
                 name: item?.name || '',
                 children: item.children || []
             }, item.id, 0, 20);
+    console.log(nodeData)
+            yield nodeData;
         }
 
         while (true) {
             // Step [2]: Get the parent component back. It will be the object
             // the `getNodeData` function constructed, so you can read any data from it.
-            const parent = yield;
+            console.log("TRUe")
 
+            const parent = yield;
+            console.log("TRUe", parent)
+
+            console.log("Children", parent)
             for (let i = 0; i < (parent.node.children || []).length; i++) {
                 // Step [3]: Yielding all the children of the provided component. Then we
                 // will return for the step [2] with the first children.
-                yield getNodeData(parent.node.children?.[i], `${parent?.data.parent}.${parent.node.children?.[i].id}`, parent.nestingLevel + 1, 20);
+                // yield getNodeData(parent.node.children?.[i], `${parent?.data.parent}.${parent.node.children?.[i].id}`, parent.nestingLevel + 1, 20);
             }
         }
     }
 
     return (
         <Box
+            flex
             style={{ height: '100%', position: 'relative' }}
-            elevation="medium"
-            width={width || '18vw'}>
+            elevation="medium">
 
             <Box
                 margin={{ top: '8px' }}
