@@ -1,26 +1,76 @@
 import { Box } from 'grommet';
-import React from 'react';
+import React, {useContext} from 'react';
 import { useSVGStyle } from '../../hooks/svg';
+import * as HMIIcons from '../../assets/hmi-elements'
+import { RetractingPort } from '@hexhive/ui';
+import { HMICanvasContext } from '../hmi-canvas/HMICanvasContext';
 
 export interface HMIGroupProps {
-	icons: (string | any)[];
+	extras?: {
+		nodes?: any[];
+		ports?: any[];
+		icons: (string | any)[];
+	}
+	width?: number;
+	height?: number;
 }
 
 export const HMIGroup : React.FC<HMIGroupProps> = (props) => {
 
-	const Icons = props.icons.map((icon) => {
-		return useSVGStyle(icon && typeof(icon) === 'string' ? (Icons as any)[icon] : (icon) ? icon : Icons.Previous, (props) => ({
-			stroke: props.options?.open == 'true' || props.options?.on == 'true' ? 'green' : 'gray',
-			filter: `hue-rotate(${((props.options?.open == true || props.options?.open == 'true') || (props.options?.on == 'true')) ? '45' : '0'}deg)`
-    	}));
-	})
+	const { getDeviceOptions, getDeviceConf } = useContext(HMICanvasContext)
 
-	console.log(Icons)
+	let nodes = props.extras.nodes?.sort((a, b) => (a.z || 0) - (b.z || 0)).map((node) => {
+		let options : any = {};
+		let conf : any = {};
+		if(getDeviceOptions) {
+			console.log(node.devicePlaceholder?.name, getDeviceOptions(node.devicePlaceholder?.name))
+			options = getDeviceOptions(node.devicePlaceholder?.name);
+		}
+		if(getDeviceConf) {
+			conf = getDeviceConf(node.devicePlaceholder?.name);
+		}
+		console.log({options}, {conf})
+		// const options = getDeviceOptions(node?.devicePlaceholder?.name)
+		// const conf = getDeviceConf(node?.devicePlaceholder?.name)
+
+		return {
+			id: node.id,
+			extras: {
+				icon: useSVGStyle(HMIIcons[node.type.name], (props) => ({
+					stroke: options?.open == 'true' || options?.on == 'true' ? 'green' : 'gray',
+					filter: `hue-rotate(${((options?.open == true || options?.open == 'true') || (options?.on == 'true')) ? '45' : '0'}deg)`
+				})),
+				options,
+				conf
+			},
+			x: node.x,
+			y: node.y,
+			rotation: node.rotation,
+			scaleX: node.scaleX,
+			scaleY: node.scaleY
+		}
+	})
+	// const Icons = props.icons.map((icon) => {
+	// 	return useSVGStyle(icon && typeof(icon) === 'string' ? (Icons as any)[icon] : (icon) ? icon : Icons.Previous, (props) => ({
+	// 		stroke: props.options?.open == 'true' || props.options?.on == 'true' ? 'green' : 'gray',
+	// 		filter: `hue-rotate(${((props.options?.open == true || props.options?.open == 'true') || (props.options?.on == 'true')) ? '45' : '0'}deg)`
+    // 	}));
+	// })
+
+	// console.log(Icons)
+	const ports = props.extras?.ports?.map((port) => ({
+		id: port.id,
+		x: port.x,
+		y: port.y,
+		rotation: port.rotation,
+		length: port.length
+	}))
 
 	return (
-		<Box>
-			text
-			{Icons.map((Icon) => <Icon />)}
+		<Box style={{position: 'relative', width: props.width, height: props.height}}>
+			{nodes.map((Node) => <div style={{position: 'absolute', width: '55px', height: '55px', transform: `rotate(${Node.rotation || 0}deg) scaleX(${Node.scaleX || 1}) scaleY(${Node.scaleY || 1})`, left: Node.x, top: Node.y}}> <Node.extras.icon scaleX={Node.scaleX} scaleY={Node.scaleY} rotation={Node.rotation} options={Node.extras.options} /></div>)}
+			{ports.map((Port) => <div style={{position: 'absolute', left: Port.x, top: Port.y}}><RetractingPort id={Port.id} rotation={Port.rotation} height={Port.length} /></div>)}
+			{/* {Icons.map((Icon) => <Icon />)} */}
 		</Box>
 	)
 }

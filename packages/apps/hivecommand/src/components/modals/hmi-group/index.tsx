@@ -2,7 +2,7 @@ import { InfiniteCanvas, RetractingPort } from '@hexhive/ui';
 import { Box, Button } from 'grommet';
 import { Node } from 'grommet-icons';
 import { nanoid } from 'nanoid';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { HMINodeFactory } from '../../hmi-node';
 import { BaseModal } from '../base';
 import { HMIGroupMenu } from './Menu';
@@ -35,10 +35,31 @@ export const HMIGroupModal = (props) => {
 				y: PORT_ANCHOR.y + port.y
 			}))
 		}
-		console.log(group)
+
+		props.onSubmit?.(group)
+		// console.log(group)
 	}
 
-	
+	useEffect(() => {
+		if(props.base){
+	console.log("BASE", props.base)
+
+			setNodes([{
+				id: 'base',
+				x: 300,
+				y: 0,
+				extras: {
+					scaleX: 1,
+					scaleY: 1,
+					rotation: 0,
+					iconStr: props.base,
+					icon: HMIIcons[props.base]
+				},
+				type: 'hmi-node'
+			}])
+		}
+	}, [props.base])
+
 	
 
 	return (
@@ -61,6 +82,7 @@ export const HMIGroupModal = (props) => {
 			updateNode: (id, update) => {
 				let n = nodes.slice()
 				let ix = n.map((x) => x.id).indexOf(id);
+				console.log(id, update, ix, n)
 				if(ix > -1){
 					n[ix].extras = {
 						...n[ix].extras,

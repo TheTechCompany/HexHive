@@ -1,6 +1,7 @@
 import React from "react";
 import { AbstractWidgetFactory } from "@hexhive/ui";
 import { HMINode } from "./HMINode";
+import { HMIGroup } from "./HMIGroup";
 
 export class HMINodeFactory extends AbstractWidgetFactory {
 
@@ -10,7 +11,7 @@ export class HMINodeFactory extends AbstractWidgetFactory {
     }
 
     public generateWidget(event: any): JSX.Element {
-        return (<HMINode  {...event} />)
+        return event.extras.nodes ? <HMIGroup {...event} /> : (<HMINode  {...event} />)
     }
     public parseModel(model: any) {
         return {

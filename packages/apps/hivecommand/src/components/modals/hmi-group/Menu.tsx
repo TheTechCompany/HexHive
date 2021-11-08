@@ -50,17 +50,17 @@ export const HMIGroupMenu = (props) => {
 						value={node?.extras?.scaleX || 0}
 						onLeftClick={() => {
 							updateNode(selectedNode, {
-								scaleX: (node?.extras?.scaleX || 1) - 1
+								scaleX: parseFloat(node?.extras?.scaleX || 1) - 1
 							})
 						}}
 						onRightClick={() => {
 							updateNode(selectedNode, {
-								scaleX: (node?.extras?.scaleX || 1) + 1
+								scaleX: parseFloat(node?.extras?.scaleX || 1) + 1
 							})
 						}}
 						onChange={(e) => {
 							updateNode(selectedNode, {
-								scaleX: e
+								scaleX: parseFloat(e)
 							})
 						}}
 						leftIcon={<Subtract size="small" />}
@@ -71,17 +71,17 @@ export const HMIGroupMenu = (props) => {
 
 						onLeftClick={() => {
 								updateNode(selectedNode, {
-									scaleY: (node?.extras?.scaleY || 1) - 1
+									scaleY: parseFloat((node?.extras?.scaleY || 1)) - 1
 								})
 							}}
 						onRightClick={() => {
 								updateNode(selectedNode, {
-									scaleY: (node?.extras?.scaleY || 1) + 1
+									scaleY: parseFloat((node?.extras?.scaleY || 1)) + 1
 								})
 							}}
 						onChange={(e) => {
 							updateNode(selectedNode, {
-								scaleY: e
+								scaleY: parseFloat(e)
 							})
 						}}
 						value={node?.extras?.scaleY || 0}

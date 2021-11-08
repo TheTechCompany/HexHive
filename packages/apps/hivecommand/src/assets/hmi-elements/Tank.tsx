@@ -3,15 +3,16 @@ import * as React from "react";
 function SvgTank(props: {width: string, height: string, conf?: {minLevel: number, maxLevel: number}, options?: {level: number}}) {
   
   const getLevel = () => {
-    if(!props.conf?.minLevel && !props.conf?.maxLevel){
-      return props.options?.level;
+    if(!props?.conf?.minLevel && !props?.conf?.maxLevel){
+      return props?.options?.level;
     }
 
 
-    return (props.options?.level - props.conf?.minLevel) / ((props.conf?.maxLevel - props.conf?.minLevel) / 100)
+    return (props?.options?.level - props?.conf?.minLevel) / ((props?.conf?.maxLevel - props?.conf?.minLevel) / 100)
   }
 
   return (
+    <>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 123.72 123.72"
@@ -95,6 +96,10 @@ function SvgTank(props: {width: string, height: string, conf?: {minLevel: number
         /> */}
       </g>
     </svg>
+    {/* <div style={{position: 'absolute', display: 'flex', alignItems: 'cetner', justifyContent: 'center', bottom: '0', right: '0', left: '0'}}>
+      <span style={{color: 'white', fontSize: 10}}>{getLevel()?.toFixed(2)}%</span>
+    </div> */}
+    </>
   );
 }
 
