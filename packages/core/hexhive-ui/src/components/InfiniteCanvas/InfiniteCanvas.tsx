@@ -71,6 +71,8 @@ export interface InfiniteCanvasProps {
     
     onNodesChanged?: (nodes: InfiniteCanvasNode[]) => void;
     onPathsChanged?: (paths: InfiniteCanvasPath[]) => void;
+    
+    onBackdropClick?: () => void;
 
     assets?: {
         [key: string]: JSX.Element
@@ -135,7 +137,8 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     onRightClick,
     contextMenu,
     menu,
-    information
+    information,
+    onBackdropClick
 }) => {
 
     const [ ports, _setPorts ] = useState<{[key: string]: {
@@ -246,6 +249,9 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
  
 
     const onMouseDown = (evt: React.MouseEvent) => {
+        
+        onBackdropClick?.();
+
         setMenuPos(undefined)
         if (evt.button == 0) {
             //Left

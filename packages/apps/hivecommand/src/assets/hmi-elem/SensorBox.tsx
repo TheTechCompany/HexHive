@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function SvgSensor(props: React.SVGProps<SVGSVGElement>) {
+function SvgSensorBox(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -28,4 +28,4 @@ function SvgSensor(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default SvgSensor;
+export default SvgSensorBox;

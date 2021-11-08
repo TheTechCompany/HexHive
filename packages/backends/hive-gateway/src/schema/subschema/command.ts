@@ -228,6 +228,10 @@ export default `
 		id: ID! @id
 		key: String
 		type: String
+		units: String
+		
+		min: String
+		max: String
 
 		device: CommandProgramDevice @relationship(type: "HAS_STATE", direction: IN)
 	}
@@ -254,6 +258,8 @@ export default `
 	type CommandProgramHMI {
 		id: ID! @id
 		name: String
+		paths: [CommandHMIPath] @relationship(type: "USES_PATH", direction: OUT)
+		groups: [CommandHMIGroup] @relationship(type: "USES_GROUP", direction: OUT)
 		nodes: [CommandHMINode] @relationship(type: "USES_NODE", direction: OUT)
 		programs: [CommandProgram] @relationship(type: "USES_HMI", direction: IN)
 	}
@@ -324,6 +330,35 @@ export default `
 		points: [CartesianPoint]
 	}
 
+	union CommandHMINodes = CommandHMINode | CommandHMIGroup
+
+	type CommandHMIGroup {
+		id: ID! @id
+		x: Float
+		y: Float
+
+		width: Float
+		height: Float
+
+		rotation: Float
+		scaleX: Float
+		scaleY: Float
+
+		nodes: [CommandHMINode] @relationship(type: "USES_NODE", direction: OUT)
+		ports: [CommandHMIPort] @relationship(type: "HAS_PORT", direction: OUT)
+
+		inputs: [CommandHMINode] @relationship(type: "USE_NEXT", direction: IN, properties: "CommandHMINodeFlow")
+		outputs: [CommandHMINode] @relationship(type: "USE_NEXT", direction: OUT, properties: "CommandHMINodeFlow")
+	}
+
+	type CommandHMIPort {
+		id: ID! @id
+		key: String
+		x: Float
+		y: Float
+		length: Float
+		rotation: Float
+	}
 
 	type CommandHMINode {
 		id: ID! @id
@@ -333,6 +368,8 @@ export default `
 		rotation: Float
 		scaleX: Float
 		scaleY: Float
+
+		z: Int
 
 		showTotalizer : Boolean
 		
@@ -344,6 +381,15 @@ export default `
 
 		inputs: [CommandHMINode] @relationship(type: "USE_NEXT", direction: IN, properties: "CommandHMINodeFlow")
 		outputs: [CommandHMINode] @relationship(type: "USE_NEXT", direction: OUT, properties: "CommandHMINodeFlow")
+	}
+
+	type CommandHMIPath {
+		id: ID! @id
+		points: [CartesianPoint]
+		source: CommandHMINodes @relationship(type: "HAS_SOURCE", direction: OUT)
+		sourceHandle: String
+		target: CommandHMINodes @relationship(type: "HAS_TARGET", direction: OUT)
+		targetHandle: String
 	}
 
 

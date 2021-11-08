@@ -3,7 +3,7 @@ import { Box, Text, List, Button, Collapsible, TextInput, Select, CheckBox } fro
 import { InfiniteCanvas, ContextMenu, IconNodeFactory, InfiniteCanvasNode, ZoomControls, InfiniteCanvasPath, BumpInput } from '@hexhive/ui';
 import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
 import { NodeDropdown  } from '../../../../components/node-dropdown';
-import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank } from '../../../../assets/hmi-elements';
+import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank, BlowerSparge, NfMembrane } from '../../../../assets/hmi-elements';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import * as HMIIcons from '../../../../assets/hmi-elements'
 import { Nodes, Add, Aggregate, Subtract, RotateLeft, RotateRight } from 'grommet-icons'
@@ -12,12 +12,15 @@ import { nanoid } from 'nanoid';
 import { useMutation } from '@hexhive/client';
 import { pick } from 'lodash';
 import { throttle } from 'lodash';
-import { HMIGroupModal } from 'apps/hivecommand/src/components/modals/hmi-group';
+import { HMIGroupModal } from '../../../../components/modals/hmi-group';
+import { debounce } from 'lodash';
 
 export const Controls = (props) => {
     
     const [ selected, _setSelected ] = useState<{key?: "node" | "path", id?: string}>({})
+
     const selectedRef = useRef<{selected?: {key?: "node" | "path", id?: string}}>({})
+
     const setSelected = (s: {key?: "node" | "path", id?: string}) => {
         _setSelected(s)
         selectedRef.current.selected = s;
@@ -41,15 +44,22 @@ export const Controls = (props) => {
         updatePath: (path) => {
             let p = pathRef.current.paths.slice()
             let ix = p.map((x) => x.id).indexOf(path.id)
+            // if(path.sourceHandle && path.targetHandle){
+            //     path.draft = false;
+            // }
             p[ix] = path;
             setPaths(p)
         },
         addPath: (path) => {
             let p = pathRef.current.paths.slice()
+            path.draft = true;
             p.push(path)
             setPaths(p)
         }
     })
+
+    const [ aggregate, setAggregate ] = useState<any>()
+    const [ modalOpen, openModal ] = useState<boolean>(false);
 
     const nodeMenu = [
         {
@@ -220,7 +230,21 @@ export const Controls = (props) => {
             icon: <UfMembrane width="40px" height="40px" />,
             label: "UF Membrane",
             extras: {
-                icon: "UFMembrane"
+                icon: "UfMembrane"
+            }
+        },
+        {
+            icon: <NfMembrane width="40px" height="40px" />,
+            label: "NF Membrane",
+            extras: {
+                icon: "NfMembrane"
+            }
+        },
+        {
+            icon: <BlowerSparge width="40px" height="40px" />,
+            label: "Blower Sparge",
+            extras: {
+                icon: "BlowerSparge"
             }
         },
         {
@@ -244,73 +268,96 @@ export const Controls = (props) => {
                 hmi {
                     id
                     name
-                    nodes {
+                    paths {
                         id
-                        type {
-                            name
-                            width
-                            height
-                            ports {
-                                key
-                                x
-                                y
-                                rotation
+                        source {
+                            ... on CommandHMIGroup {
+                                id
+                            }
+
+                            ... on CommandHMINode {
+                                id
                             }
                         }
-                        devicePlaceholder {
-                            id
-                            name
+                        sourceHandle
+                        target {
+                            ... on CommandHMIGroup {
+                                id
+                            }
+
+                            ... on CommandHMINode {
+                                id
+                            }
+                        
                         }
+                        targetHandle
+                        points {
+                            x
+                            y
+                        }
+                    }
+                    nodes {
+                    
+
+                        
+                            id
+                            type {
+                                name
+                                width
+                                height
+                                ports {
+                                    key
+                                    x
+                                    y
+                                    rotation
+                                }
+                            }
+                            devicePlaceholder {
+                                id
+                                name
+                            }
+                            x
+                            y
+
+                            showTotalizer
+                            rotation
+                            scaleX
+                            scaleY
+
+                            inputs {
+                                id
+                                type {
+                                    name
+                                }
+                            }
+                        
+                    }
+
+                    groups {
+                        id
                         x
                         y
-
-                        showTotalizer
-                        rotation
-                        scaleX
-                        scaleY
-
-                        inputs {
+                        
+                        nodes {
                             id
                             type {
+                                
                                 name
                             }
-                        }
+                            x
+                            y
 
-                        inputsConnection {
-                            edges {
-                                id
-                                sourceHandle
-                                targetHandle
-                                node {
-                                    id
-                                }
-                            }
+                            z
+                            rotation
+                            scaleX
+                            scaleY
                         }
-
-                        outputs {
+                        ports {
                             id
-                            type {
-                                name
-                                ports {
-                                    x
-                                    y
-                                }
-                            }
-                        }
-
-                        outputsConnection {
-                            edges {
-                                id
-                                sourceHandle
-                                targetHandle
-                                points {
-                                    x
-                                    y
-                                }
-                                node {
-                                    id
-                                }
-                            }
+                            x
+                            y
+                            rotation
+                            length
                         }
                     }
                 }
@@ -343,11 +390,13 @@ export const Controls = (props) => {
                     where: {node: {id: props.activeProgram}},
                     update: {
                         node: {
-                            nodes: [{create: [{node: {
-                                type: {connect: {where: {node: {name: args.type}}}},
-                                x: args.x,
-                                y: args.y
-                            }}]}]
+                            nodes: [{
+                                    create: [{node: {
+                                            type: {connect: {where: {node: {name: args.type}}}},
+                                            x: args.x,
+                                            y: args.y
+                                        }}]
+                                }]
                         }
                     }
                 }]
@@ -373,6 +422,25 @@ export const Controls = (props) => {
         return {
             item: {
                 ...updated.commandHmiNodes[0]
+            }
+        }
+    })
+
+    const [ updateHMIGroup, updateGroup ] = useMutation((mutation, args: {
+        id: string,
+        x: number
+        y: number
+    }) => {
+        const item = mutation.updateCommandHMIGroups({
+            where: {id: args.id},
+            update: {
+                x: args.x,
+                y: args.y
+            }
+        })
+        return {
+            item: {
+                ...item.commandHmiGroups?.[0]
             }
         }
     })
@@ -454,6 +522,55 @@ export const Controls = (props) => {
         }
     })
 
+    const [ createHMIGroup, createGroupInfo ] = useMutation((mutation, args: {
+        ports: {
+            key: string;
+            rotation: number;
+            length: number;
+            x: number;
+            y: number;
+        }[]
+        nodes: {
+            x: number;
+            y: number;
+            rotation: number;
+            scaleX: number;
+            scaleY: number;
+            showTotalizer: boolean;
+            type: {connect: {where: {node: {name: string}}}};
+        }[]
+    }) => {
+        const item = mutation.updateCommandPrograms({
+            where: {id: props.match.params.id},
+            update: {
+                hmi: [{
+                    where: {node: {id: props.activeProgram}},
+                    update: {
+                        node: {
+                            groups: [{
+                                create: [{
+                                    node: {
+                                        ports: {
+                                            create: args.ports.map((port) => ({node: port}))
+                                        },
+                                        nodes: {
+                                            create: args.nodes.map((node) => ({node: node}))
+                                        }
+                                    }
+                                }]
+                            }]
+                        }
+                    }
+                }]
+            }
+        })
+        return {
+            item: {
+                ...item.commandPrograms?.[0]
+            }
+        }
+    })
+
     const [ deleteSelected, deleteInfo ] = useMutation((mutation, args: {
         selected: {type: "node" | "path", id: string}[]
     }) => {
@@ -462,79 +579,99 @@ export const Controls = (props) => {
         let nodes = args.selected.filter((a) => a.type == "node").map((x) => x.id)
         let _paths = args.selected.filter((a) => a.type == "path").map((x) => x.id)
 
-        let disconnectInfo : any = {};
+        // let disconnectInfo : any = {};
         let deleteInfo : any = {};
         if(_paths.length > 0){
             let path = paths.find((a) => a.id == _paths?.[0]);
-            disconnectInfo = mutation.updateCommandHMINodes({
-                where: {id: path.source},
+            let disconnectInfo = mutation.updateCommandProgramHMIS({
+                where: {id: props.activeProgram},
                 update: {
-                    outputs: [{disconnect: [{
-                        where: {
-                            edge: {
-                                sourceHandle: path.sourceHandle,
-                                targetHandle: path.targetHandle
-                            },
-                            node: {
-                                id: path.target
-                            }}
-                    }]}]
+                    paths: [
+                        {
+                            delete: [{
+                                where: {node: {id: path.id}}
+                            }]
+                        }
+                    ]
+           
                 }
             })
+            return {
+                item: {
+                    ...disconnectInfo.commandProgramHmis?.[0]
+                }
+            }
         }
         if(nodes.length > 0){
             query = {
                 id_IN: nodes,
             }
+
+            let connected_to =  paths.filter((a) => nodes.indexOf(a.target) > -1).map((x) => x.id)
         
-            deleteInfo = mutation.deleteCommandHMINodes({
-                where: query
+            deleteInfo = mutation.updateCommandProgramHMIS({
+                delete: {
+                    paths: [{
+                        where: {
+                            node:  {id_IN: connected_to}
+                        }
+                    }],
+                    nodes: [{
+                        where: {
+                           node: query
+                        } 
+                    }]
+                }
             })
+            // deleteInfo = mutation.deleteCommandHMINodes({
+            //     where: query
+            // })
           
         }
           return {
                 item: {
                     ...(deleteInfo || {}),
-                    ...(disconnectInfo?.commandHmiNodes?.[0] || {})
+                    // ...(disconnectInfo?.commandProgramHmis?.[0] || {})
                 }
             }
     })
 
-    const [ updateConnection ] = useMutation((mutation, args : {
-        id: string,
-        source: string,
-        sourceHandle: string,
-        target: string,
-        targetHandle: string,
-        points: {x: number, y: number}[]
-    }) => {
-       const item = mutation.updateCommandHMINodes({
-           where: {id: args.source},
-            update: {
-                outputs: [{
-                    where: {
-                        edge: {
-                            id: args.id
-                        }
-                    },
-                    update: {
-                        edge: {
-                            points: args.points.map((x) => pick(x, ["x", "y"]))
-                        }
-                    }
-                }]
-            }
-        })
-        return {
-            item: {
-                ...item.commandHmiNodes?.[0]
-            }
-        }
-    })
+    // const [ updateConnection ] = useMutation((mutation, args : {
+    //     id: string,
+    //     source: string,
+    //     sourceHandle: string,
+    //     target: string,
+    //     targetHandle: string,
+    //     points: {x: number, y: number}[]
+    // }) => {
+    //    const item = mutation.updateCommandProgramHMIS({
+    //        where: {id: props.activeProgram},
+    //         update: {
+    //             paths: [{
+    //                 where: {node: {id: args.id}},
+    //                 update: {
+    //                     node: {
+    //                         source: {CommandHMIGroup: { connect: {where: {node: {id: args.source}}}}, CommandHMINode: {connect: {where: {node: {id: args.source}}}}},
+    //                         target: {CommandHMIGroup: { connect: {where: {node: {id: args.target}}}}, CommandHMINode: {connect: {where: {node: {id: args.target}}}}},
+    //                         sourceHandle: args.sourceHandle,
+    //                         targetHandle: args.targetHandle,
+    //                         points: args.points
+    //                     }
+    //                 }
+    //             }]
+    //         }
+    //     })
+    //     return {
+    //         item: {
+    //             ...item.commandProgramHmis?.[0]
+    //         }
+    //     }
+    // })
 
-    const throttledUpdateConnection = throttle(updateConnection, 500)
+    // const throttledUpdateConnection = throttle(updateConnection, 500)
 
     const [ createConnection, connectInfo ] = useMutation((mutation, args: {
+        id: string,
         source: string,
         sourceHandle: string,
         target?: string,
@@ -542,25 +679,36 @@ export const Controls = (props) => {
         points?: {x: number, y: number}[]
     }) => {
         console.log(args.points)
-        const updated = mutation.updateCommandHMINodes({
-            where: {id: args.source},
+        const updated = mutation.updateCommandProgramHMIS({
+            where: {id: props.activeProgram},
             update: {
-                outputs: [{
-                    connect: [{ 
-                        where: {node: {id: args.target}}, 
-                        edge: {
+                paths: [!args.id ? {
+                    create: [{
+                        node: {
+                            source: {CommandHMIGroup: { connect: {where: {node: {id: args.source}}}}, CommandHMINode: {connect: {where: {node: {id: args.source}}}}},
+                            target: {CommandHMIGroup: { connect: {where: {node: {id: args.target}}}}, CommandHMINode: {connect: {where: {node: {id: args.target}}}}},
                             sourceHandle: args.sourceHandle,
-                            points: args.points.map((x) => pick(x, ["x", "y"])) || [],
                             targetHandle: args.targetHandle,
-                            // points: args.points
+                            points: args.points
                         }
-                    }] 
-                }]
+                    }]
+                } : {
+                    where: {node: {id: args.id}},
+                    update: {
+                        node: {
+                            source: {CommandHMIGroup: { connect: {where: {node: {id: args.source}}}}, CommandHMINode: {connect: {where: {node: {id: args.source}}}}},
+                            target: {CommandHMIGroup: { connect: {where: {node: {id: args.target}}}}, CommandHMINode: {connect: {where: {node: {id: args.target}}}}},
+                            sourceHandle: args.sourceHandle,
+                            targetHandle: args.targetHandle,
+                            points: args.points
+                        }
+                    }
+                }]     
             }
         })
         return {
             item: {
-                ...updated.commandHmiNodes[0]
+                ...updated.commandProgramHmis[0]
             }
         }
     })
@@ -571,8 +719,11 @@ export const Controls = (props) => {
         let program = data?.commandPrograms?.[0]
         if(program && props.activeProgram){
 
-            console.log("NODES", (program.hmi).find((a) => a.id == props.activeProgram).nodes)
-            setNodes((program.hmi).find((a) => a.id == props.activeProgram).nodes.map((x) => ({
+            console.log("GROUPS", (program.hmi).find((a) => a.id == props.activeProgram).groups)
+           let activeProgram = (program.hmi).find((a) => a.id == props.activeProgram)
+            let nodes = activeProgram?.nodes || []
+            let groups = activeProgram?.groups || []
+            setNodes(nodes.map((x) => ({
                 id: x.id,
                 x: x.x,
                 y: x.y,
@@ -590,18 +741,41 @@ export const Controls = (props) => {
                 },
                 type: 'hmi-node',
                 
-            })))
+            })).concat(groups.map((group) => ({
+                id: group.id,
+                x: group.x || 0,
+                y: group.y || 0,
+                type: 'hmi-node',
+                extras: {
+                    nodes: group.nodes?.map((x) => ({
+                        id: x.id,
+                        x: x.x,
+                        y: x.y,
+                        z: x.z,
+                        scaleX: x.scaleX || 1,
+                        scaleY: x.scaleY || 1,
+                        rotation: x.rotation || 0,
+                        type: x.type
+                    })),
+                    ports: group.ports?.map((x) => ({
+                        id: x.id,
+                        x: x.x,
+                        y: x.y,
+                        length: x.length || 1,
+                        rotation: x.rotation || 0,
+                    }))
+                }
+            }))))
 
-            setPaths((program.hmi).find((a) => a.id == props.activeProgram).nodes.map((x) => {
-                let connections = x.outputsConnection?.edges?.map((edge) => ({
-                    id: edge.id,
-                    points: edge.points || [],
-                    source: x.id,
-                    sourceHandle: edge.sourceHandle,
-                    target: edge.node.id,
-                    targetHandle: edge.targetHandle
-                })) 
-                return connections
+            setPaths((program.hmi).find((a) => a.id == props.activeProgram).paths.map((x) => {
+                return {
+                    id: x.id,
+                    source: x?.source?.id,
+                    sourceHandle: x.sourceHandle,
+                    target: x?.target?.id,
+                    targetHandle: x.targetHandle,
+                    points: x.points
+                }
             }).reduce((prev, curr) => {
                 return prev.concat(curr)
             }, []))
@@ -638,7 +812,16 @@ export const Controls = (props) => {
                     <Box gap="xsmall" focusIndicator={false}>
                         <Box justify="between" align="center" direction="row">
                             <Text>Config</Text>
-                            <Button plain hoverIndicator style={{padding: 6, borderRadius: 3}} icon={<Aggregate size="20px" />} />
+                            <Button 
+                                onClick={() => {
+                                    openModal(true)
+                                    console.log(item)
+                                    setAggregate(item?.extras?.iconString)
+                                }}
+                                plain 
+                                hoverIndicator 
+                                style={{padding: 6, borderRadius: 3}} 
+                                icon={<Aggregate size="20px" />} />
                         </Box>
                         <Select
                             valueKey={{reduce: true, key: "id"}}
@@ -802,8 +985,8 @@ export const Controls = (props) => {
                 deleteSelected({
                     args: {
                         selected: [selectedRef.current.selected].map((x) => ({
-                            type: x.key,
-                            id: x.id
+                            type: x?.key,
+                            id: x?.id
                         }))
                     }
                 }).then(() => {
@@ -818,9 +1001,37 @@ export const Controls = (props) => {
             direction="row"
             flex>
             <HMIGroupModal
-                open={true}
+                base={aggregate}
+                open={modalOpen}
+                onSubmit={(item) => {
+                    console.log(item)
+                    createHMIGroup({
+                        args: {
+                            nodes: item.nodes.map((x) => ({
+                                x: x.x,
+                                y: x.y,
+                                rotation: x.extras?.rotation || 0,
+                                scaleX: x.extras?.scaleX || 1,
+                                scaleY: x.extras?.scaleY || 1,
+                                type: {connect: {where: {node: {name: x.extras.iconStr}}}}
+                            })),
+                            ports: item.ports.map((port) => ({
+                                key: port.key,
+                                x: port.x,
+                                y: port.y,
+                                rotation: port.rotation,
+                                length: port.height
+
+                            }))
+                        }
+                    }).then(()=> {
+                        openModal(false);
+                    })
+                }}
+                onClose={() => openModal(false)}
                 nodeMenu={nodeMenu} />
 			<InfiniteCanvas
+                snapToGrid={false}
                 onDelete={watchEditorKeys}
                 onSelect={(key, id) => {
                     console.log("SELECTEDDDD", key, id)
@@ -862,35 +1073,55 @@ export const Controls = (props) => {
 
                     if(path.source && path.target && path.targetHandle){
                         console.log("CREATE PATH")
+                        
+                        let p = paths.slice()
+                        let ix = p.map((x) => x.id).indexOf(path.id)
+                        if(ix > -1){
+                            (p[ix] as any).draft = false;
+                            setPaths(p)
+                        }
 
-                        createConnection({
-                            args: {
-                                // id: path.id,
-                                source: path.source,
-                                sourceHandle: path.sourceHandle,
-                                target: path.target,
-                                targetHandle: path.targetHandle,
-                                points: path.points
-                            }
-
-                        }).then(() => {
-                            refetch()
-                        })
+                        debounce((path: any) => {
+              
+                            createConnection({
+                                args: {
+                                    id: (path as any).draft ? undefined : path.id,
+                                    source: path.source,
+                                    sourceHandle: path.sourceHandle,
+                                    target: path.target,
+                                    targetHandle: path.targetHandle,
+                                    points: path.points
+                                }
+    
+                            }).then(() => {
+             
+                                refetch()
+                            })
+                        }, 1000)(path)
+          
                     }
 
                     updateRef.current?.updatePath(path)
                 }}
                 onNodeUpdate={(node) => {
-
-                    console.log("UPDATE", nodes)
                     let n = nodes.slice()
                     let ix = n.map((x) => x.id).indexOf(node.id)
                     n[ix] = node;
                     setNodes(n)
 
-                    updateHMINode({args: {id: node.id, x: node.x, y: node.y}}).then(() => {
-                        refetch()
-                    })
+                    console.log("UPDATE", node)
+                    if(node.extras?.nodes){
+                        updateHMIGroup({args: {id: node.id, x: node.x, y: node.y}}).then(() => {
+                            refetch()
+                        })
+                    }else{
+                
+
+                        updateHMINode({args: {id: node.id, x: node.x, y: node.y}}).then(() => {
+                            refetch()
+                        })
+                    }
+
                     // console.log("NODES", node)
                 }}
                 onDrop={(position, data) => {

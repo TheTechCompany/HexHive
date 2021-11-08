@@ -218,6 +218,8 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                     <NodeIdContext.Provider value={{
                         nodeId: node.id,
                         rotation: node?.extras?.rotation || 0,
+                        scaleX: node?.extras?.scaleX || 1,
+                        scaleY: node?.extras?.scaleY || 1,
                         position: {
                             x: node.x,
                             y: node.y

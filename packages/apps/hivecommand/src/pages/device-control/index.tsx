@@ -11,6 +11,8 @@ import * as HMINodes from '../../assets/hmi-elements'
 
 import { useMutation } from '@hexhive/client';
 import { HMICanvas } from '../../components/hmi-canvas/HMICanvas';
+import { Bubble } from '../../components/Bubble/Bubble';
+import { getDevicesForNode } from './utils';
 
 export interface DeviceControlProps extends RouteComponentProps<{id: string}>{
 
@@ -20,6 +22,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
     const client = useApolloClient();
 
+    const [ infoTarget, setInfoTarget ] = useState<{x?: number, y?: number}>(undefined);
     const [ selected, setSelected ] = useState<{key?: string, id?: string}>(undefined)
 
     const { data : deviceValueData } = useQuery(gql`
@@ -37,7 +40,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }
     })
     const { data } = useQuery(gql`
-        query Q ($id: ID){
+            query Q ($id: ID){
      
             commandDevices(where: {id: $id}){
 
@@ -84,57 +87,118 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                     hmi{
                         id
                         name
-                        nodes{
-                            id
-                            type {
-                                name
-                                
-                                width
-                                height
-
-                                ports {
-                                    x
-                                    y
-                                    rotation
-                                    key
+                        paths {
+                            source {
+                                ... on CommandHMINode {
+                                    id
                                 }
-                            }   
-                            x
-                            y
-                            rotation
-                            scaleX
-                            scaleY
-
-                            devicePlaceholder {
-                                id
-                                name
-                                type {
-                                    actions {
-                                        key
-                                    }
-
-                                    state {
-                                        key
-                                    }
+                                ... on CommandHMIGroup {
+                                    id
                                 }
-
+                            }
+                            sourceHandle
+                            target {
+                                ... on CommandHMINode {
+                                    id
+                                }
+                                ... on CommandHMIGroup {
+                                    id
+                                }
+                            }
+                            targetHandle
+                            points {
+                                x
+                                y
                             }
 
-                            outputsConnection {
-                                                        edges {
-                                                            id
-                                                            sourceHandle
-                                                            targetHandle
-                                                            points {
-                                                                x
-                                                                y
-                                                            }
-                                                            node {
-                                                                id
-                                                            }
-                                                        }
-                                                    }
                         }
+                        groups {
+                            id
+                            x
+                            y
+
+                            width
+                            height
+
+                            nodes {
+                                    id
+                                    type {
+                                        name
+                                    }
+                                    x
+                                    y
+
+                                    z
+                                    scaleX
+                                    scaleY
+                                    rotation
+
+                                    devicePlaceholder {
+                                        id
+                                        name
+                                        type {
+                                            actions {
+                                                key
+                                            }
+        
+                                            state {
+                                                units
+                                                key
+                                            }
+                                        }
+        
+                                    }
+                                
+                            }
+                            ports {
+                                id
+                                x
+                                y
+                                rotation
+                                length
+                            }
+                        }
+                        nodes{
+       
+                                id
+                                type {
+                                    name
+                                    
+                                    width
+                                    height
+    
+                                    ports {
+                                        x
+                                        y
+                                        rotation
+                                        key
+                                    }
+                                }   
+                                x
+                                y
+                                rotation
+                                scaleX
+                                scaleY
+    
+                                devicePlaceholder {
+                                    id
+                                    name
+                                    type {
+                                        actions {
+                                            key
+                                        }
+    
+                                        state {
+                                            units
+                                            key
+                                        }
+                                    }
+    
+                                }
+                            
+                            
+                        }
+                            
                     }
                 }
 
@@ -181,7 +245,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
     const values = deviceValueData?.commandDeviceValue || []
 
-    const getDeviceValue = (name?: string, key?: string) => {
+    const getDeviceValue = (name?: string, units?: {key: string, units?: string}[]) => {
         //Find map between P&ID tag and bus-port
 
         if(!name) return;
@@ -200,15 +264,18 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         // console.log("ID TO BUS", idToBus, name)
         
         // return idToBus.filter((a) => a.name == name).map((busPort) => {
+
             let v = values.filter((a) => a?.deviceId == name);
 
             // console.log(v, busPort)
-
+        console.log(v, units)
             // return {key: busPort.value, value: v.find((a) => a.valueKey == busPort.key)?.value};
         return v.reduce((prev, curr) => {
+            let unit = units?.find((a) => a.key == curr.valueKey);
+            console.log(unit)
             return {
                 ...prev,
-                [curr.valueKey]: curr.value
+                [curr.valueKey]: `${curr.value} ${unit && unit.units ? unit.units : ''}`
             }
         }, {})
     
@@ -255,12 +322,13 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     const program = data?.commandDevices?.[0]?.activeProgram || {};
 
     const hmi = program?.hmi?.[0]?.nodes || [];
+    const groups = program?.hmi?.[0]?.groups || [];
 
     const hmiNodes = useMemo(() => {
-        return hmi.filter((a) => a?.devicePlaceholder?.name).map((node) => {
+        return hmi.concat(groups.map((x) => x.nodes).reduce((prev, curr) => prev.concat(curr), [])).filter((a) => a?.devicePlaceholder?.name).map((node) => {
 
             let device = node?.devicePlaceholder?.name;
-            let value = getDeviceValue(device)
+            let value = getDeviceValue(device, node?.devicePlaceholder?.type?.state);
             let conf =  data?.commandDevices?.[0]?.configuredDevices?.filter((a) => a.device?.id == node.devicePlaceholder.id)
 
             console.log("CONF", conf)
@@ -269,7 +337,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 values: value,
                 conf
             }
-        }) 
+        })
     }, [data, deviceValueData])
 
     const nodes = hmi.map((node) => ({
@@ -329,47 +397,61 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     }
 
     const renderActions = () => {
-       let node = hmi.find((a) => a.id == selected?.id)
+       let node = hmi.concat(groups).find((a) => a.id == selected?.id)
 
        if(!node) return ;
 
-       let deviceInfo = node?.devicePlaceholder?.type;
+       let devices =  getDevicesForNode(node)
 
-       return (
-           <Box direction="column">
-               <Box
-                    pad="xsmall"
-                    align="center" 
-                    direction="row">
-                    <Text>{(node?.devicePlaceholder as any)?.name}</Text>
+       return devices.map((device) => {
+           let deviceInfo = device?.type || {};
+           let deviceName = device?.name || '';
 
-                    <Text size="small">- {node.type?.name}</Text>
-               </Box>
+           return (
+            <Box flex direction="column">
+                <Box
+                     pad="xsmall"
+                     justify="center" 
+                     direction="column">
+                     <Text size="small">{device?.name}</Text>
+ 
+                     <Text size="xsmall">{deviceInfo?.name}</Text>
+                </Box>
+                <Box flex>
+                 {deviceInfo?.state?.map((state) => (
+                     <Text size="small">{state.key} - {getDeviceValue(deviceName, deviceInfo.state)?.[state.key]}</Text>
+                 ))}
+                </Box>
+ 
+ {/* 
+ 
+                 {deviceValues(node?.devicePlaceholder?.name)} */}
+                 <Box align="center" justify="around" direction="row">
+                 {deviceInfo?.actions?.map((action) => (
+                     <Button
+                         plain
+                         style={{padding: 6, borderRadius: 3}}
+                         hoverIndicator 
+                         onClick={() => {
+                             performAction({
+                                 args: {
+                                     deviceId: props.match.params.id, 
+                                     deviceName: node?.devicePlaceholder?.name,
+                                     action: action.key
+                                 }
+                                     
+                             })
+                         }}
+                         label={action.key} />
+                 ))}
+                 </Box>
+ 
+             </Box>
+        )
+       })
+    //    let deviceInfo = node?.devicePlaceholder?.type;
 
-               {deviceInfo?.state?.map((state) => (
-                   <Text size="small">{state.key} - {getDeviceValue(node?.devicePlaceholder?.name)?.[state.key]}</Text>
-               ))}
-{/* 
-
-                {deviceValues(node?.devicePlaceholder?.name)} */}
-
-                {deviceInfo?.actions?.map((action) => (
-                    <Button 
-                        onClick={() => {
-                            performAction({
-                                args: {
-                                    deviceId: props.match.params.id, 
-                                    deviceName: node?.devicePlaceholder?.name,
-                                    action: action.key
-                                }
-                                    
-                            })
-                        }}
-                        label={action.key} />
-                ))}
-
-            </Box>
-       )
+     
 
     }
 
@@ -392,7 +474,21 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 id={program.id}
                 program={program}
                 deviceValues={hmiNodes}
+                information={infoTarget != undefined ? (
+                    <Bubble style={{position: 'absolute', zIndex: 99, pointerEvents: 'all', left: infoTarget?.x, top: infoTarget?.y}}>
+                        {renderActions()}
+                    </Bubble>
+                ) : null}
+                onBackdropClick={() => {
+                    setSelected(undefined)
+                }}
                 onSelect={(select) => {
+                    let node = program.hmi?.[0]?.nodes?.concat(program?.hmi?.[0]?.groups).find((a) => a.id == select.id)
+
+                    const { x, y, scaleX, scaleY} = node;
+                    console.log({node})
+                    setInfoTarget({x: x + (node.width || node?.type?.width), y: y})
+                    
                     setSelected(select)
                 }}
                 />
@@ -408,12 +504,12 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 nodes={nodes}
                 paths={[]}
                    /> */}
-            <Box 
+            {/* <Box 
                 pad="xsmall"
                 width="small"
                 background="neutral-1">
                 {renderActions()}
-            </Box>
+            </Box> */}
             </Box>
         </Box>
     )

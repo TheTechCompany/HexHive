@@ -1,68 +1,52 @@
 import * as React from "react";
 
-function SvgConductivity(props: React.SVGProps<SVGSVGElement>) {
+function SvgSensor(props: any) {
+  console.log("COND", props)
   return (
+    <>
+    <div 
+      style={{
+        transform: `scaleX(1/${props.scaleX || 1}) scaleY(1/${props.scaleY || 1})`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: '2px solid gray', 
+        borderRadius: 5, 
+        position: 'absolute', 
+        top: 0, 
+        height: 14,
+        left: 0, 
+        right: 0,
+        width: '100%',
+        lineHeight: '100%',
+      }}>
+      <span style={{fontSize: 10, color: 'white'}}>{props.options.conductivity || '32µS/cm'}</span>
+    </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 31.64 67"
+      viewBox="0 0 111.85 218.32"
       {...props}
     >
-      <defs>
-        <linearGradient
-          id="Conductivity_svg__a"
-          x1={1081.83}
-          y1={-67.12}
-          x2={1086.18}
-          y2={-67.12}
-          gradientTransform="rotate(-45 1164.368 587.373)"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset={0} stopColor="#f57f20" />
-          <stop offset={0.49} stopColor="#fdb714" />
-          <stop offset={1} stopColor="#f57f20" />
-        </linearGradient>
-        <linearGradient
-          id="Conductivity_svg__b"
-          x1={632.44}
-          y1={198.42}
-          x2={664.09}
-          y2={198.42}
-          xlinkHref="#Conductivity_svg__a"
+      <g fill="none" strokeLinejoin="round">
+        {/* <path
+          d="M94.91 2.76h-76c-7.78 0-14.09 5.64-14.09 12.6v28.85c0 7 6.31 12.59 14.09 12.59h21.44l16.56.27 16.56-.27h21.44c7.79 0 14.1-5.63 14.1-12.59V15.36c0-6.96-6.31-12.6-14.1-12.6z"
+          strokeLinecap="round"
+          strokeWidth={5.533}
+        /> */}
+        <rect
+          x={2.96}
+          y={109.43}
+          width={105.92}
+          height={105.92}
+          rx={13.31}
+          strokeLinecap="round"
+          strokeWidth={5.929}
         />
-        <linearGradient
-          id="Conductivity_svg__c"
-          x1={10.59}
-          y1={52.58}
-          x2={20.21}
-          y2={52.58}
-          xlinkHref="#Conductivity_svg__a"
-        />
-      </defs>
-      <path
-        d="M649.61 185.81l-.46.45a1.85 1.85 0 01-2.73-.12l-6.34-8.87a.39.39 0 01.54-.54l8.86 6.33a1.87 1.87 0 01.13 2.75z"
-        transform="translate(-632.44 -164.92)"
-        fill="url(#Conductivity_svg__a)"
-      />
-      <path
-        d="M659.55 203.78h-9.5v-4.22a14.82 14.82 0 001.25-29.22 2.09 2.09 0 000-.35v-1.83a2.24 2.24 0 00-2.24-2.24h-1.84a2.24 2.24 0 00-2.24 2.24V170a2.58 2.58 0 000 .39 14.82 14.82 0 001.42 29.18v4.22h-9.25a2.41 2.41 0 00-2.41 2.41v22.32a2.41 2.41 0 002.41 2.41h22.32a2.41 2.41 0 002.41-2.41v-22.33a2.41 2.41 0 00-2.33-2.41z"
-        transform="translate(-632.44 -164.92)"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        stroke="url(#Conductivity_svg__b)"
-      />
-      <path
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        stroke="url(#Conductivity_svg__c)"
-        d="M19.2 44.9l-7.61 7.68h7.61l-7.61 7.67"
-      />
+        <path strokeWidth={7.922} d="M57.01 56.77l-.09 53" />
+      </g>
     </svg>
+    </>
   );
 }
 
-export default SvgConductivity;
+export default SvgSensor;

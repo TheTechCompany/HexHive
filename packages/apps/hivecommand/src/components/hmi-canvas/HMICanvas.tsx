@@ -7,11 +7,25 @@ import * as HMIIcons from '../../assets/hmi-elements'
 import { Nodes } from 'grommet-icons'
 import { nanoid } from 'nanoid';
 import { useMutation } from '@hexhive/client';
+import { HMICanvasProvider } from './HMICanvasContext';
 
 export interface HMICanvasProps {
 	id: string;
     
-    deviceValues?: {conf: {device: {id: string}, conf: {key: string}, value: any}[], devicePlaceholder: {id: string, name: string}, values: any}[];
+    information?: any;
+
+    deviceValues?: {
+        conf: {
+            device: {id: string},
+            conf: {key: string}, 
+            value: any
+        }[], 
+        devicePlaceholder: {
+            id: string, 
+            name: string
+        }, 
+        values: any
+    }[];
     program?: any;
 	
 	onConnect?: (path: {
@@ -25,6 +39,8 @@ export interface HMICanvasProps {
 		key: "node" | "path",
 		id: string
 	}) => void;
+
+    onBackdropClick?: () => void;
 }
 
 
@@ -65,66 +81,7 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
 
     const client = useApolloClient()
 
-    // const { data } = useQuery(gql`
-    //     query Q ($id: ID){
-    //         commandPrograms(where: {id: $id}){
-    //             id
-    //             name
-
-    //             hmi {
-    //                 id
-    //                 name
-    //                 nodes {
-    //                     id
-    //                     type
-    //                     devicePlaceholder {
-    //                         id
-    //                         name
-    //                     }
-    //                     x
-    //                     y
-
-        
-    //                     inputsConnection {
-    //                         edges {
-    //                             id
-    //                             sourceHandle
-    //                             targetHandle
-    //                             node {
-    //                                 id
-    //                             }
-    //                         }
-    //                     }
-
-    //                     outputsConnection {
-    //                         edges {
-    //                             id
-    //                             sourceHandle
-    //                             targetHandle
-    //                             node {
-    //                                 id
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             }
-
-    //             devices {
-    //                 id
-    //                 name
-    //                 type {
-    //                     id
-    //                     name
-    //                 }
-    //             }
-    //         }
-    //     }
-    // `, {
-    //     variables: {
-    //         id: props.id
-    //     }
-    // })
-    
+   
     const refetch = () => {
         client.refetchQueries({include: ['Q']})
     }
@@ -133,8 +90,9 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
     useEffect(() => {
         let program = props.program
         if(program){
+            let hmi = program.hmi?.find((a) => a.name == "Default")
             console.log("Loading HMI", program)
-            setNodes((program.hmi)?.find((a) => a.name == "Default")?.nodes?.map((x) => {
+            setNodes(hmi?.nodes?.map((x) => {
                 // console.log( "VAL", x.devicePlaceholder, props.deviceValues, props.deviceValues.find((a) => a.device == x.devicePlaceholder))
                 console.log("NODE", x)
                 return {
@@ -145,8 +103,8 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
                     height: `${x?.type?.height || 50}px`,
                     extras: {
                       
-                        options: props.deviceValues.find((a) => a?.devicePlaceholder?.name == x?.devicePlaceholder?.name)?.values,
-                        configuration: props.deviceValues.find((a) => a?.devicePlaceholder?.name == x?.devicePlaceholder?.name)?.conf.reduce((prev,curr) => ({...prev, [curr.conf.key]: curr.value}), {}),
+                        // options: props.deviceValues.find((a) => a?.devicePlaceholder?.name == x?.devicePlaceholder?.name)?.values,
+                        // configuration: props.deviceValues.find((a) => a?.devicePlaceholder?.name == x?.devicePlaceholder?.name)?.conf.reduce((prev,curr) => ({...prev, [curr.conf.key]: curr.value}), {}),
                         ports: x?.type?.ports.map((x) => ({...x, id: x.key})),
                         rotation: x?.rotation || 0,
                         scaleX: x?.scaleX || 1,
@@ -159,21 +117,46 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
                     type: 'hmi-node',
                 }
                 
-            }))
+            }).concat(hmi?.groups.map((group) => ({
+                id: group.id,
+                x: group.x || 0,
+                y: group.y || 0,
+                width: `${group.width}px`,
+                height: `${group.height}px`,
+                type: 'hmi-node',
+                extras: {
+                    nodes: group.nodes?.map((x) => ({
+                        id: x.id,
+                        x: x.x,
+                        y: x.y,
+                        z: x.z,
+                        devicePlaceholder: x.devicePlaceholder,
+                        scaleX: x.scaleX || 1,
+                        scaleY: x.scaleY || 1,
+                        rotation: x.rotation || 0,
+                        type: x.type
+                    })),
+                    ports: group.ports?.map((x) => ({
+                        id: x.id,
+                        x: x.x,
+                        y: x.y,
+                        length: x.length || 1,
+                        rotation: x.rotation || 0,
+                    }))
+                }
+            }))))
 
-            setPaths((program?.hmi)?.find((a) => a.name == "Default")?.nodes?.map((x) => {
-                let connections = x.outputsConnection?.edges?.map((edge) => ({
-                    id: edge.id,
-                    source: x.id,
-                    points: edge.points,
-                    sourceHandle: edge.sourceHandle,
-                    target: edge.node.id,
-                    targetHandle: edge.targetHandle
-                })) 
-                return connections
-            }).reduce((prev, curr) => {
-                return prev.concat(curr)
-            }, []))
+            setPaths((program?.hmi)?.find((a) => a.name == "Default")?.paths?.map((x) => {
+                return {
+                    id: x.id,
+                    source: x?.source?.id,
+                    sourceHandle: x.sourceHandle,
+                    target: x?.target?.id,
+                    targetHandle: x.targetHandle,
+                    points: x.points
+                }
+
+            }))
         }
     }, [props.program, props.deviceValues])
 
@@ -208,38 +191,45 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
     }
     
 	return (
-		<Box 
-            direction="row"
-            flex>
-			<InfiniteCanvas
-                onSelect={(key, id) => {
+        <HMICanvasProvider
+            value={{
+                values: props.deviceValues
+            }}>
+            <Box 
+                direction="row"
+                flex>
+                <InfiniteCanvas
+                    zoom={120}
+                    onBackdropClick={props.onBackdropClick}
+                    onSelect={(key, id) => {
 
-					props.onSelect({key, id})
-                    console.log("SELECTEDDDD", key, id)
-                    setSelected({
-                        key,
-                        id
-                    })
-                }} 
+                        props.onSelect({key, id})
+                        console.log("SELECTEDDDD", key, id)
+                        setSelected({
+                            key,
+                            id
+                        })
+                    }} 
+                    information={props.information}
+                    editable={false}
+                    nodes={nodes}
+                    paths={pathRef.current.paths}
+                    factories={[new IconNodeFactory(), new HMINodeFactory()]}
+                    onPathCreate={(path) => {
+                        // console.log("CREATE", path)
+                        // setPat'hs([...paths, path])
 
-                editable={false}
-                nodes={nodes}
-                paths={pathRef.current.paths}
-                factories={[new IconNodeFactory(), new HMINodeFactory()]}
-                onPathCreate={(path) => {
-                    // console.log("CREATE", path)
-                    // setPat'hs([...paths, path])
 
 
-
-                    updateRef.current?.addPath(path);
-                }}
-               
-                >
-     
-                <ZoomControls anchor={{vertical: 'bottom', horizontal: 'right'}} />
-            </InfiniteCanvas>
-           
-		</Box>
+                        updateRef.current?.addPath(path);
+                    }}
+                
+                    >
+        
+                    <ZoomControls anchor={{vertical: 'bottom', horizontal: 'right'}} />
+                </InfiniteCanvas>
+            
+            </Box>
+        </HMICanvasProvider>
 	)
 }
