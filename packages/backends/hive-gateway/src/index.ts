@@ -143,11 +143,8 @@ const setupWebsockets = (io: Server) => {
 	const mqChannel = await mqConnection.createChannel()
 
 	await mqChannel.assertQueue(`COMMAND:DEVICE:CONTROL`)
+	await mqChannel.assertQueue(`COMMAND:DEVICE:MODE`);
 	
-	await mqChannel.assertQueue(`device-change`, {
-		durable: false
-	})
-    
 
 	// const collaborationServer = new CollaborationServer();
          

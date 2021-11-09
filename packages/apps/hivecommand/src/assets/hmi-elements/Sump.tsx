@@ -1,7 +1,6 @@
 import * as React from "react";
 
 function SvgSump(props: any) {
-  console.log("SUMP", props)
   return (
     <>
     <svg
@@ -15,8 +14,20 @@ function SvgSump(props: any) {
         <path d="M40.56 28.89l-2.66-6.82L34.79 30c-1.49 3.81-3.31 7.51-5.08 11.08v.1a9.16 9.16 0 1016.26-.37 101 101 0 01-5.41-11.92z" />
       </g>
     </svg>
-        <div style={{position: 'absolute', width: '100%', border: '2px solid gray', borderRadius: 5, transform: `rotate(${1 * (props.rotation || 0)}deg) scaleX(${1 / (props.scaleX || 1)}) scaleY(${1/(props.scaleY || 1)})`, display: 'flex', justifyContent: 'center', alignItems: 'center', bottom: 27, left: '-36px'}}>
-        <span style={{color: 'white', fontSize: 10}}>{props.options?.speed > 0 ? props.options?.speed : 0 }%</span>
+        <div style={{
+          position: 'absolute', 
+          width: '100%',
+          border: '2px solid gray', 
+          borderRadius: 5, 
+          transform: `rotate(${1 * (props.rotation || 0)}deg) scaleX(${1 / (props.scaleX || 1)}) scaleY(${1/(props.scaleY || 1)})`, 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          lineHeight: '100%',
+          bottom: 27, 
+          left: '-36px'
+        }}>
+        <span style={{color: 'white', fontSize: 10}}>{props.options?.speed > 0 ? parseFloat(props.options?.speed).toFixed(2) : 0 }%</span>
       </div>
     </>
   );

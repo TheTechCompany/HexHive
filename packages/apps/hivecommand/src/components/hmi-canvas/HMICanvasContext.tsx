@@ -25,29 +25,12 @@ export const HMICanvasContext = React.createContext<{
 
 })
 
-const modify = (value: any, modifiers: string[]) => {
-	let returnValue = value;
-	
-	modifiers.forEach((modifier) => {
-		switch(modifier){
-			case 'Percent':
-				returnValue = ((value - 4000) / (16000)) * 100
-			break;
-			default:
-				break;
-		}
-	})
-
-	console.log(value, returnValue)
-	return returnValue;
-}
 
 export const HMICanvasProvider = (props: any) => (<HMICanvasContext.Provider value={{
 	...props.value,
 	getDeviceOptions: (device) => {
 		const { values } = useContext(HMICanvasContext);
 		let deviceValues = values.find((a) => a.devicePlaceholder?.name == device);
-			console.log(deviceValues)
 		return deviceValues?.values;
 		// let vals = Object.assign({}, deviceValues?.values || {});
 		// for(var k in vals){
