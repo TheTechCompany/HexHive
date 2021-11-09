@@ -13,6 +13,8 @@ function SvgSensorBox(props: any) {
         borderRadius: 5, 
         position: 'absolute', 
         top: 0, 
+        lineHeight: '100%',
+        minWidth: 'min-content',
         height: 14,
         left: 0, 
         right: 0

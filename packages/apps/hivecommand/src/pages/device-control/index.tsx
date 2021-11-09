@@ -148,6 +148,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         
                                             state {
                                                 units
+                                                inputUnits
                                                 key
                                                 writable
                                             }
@@ -196,6 +197,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     
                                         state {
                                             units
+                                            inputUnits
                                             key
                                             writable
                                         }
@@ -213,6 +215,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                         name
                         type {
                             state {
+                                inputUnits
+                                units
                                 key
                                 type
                             }
@@ -233,6 +237,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         deviceName: string,
         action: string
     }) => {
+
+        // console.log({args})
         const item = mutation.performDeviceAction({deviceId: args.deviceId, deviceName: args.deviceName, action: args.action})
 
         return {
@@ -319,12 +325,12 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
             if(!stateItem) return prev;
 
-            if(stateItem?.type == "IntegerT"){
+            if(stateItem?.type == "IntegerT" || stateItem?.type == "UIntegerT"){
                 value = parseFloat(value).toFixed(2)
             }
             return {
                 ...prev,
-                [curr.valueKey]: `${value} ${unit && unit.units ? unit.units : ''}`
+                [curr.valueKey]: value //`${value} ${unit && unit.units ? unit.units : ''}`
             }
         }, {})
     
@@ -558,7 +564,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                              performAction({
                                  args: {
                                      deviceId: props.match.params.id, 
-                                     deviceName: node?.devicePlaceholder?.name,
+                                     deviceName: deviceName,
                                      action: action.key
                                  }
                                      

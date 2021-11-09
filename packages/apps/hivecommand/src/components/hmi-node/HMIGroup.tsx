@@ -37,7 +37,7 @@ export const HMIGroup : React.FC<HMIGroupProps> = (props) => {
 			id: node.id,
 			extras: {
 				icon: useSVGStyle(HMIIcons[node.type.name], (props) => ({
-					stroke: options?.open == 'true' || options?.on == 'true' ? 'green' : 'gray',
+					stroke: (options?.opening == 'true' || options?.starting == 'true') ? 'yellow' : options?.open == 'true' || options?.on == 'true' ? 'green' : 'gray',
 					filter: `hue-rotate(${((options?.open == true || options?.open == 'true') || (options?.on == 'true')) ? '45' : '0'}deg)`
 				})),
 				options,
