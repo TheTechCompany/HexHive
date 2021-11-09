@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import React from 'react';
-
+import {unit} from 'mathjs'
 export const HMICanvasContext = React.createContext<{
 	values?: {
 		conf: {
@@ -13,6 +13,8 @@ export const HMICanvasContext = React.createContext<{
 			type?: {
 				state?: {
 					key: string,
+					units?: string;
+					inputUnits?: string;
 					modifiers: string[]
 				}[]
 			}
@@ -31,16 +33,27 @@ export const HMICanvasProvider = (props: any) => (<HMICanvasContext.Provider val
 	getDeviceOptions: (device) => {
 		const { values } = useContext(HMICanvasContext);
 		let deviceValues = values.find((a) => a.devicePlaceholder?.name == device);
-		return deviceValues?.values;
-		// let vals = Object.assign({}, deviceValues?.values || {});
-		// for(var k in vals){
+		// return deviceValues?.values;
+		let vals = Object.assign({}, deviceValues?.values || {});
+		for(var k in vals){
+			let state = deviceValues.devicePlaceholder?.type?.state?.find((a) => a.key == k);
+
+			console.log({state})
+			// if(state.inputUnits == "Pa") vals[k] = 65;
+			if(state.inputUnits && state.units && state.inputUnits != state.units){
+				let newUnit = unit(vals[k], state.inputUnits).to(state.units);
+				vals[k] =  `${newUnit.toNumber().toFixed(2)} ${newUnit.formatUnits()}`//`${vals[k]} ${state.inputUnits} to ${state.units}`)
+			}else if(state.units){
+				vals[k] = `${vals[k]} ${state.units}`
+			}
+		}
 		// 	let mods = deviceValues.devicePlaceholder?.type.state.find((a) => a.key == k).modifiers || []
 		// 	console.log(mods)
 		// 	if(mods.length > 0){
 		// 		vals[k] = modify(vals[k], mods)
 		// 	}
 		// }
-		// return vals;
+		return vals;
 	},
 	getDeviceConf: (device) => {
 		const { values } = useContext(HMICanvasContext);

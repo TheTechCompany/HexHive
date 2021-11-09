@@ -232,6 +232,8 @@ export default `
 		id: ID! @id
 		key: String
 		type: String
+		
+		inputUnits: String
 		units: String
 		
 		writable: Boolean
