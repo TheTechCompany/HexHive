@@ -13,7 +13,7 @@ import { useMutation } from '@hexhive/client';
 import { HMICanvas } from '../../components/hmi-canvas/HMICanvas';
 import { Bubble } from '../../components/Bubble/Bubble';
 import { getDevicesForNode } from './utils';
-import { Play, Stop } from 'grommet-icons';
+import { Play, Stop, Checkmark } from 'grommet-icons';
 
 export interface DeviceControlProps extends RouteComponentProps<{id: string}>{
 
@@ -22,6 +22,8 @@ export interface DeviceControlProps extends RouteComponentProps<{id: string}>{
 export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
     const client = useApolloClient();
+
+    const [ workingState, setWorkingState ] = useState<any>({})
 
     const [ infoTarget, setInfoTarget ] = useState<{x?: number, y?: number}>(undefined);
     const [ selected, setSelected ] = useState<{key?: string, id?: string}>(undefined)
@@ -255,12 +257,17 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     })
 
 
-    const [ changeDeviceValue, changeDeviceInfo ] = useMutation((mutation, args: {bus: string, port: string, value: string}) => {
+    const [ changeDeviceValue, changeDeviceInfo ] = useMutation((mutation, args: {
+        deviceName: string,
+        key: string,
+        value: any
+    }) => {
+
         const result = mutation.changeDeviceValue({
-            device: props.match.params.id,
-            bus: args.bus,
-            port: args.port, 
-            value: args.value
+            deviceId: props.match.params.id,
+            deviceName: args.deviceName,
+            key: args.key,
+            value: `${args.value}`
         })
 
         return {
@@ -417,11 +424,11 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         
         let newValue = (!value || value.value == 'false') ? '1' : '0';
 
-        changeDeviceValue({args: {
-            bus: busPort.bus,
-            port: busPort.port,
-            value: newValue
-        }})
+        // changeDeviceValue({args: {
+        //     bus: busPort.bus,
+        //     port: busPort.port,
+        //     value: newValue
+        // }})
         console.log(node)
     }
 
@@ -444,10 +451,37 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
         console.log(deviceName, deviceInfo, state, value)
         if(state.writable && deviceMode == "Manual"){
-            return <TextInput style={{padding: "none"}} type="number" size="small" plain placeholder={state.key} value={parseFloat(value)} />
+            return (
+                <TextInput 
+                    style={{padding: "none"}}
+                    type="number" 
+                    size="small" 
+                    plain 
+                    placeholder={state.key} 
+                    onChange={(e) => setWorkingState({...workingState, [state.key]: parseFloat(e.target.value)})}
+                    value={workingState[state.key] || parseFloat(value)} />
+            )
         }else{
             return <Text size="small">{value}</Text>
         }
+    }
+
+    useEffect(() => {
+        setWorkingState({})
+    }, [selected])
+
+    const sendChanges = (deviceName: string, stateKey: string, stateValue: any) => {
+        changeDeviceValue({
+            args: {
+                deviceName: deviceName,
+                key: stateKey,
+                value: stateValue
+            }
+        }).then(() => {
+            let ws = Object.assign({}, workingState);
+            delete ws[stateKey] 
+            setWorkingState(ws)
+        })
     }
 
     const renderActions = () => {
@@ -499,6 +533,14 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                      <Box direction="row" align="center">
                         <Box flex><Text size="small">{state.key}</Text></Box>
                         <Box flex>{renderActionValue(deviceName, deviceInfo, deviceMode, state)}</Box>
+                        {workingState[state.key] != undefined ? (<Button 
+                            plain
+                            onClick={() => {
+                                sendChanges(deviceName, state.key, workingState[state.key])
+                            }}
+                            style={{padding: 6, borderRadius: 3}}
+                            hoverIndicator
+                            icon={<Checkmark size="small" />} />) : ''}
                      </Box>
                  ))}
                 </Box>

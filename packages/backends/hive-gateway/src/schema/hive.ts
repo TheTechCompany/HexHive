@@ -409,33 +409,38 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 
 				return await channel.sendToQueue(`COMMAND:DEVICE:MODE`, Buffer.from(JSON.stringify(actionRequest)))
 			},
-			changeDeviceValue: async (root: any, args: any, context: any) => {
+			changeDeviceValue: async (root: any, args: {
+				deviceId: string, 
+				deviceName: string, 
+				key: string, 
+				value: string
+			}, context: any) => {
+				
 				
 				const device = await session.readTransaction(async (tx) => {
+
 					const result = await tx.run(`
-						MATCH (device:CommandDevice {id: $id})-[:HAS_PERIPHERAL]->(bus:CommandDevicePeripheral {id: $peripheral})
+						MATCH (device:CommandDevice {id: $id})
 						RETURN device{
-							network_name: device.network_name,
-							type: bus.type,
-							id: bus.id
+							.*
 						}
 					`, {
-						id: args.device,
-						peripheral: args.bus
+						id: args.deviceId,
 					})
 					return result?.records?.[0]?.get(0)
 				})
+
 				console.log(args.value)
 
 				let stateChange = {
-					device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
-					busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:${args.key}`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
+					address: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
+					busPath: `/Objects/1:Devices/1:${args.deviceName}/1:${args.key}`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
 					value: args.value
 				}
 
 				console.log("Sending state change", stateChange)
 			
-				return await channel.sendToQueue(`device-change`, Buffer.from(JSON.stringify(stateChange)))
+				return await channel.sendToQueue(`COMMAND:DEVICE:VALUE`, Buffer.from(JSON.stringify(stateChange)))
 			},
 			updateHiveIntegrationInstanceState: async (root: any, args: any, context: any) => {
 				let org = context.user.organisation;

@@ -1,7 +1,6 @@
 import * as React from "react";
 
 function SvgSensorBox(props: any) {
-  console.log(props)
   return (
     <>
     <div 
