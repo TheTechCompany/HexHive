@@ -20,7 +20,7 @@ export default `
 
 	extend type Mutation {
 		performDeviceAction(deviceId: String, deviceName: String, action: String): CommandDeviceResponse
-		changeDeviceValue(device: String, bus: String, port: String, key: String, value: String): CommandDeviceResponse
+		changeDeviceValue(deviceId: String, deviceName: String, key: String, value: String): CommandDeviceResponse
 		changeMode(deviceId: String, mode: String): CommandDeviceResponse
 		changeDeviceMode(deviceId: String, deviceName: String, mode: String): CommandDeviceResponse
 	}

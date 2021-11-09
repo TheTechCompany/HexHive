@@ -1,7 +1,6 @@
 import * as React from "react";
 
 function SvgSensor(props: any) {
-  console.log("COND", props)
   return (
     <>
     <div 

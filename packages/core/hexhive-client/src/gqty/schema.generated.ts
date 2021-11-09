@@ -18037,9 +18037,8 @@ export const generatedSchema = {
     changeDeviceValue: {
       __type: "CommandDeviceResponse",
       __args: {
-        device: "String",
-        bus: "String",
-        port: "String",
+        deviceId: "String",
+        deviceName: "String",
         key: "String",
         value: "String",
       },
@@ -41393,9 +41392,8 @@ export interface Mutation {
     action?: Maybe<Scalars["String"]>;
   }) => Maybe<CommandDeviceResponse>;
   changeDeviceValue: (args?: {
-    device?: Maybe<Scalars["String"]>;
-    bus?: Maybe<Scalars["String"]>;
-    port?: Maybe<Scalars["String"]>;
+    deviceId?: Maybe<Scalars["String"]>;
+    deviceName?: Maybe<Scalars["String"]>;
     key?: Maybe<Scalars["String"]>;
     value?: Maybe<Scalars["String"]>;
   }) => Maybe<CommandDeviceResponse>;
