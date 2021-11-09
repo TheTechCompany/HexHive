@@ -14,6 +14,10 @@ export interface HMICanvasProps {
     
     information?: any;
 
+    modes?: {
+        name: string,
+        mode: string
+    }[]
     deviceValues?: {
         conf: {
             device: {id: string},
@@ -94,7 +98,6 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
             console.log("Loading HMI", program)
             setNodes(hmi?.nodes?.map((x) => {
                 // console.log( "VAL", x.devicePlaceholder, props.deviceValues, props.deviceValues.find((a) => a.device == x.devicePlaceholder))
-                console.log("NODE", x)
                 return {
                     id: x.id,
                     x: x.x,
@@ -174,7 +177,6 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
 
     const watchEditorKeys = (e: KeyboardEvent) => {
         if(e.key == "Delete" || e.key == "Backspace") {
-            console.log("DELETE", selected)
             if(selectedRef.current.selected.id){
                 // deleteSelected({
                 //     args: {
@@ -204,7 +206,6 @@ export const HMICanvas : React.FC<HMICanvasProps> = (props) => {
                     onSelect={(key, id) => {
 
                         props.onSelect({key, id})
-                        console.log("SELECTEDDDD", key, id)
                         setSelected({
                             key,
                             id

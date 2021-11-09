@@ -1,5 +1,5 @@
 import { IconNodeFactory } from '@hexhive/ui';
-import { Box, Button, Text } from 'grommet';
+import { Box, Button, CheckBox, Text, TextInput } from 'grommet';
 // import { FlowEditor } from '@hexhive/command-editor';
 import { InfiniteCanvas } from '@hexhive/ui';
 import React, { useState, useMemo, useEffect } from 'react';
@@ -13,6 +13,7 @@ import { useMutation } from '@hexhive/client';
 import { HMICanvas } from '../../components/hmi-canvas/HMICanvas';
 import { Bubble } from '../../components/Bubble/Bubble';
 import { getDevicesForNode } from './utils';
+import { Play, Stop } from 'grommet-icons';
 
 export interface DeviceControlProps extends RouteComponentProps<{id: string}>{
 
@@ -43,6 +44,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
             query Q ($id: ID){
      
             commandDevices(where: {id: $id}){
+
+                operatingMode
 
                 configuredDevices {
                     id
@@ -144,6 +147,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                                             state {
                                                 units
                                                 key
+                                                writable
                                             }
                                         }
         
@@ -191,6 +195,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                                         state {
                                             units
                                             key
+                                            writable
                                         }
                                     }
     
@@ -199,6 +204,17 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                             
                         }
                             
+                    }
+
+                    devices {
+                        id
+                        name
+                        type {
+                            state {
+                                key
+                                type
+                            }
+                        }
                     }
                 }
 
@@ -224,6 +240,21 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }
     })
 
+    const [ changeDeviceMode, changeDeviceModeInfo ] = useMutation((mutation, args: {
+        deviceId: string,
+        deviceName: string,
+        mode: string
+    }) => {
+        const item = mutation.changeDeviceMode({deviceId: args.deviceId, deviceName: args.deviceName, mode: args.mode})
+
+        return {
+            item: {
+                ...item
+            }
+        }
+    })
+
+
     const [ changeDeviceValue, changeDeviceInfo ] = useMutation((mutation, args: {bus: string, port: string, value: string}) => {
         const result = mutation.changeDeviceValue({
             device: props.match.params.id,
@@ -241,6 +272,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     })
 
     //Translates id to bus-port value
+    const rootDevice = data?.commandDevices?.[0];
+
     const peripherals = data?.commandDevices?.[0]?.peripherals || []
 
     const values = deviceValueData?.commandDeviceValue || []
@@ -265,26 +298,39 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         
         // return idToBus.filter((a) => a.name == name).map((busPort) => {
 
-            let v = values.filter((a) => a?.deviceId == name);
+        let v = values.filter((a) => a?.deviceId == name);
+        let state = program?.devices?.find((a) => a.name == name).type?.state;
 
             // console.log(v, busPort)
         console.log(v, units)
             // return {key: busPort.value, value: v.find((a) => a.valueKey == busPort.key)?.value};
         return v.reduce((prev, curr) => {
             let unit = units?.find((a) => a.key == curr.valueKey);
+            let stateItem = state.find((a) => a.key == curr.valueKey);
             console.log(unit)
+            let value = curr.value;
+
+            if(!stateItem) return prev;
+
+            if(stateItem?.type == "IntegerT"){
+                value = parseFloat(value).toFixed(2)
+            }
             return {
                 ...prev,
-                [curr.valueKey]: `${curr.value} ${unit && unit.units ? unit.units : ''}`
+                [curr.valueKey]: `${value} ${unit && unit.units ? unit.units : ''}`
             }
         }, {})
     
     }
 
+    const refetch = () => {
+        client.refetchQueries({include: ['Q']})
+    }
+
     useEffect(() => {
         const timer = setInterval(() => {
             client.refetchQueries({include: ['DeviceValues']})
-        }, 5 * 1000)
+        }, 1 * 1000)
 
         return () => {
             clearInterval(timer)
@@ -324,6 +370,14 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     const hmi = program?.hmi?.[0]?.nodes || [];
     const groups = program?.hmi?.[0]?.groups || [];
 
+    const deviceModes = program?.devices?.map((a) => {
+        let vals = values.filter((b) => b?.deviceId == a.name);
+        if(!vals.find((a) => a.valueKey == "mode")) console.log(a.name)
+        return {name: a.name, mode: vals.find((a) => a.valueKey == 'mode')?.value};
+    }) || [];
+
+    console.log({deviceModes})
+
     const hmiNodes = useMemo(() => {
         return hmi.concat(groups.map((x) => x.nodes).reduce((prev, curr) => prev.concat(curr), [])).filter((a) => a?.devicePlaceholder?.name).map((node) => {
 
@@ -339,17 +393,6 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
             }
         })
     }, [data, deviceValueData])
-
-    const nodes = hmi.map((node) => ({
-        id: node.id,
-        type: 'hmi-node',
-        x: node.x,
-        y: node.y,
-        extras: {
-            iconString: node.type?.name,
-            icon: HMINodes[node.type?.name]
-        }
-    }))
 
     const changeValue = (node: any) => {
         // const values : any[] = getDeviceValue(device)
@@ -396,6 +439,17 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         )
     }
 
+    const renderActionValue = (deviceName: string, deviceInfo: any, deviceMode: string, state: any) => {
+        let value = getDeviceValue(deviceName, deviceInfo.state)?.[state.key];
+
+        console.log(deviceName, deviceInfo, state, value)
+        if(state.writable && deviceMode == "Manual"){
+            return <TextInput style={{padding: "none"}} type="number" size="small" plain placeholder={state.key} value={parseFloat(value)} />
+        }else{
+            return <Text size="small">{value}</Text>
+        }
+    }
+
     const renderActions = () => {
        let node = hmi.concat(groups).find((a) => a.id == selected?.id)
 
@@ -406,20 +460,46 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
        return devices.map((device) => {
            let deviceInfo = device?.type || {};
            let deviceName = device?.name || '';
+        
+           let deviceMode = deviceModes.find((a) => a.name == deviceName)?.mode;
 
            return (
-            <Box flex direction="column">
+            <Box 
+                border={{side: 'bottom', size: 'small'}}
+                flex 
+                direction="column">
                 <Box
                      pad="xsmall"
                      justify="center" 
                      direction="column">
-                     <Text size="small">{device?.name}</Text>
+
+                    <Box align="center" justify="between" direction="row">
+                        <Text weight="bold" size="small">{device?.name}</Text>
+                        <CheckBox 
+                            reverse
+                            onChange={(e) => {
+                                changeDeviceMode({
+                                    args: {
+                                        deviceId: props.match.params.id,
+                                        deviceName: device?.name,
+                                        mode: !e.target.checked ? "Manual" : "Automatic"
+                                    }
+                                })
+                            }}
+                            checked={deviceMode != "Manual"}
+                            label={deviceMode}
+                            toggle />
+
+                    </Box>
  
                      <Text size="xsmall">{deviceInfo?.name}</Text>
                 </Box>
-                <Box flex>
+                <Box pad="xsmall" flex>
                  {deviceInfo?.state?.map((state) => (
-                     <Text size="small">{state.key} - {getDeviceValue(deviceName, deviceInfo.state)?.[state.key]}</Text>
+                     <Box direction="row" align="center">
+                        <Box flex><Text size="small">{state.key}</Text></Box>
+                        <Box flex>{renderActionValue(deviceName, deviceInfo, deviceMode, state)}</Box>
+                     </Box>
                  ))}
                 </Box>
  
@@ -455,6 +535,42 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
     }
 
+    const [ changeRootMode, changeModeInfo ] = useMutation((mutation, args: {deviceId: string, mode: string}) => {
+        const item = mutation.changeMode({
+            deviceId: args.deviceId,
+            mode: args.mode
+        })
+
+        return {
+            item: {
+                ...item
+            }
+        }
+    })
+
+    const toggleOperatingMode = () => {
+        if(rootDevice?.operatingMode == "AUTO"){
+            changeRootMode({
+                args: {
+                    deviceId: props.match.params.id,
+                    mode: "DISABLED"
+                }
+            }).then(() => {
+                refetch()
+            })
+         //   setRootDevice({...rootDevice, operatingMode: "Manual"})
+        }else{
+            changeRootMode({
+                args: {
+                    deviceId: props.match.params.id,
+                    mode: "AUTO"
+                }
+            }).then(() => {
+                refetch()
+            })
+        }
+    }
+
     return (
         <Box
             round="xsmall"
@@ -462,9 +578,17 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
             flex>
             <Box 
                 pad="xsmall"
+                align="center"
+                justify="between"
                 background="accent-2"
                 direction="row">
-                <Text >{program.name}</Text>
+                <Text>{program.name}</Text>
+                <Button
+                    onClick={toggleOperatingMode}
+                    plain
+                    hoverIndicator
+                    style={{padding: 6, borderRadius: 3}}
+                    icon={rootDevice?.operatingMode == "AUTO" ? <Stop size="small" /> : <Play size="small" />} />
             </Box>
             <Box                
                 flex
@@ -474,6 +598,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 id={program.id}
                 program={program}
                 deviceValues={hmiNodes}
+                modes={deviceModes}
                 information={infoTarget != undefined ? (
                     <Bubble style={{position: 'absolute', zIndex: 99, pointerEvents: 'all', left: infoTarget?.x, top: infoTarget?.y}}>
                         {renderActions()}
@@ -481,6 +606,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 ) : null}
                 onBackdropClick={() => {
                     setSelected(undefined)
+                    setInfoTarget(undefined)
                 }}
                 onSelect={(select) => {
                     let node = program.hmi?.[0]?.nodes?.concat(program?.hmi?.[0]?.groups).find((a) => a.id == select.id)

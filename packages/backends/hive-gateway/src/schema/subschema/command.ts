@@ -21,6 +21,8 @@ export default `
 	extend type Mutation {
 		performDeviceAction(deviceId: String, deviceName: String, action: String): CommandDeviceResponse
 		changeDeviceValue(device: String, bus: String, port: String, key: String, value: String): CommandDeviceResponse
+		changeMode(deviceId: String, mode: String): CommandDeviceResponse
+		changeDeviceMode(deviceId: String, deviceName: String, mode: String): CommandDeviceResponse
 	}
 
 	type CommandDeviceResponse {
@@ -46,6 +48,8 @@ export default `
 
 		peripherals: [CommandDevicePeripheral] @relationship(type: "HAS_PERIPHERAL", direction: OUT)
 		
+		operatingMode: String
+
 		online: Boolean
 		lastOnline: DateTime
 
@@ -230,6 +234,8 @@ export default `
 		type: String
 		units: String
 		
+		writable: Boolean
+
 		min: String
 		max: String
 

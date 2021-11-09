@@ -68,8 +68,22 @@ export const HMIGroup : React.FC<HMIGroupProps> = (props) => {
 
 	return (
 		<Box style={{position: 'relative', width: props.width, height: props.height}}>
-			{nodes.map((Node) => <div style={{position: 'absolute', width: '55px', height: '55px', transform: `rotate(${Node.rotation || 0}deg) scaleX(${Node.scaleX || 1}) scaleY(${Node.scaleY || 1})`, left: Node.x, top: Node.y}}> <Node.extras.icon scaleX={Node.scaleX} scaleY={Node.scaleY} rotation={Node.rotation} options={Node.extras.options} /></div>)}
-			{ports.map((Port) => <div style={{position: 'absolute', left: Port.x, top: Port.y}}><RetractingPort id={Port.id} rotation={Port.rotation} height={Port.length} /></div>)}
+			{nodes.map((Node) => 
+				<div
+					style={{
+						position: 'absolute', 
+						width: '55px', 
+						height: '55px', 
+						transform: `rotate(${Node.rotation || 0}deg) scaleX(${Node.scaleX || 1}) scaleY(${Node.scaleY || 1})`, 
+						left: Node.x, 
+						top: Node.y
+					}}> 
+						<Node.extras.icon scaleX={Node.scaleX} scaleY={Node.scaleY} rotation={Node.rotation} conf={Node.extras.conf} options={Node.extras.options} />
+				</div>)}
+			{ports.map((Port) => 
+				<div style={{position: 'absolute', left: Port.x, top: Port.y}}>
+					<RetractingPort id={Port.id} rotation={Port.rotation} height={Port.length} />
+				</div>)}
 			{/* {Icons.map((Icon) => <Icon />)} */}
 		</Box>
 	)

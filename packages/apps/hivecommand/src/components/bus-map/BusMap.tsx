@@ -25,7 +25,6 @@ export interface BusMapProps {
 export const BusMap : React.FC<BusMapProps> = (props) => {
 
 
-	console.log("BUS", props.buses)
 	return (
 		<Box
 			pad={'xsmall'}
@@ -41,7 +40,6 @@ export const BusMap : React.FC<BusMapProps> = (props) => {
 					mappedDevices={bus.mappedDevices}
 					onPortSelect={(port) => {
 						props.onPortSelect(bus.id, port)
-						console.log("SELECT", bus.id, port)
 					}}
 					onPortsChanged={(port, device) => {
 						props.onMapChanged(

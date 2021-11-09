@@ -331,6 +331,7 @@ export interface CommandDeviceConnectWhere {
 export interface CommandDeviceCreateInput {
   name?: Maybe<Scalars["String"]>;
   network_name?: Maybe<Scalars["String"]>;
+  operatingMode?: Maybe<Scalars["String"]>;
   online?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
   activeProgram?: Maybe<CommandDeviceActiveProgramFieldInput>;
@@ -1289,6 +1290,7 @@ export interface CommandDeviceSort {
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
   network_name?: Maybe<SortDirection>;
+  operatingMode?: Maybe<SortDirection>;
   online?: Maybe<SortDirection>;
   lastOnline?: Maybe<SortDirection>;
 }
@@ -1296,6 +1298,7 @@ export interface CommandDeviceSort {
 export interface CommandDeviceUpdateInput {
   name?: Maybe<Scalars["String"]>;
   network_name?: Maybe<Scalars["String"]>;
+  operatingMode?: Maybe<Scalars["String"]>;
   online?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
   activeProgram?: Maybe<CommandDeviceActiveProgramUpdateFieldInput>;
@@ -1413,6 +1416,16 @@ export interface CommandDeviceWhere {
   network_name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   network_name_ENDS_WITH?: Maybe<Scalars["String"]>;
   network_name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  operatingMode?: Maybe<Scalars["String"]>;
+  operatingMode_NOT?: Maybe<Scalars["String"]>;
+  operatingMode_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  operatingMode_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  operatingMode_CONTAINS?: Maybe<Scalars["String"]>;
+  operatingMode_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  operatingMode_STARTS_WITH?: Maybe<Scalars["String"]>;
+  operatingMode_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  operatingMode_ENDS_WITH?: Maybe<Scalars["String"]>;
+  operatingMode_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   online?: Maybe<Scalars["Boolean"]>;
   online_NOT?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
@@ -1677,6 +1690,8 @@ export interface CommandHMIGroupConnectWhere {
 export interface CommandHMIGroupCreateInput {
   x?: Maybe<Scalars["Float"]>;
   y?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars["Float"]>;
   rotation?: Maybe<Scalars["Float"]>;
   scaleX?: Maybe<Scalars["Float"]>;
   scaleY?: Maybe<Scalars["Float"]>;
@@ -1920,6 +1935,8 @@ export interface CommandHMIGroupSort {
   id?: Maybe<SortDirection>;
   x?: Maybe<SortDirection>;
   y?: Maybe<SortDirection>;
+  width?: Maybe<SortDirection>;
+  height?: Maybe<SortDirection>;
   rotation?: Maybe<SortDirection>;
   scaleX?: Maybe<SortDirection>;
   scaleY?: Maybe<SortDirection>;
@@ -1928,6 +1945,8 @@ export interface CommandHMIGroupSort {
 export interface CommandHMIGroupUpdateInput {
   x?: Maybe<Scalars["Float"]>;
   y?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars["Float"]>;
   rotation?: Maybe<Scalars["Float"]>;
   scaleX?: Maybe<Scalars["Float"]>;
   scaleY?: Maybe<Scalars["Float"]>;
@@ -1966,6 +1985,22 @@ export interface CommandHMIGroupWhere {
   y_LTE?: Maybe<Scalars["Float"]>;
   y_GT?: Maybe<Scalars["Float"]>;
   y_GTE?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars["Float"]>;
+  width_NOT?: Maybe<Scalars["Float"]>;
+  width_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  width_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  width_LT?: Maybe<Scalars["Float"]>;
+  width_LTE?: Maybe<Scalars["Float"]>;
+  width_GT?: Maybe<Scalars["Float"]>;
+  width_GTE?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars["Float"]>;
+  height_NOT?: Maybe<Scalars["Float"]>;
+  height_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  height_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  height_LT?: Maybe<Scalars["Float"]>;
+  height_LTE?: Maybe<Scalars["Float"]>;
+  height_GT?: Maybe<Scalars["Float"]>;
+  height_GTE?: Maybe<Scalars["Float"]>;
   rotation?: Maybe<Scalars["Float"]>;
   rotation_NOT?: Maybe<Scalars["Float"]>;
   rotation_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
@@ -5206,6 +5241,9 @@ export interface CommandProgramDeviceStateCreateInput {
   key?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
   units?: Maybe<Scalars["String"]>;
+  writable?: Maybe<Scalars["Boolean"]>;
+  min?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
   device?: Maybe<CommandProgramDeviceStateDeviceFieldInput>;
 }
 
@@ -5297,6 +5335,9 @@ export interface CommandProgramDeviceStateSort {
   key?: Maybe<SortDirection>;
   type?: Maybe<SortDirection>;
   units?: Maybe<SortDirection>;
+  writable?: Maybe<SortDirection>;
+  min?: Maybe<SortDirection>;
+  max?: Maybe<SortDirection>;
 }
 
 export interface CommandProgramDeviceStateUpdateConnectionInput {
@@ -5316,6 +5357,9 @@ export interface CommandProgramDeviceStateUpdateInput {
   key?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
   units?: Maybe<Scalars["String"]>;
+  writable?: Maybe<Scalars["Boolean"]>;
+  min?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
   device?: Maybe<CommandProgramDeviceStateDeviceUpdateFieldInput>;
 }
 
@@ -5362,6 +5406,28 @@ export interface CommandProgramDeviceStateWhere {
   units_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   units_ENDS_WITH?: Maybe<Scalars["String"]>;
   units_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  writable?: Maybe<Scalars["Boolean"]>;
+  writable_NOT?: Maybe<Scalars["Boolean"]>;
+  min?: Maybe<Scalars["String"]>;
+  min_NOT?: Maybe<Scalars["String"]>;
+  min_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  min_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  min_CONTAINS?: Maybe<Scalars["String"]>;
+  min_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  min_STARTS_WITH?: Maybe<Scalars["String"]>;
+  min_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  min_ENDS_WITH?: Maybe<Scalars["String"]>;
+  min_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
+  max_NOT?: Maybe<Scalars["String"]>;
+  max_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  max_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  max_CONTAINS?: Maybe<Scalars["String"]>;
+  max_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  max_STARTS_WITH?: Maybe<Scalars["String"]>;
+  max_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  max_ENDS_WITH?: Maybe<Scalars["String"]>;
+  max_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   device?: Maybe<CommandProgramDeviceWhere>;
   device_NOT?: Maybe<CommandProgramDeviceWhere>;
   deviceConnection?: Maybe<CommandProgramDeviceStateDeviceConnectionWhere>;
@@ -17978,6 +18044,14 @@ export const generatedSchema = {
         value: "String",
       },
     },
+    changeMode: {
+      __type: "CommandDeviceResponse",
+      __args: { deviceId: "String", mode: "String" },
+    },
+    changeDeviceMode: {
+      __type: "CommandDeviceResponse",
+      __args: { deviceId: "String", deviceName: "String", mode: "String" },
+    },
     createHiveServices: {
       __type: "CreateHiveServicesMutationResponse!",
       __args: { input: "[HiveServiceCreateInput!]!" },
@@ -19773,6 +19847,7 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String" },
     network_name: { __type: "String" },
+    operatingMode: { __type: "String" },
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
     activeProgram: {
@@ -20183,6 +20258,8 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     x: { __type: "Float" },
     y: { __type: "Float" },
+    width: { __type: "Float" },
+    height: { __type: "Float" },
     rotation: { __type: "Float" },
     scaleX: { __type: "Float" },
     scaleY: { __type: "Float" },
@@ -21262,6 +21339,9 @@ export const generatedSchema = {
     key: { __type: "String" },
     type: { __type: "String" },
     units: { __type: "String" },
+    writable: { __type: "Boolean" },
+    min: { __type: "String" },
+    max: { __type: "String" },
     device: {
       __type: "CommandProgramDevice",
       __args: {
@@ -25079,6 +25159,7 @@ export const generatedSchema = {
   CommandDeviceCreateInput: {
     name: { __type: "String" },
     network_name: { __type: "String" },
+    operatingMode: { __type: "String" },
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
     activeProgram: { __type: "CommandDeviceActiveProgramFieldInput" },
@@ -25983,12 +26064,14 @@ export const generatedSchema = {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
     network_name: { __type: "SortDirection" },
+    operatingMode: { __type: "SortDirection" },
     online: { __type: "SortDirection" },
     lastOnline: { __type: "SortDirection" },
   },
   CommandDeviceUpdateInput: {
     name: { __type: "String" },
     network_name: { __type: "String" },
+    operatingMode: { __type: "String" },
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
     activeProgram: { __type: "CommandDeviceActiveProgramUpdateFieldInput" },
@@ -26098,6 +26181,16 @@ export const generatedSchema = {
     network_name_NOT_STARTS_WITH: { __type: "String" },
     network_name_ENDS_WITH: { __type: "String" },
     network_name_NOT_ENDS_WITH: { __type: "String" },
+    operatingMode: { __type: "String" },
+    operatingMode_NOT: { __type: "String" },
+    operatingMode_IN: { __type: "[String]" },
+    operatingMode_NOT_IN: { __type: "[String]" },
+    operatingMode_CONTAINS: { __type: "String" },
+    operatingMode_NOT_CONTAINS: { __type: "String" },
+    operatingMode_STARTS_WITH: { __type: "String" },
+    operatingMode_NOT_STARTS_WITH: { __type: "String" },
+    operatingMode_ENDS_WITH: { __type: "String" },
+    operatingMode_NOT_ENDS_WITH: { __type: "String" },
     online: { __type: "Boolean" },
     online_NOT: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
@@ -26344,6 +26437,8 @@ export const generatedSchema = {
   CommandHMIGroupCreateInput: {
     x: { __type: "Float" },
     y: { __type: "Float" },
+    width: { __type: "Float" },
+    height: { __type: "Float" },
     rotation: { __type: "Float" },
     scaleX: { __type: "Float" },
     scaleY: { __type: "Float" },
@@ -26544,6 +26639,8 @@ export const generatedSchema = {
     id: { __type: "SortDirection" },
     x: { __type: "SortDirection" },
     y: { __type: "SortDirection" },
+    width: { __type: "SortDirection" },
+    height: { __type: "SortDirection" },
     rotation: { __type: "SortDirection" },
     scaleX: { __type: "SortDirection" },
     scaleY: { __type: "SortDirection" },
@@ -26551,6 +26648,8 @@ export const generatedSchema = {
   CommandHMIGroupUpdateInput: {
     x: { __type: "Float" },
     y: { __type: "Float" },
+    width: { __type: "Float" },
+    height: { __type: "Float" },
     rotation: { __type: "Float" },
     scaleX: { __type: "Float" },
     scaleY: { __type: "Float" },
@@ -26588,6 +26687,22 @@ export const generatedSchema = {
     y_LTE: { __type: "Float" },
     y_GT: { __type: "Float" },
     y_GTE: { __type: "Float" },
+    width: { __type: "Float" },
+    width_NOT: { __type: "Float" },
+    width_IN: { __type: "[Float]" },
+    width_NOT_IN: { __type: "[Float]" },
+    width_LT: { __type: "Float" },
+    width_LTE: { __type: "Float" },
+    width_GT: { __type: "Float" },
+    width_GTE: { __type: "Float" },
+    height: { __type: "Float" },
+    height_NOT: { __type: "Float" },
+    height_IN: { __type: "[Float]" },
+    height_NOT_IN: { __type: "[Float]" },
+    height_LT: { __type: "Float" },
+    height_LTE: { __type: "Float" },
+    height_GT: { __type: "Float" },
+    height_GTE: { __type: "Float" },
     rotation: { __type: "Float" },
     rotation_NOT: { __type: "Float" },
     rotation_IN: { __type: "[Float]" },
@@ -29661,6 +29776,9 @@ export const generatedSchema = {
     key: { __type: "String" },
     type: { __type: "String" },
     units: { __type: "String" },
+    writable: { __type: "Boolean" },
+    min: { __type: "String" },
+    max: { __type: "String" },
     device: { __type: "CommandProgramDeviceStateDeviceFieldInput" },
   },
   CommandProgramDeviceStateDeleteFieldInput: {
@@ -29735,6 +29853,9 @@ export const generatedSchema = {
     key: { __type: "SortDirection" },
     type: { __type: "SortDirection" },
     units: { __type: "SortDirection" },
+    writable: { __type: "SortDirection" },
+    min: { __type: "SortDirection" },
+    max: { __type: "SortDirection" },
   },
   CommandProgramDeviceStateUpdateConnectionInput: {
     node: { __type: "CommandProgramDeviceStateUpdateInput" },
@@ -29751,6 +29872,9 @@ export const generatedSchema = {
     key: { __type: "String" },
     type: { __type: "String" },
     units: { __type: "String" },
+    writable: { __type: "Boolean" },
+    min: { __type: "String" },
+    max: { __type: "String" },
     device: { __type: "CommandProgramDeviceStateDeviceUpdateFieldInput" },
   },
   CommandProgramDeviceStateWhere: {
@@ -29796,6 +29920,28 @@ export const generatedSchema = {
     units_NOT_STARTS_WITH: { __type: "String" },
     units_ENDS_WITH: { __type: "String" },
     units_NOT_ENDS_WITH: { __type: "String" },
+    writable: { __type: "Boolean" },
+    writable_NOT: { __type: "Boolean" },
+    min: { __type: "String" },
+    min_NOT: { __type: "String" },
+    min_IN: { __type: "[String]" },
+    min_NOT_IN: { __type: "[String]" },
+    min_CONTAINS: { __type: "String" },
+    min_NOT_CONTAINS: { __type: "String" },
+    min_STARTS_WITH: { __type: "String" },
+    min_NOT_STARTS_WITH: { __type: "String" },
+    min_ENDS_WITH: { __type: "String" },
+    min_NOT_ENDS_WITH: { __type: "String" },
+    max: { __type: "String" },
+    max_NOT: { __type: "String" },
+    max_IN: { __type: "[String]" },
+    max_NOT_IN: { __type: "[String]" },
+    max_CONTAINS: { __type: "String" },
+    max_NOT_CONTAINS: { __type: "String" },
+    max_STARTS_WITH: { __type: "String" },
+    max_NOT_STARTS_WITH: { __type: "String" },
+    max_ENDS_WITH: { __type: "String" },
+    max_NOT_ENDS_WITH: { __type: "String" },
     device: { __type: "CommandProgramDeviceWhere" },
     device_NOT: { __type: "CommandProgramDeviceWhere" },
     deviceConnection: {
@@ -41253,6 +41399,15 @@ export interface Mutation {
     key?: Maybe<Scalars["String"]>;
     value?: Maybe<Scalars["String"]>;
   }) => Maybe<CommandDeviceResponse>;
+  changeMode: (args?: {
+    deviceId?: Maybe<Scalars["String"]>;
+    mode?: Maybe<Scalars["String"]>;
+  }) => Maybe<CommandDeviceResponse>;
+  changeDeviceMode: (args?: {
+    deviceId?: Maybe<Scalars["String"]>;
+    deviceName?: Maybe<Scalars["String"]>;
+    mode?: Maybe<Scalars["String"]>;
+  }) => Maybe<CommandDeviceResponse>;
   createHiveServices: (args: {
     input: Array<HiveServiceCreateInput>;
   }) => CreateHiveServicesMutationResponse;
@@ -42816,6 +42971,7 @@ export interface CommandDevice {
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   network_name?: Maybe<ScalarsEnums["String"]>;
+  operatingMode?: Maybe<ScalarsEnums["String"]>;
   online?: Maybe<ScalarsEnums["Boolean"]>;
   lastOnline?: Maybe<ScalarsEnums["DateTime"]>;
   activeProgram: (args?: {
@@ -43181,6 +43337,8 @@ export interface CommandHMIGroup {
   id: ScalarsEnums["ID"];
   x?: Maybe<ScalarsEnums["Float"]>;
   y?: Maybe<ScalarsEnums["Float"]>;
+  width?: Maybe<ScalarsEnums["Float"]>;
+  height?: Maybe<ScalarsEnums["Float"]>;
   rotation?: Maybe<ScalarsEnums["Float"]>;
   scaleX?: Maybe<ScalarsEnums["Float"]>;
   scaleY?: Maybe<ScalarsEnums["Float"]>;
@@ -44122,6 +44280,9 @@ export interface CommandProgramDeviceState {
   key?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
   units?: Maybe<ScalarsEnums["String"]>;
+  writable?: Maybe<ScalarsEnums["Boolean"]>;
+  min?: Maybe<ScalarsEnums["String"]>;
+  max?: Maybe<ScalarsEnums["String"]>;
   device: (args?: {
     where?: Maybe<CommandProgramDeviceWhere>;
     options?: Maybe<CommandProgramDeviceOptions>;

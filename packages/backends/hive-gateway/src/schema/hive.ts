@@ -352,6 +352,63 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			
 				// return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(stateChange)))
 			},
+			changeMode: async (root: any, args: {
+				deviceId: string,
+				mode: string
+			}, context: any) => {
+
+				const device = await session.readTransaction(async (tx) => {
+
+					const res = await tx.run(`
+						MATCH (device:CommandDevice {id: $id})
+						RETURN device{.*}
+					`, {
+						id: args.deviceId
+					})
+					return res.records?.[0]?.get(0)
+					// return await getDeviceActions(tx, args.deviceId, args.deviceName)
+				
+				})
+
+				let actionRequest = {
+					address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
+					deviceId: args.deviceId,
+					mode: args.mode
+				}
+
+				await session.writeTransaction(async (tx) => {
+					await tx.run(`
+						MATCH (device:CommandDevice {id: $id})
+						SET device.operatingMode = $mode
+						RETURN device
+					`, {
+						id: args.deviceId,
+						mode: args.mode
+					})
+				})
+
+				return await channel.sendToQueue(`COMMAND:MODE`, Buffer.from(JSON.stringify(actionRequest)))
+			},
+			changeDeviceMode: async (root: any, args: {
+				deviceId: string,
+				deviceName: string,
+				mode: string
+			}, context: any) => {
+				const device = await session.readTransaction(async (tx) => {
+
+					return await getDeviceActions(tx, args.deviceId, args.deviceName)
+				
+				})
+
+				let actionRequest = {
+					address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
+					deviceId: args.deviceId,
+					deviceName: args.deviceName,
+					mode: args.mode
+				}
+
+				return await channel.sendToQueue(`COMMAND:DEVICE:MODE`, Buffer.from(JSON.stringify(actionRequest)))
+			},
 			changeDeviceValue: async (root: any, args: any, context: any) => {
 				
 				const device = await session.readTransaction(async (tx) => {
