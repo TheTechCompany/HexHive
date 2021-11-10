@@ -19,7 +19,7 @@ function SvgSensorBox(props: any) {
         left: 0, 
         right: 0
       }}>
-      <span style={{fontSize: 10, color: 'white'}}>{props?.options?.pressure || '16.5 bar'}</span>
+      <span style={{fontSize: 10, color: 'white'}}>{props?.options?.pressure || '0.0 bar'}</span>
     </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"

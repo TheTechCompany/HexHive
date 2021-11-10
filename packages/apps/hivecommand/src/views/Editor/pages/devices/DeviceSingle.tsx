@@ -34,6 +34,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 	const deviceId = props.match.params.id;
 
 	const [selected, setSelected] = useState<any>()
+	const [selectedInterlock, setSelectedInterlock] = useState<any>()
 	const [modalOpen, openModal] = useState<boolean>(false);
 	const [interlockModalOpen, openInterlockModal] = useState<boolean>(false);
 
@@ -49,6 +50,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 		inputDeviceKeyId: string,
 		comparator: string,
 		assertion: string;
+		action: string
 	}) => {
 		const item = mutation.updateCommandProgramDevicePlaceholders({
 			where: {id: deviceId},
@@ -60,8 +62,42 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 							inputDeviceKey: {connect: {where: {node: {id: args.inputDeviceKeyId}}}},
 							comparator: args.comparator,
 							assertion: args.assertion,
+							action: {connect: {where: {node: {id: args.action}}}}
 						}
 					}]
+				}]
+			}
+		})
+
+		return {
+			item: {
+				...item.commandProgramDevicePlaceholders?.[0]
+			}
+		}
+	})
+
+	const [ updateDeviceInterlock, updateInterlockInfo ] = useMutation((mutation, args: {
+		id: string;
+		inputDeviceId: string,
+		inputDeviceKeyId: string,
+		comparator: string,
+		assertion: string;
+		action: string
+	}) => {
+		const item = mutation.updateCommandProgramDevicePlaceholders({
+			where: {id: deviceId},
+			update: {
+				interlocks: [{
+					where: {node: {id: args.id}},
+					update: {
+						node: {
+							inputDevice: {connect: {where: {node: {id: args.inputDeviceId}}}},
+							inputDeviceKey: {connect: {where: {node: {id: args.inputDeviceKeyId}}}},
+							comparator: args.comparator,
+							assertion: args.assertion,
+							action: {connect: {where: {node: {id: args.action}}}}
+						}
+					}
 				}]
 			}
 		})
@@ -149,6 +185,13 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 				id
 				name
 
+				type {
+					actions {
+						id
+						key
+					}
+				}
+
 				interlocks {
 					id
 					inputDevice {
@@ -156,8 +199,16 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 						name
 					}
 					inputDeviceKey { 
+						id
 						key
 					}
+
+					action {
+						id
+					}
+
+					comparator
+					assertion
 				}
 				pluginsConfiguration {
 					id
@@ -199,22 +250,41 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 		<Box flex>
 			<DeviceInterlock
 				devices={devices}
+				actions={device?.type?.actions || []}
 				open={interlockModalOpen}
+				selected={selectedInterlock}
 				onClose={() => {
 					openInterlockModal(false)
 				}}
 				onSubmit={(lock) => {
 					console.log(lock)
-					addDeviceInterlock({
-						args: {
-							inputDeviceId: lock.inputDevice,
-							inputDeviceKeyId: lock.inputDeviceKey,
-							comparator: lock.comparator,
-							assertion: lock.assertion
-						}
-					}).then(() => {
-						refetch();
-					})
+					if(lock.id){
+						updateDeviceInterlock({
+							args: {
+								id: lock.id,
+								inputDeviceId: lock.inputDevice,
+								inputDeviceKeyId: lock.inputDeviceKey,
+								comparator: lock.comparator,
+								assertion: lock.assertion,
+								action: lock.action
+							}
+						}).then(() => {
+							refetch()
+						})
+					}else{
+						addDeviceInterlock({
+							args: {
+								inputDeviceId: lock.inputDevice,
+								inputDeviceKeyId: lock.inputDeviceKey,
+								comparator: lock.comparator,
+								assertion: lock.assertion,
+								action: lock.action
+							}
+						}).then(() => {
+							refetch();
+						})
+					}
+		
 				}} />
 			<DevicePluginModal
 				selected={selected}
@@ -251,9 +321,13 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 						data={device?.interlocks || []}>
 						{(datum) => (
 							<Box direction="row" justify="between" align="center">
-								<Text size="small">{datum.inputDevice.name}</Text>
+								<Text size="small">{datum?.inputDevice?.name}</Text>
 								<Button
-									onClick={() => selectPlugin(datum)}
+									onClick={() => {
+										openInterlockModal(true)
+										setSelectedInterlock(datum)
+										// selectPlugin(datum)
+									}}
 									plain
 									style={{ padding: 6, borderRadius: 3 }}
 									icon={<MoreVertical size="small" />}

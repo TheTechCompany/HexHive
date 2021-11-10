@@ -1,5 +1,5 @@
 import { BaseModal } from '../base';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { FormControl, FormInput } from '@hexhive/ui'
 import { Box  } from 'grommet';
 
@@ -10,12 +10,26 @@ export const DeviceInterlock = (props) => {
 		inputDeviceKey?: string,
 		comparator?: string,
 		assertion?: string
+		action?: string
 	}>({})
 
 	const onSubmit = () => {
 		props.onSubmit?.(interlock)
 		setInterlock({})
 	}
+
+	useEffect(() => {
+		if(props.selected) {
+			setInterlock({
+				...props.selected,
+				inputDevice: props.selected?.inputDevice?.id,
+				inputDeviceKey: props.selected?.inputDeviceKey?.id,
+				comparator: props.selected?.comparator,
+				assertion: props.selected?.assertion,
+				action: props.selected?.action?.id
+			})
+		}
+	}, [props.selected])
 	
 	return (
 		<BaseModal
@@ -44,6 +58,13 @@ export const DeviceInterlock = (props) => {
 					value={interlock.assertion}
 					onChange={(value) => setInterlock({...interlock, assertion: value})}
 					placeholder="Input Device State Value" />
+				<FormControl 
+					labelKey="key"
+					valueKey={"id"}
+					value={interlock.action}
+					onChange={(value) => setInterlock({...interlock, action: value})}
+					options={props.actions || []}
+					placeholder="Action" />
 			</Box>
 		</BaseModal>
 	)
