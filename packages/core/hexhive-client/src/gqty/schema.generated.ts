@@ -3001,9 +3001,58 @@ export interface CommandHMIPortWhere {
   rotation_GTE?: Maybe<Scalars["Float"]>;
 }
 
+export interface CommandInterlockActionConnectFieldInput {
+  where?: Maybe<CommandProgramDeviceActionConnectWhere>;
+  connect?: Maybe<CommandProgramDeviceActionConnectInput>;
+}
+
+export interface CommandInterlockActionConnectionSort {
+  node?: Maybe<CommandProgramDeviceActionSort>;
+}
+
+export interface CommandInterlockActionConnectionWhere {
+  AND?: Maybe<Array<CommandInterlockActionConnectionWhere>>;
+  OR?: Maybe<Array<CommandInterlockActionConnectionWhere>>;
+  node?: Maybe<CommandProgramDeviceActionWhere>;
+  node_NOT?: Maybe<CommandProgramDeviceActionWhere>;
+}
+
+export interface CommandInterlockActionCreateFieldInput {
+  node: CommandProgramDeviceActionCreateInput;
+}
+
+export interface CommandInterlockActionDeleteFieldInput {
+  where?: Maybe<CommandInterlockActionConnectionWhere>;
+  delete?: Maybe<CommandProgramDeviceActionDeleteInput>;
+}
+
+export interface CommandInterlockActionDisconnectFieldInput {
+  where?: Maybe<CommandInterlockActionConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDeviceActionDisconnectInput>;
+}
+
+export interface CommandInterlockActionFieldInput {
+  create?: Maybe<CommandInterlockActionCreateFieldInput>;
+  connect?: Maybe<CommandInterlockActionConnectFieldInput>;
+}
+
+export interface CommandInterlockActionUpdateConnectionInput {
+  node?: Maybe<CommandProgramDeviceActionUpdateInput>;
+}
+
+export interface CommandInterlockActionUpdateFieldInput {
+  where?: Maybe<CommandInterlockActionConnectionWhere>;
+  update?: Maybe<CommandInterlockActionUpdateConnectionInput>;
+  connect?: Maybe<CommandInterlockActionConnectFieldInput>;
+  disconnect?: Maybe<CommandInterlockActionDisconnectFieldInput>;
+  create?: Maybe<CommandInterlockActionCreateFieldInput>;
+  delete?: Maybe<CommandInterlockActionDeleteFieldInput>;
+}
+
 export interface CommandInterlockConnectInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceConnectFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyConnectFieldInput>;
+  action?: Maybe<CommandInterlockActionConnectFieldInput>;
   device?: Maybe<CommandInterlockDeviceConnectFieldInput>;
 }
 
@@ -3016,12 +3065,14 @@ export interface CommandInterlockCreateInput {
   assertion?: Maybe<Scalars["String"]>;
   inputDevice?: Maybe<CommandInterlockInputDeviceFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyFieldInput>;
+  action?: Maybe<CommandInterlockActionFieldInput>;
   device?: Maybe<CommandInterlockDeviceFieldInput>;
 }
 
 export interface CommandInterlockDeleteInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceDeleteFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyDeleteFieldInput>;
+  action?: Maybe<CommandInterlockActionDeleteFieldInput>;
   device?: Maybe<CommandInterlockDeviceDeleteFieldInput>;
 }
 
@@ -3076,6 +3127,7 @@ export interface CommandInterlockDeviceUpdateFieldInput {
 export interface CommandInterlockDisconnectInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceDisconnectFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyDisconnectFieldInput>;
+  action?: Maybe<CommandInterlockActionDisconnectFieldInput>;
   device?: Maybe<CommandInterlockDeviceDisconnectFieldInput>;
 }
 
@@ -3185,6 +3237,7 @@ export interface CommandInterlockOptions {
 export interface CommandInterlockRelationInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceCreateFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyCreateFieldInput>;
+  action?: Maybe<CommandInterlockActionCreateFieldInput>;
   device?: Maybe<CommandInterlockDeviceCreateFieldInput>;
 }
 
@@ -3200,6 +3253,7 @@ export interface CommandInterlockUpdateInput {
   assertion?: Maybe<Scalars["String"]>;
   inputDevice?: Maybe<CommandInterlockInputDeviceUpdateFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyUpdateFieldInput>;
+  action?: Maybe<CommandInterlockActionUpdateFieldInput>;
   device?: Maybe<CommandInterlockDeviceUpdateFieldInput>;
 }
 
@@ -3240,12 +3294,16 @@ export interface CommandInterlockWhere {
   inputDevice_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
   inputDeviceKey?: Maybe<CommandProgramDeviceStateWhere>;
   inputDeviceKey_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+  action?: Maybe<CommandProgramDeviceActionWhere>;
+  action_NOT?: Maybe<CommandProgramDeviceActionWhere>;
   device?: Maybe<CommandProgramDevicePlaceholderWhere>;
   device_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
   inputDeviceConnection?: Maybe<CommandInterlockInputDeviceConnectionWhere>;
   inputDeviceConnection_NOT?: Maybe<CommandInterlockInputDeviceConnectionWhere>;
   inputDeviceKeyConnection?: Maybe<CommandInterlockInputDeviceKeyConnectionWhere>;
   inputDeviceKeyConnection_NOT?: Maybe<CommandInterlockInputDeviceKeyConnectionWhere>;
+  actionConnection?: Maybe<CommandInterlockActionConnectionWhere>;
+  actionConnection_NOT?: Maybe<CommandInterlockActionConnectionWhere>;
   deviceConnection?: Maybe<CommandInterlockDeviceConnectionWhere>;
   deviceConnection_NOT?: Maybe<CommandInterlockDeviceConnectionWhere>;
 }
@@ -5240,6 +5298,7 @@ export interface CommandProgramDeviceStateCreateFieldInput {
 export interface CommandProgramDeviceStateCreateInput {
   key?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
+  inputUnits?: Maybe<Scalars["String"]>;
   units?: Maybe<Scalars["String"]>;
   writable?: Maybe<Scalars["Boolean"]>;
   min?: Maybe<Scalars["String"]>;
@@ -5334,6 +5393,7 @@ export interface CommandProgramDeviceStateSort {
   id?: Maybe<SortDirection>;
   key?: Maybe<SortDirection>;
   type?: Maybe<SortDirection>;
+  inputUnits?: Maybe<SortDirection>;
   units?: Maybe<SortDirection>;
   writable?: Maybe<SortDirection>;
   min?: Maybe<SortDirection>;
@@ -5356,6 +5416,7 @@ export interface CommandProgramDeviceStateUpdateFieldInput {
 export interface CommandProgramDeviceStateUpdateInput {
   key?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
+  inputUnits?: Maybe<Scalars["String"]>;
   units?: Maybe<Scalars["String"]>;
   writable?: Maybe<Scalars["Boolean"]>;
   min?: Maybe<Scalars["String"]>;
@@ -5396,6 +5457,16 @@ export interface CommandProgramDeviceStateWhere {
   type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   type_ENDS_WITH?: Maybe<Scalars["String"]>;
   type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  inputUnits?: Maybe<Scalars["String"]>;
+  inputUnits_NOT?: Maybe<Scalars["String"]>;
+  inputUnits_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  inputUnits_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  inputUnits_CONTAINS?: Maybe<Scalars["String"]>;
+  inputUnits_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  inputUnits_STARTS_WITH?: Maybe<Scalars["String"]>;
+  inputUnits_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  inputUnits_ENDS_WITH?: Maybe<Scalars["String"]>;
+  inputUnits_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   units?: Maybe<Scalars["String"]>;
   units_NOT?: Maybe<Scalars["String"]>;
   units_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
@@ -20606,6 +20677,13 @@ export const generatedSchema = {
         options: "CommandProgramDeviceStateOptions",
       },
     },
+    action: {
+      __type: "CommandProgramDeviceAction",
+      __args: {
+        where: "CommandProgramDeviceActionWhere",
+        options: "CommandProgramDeviceActionOptions",
+      },
+    },
     device: {
       __type: "CommandProgramDevicePlaceholder",
       __args: {
@@ -20631,6 +20709,15 @@ export const generatedSchema = {
         sort: "[CommandInterlockInputDeviceKeyConnectionSort!]",
       },
     },
+    actionConnection: {
+      __type: "CommandInterlockActionConnection!",
+      __args: {
+        where: "CommandInterlockActionConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandInterlockActionConnectionSort!]",
+      },
+    },
     deviceConnection: {
       __type: "CommandInterlockDeviceConnection!",
       __args: {
@@ -20640,6 +20727,17 @@ export const generatedSchema = {
         sort: "[CommandInterlockDeviceConnectionSort!]",
       },
     },
+  },
+  CommandInterlockActionConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandInterlockActionRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandInterlockActionRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramDeviceAction!" },
   },
   CommandInterlockDeviceConnection: {
     __typename: { __type: "String!" },
@@ -21337,6 +21435,7 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     key: { __type: "String" },
     type: { __type: "String" },
+    inputUnits: { __type: "String" },
     units: { __type: "String" },
     writable: { __type: "Boolean" },
     min: { __type: "String" },
@@ -27639,11 +27738,51 @@ export const generatedSchema = {
     rotation_GT: { __type: "Float" },
     rotation_GTE: { __type: "Float" },
   },
+  CommandInterlockActionConnectFieldInput: {
+    where: { __type: "CommandProgramDeviceActionConnectWhere" },
+    connect: { __type: "CommandProgramDeviceActionConnectInput" },
+  },
+  CommandInterlockActionConnectionSort: {
+    node: { __type: "CommandProgramDeviceActionSort" },
+  },
+  CommandInterlockActionConnectionWhere: {
+    AND: { __type: "[CommandInterlockActionConnectionWhere!]" },
+    OR: { __type: "[CommandInterlockActionConnectionWhere!]" },
+    node: { __type: "CommandProgramDeviceActionWhere" },
+    node_NOT: { __type: "CommandProgramDeviceActionWhere" },
+  },
+  CommandInterlockActionCreateFieldInput: {
+    node: { __type: "CommandProgramDeviceActionCreateInput!" },
+  },
+  CommandInterlockActionDeleteFieldInput: {
+    where: { __type: "CommandInterlockActionConnectionWhere" },
+    delete: { __type: "CommandProgramDeviceActionDeleteInput" },
+  },
+  CommandInterlockActionDisconnectFieldInput: {
+    where: { __type: "CommandInterlockActionConnectionWhere" },
+    disconnect: { __type: "CommandProgramDeviceActionDisconnectInput" },
+  },
+  CommandInterlockActionFieldInput: {
+    create: { __type: "CommandInterlockActionCreateFieldInput" },
+    connect: { __type: "CommandInterlockActionConnectFieldInput" },
+  },
+  CommandInterlockActionUpdateConnectionInput: {
+    node: { __type: "CommandProgramDeviceActionUpdateInput" },
+  },
+  CommandInterlockActionUpdateFieldInput: {
+    where: { __type: "CommandInterlockActionConnectionWhere" },
+    update: { __type: "CommandInterlockActionUpdateConnectionInput" },
+    connect: { __type: "CommandInterlockActionConnectFieldInput" },
+    disconnect: { __type: "CommandInterlockActionDisconnectFieldInput" },
+    create: { __type: "CommandInterlockActionCreateFieldInput" },
+    delete: { __type: "CommandInterlockActionDeleteFieldInput" },
+  },
   CommandInterlockConnectInput: {
     inputDevice: { __type: "CommandInterlockInputDeviceConnectFieldInput" },
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyConnectFieldInput",
     },
+    action: { __type: "CommandInterlockActionConnectFieldInput" },
     device: { __type: "CommandInterlockDeviceConnectFieldInput" },
   },
   CommandInterlockConnectWhere: { node: { __type: "CommandInterlockWhere!" } },
@@ -27652,6 +27791,7 @@ export const generatedSchema = {
     assertion: { __type: "String" },
     inputDevice: { __type: "CommandInterlockInputDeviceFieldInput" },
     inputDeviceKey: { __type: "CommandInterlockInputDeviceKeyFieldInput" },
+    action: { __type: "CommandInterlockActionFieldInput" },
     device: { __type: "CommandInterlockDeviceFieldInput" },
   },
   CommandInterlockDeleteInput: {
@@ -27659,6 +27799,7 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyDeleteFieldInput",
     },
+    action: { __type: "CommandInterlockActionDeleteFieldInput" },
     device: { __type: "CommandInterlockDeviceDeleteFieldInput" },
   },
   CommandInterlockDeviceConnectFieldInput: {
@@ -27705,6 +27846,7 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyDisconnectFieldInput",
     },
+    action: { __type: "CommandInterlockActionDisconnectFieldInput" },
     device: { __type: "CommandInterlockDeviceDisconnectFieldInput" },
   },
   CommandInterlockInputDeviceConnectFieldInput: {
@@ -27797,6 +27939,7 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyCreateFieldInput",
     },
+    action: { __type: "CommandInterlockActionCreateFieldInput" },
     device: { __type: "CommandInterlockDeviceCreateFieldInput" },
   },
   CommandInterlockSort: {
@@ -27811,6 +27954,7 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyUpdateFieldInput",
     },
+    action: { __type: "CommandInterlockActionUpdateFieldInput" },
     device: { __type: "CommandInterlockDeviceUpdateFieldInput" },
   },
   CommandInterlockWhere: {
@@ -27850,6 +27994,8 @@ export const generatedSchema = {
     inputDevice_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
     inputDeviceKey: { __type: "CommandProgramDeviceStateWhere" },
     inputDeviceKey_NOT: { __type: "CommandProgramDeviceStateWhere" },
+    action: { __type: "CommandProgramDeviceActionWhere" },
+    action_NOT: { __type: "CommandProgramDeviceActionWhere" },
     device: { __type: "CommandProgramDevicePlaceholderWhere" },
     device_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
     inputDeviceConnection: {
@@ -27864,6 +28010,8 @@ export const generatedSchema = {
     inputDeviceKeyConnection_NOT: {
       __type: "CommandInterlockInputDeviceKeyConnectionWhere",
     },
+    actionConnection: { __type: "CommandInterlockActionConnectionWhere" },
+    actionConnection_NOT: { __type: "CommandInterlockActionConnectionWhere" },
     deviceConnection: { __type: "CommandInterlockDeviceConnectionWhere" },
     deviceConnection_NOT: { __type: "CommandInterlockDeviceConnectionWhere" },
   },
@@ -29774,6 +29922,7 @@ export const generatedSchema = {
   CommandProgramDeviceStateCreateInput: {
     key: { __type: "String" },
     type: { __type: "String" },
+    inputUnits: { __type: "String" },
     units: { __type: "String" },
     writable: { __type: "Boolean" },
     min: { __type: "String" },
@@ -29851,6 +30000,7 @@ export const generatedSchema = {
     id: { __type: "SortDirection" },
     key: { __type: "SortDirection" },
     type: { __type: "SortDirection" },
+    inputUnits: { __type: "SortDirection" },
     units: { __type: "SortDirection" },
     writable: { __type: "SortDirection" },
     min: { __type: "SortDirection" },
@@ -29870,6 +30020,7 @@ export const generatedSchema = {
   CommandProgramDeviceStateUpdateInput: {
     key: { __type: "String" },
     type: { __type: "String" },
+    inputUnits: { __type: "String" },
     units: { __type: "String" },
     writable: { __type: "Boolean" },
     min: { __type: "String" },
@@ -29909,6 +30060,16 @@ export const generatedSchema = {
     type_NOT_STARTS_WITH: { __type: "String" },
     type_ENDS_WITH: { __type: "String" },
     type_NOT_ENDS_WITH: { __type: "String" },
+    inputUnits: { __type: "String" },
+    inputUnits_NOT: { __type: "String" },
+    inputUnits_IN: { __type: "[String]" },
+    inputUnits_NOT_IN: { __type: "[String]" },
+    inputUnits_CONTAINS: { __type: "String" },
+    inputUnits_NOT_CONTAINS: { __type: "String" },
+    inputUnits_STARTS_WITH: { __type: "String" },
+    inputUnits_NOT_STARTS_WITH: { __type: "String" },
+    inputUnits_ENDS_WITH: { __type: "String" },
+    inputUnits_NOT_ENDS_WITH: { __type: "String" },
     units: { __type: "String" },
     units_NOT: { __type: "String" },
     units_IN: { __type: "[String]" },
@@ -43648,6 +43809,10 @@ export interface CommandInterlock {
     where?: Maybe<CommandProgramDeviceStateWhere>;
     options?: Maybe<CommandProgramDeviceStateOptions>;
   }) => Maybe<CommandProgramDeviceState>;
+  action: (args?: {
+    where?: Maybe<CommandProgramDeviceActionWhere>;
+    options?: Maybe<CommandProgramDeviceActionOptions>;
+  }) => Maybe<CommandProgramDeviceAction>;
   device: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
     options?: Maybe<CommandProgramDevicePlaceholderOptions>;
@@ -43664,12 +43829,31 @@ export interface CommandInterlock {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandInterlockInputDeviceKeyConnectionSort>>;
   }) => CommandInterlockInputDeviceKeyConnection;
+  actionConnection: (args?: {
+    where?: Maybe<CommandInterlockActionConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandInterlockActionConnectionSort>>;
+  }) => CommandInterlockActionConnection;
   deviceConnection: (args?: {
     where?: Maybe<CommandInterlockDeviceConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandInterlockDeviceConnectionSort>>;
   }) => CommandInterlockDeviceConnection;
+}
+
+export interface CommandInterlockActionConnection {
+  __typename?: "CommandInterlockActionConnection";
+  edges: Array<CommandInterlockActionRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandInterlockActionRelationship {
+  __typename?: "CommandInterlockActionRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramDeviceAction;
 }
 
 export interface CommandInterlockDeviceConnection {
@@ -44277,6 +44461,7 @@ export interface CommandProgramDeviceState {
   id: ScalarsEnums["ID"];
   key?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
+  inputUnits?: Maybe<ScalarsEnums["String"]>;
   units?: Maybe<ScalarsEnums["String"]>;
   writable?: Maybe<ScalarsEnums["Boolean"]>;
   min?: Maybe<ScalarsEnums["String"]>;
@@ -48922,6 +49107,8 @@ export interface SchemaObjectTypes {
   CommandHMIPathTargetRelationship: CommandHMIPathTargetRelationship;
   CommandHMIPort: CommandHMIPort;
   CommandInterlock: CommandInterlock;
+  CommandInterlockActionConnection: CommandInterlockActionConnection;
+  CommandInterlockActionRelationship: CommandInterlockActionRelationship;
   CommandInterlockDeviceConnection: CommandInterlockDeviceConnection;
   CommandInterlockDeviceRelationship: CommandInterlockDeviceRelationship;
   CommandInterlockInputDeviceConnection: CommandInterlockInputDeviceConnection;
@@ -49515,6 +49702,8 @@ export type SchemaObjectTypesNames =
   | "CommandHMIPathTargetRelationship"
   | "CommandHMIPort"
   | "CommandInterlock"
+  | "CommandInterlockActionConnection"
+  | "CommandInterlockActionRelationship"
   | "CommandInterlockDeviceConnection"
   | "CommandInterlockDeviceRelationship"
   | "CommandInterlockInputDeviceConnection"

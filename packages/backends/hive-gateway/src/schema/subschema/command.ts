@@ -136,6 +136,7 @@ export default `
 		inputDeviceKey: CommandProgramDeviceState @relationship(type: "HAS_INPUT_KEY", direction: OUT)
 		comparator: String
 		assertion: String
+		action: CommandProgramDeviceAction @relationship(type: "USE_SAFETY_ACTION", direction: OUT)
 
 		device: CommandProgramDevicePlaceholder @relationship(type: "HAS_INTERLOCK", direction: IN)
 	}
