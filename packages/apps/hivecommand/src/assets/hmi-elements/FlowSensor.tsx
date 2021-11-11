@@ -14,7 +14,7 @@ function SvgFlowSensor(props: any) {
         position: 'absolute', 
         top: 0, 
         height: 14,
-        minWidth: 'min-content',
+        minWidth: 'max-content',
         width: '100%',
         lineHeight: '100%',
         left: 0, 

@@ -334,6 +334,11 @@ export const Program = (props) => {
                     }]
                 }
             })
+            // return {
+            //     item: {
+            //         ...disconnectInfo.commandProgramNodes?.[0]
+            //     }
+            // }
         }
         if (nodes.length > 0) {
             query = {
@@ -348,7 +353,7 @@ export const Program = (props) => {
         return {
             item: {
                 ...(deleteInfo || {}),
-                ...(disconnectInfo?.commandHmiNodes || {})
+                ...(disconnectInfo?.commandProgramNodes?.[0] || {})
             }
         }
     })

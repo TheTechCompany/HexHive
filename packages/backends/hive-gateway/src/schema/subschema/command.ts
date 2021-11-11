@@ -150,9 +150,17 @@ export default `
 
 		interlocks: [CommandInterlock] @relationship(type: "HAS_INTERLOCK", direction: OUT)
 
-		pluginsConfiguration: [CommandKeyValue] @relationship(type: "USES_KV", direction: OUT)
-		plugins: [CommandProgramDevicePlugin] @relationship(type: "USES_PLUGIN", direction: OUT, properties: "CommandProgramDevicePluginAssignment")
+		plugins: [CommandDevicePlugin] @relationship(type: "HAS_PLUGIN", direction: OUT)
+
 	}
+
+	type CommandDevicePlugin {
+		id: ID! @id
+		plugin: CommandProgramDevicePlugin @relationship(type: "USES_PLUGIN", direction: OUT)
+		rules: CommandProgramFlow @relationship(type: "WHEN_FLOW", direction: OUT)
+		configuration: [CommandKeyValue] @relationship(type: "USES_KV", direction: OUT)
+	}
+
 
 	interface CommandProgramDevicePluginAssignment @relationshipProperties {
 		configuration: [String]
