@@ -15,7 +15,6 @@ export interface BusPortsProps {
 
 export const BusPorts: React.FC<BusPortsProps> = (props) => {
 
-	console.log("MAP", props.map)
 
 	const renderPorts = (render_fn: (ix: number, key?: string, mirror?: boolean) => any) => {
 		if(typeof(props.ports) == "object"){

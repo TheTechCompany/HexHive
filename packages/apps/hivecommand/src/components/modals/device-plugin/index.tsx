@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Select, Text, TextInput } from 'grommet'
 import { BaseModal } from '../base';
+import { FormControl } from 'core/hexhive-ui/src/components';
 
 export interface DevicePluginModalProps {
 	open: boolean;
@@ -8,39 +9,42 @@ export interface DevicePluginModalProps {
 	onSubmit?: (plugin: any) => void;
 	plugins?: any[];
 	devices?: any[];
+	flows?: any[];
 	selected?: any;
 }
 
 export const DevicePluginModal : React.FC<DevicePluginModalProps> = (props) => {
 
-	const [ selectedPlugin, setSelectedPlugin ] = useState<string>('');
-	
-	const [ pluginConfiguration, setPluginConfiguration ] = useState<any>({})
+	const [ plugin, setPlugin ] = useState<{
+		plugin?: string,
+		rules?: string,
+		configuration?: any
+	}>({})
+
+	// const [ selectedPlugin, setSelectedPlugin ] = useState<string>('');
+	// const [ activeFlow, setActiveFlow ] = useState<string>('');
+	// const [ pluginConfiguration, setPluginConfiguration ] = useState<any>({})
 
 	const onChangeConfiguration = (key: string, value: any) => {
-		let conf = Object.assign({}, pluginConfiguration)
+		let conf = Object.assign({}, plugin.configuration)
 		conf[key] = value;
-		setPluginConfiguration(conf)
-		console.log(conf)
+		setPlugin({...plugin, configuration: conf})
 	}
 
 	const onSubmit = () => {
-		props.onSubmit?.({
-			plugin: selectedPlugin,
-			configuration: pluginConfiguration
-		})
+		props.onSubmit?.(plugin)
 	}
 
 	useEffect(() => {
-		console.log(props.selected)
 		if(props.selected){
-			setSelectedPlugin(props.selected.id)
-			let conf = props.selected.configuration.reduce((prev, curr) => ({
-				...prev,
-				[curr.key]: curr.value
-			}), {})
-			console.log("PLUGIN CONF", conf)
-			setPluginConfiguration(conf)
+			console.log(props.selected)
+			// setSelectedPlugin(props.selected.id)
+			// let conf = props.selected.configuration.reduce((prev, curr) => ({
+			// 	...prev,
+			// 	[curr.key]: curr.value
+			// }), {})
+
+			// setPluginConfiguration(conf)
 		}
 	}, [props.selected])
 
@@ -51,8 +55,8 @@ export const DevicePluginModal : React.FC<DevicePluginModalProps> = (props) => {
 
 			let values = [];
 			item.requiresConnection?.edges?.forEach((i) => {
-				requirements[i.key] = pluginConfiguration[i.node.key]
-				values.push(pluginConfiguration[i.node.key])
+				requirements[i.key] = plugin?.configuration?.[i.node.key]
+				values.push(plugin?.configuration?.[i.node.key])
 			})
 
 			if(values.indexOf(undefined) > -1){ return }
@@ -60,20 +64,20 @@ export const DevicePluginModal : React.FC<DevicePluginModalProps> = (props) => {
 		switch(item.type) {
 			case "Number":
 				return (<TextInput 
-						value={pluginConfiguration[item.key] || ''}	
+						value={plugin.configuration?.[item.key] || ''}	
 						onChange={(e) => onChangeConfiguration(item.key, e.target.value)}
 					type="number" />);
 			case "Device":
 				return( <Select
 					labelKey="name"	
-					value={pluginConfiguration[item.key]}
+					value={plugin?.configuration?.[item.key]}
 					valueKey={{key: 'id', reduce: true}}
 					onChange={({value}) => onChangeConfiguration(item.key, value)}
 					options={props.devices || []} />)
 			case "DeviceState":
 				return (<Select 	
 						labelKey="key"
-						value={pluginConfiguration[item.key]}
+						value={plugin?.configuration?.[item.key]}
 						valueKey={{key: 'id', reduce: true}}
 						onChange={({value}) => onChangeConfiguration(item.key, value)}
 						options={props.devices.find((a) =>  a.id == requirements?.device)?.type?.state} />)
@@ -81,7 +85,7 @@ export const DevicePluginModal : React.FC<DevicePluginModalProps> = (props) => {
 		}
 	}
 	const renderPluginForm = () => {
-		return props.plugins.find((a) => a.id === selectedPlugin)?.config.map((conf) => (
+		return props.plugins.find((a) => a.id === plugin?.plugin)?.config.map((conf) => (
 			<Box 
 				align="center"
 				justify="between"
@@ -108,10 +112,16 @@ export const DevicePluginModal : React.FC<DevicePluginModalProps> = (props) => {
 				labelKey="name"
 				placeholder="Select a plugin"
 				valueKey={{reduce: true, key: 'id'}}
-				value={selectedPlugin}
-				onChange={({value}) => setSelectedPlugin(value)}
+				value={plugin?.plugin}
+				onChange={({value}) => setPlugin({...plugin, plugin: value})}
 				options={props.plugins}
 				/>
+			<FormControl 
+				value={plugin?.rules}
+				onChange={(value) => setPlugin({...plugin, rules: value})}
+				labelKey="name"
+				placeholder="(Optional) active flow" 
+				options={props.flows || []} />
 			{renderPluginForm()}
 		</BaseModal>
 	)

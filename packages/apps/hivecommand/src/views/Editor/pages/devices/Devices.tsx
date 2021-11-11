@@ -28,7 +28,10 @@ export const Devices = (props) => {
 
 					plugins {
 						id
-						name
+						plugin {
+							name
+						}
+
 					}
 				}
 

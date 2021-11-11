@@ -109,7 +109,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 		}
 	})
 
-	const [addDevicePlugin, addPluginInfo] = useMutation((mutation, args: { plugin: string, configuration: any }) => {
+	const [addDevicePlugin, addPluginInfo] = useMutation((mutation, args: { id: string, rules: string, plugin: string, configuration: any }) => {
 		let conf = [];
 
 		if (args.configuration) {
@@ -118,26 +118,64 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 			}
 		}
 
+		console.log({args})
+		let ruleUpdate = {};
+
+		if(args.rules){
+			ruleUpdate = {
+				rules: {connect: {where: {node: {id: args.rules}}}}
+			}
+			
+		}
+
+
+		let pluginUpdate = {};
+
+		if(args.id){
+			pluginUpdate = {
+				plugins: [{
+					where: {node: {id: args.id}},
+					update: {
+						node: {
+							plugin: {connect: {where: {node: {id: args.plugin}}}},
+							...ruleUpdate,
+							configuration: {
+								create: conf.map((c) => ({
+									node: {
+										key: c.key,
+										value: c.value
+									}
+								}))
+							}
+						}
+					}
+				}]
+			}
+		}else{
+			pluginUpdate = {
+				plugins: [{
+					create: {
+						node: {
+							plugin: {connect: {where: {node: {id: args.plugin}}}},
+							...ruleUpdate,
+							configuration: {
+								create: conf.map((c) => ({
+									node: {
+										key: c.key,
+										value: c.value
+									}
+								}))
+							}
+						}
+					}
+				}]
+			}
+		}
+
 		const item = mutation.updateCommandProgramDevicePlaceholders({
 			where: { id: deviceId },
 			update: {
-				pluginsConfiguration: [{
-					create: conf.map((x) => ({
-						node: {
-							id: x.id,
-							key: x.key,
-							value: x.value
-						}
-					}))
-				}],
-				plugins: [{
-					connect: [{
-						where: { node: { id: args.plugin } },
-						edge: {
-							configuration: conf.map((x) => x.id)
-						}
-					}]
-				}]
+				...pluginUpdate,
 			}
 		})
 
@@ -179,6 +217,15 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 						}
 					}
 				}
+
+				program {
+					id
+					name
+					children {
+						id
+						name
+					}
+				}
 			}
 
 			commandProgramDevicePlaceholders(where: {id: $id}){
@@ -210,23 +257,24 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 					comparator
 					assertion
 				}
-				pluginsConfiguration {
+
+				plugins {
 					id
-					key
-					value
-				}
-
-				pluginsConnection {
-					edges {
-						configuration
-						
-
-						node {
-							id
-							name
-						}
+					plugin {
+						id
+						name
+					}
+					configuration {
+						id
+						key
+						value
+					}
+					rules {
+						id
+						name
 					}
 				}
+			
 
 			}
 		}
@@ -243,6 +291,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 
 	const device = data?.commandProgramDevicePlaceholders?.[0];
 
+	const flows = data?.commandPrograms?.[0]?.program?.map((item) => [item, ...(item.children || []).map((x) => ({...x, name: `${item.name} - ${x.name}`}))]).reduce((prev, curr) => prev.concat(curr), [])
 	const devices = data?.commandPrograms?.[0]?.devices;
 	const plugins = data?.commandProgramDevicePlugins || [];
 
@@ -296,6 +345,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 				onClose={() => openModal(false)}
 				devices={devices}
 				plugins={plugins}
+				flows={flows}
 			/>
 			<Box direction="row" justify="between" align="center" pad="small">
 				<Text size="medium">{device?.name}</Text>
@@ -351,13 +401,10 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 				<List
 					pad="small"
 					primaryKey="name"
-					data={device?.pluginsConnection?.edges?.map((x) => ({
-						...x.node,
-						configuration: device?.pluginsConfiguration?.filter((y) => x.configuration.indexOf(y.id) > -1)
-					}))}>
+					data={device?.plugins || []}>
 					{(datum) => (
 						<Box direction="row" justify="between" align="center">
-							<Text size="small">{datum.name}</Text>
+							<Text size="small">{datum.plugin?.name} {datum?.rules && `- ${datum?.rules?.name}`}</Text>
 							<Button
 								onClick={() => selectPlugin(datum)}
 								plain
