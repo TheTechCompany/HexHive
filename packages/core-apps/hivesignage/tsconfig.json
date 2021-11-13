@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true
+  },
+  "references": [
+    {"path": "../../core/hexhive-ui"},
+    {"path": "../../shared/hexhive-auth-ui"},
+    {"path": "../../core/hexhive-client"},
+  ],
+  "include": ["src/**/*", "node_modules/@types"],
+  "exclude": ["src/**/*.test*"],
+}

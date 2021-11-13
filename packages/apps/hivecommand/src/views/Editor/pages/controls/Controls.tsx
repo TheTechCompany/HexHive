@@ -99,6 +99,13 @@ export const Controls = (props) => {
             }
         },
         {
+            icon: <HMIIcons.DosingPump width="40px" height="40px"/>,
+            label: "Dosing Pump",
+            extras: {
+                icon: "DosingPump",
+            }
+        },
+        {
             icon: <BallValve width="40px" height="40px" />,
             label: "Ball Valve",
             extras: {
@@ -630,7 +637,7 @@ export const Controls = (props) => {
         }
           return {
                 item: {
-                    ...(deleteInfo || {}),
+                    ...(deleteInfo.commandProgramHmis?.[0] || {}),
                     // ...(disconnectInfo?.commandProgramHmis?.[0] || {})
                 }
             }
@@ -1044,6 +1051,7 @@ export const Controls = (props) => {
                     open={Boolean(menuOpen)}
                     direction="horizontal">
                     <Box
+                        overflow="scroll"
                         onClick={(e) => {
                             e.stopPropagation()
                             e.preventDefault()

@@ -3,7 +3,7 @@ import * as React from "react";
 function SvgTank(props: {width: string, height: string, conf?: {minLevel: number, maxLevel: number}, options?: {level: number}}) {
   
   const getLevel = () => {
-    let level = parseFloat(`${props.options.level || 0}`);
+    let level = parseFloat(`${props.options?.level || 0}`);
 
     if(!props?.conf?.minLevel && !props?.conf?.maxLevel){
       return level

@@ -19,6 +19,7 @@ export const BaseNodeDropdown : React.FC<NodeDropdownProps> = (props) => {
                     <BlockTray 
                         renderItem={(block) => (
                         <Box   
+                            style={{position: 'relative'}}
                             background="accent-1"
                             pad="xsmall"
                             round="xsmall"
