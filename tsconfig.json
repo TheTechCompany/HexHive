@@ -6,6 +6,7 @@
    "declaration": true,
    "module": "commonjs",
    "paths": {
+     "@hexhive-api/signage": ["./api-clients/signage"],
      "react": ["../node_modules/react"],
      "react-dom": ["../node_modules/react-dom"],
      "grommet": ["../node_modules/grommet"],

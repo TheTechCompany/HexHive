@@ -1,13 +1,10 @@
 import { Box, Text, List } from 'grommet';
 import React from 'react';
 import { Switch, Route, matchPath} from 'react-router-dom'
-import { TaskEditor } from './views/task-editor';
-import { TaskList } from './views/task-list';
-import { Workflows } from './views/workflow-editor';
-import { WorkflowList } from './views/workflow-list';
+import { Analytics } from './views/analytics';
+import { DisplayList } from './views/display-list';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { TriggerList } from './views/trigger-list';
-import { TriggerEditor } from './views/trigger-editor';
+import { CampaignList } from './views/campaign-list';
 import { HomeView } from './views/home';
 
 const client = new ApolloClient({
@@ -23,16 +20,16 @@ export const App = (props) => {
 
     const menu = [
         {
-            label: "Workflows",
-            path: "/workflows"
+            label: "Displays",
+            path: "/displays"
         },
         {
-            label: "Tasks",
-            path: "/tasks"
+            label: "Campaigns",
+            path: "/campaigns"
         },
         {
-            label: "Triggers",
-            path: '/triggers'
+            label: "Analytics",
+            path: '/analytics'
         }
     ]
 
@@ -70,12 +67,9 @@ export const App = (props) => {
                 pad="xsmall">
                 <Switch>
                     <Route path={"/"} exact component={HomeView} />
-                    <Route path={"/workflows"} exact component={WorkflowList} />
-                    <Route path={"/workflows/:id"} exact component={Workflows} />
-                    <Route path={"/tasks"} exact component={TaskList} />
-                    <Route path={"/tasks/:id"} component={TaskEditor} />
-                    <Route path={`/triggers`} exact component={TriggerList} />
-                    <Route path={`/triggers/:id`} exact component={TriggerEditor} />
+                    <Route path={"/displays"} exact component={DisplayList} />
+                    <Route path={"/campaigns"} exact component={CampaignList} />
+                    <Route path={`/analytics`} exact component={Analytics} />
                 </Switch>
             </Box>
 

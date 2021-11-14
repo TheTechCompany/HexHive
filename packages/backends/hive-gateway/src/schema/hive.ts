@@ -8,6 +8,7 @@ import apps from "./subschema/apps"
 import automate from "./subschema/automate"
 import command from "./subschema/command"
 import flow from "./subschema/flow"
+import signage from './subschema/signage'
 
 import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
@@ -61,6 +62,16 @@ const event_producer = kafka.producer()
 // const k8sApi = kc.makeApiClient(CoreV1Api);
 // const client = KubernetesObjectApi.makeApiClient(kc)
 
+/*
+	type Mutation {
+		convertFiles(files: [ID], pipeline: String): HiveFileProcess
+		publishHivePipeline(id: ID): String
+		publishHiveTask(id: ID): String
+		runWorkflow(id: ID, params: [HivePipelineResourceInput]): HivePipelineRun
+	}
+
+
+*/
 export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, taskRegistry: TaskRegistry) => {
 	await event_producer.connect()
 
@@ -71,11 +82,9 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 	}
 
 	type Mutation {
-		convertFiles(files: [ID], pipeline: String): HiveFileProcess
-		publishHivePipeline(id: ID): String
-		publishHiveTask(id: ID): String
-		runWorkflow(id: ID, params: [HivePipelineResourceInput]): HivePipelineRun
+		empty: String
 	}
+
 
 
 	${apps}
@@ -99,26 +108,26 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 	const HiveOrganisation = ogm.model("HiveOrganisation")
 	const HiveUser = ogm.model("HiveUser")
 
-	const HiveFileProcess = ogm.model("HiveFileProcess")
+	// const HiveFileProcess = ogm.model("HiveFileProcess")
 
 	const HivePipeline = ogm.model("HivePipeline")
 	const HiveProcess = ogm.model("HiveProcess")
 
-	HiveFileProcess.setSelectionSet(`
-		{
-			id
-			createdAt
-			completedAt
-			inputs {
-				id
-				name
-			}
-			outputs {
-				id
-				name
-			}
-		}
-	`)
+	// HiveFileProcess.setSelectionSet(`
+	// 	{
+	// 		id
+	// 		createdAt
+	// 		completedAt
+	// 		inputs {
+	// 			id
+	// 			name
+	// 		}
+	// 		outputs {
+	// 			id
+	// 			name
+	// 		}
+	// 	}
+	// `)
 	const resolvers = {
 		HiveIntegrationPath: {
 			collections: (source: any, args: any, context: any) => {
