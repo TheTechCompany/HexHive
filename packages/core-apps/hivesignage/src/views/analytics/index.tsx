@@ -6,11 +6,11 @@ import { WorkflowModal } from '../../modals/workflow-modal';
 import { RouteComponentProps } from 'react-router-dom';
 import { TaskModal } from '../../modals/task-modal';
 
-export interface TaskListProps extends RouteComponentProps {
+export interface AnalyticProps extends RouteComponentProps {
 
 }
 
-export const TaskList : React.FC<TaskListProps> = (props) => {
+export const Analytics : React.FC<AnalyticProps> = (props) => {
     const [ modalOpen, openModal ] = useState<boolean>(false);
 
     const query = useQuery()

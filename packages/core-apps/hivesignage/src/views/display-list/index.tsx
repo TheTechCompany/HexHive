@@ -5,11 +5,11 @@ import { mutation, useMutation, useQuery } from '@hexhive/client'
 import { WorkflowModal } from '../../modals/workflow-modal';
 import { RouteComponentProps } from 'react-router-dom';
 
-export interface WorkflowListProps extends RouteComponentProps {
+export interface DisplayListProps extends RouteComponentProps {
 
 }
 
-export const WorkflowList : React.FC<WorkflowListProps> = (props) => {
+export const DisplayList : React.FC<DisplayListProps> = (props) => {
     const [ modalOpen, openModal ] = useState<boolean>(false);
 
     const query = useQuery()

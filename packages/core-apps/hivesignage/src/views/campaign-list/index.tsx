@@ -10,7 +10,7 @@ export interface TriggerListProps extends RouteComponentProps {
 
 }
 
-export const TriggerList : React.FC<TriggerListProps> = (props) => {
+export const CampaignList : React.FC<TriggerListProps> = (props) => {
     const [ modalOpen, openModal ] = useState<boolean>(false);
 
     const query = useQuery()

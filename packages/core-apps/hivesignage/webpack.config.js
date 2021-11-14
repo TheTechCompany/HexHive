@@ -11,7 +11,7 @@ module.exports = (webpackConfigEnv, argv) => {
 
   const defaultConfig = singleSpaDefaults({
     orgName: "HexHive",
-    projectName: "HiveAutomate",
+    projectName: "HiveSignage",
     webpackConfigEnv,
     argv,
   });
@@ -20,7 +20,7 @@ module.exports = (webpackConfigEnv, argv) => {
 
   return merge(defaultConfig, {
     // modify the webpack config however you'd like to by adding to this object,
-    entry: './src/HexHive-Automate.tsx',
+    entry: './src/HexHive-Signage.tsx',
     externals: [],
     devServer: {
       hot: false
@@ -47,39 +47,37 @@ module.exports = (webpackConfigEnv, argv) => {
       ]
     },
     output: {
-      publicPath: process.env.PUBLIC_PATH || 'http://localhost:8514/'
+      publicPath: process.env.PUBLIC_PATH || 'http://localhost:8520/'
     },
     plugins: [
       new MonacoWebpackPlugin({
         // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
         languages: ['yaml', 'json'],
-        publicPath: process.env.PUBLIC_PATH || 'http://localhost:8514/'
+        publicPath: process.env.PUBLIC_PATH || 'http://localhost:8520/'
       }),
       new webpack.ProvidePlugin({
         process: 'process/browser',
       }),
       new webpack.EnvironmentPlugin({
         ...process.env,
-        PUBLIC_URL: '/dashboard/automate'
+        PUBLIC_URL: '/dashboard/signage'
       }),  
         new ModuleFederationPlugin({
-        name: 'hexhive_hiveautomate',
-        library: {type: 'var', name: 'hexhive_hiveautomate'},
+        name: 'hexhive_hivesignage',
+        library: {type: 'var', name: 'hexhive_hivesignage'},
         filename: './remoteEntry.js',
         shared: {
           'react': {version: '17.0.2', singleton: true}, 
           'react-dom': {version: '17.0.2'}, 
           'styled-components': {version: '5.0.3', singleton: true},
           "grommet": {version: '2.17.4'},
-          'monaco-editor': {version: '0.27.0'},
-
           'single-spa-react': {eager: true}
         },
         remotes: {
           'hexhive_root': 'hexhive_root'
         },
         exposes: {
-          '.': './src/HexHive-Automate'
+          '.': './src/HexHive-Signage'
         },
       })
     ]
