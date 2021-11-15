@@ -8,7 +8,6 @@ import apps from "./subschema/apps"
 import automate from "./subschema/automate"
 import command from "./subschema/command"
 import flow from "./subschema/flow"
-import signage from './subschema/signage'
 
 import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
