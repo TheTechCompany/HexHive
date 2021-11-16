@@ -32,6 +32,9 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
                 id
                 name
 
+                online
+                lastOnline
+
                 activeProgram{ 
                     id
                     name

@@ -3,7 +3,7 @@ import { Box, Text, List, Button, Collapsible, TextInput, Select, CheckBox } fro
 import { InfiniteCanvas, ContextMenu, IconNodeFactory, InfiniteCanvasNode, ZoomControls, InfiniteCanvasPath, BumpInput } from '@hexhive/ui';
 import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
 import { NodeDropdown  } from '../../../../components/node-dropdown';
-import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank, BlowerSparge, NfMembrane } from '../../../../assets/hmi-elements';
+import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank, BlowerSparge, NfMembrane, DosingTank } from '../../../../assets/hmi-elements';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import * as HMIIcons from '../../../../assets/hmi-elements'
 import { Nodes, Add, Aggregate, Subtract, RotateLeft, RotateRight } from 'grommet-icons'
@@ -163,6 +163,20 @@ export const Controls = (props) => {
                         y: -20,
                         rotation: 90
                     }
+                ]
+            }
+        },
+        {
+            icon: <DosingTank width="40px" height="40px" />,
+            label: "Dosing Tank",
+            extras: {
+                icon: "DosingTank",
+                ports: [
+                {
+                    id: 'outlet',
+                    x: 50,
+                    y: 65
+                }
                 ]
             }
         },
