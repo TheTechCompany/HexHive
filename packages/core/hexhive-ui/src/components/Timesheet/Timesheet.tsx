@@ -3,7 +3,7 @@ import Datatable from "./datatable";
 
 export class Timesheet extends Component<any, any> {
   render() {
-    <Datatable data={data} />
-    );
+    const { initData } = this.props;
+    return <Datatable data={initData} />;
   }
 }
