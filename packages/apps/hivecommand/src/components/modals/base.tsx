@@ -14,6 +14,9 @@ export interface BaseModalProps {
 
     padding?: string;
     gap?: string;
+
+    header?: any;
+    noClick?: boolean;
 }
 
 export interface BaseModalState {
@@ -48,21 +51,21 @@ export class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
             <Layer
         
                 background="transparent"
-                onClickOutside={this.onClose}
+                onClickOutside={!this.props.noClick && this.onClose}
                 onEsc={this.onClose} >
                 <Box
-                overflow="hidden"
+                    overflow="hidden"
                     round="small"
-
                     background="neutral-2"
                     width={this.props.width || "medium"}
-                    gap={this.props.gap || 'small'}>
+                    gap={this.props.gap}>
                     <Box
                         background="accent-2"
                         pad={"small"}
                         border={{ side: 'bottom', size: 'small' }}>
                         {this.props.title}
                     </Box>
+                    {this.props.header && this.props.header}
                     <Box
                         pad={this.props.padding || "small"}
                         style={{ display: 'flex', flexDirection: 'column' }}>

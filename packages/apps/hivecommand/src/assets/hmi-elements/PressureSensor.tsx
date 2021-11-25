@@ -14,12 +14,13 @@ function SvgSensorBox(props: any) {
         position: 'absolute', 
         top: 0, 
         lineHeight: '100%',
-        minWidth: 'min-content',
-        height: 14,
+        minWidth: 'max-content',
+        height: 16,
         left: 0, 
-        right: 0
+        right: 0,
+        width: '100%'
       }}>
-      <span style={{fontSize: 10, color: 'white'}}>{props?.options?.pressure || '0.0 bar'}</span>
+      <span style={{padding: 2, fontSize: 12, color: 'white'}}>{props?.options?.pressure || '0.0 bar'}</span>
     </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,16 +1,26 @@
 import * as React from "react";
 
-function SvgTank(props: {width: string, height: string, conf?: {minLevel: number, maxLevel: number}, options?: {level: number}}) {
+function SvgTank(props: {device?: {setpoints?: {name: string, key: {key: string}, value: string, type: string}[]}, width: string, height: string, conf?: {level: {min: number, max: number}}, options?: {level: number}}) {
   
-  const getLevel = () => {
-    let level = parseFloat(`${props.options?.level || 0}`);
+  const getLevel = (percent?: string) => {
+    let level = parseFloat(`${percent || props.options?.level || 0}`);
 
-    if(!props?.conf?.minLevel && !props?.conf?.maxLevel){
+    if(!props?.conf?.level?.min && !props?.conf?.level?.max){
       return level
     }
 
 
-    return (level - props?.conf?.minLevel) / ((props?.conf?.maxLevel - props?.conf?.minLevel) / 100)
+    return level //(level - props?.conf?.level?.min) / ((props?.conf?.level?.max - props?.conf?.level?.min) / 100)
+  }
+
+  console.log(props?.device)
+
+  const renderSetpoint = () => {
+    return props?.device?.setpoints?.map((setpoint, index) => {
+      return (
+        <line key={index} y1={`${121.72 - (120 / 100 * getLevel(setpoint.value))}`} x1="0" x2={`100%`} y2={`${121.72 - (120 / 100 * getLevel(setpoint.value))}`} stroke="red" strokeWidth="1" />
+      )
+    })
   }
 
   return (
@@ -85,6 +95,7 @@ function SvgTank(props: {width: string, height: string, conf?: {minLevel: number
           }}
           fill="#0064b1"
         />
+        {renderSetpoint()}
         {/* <rect
           x={10.28}
           y={26.88}

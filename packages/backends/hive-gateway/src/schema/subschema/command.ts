@@ -9,11 +9,24 @@ export default `
 
 	extend type Query {
 		commandDeviceValue(device: String, bus : String, port : String): [CommandDeviceValue]
+		commandDeviceTimeseries(deviceId: String, device: String, valueKey: String, startDate: String): [CommandDeviceTimeseriesData]
+		commandDeviceTimeseriesTotal(deviceId: String, device: String, valueKey: String, startDate: String, endDate: String): CommandDeviceTimeseriesTotal
+	}
 
+	type CommandDeviceTimeseriesTotal @exclude {
+		total: Float
+	}
+
+	type CommandDeviceTimeseriesData @exclude {
+		device: String
+		deviceId: String 
+		valueKey: String
+		value: String
+		timestamp: DateTime
 	}
 
 	type CommandKeyValue {
-		id: ID
+		id: ID @id
 		key: String
 		value: String
 	}
@@ -44,7 +57,7 @@ export default `
 
 		network_name: String
 
-		configuredDevices: [CommandProgramPeripheralConfiguration] @relationship(type: "HAS_CONF", direction: OUT, properties: "CommandDevicePeripheralPort")
+		calibrations: [CommandProgramDeviceCalibration] @relationship(type: "HAS_CALIBRATION", direction: OUT)
 
 		peripherals: [CommandDevicePeripheral] @relationship(type: "HAS_PERIPHERAL", direction: OUT)
 		
@@ -70,11 +83,15 @@ export default `
 		device: CommandDevice @relationship(type: "HAS_PERIPHERAL", direction: IN)
 	}
 	
-	type CommandProgramPeripheralConfiguration {
+	type CommandProgramDeviceCalibration {
 		id: ID @id
+		rootDevice: CommandDevice @relationship(type: "HAS_CALIBRATION", direction: IN)
+
 		device: CommandProgramDevicePlaceholder @relationship(type: "USES_DEVICE", direction: OUT)
-		conf: CommandProgramDeviceConfiguration @relationship(type: "CONF_KEY", direction: OUT)
-		value: String
+		deviceKey: CommandProgramDeviceState @relationship(type: "USES_STATE_ITEM", direction: OUT)
+
+		min: String
+		max: String
 	}
 
 	type CommandDevicePeripheralProduct {
@@ -135,10 +152,18 @@ export default `
 		inputDevice: CommandProgramDevicePlaceholder @relationship(type: "HAS_INPUT", direction: OUT)
 		inputDeviceKey: CommandProgramDeviceState @relationship(type: "HAS_INPUT_KEY", direction: OUT)
 		comparator: String
-		assertion: String
+
+		assertion: CommandInterlockAssertion @relationship(type: "HAS_ASSERTION", direction: OUT)
 		action: CommandProgramDeviceAction @relationship(type: "USE_SAFETY_ACTION", direction: OUT)
 
 		device: CommandProgramDevicePlaceholder @relationship(type: "HAS_INTERLOCK", direction: IN)
+	}
+
+	type CommandInterlockAssertion {
+		id: ID! @id
+		type: String
+		value: String
+		setpoint: CommandDeviceSetpoint @relationship(type: "USES_SETPOINT", direction: OUT)
 	}
 
 	type CommandProgramDevicePlaceholder {
@@ -149,9 +174,17 @@ export default `
 		requiresMutex: Boolean
 
 		interlocks: [CommandInterlock] @relationship(type: "HAS_INTERLOCK", direction: OUT)
-
+		setpoints: [CommandDeviceSetpoint] @relationship(type: "HAS_SETPOINT", direction: OUT)
 		plugins: [CommandDevicePlugin] @relationship(type: "HAS_PLUGIN", direction: OUT)
 
+	}
+
+	type CommandDeviceSetpoint {
+		id: ID! @id
+		name: String
+		key: CommandProgramDeviceState @relationship(type: "USES_STATE", direction: OUT)
+		type: String
+		value: String
 	}
 
 	type CommandDevicePlugin {
@@ -215,19 +248,12 @@ export default `
 		name: String
 		type: String
 
-		configuration: [CommandProgramDeviceConfiguration] @relationship(type: "HAS_CONFIGURATION", direction: OUT)
-
 		usedIn: [CommandProgramDevicePlaceholder] @relationship(type: "USES_TEMPLATE", direction: IN)
 
 		state: [CommandProgramDeviceState] @relationship(type: "HAS_STATE", direction: OUT)
 		actions: [CommandProgramDeviceAction] @relationship(type: "HAS_ACTION", direction: OUT)
 	}
 
-	type CommandProgramDeviceConfiguration {
-		id: ID! @id
-		key: String
-		type: String
-	}
 
 	type CommandProgramDeviceAction {
 		id: ID! @id
