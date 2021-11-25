@@ -135,6 +135,61 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			// }
 		},
 		Query: {
+			commandDeviceTimeseriesTotal: async (root: any, args: {
+				deviceId: string, //device in quest
+				device: string, //deviceId in quest
+				valueKey?: string,
+				startDate?: string,
+			}) => {
+				const client = await pgClient.connect()
+
+				const { deviceId, device, valueKey, startDate } = args
+				const query = `
+					SELECT 
+						sum(CAST(value AS DOUBLE) / 60) as total
+					FROM 
+						commandDeviceValues
+					WHERE
+						deviceId = $1
+						AND device = $2
+						AND valueKey = $3
+						AND timestamp >= $4
+				`
+				const result = await client.query(query, [device, deviceId, valueKey, startDate])
+				await client.release()
+				return result.rows?.[0]
+			},
+			commandDeviceTimeseries: async (root: any, args: {
+				deviceId: string, //device in quest
+				device: string, //deviceId in quest
+				valueKey?: string,
+				startDate?: string,
+			}) => {
+				const client = await pgClient.connect()
+
+				let query = `SELECT * FROM commandDeviceValues WHERE deviceId=$1 AND device=$2`;
+				let params = [args.device, args.deviceId]
+
+				if(args.startDate){
+					params.push(new Date(args.startDate).toISOString())
+					query += ` AND timestamp >= $${params.length}`
+				}
+				if(args.valueKey) {
+					params.push(args.valueKey)
+
+					query += ` AND valueKey=$${params.length}`
+				}
+
+				console.log(query, params)
+
+				const result = await client.query(
+					query,
+					params
+				)
+
+				await client.release()
+				return result.rows;
+			},
 			commandDeviceValue: async (root: any, args: {
 				bus: string,
 				device: string,

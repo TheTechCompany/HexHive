@@ -49,17 +49,20 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
                 operatingMode
 
-                configuredDevices {
-                    id
-                    device{
+                calibrations {
+                    device {
                         id
+                        name
                     }
-                    conf {
-                        id
+
+                    deviceKey {
                         key
                     }
-                    value
+
+                    min
+                    max
                 }
+
                 peripherals {
                     id
                     name
@@ -153,6 +156,18 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                                                 writable
                                             }
                                         }
+
+
+                                        setpoints {
+                                            id
+                                            name
+                                            key {
+                                                id
+                                                key
+                                            }
+                                            value
+                                            type
+                                        }
         
                                     }
                                 
@@ -201,6 +216,18 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                                             key
                                             writable
                                         }
+                                    }
+
+
+                                    setpoints {
+                                        id
+                                        name
+                                        key {
+                                            id
+                                            key
+                                        }
+                                        value
+                                        type
                                     }
     
                                 }
@@ -315,7 +342,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         let state = program?.devices?.find((a) => a.name == name).type?.state;
 
             // console.log(v, busPort)
-        console.log(v, units)
+        // console.log(v, units)
             // return {key: busPort.value, value: v.find((a) => a.valueKey == busPort.key)?.value};
         return v.reduce((prev, curr) => {
             let unit = units?.find((a) => a.key == curr.valueKey);
@@ -389,16 +416,16 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         return {name: a.name, mode: vals.find((a) => a.valueKey == 'mode')?.value};
     }) || [];
 
-    console.log({deviceModes})
+    // console.log({deviceModes})
 
     const hmiNodes = useMemo(() => {
         return hmi.concat(groups.map((x) => x.nodes).reduce((prev, curr) => prev.concat(curr), [])).filter((a) => a?.devicePlaceholder?.name).map((node) => {
 
             let device = node?.devicePlaceholder?.name;
             let value = getDeviceValue(device, node?.devicePlaceholder?.type?.state);
-            let conf =  data?.commandDevices?.[0]?.configuredDevices?.filter((a) => a.device?.id == node.devicePlaceholder.id)
+            let conf =  data?.commandDevices?.[0]?.calibrations?.filter((a) => a.device?.id == node.devicePlaceholder.id)
 
-            console.log("CONF", conf)
+            // console.log("CONF", conf)
             return {
                 ...node,
                 values: value,
@@ -426,7 +453,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         let busPort = idToBus.find((a) => a.name == deviceName)
         
         let value = values.find((a) => a.valueKey == 'value');
-        console.log(value, values)
+        // console.log(value, values)
         
         let newValue = (!value || value.value == 'false') ? '1' : '0';
 
@@ -631,12 +658,19 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 background="accent-2"
                 direction="row">
                 <Text>{program.name}</Text>
-                <Button
-                    onClick={toggleOperatingMode}
-                    plain
-                    hoverIndicator
-                    style={{padding: 6, borderRadius: 3}}
-                    icon={rootDevice?.operatingMode == "AUTO" ? <Stop size="small" /> : <Play size="small" />} />
+                
+                <Box direction="row">
+                    <Button
+                        onClick={() => props.history.push(`./graphs`)}
+                        label={"Graphs"}
+                        />
+                    <Button
+                        onClick={toggleOperatingMode}
+                        plain
+                        hoverIndicator
+                        style={{padding: 6, borderRadius: 3}}
+                        icon={rootDevice?.operatingMode == "AUTO" ? <Stop size="small" /> : <Play size="small" />} />
+                </Box>
             </Box>
             <Box                
                 flex

@@ -95,6 +95,7 @@
     "react-sizeme": "^3.0.1",
     "react-vtree": "^2.0.4",
     "react-window": "^1.8.6",
+    "recharts": "^2.1.6",
     "remirror": "^1.0.6",
     "rollup-plugin-node-globals": "^1.4.0",
     "slate": "^0.65.3",

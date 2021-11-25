@@ -1,15 +1,35 @@
 import { BaseModal } from '../base';
 import React, {useEffect, useState} from 'react';
 import { FormControl, FormInput } from '@hexhive/ui'
-import { Box  } from 'grommet';
+import { Box, Button  } from 'grommet';
+import { StateSection } from './sections/State';
+import { ConditionSection } from './sections/Conditions';
+import { ActionSection } from './sections/Actions';
+import { DeviceInterlockProvider } from './context';
 
-export const DeviceInterlock = (props) => {
+export interface DeviceInterlockModalProps {
+	open: boolean;
+	selected?: any
+	devices?: any[];
+	actions?: any[];
+	device?: any;
+	onSubmit?: (interlock: any) => void;
+	onClose?: () => void;
+}
+
+export const DeviceInterlock : React.FC<DeviceInterlockModalProps> = (props) => {
+
+	const [ view, setView ] = useState<'state' | 'conditions' | 'actions'>('state')
 
 	const [ interlock, setInterlock ] = useState<{
 		inputDevice?: string,
 		inputDeviceKey?: string,
 		comparator?: string,
-		assertion?: string
+		assertion?: {
+			setpoint?: string,
+			value?: string
+		},
+		valueType?: string,
 		action?: string
 	}>({})
 
@@ -22,50 +42,84 @@ export const DeviceInterlock = (props) => {
 		if(props.selected) {
 			setInterlock({
 				...props.selected,
+				valueType: props.selected?.assertion?.type || 'value',
 				inputDevice: props.selected?.inputDevice?.id,
 				inputDeviceKey: props.selected?.inputDeviceKey?.id,
 				comparator: props.selected?.comparator,
-				assertion: props.selected?.assertion,
+				assertion: props.selected?.assertion?.type == 'setpoint' ? props.selected?.assertion?.setpoint?.id : props.selected?.assertion?.value,
 				action: props.selected?.action?.id
 			})
 		}
 	}, [props.selected])
 	
+	console.log(props.devices?.find((a) => a.id == interlock.inputDevice)?.setpoints)
+
+	const tabItems = [
+		{
+			id: 'state',
+			label: "State"
+		},
+		{
+			id: 'conditions',
+			label: "Conditions"
+		},
+		{
+			id: 'actions',
+			label: "Actions"
+		}
+	]
+
+	const renderView = () => {
+		switch(view){
+			case 'actions':
+				return (
+					<ActionSection />
+				)
+			case 'conditions':
+				return (
+					<ConditionSection />
+				)
+			case 'state':
+				return (
+					<StateSection />
+				)
+		}
+	}
+
 	return (
-		<BaseModal
-			title="Add Device Interlock"
-			open={props.open}
-			onClose={props.onClose}
-			onSubmit={onSubmit}	
-		>
-			<Box>
-				<FormControl 
-					value={interlock.inputDevice}
-					onChange={(value) => setInterlock({...interlock, inputDevice: value})}
-					options={props.devices || []}
-					placeholder="Input Device" />
-				<FormControl 
-					value={interlock.inputDeviceKey}
-					labelKey="key"
-					onChange={(value) => setInterlock({...interlock, inputDeviceKey: value})}
-					options={props.devices?.find((a) => a.id == interlock?.inputDevice)?.type?.state || []}
-					placeholder="Input Device State Key" />
-				<FormInput 
-					value={interlock.comparator}
-					onChange={(value) => setInterlock({...interlock, comparator: value})}
-					placeholder="Comparison Operator" />
-				<FormInput 
-					value={interlock.assertion}
-					onChange={(value) => setInterlock({...interlock, assertion: value})}
-					placeholder="Input Device State Value" />
-				<FormControl 
-					labelKey="key"
-					valueKey={"id"}
-					value={interlock.action}
-					onChange={(value) => setInterlock({...interlock, action: value})}
-					options={props.actions || []}
-					placeholder="Action" />
-			</Box>
-		</BaseModal>
+		<DeviceInterlockProvider
+			value={{
+				interlock,
+				setInterlock,
+				devices: props.devices,
+				device: props.device,
+			}}>
+			<BaseModal
+				noClick={true}
+				title="Add Device Interlock"
+				open={props.open}
+				onClose={props.onClose}
+				onSubmit={onSubmit}	
+				width="large"
+				header={(
+					<Box background="accent-1" direction="row" gap="small">
+						{tabItems.map((tab) => (
+							<Button 
+								onClick={() => setView(tab.id as any)}
+								active={view == tab.id} 
+								style={{padding: 6, borderRadius: 3}} 
+								hoverIndicator 
+								plain
+								label={tab.label} />
+						))}
+						
+					</Box>
+				)}
+			>
+				<Box>
+					{renderView()}
+				</Box>
+			</BaseModal>
+		</DeviceInterlockProvider>
 	)
 }

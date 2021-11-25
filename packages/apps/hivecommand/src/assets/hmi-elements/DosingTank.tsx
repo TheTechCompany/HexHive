@@ -1,9 +1,9 @@
 import * as React from "react";
 
-function SvgTank(props: {width: string, height: string, conf?: {minLevel: number, maxLevel: number}, options?: {full: any}}) {
+function SvgTank(props: {width: string, height: string, conf?: {minLevel: number, maxLevel: number}, options?: {empty: any}}) {
   
   const getLevel = () => {
-    return props.options.full == 'true' ? 100 : 0.01;
+    return props.options?.empty != 'true' ? 100 : 0.01;
   }
 
   return (
@@ -12,7 +12,7 @@ function SvgTank(props: {width: string, height: string, conf?: {minLevel: number
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 123.72 123.72"
       {...props}
-      style={{stroke: props.options.full == 'true' ? 'initial' : 'red'}}
+      style={{stroke: props.options?.empty != 'true' ? 'initial' : 'red'}}
     >
       <defs>
         <linearGradient

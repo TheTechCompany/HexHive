@@ -20,7 +20,8 @@ export const ProgramDeviceModal : React.FC<ProgramDeviceModalProps> = (props) =>
 		id?: string;
 		name?: string;
 		type?: string;
-		configuration?: {id?: string, key: string, type: string, value: any}[];
+		calibrated?: {id?: string, key: string, min?: string, max?: string}[],
+		state?: {id?: string, key: string, type: string, min?: string, max?: string}[]
 		requiresMutex?: boolean;
 	}>({});
 
@@ -33,54 +34,79 @@ export const ProgramDeviceModal : React.FC<ProgramDeviceModalProps> = (props) =>
 	}
 
 	useEffect(() => {
-		let configuration = props.selected?.type?.configuration || [];
+		let calibrated = props.selected?.calibrated || [];
 		// console.log(props.selected)
-		if(props.selected?.configuration){
-			configuration = props.selected?.type?.configuration?.map((item) => {
-
-				let value = props.selected?.configuration?.find((a) => a?.conf?.id == item.id)
-				
-				console.log(item, value)
+		if(props.selected?.calibrated){
+			calibrated = props.selected?.calibrated?.map((item) => {
 
 				return {
-					id: value?.id,
-					key: item.key,
-					confKey: item.id,
-					type: item.type,
-					value: value?.value
+					...item,
+					key: item.deviceKey?.key
 				}
+				// let value = props.selected?.configuration?.find((a) => a?.conf?.id == item.id)
+				
+				// console.log(item, value)
+
+				// return {
+				// 	id: value?.id,
+				// 	key: item.key,
+				// 	confKey: item.id,
+				// 	type: item.type,
+				// 	value: value?.value
+				// }
 			})
 		}
 
-		console.log(configuration)
+		console.log(props.selected)
 
 		setDevice({
 			...props.selected,
 			type: props.selected?.type?.id,
-			configuration: configuration
+			state: props.selected?.type?.state,
+			calibrated
 		})
 	}, [props.selected])
 
-	const onChangeConf = (key: string, value: any) => {
-		let conf = device.configuration.slice();
-		let ix = conf.map((x) => x.key).indexOf(key);
+	const onChangeConf = (key: string, value: any, selector: string) => {
+		let calibrations = device?.calibrated?.slice() || [];
 
+		let ix = calibrations.map((x) => x.key).indexOf(key);
 		if(ix > -1){
-			conf[ix] = {
-				...conf[ix], 
-				value: value
+			calibrations[ix] = {
+				...calibrations[ix],
+				[selector]: value
 			}
+		}else{
+			calibrations.push({
+				key: key,
+				[selector]: value
+			})
 		}
-		setDevice({...device, configuration: conf})
+
+		setDevice({...device, calibrated: calibrations})
+		// let conf = device.configuration.slice();
+		// let ix = conf.map((x) => x.key).indexOf(key);
+
+		// if(ix > -1){
+		// 	conf[ix] = {
+		// 		...conf[ix], 
+		// 		value: value
+		// 	}
+		// }
+		// setDevice({...device, configuration: conf})
 	}
 
-	const renderInput = (key: string, type: string) => {
-		let value = device?.configuration?.find((a) => a.key == key)?.value || ''
+	const renderInput = (key: string, type: string, selector : string) => {
+		let defaultValue = device?.state?.find((a) => a.key == key)?.[selector] || ''
+		let value = device?.calibrated?.find((a) => a.key == key)?.[selector] || defaultValue
+
 		switch(type){
+			case 'UIntegerT':
+			case 'IntegerT':
 			case 'Int':
 				return (<TextInput 	
 						value={value}
-						onChange={(e) => onChangeConf(key, e.target.value)}
+						onChange={(e) => onChangeConf(key, e.target.value, selector)}
 						style={{padding: 3}} 
 						type="number" />)
 			default:
@@ -116,14 +142,23 @@ export const ProgramDeviceModal : React.FC<ProgramDeviceModalProps> = (props) =>
 						reverse 
 						label="Requires Mutex" />
 				</Box>
-				{device.configuration && device.configuration?.map((conf) => (
+				{device?.state && device?.state?.filter((a) => a.min && a.max).map((conf) => (
+					<>
 					<Box
 						gap="xsmall"
 						align="center"
 						direction="row">
-						<Box flex><Text>{conf.key}</Text></Box>
-						<Box flex>{renderInput(conf.key, conf.type)}</Box>
+						<Box flex><Text>min{conf.key}</Text></Box>
+						<Box flex>{renderInput(conf.key, conf.type, 'min')}</Box>
 					</Box>
+					<Box
+						gap="xsmall"
+						align="center"
+						direction="row">
+						<Box flex><Text>max{conf.key}</Text></Box>
+						<Box flex>{renderInput(conf.key, conf.type, 'max')}</Box>
+					</Box>
+					</>
 				))}
 			</Box>
 		</BaseModal>
