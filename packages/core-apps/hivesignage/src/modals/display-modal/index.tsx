@@ -19,7 +19,7 @@ export const WorkflowModal: React.FC<WorkflowModalProps> = (props) => {
             <Box
                 width="medium">
                 <Box background="accent-2" pad="xsmall" direction="row">
-                    <Text>Create Workflow</Text>
+                    <Text>Create Display</Text>
                 </Box>
                 <Box
                     pad="xsmall"
@@ -27,7 +27,7 @@ export const WorkflowModal: React.FC<WorkflowModalProps> = (props) => {
                     <TextInput 
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Workflow Name" />
+                        placeholder="Display Name" />
 
                     <Box 
                         margin={{top: 'small'}}

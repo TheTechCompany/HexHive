@@ -7,14 +7,19 @@ export default `
 		endDate: DateTime
 
 		analytics: [CampaignAnalytic] @relationship(type: "HAS_ANALYTICS", direction: OUT)
-		assets: [CampaignAsset] @relationship(type: "HAS_ASSET", direction: OUT)
+		assets: [CampaignAsset] @ignore
 		customer: String
 	}
 
-	type CampaignAsset {
+
+	type CampaignAsset @exclude {
 		id: ID! @id
 		name: String
 		type: String
+		size: Int
+		mode: Int
+		path: String
+
 		cid: String
 	}
 

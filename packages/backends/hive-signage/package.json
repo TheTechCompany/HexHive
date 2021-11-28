@@ -15,9 +15,13 @@
   },
   "dependencies": {
     "@neo4j/graphql": "^2.4.0",
+    "@neo4j/graphql-ogm": "^2.4.0",
+    "aws-sdk": "^2.1037.0",
+    "datastore-s3": "^8.0.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "graphql-tag": "^2.12.6",
+    "ipfs": "^0.60.2",
     "neo4j-driver": "^4.4.0"
   }
 }

@@ -2,9 +2,9 @@ import { Box, Button, List } from 'grommet';
 import React, { useState } from 'react';
 import { Add } from 'grommet-icons';
 import { mutation, useMutation, useQuery } from '@hexhive/client'
-import { WorkflowModal } from '../../modals/workflow-modal';
+import { WorkflowModal } from '../../modals/display-modal';
 import { RouteComponentProps } from 'react-router-dom';
-import { TaskModal } from '../../modals/task-modal';
+import { CampaignModal } from '../../modals/campaign-modal';
 
 export interface AnalyticProps extends RouteComponentProps {
 
@@ -38,21 +38,7 @@ export const Analytics : React.FC<AnalyticProps> = (props) => {
             overflow="hidden"
             round="small"
             elevation="small">
-           <TaskModal   
-            open={modalOpen}
-            onClose={() => openModal(false)}
-            onSubmit={(task) => {
-                createProcess({args: {name: task.name}}).then(() => {
-                    openModal(false)
-                })
-            }} />
-            <Box  background="accent-2" direction="row" justify="end">
-                <Button onClick={() => openModal(true)} icon={<Add />} />
-            </Box>
-            <List 
-                onClickItem={({item}) => props.history.push(`${props.match.url}/${item.id}`)}
-                primaryKey={"name"}
-                data={processes} />
+          
         </Box>
     )
 }
