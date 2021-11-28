@@ -1,10 +1,10 @@
-import { Box, Button, List } from 'grommet';
+import { Box, Button, Text, List } from 'grommet';
 import React, { useState } from 'react';
 import { Add } from 'grommet-icons';
-import { mutation, useMutation, useQuery } from '@hexhive/client'
-import { WorkflowModal } from '../../modals/workflow-modal';
+import { mutation, useMutation, useQuery } from '@hexhive-api/signage'
+import { WorkflowModal } from '../../modals/display-modal';
 import { RouteComponentProps } from 'react-router-dom';
-import { TaskModal } from '../../modals/task-modal';
+import { CampaignModal } from '../../modals/campaign-modal';
 
 export interface TriggerListProps extends RouteComponentProps {
 
@@ -15,21 +15,22 @@ export const CampaignList : React.FC<TriggerListProps> = (props) => {
 
     const query = useQuery()
 
-    const [ createTrigger, createInfo ] = useMutation((mutation, args: {name: string}) => {
-        const item = mutation.createHivePipelineTriggers({input: [{name: args.name}]})
+    const campaigns = query.campaigns()
+
+    const [ createCampaign, createInfo ] = useMutation((mutation, args: {name: string}) => {
+        const item = mutation.createCampaigns({input: [{name: args.name}]})
         return {
             item: {
-                ...item.hivePipelineTriggers[0]
+                ...item.campaigns[0]
             },
             err: null
         }
     }, {
         suspense: false,
         awaitRefetchQueries: true,
-        refetchQueries: [query.hivePipelineTriggers()]
+        refetchQueries: [query.campaigns()]
     })
     // const workflow = query.hivePi
-    const triggers = query.hivePipelineTriggers().map((x) => ({id: x.id, name: x.name}));
 
     return (
         <Box
@@ -38,21 +39,24 @@ export const CampaignList : React.FC<TriggerListProps> = (props) => {
             overflow="hidden"
             round="small"
             elevation="small">
-           <TaskModal   
+           <CampaignModal   
             open={modalOpen}
             onClose={() => openModal(false)}
-            onSubmit={(task) => {
-                createTrigger({args: {name: task.name}}).then(() => {
+            onSubmit={(campaign) => {
+                createCampaign({args: {name: campaign.name}}).then(() => {
                     openModal(false)
                 })
             }} />
-            <Box  background="accent-2" direction="row" justify="end">
-                <Button onClick={() => openModal(true)} icon={<Add />} />
+            <Box pad="xsmall" align="center" background="accent-2" direction="row" justify="between">
+                <Text>Campaigns</Text>
+                <Button plain hoverIndicator style={{padding: 6, borderRadius: 3}} onClick={() => openModal(true)} icon={<Add size="small" />} />
             </Box>
-            <List 
-                onClickItem={({item}) => props.history.push(`${props.match.url}/${item.id}`)}
-                primaryKey={"name"}
-                data={triggers} />
+            <Box flex>
+                <List 
+                    onClickItem={({item}) => props.history.push(`${props.match.url}/${item.id}`)}
+                    primaryKey={"name"}
+                    data={campaigns} />
+            </Box>
         </Box>
     )
 }

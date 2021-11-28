@@ -3,12 +3,12 @@ import React from 'react';
 import { Box, Text, Button, Layer, TextInput } from 'grommet'
 import { useState } from 'react';
 
-export interface TaskModalProps {
+export interface CampaignModalProps {
     open: boolean;
     onClose?: () => void;
     onSubmit?: (app: {name: string}) => void;
 }
-export const TaskModal: React.FC<TaskModalProps> = (props) => {
+export const CampaignModal: React.FC<CampaignModalProps> = (props) => {
     const [ name, setName ] = useState<string>('')
 
     return props.open ? (
@@ -19,7 +19,7 @@ export const TaskModal: React.FC<TaskModalProps> = (props) => {
             <Box
                 width="medium">
                 <Box background="accent-2" pad="xsmall" direction="row">
-                    <Text>Create Task</Text>
+                    <Text>Create Campaign</Text>
                 </Box>
                 <Box
                     pad="xsmall"
@@ -27,7 +27,7 @@ export const TaskModal: React.FC<TaskModalProps> = (props) => {
                     <TextInput 
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Workflow Name" />
+                        placeholder="Campaign Name" />
 
                     <Box 
                         margin={{top: 'small'}}

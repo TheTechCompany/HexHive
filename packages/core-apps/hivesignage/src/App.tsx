@@ -6,6 +6,12 @@ import { DisplayList } from './views/display-list';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { CampaignList } from './views/campaign-list';
 import { HomeView } from './views/home';
+import { CampaignSingle } from './views/campaign-single';
+import { ClusterList } from './views/cluster-list/ClusterList';
+import { ComputerList } from './views/computer-list/ComputerList';
+import { ClusterSingle } from './views/cluster-single/ClusterSingle';
+import { ComputerSingle } from './views/computer-single/ComputerSingle';
+import { DisplaySingle } from './views/display-single/DisplaySingle';
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_API ? `${process.env.REACT_APP_API}/graphql`: 'http://localhost:7000/graphql',
@@ -19,6 +25,14 @@ export const App = (props) => {
     }
 
     const menu = [
+        {
+            label: "Clusters",
+            path: "/clusters"
+        },
+        {
+            label: "Computers",
+            path: '/computers'
+        },
         {
             label: "Displays",
             path: "/displays"
@@ -54,7 +68,7 @@ export const App = (props) => {
                             focusIndicator={false}
                             hoverIndicator
                             pad={'xsmall'}
-                            background={matchPath(window.location.pathname, {path: `/dashboard/automate${datum.path}`}) ? 'accent-2': ''}
+                            background={matchPath(window.location.pathname, {path: `/dashboard/signage${datum.path}`}) ? 'accent-2': ''}
                             direction="row">
                             <Text>{datum.label}</Text>
                         </Box>
@@ -68,7 +82,13 @@ export const App = (props) => {
                 <Switch>
                     <Route path={"/"} exact component={HomeView} />
                     <Route path={"/displays"} exact component={DisplayList} />
+                    <Route path={"/displays/:id"}  component={DisplaySingle} />
+                    <Route path={'/clusters'} exact component={ClusterList} />
+                    <Route path={'/clusters/:id'} component={ClusterSingle} />
+                    <Route path={'/computers'} exact component={ComputerList} />
+                    <Route path={'/computers/:id'} component={ComputerSingle} />
                     <Route path={"/campaigns"} exact component={CampaignList} />
+                    <Route path={"/campaigns/:id"} exact component={CampaignSingle} />
                     <Route path={`/analytics`} exact component={Analytics} />
                 </Switch>
             </Box>
