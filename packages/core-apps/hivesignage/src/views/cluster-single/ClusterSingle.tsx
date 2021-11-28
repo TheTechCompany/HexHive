@@ -6,6 +6,7 @@ import { ClusterDisplays } from './ClusterDisplays';
 import { ClusterSchedule } from './ClusterSchedule';
 import { ClusterMap } from './ClusterMap';
 import { ClusterSingleProvider } from './context';
+import { ClusterTiers } from './ClusterTiers';
 
 export const ClusterSingle = (props) => {
 
@@ -24,12 +25,13 @@ export const ClusterSingle = (props) => {
 					<List 
 						onClickItem={({item}) => props.history.push(`${props.match.url}/${item.toLowerCase()}`)}
 						border={false} 
-						data={["Displays", "Schedule", "Map"]} />
+						data={["Displays", "Schedule", "Tiers", "Map"]} />
 				</Box>
 				<Box flex pad="xsmall">
 					<Switch>
 						<Route path={`${props.match.url}/displays`} component={ClusterDisplays} />
 						<Route path={`${props.match.url}/schedule`} component={ClusterSchedule} />
+						<Route path={`${props.match.url}/tiers`} component={ClusterTiers} />
 						<Route path={`${props.match.url}/map`} component={ClusterMap} />
 					</Switch>
 				</Box>

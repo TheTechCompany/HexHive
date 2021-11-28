@@ -2,11 +2,9 @@ export default `
 	type Campaign {
 		id: ID! @id
 		name: String
-		
-		startDate: DateTime
-		endDate: DateTime
 
 		analytics: [CampaignAnalytic] @relationship(type: "HAS_ANALYTICS", direction: OUT)
+		assetFolder: String
 		assets: [CampaignAsset] @ignore
 		customer: String
 	}

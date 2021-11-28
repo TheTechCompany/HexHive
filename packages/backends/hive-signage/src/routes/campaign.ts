@@ -12,6 +12,18 @@ export default (ogm: OGM, fs: FileStore) => {
 	const Campaign = ogm.model("Campaign")
 	const CampaignAsset = ogm.model("CampaignAsset")
 
+	router.get(`/:id/data`, async (req, res) => {
+		const items = await fs.pull('QmTCresRk3i7t7WDETwNPwr7ZXbnLKBgLwRuAzVfsZgWNT')
+		let results = [];
+
+		if(!items) return res.send({error: "No node found"});
+
+		for await (const item of items) {
+			results.push(item)
+		}
+		console.log(items)
+		res.send(Buffer.concat(results))
+	})
 	router.use('/:id/preview*', function (req, res, next) {
 		// res.header("Content-Type",'text/html');
 		next();
@@ -21,10 +33,15 @@ export default (ogm: OGM, fs: FileStore) => {
 		let campaignId = req.params.id
 
 		let filePath = (req.params as any)?.['0'].length > 0 ? (req.params as any)?.['0'] : '/index.html'
-
-		const result = await fs.readFile(campaignId, filePath)
-		res.contentType('html')
-		res.send(result?.toString())
+		console.log(filePath)
+		try{
+			const result = await fs.readFile(campaignId, filePath)
+			if(!result) res.send({error: "no file"})
+			res.contentType(path.basename(filePath))
+			res.send(result)
+		}catch(e){
+			res.send({error: e})
+		}
 	})
 
 
@@ -70,6 +87,14 @@ export default (ogm: OGM, fs: FileStore) => {
 					await fs.writeFile(req.params.id, `${paths[ix]}`, file.buffer)
 
 				}))
+
+			const folderInfo = await fs.getFolderInfo(req.params.id)
+				await Campaign.update({
+					where: {id: req.params.id},
+					update: {
+						assetFolder: folderInfo?.cid?.toString()
+					},
+				})
 			res.send({files})
 				// await Campaign.update({
 				// 	where: {id: req.params.id},
