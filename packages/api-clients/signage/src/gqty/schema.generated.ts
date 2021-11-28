@@ -92,21 +92,6 @@ export interface CampaignAnalyticCampaignNodeAggregationWhereInput {
   customer_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
   customer_SHORTEST_LT?: Maybe<Scalars["Int"]>;
   customer_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
-  endDate_EQUAL?: Maybe<Scalars["DateTime"]>;
-  endDate_GT?: Maybe<Scalars["DateTime"]>;
-  endDate_GTE?: Maybe<Scalars["DateTime"]>;
-  endDate_LT?: Maybe<Scalars["DateTime"]>;
-  endDate_LTE?: Maybe<Scalars["DateTime"]>;
-  endDate_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
-  endDate_MAX_GT?: Maybe<Scalars["DateTime"]>;
-  endDate_MAX_GTE?: Maybe<Scalars["DateTime"]>;
-  endDate_MAX_LT?: Maybe<Scalars["DateTime"]>;
-  endDate_MAX_LTE?: Maybe<Scalars["DateTime"]>;
-  endDate_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
-  endDate_MIN_GT?: Maybe<Scalars["DateTime"]>;
-  endDate_MIN_GTE?: Maybe<Scalars["DateTime"]>;
-  endDate_MIN_LT?: Maybe<Scalars["DateTime"]>;
-  endDate_MIN_LTE?: Maybe<Scalars["DateTime"]>;
   id_EQUAL?: Maybe<Scalars["ID"]>;
   name_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
   name_AVERAGE_GT?: Maybe<Scalars["Float"]>;
@@ -128,21 +113,6 @@ export interface CampaignAnalyticCampaignNodeAggregationWhereInput {
   name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
   name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
   name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
-  startDate_EQUAL?: Maybe<Scalars["DateTime"]>;
-  startDate_GT?: Maybe<Scalars["DateTime"]>;
-  startDate_GTE?: Maybe<Scalars["DateTime"]>;
-  startDate_LT?: Maybe<Scalars["DateTime"]>;
-  startDate_LTE?: Maybe<Scalars["DateTime"]>;
-  startDate_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
-  startDate_MAX_GT?: Maybe<Scalars["DateTime"]>;
-  startDate_MAX_GTE?: Maybe<Scalars["DateTime"]>;
-  startDate_MAX_LT?: Maybe<Scalars["DateTime"]>;
-  startDate_MAX_LTE?: Maybe<Scalars["DateTime"]>;
-  startDate_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
-  startDate_MIN_GT?: Maybe<Scalars["DateTime"]>;
-  startDate_MIN_GTE?: Maybe<Scalars["DateTime"]>;
-  startDate_MIN_LT?: Maybe<Scalars["DateTime"]>;
-  startDate_MIN_LTE?: Maybe<Scalars["DateTime"]>;
 }
 
 export interface CampaignAnalyticCampaignUpdateConnectionInput {
@@ -386,9 +356,7 @@ export interface CampaignConnectWhere {
 export interface CampaignCreateInput {
   analytics?: Maybe<CampaignAnalyticsFieldInput>;
   customer?: Maybe<Scalars["String"]>;
-  endDate?: Maybe<Scalars["DateTime"]>;
   name?: Maybe<Scalars["String"]>;
-  startDate?: Maybe<Scalars["DateTime"]>;
 }
 
 export interface CampaignDeleteInput {
@@ -413,18 +381,14 @@ export interface CampaignRelationInput {
 /** Fields to sort Campaigns by. The order in which sorts are applied is not guaranteed when specifying many fields in one CampaignSort object. */
 export interface CampaignSort {
   customer?: Maybe<SortDirection>;
-  endDate?: Maybe<SortDirection>;
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
-  startDate?: Maybe<SortDirection>;
 }
 
 export interface CampaignUpdateInput {
   analytics?: Maybe<Array<CampaignAnalyticsUpdateFieldInput>>;
   customer?: Maybe<Scalars["String"]>;
-  endDate?: Maybe<Scalars["DateTime"]>;
   name?: Maybe<Scalars["String"]>;
-  startDate?: Maybe<Scalars["DateTime"]>;
 }
 
 export interface CampaignWhere {
@@ -445,14 +409,6 @@ export interface CampaignWhere {
   customer_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
   customer_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   customer_STARTS_WITH?: Maybe<Scalars["String"]>;
-  endDate?: Maybe<Scalars["DateTime"]>;
-  endDate_GT?: Maybe<Scalars["DateTime"]>;
-  endDate_GTE?: Maybe<Scalars["DateTime"]>;
-  endDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
-  endDate_LT?: Maybe<Scalars["DateTime"]>;
-  endDate_LTE?: Maybe<Scalars["DateTime"]>;
-  endDate_NOT?: Maybe<Scalars["DateTime"]>;
-  endDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
   id?: Maybe<Scalars["ID"]>;
   id_CONTAINS?: Maybe<Scalars["ID"]>;
   id_ENDS_WITH?: Maybe<Scalars["ID"]>;
@@ -473,18 +429,12 @@ export interface CampaignWhere {
   name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_STARTS_WITH?: Maybe<Scalars["String"]>;
-  startDate?: Maybe<Scalars["DateTime"]>;
-  startDate_GT?: Maybe<Scalars["DateTime"]>;
-  startDate_GTE?: Maybe<Scalars["DateTime"]>;
-  startDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
-  startDate_LT?: Maybe<Scalars["DateTime"]>;
-  startDate_LTE?: Maybe<Scalars["DateTime"]>;
-  startDate_NOT?: Maybe<Scalars["DateTime"]>;
-  startDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
 }
 
 export interface ClusterConnectInput {
   displays?: Maybe<Array<ClusterDisplaysConnectFieldInput>>;
+  schedule?: Maybe<Array<ClusterScheduleConnectFieldInput>>;
+  tiers?: Maybe<Array<ClusterTiersConnectFieldInput>>;
 }
 
 export interface ClusterConnectWhere {
@@ -494,14 +444,20 @@ export interface ClusterConnectWhere {
 export interface ClusterCreateInput {
   displays?: Maybe<ClusterDisplaysFieldInput>;
   label?: Maybe<Scalars["String"]>;
+  schedule?: Maybe<ClusterScheduleFieldInput>;
+  tiers?: Maybe<ClusterTiersFieldInput>;
 }
 
 export interface ClusterDeleteInput {
   displays?: Maybe<Array<ClusterDisplaysDeleteFieldInput>>;
+  schedule?: Maybe<Array<ClusterScheduleDeleteFieldInput>>;
+  tiers?: Maybe<Array<ClusterTiersDeleteFieldInput>>;
 }
 
 export interface ClusterDisconnectInput {
   displays?: Maybe<Array<ClusterDisplaysDisconnectFieldInput>>;
+  schedule?: Maybe<Array<ClusterScheduleDisconnectFieldInput>>;
+  tiers?: Maybe<Array<ClusterTiersDisconnectFieldInput>>;
 }
 
 export interface ClusterDisplaysAggregateInput {
@@ -598,6 +554,502 @@ export interface ClusterOptions {
 
 export interface ClusterRelationInput {
   displays?: Maybe<Array<ClusterDisplaysCreateFieldInput>>;
+  schedule?: Maybe<Array<ClusterScheduleCreateFieldInput>>;
+  tiers?: Maybe<Array<ClusterTiersCreateFieldInput>>;
+}
+
+export interface ClusterScheduleAggregateInput {
+  AND?: Maybe<Array<ClusterScheduleAggregateInput>>;
+  OR?: Maybe<Array<ClusterScheduleAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ClusterScheduleNodeAggregationWhereInput>;
+}
+
+export interface ClusterScheduleCampaignAggregateInput {
+  AND?: Maybe<Array<ClusterScheduleCampaignAggregateInput>>;
+  OR?: Maybe<Array<ClusterScheduleCampaignAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ClusterScheduleCampaignNodeAggregationWhereInput>;
+}
+
+export interface ClusterScheduleCampaignConnectFieldInput {
+  connect?: Maybe<CampaignConnectInput>;
+  where?: Maybe<CampaignConnectWhere>;
+}
+
+export interface ClusterScheduleCampaignConnectionSort {
+  node?: Maybe<CampaignSort>;
+}
+
+export interface ClusterScheduleCampaignConnectionWhere {
+  AND?: Maybe<Array<ClusterScheduleCampaignConnectionWhere>>;
+  OR?: Maybe<Array<ClusterScheduleCampaignConnectionWhere>>;
+  node?: Maybe<CampaignWhere>;
+  node_NOT?: Maybe<CampaignWhere>;
+}
+
+export interface ClusterScheduleCampaignCreateFieldInput {
+  node: CampaignCreateInput;
+}
+
+export interface ClusterScheduleCampaignDeleteFieldInput {
+  delete?: Maybe<CampaignDeleteInput>;
+  where?: Maybe<ClusterScheduleCampaignConnectionWhere>;
+}
+
+export interface ClusterScheduleCampaignDisconnectFieldInput {
+  disconnect?: Maybe<CampaignDisconnectInput>;
+  where?: Maybe<ClusterScheduleCampaignConnectionWhere>;
+}
+
+export interface ClusterScheduleCampaignFieldInput {
+  connect?: Maybe<ClusterScheduleCampaignConnectFieldInput>;
+  create?: Maybe<ClusterScheduleCampaignCreateFieldInput>;
+}
+
+export interface ClusterScheduleCampaignNodeAggregationWhereInput {
+  AND?: Maybe<Array<ClusterScheduleCampaignNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ClusterScheduleCampaignNodeAggregationWhereInput>>;
+  customer_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  customer_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  customer_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  customer_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  customer_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  customer_EQUAL?: Maybe<Scalars["String"]>;
+  customer_GT?: Maybe<Scalars["Int"]>;
+  customer_GTE?: Maybe<Scalars["Int"]>;
+  customer_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  customer_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  customer_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  customer_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  customer_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  customer_LT?: Maybe<Scalars["Int"]>;
+  customer_LTE?: Maybe<Scalars["Int"]>;
+  customer_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  customer_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  customer_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  customer_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  customer_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  name_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  name_EQUAL?: Maybe<Scalars["String"]>;
+  name_GT?: Maybe<Scalars["Int"]>;
+  name_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  name_LT?: Maybe<Scalars["Int"]>;
+  name_LTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+}
+
+export interface ClusterScheduleCampaignUpdateConnectionInput {
+  node?: Maybe<CampaignUpdateInput>;
+}
+
+export interface ClusterScheduleCampaignUpdateFieldInput {
+  connect?: Maybe<ClusterScheduleCampaignConnectFieldInput>;
+  create?: Maybe<ClusterScheduleCampaignCreateFieldInput>;
+  delete?: Maybe<ClusterScheduleCampaignDeleteFieldInput>;
+  disconnect?: Maybe<ClusterScheduleCampaignDisconnectFieldInput>;
+  update?: Maybe<ClusterScheduleCampaignUpdateConnectionInput>;
+  where?: Maybe<ClusterScheduleCampaignConnectionWhere>;
+}
+
+export interface ClusterScheduleClusterAggregateInput {
+  AND?: Maybe<Array<ClusterScheduleClusterAggregateInput>>;
+  OR?: Maybe<Array<ClusterScheduleClusterAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ClusterScheduleClusterNodeAggregationWhereInput>;
+}
+
+export interface ClusterScheduleClusterConnectFieldInput {
+  connect?: Maybe<ClusterConnectInput>;
+  where?: Maybe<ClusterConnectWhere>;
+}
+
+export interface ClusterScheduleClusterConnectionSort {
+  node?: Maybe<ClusterSort>;
+}
+
+export interface ClusterScheduleClusterConnectionWhere {
+  AND?: Maybe<Array<ClusterScheduleClusterConnectionWhere>>;
+  OR?: Maybe<Array<ClusterScheduleClusterConnectionWhere>>;
+  node?: Maybe<ClusterWhere>;
+  node_NOT?: Maybe<ClusterWhere>;
+}
+
+export interface ClusterScheduleClusterCreateFieldInput {
+  node: ClusterCreateInput;
+}
+
+export interface ClusterScheduleClusterDeleteFieldInput {
+  delete?: Maybe<ClusterDeleteInput>;
+  where?: Maybe<ClusterScheduleClusterConnectionWhere>;
+}
+
+export interface ClusterScheduleClusterDisconnectFieldInput {
+  disconnect?: Maybe<ClusterDisconnectInput>;
+  where?: Maybe<ClusterScheduleClusterConnectionWhere>;
+}
+
+export interface ClusterScheduleClusterFieldInput {
+  connect?: Maybe<ClusterScheduleClusterConnectFieldInput>;
+  create?: Maybe<ClusterScheduleClusterCreateFieldInput>;
+}
+
+export interface ClusterScheduleClusterNodeAggregationWhereInput {
+  AND?: Maybe<Array<ClusterScheduleClusterNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ClusterScheduleClusterNodeAggregationWhereInput>>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  label_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  label_EQUAL?: Maybe<Scalars["String"]>;
+  label_GT?: Maybe<Scalars["Int"]>;
+  label_GTE?: Maybe<Scalars["Int"]>;
+  label_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  label_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  label_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  label_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  label_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  label_LT?: Maybe<Scalars["Int"]>;
+  label_LTE?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+}
+
+export interface ClusterScheduleClusterUpdateConnectionInput {
+  node?: Maybe<ClusterUpdateInput>;
+}
+
+export interface ClusterScheduleClusterUpdateFieldInput {
+  connect?: Maybe<ClusterScheduleClusterConnectFieldInput>;
+  create?: Maybe<ClusterScheduleClusterCreateFieldInput>;
+  delete?: Maybe<ClusterScheduleClusterDeleteFieldInput>;
+  disconnect?: Maybe<ClusterScheduleClusterDisconnectFieldInput>;
+  update?: Maybe<ClusterScheduleClusterUpdateConnectionInput>;
+  where?: Maybe<ClusterScheduleClusterConnectionWhere>;
+}
+
+export interface ClusterScheduleConnectFieldInput {
+  connect?: Maybe<Array<ClusterScheduleConnectInput>>;
+  where?: Maybe<ClusterScheduleConnectWhere>;
+}
+
+export interface ClusterScheduleConnectInput {
+  campaign?: Maybe<ClusterScheduleCampaignConnectFieldInput>;
+  cluster?: Maybe<ClusterScheduleClusterConnectFieldInput>;
+  tier?: Maybe<ClusterScheduleTierConnectFieldInput>;
+}
+
+export interface ClusterScheduleConnectWhere {
+  node: ClusterScheduleWhere;
+}
+
+export interface ClusterScheduleConnectionSort {
+  node?: Maybe<ClusterScheduleSort>;
+}
+
+export interface ClusterScheduleConnectionWhere {
+  AND?: Maybe<Array<ClusterScheduleConnectionWhere>>;
+  OR?: Maybe<Array<ClusterScheduleConnectionWhere>>;
+  node?: Maybe<ClusterScheduleWhere>;
+  node_NOT?: Maybe<ClusterScheduleWhere>;
+}
+
+export interface ClusterScheduleCreateFieldInput {
+  node: ClusterScheduleCreateInput;
+}
+
+export interface ClusterScheduleCreateInput {
+  campaign?: Maybe<ClusterScheduleCampaignFieldInput>;
+  cluster?: Maybe<ClusterScheduleClusterFieldInput>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  tier?: Maybe<ClusterScheduleTierFieldInput>;
+}
+
+export interface ClusterScheduleDeleteFieldInput {
+  delete?: Maybe<ClusterScheduleDeleteInput>;
+  where?: Maybe<ClusterScheduleConnectionWhere>;
+}
+
+export interface ClusterScheduleDeleteInput {
+  campaign?: Maybe<ClusterScheduleCampaignDeleteFieldInput>;
+  cluster?: Maybe<ClusterScheduleClusterDeleteFieldInput>;
+  tier?: Maybe<ClusterScheduleTierDeleteFieldInput>;
+}
+
+export interface ClusterScheduleDisconnectFieldInput {
+  disconnect?: Maybe<ClusterScheduleDisconnectInput>;
+  where?: Maybe<ClusterScheduleConnectionWhere>;
+}
+
+export interface ClusterScheduleDisconnectInput {
+  campaign?: Maybe<ClusterScheduleCampaignDisconnectFieldInput>;
+  cluster?: Maybe<ClusterScheduleClusterDisconnectFieldInput>;
+  tier?: Maybe<ClusterScheduleTierDisconnectFieldInput>;
+}
+
+export interface ClusterScheduleFieldInput {
+  connect?: Maybe<Array<ClusterScheduleConnectFieldInput>>;
+  create?: Maybe<Array<ClusterScheduleCreateFieldInput>>;
+}
+
+export interface ClusterScheduleNodeAggregationWhereInput {
+  AND?: Maybe<Array<ClusterScheduleNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ClusterScheduleNodeAggregationWhereInput>>;
+  endDate_EQUAL?: Maybe<Scalars["DateTime"]>;
+  endDate_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_LTE?: Maybe<Scalars["DateTime"]>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  startDate_EQUAL?: Maybe<Scalars["DateTime"]>;
+  startDate_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_GTE?: Maybe<Scalars["DateTime"]>;
+  startDate_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_GTE?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_GTE?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_LTE?: Maybe<Scalars["DateTime"]>;
+}
+
+export interface ClusterScheduleOptions {
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  /** Specify one or more ClusterScheduleSort objects to sort ClusterSchedules by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<ClusterScheduleSort>>>;
+}
+
+export interface ClusterScheduleRelationInput {
+  campaign?: Maybe<ClusterScheduleCampaignCreateFieldInput>;
+  cluster?: Maybe<ClusterScheduleClusterCreateFieldInput>;
+  tier?: Maybe<ClusterScheduleTierCreateFieldInput>;
+}
+
+/** Fields to sort ClusterSchedules by. The order in which sorts are applied is not guaranteed when specifying many fields in one ClusterScheduleSort object. */
+export interface ClusterScheduleSort {
+  endDate?: Maybe<SortDirection>;
+  id?: Maybe<SortDirection>;
+  startDate?: Maybe<SortDirection>;
+}
+
+export interface ClusterScheduleTierAggregateInput {
+  AND?: Maybe<Array<ClusterScheduleTierAggregateInput>>;
+  OR?: Maybe<Array<ClusterScheduleTierAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ClusterScheduleTierNodeAggregationWhereInput>;
+}
+
+export interface ClusterScheduleTierConnectFieldInput {
+  connect?: Maybe<ClusterTierConnectInput>;
+  where?: Maybe<ClusterTierConnectWhere>;
+}
+
+export interface ClusterScheduleTierConnectionSort {
+  node?: Maybe<ClusterTierSort>;
+}
+
+export interface ClusterScheduleTierConnectionWhere {
+  AND?: Maybe<Array<ClusterScheduleTierConnectionWhere>>;
+  OR?: Maybe<Array<ClusterScheduleTierConnectionWhere>>;
+  node?: Maybe<ClusterTierWhere>;
+  node_NOT?: Maybe<ClusterTierWhere>;
+}
+
+export interface ClusterScheduleTierCreateFieldInput {
+  node: ClusterTierCreateInput;
+}
+
+export interface ClusterScheduleTierDeleteFieldInput {
+  delete?: Maybe<ClusterTierDeleteInput>;
+  where?: Maybe<ClusterScheduleTierConnectionWhere>;
+}
+
+export interface ClusterScheduleTierDisconnectFieldInput {
+  disconnect?: Maybe<ClusterTierDisconnectInput>;
+  where?: Maybe<ClusterScheduleTierConnectionWhere>;
+}
+
+export interface ClusterScheduleTierFieldInput {
+  connect?: Maybe<ClusterScheduleTierConnectFieldInput>;
+  create?: Maybe<ClusterScheduleTierCreateFieldInput>;
+}
+
+export interface ClusterScheduleTierNodeAggregationWhereInput {
+  AND?: Maybe<Array<ClusterScheduleTierNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ClusterScheduleTierNodeAggregationWhereInput>>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  name_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  name_EQUAL?: Maybe<Scalars["String"]>;
+  name_GT?: Maybe<Scalars["Int"]>;
+  name_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  name_LT?: Maybe<Scalars["Int"]>;
+  name_LTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  percent_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  percent_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  percent_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  percent_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  percent_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  percent_EQUAL?: Maybe<Scalars["Float"]>;
+  percent_GT?: Maybe<Scalars["Float"]>;
+  percent_GTE?: Maybe<Scalars["Float"]>;
+  percent_LT?: Maybe<Scalars["Float"]>;
+  percent_LTE?: Maybe<Scalars["Float"]>;
+  percent_MAX_EQUAL?: Maybe<Scalars["Float"]>;
+  percent_MAX_GT?: Maybe<Scalars["Float"]>;
+  percent_MAX_GTE?: Maybe<Scalars["Float"]>;
+  percent_MAX_LT?: Maybe<Scalars["Float"]>;
+  percent_MAX_LTE?: Maybe<Scalars["Float"]>;
+  percent_MIN_EQUAL?: Maybe<Scalars["Float"]>;
+  percent_MIN_GT?: Maybe<Scalars["Float"]>;
+  percent_MIN_GTE?: Maybe<Scalars["Float"]>;
+  percent_MIN_LT?: Maybe<Scalars["Float"]>;
+  percent_MIN_LTE?: Maybe<Scalars["Float"]>;
+}
+
+export interface ClusterScheduleTierUpdateConnectionInput {
+  node?: Maybe<ClusterTierUpdateInput>;
+}
+
+export interface ClusterScheduleTierUpdateFieldInput {
+  connect?: Maybe<ClusterScheduleTierConnectFieldInput>;
+  create?: Maybe<ClusterScheduleTierCreateFieldInput>;
+  delete?: Maybe<ClusterScheduleTierDeleteFieldInput>;
+  disconnect?: Maybe<ClusterScheduleTierDisconnectFieldInput>;
+  update?: Maybe<ClusterScheduleTierUpdateConnectionInput>;
+  where?: Maybe<ClusterScheduleTierConnectionWhere>;
+}
+
+export interface ClusterScheduleUpdateConnectionInput {
+  node?: Maybe<ClusterScheduleUpdateInput>;
+}
+
+export interface ClusterScheduleUpdateFieldInput {
+  connect?: Maybe<Array<ClusterScheduleConnectFieldInput>>;
+  create?: Maybe<Array<ClusterScheduleCreateFieldInput>>;
+  delete?: Maybe<Array<ClusterScheduleDeleteFieldInput>>;
+  disconnect?: Maybe<Array<ClusterScheduleDisconnectFieldInput>>;
+  update?: Maybe<ClusterScheduleUpdateConnectionInput>;
+  where?: Maybe<ClusterScheduleConnectionWhere>;
+}
+
+export interface ClusterScheduleUpdateInput {
+  campaign?: Maybe<ClusterScheduleCampaignUpdateFieldInput>;
+  cluster?: Maybe<ClusterScheduleClusterUpdateFieldInput>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  tier?: Maybe<ClusterScheduleTierUpdateFieldInput>;
+}
+
+export interface ClusterScheduleWhere {
+  AND?: Maybe<Array<ClusterScheduleWhere>>;
+  OR?: Maybe<Array<ClusterScheduleWhere>>;
+  campaign?: Maybe<CampaignWhere>;
+  campaignAggregate?: Maybe<ClusterScheduleCampaignAggregateInput>;
+  campaignConnection?: Maybe<ClusterScheduleCampaignConnectionWhere>;
+  campaignConnection_NOT?: Maybe<ClusterScheduleCampaignConnectionWhere>;
+  campaign_NOT?: Maybe<CampaignWhere>;
+  cluster?: Maybe<ClusterWhere>;
+  clusterAggregate?: Maybe<ClusterScheduleClusterAggregateInput>;
+  clusterConnection?: Maybe<ClusterScheduleClusterConnectionWhere>;
+  clusterConnection_NOT?: Maybe<ClusterScheduleClusterConnectionWhere>;
+  cluster_NOT?: Maybe<ClusterWhere>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  endDate_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  endDate_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_NOT?: Maybe<Scalars["DateTime"]>;
+  endDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  startDate_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_GTE?: Maybe<Scalars["DateTime"]>;
+  startDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startDate_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_NOT?: Maybe<Scalars["DateTime"]>;
+  startDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  tier?: Maybe<ClusterTierWhere>;
+  tierAggregate?: Maybe<ClusterScheduleTierAggregateInput>;
+  tierConnection?: Maybe<ClusterScheduleTierConnectionWhere>;
+  tierConnection_NOT?: Maybe<ClusterScheduleTierConnectionWhere>;
+  tier_NOT?: Maybe<ClusterTierWhere>;
 }
 
 /** Fields to sort Clusters by. The order in which sorts are applied is not guaranteed when specifying many fields in one ClusterSort object. */
@@ -606,9 +1058,285 @@ export interface ClusterSort {
   label?: Maybe<SortDirection>;
 }
 
+export interface ClusterTierClusterAggregateInput {
+  AND?: Maybe<Array<ClusterTierClusterAggregateInput>>;
+  OR?: Maybe<Array<ClusterTierClusterAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ClusterTierClusterNodeAggregationWhereInput>;
+}
+
+export interface ClusterTierClusterConnectFieldInput {
+  connect?: Maybe<ClusterConnectInput>;
+  where?: Maybe<ClusterConnectWhere>;
+}
+
+export interface ClusterTierClusterConnectionSort {
+  node?: Maybe<ClusterSort>;
+}
+
+export interface ClusterTierClusterConnectionWhere {
+  AND?: Maybe<Array<ClusterTierClusterConnectionWhere>>;
+  OR?: Maybe<Array<ClusterTierClusterConnectionWhere>>;
+  node?: Maybe<ClusterWhere>;
+  node_NOT?: Maybe<ClusterWhere>;
+}
+
+export interface ClusterTierClusterCreateFieldInput {
+  node: ClusterCreateInput;
+}
+
+export interface ClusterTierClusterDeleteFieldInput {
+  delete?: Maybe<ClusterDeleteInput>;
+  where?: Maybe<ClusterTierClusterConnectionWhere>;
+}
+
+export interface ClusterTierClusterDisconnectFieldInput {
+  disconnect?: Maybe<ClusterDisconnectInput>;
+  where?: Maybe<ClusterTierClusterConnectionWhere>;
+}
+
+export interface ClusterTierClusterFieldInput {
+  connect?: Maybe<ClusterTierClusterConnectFieldInput>;
+  create?: Maybe<ClusterTierClusterCreateFieldInput>;
+}
+
+export interface ClusterTierClusterNodeAggregationWhereInput {
+  AND?: Maybe<Array<ClusterTierClusterNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ClusterTierClusterNodeAggregationWhereInput>>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  label_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  label_EQUAL?: Maybe<Scalars["String"]>;
+  label_GT?: Maybe<Scalars["Int"]>;
+  label_GTE?: Maybe<Scalars["Int"]>;
+  label_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  label_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  label_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  label_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  label_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  label_LT?: Maybe<Scalars["Int"]>;
+  label_LTE?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+}
+
+export interface ClusterTierClusterUpdateConnectionInput {
+  node?: Maybe<ClusterUpdateInput>;
+}
+
+export interface ClusterTierClusterUpdateFieldInput {
+  connect?: Maybe<ClusterTierClusterConnectFieldInput>;
+  create?: Maybe<ClusterTierClusterCreateFieldInput>;
+  delete?: Maybe<ClusterTierClusterDeleteFieldInput>;
+  disconnect?: Maybe<ClusterTierClusterDisconnectFieldInput>;
+  update?: Maybe<ClusterTierClusterUpdateConnectionInput>;
+  where?: Maybe<ClusterTierClusterConnectionWhere>;
+}
+
+export interface ClusterTierConnectInput {
+  cluster?: Maybe<ClusterTierClusterConnectFieldInput>;
+}
+
+export interface ClusterTierConnectWhere {
+  node: ClusterTierWhere;
+}
+
+export interface ClusterTierCreateInput {
+  cluster?: Maybe<ClusterTierClusterFieldInput>;
+  name?: Maybe<Scalars["String"]>;
+  percent?: Maybe<Scalars["Float"]>;
+}
+
+export interface ClusterTierDeleteInput {
+  cluster?: Maybe<ClusterTierClusterDeleteFieldInput>;
+}
+
+export interface ClusterTierDisconnectInput {
+  cluster?: Maybe<ClusterTierClusterDisconnectFieldInput>;
+}
+
+export interface ClusterTierOptions {
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  /** Specify one or more ClusterTierSort objects to sort ClusterTiers by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<ClusterTierSort>>>;
+}
+
+export interface ClusterTierRelationInput {
+  cluster?: Maybe<ClusterTierClusterCreateFieldInput>;
+}
+
+/** Fields to sort ClusterTiers by. The order in which sorts are applied is not guaranteed when specifying many fields in one ClusterTierSort object. */
+export interface ClusterTierSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  percent?: Maybe<SortDirection>;
+}
+
+export interface ClusterTierUpdateInput {
+  cluster?: Maybe<ClusterTierClusterUpdateFieldInput>;
+  name?: Maybe<Scalars["String"]>;
+  percent?: Maybe<Scalars["Float"]>;
+}
+
+export interface ClusterTierWhere {
+  AND?: Maybe<Array<ClusterTierWhere>>;
+  OR?: Maybe<Array<ClusterTierWhere>>;
+  cluster?: Maybe<ClusterWhere>;
+  clusterAggregate?: Maybe<ClusterTierClusterAggregateInput>;
+  clusterConnection?: Maybe<ClusterTierClusterConnectionWhere>;
+  clusterConnection_NOT?: Maybe<ClusterTierClusterConnectionWhere>;
+  cluster_NOT?: Maybe<ClusterWhere>;
+  id?: Maybe<Scalars["ID"]>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  percent?: Maybe<Scalars["Float"]>;
+  percent_GT?: Maybe<Scalars["Float"]>;
+  percent_GTE?: Maybe<Scalars["Float"]>;
+  percent_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  percent_LT?: Maybe<Scalars["Float"]>;
+  percent_LTE?: Maybe<Scalars["Float"]>;
+  percent_NOT?: Maybe<Scalars["Float"]>;
+  percent_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+}
+
+export interface ClusterTiersAggregateInput {
+  AND?: Maybe<Array<ClusterTiersAggregateInput>>;
+  OR?: Maybe<Array<ClusterTiersAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ClusterTiersNodeAggregationWhereInput>;
+}
+
+export interface ClusterTiersConnectFieldInput {
+  connect?: Maybe<Array<ClusterTierConnectInput>>;
+  where?: Maybe<ClusterTierConnectWhere>;
+}
+
+export interface ClusterTiersConnectionSort {
+  node?: Maybe<ClusterTierSort>;
+}
+
+export interface ClusterTiersConnectionWhere {
+  AND?: Maybe<Array<ClusterTiersConnectionWhere>>;
+  OR?: Maybe<Array<ClusterTiersConnectionWhere>>;
+  node?: Maybe<ClusterTierWhere>;
+  node_NOT?: Maybe<ClusterTierWhere>;
+}
+
+export interface ClusterTiersCreateFieldInput {
+  node: ClusterTierCreateInput;
+}
+
+export interface ClusterTiersDeleteFieldInput {
+  delete?: Maybe<ClusterTierDeleteInput>;
+  where?: Maybe<ClusterTiersConnectionWhere>;
+}
+
+export interface ClusterTiersDisconnectFieldInput {
+  disconnect?: Maybe<ClusterTierDisconnectInput>;
+  where?: Maybe<ClusterTiersConnectionWhere>;
+}
+
+export interface ClusterTiersFieldInput {
+  connect?: Maybe<Array<ClusterTiersConnectFieldInput>>;
+  create?: Maybe<Array<ClusterTiersCreateFieldInput>>;
+}
+
+export interface ClusterTiersNodeAggregationWhereInput {
+  AND?: Maybe<Array<ClusterTiersNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ClusterTiersNodeAggregationWhereInput>>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  name_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  name_EQUAL?: Maybe<Scalars["String"]>;
+  name_GT?: Maybe<Scalars["Int"]>;
+  name_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  name_LT?: Maybe<Scalars["Int"]>;
+  name_LTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  percent_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  percent_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  percent_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  percent_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  percent_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  percent_EQUAL?: Maybe<Scalars["Float"]>;
+  percent_GT?: Maybe<Scalars["Float"]>;
+  percent_GTE?: Maybe<Scalars["Float"]>;
+  percent_LT?: Maybe<Scalars["Float"]>;
+  percent_LTE?: Maybe<Scalars["Float"]>;
+  percent_MAX_EQUAL?: Maybe<Scalars["Float"]>;
+  percent_MAX_GT?: Maybe<Scalars["Float"]>;
+  percent_MAX_GTE?: Maybe<Scalars["Float"]>;
+  percent_MAX_LT?: Maybe<Scalars["Float"]>;
+  percent_MAX_LTE?: Maybe<Scalars["Float"]>;
+  percent_MIN_EQUAL?: Maybe<Scalars["Float"]>;
+  percent_MIN_GT?: Maybe<Scalars["Float"]>;
+  percent_MIN_GTE?: Maybe<Scalars["Float"]>;
+  percent_MIN_LT?: Maybe<Scalars["Float"]>;
+  percent_MIN_LTE?: Maybe<Scalars["Float"]>;
+}
+
+export interface ClusterTiersUpdateConnectionInput {
+  node?: Maybe<ClusterTierUpdateInput>;
+}
+
+export interface ClusterTiersUpdateFieldInput {
+  connect?: Maybe<Array<ClusterTiersConnectFieldInput>>;
+  create?: Maybe<Array<ClusterTiersCreateFieldInput>>;
+  delete?: Maybe<Array<ClusterTiersDeleteFieldInput>>;
+  disconnect?: Maybe<Array<ClusterTiersDisconnectFieldInput>>;
+  update?: Maybe<ClusterTiersUpdateConnectionInput>;
+  where?: Maybe<ClusterTiersConnectionWhere>;
+}
+
 export interface ClusterUpdateInput {
   displays?: Maybe<Array<ClusterDisplaysUpdateFieldInput>>;
   label?: Maybe<Scalars["String"]>;
+  schedule?: Maybe<Array<ClusterScheduleUpdateFieldInput>>;
+  tiers?: Maybe<Array<ClusterTiersUpdateFieldInput>>;
 }
 
 export interface ClusterWhere {
@@ -639,6 +1367,16 @@ export interface ClusterWhere {
   label_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
   label_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   label_STARTS_WITH?: Maybe<Scalars["String"]>;
+  schedule?: Maybe<ClusterScheduleWhere>;
+  scheduleAggregate?: Maybe<ClusterScheduleAggregateInput>;
+  scheduleConnection?: Maybe<ClusterScheduleConnectionWhere>;
+  scheduleConnection_NOT?: Maybe<ClusterScheduleConnectionWhere>;
+  schedule_NOT?: Maybe<ClusterScheduleWhere>;
+  tiers?: Maybe<ClusterTierWhere>;
+  tiersAggregate?: Maybe<ClusterTiersAggregateInput>;
+  tiersConnection?: Maybe<ClusterTiersConnectionWhere>;
+  tiersConnection_NOT?: Maybe<ClusterTiersConnectionWhere>;
+  tiers_NOT?: Maybe<ClusterTierWhere>;
 }
 
 export interface ComputerConnectInput {
@@ -1628,19 +2366,15 @@ export const generatedSchema = {
     },
     assets: { __type: "[CampaignAsset]" },
     customer: { __type: "String" },
-    endDate: { __type: "DateTime" },
     id: { __type: "ID!" },
     name: { __type: "String" },
-    startDate: { __type: "DateTime" },
   },
   CampaignAggregateSelection: {
     __typename: { __type: "String!" },
     count: { __type: "Int!" },
     customer: { __type: "StringAggregateSelection!" },
-    endDate: { __type: "DateTimeAggregateSelection!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
-    startDate: { __type: "DateTimeAggregateSelection!" },
   },
   CampaignAnalytic: {
     __typename: { __type: "String!" },
@@ -1692,10 +2426,8 @@ export const generatedSchema = {
   CampaignAnalyticCampaignCampaignNodeAggregateSelection: {
     __typename: { __type: "String!" },
     customer: { __type: "StringAggregateSelection!" },
-    endDate: { __type: "DateTimeAggregateSelection!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
-    startDate: { __type: "DateTimeAggregateSelection!" },
   },
   CampaignAnalyticCampaignConnectFieldInput: {
     connect: { __type: "CampaignConnectInput" },
@@ -1752,21 +2484,6 @@ export const generatedSchema = {
     customer_SHORTEST_GTE: { __type: "Int" },
     customer_SHORTEST_LT: { __type: "Int" },
     customer_SHORTEST_LTE: { __type: "Int" },
-    endDate_EQUAL: { __type: "DateTime" },
-    endDate_GT: { __type: "DateTime" },
-    endDate_GTE: { __type: "DateTime" },
-    endDate_LT: { __type: "DateTime" },
-    endDate_LTE: { __type: "DateTime" },
-    endDate_MAX_EQUAL: { __type: "DateTime" },
-    endDate_MAX_GT: { __type: "DateTime" },
-    endDate_MAX_GTE: { __type: "DateTime" },
-    endDate_MAX_LT: { __type: "DateTime" },
-    endDate_MAX_LTE: { __type: "DateTime" },
-    endDate_MIN_EQUAL: { __type: "DateTime" },
-    endDate_MIN_GT: { __type: "DateTime" },
-    endDate_MIN_GTE: { __type: "DateTime" },
-    endDate_MIN_LT: { __type: "DateTime" },
-    endDate_MIN_LTE: { __type: "DateTime" },
     id_EQUAL: { __type: "ID" },
     name_AVERAGE_EQUAL: { __type: "Float" },
     name_AVERAGE_GT: { __type: "Float" },
@@ -1788,21 +2505,6 @@ export const generatedSchema = {
     name_SHORTEST_GTE: { __type: "Int" },
     name_SHORTEST_LT: { __type: "Int" },
     name_SHORTEST_LTE: { __type: "Int" },
-    startDate_EQUAL: { __type: "DateTime" },
-    startDate_GT: { __type: "DateTime" },
-    startDate_GTE: { __type: "DateTime" },
-    startDate_LT: { __type: "DateTime" },
-    startDate_LTE: { __type: "DateTime" },
-    startDate_MAX_EQUAL: { __type: "DateTime" },
-    startDate_MAX_GT: { __type: "DateTime" },
-    startDate_MAX_GTE: { __type: "DateTime" },
-    startDate_MAX_LT: { __type: "DateTime" },
-    startDate_MAX_LTE: { __type: "DateTime" },
-    startDate_MIN_EQUAL: { __type: "DateTime" },
-    startDate_MIN_GT: { __type: "DateTime" },
-    startDate_MIN_GTE: { __type: "DateTime" },
-    startDate_MIN_LT: { __type: "DateTime" },
-    startDate_MIN_LTE: { __type: "DateTime" },
   },
   CampaignAnalyticCampaignRelationship: {
     __typename: { __type: "String!" },
@@ -2052,9 +2754,7 @@ export const generatedSchema = {
   CampaignCreateInput: {
     analytics: { __type: "CampaignAnalyticsFieldInput" },
     customer: { __type: "String" },
-    endDate: { __type: "DateTime" },
     name: { __type: "String" },
-    startDate: { __type: "DateTime" },
   },
   CampaignDeleteInput: {
     analytics: { __type: "[CampaignAnalyticsDeleteFieldInput!]" },
@@ -2072,17 +2772,13 @@ export const generatedSchema = {
   },
   CampaignSort: {
     customer: { __type: "SortDirection" },
-    endDate: { __type: "SortDirection" },
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
-    startDate: { __type: "SortDirection" },
   },
   CampaignUpdateInput: {
     analytics: { __type: "[CampaignAnalyticsUpdateFieldInput!]" },
     customer: { __type: "String" },
-    endDate: { __type: "DateTime" },
     name: { __type: "String" },
-    startDate: { __type: "DateTime" },
   },
   CampaignWhere: {
     AND: { __type: "[CampaignWhere!]" },
@@ -2102,14 +2798,6 @@ export const generatedSchema = {
     customer_NOT_IN: { __type: "[String]" },
     customer_NOT_STARTS_WITH: { __type: "String" },
     customer_STARTS_WITH: { __type: "String" },
-    endDate: { __type: "DateTime" },
-    endDate_GT: { __type: "DateTime" },
-    endDate_GTE: { __type: "DateTime" },
-    endDate_IN: { __type: "[DateTime]" },
-    endDate_LT: { __type: "DateTime" },
-    endDate_LTE: { __type: "DateTime" },
-    endDate_NOT: { __type: "DateTime" },
-    endDate_NOT_IN: { __type: "[DateTime]" },
     id: { __type: "ID" },
     id_CONTAINS: { __type: "ID" },
     id_ENDS_WITH: { __type: "ID" },
@@ -2130,14 +2818,6 @@ export const generatedSchema = {
     name_NOT_IN: { __type: "[String]" },
     name_NOT_STARTS_WITH: { __type: "String" },
     name_STARTS_WITH: { __type: "String" },
-    startDate: { __type: "DateTime" },
-    startDate_GT: { __type: "DateTime" },
-    startDate_GTE: { __type: "DateTime" },
-    startDate_IN: { __type: "[DateTime]" },
-    startDate_LT: { __type: "DateTime" },
-    startDate_LTE: { __type: "DateTime" },
-    startDate_NOT: { __type: "DateTime" },
-    startDate_NOT_IN: { __type: "[DateTime]" },
   },
   Cluster: {
     __typename: { __type: "String!" },
@@ -2160,6 +2840,43 @@ export const generatedSchema = {
     },
     id: { __type: "ID!" },
     label: { __type: "String" },
+    schedule: {
+      __type: "[ClusterSchedule]",
+      __args: {
+        options: "ClusterScheduleOptions",
+        where: "ClusterScheduleWhere",
+      },
+    },
+    scheduleAggregate: {
+      __type: "ClusterClusterScheduleScheduleAggregationSelection",
+      __args: { where: "ClusterScheduleWhere" },
+    },
+    scheduleConnection: {
+      __type: "ClusterScheduleConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ClusterScheduleConnectionSort!]",
+        where: "ClusterScheduleConnectionWhere",
+      },
+    },
+    tiers: {
+      __type: "[ClusterTier]",
+      __args: { options: "ClusterTierOptions", where: "ClusterTierWhere" },
+    },
+    tiersAggregate: {
+      __type: "ClusterClusterTierTiersAggregationSelection",
+      __args: { where: "ClusterTierWhere" },
+    },
+    tiersConnection: {
+      __type: "ClusterTiersConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ClusterTiersConnectionSort!]",
+        where: "ClusterTiersConnectionWhere",
+      },
+    },
   },
   ClusterAggregateSelection: {
     __typename: { __type: "String!" },
@@ -2167,19 +2884,49 @@ export const generatedSchema = {
     id: { __type: "IDAggregateSelection!" },
     label: { __type: "StringAggregateSelection!" },
   },
+  ClusterClusterScheduleScheduleAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ClusterClusterScheduleScheduleNodeAggregateSelection" },
+  },
+  ClusterClusterScheduleScheduleNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    endDate: { __type: "DateTimeAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    startDate: { __type: "DateTimeAggregateSelection!" },
+  },
+  ClusterClusterTierTiersAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ClusterClusterTierTiersNodeAggregateSelection" },
+  },
+  ClusterClusterTierTiersNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    id: { __type: "IDAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
+    percent: { __type: "FloatAggregateSelection!" },
+  },
   ClusterConnectInput: {
     displays: { __type: "[ClusterDisplaysConnectFieldInput!]" },
+    schedule: { __type: "[ClusterScheduleConnectFieldInput!]" },
+    tiers: { __type: "[ClusterTiersConnectFieldInput!]" },
   },
   ClusterConnectWhere: { node: { __type: "ClusterWhere!" } },
   ClusterCreateInput: {
     displays: { __type: "ClusterDisplaysFieldInput" },
     label: { __type: "String" },
+    schedule: { __type: "ClusterScheduleFieldInput" },
+    tiers: { __type: "ClusterTiersFieldInput" },
   },
   ClusterDeleteInput: {
     displays: { __type: "[ClusterDisplaysDeleteFieldInput!]" },
+    schedule: { __type: "[ClusterScheduleDeleteFieldInput!]" },
+    tiers: { __type: "[ClusterTiersDeleteFieldInput!]" },
   },
   ClusterDisconnectInput: {
     displays: { __type: "[ClusterDisplaysDisconnectFieldInput!]" },
+    schedule: { __type: "[ClusterScheduleDisconnectFieldInput!]" },
+    tiers: { __type: "[ClusterTiersDisconnectFieldInput!]" },
   },
   ClusterDisplayDisplaysAggregationSelection: {
     __typename: { __type: "String!" },
@@ -2279,14 +3026,882 @@ export const generatedSchema = {
   },
   ClusterRelationInput: {
     displays: { __type: "[ClusterDisplaysCreateFieldInput!]" },
+    schedule: { __type: "[ClusterScheduleCreateFieldInput!]" },
+    tiers: { __type: "[ClusterTiersCreateFieldInput!]" },
+  },
+  ClusterSchedule: {
+    __typename: { __type: "String!" },
+    campaign: {
+      __type: "Campaign",
+      __args: { options: "CampaignOptions", where: "CampaignWhere" },
+    },
+    campaignAggregate: {
+      __type: "ClusterScheduleCampaignCampaignAggregationSelection",
+      __args: { where: "CampaignWhere" },
+    },
+    campaignConnection: {
+      __type: "ClusterScheduleCampaignConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ClusterScheduleCampaignConnectionSort!]",
+        where: "ClusterScheduleCampaignConnectionWhere",
+      },
+    },
+    cluster: {
+      __type: "Cluster",
+      __args: { options: "ClusterOptions", where: "ClusterWhere" },
+    },
+    clusterAggregate: {
+      __type: "ClusterScheduleClusterClusterAggregationSelection",
+      __args: { where: "ClusterWhere" },
+    },
+    clusterConnection: {
+      __type: "ClusterScheduleClusterConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ClusterScheduleClusterConnectionSort!]",
+        where: "ClusterScheduleClusterConnectionWhere",
+      },
+    },
+    endDate: { __type: "DateTime" },
+    id: { __type: "ID!" },
+    startDate: { __type: "DateTime" },
+    tier: {
+      __type: "ClusterTier",
+      __args: { options: "ClusterTierOptions", where: "ClusterTierWhere" },
+    },
+    tierAggregate: {
+      __type: "ClusterScheduleClusterTierTierAggregationSelection",
+      __args: { where: "ClusterTierWhere" },
+    },
+    tierConnection: {
+      __type: "ClusterScheduleTierConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ClusterScheduleTierConnectionSort!]",
+        where: "ClusterScheduleTierConnectionWhere",
+      },
+    },
+  },
+  ClusterScheduleAggregateInput: {
+    AND: { __type: "[ClusterScheduleAggregateInput!]" },
+    OR: { __type: "[ClusterScheduleAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ClusterScheduleNodeAggregationWhereInput" },
+  },
+  ClusterScheduleAggregateSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    endDate: { __type: "DateTimeAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    startDate: { __type: "DateTimeAggregateSelection!" },
+  },
+  ClusterScheduleCampaignAggregateInput: {
+    AND: { __type: "[ClusterScheduleCampaignAggregateInput!]" },
+    OR: { __type: "[ClusterScheduleCampaignAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ClusterScheduleCampaignNodeAggregationWhereInput" },
+  },
+  ClusterScheduleCampaignCampaignAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ClusterScheduleCampaignCampaignNodeAggregateSelection" },
+  },
+  ClusterScheduleCampaignCampaignNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    customer: { __type: "StringAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
+  },
+  ClusterScheduleCampaignConnectFieldInput: {
+    connect: { __type: "CampaignConnectInput" },
+    where: { __type: "CampaignConnectWhere" },
+  },
+  ClusterScheduleCampaignConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ClusterScheduleCampaignRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ClusterScheduleCampaignConnectionSort: { node: { __type: "CampaignSort" } },
+  ClusterScheduleCampaignConnectionWhere: {
+    AND: { __type: "[ClusterScheduleCampaignConnectionWhere!]" },
+    OR: { __type: "[ClusterScheduleCampaignConnectionWhere!]" },
+    node: { __type: "CampaignWhere" },
+    node_NOT: { __type: "CampaignWhere" },
+  },
+  ClusterScheduleCampaignCreateFieldInput: {
+    node: { __type: "CampaignCreateInput!" },
+  },
+  ClusterScheduleCampaignDeleteFieldInput: {
+    delete: { __type: "CampaignDeleteInput" },
+    where: { __type: "ClusterScheduleCampaignConnectionWhere" },
+  },
+  ClusterScheduleCampaignDisconnectFieldInput: {
+    disconnect: { __type: "CampaignDisconnectInput" },
+    where: { __type: "ClusterScheduleCampaignConnectionWhere" },
+  },
+  ClusterScheduleCampaignFieldInput: {
+    connect: { __type: "ClusterScheduleCampaignConnectFieldInput" },
+    create: { __type: "ClusterScheduleCampaignCreateFieldInput" },
+  },
+  ClusterScheduleCampaignNodeAggregationWhereInput: {
+    AND: { __type: "[ClusterScheduleCampaignNodeAggregationWhereInput!]" },
+    OR: { __type: "[ClusterScheduleCampaignNodeAggregationWhereInput!]" },
+    customer_AVERAGE_EQUAL: { __type: "Float" },
+    customer_AVERAGE_GT: { __type: "Float" },
+    customer_AVERAGE_GTE: { __type: "Float" },
+    customer_AVERAGE_LT: { __type: "Float" },
+    customer_AVERAGE_LTE: { __type: "Float" },
+    customer_EQUAL: { __type: "String" },
+    customer_GT: { __type: "Int" },
+    customer_GTE: { __type: "Int" },
+    customer_LONGEST_EQUAL: { __type: "Int" },
+    customer_LONGEST_GT: { __type: "Int" },
+    customer_LONGEST_GTE: { __type: "Int" },
+    customer_LONGEST_LT: { __type: "Int" },
+    customer_LONGEST_LTE: { __type: "Int" },
+    customer_LT: { __type: "Int" },
+    customer_LTE: { __type: "Int" },
+    customer_SHORTEST_EQUAL: { __type: "Int" },
+    customer_SHORTEST_GT: { __type: "Int" },
+    customer_SHORTEST_GTE: { __type: "Int" },
+    customer_SHORTEST_LT: { __type: "Int" },
+    customer_SHORTEST_LTE: { __type: "Int" },
+    id_EQUAL: { __type: "ID" },
+    name_AVERAGE_EQUAL: { __type: "Float" },
+    name_AVERAGE_GT: { __type: "Float" },
+    name_AVERAGE_GTE: { __type: "Float" },
+    name_AVERAGE_LT: { __type: "Float" },
+    name_AVERAGE_LTE: { __type: "Float" },
+    name_EQUAL: { __type: "String" },
+    name_GT: { __type: "Int" },
+    name_GTE: { __type: "Int" },
+    name_LONGEST_EQUAL: { __type: "Int" },
+    name_LONGEST_GT: { __type: "Int" },
+    name_LONGEST_GTE: { __type: "Int" },
+    name_LONGEST_LT: { __type: "Int" },
+    name_LONGEST_LTE: { __type: "Int" },
+    name_LT: { __type: "Int" },
+    name_LTE: { __type: "Int" },
+    name_SHORTEST_EQUAL: { __type: "Int" },
+    name_SHORTEST_GT: { __type: "Int" },
+    name_SHORTEST_GTE: { __type: "Int" },
+    name_SHORTEST_LT: { __type: "Int" },
+    name_SHORTEST_LTE: { __type: "Int" },
+  },
+  ClusterScheduleCampaignRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Campaign!" },
+  },
+  ClusterScheduleCampaignUpdateConnectionInput: {
+    node: { __type: "CampaignUpdateInput" },
+  },
+  ClusterScheduleCampaignUpdateFieldInput: {
+    connect: { __type: "ClusterScheduleCampaignConnectFieldInput" },
+    create: { __type: "ClusterScheduleCampaignCreateFieldInput" },
+    delete: { __type: "ClusterScheduleCampaignDeleteFieldInput" },
+    disconnect: { __type: "ClusterScheduleCampaignDisconnectFieldInput" },
+    update: { __type: "ClusterScheduleCampaignUpdateConnectionInput" },
+    where: { __type: "ClusterScheduleCampaignConnectionWhere" },
+  },
+  ClusterScheduleClusterAggregateInput: {
+    AND: { __type: "[ClusterScheduleClusterAggregateInput!]" },
+    OR: { __type: "[ClusterScheduleClusterAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ClusterScheduleClusterNodeAggregationWhereInput" },
+  },
+  ClusterScheduleClusterClusterAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ClusterScheduleClusterClusterNodeAggregateSelection" },
+  },
+  ClusterScheduleClusterClusterNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    id: { __type: "IDAggregateSelection!" },
+    label: { __type: "StringAggregateSelection!" },
+  },
+  ClusterScheduleClusterConnectFieldInput: {
+    connect: { __type: "ClusterConnectInput" },
+    where: { __type: "ClusterConnectWhere" },
+  },
+  ClusterScheduleClusterConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ClusterScheduleClusterRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ClusterScheduleClusterConnectionSort: { node: { __type: "ClusterSort" } },
+  ClusterScheduleClusterConnectionWhere: {
+    AND: { __type: "[ClusterScheduleClusterConnectionWhere!]" },
+    OR: { __type: "[ClusterScheduleClusterConnectionWhere!]" },
+    node: { __type: "ClusterWhere" },
+    node_NOT: { __type: "ClusterWhere" },
+  },
+  ClusterScheduleClusterCreateFieldInput: {
+    node: { __type: "ClusterCreateInput!" },
+  },
+  ClusterScheduleClusterDeleteFieldInput: {
+    delete: { __type: "ClusterDeleteInput" },
+    where: { __type: "ClusterScheduleClusterConnectionWhere" },
+  },
+  ClusterScheduleClusterDisconnectFieldInput: {
+    disconnect: { __type: "ClusterDisconnectInput" },
+    where: { __type: "ClusterScheduleClusterConnectionWhere" },
+  },
+  ClusterScheduleClusterFieldInput: {
+    connect: { __type: "ClusterScheduleClusterConnectFieldInput" },
+    create: { __type: "ClusterScheduleClusterCreateFieldInput" },
+  },
+  ClusterScheduleClusterNodeAggregationWhereInput: {
+    AND: { __type: "[ClusterScheduleClusterNodeAggregationWhereInput!]" },
+    OR: { __type: "[ClusterScheduleClusterNodeAggregationWhereInput!]" },
+    id_EQUAL: { __type: "ID" },
+    label_AVERAGE_EQUAL: { __type: "Float" },
+    label_AVERAGE_GT: { __type: "Float" },
+    label_AVERAGE_GTE: { __type: "Float" },
+    label_AVERAGE_LT: { __type: "Float" },
+    label_AVERAGE_LTE: { __type: "Float" },
+    label_EQUAL: { __type: "String" },
+    label_GT: { __type: "Int" },
+    label_GTE: { __type: "Int" },
+    label_LONGEST_EQUAL: { __type: "Int" },
+    label_LONGEST_GT: { __type: "Int" },
+    label_LONGEST_GTE: { __type: "Int" },
+    label_LONGEST_LT: { __type: "Int" },
+    label_LONGEST_LTE: { __type: "Int" },
+    label_LT: { __type: "Int" },
+    label_LTE: { __type: "Int" },
+    label_SHORTEST_EQUAL: { __type: "Int" },
+    label_SHORTEST_GT: { __type: "Int" },
+    label_SHORTEST_GTE: { __type: "Int" },
+    label_SHORTEST_LT: { __type: "Int" },
+    label_SHORTEST_LTE: { __type: "Int" },
+  },
+  ClusterScheduleClusterRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Cluster!" },
+  },
+  ClusterScheduleClusterTierTierAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ClusterScheduleClusterTierTierNodeAggregateSelection" },
+  },
+  ClusterScheduleClusterTierTierNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    id: { __type: "IDAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
+    percent: { __type: "FloatAggregateSelection!" },
+  },
+  ClusterScheduleClusterUpdateConnectionInput: {
+    node: { __type: "ClusterUpdateInput" },
+  },
+  ClusterScheduleClusterUpdateFieldInput: {
+    connect: { __type: "ClusterScheduleClusterConnectFieldInput" },
+    create: { __type: "ClusterScheduleClusterCreateFieldInput" },
+    delete: { __type: "ClusterScheduleClusterDeleteFieldInput" },
+    disconnect: { __type: "ClusterScheduleClusterDisconnectFieldInput" },
+    update: { __type: "ClusterScheduleClusterUpdateConnectionInput" },
+    where: { __type: "ClusterScheduleClusterConnectionWhere" },
+  },
+  ClusterScheduleConnectFieldInput: {
+    connect: { __type: "[ClusterScheduleConnectInput!]" },
+    where: { __type: "ClusterScheduleConnectWhere" },
+  },
+  ClusterScheduleConnectInput: {
+    campaign: { __type: "ClusterScheduleCampaignConnectFieldInput" },
+    cluster: { __type: "ClusterScheduleClusterConnectFieldInput" },
+    tier: { __type: "ClusterScheduleTierConnectFieldInput" },
+  },
+  ClusterScheduleConnectWhere: { node: { __type: "ClusterScheduleWhere!" } },
+  ClusterScheduleConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ClusterScheduleRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ClusterScheduleConnectionSort: { node: { __type: "ClusterScheduleSort" } },
+  ClusterScheduleConnectionWhere: {
+    AND: { __type: "[ClusterScheduleConnectionWhere!]" },
+    OR: { __type: "[ClusterScheduleConnectionWhere!]" },
+    node: { __type: "ClusterScheduleWhere" },
+    node_NOT: { __type: "ClusterScheduleWhere" },
+  },
+  ClusterScheduleCreateFieldInput: {
+    node: { __type: "ClusterScheduleCreateInput!" },
+  },
+  ClusterScheduleCreateInput: {
+    campaign: { __type: "ClusterScheduleCampaignFieldInput" },
+    cluster: { __type: "ClusterScheduleClusterFieldInput" },
+    endDate: { __type: "DateTime" },
+    startDate: { __type: "DateTime" },
+    tier: { __type: "ClusterScheduleTierFieldInput" },
+  },
+  ClusterScheduleDeleteFieldInput: {
+    delete: { __type: "ClusterScheduleDeleteInput" },
+    where: { __type: "ClusterScheduleConnectionWhere" },
+  },
+  ClusterScheduleDeleteInput: {
+    campaign: { __type: "ClusterScheduleCampaignDeleteFieldInput" },
+    cluster: { __type: "ClusterScheduleClusterDeleteFieldInput" },
+    tier: { __type: "ClusterScheduleTierDeleteFieldInput" },
+  },
+  ClusterScheduleDisconnectFieldInput: {
+    disconnect: { __type: "ClusterScheduleDisconnectInput" },
+    where: { __type: "ClusterScheduleConnectionWhere" },
+  },
+  ClusterScheduleDisconnectInput: {
+    campaign: { __type: "ClusterScheduleCampaignDisconnectFieldInput" },
+    cluster: { __type: "ClusterScheduleClusterDisconnectFieldInput" },
+    tier: { __type: "ClusterScheduleTierDisconnectFieldInput" },
+  },
+  ClusterScheduleFieldInput: {
+    connect: { __type: "[ClusterScheduleConnectFieldInput!]" },
+    create: { __type: "[ClusterScheduleCreateFieldInput!]" },
+  },
+  ClusterScheduleNodeAggregationWhereInput: {
+    AND: { __type: "[ClusterScheduleNodeAggregationWhereInput!]" },
+    OR: { __type: "[ClusterScheduleNodeAggregationWhereInput!]" },
+    endDate_EQUAL: { __type: "DateTime" },
+    endDate_GT: { __type: "DateTime" },
+    endDate_GTE: { __type: "DateTime" },
+    endDate_LT: { __type: "DateTime" },
+    endDate_LTE: { __type: "DateTime" },
+    endDate_MAX_EQUAL: { __type: "DateTime" },
+    endDate_MAX_GT: { __type: "DateTime" },
+    endDate_MAX_GTE: { __type: "DateTime" },
+    endDate_MAX_LT: { __type: "DateTime" },
+    endDate_MAX_LTE: { __type: "DateTime" },
+    endDate_MIN_EQUAL: { __type: "DateTime" },
+    endDate_MIN_GT: { __type: "DateTime" },
+    endDate_MIN_GTE: { __type: "DateTime" },
+    endDate_MIN_LT: { __type: "DateTime" },
+    endDate_MIN_LTE: { __type: "DateTime" },
+    id_EQUAL: { __type: "ID" },
+    startDate_EQUAL: { __type: "DateTime" },
+    startDate_GT: { __type: "DateTime" },
+    startDate_GTE: { __type: "DateTime" },
+    startDate_LT: { __type: "DateTime" },
+    startDate_LTE: { __type: "DateTime" },
+    startDate_MAX_EQUAL: { __type: "DateTime" },
+    startDate_MAX_GT: { __type: "DateTime" },
+    startDate_MAX_GTE: { __type: "DateTime" },
+    startDate_MAX_LT: { __type: "DateTime" },
+    startDate_MAX_LTE: { __type: "DateTime" },
+    startDate_MIN_EQUAL: { __type: "DateTime" },
+    startDate_MIN_GT: { __type: "DateTime" },
+    startDate_MIN_GTE: { __type: "DateTime" },
+    startDate_MIN_LT: { __type: "DateTime" },
+    startDate_MIN_LTE: { __type: "DateTime" },
+  },
+  ClusterScheduleOptions: {
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+    sort: { __type: "[ClusterScheduleSort]" },
+  },
+  ClusterScheduleRelationInput: {
+    campaign: { __type: "ClusterScheduleCampaignCreateFieldInput" },
+    cluster: { __type: "ClusterScheduleClusterCreateFieldInput" },
+    tier: { __type: "ClusterScheduleTierCreateFieldInput" },
+  },
+  ClusterScheduleRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "ClusterSchedule!" },
+  },
+  ClusterScheduleSort: {
+    endDate: { __type: "SortDirection" },
+    id: { __type: "SortDirection" },
+    startDate: { __type: "SortDirection" },
+  },
+  ClusterScheduleTierAggregateInput: {
+    AND: { __type: "[ClusterScheduleTierAggregateInput!]" },
+    OR: { __type: "[ClusterScheduleTierAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ClusterScheduleTierNodeAggregationWhereInput" },
+  },
+  ClusterScheduleTierConnectFieldInput: {
+    connect: { __type: "ClusterTierConnectInput" },
+    where: { __type: "ClusterTierConnectWhere" },
+  },
+  ClusterScheduleTierConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ClusterScheduleTierRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ClusterScheduleTierConnectionSort: { node: { __type: "ClusterTierSort" } },
+  ClusterScheduleTierConnectionWhere: {
+    AND: { __type: "[ClusterScheduleTierConnectionWhere!]" },
+    OR: { __type: "[ClusterScheduleTierConnectionWhere!]" },
+    node: { __type: "ClusterTierWhere" },
+    node_NOT: { __type: "ClusterTierWhere" },
+  },
+  ClusterScheduleTierCreateFieldInput: {
+    node: { __type: "ClusterTierCreateInput!" },
+  },
+  ClusterScheduleTierDeleteFieldInput: {
+    delete: { __type: "ClusterTierDeleteInput" },
+    where: { __type: "ClusterScheduleTierConnectionWhere" },
+  },
+  ClusterScheduleTierDisconnectFieldInput: {
+    disconnect: { __type: "ClusterTierDisconnectInput" },
+    where: { __type: "ClusterScheduleTierConnectionWhere" },
+  },
+  ClusterScheduleTierFieldInput: {
+    connect: { __type: "ClusterScheduleTierConnectFieldInput" },
+    create: { __type: "ClusterScheduleTierCreateFieldInput" },
+  },
+  ClusterScheduleTierNodeAggregationWhereInput: {
+    AND: { __type: "[ClusterScheduleTierNodeAggregationWhereInput!]" },
+    OR: { __type: "[ClusterScheduleTierNodeAggregationWhereInput!]" },
+    id_EQUAL: { __type: "ID" },
+    name_AVERAGE_EQUAL: { __type: "Float" },
+    name_AVERAGE_GT: { __type: "Float" },
+    name_AVERAGE_GTE: { __type: "Float" },
+    name_AVERAGE_LT: { __type: "Float" },
+    name_AVERAGE_LTE: { __type: "Float" },
+    name_EQUAL: { __type: "String" },
+    name_GT: { __type: "Int" },
+    name_GTE: { __type: "Int" },
+    name_LONGEST_EQUAL: { __type: "Int" },
+    name_LONGEST_GT: { __type: "Int" },
+    name_LONGEST_GTE: { __type: "Int" },
+    name_LONGEST_LT: { __type: "Int" },
+    name_LONGEST_LTE: { __type: "Int" },
+    name_LT: { __type: "Int" },
+    name_LTE: { __type: "Int" },
+    name_SHORTEST_EQUAL: { __type: "Int" },
+    name_SHORTEST_GT: { __type: "Int" },
+    name_SHORTEST_GTE: { __type: "Int" },
+    name_SHORTEST_LT: { __type: "Int" },
+    name_SHORTEST_LTE: { __type: "Int" },
+    percent_AVERAGE_EQUAL: { __type: "Float" },
+    percent_AVERAGE_GT: { __type: "Float" },
+    percent_AVERAGE_GTE: { __type: "Float" },
+    percent_AVERAGE_LT: { __type: "Float" },
+    percent_AVERAGE_LTE: { __type: "Float" },
+    percent_EQUAL: { __type: "Float" },
+    percent_GT: { __type: "Float" },
+    percent_GTE: { __type: "Float" },
+    percent_LT: { __type: "Float" },
+    percent_LTE: { __type: "Float" },
+    percent_MAX_EQUAL: { __type: "Float" },
+    percent_MAX_GT: { __type: "Float" },
+    percent_MAX_GTE: { __type: "Float" },
+    percent_MAX_LT: { __type: "Float" },
+    percent_MAX_LTE: { __type: "Float" },
+    percent_MIN_EQUAL: { __type: "Float" },
+    percent_MIN_GT: { __type: "Float" },
+    percent_MIN_GTE: { __type: "Float" },
+    percent_MIN_LT: { __type: "Float" },
+    percent_MIN_LTE: { __type: "Float" },
+  },
+  ClusterScheduleTierRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "ClusterTier!" },
+  },
+  ClusterScheduleTierUpdateConnectionInput: {
+    node: { __type: "ClusterTierUpdateInput" },
+  },
+  ClusterScheduleTierUpdateFieldInput: {
+    connect: { __type: "ClusterScheduleTierConnectFieldInput" },
+    create: { __type: "ClusterScheduleTierCreateFieldInput" },
+    delete: { __type: "ClusterScheduleTierDeleteFieldInput" },
+    disconnect: { __type: "ClusterScheduleTierDisconnectFieldInput" },
+    update: { __type: "ClusterScheduleTierUpdateConnectionInput" },
+    where: { __type: "ClusterScheduleTierConnectionWhere" },
+  },
+  ClusterScheduleUpdateConnectionInput: {
+    node: { __type: "ClusterScheduleUpdateInput" },
+  },
+  ClusterScheduleUpdateFieldInput: {
+    connect: { __type: "[ClusterScheduleConnectFieldInput!]" },
+    create: { __type: "[ClusterScheduleCreateFieldInput!]" },
+    delete: { __type: "[ClusterScheduleDeleteFieldInput!]" },
+    disconnect: { __type: "[ClusterScheduleDisconnectFieldInput!]" },
+    update: { __type: "ClusterScheduleUpdateConnectionInput" },
+    where: { __type: "ClusterScheduleConnectionWhere" },
+  },
+  ClusterScheduleUpdateInput: {
+    campaign: { __type: "ClusterScheduleCampaignUpdateFieldInput" },
+    cluster: { __type: "ClusterScheduleClusterUpdateFieldInput" },
+    endDate: { __type: "DateTime" },
+    startDate: { __type: "DateTime" },
+    tier: { __type: "ClusterScheduleTierUpdateFieldInput" },
+  },
+  ClusterScheduleWhere: {
+    AND: { __type: "[ClusterScheduleWhere!]" },
+    OR: { __type: "[ClusterScheduleWhere!]" },
+    campaign: { __type: "CampaignWhere" },
+    campaignAggregate: { __type: "ClusterScheduleCampaignAggregateInput" },
+    campaignConnection: { __type: "ClusterScheduleCampaignConnectionWhere" },
+    campaignConnection_NOT: {
+      __type: "ClusterScheduleCampaignConnectionWhere",
+    },
+    campaign_NOT: { __type: "CampaignWhere" },
+    cluster: { __type: "ClusterWhere" },
+    clusterAggregate: { __type: "ClusterScheduleClusterAggregateInput" },
+    clusterConnection: { __type: "ClusterScheduleClusterConnectionWhere" },
+    clusterConnection_NOT: { __type: "ClusterScheduleClusterConnectionWhere" },
+    cluster_NOT: { __type: "ClusterWhere" },
+    endDate: { __type: "DateTime" },
+    endDate_GT: { __type: "DateTime" },
+    endDate_GTE: { __type: "DateTime" },
+    endDate_IN: { __type: "[DateTime]" },
+    endDate_LT: { __type: "DateTime" },
+    endDate_LTE: { __type: "DateTime" },
+    endDate_NOT: { __type: "DateTime" },
+    endDate_NOT_IN: { __type: "[DateTime]" },
+    id: { __type: "ID" },
+    id_CONTAINS: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    startDate: { __type: "DateTime" },
+    startDate_GT: { __type: "DateTime" },
+    startDate_GTE: { __type: "DateTime" },
+    startDate_IN: { __type: "[DateTime]" },
+    startDate_LT: { __type: "DateTime" },
+    startDate_LTE: { __type: "DateTime" },
+    startDate_NOT: { __type: "DateTime" },
+    startDate_NOT_IN: { __type: "[DateTime]" },
+    tier: { __type: "ClusterTierWhere" },
+    tierAggregate: { __type: "ClusterScheduleTierAggregateInput" },
+    tierConnection: { __type: "ClusterScheduleTierConnectionWhere" },
+    tierConnection_NOT: { __type: "ClusterScheduleTierConnectionWhere" },
+    tier_NOT: { __type: "ClusterTierWhere" },
   },
   ClusterSort: {
     id: { __type: "SortDirection" },
     label: { __type: "SortDirection" },
   },
+  ClusterTier: {
+    __typename: { __type: "String!" },
+    cluster: {
+      __type: "Cluster",
+      __args: { options: "ClusterOptions", where: "ClusterWhere" },
+    },
+    clusterAggregate: {
+      __type: "ClusterTierClusterClusterAggregationSelection",
+      __args: { where: "ClusterWhere" },
+    },
+    clusterConnection: {
+      __type: "ClusterTierClusterConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ClusterTierClusterConnectionSort!]",
+        where: "ClusterTierClusterConnectionWhere",
+      },
+    },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    percent: { __type: "Float" },
+  },
+  ClusterTierAggregateSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    id: { __type: "IDAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
+    percent: { __type: "FloatAggregateSelection!" },
+  },
+  ClusterTierClusterAggregateInput: {
+    AND: { __type: "[ClusterTierClusterAggregateInput!]" },
+    OR: { __type: "[ClusterTierClusterAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ClusterTierClusterNodeAggregationWhereInput" },
+  },
+  ClusterTierClusterClusterAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ClusterTierClusterClusterNodeAggregateSelection" },
+  },
+  ClusterTierClusterClusterNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    id: { __type: "IDAggregateSelection!" },
+    label: { __type: "StringAggregateSelection!" },
+  },
+  ClusterTierClusterConnectFieldInput: {
+    connect: { __type: "ClusterConnectInput" },
+    where: { __type: "ClusterConnectWhere" },
+  },
+  ClusterTierClusterConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ClusterTierClusterRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ClusterTierClusterConnectionSort: { node: { __type: "ClusterSort" } },
+  ClusterTierClusterConnectionWhere: {
+    AND: { __type: "[ClusterTierClusterConnectionWhere!]" },
+    OR: { __type: "[ClusterTierClusterConnectionWhere!]" },
+    node: { __type: "ClusterWhere" },
+    node_NOT: { __type: "ClusterWhere" },
+  },
+  ClusterTierClusterCreateFieldInput: {
+    node: { __type: "ClusterCreateInput!" },
+  },
+  ClusterTierClusterDeleteFieldInput: {
+    delete: { __type: "ClusterDeleteInput" },
+    where: { __type: "ClusterTierClusterConnectionWhere" },
+  },
+  ClusterTierClusterDisconnectFieldInput: {
+    disconnect: { __type: "ClusterDisconnectInput" },
+    where: { __type: "ClusterTierClusterConnectionWhere" },
+  },
+  ClusterTierClusterFieldInput: {
+    connect: { __type: "ClusterTierClusterConnectFieldInput" },
+    create: { __type: "ClusterTierClusterCreateFieldInput" },
+  },
+  ClusterTierClusterNodeAggregationWhereInput: {
+    AND: { __type: "[ClusterTierClusterNodeAggregationWhereInput!]" },
+    OR: { __type: "[ClusterTierClusterNodeAggregationWhereInput!]" },
+    id_EQUAL: { __type: "ID" },
+    label_AVERAGE_EQUAL: { __type: "Float" },
+    label_AVERAGE_GT: { __type: "Float" },
+    label_AVERAGE_GTE: { __type: "Float" },
+    label_AVERAGE_LT: { __type: "Float" },
+    label_AVERAGE_LTE: { __type: "Float" },
+    label_EQUAL: { __type: "String" },
+    label_GT: { __type: "Int" },
+    label_GTE: { __type: "Int" },
+    label_LONGEST_EQUAL: { __type: "Int" },
+    label_LONGEST_GT: { __type: "Int" },
+    label_LONGEST_GTE: { __type: "Int" },
+    label_LONGEST_LT: { __type: "Int" },
+    label_LONGEST_LTE: { __type: "Int" },
+    label_LT: { __type: "Int" },
+    label_LTE: { __type: "Int" },
+    label_SHORTEST_EQUAL: { __type: "Int" },
+    label_SHORTEST_GT: { __type: "Int" },
+    label_SHORTEST_GTE: { __type: "Int" },
+    label_SHORTEST_LT: { __type: "Int" },
+    label_SHORTEST_LTE: { __type: "Int" },
+  },
+  ClusterTierClusterRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Cluster!" },
+  },
+  ClusterTierClusterUpdateConnectionInput: {
+    node: { __type: "ClusterUpdateInput" },
+  },
+  ClusterTierClusterUpdateFieldInput: {
+    connect: { __type: "ClusterTierClusterConnectFieldInput" },
+    create: { __type: "ClusterTierClusterCreateFieldInput" },
+    delete: { __type: "ClusterTierClusterDeleteFieldInput" },
+    disconnect: { __type: "ClusterTierClusterDisconnectFieldInput" },
+    update: { __type: "ClusterTierClusterUpdateConnectionInput" },
+    where: { __type: "ClusterTierClusterConnectionWhere" },
+  },
+  ClusterTierConnectInput: {
+    cluster: { __type: "ClusterTierClusterConnectFieldInput" },
+  },
+  ClusterTierConnectWhere: { node: { __type: "ClusterTierWhere!" } },
+  ClusterTierCreateInput: {
+    cluster: { __type: "ClusterTierClusterFieldInput" },
+    name: { __type: "String" },
+    percent: { __type: "Float" },
+  },
+  ClusterTierDeleteInput: {
+    cluster: { __type: "ClusterTierClusterDeleteFieldInput" },
+  },
+  ClusterTierDisconnectInput: {
+    cluster: { __type: "ClusterTierClusterDisconnectFieldInput" },
+  },
+  ClusterTierOptions: {
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+    sort: { __type: "[ClusterTierSort]" },
+  },
+  ClusterTierRelationInput: {
+    cluster: { __type: "ClusterTierClusterCreateFieldInput" },
+  },
+  ClusterTierSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    percent: { __type: "SortDirection" },
+  },
+  ClusterTierUpdateInput: {
+    cluster: { __type: "ClusterTierClusterUpdateFieldInput" },
+    name: { __type: "String" },
+    percent: { __type: "Float" },
+  },
+  ClusterTierWhere: {
+    AND: { __type: "[ClusterTierWhere!]" },
+    OR: { __type: "[ClusterTierWhere!]" },
+    cluster: { __type: "ClusterWhere" },
+    clusterAggregate: { __type: "ClusterTierClusterAggregateInput" },
+    clusterConnection: { __type: "ClusterTierClusterConnectionWhere" },
+    clusterConnection_NOT: { __type: "ClusterTierClusterConnectionWhere" },
+    cluster_NOT: { __type: "ClusterWhere" },
+    id: { __type: "ID" },
+    id_CONTAINS: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_CONTAINS: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    name_NOT_IN: { __type: "[String]" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    percent: { __type: "Float" },
+    percent_GT: { __type: "Float" },
+    percent_GTE: { __type: "Float" },
+    percent_IN: { __type: "[Float]" },
+    percent_LT: { __type: "Float" },
+    percent_LTE: { __type: "Float" },
+    percent_NOT: { __type: "Float" },
+    percent_NOT_IN: { __type: "[Float]" },
+  },
+  ClusterTiersAggregateInput: {
+    AND: { __type: "[ClusterTiersAggregateInput!]" },
+    OR: { __type: "[ClusterTiersAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ClusterTiersNodeAggregationWhereInput" },
+  },
+  ClusterTiersConnectFieldInput: {
+    connect: { __type: "[ClusterTierConnectInput!]" },
+    where: { __type: "ClusterTierConnectWhere" },
+  },
+  ClusterTiersConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ClusterTiersRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ClusterTiersConnectionSort: { node: { __type: "ClusterTierSort" } },
+  ClusterTiersConnectionWhere: {
+    AND: { __type: "[ClusterTiersConnectionWhere!]" },
+    OR: { __type: "[ClusterTiersConnectionWhere!]" },
+    node: { __type: "ClusterTierWhere" },
+    node_NOT: { __type: "ClusterTierWhere" },
+  },
+  ClusterTiersCreateFieldInput: { node: { __type: "ClusterTierCreateInput!" } },
+  ClusterTiersDeleteFieldInput: {
+    delete: { __type: "ClusterTierDeleteInput" },
+    where: { __type: "ClusterTiersConnectionWhere" },
+  },
+  ClusterTiersDisconnectFieldInput: {
+    disconnect: { __type: "ClusterTierDisconnectInput" },
+    where: { __type: "ClusterTiersConnectionWhere" },
+  },
+  ClusterTiersFieldInput: {
+    connect: { __type: "[ClusterTiersConnectFieldInput!]" },
+    create: { __type: "[ClusterTiersCreateFieldInput!]" },
+  },
+  ClusterTiersNodeAggregationWhereInput: {
+    AND: { __type: "[ClusterTiersNodeAggregationWhereInput!]" },
+    OR: { __type: "[ClusterTiersNodeAggregationWhereInput!]" },
+    id_EQUAL: { __type: "ID" },
+    name_AVERAGE_EQUAL: { __type: "Float" },
+    name_AVERAGE_GT: { __type: "Float" },
+    name_AVERAGE_GTE: { __type: "Float" },
+    name_AVERAGE_LT: { __type: "Float" },
+    name_AVERAGE_LTE: { __type: "Float" },
+    name_EQUAL: { __type: "String" },
+    name_GT: { __type: "Int" },
+    name_GTE: { __type: "Int" },
+    name_LONGEST_EQUAL: { __type: "Int" },
+    name_LONGEST_GT: { __type: "Int" },
+    name_LONGEST_GTE: { __type: "Int" },
+    name_LONGEST_LT: { __type: "Int" },
+    name_LONGEST_LTE: { __type: "Int" },
+    name_LT: { __type: "Int" },
+    name_LTE: { __type: "Int" },
+    name_SHORTEST_EQUAL: { __type: "Int" },
+    name_SHORTEST_GT: { __type: "Int" },
+    name_SHORTEST_GTE: { __type: "Int" },
+    name_SHORTEST_LT: { __type: "Int" },
+    name_SHORTEST_LTE: { __type: "Int" },
+    percent_AVERAGE_EQUAL: { __type: "Float" },
+    percent_AVERAGE_GT: { __type: "Float" },
+    percent_AVERAGE_GTE: { __type: "Float" },
+    percent_AVERAGE_LT: { __type: "Float" },
+    percent_AVERAGE_LTE: { __type: "Float" },
+    percent_EQUAL: { __type: "Float" },
+    percent_GT: { __type: "Float" },
+    percent_GTE: { __type: "Float" },
+    percent_LT: { __type: "Float" },
+    percent_LTE: { __type: "Float" },
+    percent_MAX_EQUAL: { __type: "Float" },
+    percent_MAX_GT: { __type: "Float" },
+    percent_MAX_GTE: { __type: "Float" },
+    percent_MAX_LT: { __type: "Float" },
+    percent_MAX_LTE: { __type: "Float" },
+    percent_MIN_EQUAL: { __type: "Float" },
+    percent_MIN_GT: { __type: "Float" },
+    percent_MIN_GTE: { __type: "Float" },
+    percent_MIN_LT: { __type: "Float" },
+    percent_MIN_LTE: { __type: "Float" },
+  },
+  ClusterTiersRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "ClusterTier!" },
+  },
+  ClusterTiersUpdateConnectionInput: {
+    node: { __type: "ClusterTierUpdateInput" },
+  },
+  ClusterTiersUpdateFieldInput: {
+    connect: { __type: "[ClusterTiersConnectFieldInput!]" },
+    create: { __type: "[ClusterTiersCreateFieldInput!]" },
+    delete: { __type: "[ClusterTiersDeleteFieldInput!]" },
+    disconnect: { __type: "[ClusterTiersDisconnectFieldInput!]" },
+    update: { __type: "ClusterTiersUpdateConnectionInput" },
+    where: { __type: "ClusterTiersConnectionWhere" },
+  },
   ClusterUpdateInput: {
     displays: { __type: "[ClusterDisplaysUpdateFieldInput!]" },
     label: { __type: "String" },
+    schedule: { __type: "[ClusterScheduleUpdateFieldInput!]" },
+    tiers: { __type: "[ClusterTiersUpdateFieldInput!]" },
   },
   ClusterWhere: {
     AND: { __type: "[ClusterWhere!]" },
@@ -2316,6 +3931,16 @@ export const generatedSchema = {
     label_NOT_IN: { __type: "[String]" },
     label_NOT_STARTS_WITH: { __type: "String" },
     label_STARTS_WITH: { __type: "String" },
+    schedule: { __type: "ClusterScheduleWhere" },
+    scheduleAggregate: { __type: "ClusterScheduleAggregateInput" },
+    scheduleConnection: { __type: "ClusterScheduleConnectionWhere" },
+    scheduleConnection_NOT: { __type: "ClusterScheduleConnectionWhere" },
+    schedule_NOT: { __type: "ClusterScheduleWhere" },
+    tiers: { __type: "ClusterTierWhere" },
+    tiersAggregate: { __type: "ClusterTiersAggregateInput" },
+    tiersConnection: { __type: "ClusterTiersConnectionWhere" },
+    tiersConnection_NOT: { __type: "ClusterTiersConnectionWhere" },
+    tiers_NOT: { __type: "ClusterTierWhere" },
   },
   Computer: {
     __typename: { __type: "String!" },
@@ -2518,6 +4143,16 @@ export const generatedSchema = {
   CreateCampaignsMutationResponse: {
     __typename: { __type: "String!" },
     campaigns: { __type: "[Campaign!]!" },
+    info: { __type: "CreateInfo!" },
+  },
+  CreateClusterSchedulesMutationResponse: {
+    __typename: { __type: "String!" },
+    clusterSchedules: { __type: "[ClusterSchedule!]!" },
+    info: { __type: "CreateInfo!" },
+  },
+  CreateClusterTiersMutationResponse: {
+    __typename: { __type: "String!" },
+    clusterTiers: { __type: "[ClusterTier!]!" },
     info: { __type: "CreateInfo!" },
   },
   CreateClustersMutationResponse: {
@@ -3492,6 +5127,16 @@ export const generatedSchema = {
     campaigns: { __type: "[Campaign!]!" },
     info: { __type: "UpdateInfo!" },
   },
+  UpdateClusterSchedulesMutationResponse: {
+    __typename: { __type: "String!" },
+    clusterSchedules: { __type: "[ClusterSchedule!]!" },
+    info: { __type: "UpdateInfo!" },
+  },
+  UpdateClusterTiersMutationResponse: {
+    __typename: { __type: "String!" },
+    clusterTiers: { __type: "[ClusterTier!]!" },
+    info: { __type: "UpdateInfo!" },
+  },
   UpdateClustersMutationResponse: {
     __typename: { __type: "String!" },
     clusters: { __type: "[Cluster!]!" },
@@ -3535,6 +5180,14 @@ export const generatedSchema = {
       __type: "CreateCampaignsMutationResponse!",
       __args: { input: "[CampaignCreateInput!]!" },
     },
+    createClusterSchedules: {
+      __type: "CreateClusterSchedulesMutationResponse!",
+      __args: { input: "[ClusterScheduleCreateInput!]!" },
+    },
+    createClusterTiers: {
+      __type: "CreateClusterTiersMutationResponse!",
+      __args: { input: "[ClusterTierCreateInput!]!" },
+    },
     createClusters: {
       __type: "CreateClustersMutationResponse!",
       __args: { input: "[ClusterCreateInput!]!" },
@@ -3565,6 +5218,17 @@ export const generatedSchema = {
     deleteCampaigns: {
       __type: "DeleteInfo!",
       __args: { delete: "CampaignDeleteInput", where: "CampaignWhere" },
+    },
+    deleteClusterSchedules: {
+      __type: "DeleteInfo!",
+      __args: {
+        delete: "ClusterScheduleDeleteInput",
+        where: "ClusterScheduleWhere",
+      },
+    },
+    deleteClusterTiers: {
+      __type: "DeleteInfo!",
+      __args: { delete: "ClusterTierDeleteInput", where: "ClusterTierWhere" },
     },
     deleteClusters: {
       __type: "DeleteInfo!",
@@ -3606,6 +5270,28 @@ export const generatedSchema = {
         disconnect: "CampaignDisconnectInput",
         update: "CampaignUpdateInput",
         where: "CampaignWhere",
+      },
+    },
+    updateClusterSchedules: {
+      __type: "UpdateClusterSchedulesMutationResponse!",
+      __args: {
+        connect: "ClusterScheduleConnectInput",
+        create: "ClusterScheduleRelationInput",
+        delete: "ClusterScheduleDeleteInput",
+        disconnect: "ClusterScheduleDisconnectInput",
+        update: "ClusterScheduleUpdateInput",
+        where: "ClusterScheduleWhere",
+      },
+    },
+    updateClusterTiers: {
+      __type: "UpdateClusterTiersMutationResponse!",
+      __args: {
+        connect: "ClusterTierConnectInput",
+        create: "ClusterTierRelationInput",
+        delete: "ClusterTierDeleteInput",
+        disconnect: "ClusterTierDisconnectInput",
+        update: "ClusterTierUpdateInput",
+        where: "ClusterTierWhere",
       },
     },
     updateClusters: {
@@ -3682,6 +5368,33 @@ export const generatedSchema = {
       __args: { where: "CampaignWhere" },
     },
     campaignsCount: { __type: "Int!", __args: { where: "CampaignWhere" } },
+    clusterSchedules: {
+      __type: "[ClusterSchedule!]!",
+      __args: {
+        options: "ClusterScheduleOptions",
+        where: "ClusterScheduleWhere",
+      },
+    },
+    clusterSchedulesAggregate: {
+      __type: "ClusterScheduleAggregateSelection!",
+      __args: { where: "ClusterScheduleWhere" },
+    },
+    clusterSchedulesCount: {
+      __type: "Int!",
+      __args: { where: "ClusterScheduleWhere" },
+    },
+    clusterTiers: {
+      __type: "[ClusterTier!]!",
+      __args: { options: "ClusterTierOptions", where: "ClusterTierWhere" },
+    },
+    clusterTiersAggregate: {
+      __type: "ClusterTierAggregateSelection!",
+      __args: { where: "ClusterTierWhere" },
+    },
+    clusterTiersCount: {
+      __type: "Int!",
+      __args: { where: "ClusterTierWhere" },
+    },
     clusters: {
       __type: "[Cluster!]!",
       __args: { options: "ClusterOptions", where: "ClusterWhere" },
@@ -3757,20 +5470,16 @@ export interface Campaign {
   }) => CampaignAnalyticsConnection;
   assets?: Maybe<Array<Maybe<CampaignAsset>>>;
   customer?: Maybe<ScalarsEnums["String"]>;
-  endDate?: Maybe<ScalarsEnums["DateTime"]>;
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
-  startDate?: Maybe<ScalarsEnums["DateTime"]>;
 }
 
 export interface CampaignAggregateSelection {
   __typename?: "CampaignAggregateSelection";
   count: ScalarsEnums["Int"];
   customer: StringAggregateSelection;
-  endDate: DateTimeAggregateSelection;
   id: IDAggregateSelection;
   name: StringAggregateSelection;
-  startDate: DateTimeAggregateSelection;
 }
 
 export interface CampaignAnalytic {
@@ -3812,10 +5521,8 @@ export interface CampaignAnalyticCampaignCampaignAggregationSelection {
 export interface CampaignAnalyticCampaignCampaignNodeAggregateSelection {
   __typename?: "CampaignAnalyticCampaignCampaignNodeAggregateSelection";
   customer: StringAggregateSelection;
-  endDate: DateTimeAggregateSelection;
   id: IDAggregateSelection;
   name: StringAggregateSelection;
-  startDate: DateTimeAggregateSelection;
 }
 
 export interface CampaignAnalyticCampaignConnection {
@@ -3886,6 +5593,32 @@ export interface Cluster {
   }) => ClusterDisplaysConnection;
   id: ScalarsEnums["ID"];
   label?: Maybe<ScalarsEnums["String"]>;
+  schedule: (args?: {
+    options?: Maybe<ClusterScheduleOptions>;
+    where?: Maybe<ClusterScheduleWhere>;
+  }) => Maybe<Array<Maybe<ClusterSchedule>>>;
+  scheduleAggregate: (args?: {
+    where?: Maybe<ClusterScheduleWhere>;
+  }) => Maybe<ClusterClusterScheduleScheduleAggregationSelection>;
+  scheduleConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ClusterScheduleConnectionSort>>;
+    where?: Maybe<ClusterScheduleConnectionWhere>;
+  }) => ClusterScheduleConnection;
+  tiers: (args?: {
+    options?: Maybe<ClusterTierOptions>;
+    where?: Maybe<ClusterTierWhere>;
+  }) => Maybe<Array<Maybe<ClusterTier>>>;
+  tiersAggregate: (args?: {
+    where?: Maybe<ClusterTierWhere>;
+  }) => Maybe<ClusterClusterTierTiersAggregationSelection>;
+  tiersConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ClusterTiersConnectionSort>>;
+    where?: Maybe<ClusterTiersConnectionWhere>;
+  }) => ClusterTiersConnection;
 }
 
 export interface ClusterAggregateSelection {
@@ -3893,6 +5626,32 @@ export interface ClusterAggregateSelection {
   count: ScalarsEnums["Int"];
   id: IDAggregateSelection;
   label: StringAggregateSelection;
+}
+
+export interface ClusterClusterScheduleScheduleAggregationSelection {
+  __typename?: "ClusterClusterScheduleScheduleAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ClusterClusterScheduleScheduleNodeAggregateSelection>;
+}
+
+export interface ClusterClusterScheduleScheduleNodeAggregateSelection {
+  __typename?: "ClusterClusterScheduleScheduleNodeAggregateSelection";
+  endDate: DateTimeAggregateSelection;
+  id: IDAggregateSelection;
+  startDate: DateTimeAggregateSelection;
+}
+
+export interface ClusterClusterTierTiersAggregationSelection {
+  __typename?: "ClusterClusterTierTiersAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ClusterClusterTierTiersNodeAggregateSelection>;
+}
+
+export interface ClusterClusterTierTiersNodeAggregateSelection {
+  __typename?: "ClusterClusterTierTiersNodeAggregateSelection";
+  id: IDAggregateSelection;
+  name: StringAggregateSelection;
+  percent: FloatAggregateSelection;
 }
 
 export interface ClusterDisplayDisplaysAggregationSelection {
@@ -3918,6 +5677,216 @@ export interface ClusterDisplaysRelationship {
   __typename?: "ClusterDisplaysRelationship";
   cursor: ScalarsEnums["String"];
   node: Display;
+}
+
+export interface ClusterSchedule {
+  __typename?: "ClusterSchedule";
+  campaign: (args?: {
+    options?: Maybe<CampaignOptions>;
+    where?: Maybe<CampaignWhere>;
+  }) => Maybe<Campaign>;
+  campaignAggregate: (args?: {
+    where?: Maybe<CampaignWhere>;
+  }) => Maybe<ClusterScheduleCampaignCampaignAggregationSelection>;
+  campaignConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ClusterScheduleCampaignConnectionSort>>;
+    where?: Maybe<ClusterScheduleCampaignConnectionWhere>;
+  }) => ClusterScheduleCampaignConnection;
+  cluster: (args?: {
+    options?: Maybe<ClusterOptions>;
+    where?: Maybe<ClusterWhere>;
+  }) => Maybe<Cluster>;
+  clusterAggregate: (args?: {
+    where?: Maybe<ClusterWhere>;
+  }) => Maybe<ClusterScheduleClusterClusterAggregationSelection>;
+  clusterConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ClusterScheduleClusterConnectionSort>>;
+    where?: Maybe<ClusterScheduleClusterConnectionWhere>;
+  }) => ClusterScheduleClusterConnection;
+  endDate?: Maybe<ScalarsEnums["DateTime"]>;
+  id: ScalarsEnums["ID"];
+  startDate?: Maybe<ScalarsEnums["DateTime"]>;
+  tier: (args?: {
+    options?: Maybe<ClusterTierOptions>;
+    where?: Maybe<ClusterTierWhere>;
+  }) => Maybe<ClusterTier>;
+  tierAggregate: (args?: {
+    where?: Maybe<ClusterTierWhere>;
+  }) => Maybe<ClusterScheduleClusterTierTierAggregationSelection>;
+  tierConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ClusterScheduleTierConnectionSort>>;
+    where?: Maybe<ClusterScheduleTierConnectionWhere>;
+  }) => ClusterScheduleTierConnection;
+}
+
+export interface ClusterScheduleAggregateSelection {
+  __typename?: "ClusterScheduleAggregateSelection";
+  count: ScalarsEnums["Int"];
+  endDate: DateTimeAggregateSelection;
+  id: IDAggregateSelection;
+  startDate: DateTimeAggregateSelection;
+}
+
+export interface ClusterScheduleCampaignCampaignAggregationSelection {
+  __typename?: "ClusterScheduleCampaignCampaignAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ClusterScheduleCampaignCampaignNodeAggregateSelection>;
+}
+
+export interface ClusterScheduleCampaignCampaignNodeAggregateSelection {
+  __typename?: "ClusterScheduleCampaignCampaignNodeAggregateSelection";
+  customer: StringAggregateSelection;
+  id: IDAggregateSelection;
+  name: StringAggregateSelection;
+}
+
+export interface ClusterScheduleCampaignConnection {
+  __typename?: "ClusterScheduleCampaignConnection";
+  edges: Array<ClusterScheduleCampaignRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface ClusterScheduleCampaignRelationship {
+  __typename?: "ClusterScheduleCampaignRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Campaign;
+}
+
+export interface ClusterScheduleClusterClusterAggregationSelection {
+  __typename?: "ClusterScheduleClusterClusterAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ClusterScheduleClusterClusterNodeAggregateSelection>;
+}
+
+export interface ClusterScheduleClusterClusterNodeAggregateSelection {
+  __typename?: "ClusterScheduleClusterClusterNodeAggregateSelection";
+  id: IDAggregateSelection;
+  label: StringAggregateSelection;
+}
+
+export interface ClusterScheduleClusterConnection {
+  __typename?: "ClusterScheduleClusterConnection";
+  edges: Array<ClusterScheduleClusterRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface ClusterScheduleClusterRelationship {
+  __typename?: "ClusterScheduleClusterRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Cluster;
+}
+
+export interface ClusterScheduleClusterTierTierAggregationSelection {
+  __typename?: "ClusterScheduleClusterTierTierAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ClusterScheduleClusterTierTierNodeAggregateSelection>;
+}
+
+export interface ClusterScheduleClusterTierTierNodeAggregateSelection {
+  __typename?: "ClusterScheduleClusterTierTierNodeAggregateSelection";
+  id: IDAggregateSelection;
+  name: StringAggregateSelection;
+  percent: FloatAggregateSelection;
+}
+
+export interface ClusterScheduleConnection {
+  __typename?: "ClusterScheduleConnection";
+  edges: Array<ClusterScheduleRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface ClusterScheduleRelationship {
+  __typename?: "ClusterScheduleRelationship";
+  cursor: ScalarsEnums["String"];
+  node: ClusterSchedule;
+}
+
+export interface ClusterScheduleTierConnection {
+  __typename?: "ClusterScheduleTierConnection";
+  edges: Array<ClusterScheduleTierRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface ClusterScheduleTierRelationship {
+  __typename?: "ClusterScheduleTierRelationship";
+  cursor: ScalarsEnums["String"];
+  node: ClusterTier;
+}
+
+export interface ClusterTier {
+  __typename?: "ClusterTier";
+  cluster: (args?: {
+    options?: Maybe<ClusterOptions>;
+    where?: Maybe<ClusterWhere>;
+  }) => Maybe<Cluster>;
+  clusterAggregate: (args?: {
+    where?: Maybe<ClusterWhere>;
+  }) => Maybe<ClusterTierClusterClusterAggregationSelection>;
+  clusterConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ClusterTierClusterConnectionSort>>;
+    where?: Maybe<ClusterTierClusterConnectionWhere>;
+  }) => ClusterTierClusterConnection;
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  percent?: Maybe<ScalarsEnums["Float"]>;
+}
+
+export interface ClusterTierAggregateSelection {
+  __typename?: "ClusterTierAggregateSelection";
+  count: ScalarsEnums["Int"];
+  id: IDAggregateSelection;
+  name: StringAggregateSelection;
+  percent: FloatAggregateSelection;
+}
+
+export interface ClusterTierClusterClusterAggregationSelection {
+  __typename?: "ClusterTierClusterClusterAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ClusterTierClusterClusterNodeAggregateSelection>;
+}
+
+export interface ClusterTierClusterClusterNodeAggregateSelection {
+  __typename?: "ClusterTierClusterClusterNodeAggregateSelection";
+  id: IDAggregateSelection;
+  label: StringAggregateSelection;
+}
+
+export interface ClusterTierClusterConnection {
+  __typename?: "ClusterTierClusterConnection";
+  edges: Array<ClusterTierClusterRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface ClusterTierClusterRelationship {
+  __typename?: "ClusterTierClusterRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Cluster;
+}
+
+export interface ClusterTiersConnection {
+  __typename?: "ClusterTiersConnection";
+  edges: Array<ClusterTiersRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface ClusterTiersRelationship {
+  __typename?: "ClusterTiersRelationship";
+  cursor: ScalarsEnums["String"];
+  node: ClusterTier;
 }
 
 export interface Computer {
@@ -3982,6 +5951,18 @@ export interface CreateCampaignAnalyticsMutationResponse {
 export interface CreateCampaignsMutationResponse {
   __typename?: "CreateCampaignsMutationResponse";
   campaigns: Array<Campaign>;
+  info: CreateInfo;
+}
+
+export interface CreateClusterSchedulesMutationResponse {
+  __typename?: "CreateClusterSchedulesMutationResponse";
+  clusterSchedules: Array<ClusterSchedule>;
+  info: CreateInfo;
+}
+
+export interface CreateClusterTiersMutationResponse {
+  __typename?: "CreateClusterTiersMutationResponse";
+  clusterTiers: Array<ClusterTier>;
   info: CreateInfo;
 }
 
@@ -4290,6 +6271,18 @@ export interface UpdateCampaignsMutationResponse {
   info: UpdateInfo;
 }
 
+export interface UpdateClusterSchedulesMutationResponse {
+  __typename?: "UpdateClusterSchedulesMutationResponse";
+  clusterSchedules: Array<ClusterSchedule>;
+  info: UpdateInfo;
+}
+
+export interface UpdateClusterTiersMutationResponse {
+  __typename?: "UpdateClusterTiersMutationResponse";
+  clusterTiers: Array<ClusterTier>;
+  info: UpdateInfo;
+}
+
 export interface UpdateClustersMutationResponse {
   __typename?: "UpdateClustersMutationResponse";
   clusters: Array<Cluster>;
@@ -4337,6 +6330,12 @@ export interface Mutation {
   createCampaigns: (args: {
     input: Array<CampaignCreateInput>;
   }) => CreateCampaignsMutationResponse;
+  createClusterSchedules: (args: {
+    input: Array<ClusterScheduleCreateInput>;
+  }) => CreateClusterSchedulesMutationResponse;
+  createClusterTiers: (args: {
+    input: Array<ClusterTierCreateInput>;
+  }) => CreateClusterTiersMutationResponse;
   createClusters: (args: {
     input: Array<ClusterCreateInput>;
   }) => CreateClustersMutationResponse;
@@ -4359,6 +6358,14 @@ export interface Mutation {
   deleteCampaigns: (args?: {
     delete?: Maybe<CampaignDeleteInput>;
     where?: Maybe<CampaignWhere>;
+  }) => DeleteInfo;
+  deleteClusterSchedules: (args?: {
+    delete?: Maybe<ClusterScheduleDeleteInput>;
+    where?: Maybe<ClusterScheduleWhere>;
+  }) => DeleteInfo;
+  deleteClusterTiers: (args?: {
+    delete?: Maybe<ClusterTierDeleteInput>;
+    where?: Maybe<ClusterTierWhere>;
   }) => DeleteInfo;
   deleteClusters: (args?: {
     delete?: Maybe<ClusterDeleteInput>;
@@ -4394,6 +6401,22 @@ export interface Mutation {
     update?: Maybe<CampaignUpdateInput>;
     where?: Maybe<CampaignWhere>;
   }) => UpdateCampaignsMutationResponse;
+  updateClusterSchedules: (args?: {
+    connect?: Maybe<ClusterScheduleConnectInput>;
+    create?: Maybe<ClusterScheduleRelationInput>;
+    delete?: Maybe<ClusterScheduleDeleteInput>;
+    disconnect?: Maybe<ClusterScheduleDisconnectInput>;
+    update?: Maybe<ClusterScheduleUpdateInput>;
+    where?: Maybe<ClusterScheduleWhere>;
+  }) => UpdateClusterSchedulesMutationResponse;
+  updateClusterTiers: (args?: {
+    connect?: Maybe<ClusterTierConnectInput>;
+    create?: Maybe<ClusterTierRelationInput>;
+    delete?: Maybe<ClusterTierDeleteInput>;
+    disconnect?: Maybe<ClusterTierDisconnectInput>;
+    update?: Maybe<ClusterTierUpdateInput>;
+    where?: Maybe<ClusterTierWhere>;
+  }) => UpdateClusterTiersMutationResponse;
   updateClusters: (args?: {
     connect?: Maybe<ClusterConnectInput>;
     create?: Maybe<ClusterRelationInput>;
@@ -4449,6 +6472,26 @@ export interface Query {
   }) => CampaignAggregateSelection;
   campaignsCount: (args?: {
     where?: Maybe<CampaignWhere>;
+  }) => ScalarsEnums["Int"];
+  clusterSchedules: (args?: {
+    options?: Maybe<ClusterScheduleOptions>;
+    where?: Maybe<ClusterScheduleWhere>;
+  }) => Array<ClusterSchedule>;
+  clusterSchedulesAggregate: (args?: {
+    where?: Maybe<ClusterScheduleWhere>;
+  }) => ClusterScheduleAggregateSelection;
+  clusterSchedulesCount: (args?: {
+    where?: Maybe<ClusterScheduleWhere>;
+  }) => ScalarsEnums["Int"];
+  clusterTiers: (args?: {
+    options?: Maybe<ClusterTierOptions>;
+    where?: Maybe<ClusterTierWhere>;
+  }) => Array<ClusterTier>;
+  clusterTiersAggregate: (args?: {
+    where?: Maybe<ClusterTierWhere>;
+  }) => ClusterTierAggregateSelection;
+  clusterTiersCount: (args?: {
+    where?: Maybe<ClusterTierWhere>;
   }) => ScalarsEnums["Int"];
   clusters: (args?: {
     options?: Maybe<ClusterOptions>;
@@ -4522,10 +6565,38 @@ export interface SchemaObjectTypes {
   CampaignCampaignAnalyticAnalyticsNodeAggregateSelection: CampaignCampaignAnalyticAnalyticsNodeAggregateSelection;
   Cluster: Cluster;
   ClusterAggregateSelection: ClusterAggregateSelection;
+  ClusterClusterScheduleScheduleAggregationSelection: ClusterClusterScheduleScheduleAggregationSelection;
+  ClusterClusterScheduleScheduleNodeAggregateSelection: ClusterClusterScheduleScheduleNodeAggregateSelection;
+  ClusterClusterTierTiersAggregationSelection: ClusterClusterTierTiersAggregationSelection;
+  ClusterClusterTierTiersNodeAggregateSelection: ClusterClusterTierTiersNodeAggregateSelection;
   ClusterDisplayDisplaysAggregationSelection: ClusterDisplayDisplaysAggregationSelection;
   ClusterDisplayDisplaysNodeAggregateSelection: ClusterDisplayDisplaysNodeAggregateSelection;
   ClusterDisplaysConnection: ClusterDisplaysConnection;
   ClusterDisplaysRelationship: ClusterDisplaysRelationship;
+  ClusterSchedule: ClusterSchedule;
+  ClusterScheduleAggregateSelection: ClusterScheduleAggregateSelection;
+  ClusterScheduleCampaignCampaignAggregationSelection: ClusterScheduleCampaignCampaignAggregationSelection;
+  ClusterScheduleCampaignCampaignNodeAggregateSelection: ClusterScheduleCampaignCampaignNodeAggregateSelection;
+  ClusterScheduleCampaignConnection: ClusterScheduleCampaignConnection;
+  ClusterScheduleCampaignRelationship: ClusterScheduleCampaignRelationship;
+  ClusterScheduleClusterClusterAggregationSelection: ClusterScheduleClusterClusterAggregationSelection;
+  ClusterScheduleClusterClusterNodeAggregateSelection: ClusterScheduleClusterClusterNodeAggregateSelection;
+  ClusterScheduleClusterConnection: ClusterScheduleClusterConnection;
+  ClusterScheduleClusterRelationship: ClusterScheduleClusterRelationship;
+  ClusterScheduleClusterTierTierAggregationSelection: ClusterScheduleClusterTierTierAggregationSelection;
+  ClusterScheduleClusterTierTierNodeAggregateSelection: ClusterScheduleClusterTierTierNodeAggregateSelection;
+  ClusterScheduleConnection: ClusterScheduleConnection;
+  ClusterScheduleRelationship: ClusterScheduleRelationship;
+  ClusterScheduleTierConnection: ClusterScheduleTierConnection;
+  ClusterScheduleTierRelationship: ClusterScheduleTierRelationship;
+  ClusterTier: ClusterTier;
+  ClusterTierAggregateSelection: ClusterTierAggregateSelection;
+  ClusterTierClusterClusterAggregationSelection: ClusterTierClusterClusterAggregationSelection;
+  ClusterTierClusterClusterNodeAggregateSelection: ClusterTierClusterClusterNodeAggregateSelection;
+  ClusterTierClusterConnection: ClusterTierClusterConnection;
+  ClusterTierClusterRelationship: ClusterTierClusterRelationship;
+  ClusterTiersConnection: ClusterTiersConnection;
+  ClusterTiersRelationship: ClusterTiersRelationship;
   Computer: Computer;
   ComputerAggregateSelection: ComputerAggregateSelection;
   ComputerDisplayConnection: ComputerDisplayConnection;
@@ -4534,6 +6605,8 @@ export interface SchemaObjectTypes {
   ComputerDisplayRelationship: ComputerDisplayRelationship;
   CreateCampaignAnalyticsMutationResponse: CreateCampaignAnalyticsMutationResponse;
   CreateCampaignsMutationResponse: CreateCampaignsMutationResponse;
+  CreateClusterSchedulesMutationResponse: CreateClusterSchedulesMutationResponse;
+  CreateClusterTiersMutationResponse: CreateClusterTiersMutationResponse;
   CreateClustersMutationResponse: CreateClustersMutationResponse;
   CreateComputersMutationResponse: CreateComputersMutationResponse;
   CreateDisplayLocationsMutationResponse: CreateDisplayLocationsMutationResponse;
@@ -4573,6 +6646,8 @@ export interface SchemaObjectTypes {
   Subscription: Subscription;
   UpdateCampaignAnalyticsMutationResponse: UpdateCampaignAnalyticsMutationResponse;
   UpdateCampaignsMutationResponse: UpdateCampaignsMutationResponse;
+  UpdateClusterSchedulesMutationResponse: UpdateClusterSchedulesMutationResponse;
+  UpdateClusterTiersMutationResponse: UpdateClusterTiersMutationResponse;
   UpdateClustersMutationResponse: UpdateClustersMutationResponse;
   UpdateComputersMutationResponse: UpdateComputersMutationResponse;
   UpdateDisplayLocationsMutationResponse: UpdateDisplayLocationsMutationResponse;
@@ -4596,10 +6671,38 @@ export type SchemaObjectTypesNames =
   | "CampaignCampaignAnalyticAnalyticsNodeAggregateSelection"
   | "Cluster"
   | "ClusterAggregateSelection"
+  | "ClusterClusterScheduleScheduleAggregationSelection"
+  | "ClusterClusterScheduleScheduleNodeAggregateSelection"
+  | "ClusterClusterTierTiersAggregationSelection"
+  | "ClusterClusterTierTiersNodeAggregateSelection"
   | "ClusterDisplayDisplaysAggregationSelection"
   | "ClusterDisplayDisplaysNodeAggregateSelection"
   | "ClusterDisplaysConnection"
   | "ClusterDisplaysRelationship"
+  | "ClusterSchedule"
+  | "ClusterScheduleAggregateSelection"
+  | "ClusterScheduleCampaignCampaignAggregationSelection"
+  | "ClusterScheduleCampaignCampaignNodeAggregateSelection"
+  | "ClusterScheduleCampaignConnection"
+  | "ClusterScheduleCampaignRelationship"
+  | "ClusterScheduleClusterClusterAggregationSelection"
+  | "ClusterScheduleClusterClusterNodeAggregateSelection"
+  | "ClusterScheduleClusterConnection"
+  | "ClusterScheduleClusterRelationship"
+  | "ClusterScheduleClusterTierTierAggregationSelection"
+  | "ClusterScheduleClusterTierTierNodeAggregateSelection"
+  | "ClusterScheduleConnection"
+  | "ClusterScheduleRelationship"
+  | "ClusterScheduleTierConnection"
+  | "ClusterScheduleTierRelationship"
+  | "ClusterTier"
+  | "ClusterTierAggregateSelection"
+  | "ClusterTierClusterClusterAggregationSelection"
+  | "ClusterTierClusterClusterNodeAggregateSelection"
+  | "ClusterTierClusterConnection"
+  | "ClusterTierClusterRelationship"
+  | "ClusterTiersConnection"
+  | "ClusterTiersRelationship"
   | "Computer"
   | "ComputerAggregateSelection"
   | "ComputerDisplayConnection"
@@ -4608,6 +6711,8 @@ export type SchemaObjectTypesNames =
   | "ComputerDisplayRelationship"
   | "CreateCampaignAnalyticsMutationResponse"
   | "CreateCampaignsMutationResponse"
+  | "CreateClusterSchedulesMutationResponse"
+  | "CreateClusterTiersMutationResponse"
   | "CreateClustersMutationResponse"
   | "CreateComputersMutationResponse"
   | "CreateDisplayLocationsMutationResponse"
@@ -4647,6 +6752,8 @@ export type SchemaObjectTypesNames =
   | "Subscription"
   | "UpdateCampaignAnalyticsMutationResponse"
   | "UpdateCampaignsMutationResponse"
+  | "UpdateClusterSchedulesMutationResponse"
+  | "UpdateClusterTiersMutationResponse"
   | "UpdateClustersMutationResponse"
   | "UpdateComputersMutationResponse"
   | "UpdateDisplayLocationsMutationResponse"

@@ -8,6 +8,18 @@ type Display {
 	screens: [DisplayScreen] @relationship(type: "HAS_SCREEN", direction: OUT)
 
 	cluster: Cluster @relationship(type: "IN_CLUSTER", direction: IN)
+
+	provisioned: Boolean
+	provisionedAt: DateTime
+	provisionedBy: ProvisionCode @relationship(type: "PROVISIONED", direction: IN)
+}
+
+type ProvisionCode {
+	id: ID @id
+	slug: String
+	createdAt: DateTime
+
+	display: Display @relationship(type: "PROVISIONED", direction: OUT)
 }
 
 type DisplayScreen {
