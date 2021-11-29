@@ -261,65 +261,57 @@ export interface CommandDeviceActiveProgramUpdateFieldInput {
   delete?: Maybe<CommandDeviceActiveProgramDeleteFieldInput>;
 }
 
-export interface CommandDeviceConfiguredDevicesConnectFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationConnectWhere>;
-  connect?: Maybe<Array<CommandProgramPeripheralConfigurationConnectInput>>;
-  edge?: Maybe<CommandDevicePeripheralPortCreateInput>;
+export interface CommandDeviceCalibrationsConnectFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationConnectWhere>;
+  connect?: Maybe<Array<CommandProgramDeviceCalibrationConnectInput>>;
 }
 
-export interface CommandDeviceConfiguredDevicesConnectionSort {
-  node?: Maybe<CommandProgramPeripheralConfigurationSort>;
-  edge?: Maybe<CommandDevicePeripheralPortSort>;
+export interface CommandDeviceCalibrationsConnectionSort {
+  node?: Maybe<CommandProgramDeviceCalibrationSort>;
 }
 
-export interface CommandDeviceConfiguredDevicesConnectionWhere {
-  AND?: Maybe<Array<CommandDeviceConfiguredDevicesConnectionWhere>>;
-  OR?: Maybe<Array<CommandDeviceConfiguredDevicesConnectionWhere>>;
-  edge?: Maybe<CommandDevicePeripheralPortWhere>;
-  edge_NOT?: Maybe<CommandDevicePeripheralPortWhere>;
-  node?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-  node_NOT?: Maybe<CommandProgramPeripheralConfigurationWhere>;
+export interface CommandDeviceCalibrationsConnectionWhere {
+  AND?: Maybe<Array<CommandDeviceCalibrationsConnectionWhere>>;
+  OR?: Maybe<Array<CommandDeviceCalibrationsConnectionWhere>>;
+  node?: Maybe<CommandProgramDeviceCalibrationWhere>;
+  node_NOT?: Maybe<CommandProgramDeviceCalibrationWhere>;
 }
 
-export interface CommandDeviceConfiguredDevicesCreateFieldInput {
-  node: CommandProgramPeripheralConfigurationCreateInput;
-  edge?: Maybe<CommandDevicePeripheralPortCreateInput>;
+export interface CommandDeviceCalibrationsCreateFieldInput {
+  node: CommandProgramDeviceCalibrationCreateInput;
 }
 
-export interface CommandDeviceConfiguredDevicesDeleteFieldInput {
-  where?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
-  delete?: Maybe<CommandProgramPeripheralConfigurationDeleteInput>;
+export interface CommandDeviceCalibrationsDeleteFieldInput {
+  where?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
+  delete?: Maybe<CommandProgramDeviceCalibrationDeleteInput>;
 }
 
-export interface CommandDeviceConfiguredDevicesDisconnectFieldInput {
-  where?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
-  disconnect?: Maybe<CommandProgramPeripheralConfigurationDisconnectInput>;
+export interface CommandDeviceCalibrationsDisconnectFieldInput {
+  where?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDeviceCalibrationDisconnectInput>;
 }
 
-export interface CommandDeviceConfiguredDevicesFieldInput {
-  create?: Maybe<Array<CommandDeviceConfiguredDevicesCreateFieldInput>>;
-  connect?: Maybe<Array<CommandDeviceConfiguredDevicesConnectFieldInput>>;
+export interface CommandDeviceCalibrationsFieldInput {
+  create?: Maybe<Array<CommandDeviceCalibrationsCreateFieldInput>>;
+  connect?: Maybe<Array<CommandDeviceCalibrationsConnectFieldInput>>;
 }
 
-export interface CommandDeviceConfiguredDevicesUpdateConnectionInput {
-  node?: Maybe<CommandProgramPeripheralConfigurationUpdateInput>;
-  edge?: Maybe<CommandDevicePeripheralPortUpdateInput>;
+export interface CommandDeviceCalibrationsUpdateConnectionInput {
+  node?: Maybe<CommandProgramDeviceCalibrationUpdateInput>;
 }
 
-export interface CommandDeviceConfiguredDevicesUpdateFieldInput {
-  where?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
-  update?: Maybe<CommandDeviceConfiguredDevicesUpdateConnectionInput>;
-  connect?: Maybe<Array<CommandDeviceConfiguredDevicesConnectFieldInput>>;
-  disconnect?: Maybe<Array<CommandDeviceConfiguredDevicesDisconnectFieldInput>>;
-  create?: Maybe<Array<CommandDeviceConfiguredDevicesCreateFieldInput>>;
-  delete?: Maybe<Array<CommandDeviceConfiguredDevicesDeleteFieldInput>>;
+export interface CommandDeviceCalibrationsUpdateFieldInput {
+  where?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
+  update?: Maybe<CommandDeviceCalibrationsUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandDeviceCalibrationsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandDeviceCalibrationsDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandDeviceCalibrationsCreateFieldInput>>;
+  delete?: Maybe<Array<CommandDeviceCalibrationsDeleteFieldInput>>;
 }
 
 export interface CommandDeviceConnectInput {
   activeProgram?: Maybe<CommandDeviceActiveProgramConnectFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesConnectFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsConnectFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsConnectFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationConnectFieldInput>;
 }
@@ -335,25 +327,21 @@ export interface CommandDeviceCreateInput {
   online?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
   activeProgram?: Maybe<CommandDeviceActiveProgramFieldInput>;
-  configuredDevices?: Maybe<CommandDeviceConfiguredDevicesFieldInput>;
+  calibrations?: Maybe<CommandDeviceCalibrationsFieldInput>;
   peripherals?: Maybe<CommandDevicePeripheralsFieldInput>;
   organisation?: Maybe<CommandDeviceOrganisationFieldInput>;
 }
 
 export interface CommandDeviceDeleteInput {
   activeProgram?: Maybe<CommandDeviceActiveProgramDeleteFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesDeleteFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsDeleteFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsDeleteFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationDeleteFieldInput>;
 }
 
 export interface CommandDeviceDisconnectInput {
   activeProgram?: Maybe<CommandDeviceActiveProgramDisconnectFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesDisconnectFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsDisconnectFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsDisconnectFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationDisconnectFieldInput>;
 }
@@ -1483,9 +1471,7 @@ export interface CommandDevicePluginWhere {
 
 export interface CommandDeviceRelationInput {
   activeProgram?: Maybe<CommandDeviceActiveProgramCreateFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesCreateFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsCreateFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsCreateFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationCreateFieldInput>;
 }
@@ -1517,6 +1503,152 @@ export interface CommandDeviceResponseWhere {
   success_NOT?: Maybe<Scalars["Boolean"]>;
 }
 
+export interface CommandDeviceSetpointConnectInput {
+  key?: Maybe<CommandDeviceSetpointKeyConnectFieldInput>;
+}
+
+export interface CommandDeviceSetpointConnectWhere {
+  node: CommandDeviceSetpointWhere;
+}
+
+export interface CommandDeviceSetpointCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  key?: Maybe<CommandDeviceSetpointKeyFieldInput>;
+}
+
+export interface CommandDeviceSetpointDeleteInput {
+  key?: Maybe<CommandDeviceSetpointKeyDeleteFieldInput>;
+}
+
+export interface CommandDeviceSetpointDisconnectInput {
+  key?: Maybe<CommandDeviceSetpointKeyDisconnectFieldInput>;
+}
+
+export interface CommandDeviceSetpointKeyConnectFieldInput {
+  where?: Maybe<CommandProgramDeviceStateConnectWhere>;
+  connect?: Maybe<CommandProgramDeviceStateConnectInput>;
+}
+
+export interface CommandDeviceSetpointKeyConnectionSort {
+  node?: Maybe<CommandProgramDeviceStateSort>;
+}
+
+export interface CommandDeviceSetpointKeyConnectionWhere {
+  AND?: Maybe<Array<CommandDeviceSetpointKeyConnectionWhere>>;
+  OR?: Maybe<Array<CommandDeviceSetpointKeyConnectionWhere>>;
+  node?: Maybe<CommandProgramDeviceStateWhere>;
+  node_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+}
+
+export interface CommandDeviceSetpointKeyCreateFieldInput {
+  node: CommandProgramDeviceStateCreateInput;
+}
+
+export interface CommandDeviceSetpointKeyDeleteFieldInput {
+  where?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+  delete?: Maybe<CommandProgramDeviceStateDeleteInput>;
+}
+
+export interface CommandDeviceSetpointKeyDisconnectFieldInput {
+  where?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDeviceStateDisconnectInput>;
+}
+
+export interface CommandDeviceSetpointKeyFieldInput {
+  create?: Maybe<CommandDeviceSetpointKeyCreateFieldInput>;
+  connect?: Maybe<CommandDeviceSetpointKeyConnectFieldInput>;
+}
+
+export interface CommandDeviceSetpointKeyUpdateConnectionInput {
+  node?: Maybe<CommandProgramDeviceStateUpdateInput>;
+}
+
+export interface CommandDeviceSetpointKeyUpdateFieldInput {
+  where?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+  update?: Maybe<CommandDeviceSetpointKeyUpdateConnectionInput>;
+  connect?: Maybe<CommandDeviceSetpointKeyConnectFieldInput>;
+  disconnect?: Maybe<CommandDeviceSetpointKeyDisconnectFieldInput>;
+  create?: Maybe<CommandDeviceSetpointKeyCreateFieldInput>;
+  delete?: Maybe<CommandDeviceSetpointKeyDeleteFieldInput>;
+}
+
+export interface CommandDeviceSetpointOptions {
+  /** Specify one or more CommandDeviceSetpointSort objects to sort CommandDeviceSetpoints by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandDeviceSetpointSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandDeviceSetpointRelationInput {
+  key?: Maybe<CommandDeviceSetpointKeyCreateFieldInput>;
+}
+
+/** Fields to sort CommandDeviceSetpoints by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandDeviceSetpointSort object. */
+export interface CommandDeviceSetpointSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+  value?: Maybe<SortDirection>;
+}
+
+export interface CommandDeviceSetpointUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  key?: Maybe<CommandDeviceSetpointKeyUpdateFieldInput>;
+}
+
+export interface CommandDeviceSetpointWhere {
+  OR?: Maybe<Array<CommandDeviceSetpointWhere>>;
+  AND?: Maybe<Array<CommandDeviceSetpointWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  value_NOT?: Maybe<Scalars["String"]>;
+  value_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_CONTAINS?: Maybe<Scalars["String"]>;
+  value_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  value_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  key?: Maybe<CommandProgramDeviceStateWhere>;
+  key_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+  keyConnection?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+  keyConnection_NOT?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+}
+
 /** Fields to sort CommandDevices by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandDeviceSort object. */
 export interface CommandDeviceSort {
   id?: Maybe<SortDirection>;
@@ -1534,9 +1666,7 @@ export interface CommandDeviceUpdateInput {
   online?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
   activeProgram?: Maybe<CommandDeviceActiveProgramUpdateFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesUpdateFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsUpdateFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsUpdateFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationUpdateFieldInput>;
 }
@@ -1670,16 +1800,16 @@ export interface CommandDeviceWhere {
   lastOnline_GTE?: Maybe<Scalars["DateTime"]>;
   activeProgram?: Maybe<CommandProgramWhere>;
   activeProgram_NOT?: Maybe<CommandProgramWhere>;
-  configuredDevices?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-  configuredDevices_NOT?: Maybe<CommandProgramPeripheralConfigurationWhere>;
+  calibrations?: Maybe<CommandProgramDeviceCalibrationWhere>;
+  calibrations_NOT?: Maybe<CommandProgramDeviceCalibrationWhere>;
   peripherals?: Maybe<CommandDevicePeripheralWhere>;
   peripherals_NOT?: Maybe<CommandDevicePeripheralWhere>;
   organisation?: Maybe<HiveOrganisationWhere>;
   organisation_NOT?: Maybe<HiveOrganisationWhere>;
   activeProgramConnection?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
   activeProgramConnection_NOT?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
-  configuredDevicesConnection?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
-  configuredDevicesConnection_NOT?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
+  calibrationsConnection?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
+  calibrationsConnection_NOT?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
   peripheralsConnection?: Maybe<CommandDevicePeripheralsConnectionWhere>;
   peripheralsConnection_NOT?: Maybe<CommandDevicePeripheralsConnectionWhere>;
   organisationConnection?: Maybe<CommandDeviceOrganisationConnectionWhere>;
@@ -3281,9 +3411,191 @@ export interface CommandInterlockActionUpdateFieldInput {
   delete?: Maybe<CommandInterlockActionDeleteFieldInput>;
 }
 
+export interface CommandInterlockAssertionConnectFieldInput {
+  where?: Maybe<CommandInterlockAssertionConnectWhere>;
+  connect?: Maybe<CommandInterlockAssertionConnectInput>;
+}
+
+export interface CommandInterlockAssertionConnectInput {
+  setpoint?: Maybe<CommandInterlockAssertionSetpointConnectFieldInput>;
+}
+
+export interface CommandInterlockAssertionConnectionSort {
+  node?: Maybe<CommandInterlockAssertionSort>;
+}
+
+export interface CommandInterlockAssertionConnectionWhere {
+  AND?: Maybe<Array<CommandInterlockAssertionConnectionWhere>>;
+  OR?: Maybe<Array<CommandInterlockAssertionConnectionWhere>>;
+  node?: Maybe<CommandInterlockAssertionWhere>;
+  node_NOT?: Maybe<CommandInterlockAssertionWhere>;
+}
+
+export interface CommandInterlockAssertionConnectWhere {
+  node: CommandInterlockAssertionWhere;
+}
+
+export interface CommandInterlockAssertionCreateFieldInput {
+  node: CommandInterlockAssertionCreateInput;
+}
+
+export interface CommandInterlockAssertionCreateInput {
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  setpoint?: Maybe<CommandInterlockAssertionSetpointFieldInput>;
+}
+
+export interface CommandInterlockAssertionDeleteFieldInput {
+  where?: Maybe<CommandInterlockAssertionConnectionWhere>;
+  delete?: Maybe<CommandInterlockAssertionDeleteInput>;
+}
+
+export interface CommandInterlockAssertionDeleteInput {
+  setpoint?: Maybe<CommandInterlockAssertionSetpointDeleteFieldInput>;
+}
+
+export interface CommandInterlockAssertionDisconnectFieldInput {
+  where?: Maybe<CommandInterlockAssertionConnectionWhere>;
+  disconnect?: Maybe<CommandInterlockAssertionDisconnectInput>;
+}
+
+export interface CommandInterlockAssertionDisconnectInput {
+  setpoint?: Maybe<CommandInterlockAssertionSetpointDisconnectFieldInput>;
+}
+
+export interface CommandInterlockAssertionFieldInput {
+  create?: Maybe<CommandInterlockAssertionCreateFieldInput>;
+  connect?: Maybe<CommandInterlockAssertionConnectFieldInput>;
+}
+
+export interface CommandInterlockAssertionOptions {
+  /** Specify one or more CommandInterlockAssertionSort objects to sort CommandInterlockAssertions by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandInterlockAssertionSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandInterlockAssertionRelationInput {
+  setpoint?: Maybe<CommandInterlockAssertionSetpointCreateFieldInput>;
+}
+
+export interface CommandInterlockAssertionSetpointConnectFieldInput {
+  where?: Maybe<CommandDeviceSetpointConnectWhere>;
+  connect?: Maybe<CommandDeviceSetpointConnectInput>;
+}
+
+export interface CommandInterlockAssertionSetpointConnectionSort {
+  node?: Maybe<CommandDeviceSetpointSort>;
+}
+
+export interface CommandInterlockAssertionSetpointConnectionWhere {
+  AND?: Maybe<Array<CommandInterlockAssertionSetpointConnectionWhere>>;
+  OR?: Maybe<Array<CommandInterlockAssertionSetpointConnectionWhere>>;
+  node?: Maybe<CommandDeviceSetpointWhere>;
+  node_NOT?: Maybe<CommandDeviceSetpointWhere>;
+}
+
+export interface CommandInterlockAssertionSetpointCreateFieldInput {
+  node: CommandDeviceSetpointCreateInput;
+}
+
+export interface CommandInterlockAssertionSetpointDeleteFieldInput {
+  where?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+  delete?: Maybe<CommandDeviceSetpointDeleteInput>;
+}
+
+export interface CommandInterlockAssertionSetpointDisconnectFieldInput {
+  where?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+  disconnect?: Maybe<CommandDeviceSetpointDisconnectInput>;
+}
+
+export interface CommandInterlockAssertionSetpointFieldInput {
+  create?: Maybe<CommandInterlockAssertionSetpointCreateFieldInput>;
+  connect?: Maybe<CommandInterlockAssertionSetpointConnectFieldInput>;
+}
+
+export interface CommandInterlockAssertionSetpointUpdateConnectionInput {
+  node?: Maybe<CommandDeviceSetpointUpdateInput>;
+}
+
+export interface CommandInterlockAssertionSetpointUpdateFieldInput {
+  where?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+  update?: Maybe<CommandInterlockAssertionSetpointUpdateConnectionInput>;
+  connect?: Maybe<CommandInterlockAssertionSetpointConnectFieldInput>;
+  disconnect?: Maybe<CommandInterlockAssertionSetpointDisconnectFieldInput>;
+  create?: Maybe<CommandInterlockAssertionSetpointCreateFieldInput>;
+  delete?: Maybe<CommandInterlockAssertionSetpointDeleteFieldInput>;
+}
+
+/** Fields to sort CommandInterlockAssertions by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandInterlockAssertionSort object. */
+export interface CommandInterlockAssertionSort {
+  id?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+  value?: Maybe<SortDirection>;
+}
+
+export interface CommandInterlockAssertionUpdateConnectionInput {
+  node?: Maybe<CommandInterlockAssertionUpdateInput>;
+}
+
+export interface CommandInterlockAssertionUpdateFieldInput {
+  where?: Maybe<CommandInterlockAssertionConnectionWhere>;
+  update?: Maybe<CommandInterlockAssertionUpdateConnectionInput>;
+  connect?: Maybe<CommandInterlockAssertionConnectFieldInput>;
+  disconnect?: Maybe<CommandInterlockAssertionDisconnectFieldInput>;
+  create?: Maybe<CommandInterlockAssertionCreateFieldInput>;
+  delete?: Maybe<CommandInterlockAssertionDeleteFieldInput>;
+}
+
+export interface CommandInterlockAssertionUpdateInput {
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  setpoint?: Maybe<CommandInterlockAssertionSetpointUpdateFieldInput>;
+}
+
+export interface CommandInterlockAssertionWhere {
+  OR?: Maybe<Array<CommandInterlockAssertionWhere>>;
+  AND?: Maybe<Array<CommandInterlockAssertionWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  value_NOT?: Maybe<Scalars["String"]>;
+  value_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_CONTAINS?: Maybe<Scalars["String"]>;
+  value_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  value_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  setpoint?: Maybe<CommandDeviceSetpointWhere>;
+  setpoint_NOT?: Maybe<CommandDeviceSetpointWhere>;
+  setpointConnection?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+  setpointConnection_NOT?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+}
+
 export interface CommandInterlockConnectInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceConnectFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyConnectFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionConnectFieldInput>;
   action?: Maybe<CommandInterlockActionConnectFieldInput>;
   device?: Maybe<CommandInterlockDeviceConnectFieldInput>;
 }
@@ -3294,9 +3606,9 @@ export interface CommandInterlockConnectWhere {
 
 export interface CommandInterlockCreateInput {
   comparator?: Maybe<Scalars["String"]>;
-  assertion?: Maybe<Scalars["String"]>;
   inputDevice?: Maybe<CommandInterlockInputDeviceFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionFieldInput>;
   action?: Maybe<CommandInterlockActionFieldInput>;
   device?: Maybe<CommandInterlockDeviceFieldInput>;
 }
@@ -3304,6 +3616,7 @@ export interface CommandInterlockCreateInput {
 export interface CommandInterlockDeleteInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceDeleteFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyDeleteFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionDeleteFieldInput>;
   action?: Maybe<CommandInterlockActionDeleteFieldInput>;
   device?: Maybe<CommandInterlockDeviceDeleteFieldInput>;
 }
@@ -3359,6 +3672,7 @@ export interface CommandInterlockDeviceUpdateFieldInput {
 export interface CommandInterlockDisconnectInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceDisconnectFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyDisconnectFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionDisconnectFieldInput>;
   action?: Maybe<CommandInterlockActionDisconnectFieldInput>;
   device?: Maybe<CommandInterlockDeviceDisconnectFieldInput>;
 }
@@ -3469,6 +3783,7 @@ export interface CommandInterlockOptions {
 export interface CommandInterlockRelationInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceCreateFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyCreateFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionCreateFieldInput>;
   action?: Maybe<CommandInterlockActionCreateFieldInput>;
   device?: Maybe<CommandInterlockDeviceCreateFieldInput>;
 }
@@ -3477,14 +3792,13 @@ export interface CommandInterlockRelationInput {
 export interface CommandInterlockSort {
   id?: Maybe<SortDirection>;
   comparator?: Maybe<SortDirection>;
-  assertion?: Maybe<SortDirection>;
 }
 
 export interface CommandInterlockUpdateInput {
   comparator?: Maybe<Scalars["String"]>;
-  assertion?: Maybe<Scalars["String"]>;
   inputDevice?: Maybe<CommandInterlockInputDeviceUpdateFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyUpdateFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionUpdateFieldInput>;
   action?: Maybe<CommandInterlockActionUpdateFieldInput>;
   device?: Maybe<CommandInterlockDeviceUpdateFieldInput>;
 }
@@ -3512,20 +3826,12 @@ export interface CommandInterlockWhere {
   comparator_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   comparator_ENDS_WITH?: Maybe<Scalars["String"]>;
   comparator_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  assertion?: Maybe<Scalars["String"]>;
-  assertion_NOT?: Maybe<Scalars["String"]>;
-  assertion_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  assertion_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  assertion_CONTAINS?: Maybe<Scalars["String"]>;
-  assertion_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  assertion_STARTS_WITH?: Maybe<Scalars["String"]>;
-  assertion_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  assertion_ENDS_WITH?: Maybe<Scalars["String"]>;
-  assertion_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   inputDevice?: Maybe<CommandProgramDevicePlaceholderWhere>;
   inputDevice_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
   inputDeviceKey?: Maybe<CommandProgramDeviceStateWhere>;
   inputDeviceKey_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+  assertion?: Maybe<CommandInterlockAssertionWhere>;
+  assertion_NOT?: Maybe<CommandInterlockAssertionWhere>;
   action?: Maybe<CommandProgramDeviceActionWhere>;
   action_NOT?: Maybe<CommandProgramDeviceActionWhere>;
   device?: Maybe<CommandProgramDevicePlaceholderWhere>;
@@ -3534,6 +3840,8 @@ export interface CommandInterlockWhere {
   inputDeviceConnection_NOT?: Maybe<CommandInterlockInputDeviceConnectionWhere>;
   inputDeviceKeyConnection?: Maybe<CommandInterlockInputDeviceKeyConnectionWhere>;
   inputDeviceKeyConnection_NOT?: Maybe<CommandInterlockInputDeviceKeyConnectionWhere>;
+  assertionConnection?: Maybe<CommandInterlockAssertionConnectionWhere>;
+  assertionConnection_NOT?: Maybe<CommandInterlockAssertionConnectionWhere>;
   actionConnection?: Maybe<CommandInterlockActionConnectionWhere>;
   actionConnection_NOT?: Maybe<CommandInterlockActionConnectionWhere>;
   deviceConnection?: Maybe<CommandInterlockDeviceConnectionWhere>;
@@ -3545,7 +3853,6 @@ export interface CommandKeyValueConnectWhere {
 }
 
 export interface CommandKeyValueCreateInput {
-  id?: Maybe<Scalars["ID"]>;
   key?: Maybe<Scalars["String"]>;
   value?: Maybe<Scalars["String"]>;
 }
@@ -3565,7 +3872,6 @@ export interface CommandKeyValueSort {
 }
 
 export interface CommandKeyValueUpdateInput {
-  id?: Maybe<Scalars["ID"]>;
   key?: Maybe<Scalars["String"]>;
   value?: Maybe<Scalars["String"]>;
 }
@@ -4375,84 +4681,211 @@ export interface CommandProgramDeviceActionWhere {
   deviceConnection_NOT?: Maybe<CommandProgramDeviceActionDeviceConnectionWhere>;
 }
 
-export interface CommandProgramDeviceConfigurationConnectFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectWhere>;
+export interface CommandProgramDeviceCalibrationConnectInput {
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceConnectFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput>;
 }
 
-export interface CommandProgramDeviceConfigurationConnectionSort {
-  node?: Maybe<CommandProgramDeviceConfigurationSort>;
+export interface CommandProgramDeviceCalibrationConnectWhere {
+  node: CommandProgramDeviceCalibrationWhere;
 }
 
-export interface CommandProgramDeviceConfigurationConnectionWhere {
-  AND?: Maybe<Array<CommandProgramDeviceConfigurationConnectionWhere>>;
-  OR?: Maybe<Array<CommandProgramDeviceConfigurationConnectionWhere>>;
-  node?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  node_NOT?: Maybe<CommandProgramDeviceConfigurationWhere>;
+export interface CommandProgramDeviceCalibrationCreateInput {
+  min?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyFieldInput>;
 }
 
-export interface CommandProgramDeviceConfigurationConnectWhere {
-  node: CommandProgramDeviceConfigurationWhere;
+export interface CommandProgramDeviceCalibrationDeleteInput {
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceDeleteFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput>;
 }
 
-export interface CommandProgramDeviceConfigurationCreateFieldInput {
-  node: CommandProgramDeviceConfigurationCreateInput;
+export interface CommandProgramDeviceCalibrationDeviceConnectFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderConnectWhere>;
+  connect?: Maybe<CommandProgramDevicePlaceholderConnectInput>;
 }
 
-export interface CommandProgramDeviceConfigurationCreateInput {
-  key?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
+export interface CommandProgramDeviceCalibrationDeviceConnectionSort {
+  node?: Maybe<CommandProgramDevicePlaceholderSort>;
 }
 
-export interface CommandProgramDeviceConfigurationDeleteFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
+export interface CommandProgramDeviceCalibrationDeviceConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDeviceCalibrationDeviceConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDeviceCalibrationDeviceConnectionWhere>>;
+  node?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  node_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
 }
 
-export interface CommandProgramDeviceConfigurationDisconnectFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
+export interface CommandProgramDeviceCalibrationDeviceCreateFieldInput {
+  node: CommandProgramDevicePlaceholderCreateInput;
 }
 
-export interface CommandProgramDeviceConfigurationFieldInput {
-  create?: Maybe<Array<CommandProgramDeviceConfigurationCreateFieldInput>>;
-  connect?: Maybe<Array<CommandProgramDeviceConfigurationConnectFieldInput>>;
+export interface CommandProgramDeviceCalibrationDeviceDeleteFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
 }
 
-export interface CommandProgramDeviceConfigurationOptions {
-  /** Specify one or more CommandProgramDeviceConfigurationSort objects to sort CommandProgramDeviceConfigurations by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: Maybe<Array<Maybe<CommandProgramDeviceConfigurationSort>>>;
+export interface CommandProgramDeviceCalibrationDeviceDisconnectFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDevicePlaceholderDisconnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceFieldInput {
+  create?: Maybe<CommandProgramDeviceCalibrationDeviceCreateFieldInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationDeviceConnectFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput {
+  where?: Maybe<CommandProgramDeviceStateConnectWhere>;
+  connect?: Maybe<CommandProgramDeviceStateConnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyConnectionSort {
+  node?: Maybe<CommandProgramDeviceStateSort>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>>;
+  node?: Maybe<CommandProgramDeviceStateWhere>;
+  node_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput {
+  node: CommandProgramDeviceStateCreateInput;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+  delete?: Maybe<CommandProgramDeviceStateDeleteInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDeviceStateDisconnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyFieldInput {
+  create?: Maybe<CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyUpdateConnectionInput {
+  node?: Maybe<CommandProgramDeviceStateUpdateInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyUpdateFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+  update?: Maybe<CommandProgramDeviceCalibrationDeviceKeyUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput>;
+  create?: Maybe<CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput>;
+  delete?: Maybe<CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceUpdateConnectionInput {
+  node?: Maybe<CommandProgramDevicePlaceholderUpdateInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceUpdateFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  update?: Maybe<CommandProgramDeviceCalibrationDeviceUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationDeviceConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramDeviceCalibrationDeviceDisconnectFieldInput>;
+  create?: Maybe<CommandProgramDeviceCalibrationDeviceCreateFieldInput>;
+  delete?: Maybe<CommandProgramDeviceCalibrationDeviceDeleteFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDisconnectInput {
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceDisconnectFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationOptions {
+  /** Specify one or more CommandProgramDeviceCalibrationSort objects to sort CommandProgramDeviceCalibrations by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandProgramDeviceCalibrationSort>>>;
   limit?: Maybe<Scalars["Int"]>;
   offset?: Maybe<Scalars["Int"]>;
 }
 
-/** Fields to sort CommandProgramDeviceConfigurations by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramDeviceConfigurationSort object. */
-export interface CommandProgramDeviceConfigurationSort {
+export interface CommandProgramDeviceCalibrationRelationInput {
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceCreateFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceCreateFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceConnectFieldInput {
+  where?: Maybe<CommandDeviceConnectWhere>;
+  connect?: Maybe<CommandDeviceConnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceConnectionSort {
+  node?: Maybe<CommandDeviceSort>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>>;
+  node?: Maybe<CommandDeviceWhere>;
+  node_NOT?: Maybe<CommandDeviceWhere>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceCreateFieldInput {
+  node: CommandDeviceCreateInput;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  delete?: Maybe<CommandDeviceDeleteInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  disconnect?: Maybe<CommandDeviceDisconnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceFieldInput {
+  create?: Maybe<CommandProgramDeviceCalibrationRootDeviceCreateFieldInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceUpdateConnectionInput {
+  node?: Maybe<CommandDeviceUpdateInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceUpdateFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  update?: Maybe<CommandProgramDeviceCalibrationRootDeviceUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput>;
+  create?: Maybe<CommandProgramDeviceCalibrationRootDeviceCreateFieldInput>;
+  delete?: Maybe<CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput>;
+}
+
+/** Fields to sort CommandProgramDeviceCalibrations by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramDeviceCalibrationSort object. */
+export interface CommandProgramDeviceCalibrationSort {
   id?: Maybe<SortDirection>;
-  key?: Maybe<SortDirection>;
-  type?: Maybe<SortDirection>;
+  min?: Maybe<SortDirection>;
+  max?: Maybe<SortDirection>;
 }
 
-export interface CommandProgramDeviceConfigurationUpdateConnectionInput {
-  node?: Maybe<CommandProgramDeviceConfigurationUpdateInput>;
+export interface CommandProgramDeviceCalibrationUpdateInput {
+  min?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceUpdateFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceUpdateFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyUpdateFieldInput>;
 }
 
-export interface CommandProgramDeviceConfigurationUpdateFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
-  update?: Maybe<CommandProgramDeviceConfigurationUpdateConnectionInput>;
-  connect?: Maybe<Array<CommandProgramDeviceConfigurationConnectFieldInput>>;
-  disconnect?: Maybe<
-    Array<CommandProgramDeviceConfigurationDisconnectFieldInput>
-  >;
-  create?: Maybe<Array<CommandProgramDeviceConfigurationCreateFieldInput>>;
-  delete?: Maybe<Array<CommandProgramDeviceConfigurationDeleteFieldInput>>;
-}
-
-export interface CommandProgramDeviceConfigurationUpdateInput {
-  key?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-}
-
-export interface CommandProgramDeviceConfigurationWhere {
-  OR?: Maybe<Array<CommandProgramDeviceConfigurationWhere>>;
-  AND?: Maybe<Array<CommandProgramDeviceConfigurationWhere>>;
+export interface CommandProgramDeviceCalibrationWhere {
+  OR?: Maybe<Array<CommandProgramDeviceCalibrationWhere>>;
+  AND?: Maybe<Array<CommandProgramDeviceCalibrationWhere>>;
   id?: Maybe<Scalars["ID"]>;
   id_NOT?: Maybe<Scalars["ID"]>;
   id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
@@ -4463,32 +4896,41 @@ export interface CommandProgramDeviceConfigurationWhere {
   id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
   id_ENDS_WITH?: Maybe<Scalars["ID"]>;
   id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  key?: Maybe<Scalars["String"]>;
-  key_NOT?: Maybe<Scalars["String"]>;
-  key_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  key_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  key_CONTAINS?: Maybe<Scalars["String"]>;
-  key_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  key_STARTS_WITH?: Maybe<Scalars["String"]>;
-  key_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  key_ENDS_WITH?: Maybe<Scalars["String"]>;
-  key_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  type_NOT?: Maybe<Scalars["String"]>;
-  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  type_CONTAINS?: Maybe<Scalars["String"]>;
-  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  type_STARTS_WITH?: Maybe<Scalars["String"]>;
-  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  type_ENDS_WITH?: Maybe<Scalars["String"]>;
-  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  min?: Maybe<Scalars["String"]>;
+  min_NOT?: Maybe<Scalars["String"]>;
+  min_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  min_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  min_CONTAINS?: Maybe<Scalars["String"]>;
+  min_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  min_STARTS_WITH?: Maybe<Scalars["String"]>;
+  min_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  min_ENDS_WITH?: Maybe<Scalars["String"]>;
+  min_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
+  max_NOT?: Maybe<Scalars["String"]>;
+  max_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  max_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  max_CONTAINS?: Maybe<Scalars["String"]>;
+  max_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  max_STARTS_WITH?: Maybe<Scalars["String"]>;
+  max_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  max_ENDS_WITH?: Maybe<Scalars["String"]>;
+  max_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  rootDevice?: Maybe<CommandDeviceWhere>;
+  rootDevice_NOT?: Maybe<CommandDeviceWhere>;
+  device?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  device_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  deviceKey?: Maybe<CommandProgramDeviceStateWhere>;
+  deviceKey_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+  rootDeviceConnection?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  rootDeviceConnection_NOT?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  deviceConnection?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  deviceConnection_NOT?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  deviceKeyConnection?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+  deviceKeyConnection_NOT?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
 }
 
 export interface CommandProgramDeviceConnectInput {
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationConnectFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInConnectFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateConnectFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsConnectFieldInput>>;
@@ -4501,25 +4943,18 @@ export interface CommandProgramDeviceConnectWhere {
 export interface CommandProgramDeviceCreateInput {
   name?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
-  configuration?: Maybe<CommandProgramDeviceConfigurationFieldInput>;
   usedIn?: Maybe<CommandProgramDeviceUsedInFieldInput>;
   state?: Maybe<CommandProgramDeviceStateFieldInput>;
   actions?: Maybe<CommandProgramDeviceActionsFieldInput>;
 }
 
 export interface CommandProgramDeviceDeleteInput {
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationDeleteFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInDeleteFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateDeleteFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsDeleteFieldInput>>;
 }
 
 export interface CommandProgramDeviceDisconnectInput {
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationDisconnectFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInDisconnectFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateDisconnectFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsDisconnectFieldInput>>;
@@ -4537,6 +4972,9 @@ export interface CommandProgramDevicePlaceholderConnectInput {
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksConnectFieldInput>
   >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsConnectFieldInput>
+  >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsConnectFieldInput>
   >;
@@ -4551,6 +4989,7 @@ export interface CommandProgramDevicePlaceholderCreateInput {
   requiresMutex?: Maybe<Scalars["Boolean"]>;
   type?: Maybe<CommandProgramDevicePlaceholderTypeFieldInput>;
   interlocks?: Maybe<CommandProgramDevicePlaceholderInterlocksFieldInput>;
+  setpoints?: Maybe<CommandProgramDevicePlaceholderSetpointsFieldInput>;
   plugins?: Maybe<CommandProgramDevicePlaceholderPluginsFieldInput>;
 }
 
@@ -4558,6 +4997,9 @@ export interface CommandProgramDevicePlaceholderDeleteInput {
   type?: Maybe<CommandProgramDevicePlaceholderTypeDeleteFieldInput>;
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksDeleteFieldInput>
+  >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsDeleteFieldInput>
   >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsDeleteFieldInput>
@@ -4568,6 +5010,9 @@ export interface CommandProgramDevicePlaceholderDisconnectInput {
   type?: Maybe<CommandProgramDevicePlaceholderTypeDisconnectFieldInput>;
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksDisconnectFieldInput>
+  >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput>
   >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsDisconnectFieldInput>
@@ -4700,8 +5145,71 @@ export interface CommandProgramDevicePlaceholderRelationInput {
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksCreateFieldInput>
   >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsCreateFieldInput>
+  >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsCreateFieldInput>
+  >;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsConnectFieldInput {
+  where?: Maybe<CommandDeviceSetpointConnectWhere>;
+  connect?: Maybe<Array<CommandDeviceSetpointConnectInput>>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsConnectionSort {
+  node?: Maybe<CommandDeviceSetpointSort>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDevicePlaceholderSetpointsConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDevicePlaceholderSetpointsConnectionWhere>>;
+  node?: Maybe<CommandDeviceSetpointWhere>;
+  node_NOT?: Maybe<CommandDeviceSetpointWhere>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsCreateFieldInput {
+  node: CommandDeviceSetpointCreateInput;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsDeleteFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+  delete?: Maybe<CommandDeviceSetpointDeleteInput>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+  disconnect?: Maybe<CommandDeviceSetpointDisconnectInput>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsFieldInput {
+  create?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsCreateFieldInput>
+  >;
+  connect?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsConnectFieldInput>
+  >;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsUpdateConnectionInput {
+  node?: Maybe<CommandDeviceSetpointUpdateInput>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsUpdateFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+  update?: Maybe<CommandProgramDevicePlaceholderSetpointsUpdateConnectionInput>;
+  connect?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsConnectFieldInput>
+  >;
+  disconnect?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput>
+  >;
+  create?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsCreateFieldInput>
+  >;
+  delete?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsDeleteFieldInput>
   >;
 }
 
@@ -4767,6 +5275,9 @@ export interface CommandProgramDevicePlaceholderUpdateInput {
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksUpdateFieldInput>
   >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsUpdateFieldInput>
+  >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsUpdateFieldInput>
   >;
@@ -4801,12 +5312,16 @@ export interface CommandProgramDevicePlaceholderWhere {
   type_NOT?: Maybe<CommandProgramDeviceWhere>;
   interlocks?: Maybe<CommandInterlockWhere>;
   interlocks_NOT?: Maybe<CommandInterlockWhere>;
+  setpoints?: Maybe<CommandDeviceSetpointWhere>;
+  setpoints_NOT?: Maybe<CommandDeviceSetpointWhere>;
   plugins?: Maybe<CommandDevicePluginWhere>;
   plugins_NOT?: Maybe<CommandDevicePluginWhere>;
   typeConnection?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
   typeConnection_NOT?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
   interlocksConnection?: Maybe<CommandProgramDevicePlaceholderInterlocksConnectionWhere>;
   interlocksConnection_NOT?: Maybe<CommandProgramDevicePlaceholderInterlocksConnectionWhere>;
+  setpointsConnection?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+  setpointsConnection_NOT?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
   pluginsConnection?: Maybe<CommandProgramDevicePlaceholderPluginsConnectionWhere>;
   pluginsConnection_NOT?: Maybe<CommandProgramDevicePlaceholderPluginsConnectionWhere>;
 }
@@ -5341,9 +5856,6 @@ export interface CommandProgramDevicePluginWhere {
 }
 
 export interface CommandProgramDeviceRelationInput {
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationCreateFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInCreateFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateCreateFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsCreateFieldInput>>;
@@ -5645,9 +6157,6 @@ export interface CommandProgramDevicesUpdateFieldInput {
 export interface CommandProgramDeviceUpdateInput {
   name?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationUpdateFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInUpdateFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateUpdateFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsUpdateFieldInput>>;
@@ -5734,16 +6243,12 @@ export interface CommandProgramDeviceWhere {
   type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   type_ENDS_WITH?: Maybe<Scalars["String"]>;
   type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  configuration?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  configuration_NOT?: Maybe<CommandProgramDeviceConfigurationWhere>;
   usedIn?: Maybe<CommandProgramDevicePlaceholderWhere>;
   usedIn_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
   state?: Maybe<CommandProgramDeviceStateWhere>;
   state_NOT?: Maybe<CommandProgramDeviceStateWhere>;
   actions?: Maybe<CommandProgramDeviceActionWhere>;
   actions_NOT?: Maybe<CommandProgramDeviceActionWhere>;
-  configurationConnection?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
-  configurationConnection_NOT?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
   usedInConnection?: Maybe<CommandProgramDeviceUsedInConnectionWhere>;
   usedInConnection_NOT?: Maybe<CommandProgramDeviceUsedInConnectionWhere>;
   stateConnection?: Maybe<CommandProgramDeviceStateConnectionWhere>;
@@ -7517,183 +8022,6 @@ export interface CommandProgramOrganisationUpdateFieldInput {
   disconnect?: Maybe<CommandProgramOrganisationDisconnectFieldInput>;
   create?: Maybe<CommandProgramOrganisationCreateFieldInput>;
   delete?: Maybe<CommandProgramOrganisationDeleteFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfConnectFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfConnectionSort {
-  node?: Maybe<CommandProgramDeviceConfigurationSort>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfConnectionWhere {
-  AND?: Maybe<Array<CommandProgramPeripheralConfigurationConfConnectionWhere>>;
-  OR?: Maybe<Array<CommandProgramPeripheralConfigurationConfConnectionWhere>>;
-  node?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  node_NOT?: Maybe<CommandProgramDeviceConfigurationWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfCreateFieldInput {
-  node: CommandProgramDeviceConfigurationCreateInput;
-}
-
-export interface CommandProgramPeripheralConfigurationConfDeleteFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfDisconnectFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfFieldInput {
-  create?: Maybe<CommandProgramPeripheralConfigurationConfCreateFieldInput>;
-  connect?: Maybe<CommandProgramPeripheralConfigurationConfConnectFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfUpdateConnectionInput {
-  node?: Maybe<CommandProgramDeviceConfigurationUpdateInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfUpdateFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-  update?: Maybe<CommandProgramPeripheralConfigurationConfUpdateConnectionInput>;
-  connect?: Maybe<CommandProgramPeripheralConfigurationConfConnectFieldInput>;
-  disconnect?: Maybe<CommandProgramPeripheralConfigurationConfDisconnectFieldInput>;
-  create?: Maybe<CommandProgramPeripheralConfigurationConfCreateFieldInput>;
-  delete?: Maybe<CommandProgramPeripheralConfigurationConfDeleteFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConnectInput {
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfConnectFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConnectWhere {
-  node: CommandProgramPeripheralConfigurationWhere;
-}
-
-export interface CommandProgramPeripheralConfigurationCreateInput {
-  value?: Maybe<Scalars["String"]>;
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeleteInput {
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceDeleteFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfDeleteFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceConnectFieldInput {
-  where?: Maybe<CommandProgramDevicePlaceholderConnectWhere>;
-  connect?: Maybe<CommandProgramDevicePlaceholderConnectInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceConnectionSort {
-  node?: Maybe<CommandProgramDevicePlaceholderSort>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceConnectionWhere {
-  AND?: Maybe<
-    Array<CommandProgramPeripheralConfigurationDeviceConnectionWhere>
-  >;
-  OR?: Maybe<Array<CommandProgramPeripheralConfigurationDeviceConnectionWhere>>;
-  node?: Maybe<CommandProgramDevicePlaceholderWhere>;
-  node_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceCreateFieldInput {
-  node: CommandProgramDevicePlaceholderCreateInput;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceDeleteFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  disconnect?: Maybe<CommandProgramDevicePlaceholderDisconnectInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceFieldInput {
-  create?: Maybe<CommandProgramPeripheralConfigurationDeviceCreateFieldInput>;
-  connect?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceUpdateConnectionInput {
-  node?: Maybe<CommandProgramDevicePlaceholderUpdateInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceUpdateFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  update?: Maybe<CommandProgramPeripheralConfigurationDeviceUpdateConnectionInput>;
-  connect?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectFieldInput>;
-  disconnect?: Maybe<CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput>;
-  create?: Maybe<CommandProgramPeripheralConfigurationDeviceCreateFieldInput>;
-  delete?: Maybe<CommandProgramPeripheralConfigurationDeviceDeleteFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDisconnectInput {
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfDisconnectFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationOptions {
-  /** Specify one or more CommandProgramPeripheralConfigurationSort objects to sort CommandProgramPeripheralConfigurations by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: Maybe<Array<Maybe<CommandProgramPeripheralConfigurationSort>>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-}
-
-export interface CommandProgramPeripheralConfigurationRelationInput {
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceCreateFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfCreateFieldInput>;
-}
-
-/** Fields to sort CommandProgramPeripheralConfigurations by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramPeripheralConfigurationSort object. */
-export interface CommandProgramPeripheralConfigurationSort {
-  id?: Maybe<SortDirection>;
-  value?: Maybe<SortDirection>;
-}
-
-export interface CommandProgramPeripheralConfigurationUpdateInput {
-  value?: Maybe<Scalars["String"]>;
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceUpdateFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfUpdateFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationWhere {
-  OR?: Maybe<Array<CommandProgramPeripheralConfigurationWhere>>;
-  AND?: Maybe<Array<CommandProgramPeripheralConfigurationWhere>>;
-  id?: Maybe<Scalars["ID"]>;
-  id_NOT?: Maybe<Scalars["ID"]>;
-  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  id_CONTAINS?: Maybe<Scalars["ID"]>;
-  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
-  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  value?: Maybe<Scalars["String"]>;
-  value_NOT?: Maybe<Scalars["String"]>;
-  value_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  value_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  value_CONTAINS?: Maybe<Scalars["String"]>;
-  value_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  value_STARTS_WITH?: Maybe<Scalars["String"]>;
-  value_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  value_ENDS_WITH?: Maybe<Scalars["String"]>;
-  value_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  device?: Maybe<CommandProgramDevicePlaceholderWhere>;
-  device_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
-  conf?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  conf_NOT?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  deviceConnection?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  deviceConnection_NOT?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  confConnection?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-  confConnection_NOT?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
 }
 
 export interface CommandProgramProgramConnectFieldInput {
@@ -17117,6 +17445,25 @@ export const generatedSchema = {
       __type: "[CommandDeviceValue]",
       __args: { device: "String", bus: "String", port: "String" },
     },
+    commandDeviceTimeseries: {
+      __type: "[CommandDeviceTimeseriesData]",
+      __args: {
+        deviceId: "String",
+        device: "String",
+        valueKey: "String",
+        startDate: "String",
+      },
+    },
+    commandDeviceTimeseriesTotal: {
+      __type: "CommandDeviceTimeseriesTotal",
+      __args: {
+        deviceId: "String",
+        device: "String",
+        valueKey: "String",
+        startDate: "String",
+        endDate: "String",
+      },
+    },
     hiveServices: {
       __type: "[HiveService!]!",
       __args: { where: "HiveServiceWhere", options: "HiveServiceOptions" },
@@ -17426,16 +17773,16 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "CommandDevicePeripheralWhere" },
     },
-    commandProgramPeripheralConfigurations: {
-      __type: "[CommandProgramPeripheralConfiguration!]!",
+    commandProgramDeviceCalibrations: {
+      __type: "[CommandProgramDeviceCalibration!]!",
       __args: {
-        where: "CommandProgramPeripheralConfigurationWhere",
-        options: "CommandProgramPeripheralConfigurationOptions",
+        where: "CommandProgramDeviceCalibrationWhere",
+        options: "CommandProgramDeviceCalibrationOptions",
       },
     },
-    commandProgramPeripheralConfigurationsCount: {
+    commandProgramDeviceCalibrationsCount: {
       __type: "Int!",
-      __args: { where: "CommandProgramPeripheralConfigurationWhere" },
+      __args: { where: "CommandProgramDeviceCalibrationWhere" },
     },
     commandDevicePeripheralProducts: {
       __type: "[CommandDevicePeripheralProduct!]!",
@@ -17503,6 +17850,17 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "CommandInterlockWhere" },
     },
+    commandInterlockAssertions: {
+      __type: "[CommandInterlockAssertion!]!",
+      __args: {
+        where: "CommandInterlockAssertionWhere",
+        options: "CommandInterlockAssertionOptions",
+      },
+    },
+    commandInterlockAssertionsCount: {
+      __type: "Int!",
+      __args: { where: "CommandInterlockAssertionWhere" },
+    },
     commandProgramDevicePlaceholders: {
       __type: "[CommandProgramDevicePlaceholder!]!",
       __args: {
@@ -17513,6 +17871,17 @@ export const generatedSchema = {
     commandProgramDevicePlaceholdersCount: {
       __type: "Int!",
       __args: { where: "CommandProgramDevicePlaceholderWhere" },
+    },
+    commandDeviceSetpoints: {
+      __type: "[CommandDeviceSetpoint!]!",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        options: "CommandDeviceSetpointOptions",
+      },
+    },
+    commandDeviceSetpointsCount: {
+      __type: "Int!",
+      __args: { where: "CommandDeviceSetpointWhere" },
     },
     commandDevicePlugins: {
       __type: "[CommandDevicePlugin!]!",
@@ -17590,17 +17959,6 @@ export const generatedSchema = {
     commandProgramDevicesCount: {
       __type: "Int!",
       __args: { where: "CommandProgramDeviceWhere" },
-    },
-    commandProgramDeviceConfigurations: {
-      __type: "[CommandProgramDeviceConfiguration!]!",
-      __args: {
-        where: "CommandProgramDeviceConfigurationWhere",
-        options: "CommandProgramDeviceConfigurationOptions",
-      },
-    },
-    commandProgramDeviceConfigurationsCount: {
-      __type: "Int!",
-      __args: { where: "CommandProgramDeviceConfigurationWhere" },
     },
     commandProgramDeviceActions: {
       __type: "[CommandProgramDeviceAction!]!",
@@ -18948,26 +19306,26 @@ export const generatedSchema = {
         delete: "CommandDevicePeripheralDeleteInput",
       },
     },
-    createCommandProgramPeripheralConfigurations: {
-      __type: "CreateCommandProgramPeripheralConfigurationsMutationResponse!",
-      __args: { input: "[CommandProgramPeripheralConfigurationCreateInput!]!" },
+    createCommandProgramDeviceCalibrations: {
+      __type: "CreateCommandProgramDeviceCalibrationsMutationResponse!",
+      __args: { input: "[CommandProgramDeviceCalibrationCreateInput!]!" },
     },
-    deleteCommandProgramPeripheralConfigurations: {
+    deleteCommandProgramDeviceCalibrations: {
       __type: "DeleteInfo!",
       __args: {
-        where: "CommandProgramPeripheralConfigurationWhere",
-        delete: "CommandProgramPeripheralConfigurationDeleteInput",
+        where: "CommandProgramDeviceCalibrationWhere",
+        delete: "CommandProgramDeviceCalibrationDeleteInput",
       },
     },
-    updateCommandProgramPeripheralConfigurations: {
-      __type: "UpdateCommandProgramPeripheralConfigurationsMutationResponse!",
+    updateCommandProgramDeviceCalibrations: {
+      __type: "UpdateCommandProgramDeviceCalibrationsMutationResponse!",
       __args: {
-        where: "CommandProgramPeripheralConfigurationWhere",
-        update: "CommandProgramPeripheralConfigurationUpdateInput",
-        connect: "CommandProgramPeripheralConfigurationConnectInput",
-        disconnect: "CommandProgramPeripheralConfigurationDisconnectInput",
-        create: "CommandProgramPeripheralConfigurationRelationInput",
-        delete: "CommandProgramPeripheralConfigurationDeleteInput",
+        where: "CommandProgramDeviceCalibrationWhere",
+        update: "CommandProgramDeviceCalibrationUpdateInput",
+        connect: "CommandProgramDeviceCalibrationConnectInput",
+        disconnect: "CommandProgramDeviceCalibrationDisconnectInput",
+        create: "CommandProgramDeviceCalibrationRelationInput",
+        delete: "CommandProgramDeviceCalibrationDeleteInput",
       },
     },
     createCommandDevicePeripheralProducts: {
@@ -19095,6 +19453,28 @@ export const generatedSchema = {
         delete: "CommandInterlockDeleteInput",
       },
     },
+    createCommandInterlockAssertions: {
+      __type: "CreateCommandInterlockAssertionsMutationResponse!",
+      __args: { input: "[CommandInterlockAssertionCreateInput!]!" },
+    },
+    deleteCommandInterlockAssertions: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandInterlockAssertionWhere",
+        delete: "CommandInterlockAssertionDeleteInput",
+      },
+    },
+    updateCommandInterlockAssertions: {
+      __type: "UpdateCommandInterlockAssertionsMutationResponse!",
+      __args: {
+        where: "CommandInterlockAssertionWhere",
+        update: "CommandInterlockAssertionUpdateInput",
+        connect: "CommandInterlockAssertionConnectInput",
+        disconnect: "CommandInterlockAssertionDisconnectInput",
+        create: "CommandInterlockAssertionRelationInput",
+        delete: "CommandInterlockAssertionDeleteInput",
+      },
+    },
     createCommandProgramDevicePlaceholders: {
       __type: "CreateCommandProgramDevicePlaceholdersMutationResponse!",
       __args: { input: "[CommandProgramDevicePlaceholderCreateInput!]!" },
@@ -19115,6 +19495,28 @@ export const generatedSchema = {
         disconnect: "CommandProgramDevicePlaceholderDisconnectInput",
         create: "CommandProgramDevicePlaceholderRelationInput",
         delete: "CommandProgramDevicePlaceholderDeleteInput",
+      },
+    },
+    createCommandDeviceSetpoints: {
+      __type: "CreateCommandDeviceSetpointsMutationResponse!",
+      __args: { input: "[CommandDeviceSetpointCreateInput!]!" },
+    },
+    deleteCommandDeviceSetpoints: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        delete: "CommandDeviceSetpointDeleteInput",
+      },
+    },
+    updateCommandDeviceSetpoints: {
+      __type: "UpdateCommandDeviceSetpointsMutationResponse!",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        update: "CommandDeviceSetpointUpdateInput",
+        connect: "CommandDeviceSetpointConnectInput",
+        disconnect: "CommandDeviceSetpointDisconnectInput",
+        create: "CommandDeviceSetpointRelationInput",
+        delete: "CommandDeviceSetpointDeleteInput",
       },
     },
     createCommandDevicePlugins: {
@@ -19261,21 +19663,6 @@ export const generatedSchema = {
         disconnect: "CommandProgramDeviceDisconnectInput",
         create: "CommandProgramDeviceRelationInput",
         delete: "CommandProgramDeviceDeleteInput",
-      },
-    },
-    createCommandProgramDeviceConfigurations: {
-      __type: "CreateCommandProgramDeviceConfigurationsMutationResponse!",
-      __args: { input: "[CommandProgramDeviceConfigurationCreateInput!]!" },
-    },
-    deleteCommandProgramDeviceConfigurations: {
-      __type: "DeleteInfo!",
-      __args: { where: "CommandProgramDeviceConfigurationWhere" },
-    },
-    updateCommandProgramDeviceConfigurations: {
-      __type: "UpdateCommandProgramDeviceConfigurationsMutationResponse!",
-      __args: {
-        where: "CommandProgramDeviceConfigurationWhere",
-        update: "CommandProgramDeviceConfigurationUpdateInput",
       },
     },
     createCommandProgramDeviceActions: {
@@ -20079,11 +20466,11 @@ export const generatedSchema = {
         options: "CommandProgramOptions",
       },
     },
-    configuredDevices: {
-      __type: "[CommandProgramPeripheralConfiguration]",
+    calibrations: {
+      __type: "[CommandProgramDeviceCalibration]",
       __args: {
-        where: "CommandProgramPeripheralConfigurationWhere",
-        options: "CommandProgramPeripheralConfigurationOptions",
+        where: "CommandProgramDeviceCalibrationWhere",
+        options: "CommandProgramDeviceCalibrationOptions",
       },
     },
     peripherals: {
@@ -20109,13 +20496,13 @@ export const generatedSchema = {
         sort: "[CommandDeviceActiveProgramConnectionSort!]",
       },
     },
-    configuredDevicesConnection: {
-      __type: "CommandDeviceConfiguredDevicesConnection!",
+    calibrationsConnection: {
+      __type: "CommandDeviceCalibrationsConnection!",
       __args: {
-        where: "CommandDeviceConfiguredDevicesConnectionWhere",
+        where: "CommandDeviceCalibrationsConnectionWhere",
         first: "Int",
         after: "String",
-        sort: "[CommandDeviceConfiguredDevicesConnectionSort!]",
+        sort: "[CommandDeviceCalibrationsConnectionSort!]",
       },
     },
     peripheralsConnection: {
@@ -20148,17 +20535,16 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "CommandProgram!" },
   },
-  CommandDeviceConfiguredDevicesConnection: {
+  CommandDeviceCalibrationsConnection: {
     __typename: { __type: "String!" },
-    edges: { __type: "[CommandDeviceConfiguredDevicesRelationship!]!" },
+    edges: { __type: "[CommandDeviceCalibrationsRelationship!]!" },
     totalCount: { __type: "Int!" },
     pageInfo: { __type: "PageInfo!" },
   },
-  CommandDeviceConfiguredDevicesRelationship: {
+  CommandDeviceCalibrationsRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
-    node: { __type: "CommandProgramPeripheralConfiguration!" },
-    port: { __type: "String" },
+    node: { __type: "CommandProgramDeviceCalibration!" },
   },
   CommandDeviceOrganisationConnection: {
     __typename: { __type: "String!" },
@@ -20510,6 +20896,52 @@ export const generatedSchema = {
   CommandDeviceResponse: {
     __typename: { __type: "String!" },
     success: { __type: "Boolean" },
+  },
+  CommandDeviceSetpoint: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    key: {
+      __type: "CommandProgramDeviceState",
+      __args: {
+        where: "CommandProgramDeviceStateWhere",
+        options: "CommandProgramDeviceStateOptions",
+      },
+    },
+    keyConnection: {
+      __type: "CommandDeviceSetpointKeyConnection!",
+      __args: {
+        where: "CommandDeviceSetpointKeyConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandDeviceSetpointKeyConnectionSort!]",
+      },
+    },
+  },
+  CommandDeviceSetpointKeyConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandDeviceSetpointKeyRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandDeviceSetpointKeyRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramDeviceState!" },
+  },
+  CommandDeviceTimeseriesData: {
+    __typename: { __type: "String!" },
+    device: { __type: "String" },
+    deviceId: { __type: "String" },
+    valueKey: { __type: "String" },
+    value: { __type: "String" },
+    timestamp: { __type: "DateTime" },
+  },
+  CommandDeviceTimeseriesTotal: {
+    __typename: { __type: "String!" },
+    total: { __type: "Float" },
   },
   CommandDeviceValue: {
     __typename: { __type: "String!" },
@@ -20899,7 +21331,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     comparator: { __type: "String" },
-    assertion: { __type: "String" },
     inputDevice: {
       __type: "CommandProgramDevicePlaceholder",
       __args: {
@@ -20912,6 +21343,13 @@ export const generatedSchema = {
       __args: {
         where: "CommandProgramDeviceStateWhere",
         options: "CommandProgramDeviceStateOptions",
+      },
+    },
+    assertion: {
+      __type: "CommandInterlockAssertion",
+      __args: {
+        where: "CommandInterlockAssertionWhere",
+        options: "CommandInterlockAssertionOptions",
       },
     },
     action: {
@@ -20946,6 +21384,15 @@ export const generatedSchema = {
         sort: "[CommandInterlockInputDeviceKeyConnectionSort!]",
       },
     },
+    assertionConnection: {
+      __type: "CommandInterlockAssertionConnection!",
+      __args: {
+        where: "CommandInterlockAssertionConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandInterlockAssertionConnectionSort!]",
+      },
+    },
     actionConnection: {
       __type: "CommandInterlockActionConnection!",
       __args: {
@@ -20975,6 +21422,50 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "CommandProgramDeviceAction!" },
+  },
+  CommandInterlockAssertion: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    setpoint: {
+      __type: "CommandDeviceSetpoint",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        options: "CommandDeviceSetpointOptions",
+      },
+    },
+    setpointConnection: {
+      __type: "CommandInterlockAssertionSetpointConnection!",
+      __args: {
+        where: "CommandInterlockAssertionSetpointConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandInterlockAssertionSetpointConnectionSort!]",
+      },
+    },
+  },
+  CommandInterlockAssertionConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandInterlockAssertionRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandInterlockAssertionRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandInterlockAssertion!" },
+  },
+  CommandInterlockAssertionSetpointConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandInterlockAssertionSetpointRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandInterlockAssertionSetpointRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandDeviceSetpoint!" },
   },
   CommandInterlockDeviceConnection: {
     __typename: { __type: "String!" },
@@ -21277,13 +21768,6 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String" },
     type: { __type: "String" },
-    configuration: {
-      __type: "[CommandProgramDeviceConfiguration]",
-      __args: {
-        where: "CommandProgramDeviceConfigurationWhere",
-        options: "CommandProgramDeviceConfigurationOptions",
-      },
-    },
     usedIn: {
       __type: "[CommandProgramDevicePlaceholder]",
       __args: {
@@ -21303,15 +21787,6 @@ export const generatedSchema = {
       __args: {
         where: "CommandProgramDeviceActionWhere",
         options: "CommandProgramDeviceActionOptions",
-      },
-    },
-    configurationConnection: {
-      __type: "CommandProgramDeviceConfigurationConnection!",
-      __args: {
-        where: "CommandProgramDeviceConfigurationConnectionWhere",
-        first: "Int",
-        after: "String",
-        sort: "[CommandProgramDeviceConfigurationConnectionSort!]",
       },
     },
     usedInConnection: {
@@ -21385,22 +21860,93 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "CommandProgramDeviceAction!" },
   },
-  CommandProgramDeviceConfiguration: {
+  CommandProgramDeviceCalibration: {
     __typename: { __type: "String!" },
-    id: { __type: "ID!" },
-    key: { __type: "String" },
-    type: { __type: "String" },
+    id: { __type: "ID" },
+    min: { __type: "String" },
+    max: { __type: "String" },
+    rootDevice: {
+      __type: "CommandDevice",
+      __args: { where: "CommandDeviceWhere", options: "CommandDeviceOptions" },
+    },
+    device: {
+      __type: "CommandProgramDevicePlaceholder",
+      __args: {
+        where: "CommandProgramDevicePlaceholderWhere",
+        options: "CommandProgramDevicePlaceholderOptions",
+      },
+    },
+    deviceKey: {
+      __type: "CommandProgramDeviceState",
+      __args: {
+        where: "CommandProgramDeviceStateWhere",
+        options: "CommandProgramDeviceStateOptions",
+      },
+    },
+    rootDeviceConnection: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnection!",
+      __args: {
+        where: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDeviceCalibrationRootDeviceConnectionSort!]",
+      },
+    },
+    deviceConnection: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnection!",
+      __args: {
+        where: "CommandProgramDeviceCalibrationDeviceConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDeviceCalibrationDeviceConnectionSort!]",
+      },
+    },
+    deviceKeyConnection: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnection!",
+      __args: {
+        where: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDeviceCalibrationDeviceKeyConnectionSort!]",
+      },
+    },
   },
-  CommandProgramDeviceConfigurationConnection: {
+  CommandProgramDeviceCalibrationDeviceConnection: {
     __typename: { __type: "String!" },
-    edges: { __type: "[CommandProgramDeviceConfigurationRelationship!]!" },
+    edges: { __type: "[CommandProgramDeviceCalibrationDeviceRelationship!]!" },
     totalCount: { __type: "Int!" },
     pageInfo: { __type: "PageInfo!" },
   },
-  CommandProgramDeviceConfigurationRelationship: {
+  CommandProgramDeviceCalibrationDeviceKeyConnection: {
+    __typename: { __type: "String!" },
+    edges: {
+      __type: "[CommandProgramDeviceCalibrationDeviceKeyRelationship!]!",
+    },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
-    node: { __type: "CommandProgramDeviceConfiguration!" },
+    node: { __type: "CommandProgramDeviceState!" },
+  },
+  CommandProgramDeviceCalibrationDeviceRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramDevicePlaceholder!" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceConnection: {
+    __typename: { __type: "String!" },
+    edges: {
+      __type: "[CommandProgramDeviceCalibrationRootDeviceRelationship!]!",
+    },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandDevice!" },
   },
   CommandProgramDevicePlaceholder: {
     __typename: { __type: "String!" },
@@ -21419,6 +21965,13 @@ export const generatedSchema = {
       __args: {
         where: "CommandInterlockWhere",
         options: "CommandInterlockOptions",
+      },
+    },
+    setpoints: {
+      __type: "[CommandDeviceSetpoint]",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        options: "CommandDeviceSetpointOptions",
       },
     },
     plugins: {
@@ -21444,6 +21997,15 @@ export const generatedSchema = {
         first: "Int",
         after: "String",
         sort: "[CommandProgramDevicePlaceholderInterlocksConnectionSort!]",
+      },
+    },
+    setpointsConnection: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnection!",
+      __args: {
+        where: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDevicePlaceholderSetpointsConnectionSort!]",
       },
     },
     pluginsConnection: {
@@ -21479,6 +22041,19 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "CommandDevicePlugin!" },
+  },
+  CommandProgramDevicePlaceholderSetpointsConnection: {
+    __typename: { __type: "String!" },
+    edges: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsRelationship!]!",
+    },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDevicePlaceholderSetpointsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandDeviceSetpoint!" },
   },
   CommandProgramDevicePlaceholderTypeConnection: {
     __typename: { __type: "String!" },
@@ -22294,69 +22869,6 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "HiveOrganisation!" },
   },
-  CommandProgramPeripheralConfiguration: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    value: { __type: "String" },
-    device: {
-      __type: "CommandProgramDevicePlaceholder",
-      __args: {
-        where: "CommandProgramDevicePlaceholderWhere",
-        options: "CommandProgramDevicePlaceholderOptions",
-      },
-    },
-    conf: {
-      __type: "CommandProgramDeviceConfiguration",
-      __args: {
-        where: "CommandProgramDeviceConfigurationWhere",
-        options: "CommandProgramDeviceConfigurationOptions",
-      },
-    },
-    deviceConnection: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnection!",
-      __args: {
-        where: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-        first: "Int",
-        after: "String",
-        sort: "[CommandProgramPeripheralConfigurationDeviceConnectionSort!]",
-      },
-    },
-    confConnection: {
-      __type: "CommandProgramPeripheralConfigurationConfConnection!",
-      __args: {
-        where: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-        first: "Int",
-        after: "String",
-        sort: "[CommandProgramPeripheralConfigurationConfConnectionSort!]",
-      },
-    },
-  },
-  CommandProgramPeripheralConfigurationConfConnection: {
-    __typename: { __type: "String!" },
-    edges: {
-      __type: "[CommandProgramPeripheralConfigurationConfRelationship!]!",
-    },
-    totalCount: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-  },
-  CommandProgramPeripheralConfigurationConfRelationship: {
-    __typename: { __type: "String!" },
-    cursor: { __type: "String!" },
-    node: { __type: "CommandProgramDeviceConfiguration!" },
-  },
-  CommandProgramPeripheralConfigurationDeviceConnection: {
-    __typename: { __type: "String!" },
-    edges: {
-      __type: "[CommandProgramPeripheralConfigurationDeviceRelationship!]!",
-    },
-    totalCount: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-  },
-  CommandProgramPeripheralConfigurationDeviceRelationship: {
-    __typename: { __type: "String!" },
-    cursor: { __type: "String!" },
-    node: { __type: "CommandProgramDevicePlaceholder!" },
-  },
   CommandProgramProgramConnection: {
     __typename: { __type: "String!" },
     edges: { __type: "[CommandProgramProgramRelationship!]!" },
@@ -22411,6 +22923,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandDeviceResponses: { __type: "[CommandDeviceResponse!]!" },
   },
+  CreateCommandDeviceSetpointsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandDeviceSetpoints: { __type: "[CommandDeviceSetpoint!]!" },
+  },
   CreateCommandDevicesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -22451,6 +22968,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandHmiPorts: { __type: "[CommandHMIPort!]!" },
   },
+  CreateCommandInterlockAssertionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandInterlockAssertions: { __type: "[CommandInterlockAssertion!]!" },
+  },
   CreateCommandInterlocksMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -22488,11 +23010,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandProgramDeviceActions: { __type: "[CommandProgramDeviceAction!]!" },
   },
-  CreateCommandProgramDeviceConfigurationsMutationResponse: {
+  CreateCommandProgramDeviceCalibrationsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
-    commandProgramDeviceConfigurations: {
-      __type: "[CommandProgramDeviceConfiguration!]!",
+    commandProgramDeviceCalibrations: {
+      __type: "[CommandProgramDeviceCalibration!]!",
     },
   },
   CreateCommandProgramDevicePlaceholdersMutationResponse: {
@@ -22564,13 +23086,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
     commandProgramNodes: { __type: "[CommandProgramNode!]!" },
-  },
-  CreateCommandProgramPeripheralConfigurationsMutationResponse: {
-    __typename: { __type: "String!" },
-    info: { __type: "CreateInfo!" },
-    commandProgramPeripheralConfigurations: {
-      __type: "[CommandProgramPeripheralConfiguration!]!",
-    },
   },
   CreateCommandProgramsMutationResponse: {
     __typename: { __type: "String!" },
@@ -24877,6 +25392,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandDeviceResponses: { __type: "[CommandDeviceResponse!]!" },
   },
+  UpdateCommandDeviceSetpointsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandDeviceSetpoints: { __type: "[CommandDeviceSetpoint!]!" },
+  },
   UpdateCommandDevicesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -24917,6 +25437,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandHmiPorts: { __type: "[CommandHMIPort!]!" },
   },
+  UpdateCommandInterlockAssertionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandInterlockAssertions: { __type: "[CommandInterlockAssertion!]!" },
+  },
   UpdateCommandInterlocksMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -24954,11 +25479,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandProgramDeviceActions: { __type: "[CommandProgramDeviceAction!]!" },
   },
-  UpdateCommandProgramDeviceConfigurationsMutationResponse: {
+  UpdateCommandProgramDeviceCalibrationsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
-    commandProgramDeviceConfigurations: {
-      __type: "[CommandProgramDeviceConfiguration!]!",
+    commandProgramDeviceCalibrations: {
+      __type: "[CommandProgramDeviceCalibration!]!",
     },
   },
   UpdateCommandProgramDevicePlaceholdersMutationResponse: {
@@ -25030,13 +25555,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     commandProgramNodes: { __type: "[CommandProgramNode!]!" },
-  },
-  UpdateCommandProgramPeripheralConfigurationsMutationResponse: {
-    __typename: { __type: "String!" },
-    info: { __type: "UpdateInfo!" },
-    commandProgramPeripheralConfigurations: {
-      __type: "[CommandProgramPeripheralConfiguration!]!",
-    },
   },
   UpdateCommandProgramsMutationResponse: {
     __typename: { __type: "String!" },
@@ -25411,60 +25929,48 @@ export const generatedSchema = {
     create: { __type: "CommandDeviceActiveProgramCreateFieldInput" },
     delete: { __type: "CommandDeviceActiveProgramDeleteFieldInput" },
   },
-  CommandDeviceConfiguredDevicesConnectFieldInput: {
-    where: { __type: "CommandProgramPeripheralConfigurationConnectWhere" },
-    connect: { __type: "[CommandProgramPeripheralConfigurationConnectInput!]" },
-    edge: { __type: "CommandDevicePeripheralPortCreateInput" },
+  CommandDeviceCalibrationsConnectFieldInput: {
+    where: { __type: "CommandProgramDeviceCalibrationConnectWhere" },
+    connect: { __type: "[CommandProgramDeviceCalibrationConnectInput!]" },
   },
-  CommandDeviceConfiguredDevicesConnectionSort: {
-    node: { __type: "CommandProgramPeripheralConfigurationSort" },
-    edge: { __type: "CommandDevicePeripheralPortSort" },
+  CommandDeviceCalibrationsConnectionSort: {
+    node: { __type: "CommandProgramDeviceCalibrationSort" },
   },
-  CommandDeviceConfiguredDevicesConnectionWhere: {
-    AND: { __type: "[CommandDeviceConfiguredDevicesConnectionWhere!]" },
-    OR: { __type: "[CommandDeviceConfiguredDevicesConnectionWhere!]" },
-    edge: { __type: "CommandDevicePeripheralPortWhere" },
-    edge_NOT: { __type: "CommandDevicePeripheralPortWhere" },
-    node: { __type: "CommandProgramPeripheralConfigurationWhere" },
-    node_NOT: { __type: "CommandProgramPeripheralConfigurationWhere" },
+  CommandDeviceCalibrationsConnectionWhere: {
+    AND: { __type: "[CommandDeviceCalibrationsConnectionWhere!]" },
+    OR: { __type: "[CommandDeviceCalibrationsConnectionWhere!]" },
+    node: { __type: "CommandProgramDeviceCalibrationWhere" },
+    node_NOT: { __type: "CommandProgramDeviceCalibrationWhere" },
   },
-  CommandDeviceConfiguredDevicesCreateFieldInput: {
-    node: { __type: "CommandProgramPeripheralConfigurationCreateInput!" },
-    edge: { __type: "CommandDevicePeripheralPortCreateInput" },
+  CommandDeviceCalibrationsCreateFieldInput: {
+    node: { __type: "CommandProgramDeviceCalibrationCreateInput!" },
   },
-  CommandDeviceConfiguredDevicesDeleteFieldInput: {
-    where: { __type: "CommandDeviceConfiguredDevicesConnectionWhere" },
-    delete: { __type: "CommandProgramPeripheralConfigurationDeleteInput" },
+  CommandDeviceCalibrationsDeleteFieldInput: {
+    where: { __type: "CommandDeviceCalibrationsConnectionWhere" },
+    delete: { __type: "CommandProgramDeviceCalibrationDeleteInput" },
   },
-  CommandDeviceConfiguredDevicesDisconnectFieldInput: {
-    where: { __type: "CommandDeviceConfiguredDevicesConnectionWhere" },
-    disconnect: {
-      __type: "CommandProgramPeripheralConfigurationDisconnectInput",
-    },
+  CommandDeviceCalibrationsDisconnectFieldInput: {
+    where: { __type: "CommandDeviceCalibrationsConnectionWhere" },
+    disconnect: { __type: "CommandProgramDeviceCalibrationDisconnectInput" },
   },
-  CommandDeviceConfiguredDevicesFieldInput: {
-    create: { __type: "[CommandDeviceConfiguredDevicesCreateFieldInput!]" },
-    connect: { __type: "[CommandDeviceConfiguredDevicesConnectFieldInput!]" },
+  CommandDeviceCalibrationsFieldInput: {
+    create: { __type: "[CommandDeviceCalibrationsCreateFieldInput!]" },
+    connect: { __type: "[CommandDeviceCalibrationsConnectFieldInput!]" },
   },
-  CommandDeviceConfiguredDevicesUpdateConnectionInput: {
-    node: { __type: "CommandProgramPeripheralConfigurationUpdateInput" },
-    edge: { __type: "CommandDevicePeripheralPortUpdateInput" },
+  CommandDeviceCalibrationsUpdateConnectionInput: {
+    node: { __type: "CommandProgramDeviceCalibrationUpdateInput" },
   },
-  CommandDeviceConfiguredDevicesUpdateFieldInput: {
-    where: { __type: "CommandDeviceConfiguredDevicesConnectionWhere" },
-    update: { __type: "CommandDeviceConfiguredDevicesUpdateConnectionInput" },
-    connect: { __type: "[CommandDeviceConfiguredDevicesConnectFieldInput!]" },
-    disconnect: {
-      __type: "[CommandDeviceConfiguredDevicesDisconnectFieldInput!]",
-    },
-    create: { __type: "[CommandDeviceConfiguredDevicesCreateFieldInput!]" },
-    delete: { __type: "[CommandDeviceConfiguredDevicesDeleteFieldInput!]" },
+  CommandDeviceCalibrationsUpdateFieldInput: {
+    where: { __type: "CommandDeviceCalibrationsConnectionWhere" },
+    update: { __type: "CommandDeviceCalibrationsUpdateConnectionInput" },
+    connect: { __type: "[CommandDeviceCalibrationsConnectFieldInput!]" },
+    disconnect: { __type: "[CommandDeviceCalibrationsDisconnectFieldInput!]" },
+    create: { __type: "[CommandDeviceCalibrationsCreateFieldInput!]" },
+    delete: { __type: "[CommandDeviceCalibrationsDeleteFieldInput!]" },
   },
   CommandDeviceConnectInput: {
     activeProgram: { __type: "CommandDeviceActiveProgramConnectFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesConnectFieldInput!]",
-    },
+    calibrations: { __type: "[CommandDeviceCalibrationsConnectFieldInput!]" },
     peripherals: { __type: "[CommandDevicePeripheralsConnectFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationConnectFieldInput" },
   },
@@ -25476,22 +25982,20 @@ export const generatedSchema = {
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
     activeProgram: { __type: "CommandDeviceActiveProgramFieldInput" },
-    configuredDevices: { __type: "CommandDeviceConfiguredDevicesFieldInput" },
+    calibrations: { __type: "CommandDeviceCalibrationsFieldInput" },
     peripherals: { __type: "CommandDevicePeripheralsFieldInput" },
     organisation: { __type: "CommandDeviceOrganisationFieldInput" },
   },
   CommandDeviceDeleteInput: {
     activeProgram: { __type: "CommandDeviceActiveProgramDeleteFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesDeleteFieldInput!]",
-    },
+    calibrations: { __type: "[CommandDeviceCalibrationsDeleteFieldInput!]" },
     peripherals: { __type: "[CommandDevicePeripheralsDeleteFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationDeleteFieldInput" },
   },
   CommandDeviceDisconnectInput: {
     activeProgram: { __type: "CommandDeviceActiveProgramDisconnectFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesDisconnectFieldInput!]",
+    calibrations: {
+      __type: "[CommandDeviceCalibrationsDisconnectFieldInput!]",
     },
     peripherals: { __type: "[CommandDevicePeripheralsDisconnectFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationDisconnectFieldInput" },
@@ -26550,9 +27054,7 @@ export const generatedSchema = {
   },
   CommandDeviceRelationInput: {
     activeProgram: { __type: "CommandDeviceActiveProgramCreateFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesCreateFieldInput!]",
-    },
+    calibrations: { __type: "[CommandDeviceCalibrationsCreateFieldInput!]" },
     peripherals: { __type: "[CommandDevicePeripheralsCreateFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationCreateFieldInput" },
   },
@@ -26570,6 +27072,131 @@ export const generatedSchema = {
     success: { __type: "Boolean" },
     success_NOT: { __type: "Boolean" },
   },
+  CommandDeviceSetpointConnectInput: {
+    key: { __type: "CommandDeviceSetpointKeyConnectFieldInput" },
+  },
+  CommandDeviceSetpointConnectWhere: {
+    node: { __type: "CommandDeviceSetpointWhere!" },
+  },
+  CommandDeviceSetpointCreateInput: {
+    name: { __type: "String" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    key: { __type: "CommandDeviceSetpointKeyFieldInput" },
+  },
+  CommandDeviceSetpointDeleteInput: {
+    key: { __type: "CommandDeviceSetpointKeyDeleteFieldInput" },
+  },
+  CommandDeviceSetpointDisconnectInput: {
+    key: { __type: "CommandDeviceSetpointKeyDisconnectFieldInput" },
+  },
+  CommandDeviceSetpointKeyConnectFieldInput: {
+    where: { __type: "CommandProgramDeviceStateConnectWhere" },
+    connect: { __type: "CommandProgramDeviceStateConnectInput" },
+  },
+  CommandDeviceSetpointKeyConnectionSort: {
+    node: { __type: "CommandProgramDeviceStateSort" },
+  },
+  CommandDeviceSetpointKeyConnectionWhere: {
+    AND: { __type: "[CommandDeviceSetpointKeyConnectionWhere!]" },
+    OR: { __type: "[CommandDeviceSetpointKeyConnectionWhere!]" },
+    node: { __type: "CommandProgramDeviceStateWhere" },
+    node_NOT: { __type: "CommandProgramDeviceStateWhere" },
+  },
+  CommandDeviceSetpointKeyCreateFieldInput: {
+    node: { __type: "CommandProgramDeviceStateCreateInput!" },
+  },
+  CommandDeviceSetpointKeyDeleteFieldInput: {
+    where: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+    delete: { __type: "CommandProgramDeviceStateDeleteInput" },
+  },
+  CommandDeviceSetpointKeyDisconnectFieldInput: {
+    where: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+    disconnect: { __type: "CommandProgramDeviceStateDisconnectInput" },
+  },
+  CommandDeviceSetpointKeyFieldInput: {
+    create: { __type: "CommandDeviceSetpointKeyCreateFieldInput" },
+    connect: { __type: "CommandDeviceSetpointKeyConnectFieldInput" },
+  },
+  CommandDeviceSetpointKeyUpdateConnectionInput: {
+    node: { __type: "CommandProgramDeviceStateUpdateInput" },
+  },
+  CommandDeviceSetpointKeyUpdateFieldInput: {
+    where: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+    update: { __type: "CommandDeviceSetpointKeyUpdateConnectionInput" },
+    connect: { __type: "CommandDeviceSetpointKeyConnectFieldInput" },
+    disconnect: { __type: "CommandDeviceSetpointKeyDisconnectFieldInput" },
+    create: { __type: "CommandDeviceSetpointKeyCreateFieldInput" },
+    delete: { __type: "CommandDeviceSetpointKeyDeleteFieldInput" },
+  },
+  CommandDeviceSetpointOptions: {
+    sort: { __type: "[CommandDeviceSetpointSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandDeviceSetpointRelationInput: {
+    key: { __type: "CommandDeviceSetpointKeyCreateFieldInput" },
+  },
+  CommandDeviceSetpointSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+    value: { __type: "SortDirection" },
+  },
+  CommandDeviceSetpointUpdateInput: {
+    name: { __type: "String" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    key: { __type: "CommandDeviceSetpointKeyUpdateFieldInput" },
+  },
+  CommandDeviceSetpointWhere: {
+    OR: { __type: "[CommandDeviceSetpointWhere!]" },
+    AND: { __type: "[CommandDeviceSetpointWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    value: { __type: "String" },
+    value_NOT: { __type: "String" },
+    value_IN: { __type: "[String]" },
+    value_NOT_IN: { __type: "[String]" },
+    value_CONTAINS: { __type: "String" },
+    value_NOT_CONTAINS: { __type: "String" },
+    value_STARTS_WITH: { __type: "String" },
+    value_NOT_STARTS_WITH: { __type: "String" },
+    value_ENDS_WITH: { __type: "String" },
+    value_NOT_ENDS_WITH: { __type: "String" },
+    key: { __type: "CommandProgramDeviceStateWhere" },
+    key_NOT: { __type: "CommandProgramDeviceStateWhere" },
+    keyConnection: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+    keyConnection_NOT: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+  },
   CommandDeviceSort: {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
@@ -26585,9 +27212,7 @@ export const generatedSchema = {
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
     activeProgram: { __type: "CommandDeviceActiveProgramUpdateFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesUpdateFieldInput!]",
-    },
+    calibrations: { __type: "[CommandDeviceCalibrationsUpdateFieldInput!]" },
     peripherals: { __type: "[CommandDevicePeripheralsUpdateFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationUpdateFieldInput" },
   },
@@ -26713,10 +27338,8 @@ export const generatedSchema = {
     lastOnline_GTE: { __type: "DateTime" },
     activeProgram: { __type: "CommandProgramWhere" },
     activeProgram_NOT: { __type: "CommandProgramWhere" },
-    configuredDevices: { __type: "CommandProgramPeripheralConfigurationWhere" },
-    configuredDevices_NOT: {
-      __type: "CommandProgramPeripheralConfigurationWhere",
-    },
+    calibrations: { __type: "CommandProgramDeviceCalibrationWhere" },
+    calibrations_NOT: { __type: "CommandProgramDeviceCalibrationWhere" },
     peripherals: { __type: "CommandDevicePeripheralWhere" },
     peripherals_NOT: { __type: "CommandDevicePeripheralWhere" },
     organisation: { __type: "HiveOrganisationWhere" },
@@ -26727,11 +27350,11 @@ export const generatedSchema = {
     activeProgramConnection_NOT: {
       __type: "CommandDeviceActiveProgramConnectionWhere",
     },
-    configuredDevicesConnection: {
-      __type: "CommandDeviceConfiguredDevicesConnectionWhere",
+    calibrationsConnection: {
+      __type: "CommandDeviceCalibrationsConnectionWhere",
     },
-    configuredDevicesConnection_NOT: {
-      __type: "CommandDeviceConfiguredDevicesConnectionWhere",
+    calibrationsConnection_NOT: {
+      __type: "CommandDeviceCalibrationsConnectionWhere",
     },
     peripheralsConnection: {
       __type: "CommandDevicePeripheralsConnectionWhere",
@@ -28189,20 +28812,182 @@ export const generatedSchema = {
     create: { __type: "CommandInterlockActionCreateFieldInput" },
     delete: { __type: "CommandInterlockActionDeleteFieldInput" },
   },
+  CommandInterlockAssertionConnectFieldInput: {
+    where: { __type: "CommandInterlockAssertionConnectWhere" },
+    connect: { __type: "CommandInterlockAssertionConnectInput" },
+  },
+  CommandInterlockAssertionConnectInput: {
+    setpoint: { __type: "CommandInterlockAssertionSetpointConnectFieldInput" },
+  },
+  CommandInterlockAssertionConnectionSort: {
+    node: { __type: "CommandInterlockAssertionSort" },
+  },
+  CommandInterlockAssertionConnectionWhere: {
+    AND: { __type: "[CommandInterlockAssertionConnectionWhere!]" },
+    OR: { __type: "[CommandInterlockAssertionConnectionWhere!]" },
+    node: { __type: "CommandInterlockAssertionWhere" },
+    node_NOT: { __type: "CommandInterlockAssertionWhere" },
+  },
+  CommandInterlockAssertionConnectWhere: {
+    node: { __type: "CommandInterlockAssertionWhere!" },
+  },
+  CommandInterlockAssertionCreateFieldInput: {
+    node: { __type: "CommandInterlockAssertionCreateInput!" },
+  },
+  CommandInterlockAssertionCreateInput: {
+    type: { __type: "String" },
+    value: { __type: "String" },
+    setpoint: { __type: "CommandInterlockAssertionSetpointFieldInput" },
+  },
+  CommandInterlockAssertionDeleteFieldInput: {
+    where: { __type: "CommandInterlockAssertionConnectionWhere" },
+    delete: { __type: "CommandInterlockAssertionDeleteInput" },
+  },
+  CommandInterlockAssertionDeleteInput: {
+    setpoint: { __type: "CommandInterlockAssertionSetpointDeleteFieldInput" },
+  },
+  CommandInterlockAssertionDisconnectFieldInput: {
+    where: { __type: "CommandInterlockAssertionConnectionWhere" },
+    disconnect: { __type: "CommandInterlockAssertionDisconnectInput" },
+  },
+  CommandInterlockAssertionDisconnectInput: {
+    setpoint: {
+      __type: "CommandInterlockAssertionSetpointDisconnectFieldInput",
+    },
+  },
+  CommandInterlockAssertionFieldInput: {
+    create: { __type: "CommandInterlockAssertionCreateFieldInput" },
+    connect: { __type: "CommandInterlockAssertionConnectFieldInput" },
+  },
+  CommandInterlockAssertionOptions: {
+    sort: { __type: "[CommandInterlockAssertionSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandInterlockAssertionRelationInput: {
+    setpoint: { __type: "CommandInterlockAssertionSetpointCreateFieldInput" },
+  },
+  CommandInterlockAssertionSetpointConnectFieldInput: {
+    where: { __type: "CommandDeviceSetpointConnectWhere" },
+    connect: { __type: "CommandDeviceSetpointConnectInput" },
+  },
+  CommandInterlockAssertionSetpointConnectionSort: {
+    node: { __type: "CommandDeviceSetpointSort" },
+  },
+  CommandInterlockAssertionSetpointConnectionWhere: {
+    AND: { __type: "[CommandInterlockAssertionSetpointConnectionWhere!]" },
+    OR: { __type: "[CommandInterlockAssertionSetpointConnectionWhere!]" },
+    node: { __type: "CommandDeviceSetpointWhere" },
+    node_NOT: { __type: "CommandDeviceSetpointWhere" },
+  },
+  CommandInterlockAssertionSetpointCreateFieldInput: {
+    node: { __type: "CommandDeviceSetpointCreateInput!" },
+  },
+  CommandInterlockAssertionSetpointDeleteFieldInput: {
+    where: { __type: "CommandInterlockAssertionSetpointConnectionWhere" },
+    delete: { __type: "CommandDeviceSetpointDeleteInput" },
+  },
+  CommandInterlockAssertionSetpointDisconnectFieldInput: {
+    where: { __type: "CommandInterlockAssertionSetpointConnectionWhere" },
+    disconnect: { __type: "CommandDeviceSetpointDisconnectInput" },
+  },
+  CommandInterlockAssertionSetpointFieldInput: {
+    create: { __type: "CommandInterlockAssertionSetpointCreateFieldInput" },
+    connect: { __type: "CommandInterlockAssertionSetpointConnectFieldInput" },
+  },
+  CommandInterlockAssertionSetpointUpdateConnectionInput: {
+    node: { __type: "CommandDeviceSetpointUpdateInput" },
+  },
+  CommandInterlockAssertionSetpointUpdateFieldInput: {
+    where: { __type: "CommandInterlockAssertionSetpointConnectionWhere" },
+    update: {
+      __type: "CommandInterlockAssertionSetpointUpdateConnectionInput",
+    },
+    connect: { __type: "CommandInterlockAssertionSetpointConnectFieldInput" },
+    disconnect: {
+      __type: "CommandInterlockAssertionSetpointDisconnectFieldInput",
+    },
+    create: { __type: "CommandInterlockAssertionSetpointCreateFieldInput" },
+    delete: { __type: "CommandInterlockAssertionSetpointDeleteFieldInput" },
+  },
+  CommandInterlockAssertionSort: {
+    id: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+    value: { __type: "SortDirection" },
+  },
+  CommandInterlockAssertionUpdateConnectionInput: {
+    node: { __type: "CommandInterlockAssertionUpdateInput" },
+  },
+  CommandInterlockAssertionUpdateFieldInput: {
+    where: { __type: "CommandInterlockAssertionConnectionWhere" },
+    update: { __type: "CommandInterlockAssertionUpdateConnectionInput" },
+    connect: { __type: "CommandInterlockAssertionConnectFieldInput" },
+    disconnect: { __type: "CommandInterlockAssertionDisconnectFieldInput" },
+    create: { __type: "CommandInterlockAssertionCreateFieldInput" },
+    delete: { __type: "CommandInterlockAssertionDeleteFieldInput" },
+  },
+  CommandInterlockAssertionUpdateInput: {
+    type: { __type: "String" },
+    value: { __type: "String" },
+    setpoint: { __type: "CommandInterlockAssertionSetpointUpdateFieldInput" },
+  },
+  CommandInterlockAssertionWhere: {
+    OR: { __type: "[CommandInterlockAssertionWhere!]" },
+    AND: { __type: "[CommandInterlockAssertionWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    value: { __type: "String" },
+    value_NOT: { __type: "String" },
+    value_IN: { __type: "[String]" },
+    value_NOT_IN: { __type: "[String]" },
+    value_CONTAINS: { __type: "String" },
+    value_NOT_CONTAINS: { __type: "String" },
+    value_STARTS_WITH: { __type: "String" },
+    value_NOT_STARTS_WITH: { __type: "String" },
+    value_ENDS_WITH: { __type: "String" },
+    value_NOT_ENDS_WITH: { __type: "String" },
+    setpoint: { __type: "CommandDeviceSetpointWhere" },
+    setpoint_NOT: { __type: "CommandDeviceSetpointWhere" },
+    setpointConnection: {
+      __type: "CommandInterlockAssertionSetpointConnectionWhere",
+    },
+    setpointConnection_NOT: {
+      __type: "CommandInterlockAssertionSetpointConnectionWhere",
+    },
+  },
   CommandInterlockConnectInput: {
     inputDevice: { __type: "CommandInterlockInputDeviceConnectFieldInput" },
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyConnectFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionConnectFieldInput" },
     action: { __type: "CommandInterlockActionConnectFieldInput" },
     device: { __type: "CommandInterlockDeviceConnectFieldInput" },
   },
   CommandInterlockConnectWhere: { node: { __type: "CommandInterlockWhere!" } },
   CommandInterlockCreateInput: {
     comparator: { __type: "String" },
-    assertion: { __type: "String" },
     inputDevice: { __type: "CommandInterlockInputDeviceFieldInput" },
     inputDeviceKey: { __type: "CommandInterlockInputDeviceKeyFieldInput" },
+    assertion: { __type: "CommandInterlockAssertionFieldInput" },
     action: { __type: "CommandInterlockActionFieldInput" },
     device: { __type: "CommandInterlockDeviceFieldInput" },
   },
@@ -28211,6 +28996,7 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyDeleteFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionDeleteFieldInput" },
     action: { __type: "CommandInterlockActionDeleteFieldInput" },
     device: { __type: "CommandInterlockDeviceDeleteFieldInput" },
   },
@@ -28258,6 +29044,7 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyDisconnectFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionDisconnectFieldInput" },
     action: { __type: "CommandInterlockActionDisconnectFieldInput" },
     device: { __type: "CommandInterlockDeviceDisconnectFieldInput" },
   },
@@ -28351,21 +29138,21 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyCreateFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionCreateFieldInput" },
     action: { __type: "CommandInterlockActionCreateFieldInput" },
     device: { __type: "CommandInterlockDeviceCreateFieldInput" },
   },
   CommandInterlockSort: {
     id: { __type: "SortDirection" },
     comparator: { __type: "SortDirection" },
-    assertion: { __type: "SortDirection" },
   },
   CommandInterlockUpdateInput: {
     comparator: { __type: "String" },
-    assertion: { __type: "String" },
     inputDevice: { __type: "CommandInterlockInputDeviceUpdateFieldInput" },
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyUpdateFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionUpdateFieldInput" },
     action: { __type: "CommandInterlockActionUpdateFieldInput" },
     device: { __type: "CommandInterlockDeviceUpdateFieldInput" },
   },
@@ -28392,20 +29179,12 @@ export const generatedSchema = {
     comparator_NOT_STARTS_WITH: { __type: "String" },
     comparator_ENDS_WITH: { __type: "String" },
     comparator_NOT_ENDS_WITH: { __type: "String" },
-    assertion: { __type: "String" },
-    assertion_NOT: { __type: "String" },
-    assertion_IN: { __type: "[String]" },
-    assertion_NOT_IN: { __type: "[String]" },
-    assertion_CONTAINS: { __type: "String" },
-    assertion_NOT_CONTAINS: { __type: "String" },
-    assertion_STARTS_WITH: { __type: "String" },
-    assertion_NOT_STARTS_WITH: { __type: "String" },
-    assertion_ENDS_WITH: { __type: "String" },
-    assertion_NOT_ENDS_WITH: { __type: "String" },
     inputDevice: { __type: "CommandProgramDevicePlaceholderWhere" },
     inputDevice_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
     inputDeviceKey: { __type: "CommandProgramDeviceStateWhere" },
     inputDeviceKey_NOT: { __type: "CommandProgramDeviceStateWhere" },
+    assertion: { __type: "CommandInterlockAssertionWhere" },
+    assertion_NOT: { __type: "CommandInterlockAssertionWhere" },
     action: { __type: "CommandProgramDeviceActionWhere" },
     action_NOT: { __type: "CommandProgramDeviceActionWhere" },
     device: { __type: "CommandProgramDevicePlaceholderWhere" },
@@ -28422,6 +29201,10 @@ export const generatedSchema = {
     inputDeviceKeyConnection_NOT: {
       __type: "CommandInterlockInputDeviceKeyConnectionWhere",
     },
+    assertionConnection: { __type: "CommandInterlockAssertionConnectionWhere" },
+    assertionConnection_NOT: {
+      __type: "CommandInterlockAssertionConnectionWhere",
+    },
     actionConnection: { __type: "CommandInterlockActionConnectionWhere" },
     actionConnection_NOT: { __type: "CommandInterlockActionConnectionWhere" },
     deviceConnection: { __type: "CommandInterlockDeviceConnectionWhere" },
@@ -28429,7 +29212,6 @@ export const generatedSchema = {
   },
   CommandKeyValueConnectWhere: { node: { __type: "CommandKeyValueWhere!" } },
   CommandKeyValueCreateInput: {
-    id: { __type: "ID" },
     key: { __type: "String" },
     value: { __type: "String" },
   },
@@ -28444,7 +29226,6 @@ export const generatedSchema = {
     value: { __type: "SortDirection" },
   },
   CommandKeyValueUpdateInput: {
-    id: { __type: "ID" },
     key: { __type: "String" },
     value: { __type: "String" },
   },
@@ -29177,74 +29958,255 @@ export const generatedSchema = {
       __type: "CommandProgramDeviceActionDeviceConnectionWhere",
     },
   },
-  CommandProgramDeviceConfigurationConnectFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectWhere" },
-  },
-  CommandProgramDeviceConfigurationConnectionSort: {
-    node: { __type: "CommandProgramDeviceConfigurationSort" },
-  },
-  CommandProgramDeviceConfigurationConnectionWhere: {
-    AND: { __type: "[CommandProgramDeviceConfigurationConnectionWhere!]" },
-    OR: { __type: "[CommandProgramDeviceConfigurationConnectionWhere!]" },
-    node: { __type: "CommandProgramDeviceConfigurationWhere" },
-    node_NOT: { __type: "CommandProgramDeviceConfigurationWhere" },
-  },
-  CommandProgramDeviceConfigurationConnectWhere: {
-    node: { __type: "CommandProgramDeviceConfigurationWhere!" },
-  },
-  CommandProgramDeviceConfigurationCreateFieldInput: {
-    node: { __type: "CommandProgramDeviceConfigurationCreateInput!" },
-  },
-  CommandProgramDeviceConfigurationCreateInput: {
-    key: { __type: "String" },
-    type: { __type: "String" },
-  },
-  CommandProgramDeviceConfigurationDeleteFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectionWhere" },
-  },
-  CommandProgramDeviceConfigurationDisconnectFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectionWhere" },
-  },
-  CommandProgramDeviceConfigurationFieldInput: {
-    create: { __type: "[CommandProgramDeviceConfigurationCreateFieldInput!]" },
-    connect: {
-      __type: "[CommandProgramDeviceConfigurationConnectFieldInput!]",
+  CommandProgramDeviceCalibrationConnectInput: {
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectFieldInput",
+    },
+    device: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectFieldInput",
+    },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput",
     },
   },
-  CommandProgramDeviceConfigurationOptions: {
-    sort: { __type: "[CommandProgramDeviceConfigurationSort]" },
+  CommandProgramDeviceCalibrationConnectWhere: {
+    node: { __type: "CommandProgramDeviceCalibrationWhere!" },
+  },
+  CommandProgramDeviceCalibrationCreateInput: {
+    min: { __type: "String" },
+    max: { __type: "String" },
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceFieldInput",
+    },
+    device: { __type: "CommandProgramDeviceCalibrationDeviceFieldInput" },
+    deviceKey: { __type: "CommandProgramDeviceCalibrationDeviceKeyFieldInput" },
+  },
+  CommandProgramDeviceCalibrationDeleteInput: {
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput",
+    },
+    device: { __type: "CommandProgramDeviceCalibrationDeviceDeleteFieldInput" },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationDeviceConnectFieldInput: {
+    where: { __type: "CommandProgramDevicePlaceholderConnectWhere" },
+    connect: { __type: "CommandProgramDevicePlaceholderConnectInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceConnectionSort: {
+    node: { __type: "CommandProgramDevicePlaceholderSort" },
+  },
+  CommandProgramDeviceCalibrationDeviceConnectionWhere: {
+    AND: { __type: "[CommandProgramDeviceCalibrationDeviceConnectionWhere!]" },
+    OR: { __type: "[CommandProgramDeviceCalibrationDeviceConnectionWhere!]" },
+    node: { __type: "CommandProgramDevicePlaceholderWhere" },
+    node_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
+  },
+  CommandProgramDeviceCalibrationDeviceCreateFieldInput: {
+    node: { __type: "CommandProgramDevicePlaceholderCreateInput!" },
+  },
+  CommandProgramDeviceCalibrationDeviceDeleteFieldInput: {
+    where: { __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere" },
+    delete: { __type: "CommandProgramDevicePlaceholderDeleteInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceDisconnectFieldInput: {
+    where: { __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere" },
+    disconnect: { __type: "CommandProgramDevicePlaceholderDisconnectInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceFieldInput: {
+    create: { __type: "CommandProgramDeviceCalibrationDeviceCreateFieldInput" },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput: {
+    where: { __type: "CommandProgramDeviceStateConnectWhere" },
+    connect: { __type: "CommandProgramDeviceStateConnectInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyConnectionSort: {
+    node: { __type: "CommandProgramDeviceStateSort" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyConnectionWhere: {
+    AND: {
+      __type: "[CommandProgramDeviceCalibrationDeviceKeyConnectionWhere!]",
+    },
+    OR: {
+      __type: "[CommandProgramDeviceCalibrationDeviceKeyConnectionWhere!]",
+    },
+    node: { __type: "CommandProgramDeviceStateWhere" },
+    node_NOT: { __type: "CommandProgramDeviceStateWhere" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput: {
+    node: { __type: "CommandProgramDeviceStateCreateInput!" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
+    delete: { __type: "CommandProgramDeviceStateDeleteInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
+    disconnect: { __type: "CommandProgramDeviceStateDisconnectInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyFieldInput: {
+    create: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput",
+    },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyUpdateConnectionInput: {
+    node: { __type: "CommandProgramDeviceStateUpdateInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyUpdateFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
+    update: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyUpdateConnectionInput",
+    },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput",
+    },
+    disconnect: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput",
+    },
+    create: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput",
+    },
+    delete: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationDeviceUpdateConnectionInput: {
+    node: { __type: "CommandProgramDevicePlaceholderUpdateInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceUpdateFieldInput: {
+    where: { __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere" },
+    update: {
+      __type: "CommandProgramDeviceCalibrationDeviceUpdateConnectionInput",
+    },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectFieldInput",
+    },
+    disconnect: {
+      __type: "CommandProgramDeviceCalibrationDeviceDisconnectFieldInput",
+    },
+    create: { __type: "CommandProgramDeviceCalibrationDeviceCreateFieldInput" },
+    delete: { __type: "CommandProgramDeviceCalibrationDeviceDeleteFieldInput" },
+  },
+  CommandProgramDeviceCalibrationDisconnectInput: {
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput",
+    },
+    device: {
+      __type: "CommandProgramDeviceCalibrationDeviceDisconnectFieldInput",
+    },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationOptions: {
+    sort: { __type: "[CommandProgramDeviceCalibrationSort]" },
     limit: { __type: "Int" },
     offset: { __type: "Int" },
   },
-  CommandProgramDeviceConfigurationSort: {
-    id: { __type: "SortDirection" },
-    key: { __type: "SortDirection" },
-    type: { __type: "SortDirection" },
+  CommandProgramDeviceCalibrationRelationInput: {
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceCreateFieldInput",
+    },
+    device: { __type: "CommandProgramDeviceCalibrationDeviceCreateFieldInput" },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput",
+    },
   },
-  CommandProgramDeviceConfigurationUpdateConnectionInput: {
-    node: { __type: "CommandProgramDeviceConfigurationUpdateInput" },
+  CommandProgramDeviceCalibrationRootDeviceConnectFieldInput: {
+    where: { __type: "CommandDeviceConnectWhere" },
+    connect: { __type: "CommandDeviceConnectInput" },
   },
-  CommandProgramDeviceConfigurationUpdateFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectionWhere" },
-    update: {
-      __type: "CommandProgramDeviceConfigurationUpdateConnectionInput",
+  CommandProgramDeviceCalibrationRootDeviceConnectionSort: {
+    node: { __type: "CommandDeviceSort" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceConnectionWhere: {
+    AND: {
+      __type: "[CommandProgramDeviceCalibrationRootDeviceConnectionWhere!]",
+    },
+    OR: {
+      __type: "[CommandProgramDeviceCalibrationRootDeviceConnectionWhere!]",
+    },
+    node: { __type: "CommandDeviceWhere" },
+    node_NOT: { __type: "CommandDeviceWhere" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceCreateFieldInput: {
+    node: { __type: "CommandDeviceCreateInput!" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    delete: { __type: "CommandDeviceDeleteInput" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    disconnect: { __type: "CommandDeviceDisconnectInput" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceFieldInput: {
+    create: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceCreateFieldInput",
     },
     connect: {
-      __type: "[CommandProgramDeviceConfigurationConnectFieldInput!]",
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationRootDeviceUpdateConnectionInput: {
+    node: { __type: "CommandDeviceUpdateInput" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceUpdateFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    update: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceUpdateConnectionInput",
+    },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectFieldInput",
     },
     disconnect: {
-      __type: "[CommandProgramDeviceConfigurationDisconnectFieldInput!]",
+      __type: "CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput",
     },
-    create: { __type: "[CommandProgramDeviceConfigurationCreateFieldInput!]" },
-    delete: { __type: "[CommandProgramDeviceConfigurationDeleteFieldInput!]" },
+    create: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceCreateFieldInput",
+    },
+    delete: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput",
+    },
   },
-  CommandProgramDeviceConfigurationUpdateInput: {
-    key: { __type: "String" },
-    type: { __type: "String" },
+  CommandProgramDeviceCalibrationSort: {
+    id: { __type: "SortDirection" },
+    min: { __type: "SortDirection" },
+    max: { __type: "SortDirection" },
   },
-  CommandProgramDeviceConfigurationWhere: {
-    OR: { __type: "[CommandProgramDeviceConfigurationWhere!]" },
-    AND: { __type: "[CommandProgramDeviceConfigurationWhere!]" },
+  CommandProgramDeviceCalibrationUpdateInput: {
+    min: { __type: "String" },
+    max: { __type: "String" },
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceUpdateFieldInput",
+    },
+    device: { __type: "CommandProgramDeviceCalibrationDeviceUpdateFieldInput" },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyUpdateFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationWhere: {
+    OR: { __type: "[CommandProgramDeviceCalibrationWhere!]" },
+    AND: { __type: "[CommandProgramDeviceCalibrationWhere!]" },
     id: { __type: "ID" },
     id_NOT: { __type: "ID" },
     id_IN: { __type: "[ID]" },
@@ -29255,31 +30217,52 @@ export const generatedSchema = {
     id_NOT_STARTS_WITH: { __type: "ID" },
     id_ENDS_WITH: { __type: "ID" },
     id_NOT_ENDS_WITH: { __type: "ID" },
-    key: { __type: "String" },
-    key_NOT: { __type: "String" },
-    key_IN: { __type: "[String]" },
-    key_NOT_IN: { __type: "[String]" },
-    key_CONTAINS: { __type: "String" },
-    key_NOT_CONTAINS: { __type: "String" },
-    key_STARTS_WITH: { __type: "String" },
-    key_NOT_STARTS_WITH: { __type: "String" },
-    key_ENDS_WITH: { __type: "String" },
-    key_NOT_ENDS_WITH: { __type: "String" },
-    type: { __type: "String" },
-    type_NOT: { __type: "String" },
-    type_IN: { __type: "[String]" },
-    type_NOT_IN: { __type: "[String]" },
-    type_CONTAINS: { __type: "String" },
-    type_NOT_CONTAINS: { __type: "String" },
-    type_STARTS_WITH: { __type: "String" },
-    type_NOT_STARTS_WITH: { __type: "String" },
-    type_ENDS_WITH: { __type: "String" },
-    type_NOT_ENDS_WITH: { __type: "String" },
+    min: { __type: "String" },
+    min_NOT: { __type: "String" },
+    min_IN: { __type: "[String]" },
+    min_NOT_IN: { __type: "[String]" },
+    min_CONTAINS: { __type: "String" },
+    min_NOT_CONTAINS: { __type: "String" },
+    min_STARTS_WITH: { __type: "String" },
+    min_NOT_STARTS_WITH: { __type: "String" },
+    min_ENDS_WITH: { __type: "String" },
+    min_NOT_ENDS_WITH: { __type: "String" },
+    max: { __type: "String" },
+    max_NOT: { __type: "String" },
+    max_IN: { __type: "[String]" },
+    max_NOT_IN: { __type: "[String]" },
+    max_CONTAINS: { __type: "String" },
+    max_NOT_CONTAINS: { __type: "String" },
+    max_STARTS_WITH: { __type: "String" },
+    max_NOT_STARTS_WITH: { __type: "String" },
+    max_ENDS_WITH: { __type: "String" },
+    max_NOT_ENDS_WITH: { __type: "String" },
+    rootDevice: { __type: "CommandDeviceWhere" },
+    rootDevice_NOT: { __type: "CommandDeviceWhere" },
+    device: { __type: "CommandProgramDevicePlaceholderWhere" },
+    device_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
+    deviceKey: { __type: "CommandProgramDeviceStateWhere" },
+    deviceKey_NOT: { __type: "CommandProgramDeviceStateWhere" },
+    rootDeviceConnection: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    rootDeviceConnection_NOT: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    deviceConnection: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere",
+    },
+    deviceConnection_NOT: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere",
+    },
+    deviceKeyConnection: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
+    deviceKeyConnection_NOT: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
   },
   CommandProgramDeviceConnectInput: {
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationConnectFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInConnectFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateConnectFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsConnectFieldInput!]" },
@@ -29290,23 +30273,16 @@ export const generatedSchema = {
   CommandProgramDeviceCreateInput: {
     name: { __type: "String" },
     type: { __type: "String" },
-    configuration: { __type: "CommandProgramDeviceConfigurationFieldInput" },
     usedIn: { __type: "CommandProgramDeviceUsedInFieldInput" },
     state: { __type: "CommandProgramDeviceStateFieldInput" },
     actions: { __type: "CommandProgramDeviceActionsFieldInput" },
   },
   CommandProgramDeviceDeleteInput: {
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationDeleteFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInDeleteFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateDeleteFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsDeleteFieldInput!]" },
   },
   CommandProgramDeviceDisconnectInput: {
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationDisconnectFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInDisconnectFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateDisconnectFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsDisconnectFieldInput!]" },
@@ -29320,6 +30296,9 @@ export const generatedSchema = {
     type: { __type: "CommandProgramDevicePlaceholderTypeConnectFieldInput" },
     interlocks: {
       __type: "[CommandProgramDevicePlaceholderInterlocksConnectFieldInput!]",
+    },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectFieldInput!]",
     },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsConnectFieldInput!]",
@@ -29335,12 +30314,16 @@ export const generatedSchema = {
     interlocks: {
       __type: "CommandProgramDevicePlaceholderInterlocksFieldInput",
     },
+    setpoints: { __type: "CommandProgramDevicePlaceholderSetpointsFieldInput" },
     plugins: { __type: "CommandProgramDevicePlaceholderPluginsFieldInput" },
   },
   CommandProgramDevicePlaceholderDeleteInput: {
     type: { __type: "CommandProgramDevicePlaceholderTypeDeleteFieldInput" },
     interlocks: {
       __type: "[CommandProgramDevicePlaceholderInterlocksDeleteFieldInput!]",
+    },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsDeleteFieldInput!]",
     },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsDeleteFieldInput!]",
@@ -29351,6 +30334,9 @@ export const generatedSchema = {
     interlocks: {
       __type:
         "[CommandProgramDevicePlaceholderInterlocksDisconnectFieldInput!]",
+    },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput!]",
     },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsDisconnectFieldInput!]",
@@ -29483,8 +30469,74 @@ export const generatedSchema = {
     interlocks: {
       __type: "[CommandProgramDevicePlaceholderInterlocksCreateFieldInput!]",
     },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsCreateFieldInput!]",
+    },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsCreateFieldInput!]",
+    },
+  },
+  CommandProgramDevicePlaceholderSetpointsConnectFieldInput: {
+    where: { __type: "CommandDeviceSetpointConnectWhere" },
+    connect: { __type: "[CommandDeviceSetpointConnectInput!]" },
+  },
+  CommandProgramDevicePlaceholderSetpointsConnectionSort: {
+    node: { __type: "CommandDeviceSetpointSort" },
+  },
+  CommandProgramDevicePlaceholderSetpointsConnectionWhere: {
+    AND: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectionWhere!]",
+    },
+    OR: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectionWhere!]",
+    },
+    node: { __type: "CommandDeviceSetpointWhere" },
+    node_NOT: { __type: "CommandDeviceSetpointWhere" },
+  },
+  CommandProgramDevicePlaceholderSetpointsCreateFieldInput: {
+    node: { __type: "CommandDeviceSetpointCreateInput!" },
+  },
+  CommandProgramDevicePlaceholderSetpointsDeleteFieldInput: {
+    where: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+    },
+    delete: { __type: "CommandDeviceSetpointDeleteInput" },
+  },
+  CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput: {
+    where: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+    },
+    disconnect: { __type: "CommandDeviceSetpointDisconnectInput" },
+  },
+  CommandProgramDevicePlaceholderSetpointsFieldInput: {
+    create: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsCreateFieldInput!]",
+    },
+    connect: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectFieldInput!]",
+    },
+  },
+  CommandProgramDevicePlaceholderSetpointsUpdateConnectionInput: {
+    node: { __type: "CommandDeviceSetpointUpdateInput" },
+  },
+  CommandProgramDevicePlaceholderSetpointsUpdateFieldInput: {
+    where: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+    },
+    update: {
+      __type: "CommandProgramDevicePlaceholderSetpointsUpdateConnectionInput",
+    },
+    connect: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectFieldInput!]",
+    },
+    disconnect: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput!]",
+    },
+    create: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsCreateFieldInput!]",
+    },
+    delete: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsDeleteFieldInput!]",
     },
   },
   CommandProgramDevicePlaceholderSort: {
@@ -29542,6 +30594,9 @@ export const generatedSchema = {
     interlocks: {
       __type: "[CommandProgramDevicePlaceholderInterlocksUpdateFieldInput!]",
     },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsUpdateFieldInput!]",
+    },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsUpdateFieldInput!]",
     },
@@ -29575,6 +30630,8 @@ export const generatedSchema = {
     type_NOT: { __type: "CommandProgramDeviceWhere" },
     interlocks: { __type: "CommandInterlockWhere" },
     interlocks_NOT: { __type: "CommandInterlockWhere" },
+    setpoints: { __type: "CommandDeviceSetpointWhere" },
+    setpoints_NOT: { __type: "CommandDeviceSetpointWhere" },
     plugins: { __type: "CommandDevicePluginWhere" },
     plugins_NOT: { __type: "CommandDevicePluginWhere" },
     typeConnection: {
@@ -29588,6 +30645,12 @@ export const generatedSchema = {
     },
     interlocksConnection_NOT: {
       __type: "CommandProgramDevicePlaceholderInterlocksConnectionWhere",
+    },
+    setpointsConnection: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+    },
+    setpointsConnection_NOT: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
     },
     pluginsConnection: {
       __type: "CommandProgramDevicePlaceholderPluginsConnectionWhere",
@@ -30141,9 +31204,6 @@ export const generatedSchema = {
     },
   },
   CommandProgramDeviceRelationInput: {
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationCreateFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInCreateFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateCreateFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsCreateFieldInput!]" },
@@ -30409,9 +31469,6 @@ export const generatedSchema = {
   CommandProgramDeviceUpdateInput: {
     name: { __type: "String" },
     type: { __type: "String" },
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationUpdateFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInUpdateFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateUpdateFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsUpdateFieldInput!]" },
@@ -30488,20 +31545,12 @@ export const generatedSchema = {
     type_NOT_STARTS_WITH: { __type: "String" },
     type_ENDS_WITH: { __type: "String" },
     type_NOT_ENDS_WITH: { __type: "String" },
-    configuration: { __type: "CommandProgramDeviceConfigurationWhere" },
-    configuration_NOT: { __type: "CommandProgramDeviceConfigurationWhere" },
     usedIn: { __type: "CommandProgramDevicePlaceholderWhere" },
     usedIn_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
     state: { __type: "CommandProgramDeviceStateWhere" },
     state_NOT: { __type: "CommandProgramDeviceStateWhere" },
     actions: { __type: "CommandProgramDeviceActionWhere" },
     actions_NOT: { __type: "CommandProgramDeviceActionWhere" },
-    configurationConnection: {
-      __type: "CommandProgramDeviceConfigurationConnectionWhere",
-    },
-    configurationConnection_NOT: {
-      __type: "CommandProgramDeviceConfigurationConnectionWhere",
-    },
     usedInConnection: { __type: "CommandProgramDeviceUsedInConnectionWhere" },
     usedInConnection_NOT: {
       __type: "CommandProgramDeviceUsedInConnectionWhere",
@@ -32174,228 +33223,6 @@ export const generatedSchema = {
     disconnect: { __type: "CommandProgramOrganisationDisconnectFieldInput" },
     create: { __type: "CommandProgramOrganisationCreateFieldInput" },
     delete: { __type: "CommandProgramOrganisationDeleteFieldInput" },
-  },
-  CommandProgramPeripheralConfigurationConfConnectFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectWhere" },
-  },
-  CommandProgramPeripheralConfigurationConfConnectionSort: {
-    node: { __type: "CommandProgramDeviceConfigurationSort" },
-  },
-  CommandProgramPeripheralConfigurationConfConnectionWhere: {
-    AND: {
-      __type: "[CommandProgramPeripheralConfigurationConfConnectionWhere!]",
-    },
-    OR: {
-      __type: "[CommandProgramPeripheralConfigurationConfConnectionWhere!]",
-    },
-    node: { __type: "CommandProgramDeviceConfigurationWhere" },
-    node_NOT: { __type: "CommandProgramDeviceConfigurationWhere" },
-  },
-  CommandProgramPeripheralConfigurationConfCreateFieldInput: {
-    node: { __type: "CommandProgramDeviceConfigurationCreateInput!" },
-  },
-  CommandProgramPeripheralConfigurationConfDeleteFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
-  },
-  CommandProgramPeripheralConfigurationConfDisconnectFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
-  },
-  CommandProgramPeripheralConfigurationConfFieldInput: {
-    create: {
-      __type: "CommandProgramPeripheralConfigurationConfCreateFieldInput",
-    },
-    connect: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationConfUpdateConnectionInput: {
-    node: { __type: "CommandProgramDeviceConfigurationUpdateInput" },
-  },
-  CommandProgramPeripheralConfigurationConfUpdateFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
-    update: {
-      __type: "CommandProgramPeripheralConfigurationConfUpdateConnectionInput",
-    },
-    connect: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectFieldInput",
-    },
-    disconnect: {
-      __type: "CommandProgramPeripheralConfigurationConfDisconnectFieldInput",
-    },
-    create: {
-      __type: "CommandProgramPeripheralConfigurationConfCreateFieldInput",
-    },
-    delete: {
-      __type: "CommandProgramPeripheralConfigurationConfDeleteFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationConnectInput: {
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationConnectWhere: {
-    node: { __type: "CommandProgramPeripheralConfigurationWhere!" },
-  },
-  CommandProgramPeripheralConfigurationCreateInput: {
-    value: { __type: "String" },
-    device: { __type: "CommandProgramPeripheralConfigurationDeviceFieldInput" },
-    conf: { __type: "CommandProgramPeripheralConfigurationConfFieldInput" },
-  },
-  CommandProgramPeripheralConfigurationDeleteInput: {
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceDeleteFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfDeleteFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationDeviceConnectFieldInput: {
-    where: { __type: "CommandProgramDevicePlaceholderConnectWhere" },
-    connect: { __type: "CommandProgramDevicePlaceholderConnectInput" },
-  },
-  CommandProgramPeripheralConfigurationDeviceConnectionSort: {
-    node: { __type: "CommandProgramDevicePlaceholderSort" },
-  },
-  CommandProgramPeripheralConfigurationDeviceConnectionWhere: {
-    AND: {
-      __type: "[CommandProgramPeripheralConfigurationDeviceConnectionWhere!]",
-    },
-    OR: {
-      __type: "[CommandProgramPeripheralConfigurationDeviceConnectionWhere!]",
-    },
-    node: { __type: "CommandProgramDevicePlaceholderWhere" },
-    node_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
-  },
-  CommandProgramPeripheralConfigurationDeviceCreateFieldInput: {
-    node: { __type: "CommandProgramDevicePlaceholderCreateInput!" },
-  },
-  CommandProgramPeripheralConfigurationDeviceDeleteFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    delete: { __type: "CommandProgramDevicePlaceholderDeleteInput" },
-  },
-  CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    disconnect: { __type: "CommandProgramDevicePlaceholderDisconnectInput" },
-  },
-  CommandProgramPeripheralConfigurationDeviceFieldInput: {
-    create: {
-      __type: "CommandProgramPeripheralConfigurationDeviceCreateFieldInput",
-    },
-    connect: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationDeviceUpdateConnectionInput: {
-    node: { __type: "CommandProgramDevicePlaceholderUpdateInput" },
-  },
-  CommandProgramPeripheralConfigurationDeviceUpdateFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    update: {
-      __type:
-        "CommandProgramPeripheralConfigurationDeviceUpdateConnectionInput",
-    },
-    connect: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectFieldInput",
-    },
-    disconnect: {
-      __type: "CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput",
-    },
-    create: {
-      __type: "CommandProgramPeripheralConfigurationDeviceCreateFieldInput",
-    },
-    delete: {
-      __type: "CommandProgramPeripheralConfigurationDeviceDeleteFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationDisconnectInput: {
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfDisconnectFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationOptions: {
-    sort: { __type: "[CommandProgramPeripheralConfigurationSort]" },
-    limit: { __type: "Int" },
-    offset: { __type: "Int" },
-  },
-  CommandProgramPeripheralConfigurationRelationInput: {
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceCreateFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfCreateFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationSort: {
-    id: { __type: "SortDirection" },
-    value: { __type: "SortDirection" },
-  },
-  CommandProgramPeripheralConfigurationUpdateInput: {
-    value: { __type: "String" },
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceUpdateFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfUpdateFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationWhere: {
-    OR: { __type: "[CommandProgramPeripheralConfigurationWhere!]" },
-    AND: { __type: "[CommandProgramPeripheralConfigurationWhere!]" },
-    id: { __type: "ID" },
-    id_NOT: { __type: "ID" },
-    id_IN: { __type: "[ID]" },
-    id_NOT_IN: { __type: "[ID]" },
-    id_CONTAINS: { __type: "ID" },
-    id_NOT_CONTAINS: { __type: "ID" },
-    id_STARTS_WITH: { __type: "ID" },
-    id_NOT_STARTS_WITH: { __type: "ID" },
-    id_ENDS_WITH: { __type: "ID" },
-    id_NOT_ENDS_WITH: { __type: "ID" },
-    value: { __type: "String" },
-    value_NOT: { __type: "String" },
-    value_IN: { __type: "[String]" },
-    value_NOT_IN: { __type: "[String]" },
-    value_CONTAINS: { __type: "String" },
-    value_NOT_CONTAINS: { __type: "String" },
-    value_STARTS_WITH: { __type: "String" },
-    value_NOT_STARTS_WITH: { __type: "String" },
-    value_ENDS_WITH: { __type: "String" },
-    value_NOT_ENDS_WITH: { __type: "String" },
-    device: { __type: "CommandProgramDevicePlaceholderWhere" },
-    device_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
-    conf: { __type: "CommandProgramDeviceConfigurationWhere" },
-    conf_NOT: { __type: "CommandProgramDeviceConfigurationWhere" },
-    deviceConnection: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    deviceConnection_NOT: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    confConnection: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
-    confConnection_NOT: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
   },
   CommandProgramProgramConnectFieldInput: {
     where: { __type: "CommandProgramFlowConnectWhere" },
@@ -40711,7 +41538,6 @@ export const generatedSchema = {
     HivePipelineRunner: ["HiveProcess", "HivePipelineTrigger"],
     TimelineProject: ["Project", "Estimate"],
     CommandDevicePeripheralPort: [
-      "CommandDeviceConfiguredDevicesRelationship",
       "CommandDevicePeripheralConnectedDevicesRelationship",
       "CommandDevicePeripheralMappedDevicesRelationship",
       "CommandDevicePeripheralProductPeripheralRelationship",
@@ -40754,6 +41580,19 @@ export interface Query {
     bus?: Maybe<Scalars["String"]>;
     port?: Maybe<Scalars["String"]>;
   }) => Maybe<Array<Maybe<CommandDeviceValue>>>;
+  commandDeviceTimeseries: (args?: {
+    deviceId?: Maybe<Scalars["String"]>;
+    device?: Maybe<Scalars["String"]>;
+    valueKey?: Maybe<Scalars["String"]>;
+    startDate?: Maybe<Scalars["String"]>;
+  }) => Maybe<Array<Maybe<CommandDeviceTimeseriesData>>>;
+  commandDeviceTimeseriesTotal: (args?: {
+    deviceId?: Maybe<Scalars["String"]>;
+    device?: Maybe<Scalars["String"]>;
+    valueKey?: Maybe<Scalars["String"]>;
+    startDate?: Maybe<Scalars["String"]>;
+    endDate?: Maybe<Scalars["String"]>;
+  }) => Maybe<CommandDeviceTimeseriesTotal>;
   hiveServices: (args?: {
     where?: Maybe<HiveServiceWhere>;
     options?: Maybe<HiveServiceOptions>;
@@ -41002,12 +41841,12 @@ export interface Query {
   commandDevicePeripheralsCount: (args?: {
     where?: Maybe<CommandDevicePeripheralWhere>;
   }) => ScalarsEnums["Int"];
-  commandProgramPeripheralConfigurations: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-    options?: Maybe<CommandProgramPeripheralConfigurationOptions>;
-  }) => Array<CommandProgramPeripheralConfiguration>;
-  commandProgramPeripheralConfigurationsCount: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
+  commandProgramDeviceCalibrations: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
+    options?: Maybe<CommandProgramDeviceCalibrationOptions>;
+  }) => Array<CommandProgramDeviceCalibration>;
+  commandProgramDeviceCalibrationsCount: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
   }) => ScalarsEnums["Int"];
   commandDevicePeripheralProducts: (args?: {
     where?: Maybe<CommandDevicePeripheralProductWhere>;
@@ -41051,12 +41890,26 @@ export interface Query {
   commandInterlocksCount: (args?: {
     where?: Maybe<CommandInterlockWhere>;
   }) => ScalarsEnums["Int"];
+  commandInterlockAssertions: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+    options?: Maybe<CommandInterlockAssertionOptions>;
+  }) => Array<CommandInterlockAssertion>;
+  commandInterlockAssertionsCount: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+  }) => ScalarsEnums["Int"];
   commandProgramDevicePlaceholders: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
     options?: Maybe<CommandProgramDevicePlaceholderOptions>;
   }) => Array<CommandProgramDevicePlaceholder>;
   commandProgramDevicePlaceholdersCount: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  }) => ScalarsEnums["Int"];
+  commandDeviceSetpoints: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    options?: Maybe<CommandDeviceSetpointOptions>;
+  }) => Array<CommandDeviceSetpoint>;
+  commandDeviceSetpointsCount: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
   }) => ScalarsEnums["Int"];
   commandDevicePlugins: (args?: {
     where?: Maybe<CommandDevicePluginWhere>;
@@ -41106,13 +41959,6 @@ export interface Query {
   }) => Array<CommandProgramDevice>;
   commandProgramDevicesCount: (args?: {
     where?: Maybe<CommandProgramDeviceWhere>;
-  }) => ScalarsEnums["Int"];
-  commandProgramDeviceConfigurations: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-    options?: Maybe<CommandProgramDeviceConfigurationOptions>;
-  }) => Array<CommandProgramDeviceConfiguration>;
-  commandProgramDeviceConfigurationsCount: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
   }) => ScalarsEnums["Int"];
   commandProgramDeviceActions: (args?: {
     where?: Maybe<CommandProgramDeviceActionWhere>;
@@ -42355,21 +43201,21 @@ export interface Mutation {
     create?: Maybe<CommandDevicePeripheralRelationInput>;
     delete?: Maybe<CommandDevicePeripheralDeleteInput>;
   }) => UpdateCommandDevicePeripheralsMutationResponse;
-  createCommandProgramPeripheralConfigurations: (args: {
-    input: Array<CommandProgramPeripheralConfigurationCreateInput>;
-  }) => CreateCommandProgramPeripheralConfigurationsMutationResponse;
-  deleteCommandProgramPeripheralConfigurations: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-    delete?: Maybe<CommandProgramPeripheralConfigurationDeleteInput>;
+  createCommandProgramDeviceCalibrations: (args: {
+    input: Array<CommandProgramDeviceCalibrationCreateInput>;
+  }) => CreateCommandProgramDeviceCalibrationsMutationResponse;
+  deleteCommandProgramDeviceCalibrations: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
+    delete?: Maybe<CommandProgramDeviceCalibrationDeleteInput>;
   }) => DeleteInfo;
-  updateCommandProgramPeripheralConfigurations: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-    update?: Maybe<CommandProgramPeripheralConfigurationUpdateInput>;
-    connect?: Maybe<CommandProgramPeripheralConfigurationConnectInput>;
-    disconnect?: Maybe<CommandProgramPeripheralConfigurationDisconnectInput>;
-    create?: Maybe<CommandProgramPeripheralConfigurationRelationInput>;
-    delete?: Maybe<CommandProgramPeripheralConfigurationDeleteInput>;
-  }) => UpdateCommandProgramPeripheralConfigurationsMutationResponse;
+  updateCommandProgramDeviceCalibrations: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
+    update?: Maybe<CommandProgramDeviceCalibrationUpdateInput>;
+    connect?: Maybe<CommandProgramDeviceCalibrationConnectInput>;
+    disconnect?: Maybe<CommandProgramDeviceCalibrationDisconnectInput>;
+    create?: Maybe<CommandProgramDeviceCalibrationRelationInput>;
+    delete?: Maybe<CommandProgramDeviceCalibrationDeleteInput>;
+  }) => UpdateCommandProgramDeviceCalibrationsMutationResponse;
   createCommandDevicePeripheralProducts: (args: {
     input: Array<CommandDevicePeripheralProductCreateInput>;
   }) => CreateCommandDevicePeripheralProductsMutationResponse;
@@ -42455,6 +43301,21 @@ export interface Mutation {
     create?: Maybe<CommandInterlockRelationInput>;
     delete?: Maybe<CommandInterlockDeleteInput>;
   }) => UpdateCommandInterlocksMutationResponse;
+  createCommandInterlockAssertions: (args: {
+    input: Array<CommandInterlockAssertionCreateInput>;
+  }) => CreateCommandInterlockAssertionsMutationResponse;
+  deleteCommandInterlockAssertions: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+    delete?: Maybe<CommandInterlockAssertionDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandInterlockAssertions: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+    update?: Maybe<CommandInterlockAssertionUpdateInput>;
+    connect?: Maybe<CommandInterlockAssertionConnectInput>;
+    disconnect?: Maybe<CommandInterlockAssertionDisconnectInput>;
+    create?: Maybe<CommandInterlockAssertionRelationInput>;
+    delete?: Maybe<CommandInterlockAssertionDeleteInput>;
+  }) => UpdateCommandInterlockAssertionsMutationResponse;
   createCommandProgramDevicePlaceholders: (args: {
     input: Array<CommandProgramDevicePlaceholderCreateInput>;
   }) => CreateCommandProgramDevicePlaceholdersMutationResponse;
@@ -42470,6 +43331,21 @@ export interface Mutation {
     create?: Maybe<CommandProgramDevicePlaceholderRelationInput>;
     delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
   }) => UpdateCommandProgramDevicePlaceholdersMutationResponse;
+  createCommandDeviceSetpoints: (args: {
+    input: Array<CommandDeviceSetpointCreateInput>;
+  }) => CreateCommandDeviceSetpointsMutationResponse;
+  deleteCommandDeviceSetpoints: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    delete?: Maybe<CommandDeviceSetpointDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandDeviceSetpoints: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    update?: Maybe<CommandDeviceSetpointUpdateInput>;
+    connect?: Maybe<CommandDeviceSetpointConnectInput>;
+    disconnect?: Maybe<CommandDeviceSetpointDisconnectInput>;
+    create?: Maybe<CommandDeviceSetpointRelationInput>;
+    delete?: Maybe<CommandDeviceSetpointDeleteInput>;
+  }) => UpdateCommandDeviceSetpointsMutationResponse;
   createCommandDevicePlugins: (args: {
     input: Array<CommandDevicePluginCreateInput>;
   }) => CreateCommandDevicePluginsMutationResponse;
@@ -42565,16 +43441,6 @@ export interface Mutation {
     create?: Maybe<CommandProgramDeviceRelationInput>;
     delete?: Maybe<CommandProgramDeviceDeleteInput>;
   }) => UpdateCommandProgramDevicesMutationResponse;
-  createCommandProgramDeviceConfigurations: (args: {
-    input: Array<CommandProgramDeviceConfigurationCreateInput>;
-  }) => CreateCommandProgramDeviceConfigurationsMutationResponse;
-  deleteCommandProgramDeviceConfigurations: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  }) => DeleteInfo;
-  updateCommandProgramDeviceConfigurations: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-    update?: Maybe<CommandProgramDeviceConfigurationUpdateInput>;
-  }) => UpdateCommandProgramDeviceConfigurationsMutationResponse;
   createCommandProgramDeviceActions: (args: {
     input: Array<CommandProgramDeviceActionCreateInput>;
   }) => CreateCommandProgramDeviceActionsMutationResponse;
@@ -43312,7 +44178,6 @@ export interface TimelineProject {
 
 export interface CommandDevicePeripheralPort {
   __typename?:
-    | "CommandDeviceConfiguredDevicesRelationship"
     | "CommandDevicePeripheralConnectedDevicesRelationship"
     | "CommandDevicePeripheralMappedDevicesRelationship"
     | "CommandDevicePeripheralProductPeripheralRelationship";
@@ -43434,10 +44299,10 @@ export interface CommandDevice {
     where?: Maybe<CommandProgramWhere>;
     options?: Maybe<CommandProgramOptions>;
   }) => Maybe<CommandProgram>;
-  configuredDevices: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-    options?: Maybe<CommandProgramPeripheralConfigurationOptions>;
-  }) => Maybe<Array<Maybe<CommandProgramPeripheralConfiguration>>>;
+  calibrations: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
+    options?: Maybe<CommandProgramDeviceCalibrationOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramDeviceCalibration>>>;
   peripherals: (args?: {
     where?: Maybe<CommandDevicePeripheralWhere>;
     options?: Maybe<CommandDevicePeripheralOptions>;
@@ -43452,12 +44317,12 @@ export interface CommandDevice {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandDeviceActiveProgramConnectionSort>>;
   }) => CommandDeviceActiveProgramConnection;
-  configuredDevicesConnection: (args?: {
-    where?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
+  calibrationsConnection: (args?: {
+    where?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<Array<CommandDeviceConfiguredDevicesConnectionSort>>;
-  }) => CommandDeviceConfiguredDevicesConnection;
+    sort?: Maybe<Array<CommandDeviceCalibrationsConnectionSort>>;
+  }) => CommandDeviceCalibrationsConnection;
   peripheralsConnection: (args?: {
     where?: Maybe<CommandDevicePeripheralsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -43485,18 +44350,17 @@ export interface CommandDeviceActiveProgramRelationship {
   node: CommandProgram;
 }
 
-export interface CommandDeviceConfiguredDevicesConnection {
-  __typename?: "CommandDeviceConfiguredDevicesConnection";
-  edges: Array<CommandDeviceConfiguredDevicesRelationship>;
+export interface CommandDeviceCalibrationsConnection {
+  __typename?: "CommandDeviceCalibrationsConnection";
+  edges: Array<CommandDeviceCalibrationsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface CommandDeviceConfiguredDevicesRelationship {
-  __typename?: "CommandDeviceConfiguredDevicesRelationship";
+export interface CommandDeviceCalibrationsRelationship {
+  __typename?: "CommandDeviceCalibrationsRelationship";
   cursor: ScalarsEnums["String"];
-  node: CommandProgramPeripheralConfiguration;
-  port?: Maybe<ScalarsEnums["String"]>;
+  node: CommandProgramDeviceCalibration;
 }
 
 export interface CommandDeviceOrganisationConnection {
@@ -43812,6 +44676,51 @@ export interface CommandDevicePluginRulesRelationship {
 export interface CommandDeviceResponse {
   __typename?: "CommandDeviceResponse";
   success?: Maybe<ScalarsEnums["Boolean"]>;
+}
+
+export interface CommandDeviceSetpoint {
+  __typename?: "CommandDeviceSetpoint";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
+  value?: Maybe<ScalarsEnums["String"]>;
+  key: (args?: {
+    where?: Maybe<CommandProgramDeviceStateWhere>;
+    options?: Maybe<CommandProgramDeviceStateOptions>;
+  }) => Maybe<CommandProgramDeviceState>;
+  keyConnection: (args?: {
+    where?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandDeviceSetpointKeyConnectionSort>>;
+  }) => CommandDeviceSetpointKeyConnection;
+}
+
+export interface CommandDeviceSetpointKeyConnection {
+  __typename?: "CommandDeviceSetpointKeyConnection";
+  edges: Array<CommandDeviceSetpointKeyRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandDeviceSetpointKeyRelationship {
+  __typename?: "CommandDeviceSetpointKeyRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramDeviceState;
+}
+
+export interface CommandDeviceTimeseriesData {
+  __typename?: "CommandDeviceTimeseriesData";
+  device?: Maybe<ScalarsEnums["String"]>;
+  deviceId?: Maybe<ScalarsEnums["String"]>;
+  valueKey?: Maybe<ScalarsEnums["String"]>;
+  value?: Maybe<ScalarsEnums["String"]>;
+  timestamp?: Maybe<ScalarsEnums["DateTime"]>;
+}
+
+export interface CommandDeviceTimeseriesTotal {
+  __typename?: "CommandDeviceTimeseriesTotal";
+  total?: Maybe<ScalarsEnums["Float"]>;
 }
 
 export interface CommandDeviceValue {
@@ -44171,7 +45080,6 @@ export interface CommandInterlock {
   __typename?: "CommandInterlock";
   id: ScalarsEnums["ID"];
   comparator?: Maybe<ScalarsEnums["String"]>;
-  assertion?: Maybe<ScalarsEnums["String"]>;
   inputDevice: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
     options?: Maybe<CommandProgramDevicePlaceholderOptions>;
@@ -44180,6 +45088,10 @@ export interface CommandInterlock {
     where?: Maybe<CommandProgramDeviceStateWhere>;
     options?: Maybe<CommandProgramDeviceStateOptions>;
   }) => Maybe<CommandProgramDeviceState>;
+  assertion: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+    options?: Maybe<CommandInterlockAssertionOptions>;
+  }) => Maybe<CommandInterlockAssertion>;
   action: (args?: {
     where?: Maybe<CommandProgramDeviceActionWhere>;
     options?: Maybe<CommandProgramDeviceActionOptions>;
@@ -44200,6 +45112,12 @@ export interface CommandInterlock {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandInterlockInputDeviceKeyConnectionSort>>;
   }) => CommandInterlockInputDeviceKeyConnection;
+  assertionConnection: (args?: {
+    where?: Maybe<CommandInterlockAssertionConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandInterlockAssertionConnectionSort>>;
+  }) => CommandInterlockAssertionConnection;
   actionConnection: (args?: {
     where?: Maybe<CommandInterlockActionConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -44225,6 +45143,49 @@ export interface CommandInterlockActionRelationship {
   __typename?: "CommandInterlockActionRelationship";
   cursor: ScalarsEnums["String"];
   node: CommandProgramDeviceAction;
+}
+
+export interface CommandInterlockAssertion {
+  __typename?: "CommandInterlockAssertion";
+  id: ScalarsEnums["ID"];
+  type?: Maybe<ScalarsEnums["String"]>;
+  value?: Maybe<ScalarsEnums["String"]>;
+  setpoint: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    options?: Maybe<CommandDeviceSetpointOptions>;
+  }) => Maybe<CommandDeviceSetpoint>;
+  setpointConnection: (args?: {
+    where?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandInterlockAssertionSetpointConnectionSort>>;
+  }) => CommandInterlockAssertionSetpointConnection;
+}
+
+export interface CommandInterlockAssertionConnection {
+  __typename?: "CommandInterlockAssertionConnection";
+  edges: Array<CommandInterlockAssertionRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandInterlockAssertionRelationship {
+  __typename?: "CommandInterlockAssertionRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandInterlockAssertion;
+}
+
+export interface CommandInterlockAssertionSetpointConnection {
+  __typename?: "CommandInterlockAssertionSetpointConnection";
+  edges: Array<CommandInterlockAssertionSetpointRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandInterlockAssertionSetpointRelationship {
+  __typename?: "CommandInterlockAssertionSetpointRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandDeviceSetpoint;
 }
 
 export interface CommandInterlockDeviceConnection {
@@ -44488,10 +45449,6 @@ export interface CommandProgramDevice {
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
-  configuration: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-    options?: Maybe<CommandProgramDeviceConfigurationOptions>;
-  }) => Maybe<Array<Maybe<CommandProgramDeviceConfiguration>>>;
   usedIn: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
     options?: Maybe<CommandProgramDevicePlaceholderOptions>;
@@ -44504,12 +45461,6 @@ export interface CommandProgramDevice {
     where?: Maybe<CommandProgramDeviceActionWhere>;
     options?: Maybe<CommandProgramDeviceActionOptions>;
   }) => Maybe<Array<Maybe<CommandProgramDeviceAction>>>;
-  configurationConnection: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
-    first?: Maybe<Scalars["Int"]>;
-    after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<Array<CommandProgramDeviceConfigurationConnectionSort>>;
-  }) => CommandProgramDeviceConfigurationConnection;
   usedInConnection: (args?: {
     where?: Maybe<CommandProgramDeviceUsedInConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -44572,24 +45523,82 @@ export interface CommandProgramDeviceActionsRelationship {
   node: CommandProgramDeviceAction;
 }
 
-export interface CommandProgramDeviceConfiguration {
-  __typename?: "CommandProgramDeviceConfiguration";
-  id: ScalarsEnums["ID"];
-  key?: Maybe<ScalarsEnums["String"]>;
-  type?: Maybe<ScalarsEnums["String"]>;
+export interface CommandProgramDeviceCalibration {
+  __typename?: "CommandProgramDeviceCalibration";
+  id?: Maybe<ScalarsEnums["ID"]>;
+  min?: Maybe<ScalarsEnums["String"]>;
+  max?: Maybe<ScalarsEnums["String"]>;
+  rootDevice: (args?: {
+    where?: Maybe<CommandDeviceWhere>;
+    options?: Maybe<CommandDeviceOptions>;
+  }) => Maybe<CommandDevice>;
+  device: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+    options?: Maybe<CommandProgramDevicePlaceholderOptions>;
+  }) => Maybe<CommandProgramDevicePlaceholder>;
+  deviceKey: (args?: {
+    where?: Maybe<CommandProgramDeviceStateWhere>;
+    options?: Maybe<CommandProgramDeviceStateOptions>;
+  }) => Maybe<CommandProgramDeviceState>;
+  rootDeviceConnection: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<
+      Array<CommandProgramDeviceCalibrationRootDeviceConnectionSort>
+    >;
+  }) => CommandProgramDeviceCalibrationRootDeviceConnection;
+  deviceConnection: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDeviceCalibrationDeviceConnectionSort>>;
+  }) => CommandProgramDeviceCalibrationDeviceConnection;
+  deviceKeyConnection: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDeviceCalibrationDeviceKeyConnectionSort>>;
+  }) => CommandProgramDeviceCalibrationDeviceKeyConnection;
 }
 
-export interface CommandProgramDeviceConfigurationConnection {
-  __typename?: "CommandProgramDeviceConfigurationConnection";
-  edges: Array<CommandProgramDeviceConfigurationRelationship>;
+export interface CommandProgramDeviceCalibrationDeviceConnection {
+  __typename?: "CommandProgramDeviceCalibrationDeviceConnection";
+  edges: Array<CommandProgramDeviceCalibrationDeviceRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface CommandProgramDeviceConfigurationRelationship {
-  __typename?: "CommandProgramDeviceConfigurationRelationship";
+export interface CommandProgramDeviceCalibrationDeviceKeyConnection {
+  __typename?: "CommandProgramDeviceCalibrationDeviceKeyConnection";
+  edges: Array<CommandProgramDeviceCalibrationDeviceKeyRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyRelationship {
+  __typename?: "CommandProgramDeviceCalibrationDeviceKeyRelationship";
   cursor: ScalarsEnums["String"];
-  node: CommandProgramDeviceConfiguration;
+  node: CommandProgramDeviceState;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceRelationship {
+  __typename?: "CommandProgramDeviceCalibrationDeviceRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramDevicePlaceholder;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceConnection {
+  __typename?: "CommandProgramDeviceCalibrationRootDeviceConnection";
+  edges: Array<CommandProgramDeviceCalibrationRootDeviceRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceRelationship {
+  __typename?: "CommandProgramDeviceCalibrationRootDeviceRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandDevice;
 }
 
 export interface CommandProgramDevicePlaceholder {
@@ -44605,6 +45614,10 @@ export interface CommandProgramDevicePlaceholder {
     where?: Maybe<CommandInterlockWhere>;
     options?: Maybe<CommandInterlockOptions>;
   }) => Maybe<Array<Maybe<CommandInterlock>>>;
+  setpoints: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    options?: Maybe<CommandDeviceSetpointOptions>;
+  }) => Maybe<Array<Maybe<CommandDeviceSetpoint>>>;
   plugins: (args?: {
     where?: Maybe<CommandDevicePluginWhere>;
     options?: Maybe<CommandDevicePluginOptions>;
@@ -44623,6 +45636,12 @@ export interface CommandProgramDevicePlaceholder {
       Array<CommandProgramDevicePlaceholderInterlocksConnectionSort>
     >;
   }) => CommandProgramDevicePlaceholderInterlocksConnection;
+  setpointsConnection: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDevicePlaceholderSetpointsConnectionSort>>;
+  }) => CommandProgramDevicePlaceholderSetpointsConnection;
   pluginsConnection: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderPluginsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -44655,6 +45674,19 @@ export interface CommandProgramDevicePlaceholderPluginsRelationship {
   __typename?: "CommandProgramDevicePlaceholderPluginsRelationship";
   cursor: ScalarsEnums["String"];
   node: CommandDevicePlugin;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsConnection {
+  __typename?: "CommandProgramDevicePlaceholderSetpointsConnection";
+  edges: Array<CommandProgramDevicePlaceholderSetpointsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsRelationship {
+  __typename?: "CommandProgramDevicePlaceholderSetpointsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandDeviceSetpoint;
 }
 
 export interface CommandProgramDevicePlaceholderTypeConnection {
@@ -45393,62 +46425,6 @@ export interface CommandProgramOrganisationRelationship {
   node: HiveOrganisation;
 }
 
-export interface CommandProgramPeripheralConfiguration {
-  __typename?: "CommandProgramPeripheralConfiguration";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  value?: Maybe<ScalarsEnums["String"]>;
-  device: (args?: {
-    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
-    options?: Maybe<CommandProgramDevicePlaceholderOptions>;
-  }) => Maybe<CommandProgramDevicePlaceholder>;
-  conf: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-    options?: Maybe<CommandProgramDeviceConfigurationOptions>;
-  }) => Maybe<CommandProgramDeviceConfiguration>;
-  deviceConnection: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-    first?: Maybe<Scalars["Int"]>;
-    after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<
-      Array<CommandProgramPeripheralConfigurationDeviceConnectionSort>
-    >;
-  }) => CommandProgramPeripheralConfigurationDeviceConnection;
-  confConnection: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-    first?: Maybe<Scalars["Int"]>;
-    after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<
-      Array<CommandProgramPeripheralConfigurationConfConnectionSort>
-    >;
-  }) => CommandProgramPeripheralConfigurationConfConnection;
-}
-
-export interface CommandProgramPeripheralConfigurationConfConnection {
-  __typename?: "CommandProgramPeripheralConfigurationConfConnection";
-  edges: Array<CommandProgramPeripheralConfigurationConfRelationship>;
-  totalCount: ScalarsEnums["Int"];
-  pageInfo: PageInfo;
-}
-
-export interface CommandProgramPeripheralConfigurationConfRelationship {
-  __typename?: "CommandProgramPeripheralConfigurationConfRelationship";
-  cursor: ScalarsEnums["String"];
-  node: CommandProgramDeviceConfiguration;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceConnection {
-  __typename?: "CommandProgramPeripheralConfigurationDeviceConnection";
-  edges: Array<CommandProgramPeripheralConfigurationDeviceRelationship>;
-  totalCount: ScalarsEnums["Int"];
-  pageInfo: PageInfo;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceRelationship {
-  __typename?: "CommandProgramPeripheralConfigurationDeviceRelationship";
-  cursor: ScalarsEnums["String"];
-  node: CommandProgramDevicePlaceholder;
-}
-
 export interface CommandProgramProgramConnection {
   __typename?: "CommandProgramProgramConnection";
   edges: Array<CommandProgramProgramRelationship>;
@@ -45511,6 +46487,12 @@ export interface CreateCommandDeviceResponsesMutationResponse {
   commandDeviceResponses: Array<CommandDeviceResponse>;
 }
 
+export interface CreateCommandDeviceSetpointsMutationResponse {
+  __typename?: "CreateCommandDeviceSetpointsMutationResponse";
+  info: CreateInfo;
+  commandDeviceSetpoints: Array<CommandDeviceSetpoint>;
+}
+
 export interface CreateCommandDevicesMutationResponse {
   __typename?: "CreateCommandDevicesMutationResponse";
   info: CreateInfo;
@@ -45559,6 +46541,12 @@ export interface CreateCommandHMIPortsMutationResponse {
   commandHmiPorts: Array<CommandHMIPort>;
 }
 
+export interface CreateCommandInterlockAssertionsMutationResponse {
+  __typename?: "CreateCommandInterlockAssertionsMutationResponse";
+  info: CreateInfo;
+  commandInterlockAssertions: Array<CommandInterlockAssertion>;
+}
+
 export interface CreateCommandInterlocksMutationResponse {
   __typename?: "CreateCommandInterlocksMutationResponse";
   info: CreateInfo;
@@ -45601,10 +46589,10 @@ export interface CreateCommandProgramDeviceActionsMutationResponse {
   commandProgramDeviceActions: Array<CommandProgramDeviceAction>;
 }
 
-export interface CreateCommandProgramDeviceConfigurationsMutationResponse {
-  __typename?: "CreateCommandProgramDeviceConfigurationsMutationResponse";
+export interface CreateCommandProgramDeviceCalibrationsMutationResponse {
+  __typename?: "CreateCommandProgramDeviceCalibrationsMutationResponse";
   info: CreateInfo;
-  commandProgramDeviceConfigurations: Array<CommandProgramDeviceConfiguration>;
+  commandProgramDeviceCalibrations: Array<CommandProgramDeviceCalibration>;
 }
 
 export interface CreateCommandProgramDevicePlaceholdersMutationResponse {
@@ -45677,12 +46665,6 @@ export interface CreateCommandProgramNodesMutationResponse {
   __typename?: "CreateCommandProgramNodesMutationResponse";
   info: CreateInfo;
   commandProgramNodes: Array<CommandProgramNode>;
-}
-
-export interface CreateCommandProgramPeripheralConfigurationsMutationResponse {
-  __typename?: "CreateCommandProgramPeripheralConfigurationsMutationResponse";
-  info: CreateInfo;
-  commandProgramPeripheralConfigurations: Array<CommandProgramPeripheralConfiguration>;
 }
 
 export interface CreateCommandProgramsMutationResponse {
@@ -47912,6 +48894,12 @@ export interface UpdateCommandDeviceResponsesMutationResponse {
   commandDeviceResponses: Array<CommandDeviceResponse>;
 }
 
+export interface UpdateCommandDeviceSetpointsMutationResponse {
+  __typename?: "UpdateCommandDeviceSetpointsMutationResponse";
+  info: UpdateInfo;
+  commandDeviceSetpoints: Array<CommandDeviceSetpoint>;
+}
+
 export interface UpdateCommandDevicesMutationResponse {
   __typename?: "UpdateCommandDevicesMutationResponse";
   info: UpdateInfo;
@@ -47960,6 +48948,12 @@ export interface UpdateCommandHMIPortsMutationResponse {
   commandHmiPorts: Array<CommandHMIPort>;
 }
 
+export interface UpdateCommandInterlockAssertionsMutationResponse {
+  __typename?: "UpdateCommandInterlockAssertionsMutationResponse";
+  info: UpdateInfo;
+  commandInterlockAssertions: Array<CommandInterlockAssertion>;
+}
+
 export interface UpdateCommandInterlocksMutationResponse {
   __typename?: "UpdateCommandInterlocksMutationResponse";
   info: UpdateInfo;
@@ -48002,10 +48996,10 @@ export interface UpdateCommandProgramDeviceActionsMutationResponse {
   commandProgramDeviceActions: Array<CommandProgramDeviceAction>;
 }
 
-export interface UpdateCommandProgramDeviceConfigurationsMutationResponse {
-  __typename?: "UpdateCommandProgramDeviceConfigurationsMutationResponse";
+export interface UpdateCommandProgramDeviceCalibrationsMutationResponse {
+  __typename?: "UpdateCommandProgramDeviceCalibrationsMutationResponse";
   info: UpdateInfo;
-  commandProgramDeviceConfigurations: Array<CommandProgramDeviceConfiguration>;
+  commandProgramDeviceCalibrations: Array<CommandProgramDeviceCalibration>;
 }
 
 export interface UpdateCommandProgramDevicePlaceholdersMutationResponse {
@@ -48078,12 +49072,6 @@ export interface UpdateCommandProgramNodesMutationResponse {
   __typename?: "UpdateCommandProgramNodesMutationResponse";
   info: UpdateInfo;
   commandProgramNodes: Array<CommandProgramNode>;
-}
-
-export interface UpdateCommandProgramPeripheralConfigurationsMutationResponse {
-  __typename?: "UpdateCommandProgramPeripheralConfigurationsMutationResponse";
-  info: UpdateInfo;
-  commandProgramPeripheralConfigurations: Array<CommandProgramPeripheralConfiguration>;
 }
 
 export interface UpdateCommandProgramsMutationResponse {
@@ -49406,8 +50394,8 @@ export interface SchemaObjectTypes {
   CommandDevice: CommandDevice;
   CommandDeviceActiveProgramConnection: CommandDeviceActiveProgramConnection;
   CommandDeviceActiveProgramRelationship: CommandDeviceActiveProgramRelationship;
-  CommandDeviceConfiguredDevicesConnection: CommandDeviceConfiguredDevicesConnection;
-  CommandDeviceConfiguredDevicesRelationship: CommandDeviceConfiguredDevicesRelationship;
+  CommandDeviceCalibrationsConnection: CommandDeviceCalibrationsConnection;
+  CommandDeviceCalibrationsRelationship: CommandDeviceCalibrationsRelationship;
   CommandDeviceOrganisationConnection: CommandDeviceOrganisationConnection;
   CommandDeviceOrganisationRelationship: CommandDeviceOrganisationRelationship;
   CommandDevicePeripheral: CommandDevicePeripheral;
@@ -49439,6 +50427,11 @@ export interface SchemaObjectTypes {
   CommandDevicePluginRulesConnection: CommandDevicePluginRulesConnection;
   CommandDevicePluginRulesRelationship: CommandDevicePluginRulesRelationship;
   CommandDeviceResponse: CommandDeviceResponse;
+  CommandDeviceSetpoint: CommandDeviceSetpoint;
+  CommandDeviceSetpointKeyConnection: CommandDeviceSetpointKeyConnection;
+  CommandDeviceSetpointKeyRelationship: CommandDeviceSetpointKeyRelationship;
+  CommandDeviceTimeseriesData: CommandDeviceTimeseriesData;
+  CommandDeviceTimeseriesTotal: CommandDeviceTimeseriesTotal;
   CommandDeviceValue: CommandDeviceValue;
   CommandHMIDevice: CommandHMIDevice;
   CommandHMIDevicePort: CommandHMIDevicePort;
@@ -49473,6 +50466,11 @@ export interface SchemaObjectTypes {
   CommandInterlock: CommandInterlock;
   CommandInterlockActionConnection: CommandInterlockActionConnection;
   CommandInterlockActionRelationship: CommandInterlockActionRelationship;
+  CommandInterlockAssertion: CommandInterlockAssertion;
+  CommandInterlockAssertionConnection: CommandInterlockAssertionConnection;
+  CommandInterlockAssertionRelationship: CommandInterlockAssertionRelationship;
+  CommandInterlockAssertionSetpointConnection: CommandInterlockAssertionSetpointConnection;
+  CommandInterlockAssertionSetpointRelationship: CommandInterlockAssertionSetpointRelationship;
   CommandInterlockDeviceConnection: CommandInterlockDeviceConnection;
   CommandInterlockDeviceRelationship: CommandInterlockDeviceRelationship;
   CommandInterlockInputDeviceConnection: CommandInterlockInputDeviceConnection;
@@ -49501,14 +50499,20 @@ export interface SchemaObjectTypes {
   CommandProgramDeviceActionDeviceRelationship: CommandProgramDeviceActionDeviceRelationship;
   CommandProgramDeviceActionsConnection: CommandProgramDeviceActionsConnection;
   CommandProgramDeviceActionsRelationship: CommandProgramDeviceActionsRelationship;
-  CommandProgramDeviceConfiguration: CommandProgramDeviceConfiguration;
-  CommandProgramDeviceConfigurationConnection: CommandProgramDeviceConfigurationConnection;
-  CommandProgramDeviceConfigurationRelationship: CommandProgramDeviceConfigurationRelationship;
+  CommandProgramDeviceCalibration: CommandProgramDeviceCalibration;
+  CommandProgramDeviceCalibrationDeviceConnection: CommandProgramDeviceCalibrationDeviceConnection;
+  CommandProgramDeviceCalibrationDeviceKeyConnection: CommandProgramDeviceCalibrationDeviceKeyConnection;
+  CommandProgramDeviceCalibrationDeviceKeyRelationship: CommandProgramDeviceCalibrationDeviceKeyRelationship;
+  CommandProgramDeviceCalibrationDeviceRelationship: CommandProgramDeviceCalibrationDeviceRelationship;
+  CommandProgramDeviceCalibrationRootDeviceConnection: CommandProgramDeviceCalibrationRootDeviceConnection;
+  CommandProgramDeviceCalibrationRootDeviceRelationship: CommandProgramDeviceCalibrationRootDeviceRelationship;
   CommandProgramDevicePlaceholder: CommandProgramDevicePlaceholder;
   CommandProgramDevicePlaceholderInterlocksConnection: CommandProgramDevicePlaceholderInterlocksConnection;
   CommandProgramDevicePlaceholderInterlocksRelationship: CommandProgramDevicePlaceholderInterlocksRelationship;
   CommandProgramDevicePlaceholderPluginsConnection: CommandProgramDevicePlaceholderPluginsConnection;
   CommandProgramDevicePlaceholderPluginsRelationship: CommandProgramDevicePlaceholderPluginsRelationship;
+  CommandProgramDevicePlaceholderSetpointsConnection: CommandProgramDevicePlaceholderSetpointsConnection;
+  CommandProgramDevicePlaceholderSetpointsRelationship: CommandProgramDevicePlaceholderSetpointsRelationship;
   CommandProgramDevicePlaceholderTypeConnection: CommandProgramDevicePlaceholderTypeConnection;
   CommandProgramDevicePlaceholderTypeRelationship: CommandProgramDevicePlaceholderTypeRelationship;
   CommandProgramDevicePlugin: CommandProgramDevicePlugin;
@@ -49581,11 +50585,6 @@ export interface SchemaObjectTypes {
   CommandProgramNodeSubprocessRelationship: CommandProgramNodeSubprocessRelationship;
   CommandProgramOrganisationConnection: CommandProgramOrganisationConnection;
   CommandProgramOrganisationRelationship: CommandProgramOrganisationRelationship;
-  CommandProgramPeripheralConfiguration: CommandProgramPeripheralConfiguration;
-  CommandProgramPeripheralConfigurationConfConnection: CommandProgramPeripheralConfigurationConfConnection;
-  CommandProgramPeripheralConfigurationConfRelationship: CommandProgramPeripheralConfigurationConfRelationship;
-  CommandProgramPeripheralConfigurationDeviceConnection: CommandProgramPeripheralConfigurationDeviceConnection;
-  CommandProgramPeripheralConfigurationDeviceRelationship: CommandProgramPeripheralConfigurationDeviceRelationship;
   CommandProgramProgramConnection: CommandProgramProgramConnection;
   CommandProgramProgramRelationship: CommandProgramProgramRelationship;
   CommandProgramUsedOnConnection: CommandProgramUsedOnConnection;
@@ -49596,6 +50595,7 @@ export interface SchemaObjectTypes {
   CreateCommandDevicePeripheralsMutationResponse: CreateCommandDevicePeripheralsMutationResponse;
   CreateCommandDevicePluginsMutationResponse: CreateCommandDevicePluginsMutationResponse;
   CreateCommandDeviceResponsesMutationResponse: CreateCommandDeviceResponsesMutationResponse;
+  CreateCommandDeviceSetpointsMutationResponse: CreateCommandDeviceSetpointsMutationResponse;
   CreateCommandDevicesMutationResponse: CreateCommandDevicesMutationResponse;
   CreateCommandDeviceValuesMutationResponse: CreateCommandDeviceValuesMutationResponse;
   CreateCommandHMIDevicePortsMutationResponse: CreateCommandHMIDevicePortsMutationResponse;
@@ -49604,6 +50604,7 @@ export interface SchemaObjectTypes {
   CreateCommandHMINodesMutationResponse: CreateCommandHMINodesMutationResponse;
   CreateCommandHMIPathsMutationResponse: CreateCommandHMIPathsMutationResponse;
   CreateCommandHMIPortsMutationResponse: CreateCommandHMIPortsMutationResponse;
+  CreateCommandInterlockAssertionsMutationResponse: CreateCommandInterlockAssertionsMutationResponse;
   CreateCommandInterlocksMutationResponse: CreateCommandInterlocksMutationResponse;
   CreateCommandKeyValuesMutationResponse: CreateCommandKeyValuesMutationResponse;
   CreateCommandPeripheralProductDatapointsMutationResponse: CreateCommandPeripheralProductDatapointsMutationResponse;
@@ -49611,7 +50612,7 @@ export interface SchemaObjectTypes {
   CreateCommandPluginsMutationResponse: CreateCommandPluginsMutationResponse;
   CreateCommandProgramAlarmsMutationResponse: CreateCommandProgramAlarmsMutationResponse;
   CreateCommandProgramDeviceActionsMutationResponse: CreateCommandProgramDeviceActionsMutationResponse;
-  CreateCommandProgramDeviceConfigurationsMutationResponse: CreateCommandProgramDeviceConfigurationsMutationResponse;
+  CreateCommandProgramDeviceCalibrationsMutationResponse: CreateCommandProgramDeviceCalibrationsMutationResponse;
   CreateCommandProgramDevicePlaceholdersMutationResponse: CreateCommandProgramDevicePlaceholdersMutationResponse;
   CreateCommandProgramDevicePluginCompatibilitiesMutationResponse: CreateCommandProgramDevicePluginCompatibilitiesMutationResponse;
   CreateCommandProgramDevicePluginConfigurationsMutationResponse: CreateCommandProgramDevicePluginConfigurationsMutationResponse;
@@ -49624,7 +50625,6 @@ export interface SchemaObjectTypes {
   CreateCommandProgramNodeConfigurationsMutationResponse: CreateCommandProgramNodeConfigurationsMutationResponse;
   CreateCommandProgramNodeFlowConfigurationsMutationResponse: CreateCommandProgramNodeFlowConfigurationsMutationResponse;
   CreateCommandProgramNodesMutationResponse: CreateCommandProgramNodesMutationResponse;
-  CreateCommandProgramPeripheralConfigurationsMutationResponse: CreateCommandProgramPeripheralConfigurationsMutationResponse;
   CreateCommandProgramsMutationResponse: CreateCommandProgramsMutationResponse;
   CreateEquipmentMutationResponse: CreateEquipmentMutationResponse;
   CreateEstimatesMutationResponse: CreateEstimatesMutationResponse;
@@ -49850,6 +50850,7 @@ export interface SchemaObjectTypes {
   UpdateCommandDevicePeripheralsMutationResponse: UpdateCommandDevicePeripheralsMutationResponse;
   UpdateCommandDevicePluginsMutationResponse: UpdateCommandDevicePluginsMutationResponse;
   UpdateCommandDeviceResponsesMutationResponse: UpdateCommandDeviceResponsesMutationResponse;
+  UpdateCommandDeviceSetpointsMutationResponse: UpdateCommandDeviceSetpointsMutationResponse;
   UpdateCommandDevicesMutationResponse: UpdateCommandDevicesMutationResponse;
   UpdateCommandDeviceValuesMutationResponse: UpdateCommandDeviceValuesMutationResponse;
   UpdateCommandHMIDevicePortsMutationResponse: UpdateCommandHMIDevicePortsMutationResponse;
@@ -49858,6 +50859,7 @@ export interface SchemaObjectTypes {
   UpdateCommandHMINodesMutationResponse: UpdateCommandHMINodesMutationResponse;
   UpdateCommandHMIPathsMutationResponse: UpdateCommandHMIPathsMutationResponse;
   UpdateCommandHMIPortsMutationResponse: UpdateCommandHMIPortsMutationResponse;
+  UpdateCommandInterlockAssertionsMutationResponse: UpdateCommandInterlockAssertionsMutationResponse;
   UpdateCommandInterlocksMutationResponse: UpdateCommandInterlocksMutationResponse;
   UpdateCommandKeyValuesMutationResponse: UpdateCommandKeyValuesMutationResponse;
   UpdateCommandPeripheralProductDatapointsMutationResponse: UpdateCommandPeripheralProductDatapointsMutationResponse;
@@ -49865,7 +50867,7 @@ export interface SchemaObjectTypes {
   UpdateCommandPluginsMutationResponse: UpdateCommandPluginsMutationResponse;
   UpdateCommandProgramAlarmsMutationResponse: UpdateCommandProgramAlarmsMutationResponse;
   UpdateCommandProgramDeviceActionsMutationResponse: UpdateCommandProgramDeviceActionsMutationResponse;
-  UpdateCommandProgramDeviceConfigurationsMutationResponse: UpdateCommandProgramDeviceConfigurationsMutationResponse;
+  UpdateCommandProgramDeviceCalibrationsMutationResponse: UpdateCommandProgramDeviceCalibrationsMutationResponse;
   UpdateCommandProgramDevicePlaceholdersMutationResponse: UpdateCommandProgramDevicePlaceholdersMutationResponse;
   UpdateCommandProgramDevicePluginCompatibilitiesMutationResponse: UpdateCommandProgramDevicePluginCompatibilitiesMutationResponse;
   UpdateCommandProgramDevicePluginConfigurationsMutationResponse: UpdateCommandProgramDevicePluginConfigurationsMutationResponse;
@@ -49878,7 +50880,6 @@ export interface SchemaObjectTypes {
   UpdateCommandProgramNodeConfigurationsMutationResponse: UpdateCommandProgramNodeConfigurationsMutationResponse;
   UpdateCommandProgramNodeFlowConfigurationsMutationResponse: UpdateCommandProgramNodeFlowConfigurationsMutationResponse;
   UpdateCommandProgramNodesMutationResponse: UpdateCommandProgramNodesMutationResponse;
-  UpdateCommandProgramPeripheralConfigurationsMutationResponse: UpdateCommandProgramPeripheralConfigurationsMutationResponse;
   UpdateCommandProgramsMutationResponse: UpdateCommandProgramsMutationResponse;
   UpdateEquipmentMutationResponse: UpdateEquipmentMutationResponse;
   UpdateEstimatesMutationResponse: UpdateEstimatesMutationResponse;
@@ -50008,8 +51009,8 @@ export type SchemaObjectTypesNames =
   | "CommandDevice"
   | "CommandDeviceActiveProgramConnection"
   | "CommandDeviceActiveProgramRelationship"
-  | "CommandDeviceConfiguredDevicesConnection"
-  | "CommandDeviceConfiguredDevicesRelationship"
+  | "CommandDeviceCalibrationsConnection"
+  | "CommandDeviceCalibrationsRelationship"
   | "CommandDeviceOrganisationConnection"
   | "CommandDeviceOrganisationRelationship"
   | "CommandDevicePeripheral"
@@ -50041,6 +51042,11 @@ export type SchemaObjectTypesNames =
   | "CommandDevicePluginRulesConnection"
   | "CommandDevicePluginRulesRelationship"
   | "CommandDeviceResponse"
+  | "CommandDeviceSetpoint"
+  | "CommandDeviceSetpointKeyConnection"
+  | "CommandDeviceSetpointKeyRelationship"
+  | "CommandDeviceTimeseriesData"
+  | "CommandDeviceTimeseriesTotal"
   | "CommandDeviceValue"
   | "CommandHMIDevice"
   | "CommandHMIDevicePort"
@@ -50075,6 +51081,11 @@ export type SchemaObjectTypesNames =
   | "CommandInterlock"
   | "CommandInterlockActionConnection"
   | "CommandInterlockActionRelationship"
+  | "CommandInterlockAssertion"
+  | "CommandInterlockAssertionConnection"
+  | "CommandInterlockAssertionRelationship"
+  | "CommandInterlockAssertionSetpointConnection"
+  | "CommandInterlockAssertionSetpointRelationship"
   | "CommandInterlockDeviceConnection"
   | "CommandInterlockDeviceRelationship"
   | "CommandInterlockInputDeviceConnection"
@@ -50103,14 +51114,20 @@ export type SchemaObjectTypesNames =
   | "CommandProgramDeviceActionDeviceRelationship"
   | "CommandProgramDeviceActionsConnection"
   | "CommandProgramDeviceActionsRelationship"
-  | "CommandProgramDeviceConfiguration"
-  | "CommandProgramDeviceConfigurationConnection"
-  | "CommandProgramDeviceConfigurationRelationship"
+  | "CommandProgramDeviceCalibration"
+  | "CommandProgramDeviceCalibrationDeviceConnection"
+  | "CommandProgramDeviceCalibrationDeviceKeyConnection"
+  | "CommandProgramDeviceCalibrationDeviceKeyRelationship"
+  | "CommandProgramDeviceCalibrationDeviceRelationship"
+  | "CommandProgramDeviceCalibrationRootDeviceConnection"
+  | "CommandProgramDeviceCalibrationRootDeviceRelationship"
   | "CommandProgramDevicePlaceholder"
   | "CommandProgramDevicePlaceholderInterlocksConnection"
   | "CommandProgramDevicePlaceholderInterlocksRelationship"
   | "CommandProgramDevicePlaceholderPluginsConnection"
   | "CommandProgramDevicePlaceholderPluginsRelationship"
+  | "CommandProgramDevicePlaceholderSetpointsConnection"
+  | "CommandProgramDevicePlaceholderSetpointsRelationship"
   | "CommandProgramDevicePlaceholderTypeConnection"
   | "CommandProgramDevicePlaceholderTypeRelationship"
   | "CommandProgramDevicePlugin"
@@ -50183,11 +51200,6 @@ export type SchemaObjectTypesNames =
   | "CommandProgramNodeSubprocessRelationship"
   | "CommandProgramOrganisationConnection"
   | "CommandProgramOrganisationRelationship"
-  | "CommandProgramPeripheralConfiguration"
-  | "CommandProgramPeripheralConfigurationConfConnection"
-  | "CommandProgramPeripheralConfigurationConfRelationship"
-  | "CommandProgramPeripheralConfigurationDeviceConnection"
-  | "CommandProgramPeripheralConfigurationDeviceRelationship"
   | "CommandProgramProgramConnection"
   | "CommandProgramProgramRelationship"
   | "CommandProgramUsedOnConnection"
@@ -50198,6 +51210,7 @@ export type SchemaObjectTypesNames =
   | "CreateCommandDevicePeripheralsMutationResponse"
   | "CreateCommandDevicePluginsMutationResponse"
   | "CreateCommandDeviceResponsesMutationResponse"
+  | "CreateCommandDeviceSetpointsMutationResponse"
   | "CreateCommandDevicesMutationResponse"
   | "CreateCommandDeviceValuesMutationResponse"
   | "CreateCommandHMIDevicePortsMutationResponse"
@@ -50206,6 +51219,7 @@ export type SchemaObjectTypesNames =
   | "CreateCommandHMINodesMutationResponse"
   | "CreateCommandHMIPathsMutationResponse"
   | "CreateCommandHMIPortsMutationResponse"
+  | "CreateCommandInterlockAssertionsMutationResponse"
   | "CreateCommandInterlocksMutationResponse"
   | "CreateCommandKeyValuesMutationResponse"
   | "CreateCommandPeripheralProductDatapointsMutationResponse"
@@ -50213,7 +51227,7 @@ export type SchemaObjectTypesNames =
   | "CreateCommandPluginsMutationResponse"
   | "CreateCommandProgramAlarmsMutationResponse"
   | "CreateCommandProgramDeviceActionsMutationResponse"
-  | "CreateCommandProgramDeviceConfigurationsMutationResponse"
+  | "CreateCommandProgramDeviceCalibrationsMutationResponse"
   | "CreateCommandProgramDevicePlaceholdersMutationResponse"
   | "CreateCommandProgramDevicePluginCompatibilitiesMutationResponse"
   | "CreateCommandProgramDevicePluginConfigurationsMutationResponse"
@@ -50226,7 +51240,6 @@ export type SchemaObjectTypesNames =
   | "CreateCommandProgramNodeConfigurationsMutationResponse"
   | "CreateCommandProgramNodeFlowConfigurationsMutationResponse"
   | "CreateCommandProgramNodesMutationResponse"
-  | "CreateCommandProgramPeripheralConfigurationsMutationResponse"
   | "CreateCommandProgramsMutationResponse"
   | "CreateEquipmentMutationResponse"
   | "CreateEstimatesMutationResponse"
@@ -50452,6 +51465,7 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandDevicePeripheralsMutationResponse"
   | "UpdateCommandDevicePluginsMutationResponse"
   | "UpdateCommandDeviceResponsesMutationResponse"
+  | "UpdateCommandDeviceSetpointsMutationResponse"
   | "UpdateCommandDevicesMutationResponse"
   | "UpdateCommandDeviceValuesMutationResponse"
   | "UpdateCommandHMIDevicePortsMutationResponse"
@@ -50460,6 +51474,7 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandHMINodesMutationResponse"
   | "UpdateCommandHMIPathsMutationResponse"
   | "UpdateCommandHMIPortsMutationResponse"
+  | "UpdateCommandInterlockAssertionsMutationResponse"
   | "UpdateCommandInterlocksMutationResponse"
   | "UpdateCommandKeyValuesMutationResponse"
   | "UpdateCommandPeripheralProductDatapointsMutationResponse"
@@ -50467,7 +51482,7 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandPluginsMutationResponse"
   | "UpdateCommandProgramAlarmsMutationResponse"
   | "UpdateCommandProgramDeviceActionsMutationResponse"
-  | "UpdateCommandProgramDeviceConfigurationsMutationResponse"
+  | "UpdateCommandProgramDeviceCalibrationsMutationResponse"
   | "UpdateCommandProgramDevicePlaceholdersMutationResponse"
   | "UpdateCommandProgramDevicePluginCompatibilitiesMutationResponse"
   | "UpdateCommandProgramDevicePluginConfigurationsMutationResponse"
@@ -50480,7 +51495,6 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandProgramNodeConfigurationsMutationResponse"
   | "UpdateCommandProgramNodeFlowConfigurationsMutationResponse"
   | "UpdateCommandProgramNodesMutationResponse"
-  | "UpdateCommandProgramPeripheralConfigurationsMutationResponse"
   | "UpdateCommandProgramsMutationResponse"
   | "UpdateEquipmentMutationResponse"
   | "UpdateEstimatesMutationResponse"
@@ -50607,7 +51621,6 @@ export interface $TimelineProject {
 }
 
 export interface $CommandDevicePeripheralPort {
-  CommandDeviceConfiguredDevicesRelationship?: CommandDeviceConfiguredDevicesRelationship;
   CommandDevicePeripheralConnectedDevicesRelationship?: CommandDevicePeripheralConnectedDevicesRelationship;
   CommandDevicePeripheralMappedDevicesRelationship?: CommandDevicePeripheralMappedDevicesRelationship;
   CommandDevicePeripheralProductPeripheralRelationship?: CommandDevicePeripheralProductPeripheralRelationship;

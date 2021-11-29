@@ -16,3 +16,4 @@ export const getDeviceActions = async (tx: Transaction, deploymentId: string, de
   );
   return result.records?.[0]?.get(0) 
 }
+

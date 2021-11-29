@@ -5,8 +5,9 @@ export const HMICanvasContext = React.createContext<{
 	values?: {
 		conf: {
             device: {id: string},
-            conf: {key: string}, 
-            value: any
+            deviceKey: {key: string}, 
+            min: any,
+			max: any
         }[], 
 		devicePlaceholder?: {
 			name: string
@@ -59,6 +60,15 @@ export const HMICanvasProvider = (props: any) => (<HMICanvasContext.Provider val
 	},
 	getDeviceConf: (device) => {
 		const { values } = useContext(HMICanvasContext);
-		return values.find((a) => a.devicePlaceholder?.name == device)?.conf.reduce((prev, curr) => ({...prev, [curr.conf.key]: curr.value}), {}) || {};
+
+		return values.find((a) => a.devicePlaceholder?.name == device)?.conf?.reduce((prev, curr) => ({
+			...prev,
+			[curr?.deviceKey?.key]: {
+				min: curr?.min,
+				max: curr?.max
+			}
+		}), {})
+		console.log(values)
+		return {} //values.find((a) => a.devicePlaceholder?.name == device)?.conf?.reduce((prev, curr) => ({...prev, [curr.key]: {min: curr.min, max: curr.max}}), {}) || {};
 	}
 }}>{props.children}</HMICanvasContext.Provider>);
