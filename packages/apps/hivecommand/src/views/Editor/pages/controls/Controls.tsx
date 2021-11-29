@@ -336,6 +336,17 @@ export const Controls = (props) => {
                             devicePlaceholder {
                                 id
                                 name
+
+                                setpoints {
+                                    id
+                                    name
+                                    key {
+                                        id
+                                        key
+                                    }
+                                    value
+                                    type
+                                }
                             }
                             x
                             y
@@ -372,6 +383,22 @@ export const Controls = (props) => {
                             rotation
                             scaleX
                             scaleY
+
+                            devicePlaceholder {
+                                id
+                                name
+
+                                setpoints {
+                                    id
+                                    name
+                                    key {
+                                        id
+                                        key
+                                    }
+                                    value
+                                    type
+                                }
+                            }
                         }
                         ports {
                             id
@@ -776,7 +803,8 @@ export const Controls = (props) => {
                         scaleX: x.scaleX || 1,
                         scaleY: x.scaleY || 1,
                         rotation: x.rotation || 0,
-                        type: x.type
+                        type: x.type,
+                        devicePlaceholder: x.devicePlaceholder,
                     })),
                     ports: group.ports?.map((x) => ({
                         id: x.id,

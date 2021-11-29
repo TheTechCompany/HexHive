@@ -18,15 +18,21 @@ export const DeviceDevices : React.FC<any> = (props) => {
 			}
 			commandDevices(where: {id: $id}){
 				name
-				configuredDevices {
+				calibrations {
 					id
 					device {
 						id
+						name
 					}
-					conf {
+
+					deviceKey {
 						id
-					}
-					value
+						type
+						key
+					} 
+
+					min
+					max
 				}
 				activeProgram {
 					devices {
@@ -37,10 +43,12 @@ export const DeviceDevices : React.FC<any> = (props) => {
 							id
 							name
 
-							configuration {
+							state {
 								id
-								key
 								type
+								key
+								min
+								max
 							}
 						}
 					}
@@ -57,31 +65,35 @@ export const DeviceDevices : React.FC<any> = (props) => {
 		conf: {
 			id?: string;
 			device: string,
-			conf: string,
-			value: string
+			deviceKey: string,
+			min: string
+			max: string
 		}[]
 	}) => {
 		const peripheralUpdate = mutation.updateCommandDevices({
 			where: {id: props.match.params.id},
 			update: {
-				configuredDevices: [{
-					create: args.conf.filter((a) => a.id == undefined).map((conf_item) => ({
-						node: {
-							device: {connect: {where: {node: {id: conf_item.device}}}},
-							conf: {connect: {where: {node: {id: conf_item.conf}}}},
-							value: conf_item.value
+				calibrations: [
+					...args.conf.filter((a) => a.id).map((x) => ({
+						where: {node: {id: x.id}},
+						update: {
+							node: {
+								min: x.min,
+								max: x.max
+							}
 						}
-					}))
-				}, ...args.conf.filter((a) => a.id != undefined).map((conf_item) => ({
-					where: {node: {id: conf_item.id}},
-					update: {
-						node: {
-							device: {connect: {where: {node: {id: conf_item.device}}}},
-							conf: {connect: {where: {node: {id: conf_item.conf}}}},
-							value: conf_item.value
-						}
+					})),
+					{
+						create: args.conf.filter((a) => !a.id).map((x) => ({
+							node: {
+								device: {connect: {where: {node: {id: x.device}}}},
+								deviceKey: {connect: {where: {node: {key: x.deviceKey, device: {usedIn: {id_IN: [x.device]}}}}}},
+								min: x.min,
+								max: x.max
+							}
+						}))
 					}
-				}))]
+				]
 			}
 		})
 		return {
@@ -93,7 +105,6 @@ export const DeviceDevices : React.FC<any> = (props) => {
 
 	const device = data?.commandDevices?.[0];
 
-	console.log(device?.activeProgram?.devices?.find((a) => a?.type?.configuration?.length > 0)?.type?.configuration)
 
 	return (
 		<Box
@@ -109,21 +120,36 @@ export const DeviceDevices : React.FC<any> = (props) => {
 				}}
 				onSubmit={(device) => {
 					console.log("DEVICE", device)
-					if(device.configuration){
+					if(device.calibrated){
+						console.log("CALIBRATED", device.calibrated)
 						updateDeviceConfiguration({
-							args:{ 
-								conf: device.configuration.map((x) => ({
+							args: {
+								conf: device.calibrated.map((x) => ({
 									id: x.id,
 									device: device.id,
-									conf: x.confKey,
-									value: x.value
+									deviceKey: x.key,
+									min: x.min,
+									max: x.max
 								}))
 							}
 						})
+
 					}
+					// if(device.configuration){
+					// 	updateDeviceConfiguration({
+					// 		args:{ 
+					// 			conf: device.configuration.map((x) => ({
+					// 				id: x.id,
+					// 				device: device.id,
+					// 				conf: x.confKey,
+					// 				value: x.value
+					// 			}))
+					// 		}
+					// 	})
+					// }
 				}}
 				selected={selected}
-				configuration={selected?.type?.configuration}
+				configuration={[]}
 				deviceTypes={data?.commandProgramDevices}
 				/>
 			<Box pad="xsmall" direction="row" background="accent-2">
@@ -134,14 +160,18 @@ export const DeviceDevices : React.FC<any> = (props) => {
 				<List
 					pad="none" 
 					onClickItem={({item}) => {
-						let configuration = device.configuredDevices.filter((a) => a.device.id == item.id)
+						let calibration = device.calibrations?.filter((a) => a.device.id == item.id);
 
-						console.log("Item", configuration)
+						// item.calibrated = calibration;
+
+						// let configuration = device.configuredDevices.filter((a) => a.device.id == item.id)
+
+						// console.log("Item", configuration)
 
 						// item.configuration = configuration;
 
 						openModal(true)
-						setSelected({...item, configuration: configuration})
+						setSelected({...item, calibrated: calibration})
 					}}
 					data={device?.activeProgram?.devices || []} >
 					{(datum) => (

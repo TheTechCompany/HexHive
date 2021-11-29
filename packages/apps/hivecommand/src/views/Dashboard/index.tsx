@@ -10,6 +10,7 @@ import { Sidebar } from '@hexhive/ui'
 import { DeviceDevices } from '../../pages/device-devices';
 const PluginEditor = React.lazy(() => import('../../pages/plugin-editor').then((r) => ({default: r.PluginEditorPage})))
 const DeviceControl = React.lazy(() => import('../../pages/device-control').then((r) => ({default: r.DeviceControl})))
+const DeviceControlGraph = React.lazy(() => import('../../pages/device-control-graph').then((r) => ({default: r.DeviceControlGraph})))
 
 const Devices = React.lazy(() => import('../../pages/device-list').then((r) => ({ default: r.Devices })))
 const DeviceSingle = React.lazy(() => import('../../pages/device-single').then((r) => ({ default: r.DeviceSingle })))
@@ -120,6 +121,7 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
                                 <Route exact path={[x.path].map((x) => `${x}`)} component={x.component} />
                             ))}
                             <Route path={`/devices/:id/controls`} component={DeviceControl} />
+                            <Route path={`/devices/:id/graphs`} component={DeviceControlGraph} />
                             <Route path={`/devices/:id/devices`} component={DeviceDevices} />
                             <Route path={`/devices/:id`} component={DeviceSingle} />
                             <Route path={`/programs/:id`} component={EditorPage} />

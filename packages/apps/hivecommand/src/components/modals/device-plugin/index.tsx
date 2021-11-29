@@ -32,12 +32,24 @@ export const DevicePluginModal : React.FC<DevicePluginModalProps> = (props) => {
 	}
 
 	const onSubmit = () => {
+		// alert(plugin.id)
 		props.onSubmit?.(plugin)
 	}
 
 	useEffect(() => {
 		if(props.selected){
 			console.log(props.selected)
+			let conf = props.selected.configuration.reduce((prev, curr) => ({
+					...prev,
+					[curr.key]: curr.value
+				}), {})
+
+			setPlugin({
+				...props.selected,
+				plugin: props.selected?.plugin?.id,
+				rules: props.selected?.rules?.id,
+				configuration: conf
+			})
 			// setSelectedPlugin(props.selected.id)
 			// let conf = props.selected.configuration.reduce((prev, curr) => ({
 			// 	...prev,
@@ -100,6 +112,8 @@ export const DevicePluginModal : React.FC<DevicePluginModalProps> = (props) => {
 			</Box>
 		));
 	}
+
+	console.log(props.selected)
 	return (
 		<BaseModal
 			open={props.open}
