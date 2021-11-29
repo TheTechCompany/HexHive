@@ -7,7 +7,7 @@ import moment from 'moment-timezone';
 
 export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = (props) => {
 
-	const [ dayBefore, setDayBefore ] = useState<string>(new Date(Date.now() - (1000 * 60 * 60 * 24)).toISOString())
+	const [ dayBefore, setDayBefore ] = useState<string>(new Date(Date.now() - (1000 * 60 * 60 * 24 * 2)).toISOString())
 
 	const { data } = useQuery(gql`
 		query Q ($device: String, $device1: String, $device2: String, $device3: String, $deviceId: String, $startDate: String, $valueKey: String, $valueKey2: String){
@@ -72,18 +72,19 @@ export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = 
 
 
 	const values1 = useMemo(() => {
-		return data?.commandDeviceTimeseries1?.map((x) => {
+		return data?.commandDeviceTimeseries1?.filter((a) => a.value != '0' && a.value != 0).map((x) => {
 			let date = new Date(x.timestamp)
-			date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000))
-			return {timestamp: moment(date).tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('DD/MM/YYYY - hh:mma'), value: x.value}
+			date = new Date(date.getTime()) // + (date.getTimezoneOffset() * 60000))
+			return {timestamp: moment(date).format('DD/MM/YYYY - hh:mma'), value: parseFloat(x.value)}
 		}) 
 	}, [data?.commandDeviceTimeseries1])
 	
 	const values2 = useMemo(() => {
-		return data?.commandDeviceTimeseries2?.map((x) => {
+		return data?.commandDeviceTimeseries2?.filter((a) => a.value != '0' && a.value != 0).map((x) => {
 			let date = new Date(x.timestamp)
-			date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000))
-			return {timestamp: moment(date).tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('DD/MM/YYYY - hh:mma'), value: x.value}
+			console.log(date.getTimezoneOffset() * 60000)
+			date = new Date(date.getTime()) //- (date.getTimezoneOffset() * 60000))
+			return {timestamp: moment(date).format('DD/MM/YYYY - hh:mma'), value: x.value}
 		}) 
 	}, [data?.commandDeviceTimeseries2])
 
@@ -92,7 +93,7 @@ export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = 
 		return data?.commandDeviceTimeseries3?.map((x) => {
 			let date = new Date(x.timestamp)
 			date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000))
-			return {timestamp: moment(date).tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('DD/MM/YYYY - hh:mma'), value: x.value}
+			return {timestamp: moment(date).format('DD/MM/YYYY - hh:mma'), value: x.value}
 		}) 
 	}, [data?.commandDeviceTimeseries3])
 	// const values = [];
