@@ -13,14 +13,14 @@ function SvgSensor(props: any) {
         borderRadius: 5, 
         position: 'absolute', 
         top: 0, 
-        height: 14,
+        height: 16,
         left: 0, 
         right: 0,
         width: '100%',
         minWidth: 'max-content',
         lineHeight: '100%',
       }}>
-      <span style={{fontSize: 10, color: 'white'}}>{props.options?.conductivity || '0µS/cm'}</span>
+      <span style={{fontSize: 12, color: 'white'}}>{props.options?.conductivity || '0µS/cm'}</span>
     </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"

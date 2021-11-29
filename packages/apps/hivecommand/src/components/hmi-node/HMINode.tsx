@@ -60,8 +60,8 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
 
 
     const Icon = useSVGStyle(props.extras?.icon && typeof(props.extras?.icon) === 'string' ? (Icons as any)[props.extras.icon] : (props.extras?.icon) ? props.extras?.icon : Icons.Previous, (props) => ({
-        stroke: options?.open?.trim() == 'true' || options?.on?.trim() == 'true' ? 'green' : 'gray',
-        filter: `hue-rotate(${((options?.open == true || options?.open == 'true') || (options?.on == 'true')) ? '45' : '0'}deg)`
+        stroke: (options?.opening == 'true' || options?.starting == 'true') ? 'yellow' : (options?.open?.trim() == 'true' || options?.on?.trim() == 'true' || parseFloat(options?.speed) > 0) ? 'green' : 'gray'
+       
     }))
     //Array.isArray(props.extras.icon) ?
 //: () => <HMIGroup icons={props.extras.icon} />
@@ -81,6 +81,7 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
             className={props.className}>
             {props.children?.(
                 <Icon 
+                    device={props.extras?.devicePlaceholder}
                     scaleX={props.extras?.scaleX}
                     scaleY={props.extras?.scaleY}
                     conf={conf} 
