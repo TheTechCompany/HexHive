@@ -585,8 +585,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                  {deviceInfo?.actions?.map((action) => (
                      <Button
                          plain
-                         style={{padding: 6, borderRadius: 3}}
-                         hoverIndicator 
+                         style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 6, borderRadius: 3}}
+                         hoverIndicator={'accent-1'}
                          onClick={() => {
                              performAction({
                                  args: {
