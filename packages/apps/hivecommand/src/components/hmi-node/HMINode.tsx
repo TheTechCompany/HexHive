@@ -60,7 +60,7 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
 
 
     const Icon = useSVGStyle(props.extras?.icon && typeof(props.extras?.icon) === 'string' ? (Icons as any)[props.extras.icon] : (props.extras?.icon) ? props.extras?.icon : Icons.Previous, (props) => ({
-        stroke: (options?.opening == 'true' || options?.starting == 'true') ? 'yellow' : options?.open?.trim() == 'true' || options?.on?.trim() == 'true' ? 'green' : 'gray'
+        stroke: (options?.opening == 'true' || options?.starting == 'true') ? 'yellow' : (options?.open?.trim() == 'true' || options?.on?.trim() == 'true' || parseFloat(options?.speed) > 0) ? 'green' : 'gray'
        
     }))
     //Array.isArray(props.extras.icon) ?
