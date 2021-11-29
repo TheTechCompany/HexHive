@@ -135,6 +135,69 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			// }
 		},
 		Query: {
+			commandDeviceTimeseriesTotal: async (root: any, args: {
+				deviceId: string, //device in quest
+				device: string, //deviceId in quest
+				valueKey?: string,
+				startDate?: string,
+			}) => {
+				const client = await pgClient.connect()
+
+				const { deviceId, device, valueKey, startDate } = args
+
+				console.log({deviceId}, {device}, {valueKey})
+				const query = `
+				SELECT 
+					sum(SUB.total) as total
+				FROM 
+					(
+						SELECT (CAST(value AS DOUBLE PRECISION) / 60) * EXTRACT(EPOCH from (LEAD(timestamp) over (order by timestamp) - timestamp)) as total
+						FROM
+							command_device_values
+						WHERE
+							device = $1
+							AND deviceId = $2
+							AND valueKey = $3
+							AND timestamp >= NOW() - (7 * INTERVAL '1 day') 
+						GROUP by deviceId, device, valueKey, timestamp, value
+					) as SUB
+				`//startDate
+				const result = await client.query(query, [deviceId, device, valueKey ])
+				await client.release()
+				console.log(result)
+				return result.rows?.[0]
+			},
+			commandDeviceTimeseries: async (root: any, args: {
+				deviceId: string, //device in quest
+				device: string, //deviceId in quest
+				valueKey?: string,
+				startDate?: string,
+			}) => {
+				const client = await pgClient.connect()
+
+				let query = `SELECT * FROM command_device_values WHERE deviceId=$1 AND device=$2`;
+				let params = [args.device, args.deviceId]
+
+				if(args.startDate){
+					params.push(new Date(args.startDate).toISOString())
+					query += ` AND timestamp >= $${params.length}`
+				}
+				if(args.valueKey) {
+					params.push(args.valueKey)
+
+					query += ` AND valueKey=$${params.length}`
+				}
+
+				console.log(query, params)
+
+				const result = await client.query(
+					query,
+					params
+				)
+
+				await client.release()
+				return result.rows;
+			},
 			commandDeviceValue: async (root: any, args: {
 				bus: string,
 				device: string,

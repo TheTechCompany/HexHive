@@ -1,5 +1,5 @@
 {
-  "name": "@hexhive-coreapps/hiveautomate",
+  "name": "@hexhive-coreapps/hivesignage",
   "version": "0.0.6-alpha.0",
   "scripts": {
     "start": "webpack serve --port 8514",
