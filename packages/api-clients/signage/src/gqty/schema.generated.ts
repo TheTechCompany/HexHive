@@ -72,6 +72,26 @@ export interface CampaignAnalyticCampaignFieldInput {
 export interface CampaignAnalyticCampaignNodeAggregationWhereInput {
   AND?: Maybe<Array<CampaignAnalyticCampaignNodeAggregationWhereInput>>;
   OR?: Maybe<Array<CampaignAnalyticCampaignNodeAggregationWhereInput>>;
+  assetFolder_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  assetFolder_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  assetFolder_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  assetFolder_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  assetFolder_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  assetFolder_EQUAL?: Maybe<Scalars["String"]>;
+  assetFolder_GT?: Maybe<Scalars["Int"]>;
+  assetFolder_GTE?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  assetFolder_LT?: Maybe<Scalars["Int"]>;
+  assetFolder_LTE?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
   customer_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
   customer_AVERAGE_GT?: Maybe<Scalars["Float"]>;
   customer_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
@@ -138,9 +158,9 @@ export interface CampaignAnalyticConnectWhere {
 
 export interface CampaignAnalyticCreateInput {
   campaign?: Maybe<CampaignAnalyticCampaignFieldInput>;
-  ts?: Maybe<Scalars["DateTime"]>;
+  data?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
-  value?: Maybe<Scalars["String"]>;
 }
 
 export interface CampaignAnalyticDeleteInput {
@@ -164,17 +184,17 @@ export interface CampaignAnalyticRelationInput {
 
 /** Fields to sort CampaignAnalytics by. The order in which sorts are applied is not guaranteed when specifying many fields in one CampaignAnalyticSort object. */
 export interface CampaignAnalyticSort {
+  data?: Maybe<SortDirection>;
   id?: Maybe<SortDirection>;
-  ts?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
   type?: Maybe<SortDirection>;
-  value?: Maybe<SortDirection>;
 }
 
 export interface CampaignAnalyticUpdateInput {
   campaign?: Maybe<CampaignAnalyticCampaignUpdateFieldInput>;
-  ts?: Maybe<Scalars["DateTime"]>;
+  data?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
-  value?: Maybe<Scalars["String"]>;
 }
 
 export interface CampaignAnalyticWhere {
@@ -185,6 +205,16 @@ export interface CampaignAnalyticWhere {
   campaignConnection?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
   campaignConnection_NOT?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
   campaign_NOT?: Maybe<CampaignWhere>;
+  data?: Maybe<Scalars["String"]>;
+  data_CONTAINS?: Maybe<Scalars["String"]>;
+  data_ENDS_WITH?: Maybe<Scalars["String"]>;
+  data_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  data_NOT?: Maybe<Scalars["String"]>;
+  data_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  data_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  data_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  data_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  data_STARTS_WITH?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["ID"]>;
   id_CONTAINS?: Maybe<Scalars["ID"]>;
   id_ENDS_WITH?: Maybe<Scalars["ID"]>;
@@ -195,14 +225,16 @@ export interface CampaignAnalyticWhere {
   id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
   id_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  ts?: Maybe<Scalars["DateTime"]>;
-  ts_GT?: Maybe<Scalars["DateTime"]>;
-  ts_GTE?: Maybe<Scalars["DateTime"]>;
-  ts_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
-  ts_LT?: Maybe<Scalars["DateTime"]>;
-  ts_LTE?: Maybe<Scalars["DateTime"]>;
-  ts_NOT?: Maybe<Scalars["DateTime"]>;
-  ts_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  name?: Maybe<Scalars["String"]>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
   type_CONTAINS?: Maybe<Scalars["String"]>;
   type_ENDS_WITH?: Maybe<Scalars["String"]>;
@@ -213,16 +245,6 @@ export interface CampaignAnalyticWhere {
   type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
   type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   type_STARTS_WITH?: Maybe<Scalars["String"]>;
-  value?: Maybe<Scalars["String"]>;
-  value_CONTAINS?: Maybe<Scalars["String"]>;
-  value_ENDS_WITH?: Maybe<Scalars["String"]>;
-  value_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  value_NOT?: Maybe<Scalars["String"]>;
-  value_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  value_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  value_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  value_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  value_STARTS_WITH?: Maybe<Scalars["String"]>;
 }
 
 export interface CampaignAnalyticsAggregateInput {
@@ -274,22 +296,47 @@ export interface CampaignAnalyticsFieldInput {
 export interface CampaignAnalyticsNodeAggregationWhereInput {
   AND?: Maybe<Array<CampaignAnalyticsNodeAggregationWhereInput>>;
   OR?: Maybe<Array<CampaignAnalyticsNodeAggregationWhereInput>>;
+  data_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  data_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  data_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  data_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  data_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  data_EQUAL?: Maybe<Scalars["String"]>;
+  data_GT?: Maybe<Scalars["Int"]>;
+  data_GTE?: Maybe<Scalars["Int"]>;
+  data_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  data_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  data_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  data_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  data_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  data_LT?: Maybe<Scalars["Int"]>;
+  data_LTE?: Maybe<Scalars["Int"]>;
+  data_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  data_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  data_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  data_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  data_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
   id_EQUAL?: Maybe<Scalars["ID"]>;
-  ts_EQUAL?: Maybe<Scalars["DateTime"]>;
-  ts_GT?: Maybe<Scalars["DateTime"]>;
-  ts_GTE?: Maybe<Scalars["DateTime"]>;
-  ts_LT?: Maybe<Scalars["DateTime"]>;
-  ts_LTE?: Maybe<Scalars["DateTime"]>;
-  ts_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
-  ts_MAX_GT?: Maybe<Scalars["DateTime"]>;
-  ts_MAX_GTE?: Maybe<Scalars["DateTime"]>;
-  ts_MAX_LT?: Maybe<Scalars["DateTime"]>;
-  ts_MAX_LTE?: Maybe<Scalars["DateTime"]>;
-  ts_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
-  ts_MIN_GT?: Maybe<Scalars["DateTime"]>;
-  ts_MIN_GTE?: Maybe<Scalars["DateTime"]>;
-  ts_MIN_LT?: Maybe<Scalars["DateTime"]>;
-  ts_MIN_LTE?: Maybe<Scalars["DateTime"]>;
+  name_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  name_EQUAL?: Maybe<Scalars["String"]>;
+  name_GT?: Maybe<Scalars["Int"]>;
+  name_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  name_LT?: Maybe<Scalars["Int"]>;
+  name_LTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
   type_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
   type_AVERAGE_GT?: Maybe<Scalars["Float"]>;
   type_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
@@ -310,26 +357,6 @@ export interface CampaignAnalyticsNodeAggregationWhereInput {
   type_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
   type_SHORTEST_LT?: Maybe<Scalars["Int"]>;
   type_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
-  value_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
-  value_AVERAGE_GT?: Maybe<Scalars["Float"]>;
-  value_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
-  value_AVERAGE_LT?: Maybe<Scalars["Float"]>;
-  value_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
-  value_EQUAL?: Maybe<Scalars["String"]>;
-  value_GT?: Maybe<Scalars["Int"]>;
-  value_GTE?: Maybe<Scalars["Int"]>;
-  value_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
-  value_LONGEST_GT?: Maybe<Scalars["Int"]>;
-  value_LONGEST_GTE?: Maybe<Scalars["Int"]>;
-  value_LONGEST_LT?: Maybe<Scalars["Int"]>;
-  value_LONGEST_LTE?: Maybe<Scalars["Int"]>;
-  value_LT?: Maybe<Scalars["Int"]>;
-  value_LTE?: Maybe<Scalars["Int"]>;
-  value_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
-  value_SHORTEST_GT?: Maybe<Scalars["Int"]>;
-  value_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
-  value_SHORTEST_LT?: Maybe<Scalars["Int"]>;
-  value_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
 }
 
 export interface CampaignAnalyticsUpdateConnectionInput {
@@ -355,6 +382,7 @@ export interface CampaignConnectWhere {
 
 export interface CampaignCreateInput {
   analytics?: Maybe<CampaignAnalyticsFieldInput>;
+  assetFolder?: Maybe<Scalars["String"]>;
   customer?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
 }
@@ -380,6 +408,7 @@ export interface CampaignRelationInput {
 
 /** Fields to sort Campaigns by. The order in which sorts are applied is not guaranteed when specifying many fields in one CampaignSort object. */
 export interface CampaignSort {
+  assetFolder?: Maybe<SortDirection>;
   customer?: Maybe<SortDirection>;
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
@@ -387,6 +416,7 @@ export interface CampaignSort {
 
 export interface CampaignUpdateInput {
   analytics?: Maybe<Array<CampaignAnalyticsUpdateFieldInput>>;
+  assetFolder?: Maybe<Scalars["String"]>;
   customer?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
 }
@@ -399,6 +429,16 @@ export interface CampaignWhere {
   analyticsConnection?: Maybe<CampaignAnalyticsConnectionWhere>;
   analyticsConnection_NOT?: Maybe<CampaignAnalyticsConnectionWhere>;
   analytics_NOT?: Maybe<CampaignAnalyticWhere>;
+  assetFolder?: Maybe<Scalars["String"]>;
+  assetFolder_CONTAINS?: Maybe<Scalars["String"]>;
+  assetFolder_ENDS_WITH?: Maybe<Scalars["String"]>;
+  assetFolder_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  assetFolder_NOT?: Maybe<Scalars["String"]>;
+  assetFolder_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  assetFolder_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  assetFolder_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  assetFolder_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  assetFolder_STARTS_WITH?: Maybe<Scalars["String"]>;
   customer?: Maybe<Scalars["String"]>;
   customer_CONTAINS?: Maybe<Scalars["String"]>;
   customer_ENDS_WITH?: Maybe<Scalars["String"]>;
@@ -530,6 +570,21 @@ export interface ClusterDisplaysNodeAggregationWhereInput {
   label_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
   label_SHORTEST_LT?: Maybe<Scalars["Int"]>;
   label_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  provisionedAt_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_LTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_LTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_LTE?: Maybe<Scalars["DateTime"]>;
 }
 
 export interface ClusterDisplaysUpdateConnectionInput {
@@ -618,6 +673,26 @@ export interface ClusterScheduleCampaignFieldInput {
 export interface ClusterScheduleCampaignNodeAggregationWhereInput {
   AND?: Maybe<Array<ClusterScheduleCampaignNodeAggregationWhereInput>>;
   OR?: Maybe<Array<ClusterScheduleCampaignNodeAggregationWhereInput>>;
+  assetFolder_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  assetFolder_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  assetFolder_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  assetFolder_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  assetFolder_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  assetFolder_EQUAL?: Maybe<Scalars["String"]>;
+  assetFolder_GT?: Maybe<Scalars["Int"]>;
+  assetFolder_GTE?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  assetFolder_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  assetFolder_LT?: Maybe<Scalars["Int"]>;
+  assetFolder_LTE?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  assetFolder_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
   customer_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
   customer_AVERAGE_GT?: Maybe<Scalars["Float"]>;
   customer_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
@@ -970,6 +1045,26 @@ export interface ClusterScheduleTierNodeAggregationWhereInput {
   percent_MIN_GTE?: Maybe<Scalars["Float"]>;
   percent_MIN_LT?: Maybe<Scalars["Float"]>;
   percent_MIN_LTE?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  slots_EQUAL?: Maybe<Scalars["Float"]>;
+  slots_GT?: Maybe<Scalars["Float"]>;
+  slots_GTE?: Maybe<Scalars["Float"]>;
+  slots_LT?: Maybe<Scalars["Float"]>;
+  slots_LTE?: Maybe<Scalars["Float"]>;
+  slots_MAX_EQUAL?: Maybe<Scalars["Float"]>;
+  slots_MAX_GT?: Maybe<Scalars["Float"]>;
+  slots_MAX_GTE?: Maybe<Scalars["Float"]>;
+  slots_MAX_LT?: Maybe<Scalars["Float"]>;
+  slots_MAX_LTE?: Maybe<Scalars["Float"]>;
+  slots_MIN_EQUAL?: Maybe<Scalars["Float"]>;
+  slots_MIN_GT?: Maybe<Scalars["Float"]>;
+  slots_MIN_GTE?: Maybe<Scalars["Float"]>;
+  slots_MIN_LT?: Maybe<Scalars["Float"]>;
+  slots_MIN_LTE?: Maybe<Scalars["Float"]>;
 }
 
 export interface ClusterScheduleTierUpdateConnectionInput {
@@ -1155,6 +1250,7 @@ export interface ClusterTierCreateInput {
   cluster?: Maybe<ClusterTierClusterFieldInput>;
   name?: Maybe<Scalars["String"]>;
   percent?: Maybe<Scalars["Float"]>;
+  slots?: Maybe<Scalars["Float"]>;
 }
 
 export interface ClusterTierDeleteInput {
@@ -1181,12 +1277,14 @@ export interface ClusterTierSort {
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
   percent?: Maybe<SortDirection>;
+  slots?: Maybe<SortDirection>;
 }
 
 export interface ClusterTierUpdateInput {
   cluster?: Maybe<ClusterTierClusterUpdateFieldInput>;
   name?: Maybe<Scalars["String"]>;
   percent?: Maybe<Scalars["Float"]>;
+  slots?: Maybe<Scalars["Float"]>;
 }
 
 export interface ClusterTierWhere {
@@ -1225,6 +1323,14 @@ export interface ClusterTierWhere {
   percent_LTE?: Maybe<Scalars["Float"]>;
   percent_NOT?: Maybe<Scalars["Float"]>;
   percent_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  slots?: Maybe<Scalars["Float"]>;
+  slots_GT?: Maybe<Scalars["Float"]>;
+  slots_GTE?: Maybe<Scalars["Float"]>;
+  slots_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  slots_LT?: Maybe<Scalars["Float"]>;
+  slots_LTE?: Maybe<Scalars["Float"]>;
+  slots_NOT?: Maybe<Scalars["Float"]>;
+  slots_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
 }
 
 export interface ClusterTiersAggregateInput {
@@ -1317,6 +1423,26 @@ export interface ClusterTiersNodeAggregationWhereInput {
   percent_MIN_GTE?: Maybe<Scalars["Float"]>;
   percent_MIN_LT?: Maybe<Scalars["Float"]>;
   percent_MIN_LTE?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  slots_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  slots_EQUAL?: Maybe<Scalars["Float"]>;
+  slots_GT?: Maybe<Scalars["Float"]>;
+  slots_GTE?: Maybe<Scalars["Float"]>;
+  slots_LT?: Maybe<Scalars["Float"]>;
+  slots_LTE?: Maybe<Scalars["Float"]>;
+  slots_MAX_EQUAL?: Maybe<Scalars["Float"]>;
+  slots_MAX_GT?: Maybe<Scalars["Float"]>;
+  slots_MAX_GTE?: Maybe<Scalars["Float"]>;
+  slots_MAX_LT?: Maybe<Scalars["Float"]>;
+  slots_MAX_LTE?: Maybe<Scalars["Float"]>;
+  slots_MIN_EQUAL?: Maybe<Scalars["Float"]>;
+  slots_MIN_GT?: Maybe<Scalars["Float"]>;
+  slots_MIN_GTE?: Maybe<Scalars["Float"]>;
+  slots_MIN_LT?: Maybe<Scalars["Float"]>;
+  slots_MIN_LTE?: Maybe<Scalars["Float"]>;
 }
 
 export interface ClusterTiersUpdateConnectionInput {
@@ -1471,6 +1597,21 @@ export interface ComputerDisplayNodeAggregationWhereInput {
   label_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
   label_SHORTEST_LT?: Maybe<Scalars["Int"]>;
   label_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  provisionedAt_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_LTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_LTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_LTE?: Maybe<Scalars["DateTime"]>;
 }
 
 export interface ComputerDisplayUpdateConnectionInput {
@@ -1744,6 +1885,7 @@ export interface DisplayConnectInput {
   cluster?: Maybe<DisplayClusterConnectFieldInput>;
   computers?: Maybe<Array<DisplayComputersConnectFieldInput>>;
   location?: Maybe<DisplayLocationConnectFieldInput>;
+  provisionedBy?: Maybe<DisplayProvisionedByConnectFieldInput>;
   screens?: Maybe<Array<DisplayScreensConnectFieldInput>>;
 }
 
@@ -1756,6 +1898,9 @@ export interface DisplayCreateInput {
   computers?: Maybe<DisplayComputersFieldInput>;
   label?: Maybe<Scalars["String"]>;
   location?: Maybe<DisplayLocationFieldInput>;
+  provisioned?: Maybe<Scalars["Boolean"]>;
+  provisionedAt?: Maybe<Scalars["DateTime"]>;
+  provisionedBy?: Maybe<DisplayProvisionedByFieldInput>;
   screens?: Maybe<DisplayScreensFieldInput>;
 }
 
@@ -1763,6 +1908,7 @@ export interface DisplayDeleteInput {
   cluster?: Maybe<DisplayClusterDeleteFieldInput>;
   computers?: Maybe<Array<DisplayComputersDeleteFieldInput>>;
   location?: Maybe<DisplayLocationDeleteFieldInput>;
+  provisionedBy?: Maybe<DisplayProvisionedByDeleteFieldInput>;
   screens?: Maybe<Array<DisplayScreensDeleteFieldInput>>;
 }
 
@@ -1770,6 +1916,7 @@ export interface DisplayDisconnectInput {
   cluster?: Maybe<DisplayClusterDisconnectFieldInput>;
   computers?: Maybe<Array<DisplayComputersDisconnectFieldInput>>;
   location?: Maybe<DisplayLocationDisconnectFieldInput>;
+  provisionedBy?: Maybe<DisplayProvisionedByDisconnectFieldInput>;
   screens?: Maybe<Array<DisplayScreensDisconnectFieldInput>>;
 }
 
@@ -2005,10 +2152,111 @@ export interface DisplayOptions {
   sort?: Maybe<Array<Maybe<DisplaySort>>>;
 }
 
+export interface DisplayProvisionedByAggregateInput {
+  AND?: Maybe<Array<DisplayProvisionedByAggregateInput>>;
+  OR?: Maybe<Array<DisplayProvisionedByAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<DisplayProvisionedByNodeAggregationWhereInput>;
+}
+
+export interface DisplayProvisionedByConnectFieldInput {
+  connect?: Maybe<ProvisionCodeConnectInput>;
+  where?: Maybe<ProvisionCodeConnectWhere>;
+}
+
+export interface DisplayProvisionedByConnectionSort {
+  node?: Maybe<ProvisionCodeSort>;
+}
+
+export interface DisplayProvisionedByConnectionWhere {
+  AND?: Maybe<Array<DisplayProvisionedByConnectionWhere>>;
+  OR?: Maybe<Array<DisplayProvisionedByConnectionWhere>>;
+  node?: Maybe<ProvisionCodeWhere>;
+  node_NOT?: Maybe<ProvisionCodeWhere>;
+}
+
+export interface DisplayProvisionedByCreateFieldInput {
+  node: ProvisionCodeCreateInput;
+}
+
+export interface DisplayProvisionedByDeleteFieldInput {
+  delete?: Maybe<ProvisionCodeDeleteInput>;
+  where?: Maybe<DisplayProvisionedByConnectionWhere>;
+}
+
+export interface DisplayProvisionedByDisconnectFieldInput {
+  disconnect?: Maybe<ProvisionCodeDisconnectInput>;
+  where?: Maybe<DisplayProvisionedByConnectionWhere>;
+}
+
+export interface DisplayProvisionedByFieldInput {
+  connect?: Maybe<DisplayProvisionedByConnectFieldInput>;
+  create?: Maybe<DisplayProvisionedByCreateFieldInput>;
+}
+
+export interface DisplayProvisionedByNodeAggregationWhereInput {
+  AND?: Maybe<Array<DisplayProvisionedByNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<DisplayProvisionedByNodeAggregationWhereInput>>;
+  createdAt_EQUAL?: Maybe<Scalars["DateTime"]>;
+  createdAt_GT?: Maybe<Scalars["DateTime"]>;
+  createdAt_GTE?: Maybe<Scalars["DateTime"]>;
+  createdAt_LT?: Maybe<Scalars["DateTime"]>;
+  createdAt_LTE?: Maybe<Scalars["DateTime"]>;
+  createdAt_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
+  createdAt_MAX_GT?: Maybe<Scalars["DateTime"]>;
+  createdAt_MAX_GTE?: Maybe<Scalars["DateTime"]>;
+  createdAt_MAX_LT?: Maybe<Scalars["DateTime"]>;
+  createdAt_MAX_LTE?: Maybe<Scalars["DateTime"]>;
+  createdAt_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
+  createdAt_MIN_GT?: Maybe<Scalars["DateTime"]>;
+  createdAt_MIN_GTE?: Maybe<Scalars["DateTime"]>;
+  createdAt_MIN_LT?: Maybe<Scalars["DateTime"]>;
+  createdAt_MIN_LTE?: Maybe<Scalars["DateTime"]>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  slug_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  slug_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  slug_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  slug_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  slug_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  slug_EQUAL?: Maybe<Scalars["String"]>;
+  slug_GT?: Maybe<Scalars["Int"]>;
+  slug_GTE?: Maybe<Scalars["Int"]>;
+  slug_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  slug_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  slug_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  slug_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  slug_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  slug_LT?: Maybe<Scalars["Int"]>;
+  slug_LTE?: Maybe<Scalars["Int"]>;
+  slug_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  slug_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  slug_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  slug_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  slug_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+}
+
+export interface DisplayProvisionedByUpdateConnectionInput {
+  node?: Maybe<ProvisionCodeUpdateInput>;
+}
+
+export interface DisplayProvisionedByUpdateFieldInput {
+  connect?: Maybe<DisplayProvisionedByConnectFieldInput>;
+  create?: Maybe<DisplayProvisionedByCreateFieldInput>;
+  delete?: Maybe<DisplayProvisionedByDeleteFieldInput>;
+  disconnect?: Maybe<DisplayProvisionedByDisconnectFieldInput>;
+  update?: Maybe<DisplayProvisionedByUpdateConnectionInput>;
+  where?: Maybe<DisplayProvisionedByConnectionWhere>;
+}
+
 export interface DisplayRelationInput {
   cluster?: Maybe<DisplayClusterCreateFieldInput>;
   computers?: Maybe<Array<DisplayComputersCreateFieldInput>>;
   location?: Maybe<DisplayLocationCreateFieldInput>;
+  provisionedBy?: Maybe<DisplayProvisionedByCreateFieldInput>;
   screens?: Maybe<Array<DisplayScreensCreateFieldInput>>;
 }
 
@@ -2270,6 +2518,8 @@ export interface DisplayScreensUpdateFieldInput {
 export interface DisplaySort {
   id?: Maybe<SortDirection>;
   label?: Maybe<SortDirection>;
+  provisioned?: Maybe<SortDirection>;
+  provisionedAt?: Maybe<SortDirection>;
 }
 
 export interface DisplayUpdateInput {
@@ -2277,6 +2527,9 @@ export interface DisplayUpdateInput {
   computers?: Maybe<Array<DisplayComputersUpdateFieldInput>>;
   label?: Maybe<Scalars["String"]>;
   location?: Maybe<DisplayLocationUpdateFieldInput>;
+  provisioned?: Maybe<Scalars["Boolean"]>;
+  provisionedAt?: Maybe<Scalars["DateTime"]>;
+  provisionedBy?: Maybe<DisplayProvisionedByUpdateFieldInput>;
   screens?: Maybe<Array<DisplayScreensUpdateFieldInput>>;
 }
 
@@ -2318,11 +2571,210 @@ export interface DisplayWhere {
   locationConnection?: Maybe<DisplayLocationConnectionWhere>;
   locationConnection_NOT?: Maybe<DisplayLocationConnectionWhere>;
   location_NOT?: Maybe<DisplayLocationWhere>;
+  provisioned?: Maybe<Scalars["Boolean"]>;
+  provisionedAt?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  provisionedAt_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_LTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_NOT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  provisionedBy?: Maybe<ProvisionCodeWhere>;
+  provisionedByAggregate?: Maybe<DisplayProvisionedByAggregateInput>;
+  provisionedByConnection?: Maybe<DisplayProvisionedByConnectionWhere>;
+  provisionedByConnection_NOT?: Maybe<DisplayProvisionedByConnectionWhere>;
+  provisionedBy_NOT?: Maybe<ProvisionCodeWhere>;
+  provisioned_NOT?: Maybe<Scalars["Boolean"]>;
   screens?: Maybe<DisplayScreenWhere>;
   screensAggregate?: Maybe<DisplayScreensAggregateInput>;
   screensConnection?: Maybe<DisplayScreensConnectionWhere>;
   screensConnection_NOT?: Maybe<DisplayScreensConnectionWhere>;
   screens_NOT?: Maybe<DisplayScreenWhere>;
+}
+
+export interface ProvisionCodeConnectInput {
+  display?: Maybe<ProvisionCodeDisplayConnectFieldInput>;
+}
+
+export interface ProvisionCodeConnectWhere {
+  node: ProvisionCodeWhere;
+}
+
+export interface ProvisionCodeCreateInput {
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  display?: Maybe<ProvisionCodeDisplayFieldInput>;
+  slug?: Maybe<Scalars["String"]>;
+}
+
+export interface ProvisionCodeDeleteInput {
+  display?: Maybe<ProvisionCodeDisplayDeleteFieldInput>;
+}
+
+export interface ProvisionCodeDisconnectInput {
+  display?: Maybe<ProvisionCodeDisplayDisconnectFieldInput>;
+}
+
+export interface ProvisionCodeDisplayAggregateInput {
+  AND?: Maybe<Array<ProvisionCodeDisplayAggregateInput>>;
+  OR?: Maybe<Array<ProvisionCodeDisplayAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ProvisionCodeDisplayNodeAggregationWhereInput>;
+}
+
+export interface ProvisionCodeDisplayConnectFieldInput {
+  connect?: Maybe<DisplayConnectInput>;
+  where?: Maybe<DisplayConnectWhere>;
+}
+
+export interface ProvisionCodeDisplayConnectionSort {
+  node?: Maybe<DisplaySort>;
+}
+
+export interface ProvisionCodeDisplayConnectionWhere {
+  AND?: Maybe<Array<ProvisionCodeDisplayConnectionWhere>>;
+  OR?: Maybe<Array<ProvisionCodeDisplayConnectionWhere>>;
+  node?: Maybe<DisplayWhere>;
+  node_NOT?: Maybe<DisplayWhere>;
+}
+
+export interface ProvisionCodeDisplayCreateFieldInput {
+  node: DisplayCreateInput;
+}
+
+export interface ProvisionCodeDisplayDeleteFieldInput {
+  delete?: Maybe<DisplayDeleteInput>;
+  where?: Maybe<ProvisionCodeDisplayConnectionWhere>;
+}
+
+export interface ProvisionCodeDisplayDisconnectFieldInput {
+  disconnect?: Maybe<DisplayDisconnectInput>;
+  where?: Maybe<ProvisionCodeDisplayConnectionWhere>;
+}
+
+export interface ProvisionCodeDisplayFieldInput {
+  connect?: Maybe<ProvisionCodeDisplayConnectFieldInput>;
+  create?: Maybe<ProvisionCodeDisplayCreateFieldInput>;
+}
+
+export interface ProvisionCodeDisplayNodeAggregationWhereInput {
+  AND?: Maybe<Array<ProvisionCodeDisplayNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ProvisionCodeDisplayNodeAggregationWhereInput>>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  label_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  label_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  label_EQUAL?: Maybe<Scalars["String"]>;
+  label_GT?: Maybe<Scalars["Int"]>;
+  label_GTE?: Maybe<Scalars["Int"]>;
+  label_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  label_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  label_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  label_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  label_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  label_LT?: Maybe<Scalars["Int"]>;
+  label_LTE?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  label_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  provisionedAt_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_LTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MAX_LTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_GT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_GTE?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_LT?: Maybe<Scalars["DateTime"]>;
+  provisionedAt_MIN_LTE?: Maybe<Scalars["DateTime"]>;
+}
+
+export interface ProvisionCodeDisplayUpdateConnectionInput {
+  node?: Maybe<DisplayUpdateInput>;
+}
+
+export interface ProvisionCodeDisplayUpdateFieldInput {
+  connect?: Maybe<ProvisionCodeDisplayConnectFieldInput>;
+  create?: Maybe<ProvisionCodeDisplayCreateFieldInput>;
+  delete?: Maybe<ProvisionCodeDisplayDeleteFieldInput>;
+  disconnect?: Maybe<ProvisionCodeDisplayDisconnectFieldInput>;
+  update?: Maybe<ProvisionCodeDisplayUpdateConnectionInput>;
+  where?: Maybe<ProvisionCodeDisplayConnectionWhere>;
+}
+
+export interface ProvisionCodeOptions {
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  /** Specify one or more ProvisionCodeSort objects to sort ProvisionCodes by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<ProvisionCodeSort>>>;
+}
+
+export interface ProvisionCodeRelationInput {
+  display?: Maybe<ProvisionCodeDisplayCreateFieldInput>;
+}
+
+/** Fields to sort ProvisionCodes by. The order in which sorts are applied is not guaranteed when specifying many fields in one ProvisionCodeSort object. */
+export interface ProvisionCodeSort {
+  createdAt?: Maybe<SortDirection>;
+  id?: Maybe<SortDirection>;
+  slug?: Maybe<SortDirection>;
+}
+
+export interface ProvisionCodeUpdateInput {
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  display?: Maybe<ProvisionCodeDisplayUpdateFieldInput>;
+  slug?: Maybe<Scalars["String"]>;
+}
+
+export interface ProvisionCodeWhere {
+  AND?: Maybe<Array<ProvisionCodeWhere>>;
+  OR?: Maybe<Array<ProvisionCodeWhere>>;
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt_GT?: Maybe<Scalars["DateTime"]>;
+  createdAt_GTE?: Maybe<Scalars["DateTime"]>;
+  createdAt_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  createdAt_LT?: Maybe<Scalars["DateTime"]>;
+  createdAt_LTE?: Maybe<Scalars["DateTime"]>;
+  createdAt_NOT?: Maybe<Scalars["DateTime"]>;
+  createdAt_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  display?: Maybe<DisplayWhere>;
+  displayAggregate?: Maybe<ProvisionCodeDisplayAggregateInput>;
+  displayConnection?: Maybe<ProvisionCodeDisplayConnectionWhere>;
+  displayConnection_NOT?: Maybe<ProvisionCodeDisplayConnectionWhere>;
+  display_NOT?: Maybe<DisplayWhere>;
+  id?: Maybe<Scalars["ID"]>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  slug_CONTAINS?: Maybe<Scalars["String"]>;
+  slug_ENDS_WITH?: Maybe<Scalars["String"]>;
+  slug_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  slug_NOT?: Maybe<Scalars["String"]>;
+  slug_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  slug_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  slug_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  slug_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  slug_STARTS_WITH?: Maybe<Scalars["String"]>;
 }
 
 export enum SortDirection {
@@ -2364,6 +2816,7 @@ export const generatedSchema = {
         where: "CampaignAnalyticsConnectionWhere",
       },
     },
+    assetFolder: { __type: "String" },
     assets: { __type: "[CampaignAsset]" },
     customer: { __type: "String" },
     id: { __type: "ID!" },
@@ -2371,6 +2824,7 @@ export const generatedSchema = {
   },
   CampaignAggregateSelection: {
     __typename: { __type: "String!" },
+    assetFolder: { __type: "StringAggregateSelection!" },
     count: { __type: "Int!" },
     customer: { __type: "StringAggregateSelection!" },
     id: { __type: "IDAggregateSelection!" },
@@ -2395,18 +2849,18 @@ export const generatedSchema = {
         where: "CampaignAnalyticCampaignConnectionWhere",
       },
     },
+    data: { __type: "String" },
     id: { __type: "ID!" },
-    ts: { __type: "DateTime" },
+    name: { __type: "String" },
     type: { __type: "String" },
-    value: { __type: "String" },
   },
   CampaignAnalyticAggregateSelection: {
     __typename: { __type: "String!" },
     count: { __type: "Int!" },
+    data: { __type: "StringAggregateSelection!" },
     id: { __type: "IDAggregateSelection!" },
-    ts: { __type: "DateTimeAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
     type: { __type: "StringAggregateSelection!" },
-    value: { __type: "StringAggregateSelection!" },
   },
   CampaignAnalyticCampaignAggregateInput: {
     AND: { __type: "[CampaignAnalyticCampaignAggregateInput!]" },
@@ -2425,6 +2879,7 @@ export const generatedSchema = {
   },
   CampaignAnalyticCampaignCampaignNodeAggregateSelection: {
     __typename: { __type: "String!" },
+    assetFolder: { __type: "StringAggregateSelection!" },
     customer: { __type: "StringAggregateSelection!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
@@ -2464,6 +2919,26 @@ export const generatedSchema = {
   CampaignAnalyticCampaignNodeAggregationWhereInput: {
     AND: { __type: "[CampaignAnalyticCampaignNodeAggregationWhereInput!]" },
     OR: { __type: "[CampaignAnalyticCampaignNodeAggregationWhereInput!]" },
+    assetFolder_AVERAGE_EQUAL: { __type: "Float" },
+    assetFolder_AVERAGE_GT: { __type: "Float" },
+    assetFolder_AVERAGE_GTE: { __type: "Float" },
+    assetFolder_AVERAGE_LT: { __type: "Float" },
+    assetFolder_AVERAGE_LTE: { __type: "Float" },
+    assetFolder_EQUAL: { __type: "String" },
+    assetFolder_GT: { __type: "Int" },
+    assetFolder_GTE: { __type: "Int" },
+    assetFolder_LONGEST_EQUAL: { __type: "Int" },
+    assetFolder_LONGEST_GT: { __type: "Int" },
+    assetFolder_LONGEST_GTE: { __type: "Int" },
+    assetFolder_LONGEST_LT: { __type: "Int" },
+    assetFolder_LONGEST_LTE: { __type: "Int" },
+    assetFolder_LT: { __type: "Int" },
+    assetFolder_LTE: { __type: "Int" },
+    assetFolder_SHORTEST_EQUAL: { __type: "Int" },
+    assetFolder_SHORTEST_GT: { __type: "Int" },
+    assetFolder_SHORTEST_GTE: { __type: "Int" },
+    assetFolder_SHORTEST_LT: { __type: "Int" },
+    assetFolder_SHORTEST_LTE: { __type: "Int" },
     customer_AVERAGE_EQUAL: { __type: "Float" },
     customer_AVERAGE_GT: { __type: "Float" },
     customer_AVERAGE_GTE: { __type: "Float" },
@@ -2528,9 +3003,9 @@ export const generatedSchema = {
   CampaignAnalyticConnectWhere: { node: { __type: "CampaignAnalyticWhere!" } },
   CampaignAnalyticCreateInput: {
     campaign: { __type: "CampaignAnalyticCampaignFieldInput" },
-    ts: { __type: "DateTime" },
+    data: { __type: "String" },
+    name: { __type: "String" },
     type: { __type: "String" },
-    value: { __type: "String" },
   },
   CampaignAnalyticDeleteInput: {
     campaign: { __type: "CampaignAnalyticCampaignDeleteFieldInput" },
@@ -2547,16 +3022,16 @@ export const generatedSchema = {
     campaign: { __type: "CampaignAnalyticCampaignCreateFieldInput" },
   },
   CampaignAnalyticSort: {
+    data: { __type: "SortDirection" },
     id: { __type: "SortDirection" },
-    ts: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
     type: { __type: "SortDirection" },
-    value: { __type: "SortDirection" },
   },
   CampaignAnalyticUpdateInput: {
     campaign: { __type: "CampaignAnalyticCampaignUpdateFieldInput" },
-    ts: { __type: "DateTime" },
+    data: { __type: "String" },
+    name: { __type: "String" },
     type: { __type: "String" },
-    value: { __type: "String" },
   },
   CampaignAnalyticWhere: {
     AND: { __type: "[CampaignAnalyticWhere!]" },
@@ -2568,6 +3043,16 @@ export const generatedSchema = {
       __type: "CampaignAnalyticCampaignConnectionWhere",
     },
     campaign_NOT: { __type: "CampaignWhere" },
+    data: { __type: "String" },
+    data_CONTAINS: { __type: "String" },
+    data_ENDS_WITH: { __type: "String" },
+    data_IN: { __type: "[String]" },
+    data_NOT: { __type: "String" },
+    data_NOT_CONTAINS: { __type: "String" },
+    data_NOT_ENDS_WITH: { __type: "String" },
+    data_NOT_IN: { __type: "[String]" },
+    data_NOT_STARTS_WITH: { __type: "String" },
+    data_STARTS_WITH: { __type: "String" },
     id: { __type: "ID" },
     id_CONTAINS: { __type: "ID" },
     id_ENDS_WITH: { __type: "ID" },
@@ -2578,14 +3063,16 @@ export const generatedSchema = {
     id_NOT_IN: { __type: "[ID]" },
     id_NOT_STARTS_WITH: { __type: "ID" },
     id_STARTS_WITH: { __type: "ID" },
-    ts: { __type: "DateTime" },
-    ts_GT: { __type: "DateTime" },
-    ts_GTE: { __type: "DateTime" },
-    ts_IN: { __type: "[DateTime]" },
-    ts_LT: { __type: "DateTime" },
-    ts_LTE: { __type: "DateTime" },
-    ts_NOT: { __type: "DateTime" },
-    ts_NOT_IN: { __type: "[DateTime]" },
+    name: { __type: "String" },
+    name_CONTAINS: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    name_NOT_IN: { __type: "[String]" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
     type: { __type: "String" },
     type_CONTAINS: { __type: "String" },
     type_ENDS_WITH: { __type: "String" },
@@ -2596,16 +3083,6 @@ export const generatedSchema = {
     type_NOT_IN: { __type: "[String]" },
     type_NOT_STARTS_WITH: { __type: "String" },
     type_STARTS_WITH: { __type: "String" },
-    value: { __type: "String" },
-    value_CONTAINS: { __type: "String" },
-    value_ENDS_WITH: { __type: "String" },
-    value_IN: { __type: "[String]" },
-    value_NOT: { __type: "String" },
-    value_NOT_CONTAINS: { __type: "String" },
-    value_NOT_ENDS_WITH: { __type: "String" },
-    value_NOT_IN: { __type: "[String]" },
-    value_NOT_STARTS_WITH: { __type: "String" },
-    value_STARTS_WITH: { __type: "String" },
   },
   CampaignAnalyticsAggregateInput: {
     AND: { __type: "[CampaignAnalyticsAggregateInput!]" },
@@ -2652,22 +3129,47 @@ export const generatedSchema = {
   CampaignAnalyticsNodeAggregationWhereInput: {
     AND: { __type: "[CampaignAnalyticsNodeAggregationWhereInput!]" },
     OR: { __type: "[CampaignAnalyticsNodeAggregationWhereInput!]" },
+    data_AVERAGE_EQUAL: { __type: "Float" },
+    data_AVERAGE_GT: { __type: "Float" },
+    data_AVERAGE_GTE: { __type: "Float" },
+    data_AVERAGE_LT: { __type: "Float" },
+    data_AVERAGE_LTE: { __type: "Float" },
+    data_EQUAL: { __type: "String" },
+    data_GT: { __type: "Int" },
+    data_GTE: { __type: "Int" },
+    data_LONGEST_EQUAL: { __type: "Int" },
+    data_LONGEST_GT: { __type: "Int" },
+    data_LONGEST_GTE: { __type: "Int" },
+    data_LONGEST_LT: { __type: "Int" },
+    data_LONGEST_LTE: { __type: "Int" },
+    data_LT: { __type: "Int" },
+    data_LTE: { __type: "Int" },
+    data_SHORTEST_EQUAL: { __type: "Int" },
+    data_SHORTEST_GT: { __type: "Int" },
+    data_SHORTEST_GTE: { __type: "Int" },
+    data_SHORTEST_LT: { __type: "Int" },
+    data_SHORTEST_LTE: { __type: "Int" },
     id_EQUAL: { __type: "ID" },
-    ts_EQUAL: { __type: "DateTime" },
-    ts_GT: { __type: "DateTime" },
-    ts_GTE: { __type: "DateTime" },
-    ts_LT: { __type: "DateTime" },
-    ts_LTE: { __type: "DateTime" },
-    ts_MAX_EQUAL: { __type: "DateTime" },
-    ts_MAX_GT: { __type: "DateTime" },
-    ts_MAX_GTE: { __type: "DateTime" },
-    ts_MAX_LT: { __type: "DateTime" },
-    ts_MAX_LTE: { __type: "DateTime" },
-    ts_MIN_EQUAL: { __type: "DateTime" },
-    ts_MIN_GT: { __type: "DateTime" },
-    ts_MIN_GTE: { __type: "DateTime" },
-    ts_MIN_LT: { __type: "DateTime" },
-    ts_MIN_LTE: { __type: "DateTime" },
+    name_AVERAGE_EQUAL: { __type: "Float" },
+    name_AVERAGE_GT: { __type: "Float" },
+    name_AVERAGE_GTE: { __type: "Float" },
+    name_AVERAGE_LT: { __type: "Float" },
+    name_AVERAGE_LTE: { __type: "Float" },
+    name_EQUAL: { __type: "String" },
+    name_GT: { __type: "Int" },
+    name_GTE: { __type: "Int" },
+    name_LONGEST_EQUAL: { __type: "Int" },
+    name_LONGEST_GT: { __type: "Int" },
+    name_LONGEST_GTE: { __type: "Int" },
+    name_LONGEST_LT: { __type: "Int" },
+    name_LONGEST_LTE: { __type: "Int" },
+    name_LT: { __type: "Int" },
+    name_LTE: { __type: "Int" },
+    name_SHORTEST_EQUAL: { __type: "Int" },
+    name_SHORTEST_GT: { __type: "Int" },
+    name_SHORTEST_GTE: { __type: "Int" },
+    name_SHORTEST_LT: { __type: "Int" },
+    name_SHORTEST_LTE: { __type: "Int" },
     type_AVERAGE_EQUAL: { __type: "Float" },
     type_AVERAGE_GT: { __type: "Float" },
     type_AVERAGE_GTE: { __type: "Float" },
@@ -2688,26 +3190,6 @@ export const generatedSchema = {
     type_SHORTEST_GTE: { __type: "Int" },
     type_SHORTEST_LT: { __type: "Int" },
     type_SHORTEST_LTE: { __type: "Int" },
-    value_AVERAGE_EQUAL: { __type: "Float" },
-    value_AVERAGE_GT: { __type: "Float" },
-    value_AVERAGE_GTE: { __type: "Float" },
-    value_AVERAGE_LT: { __type: "Float" },
-    value_AVERAGE_LTE: { __type: "Float" },
-    value_EQUAL: { __type: "String" },
-    value_GT: { __type: "Int" },
-    value_GTE: { __type: "Int" },
-    value_LONGEST_EQUAL: { __type: "Int" },
-    value_LONGEST_GT: { __type: "Int" },
-    value_LONGEST_GTE: { __type: "Int" },
-    value_LONGEST_LT: { __type: "Int" },
-    value_LONGEST_LTE: { __type: "Int" },
-    value_LT: { __type: "Int" },
-    value_LTE: { __type: "Int" },
-    value_SHORTEST_EQUAL: { __type: "Int" },
-    value_SHORTEST_GT: { __type: "Int" },
-    value_SHORTEST_GTE: { __type: "Int" },
-    value_SHORTEST_LT: { __type: "Int" },
-    value_SHORTEST_LTE: { __type: "Int" },
   },
   CampaignAnalyticsRelationship: {
     __typename: { __type: "String!" },
@@ -2742,10 +3224,10 @@ export const generatedSchema = {
   },
   CampaignCampaignAnalyticAnalyticsNodeAggregateSelection: {
     __typename: { __type: "String!" },
+    data: { __type: "StringAggregateSelection!" },
     id: { __type: "IDAggregateSelection!" },
-    ts: { __type: "DateTimeAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
     type: { __type: "StringAggregateSelection!" },
-    value: { __type: "StringAggregateSelection!" },
   },
   CampaignConnectInput: {
     analytics: { __type: "[CampaignAnalyticsConnectFieldInput!]" },
@@ -2753,6 +3235,7 @@ export const generatedSchema = {
   CampaignConnectWhere: { node: { __type: "CampaignWhere!" } },
   CampaignCreateInput: {
     analytics: { __type: "CampaignAnalyticsFieldInput" },
+    assetFolder: { __type: "String" },
     customer: { __type: "String" },
     name: { __type: "String" },
   },
@@ -2771,12 +3254,14 @@ export const generatedSchema = {
     analytics: { __type: "[CampaignAnalyticsCreateFieldInput!]" },
   },
   CampaignSort: {
+    assetFolder: { __type: "SortDirection" },
     customer: { __type: "SortDirection" },
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
   },
   CampaignUpdateInput: {
     analytics: { __type: "[CampaignAnalyticsUpdateFieldInput!]" },
+    assetFolder: { __type: "String" },
     customer: { __type: "String" },
     name: { __type: "String" },
   },
@@ -2788,6 +3273,16 @@ export const generatedSchema = {
     analyticsConnection: { __type: "CampaignAnalyticsConnectionWhere" },
     analyticsConnection_NOT: { __type: "CampaignAnalyticsConnectionWhere" },
     analytics_NOT: { __type: "CampaignAnalyticWhere" },
+    assetFolder: { __type: "String" },
+    assetFolder_CONTAINS: { __type: "String" },
+    assetFolder_ENDS_WITH: { __type: "String" },
+    assetFolder_IN: { __type: "[String]" },
+    assetFolder_NOT: { __type: "String" },
+    assetFolder_NOT_CONTAINS: { __type: "String" },
+    assetFolder_NOT_ENDS_WITH: { __type: "String" },
+    assetFolder_NOT_IN: { __type: "[String]" },
+    assetFolder_NOT_STARTS_WITH: { __type: "String" },
+    assetFolder_STARTS_WITH: { __type: "String" },
     customer: { __type: "String" },
     customer_CONTAINS: { __type: "String" },
     customer_ENDS_WITH: { __type: "String" },
@@ -2905,6 +3400,7 @@ export const generatedSchema = {
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
     percent: { __type: "FloatAggregateSelection!" },
+    slots: { __type: "FloatAggregateSelection!" },
   },
   ClusterConnectInput: {
     displays: { __type: "[ClusterDisplaysConnectFieldInput!]" },
@@ -2937,6 +3433,7 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "IDAggregateSelection!" },
     label: { __type: "StringAggregateSelection!" },
+    provisionedAt: { __type: "DateTimeAggregateSelection!" },
   },
   ClusterDisplaysAggregateInput: {
     AND: { __type: "[ClusterDisplaysAggregateInput!]" },
@@ -3002,6 +3499,21 @@ export const generatedSchema = {
     label_SHORTEST_GTE: { __type: "Int" },
     label_SHORTEST_LT: { __type: "Int" },
     label_SHORTEST_LTE: { __type: "Int" },
+    provisionedAt_EQUAL: { __type: "DateTime" },
+    provisionedAt_GT: { __type: "DateTime" },
+    provisionedAt_GTE: { __type: "DateTime" },
+    provisionedAt_LT: { __type: "DateTime" },
+    provisionedAt_LTE: { __type: "DateTime" },
+    provisionedAt_MAX_EQUAL: { __type: "DateTime" },
+    provisionedAt_MAX_GT: { __type: "DateTime" },
+    provisionedAt_MAX_GTE: { __type: "DateTime" },
+    provisionedAt_MAX_LT: { __type: "DateTime" },
+    provisionedAt_MAX_LTE: { __type: "DateTime" },
+    provisionedAt_MIN_EQUAL: { __type: "DateTime" },
+    provisionedAt_MIN_GT: { __type: "DateTime" },
+    provisionedAt_MIN_GTE: { __type: "DateTime" },
+    provisionedAt_MIN_LT: { __type: "DateTime" },
+    provisionedAt_MIN_LTE: { __type: "DateTime" },
   },
   ClusterDisplaysRelationship: {
     __typename: { __type: "String!" },
@@ -3120,6 +3632,7 @@ export const generatedSchema = {
   },
   ClusterScheduleCampaignCampaignNodeAggregateSelection: {
     __typename: { __type: "String!" },
+    assetFolder: { __type: "StringAggregateSelection!" },
     customer: { __type: "StringAggregateSelection!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
@@ -3159,6 +3672,26 @@ export const generatedSchema = {
   ClusterScheduleCampaignNodeAggregationWhereInput: {
     AND: { __type: "[ClusterScheduleCampaignNodeAggregationWhereInput!]" },
     OR: { __type: "[ClusterScheduleCampaignNodeAggregationWhereInput!]" },
+    assetFolder_AVERAGE_EQUAL: { __type: "Float" },
+    assetFolder_AVERAGE_GT: { __type: "Float" },
+    assetFolder_AVERAGE_GTE: { __type: "Float" },
+    assetFolder_AVERAGE_LT: { __type: "Float" },
+    assetFolder_AVERAGE_LTE: { __type: "Float" },
+    assetFolder_EQUAL: { __type: "String" },
+    assetFolder_GT: { __type: "Int" },
+    assetFolder_GTE: { __type: "Int" },
+    assetFolder_LONGEST_EQUAL: { __type: "Int" },
+    assetFolder_LONGEST_GT: { __type: "Int" },
+    assetFolder_LONGEST_GTE: { __type: "Int" },
+    assetFolder_LONGEST_LT: { __type: "Int" },
+    assetFolder_LONGEST_LTE: { __type: "Int" },
+    assetFolder_LT: { __type: "Int" },
+    assetFolder_LTE: { __type: "Int" },
+    assetFolder_SHORTEST_EQUAL: { __type: "Int" },
+    assetFolder_SHORTEST_GT: { __type: "Int" },
+    assetFolder_SHORTEST_GTE: { __type: "Int" },
+    assetFolder_SHORTEST_LT: { __type: "Int" },
+    assetFolder_SHORTEST_LTE: { __type: "Int" },
     customer_AVERAGE_EQUAL: { __type: "Float" },
     customer_AVERAGE_GT: { __type: "Float" },
     customer_AVERAGE_GTE: { __type: "Float" },
@@ -3309,6 +3842,7 @@ export const generatedSchema = {
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
     percent: { __type: "FloatAggregateSelection!" },
+    slots: { __type: "FloatAggregateSelection!" },
   },
   ClusterScheduleClusterUpdateConnectionInput: {
     node: { __type: "ClusterUpdateInput" },
@@ -3517,6 +4051,26 @@ export const generatedSchema = {
     percent_MIN_GTE: { __type: "Float" },
     percent_MIN_LT: { __type: "Float" },
     percent_MIN_LTE: { __type: "Float" },
+    slots_AVERAGE_EQUAL: { __type: "Float" },
+    slots_AVERAGE_GT: { __type: "Float" },
+    slots_AVERAGE_GTE: { __type: "Float" },
+    slots_AVERAGE_LT: { __type: "Float" },
+    slots_AVERAGE_LTE: { __type: "Float" },
+    slots_EQUAL: { __type: "Float" },
+    slots_GT: { __type: "Float" },
+    slots_GTE: { __type: "Float" },
+    slots_LT: { __type: "Float" },
+    slots_LTE: { __type: "Float" },
+    slots_MAX_EQUAL: { __type: "Float" },
+    slots_MAX_GT: { __type: "Float" },
+    slots_MAX_GTE: { __type: "Float" },
+    slots_MAX_LT: { __type: "Float" },
+    slots_MAX_LTE: { __type: "Float" },
+    slots_MIN_EQUAL: { __type: "Float" },
+    slots_MIN_GT: { __type: "Float" },
+    slots_MIN_GTE: { __type: "Float" },
+    slots_MIN_LT: { __type: "Float" },
+    slots_MIN_LTE: { __type: "Float" },
   },
   ClusterScheduleTierRelationship: {
     __typename: { __type: "String!" },
@@ -3625,6 +4179,7 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String" },
     percent: { __type: "Float" },
+    slots: { __type: "Float" },
   },
   ClusterTierAggregateSelection: {
     __typename: { __type: "String!" },
@@ -3632,6 +4187,7 @@ export const generatedSchema = {
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
     percent: { __type: "FloatAggregateSelection!" },
+    slots: { __type: "FloatAggregateSelection!" },
   },
   ClusterTierClusterAggregateInput: {
     AND: { __type: "[ClusterTierClusterAggregateInput!]" },
@@ -3734,6 +4290,7 @@ export const generatedSchema = {
     cluster: { __type: "ClusterTierClusterFieldInput" },
     name: { __type: "String" },
     percent: { __type: "Float" },
+    slots: { __type: "Float" },
   },
   ClusterTierDeleteInput: {
     cluster: { __type: "ClusterTierClusterDeleteFieldInput" },
@@ -3753,11 +4310,13 @@ export const generatedSchema = {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
     percent: { __type: "SortDirection" },
+    slots: { __type: "SortDirection" },
   },
   ClusterTierUpdateInput: {
     cluster: { __type: "ClusterTierClusterUpdateFieldInput" },
     name: { __type: "String" },
     percent: { __type: "Float" },
+    slots: { __type: "Float" },
   },
   ClusterTierWhere: {
     AND: { __type: "[ClusterTierWhere!]" },
@@ -3795,6 +4354,14 @@ export const generatedSchema = {
     percent_LTE: { __type: "Float" },
     percent_NOT: { __type: "Float" },
     percent_NOT_IN: { __type: "[Float]" },
+    slots: { __type: "Float" },
+    slots_GT: { __type: "Float" },
+    slots_GTE: { __type: "Float" },
+    slots_IN: { __type: "[Float]" },
+    slots_LT: { __type: "Float" },
+    slots_LTE: { __type: "Float" },
+    slots_NOT: { __type: "Float" },
+    slots_NOT_IN: { __type: "[Float]" },
   },
   ClusterTiersAggregateInput: {
     AND: { __type: "[ClusterTiersAggregateInput!]" },
@@ -3880,6 +4447,26 @@ export const generatedSchema = {
     percent_MIN_GTE: { __type: "Float" },
     percent_MIN_LT: { __type: "Float" },
     percent_MIN_LTE: { __type: "Float" },
+    slots_AVERAGE_EQUAL: { __type: "Float" },
+    slots_AVERAGE_GT: { __type: "Float" },
+    slots_AVERAGE_GTE: { __type: "Float" },
+    slots_AVERAGE_LT: { __type: "Float" },
+    slots_AVERAGE_LTE: { __type: "Float" },
+    slots_EQUAL: { __type: "Float" },
+    slots_GT: { __type: "Float" },
+    slots_GTE: { __type: "Float" },
+    slots_LT: { __type: "Float" },
+    slots_LTE: { __type: "Float" },
+    slots_MAX_EQUAL: { __type: "Float" },
+    slots_MAX_GT: { __type: "Float" },
+    slots_MAX_GTE: { __type: "Float" },
+    slots_MAX_LT: { __type: "Float" },
+    slots_MAX_LTE: { __type: "Float" },
+    slots_MIN_EQUAL: { __type: "Float" },
+    slots_MIN_GT: { __type: "Float" },
+    slots_MIN_GTE: { __type: "Float" },
+    slots_MIN_LT: { __type: "Float" },
+    slots_MIN_LTE: { __type: "Float" },
   },
   ClusterTiersRelationship: {
     __typename: { __type: "String!" },
@@ -4032,6 +4619,7 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "IDAggregateSelection!" },
     label: { __type: "StringAggregateSelection!" },
+    provisionedAt: { __type: "DateTimeAggregateSelection!" },
   },
   ComputerDisplayFieldInput: {
     connect: { __type: "ComputerDisplayConnectFieldInput" },
@@ -4061,6 +4649,21 @@ export const generatedSchema = {
     label_SHORTEST_GTE: { __type: "Int" },
     label_SHORTEST_LT: { __type: "Int" },
     label_SHORTEST_LTE: { __type: "Int" },
+    provisionedAt_EQUAL: { __type: "DateTime" },
+    provisionedAt_GT: { __type: "DateTime" },
+    provisionedAt_GTE: { __type: "DateTime" },
+    provisionedAt_LT: { __type: "DateTime" },
+    provisionedAt_LTE: { __type: "DateTime" },
+    provisionedAt_MAX_EQUAL: { __type: "DateTime" },
+    provisionedAt_MAX_GT: { __type: "DateTime" },
+    provisionedAt_MAX_GTE: { __type: "DateTime" },
+    provisionedAt_MAX_LT: { __type: "DateTime" },
+    provisionedAt_MAX_LTE: { __type: "DateTime" },
+    provisionedAt_MIN_EQUAL: { __type: "DateTime" },
+    provisionedAt_MIN_GT: { __type: "DateTime" },
+    provisionedAt_MIN_GTE: { __type: "DateTime" },
+    provisionedAt_MIN_LT: { __type: "DateTime" },
+    provisionedAt_MIN_LTE: { __type: "DateTime" },
   },
   ComputerDisplayRelationship: {
     __typename: { __type: "String!" },
@@ -4186,6 +4789,11 @@ export const generatedSchema = {
     nodesCreated: { __type: "Int!" },
     relationshipsCreated: { __type: "Int!" },
   },
+  CreateProvisionCodesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    provisionCodes: { __type: "[ProvisionCode!]!" },
+  },
   DateTimeAggregateSelection: {
     __typename: { __type: "String!" },
     max: { __type: "DateTime!" },
@@ -4255,6 +4863,25 @@ export const generatedSchema = {
         where: "DisplayLocationConnectionWhere",
       },
     },
+    provisioned: { __type: "Boolean" },
+    provisionedAt: { __type: "DateTime" },
+    provisionedBy: {
+      __type: "ProvisionCode",
+      __args: { options: "ProvisionCodeOptions", where: "ProvisionCodeWhere" },
+    },
+    provisionedByAggregate: {
+      __type: "DisplayProvisionCodeProvisionedByAggregationSelection",
+      __args: { where: "ProvisionCodeWhere" },
+    },
+    provisionedByConnection: {
+      __type: "DisplayProvisionedByConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[DisplayProvisionedByConnectionSort!]",
+        where: "DisplayProvisionedByConnectionWhere",
+      },
+    },
     screens: {
       __type: "[DisplayScreen]",
       __args: { options: "DisplayScreenOptions", where: "DisplayScreenWhere" },
@@ -4278,6 +4905,7 @@ export const generatedSchema = {
     count: { __type: "Int!" },
     id: { __type: "IDAggregateSelection!" },
     label: { __type: "StringAggregateSelection!" },
+    provisionedAt: { __type: "DateTimeAggregateSelection!" },
   },
   DisplayClusterAggregateInput: {
     AND: { __type: "[DisplayClusterAggregateInput!]" },
@@ -4488,6 +5116,7 @@ export const generatedSchema = {
     cluster: { __type: "DisplayClusterConnectFieldInput" },
     computers: { __type: "[DisplayComputersConnectFieldInput!]" },
     location: { __type: "DisplayLocationConnectFieldInput" },
+    provisionedBy: { __type: "DisplayProvisionedByConnectFieldInput" },
     screens: { __type: "[DisplayScreensConnectFieldInput!]" },
   },
   DisplayConnectWhere: { node: { __type: "DisplayWhere!" } },
@@ -4496,18 +5125,23 @@ export const generatedSchema = {
     computers: { __type: "DisplayComputersFieldInput" },
     label: { __type: "String" },
     location: { __type: "DisplayLocationFieldInput" },
+    provisioned: { __type: "Boolean" },
+    provisionedAt: { __type: "DateTime" },
+    provisionedBy: { __type: "DisplayProvisionedByFieldInput" },
     screens: { __type: "DisplayScreensFieldInput" },
   },
   DisplayDeleteInput: {
     cluster: { __type: "DisplayClusterDeleteFieldInput" },
     computers: { __type: "[DisplayComputersDeleteFieldInput!]" },
     location: { __type: "DisplayLocationDeleteFieldInput" },
+    provisionedBy: { __type: "DisplayProvisionedByDeleteFieldInput" },
     screens: { __type: "[DisplayScreensDeleteFieldInput!]" },
   },
   DisplayDisconnectInput: {
     cluster: { __type: "DisplayClusterDisconnectFieldInput" },
     computers: { __type: "[DisplayComputersDisconnectFieldInput!]" },
     location: { __type: "DisplayLocationDisconnectFieldInput" },
+    provisionedBy: { __type: "DisplayProvisionedByDisconnectFieldInput" },
     screens: { __type: "[DisplayScreensDisconnectFieldInput!]" },
   },
   DisplayDisplayLocationLocationAggregationSelection: {
@@ -4772,10 +5406,120 @@ export const generatedSchema = {
     offset: { __type: "Int" },
     sort: { __type: "[DisplaySort]" },
   },
+  DisplayProvisionCodeProvisionedByAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "DisplayProvisionCodeProvisionedByNodeAggregateSelection" },
+  },
+  DisplayProvisionCodeProvisionedByNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    createdAt: { __type: "DateTimeAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    slug: { __type: "StringAggregateSelection!" },
+  },
+  DisplayProvisionedByAggregateInput: {
+    AND: { __type: "[DisplayProvisionedByAggregateInput!]" },
+    OR: { __type: "[DisplayProvisionedByAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "DisplayProvisionedByNodeAggregationWhereInput" },
+  },
+  DisplayProvisionedByConnectFieldInput: {
+    connect: { __type: "ProvisionCodeConnectInput" },
+    where: { __type: "ProvisionCodeConnectWhere" },
+  },
+  DisplayProvisionedByConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[DisplayProvisionedByRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  DisplayProvisionedByConnectionSort: { node: { __type: "ProvisionCodeSort" } },
+  DisplayProvisionedByConnectionWhere: {
+    AND: { __type: "[DisplayProvisionedByConnectionWhere!]" },
+    OR: { __type: "[DisplayProvisionedByConnectionWhere!]" },
+    node: { __type: "ProvisionCodeWhere" },
+    node_NOT: { __type: "ProvisionCodeWhere" },
+  },
+  DisplayProvisionedByCreateFieldInput: {
+    node: { __type: "ProvisionCodeCreateInput!" },
+  },
+  DisplayProvisionedByDeleteFieldInput: {
+    delete: { __type: "ProvisionCodeDeleteInput" },
+    where: { __type: "DisplayProvisionedByConnectionWhere" },
+  },
+  DisplayProvisionedByDisconnectFieldInput: {
+    disconnect: { __type: "ProvisionCodeDisconnectInput" },
+    where: { __type: "DisplayProvisionedByConnectionWhere" },
+  },
+  DisplayProvisionedByFieldInput: {
+    connect: { __type: "DisplayProvisionedByConnectFieldInput" },
+    create: { __type: "DisplayProvisionedByCreateFieldInput" },
+  },
+  DisplayProvisionedByNodeAggregationWhereInput: {
+    AND: { __type: "[DisplayProvisionedByNodeAggregationWhereInput!]" },
+    OR: { __type: "[DisplayProvisionedByNodeAggregationWhereInput!]" },
+    createdAt_EQUAL: { __type: "DateTime" },
+    createdAt_GT: { __type: "DateTime" },
+    createdAt_GTE: { __type: "DateTime" },
+    createdAt_LT: { __type: "DateTime" },
+    createdAt_LTE: { __type: "DateTime" },
+    createdAt_MAX_EQUAL: { __type: "DateTime" },
+    createdAt_MAX_GT: { __type: "DateTime" },
+    createdAt_MAX_GTE: { __type: "DateTime" },
+    createdAt_MAX_LT: { __type: "DateTime" },
+    createdAt_MAX_LTE: { __type: "DateTime" },
+    createdAt_MIN_EQUAL: { __type: "DateTime" },
+    createdAt_MIN_GT: { __type: "DateTime" },
+    createdAt_MIN_GTE: { __type: "DateTime" },
+    createdAt_MIN_LT: { __type: "DateTime" },
+    createdAt_MIN_LTE: { __type: "DateTime" },
+    id_EQUAL: { __type: "ID" },
+    slug_AVERAGE_EQUAL: { __type: "Float" },
+    slug_AVERAGE_GT: { __type: "Float" },
+    slug_AVERAGE_GTE: { __type: "Float" },
+    slug_AVERAGE_LT: { __type: "Float" },
+    slug_AVERAGE_LTE: { __type: "Float" },
+    slug_EQUAL: { __type: "String" },
+    slug_GT: { __type: "Int" },
+    slug_GTE: { __type: "Int" },
+    slug_LONGEST_EQUAL: { __type: "Int" },
+    slug_LONGEST_GT: { __type: "Int" },
+    slug_LONGEST_GTE: { __type: "Int" },
+    slug_LONGEST_LT: { __type: "Int" },
+    slug_LONGEST_LTE: { __type: "Int" },
+    slug_LT: { __type: "Int" },
+    slug_LTE: { __type: "Int" },
+    slug_SHORTEST_EQUAL: { __type: "Int" },
+    slug_SHORTEST_GT: { __type: "Int" },
+    slug_SHORTEST_GTE: { __type: "Int" },
+    slug_SHORTEST_LT: { __type: "Int" },
+    slug_SHORTEST_LTE: { __type: "Int" },
+  },
+  DisplayProvisionedByRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "ProvisionCode!" },
+  },
+  DisplayProvisionedByUpdateConnectionInput: {
+    node: { __type: "ProvisionCodeUpdateInput" },
+  },
+  DisplayProvisionedByUpdateFieldInput: {
+    connect: { __type: "DisplayProvisionedByConnectFieldInput" },
+    create: { __type: "DisplayProvisionedByCreateFieldInput" },
+    delete: { __type: "DisplayProvisionedByDeleteFieldInput" },
+    disconnect: { __type: "DisplayProvisionedByDisconnectFieldInput" },
+    update: { __type: "DisplayProvisionedByUpdateConnectionInput" },
+    where: { __type: "DisplayProvisionedByConnectionWhere" },
+  },
   DisplayRelationInput: {
     cluster: { __type: "DisplayClusterCreateFieldInput" },
     computers: { __type: "[DisplayComputersCreateFieldInput!]" },
     location: { __type: "DisplayLocationCreateFieldInput" },
+    provisionedBy: { __type: "DisplayProvisionedByCreateFieldInput" },
     screens: { __type: "[DisplayScreensCreateFieldInput!]" },
   },
   DisplayScreen: {
@@ -5042,12 +5786,17 @@ export const generatedSchema = {
   DisplaySort: {
     id: { __type: "SortDirection" },
     label: { __type: "SortDirection" },
+    provisioned: { __type: "SortDirection" },
+    provisionedAt: { __type: "SortDirection" },
   },
   DisplayUpdateInput: {
     cluster: { __type: "DisplayClusterUpdateFieldInput" },
     computers: { __type: "[DisplayComputersUpdateFieldInput!]" },
     label: { __type: "String" },
     location: { __type: "DisplayLocationUpdateFieldInput" },
+    provisioned: { __type: "Boolean" },
+    provisionedAt: { __type: "DateTime" },
+    provisionedBy: { __type: "DisplayProvisionedByUpdateFieldInput" },
     screens: { __type: "[DisplayScreensUpdateFieldInput!]" },
   },
   DisplayWhere: {
@@ -5088,6 +5837,23 @@ export const generatedSchema = {
     locationConnection: { __type: "DisplayLocationConnectionWhere" },
     locationConnection_NOT: { __type: "DisplayLocationConnectionWhere" },
     location_NOT: { __type: "DisplayLocationWhere" },
+    provisioned: { __type: "Boolean" },
+    provisionedAt: { __type: "DateTime" },
+    provisionedAt_GT: { __type: "DateTime" },
+    provisionedAt_GTE: { __type: "DateTime" },
+    provisionedAt_IN: { __type: "[DateTime]" },
+    provisionedAt_LT: { __type: "DateTime" },
+    provisionedAt_LTE: { __type: "DateTime" },
+    provisionedAt_NOT: { __type: "DateTime" },
+    provisionedAt_NOT_IN: { __type: "[DateTime]" },
+    provisionedBy: { __type: "ProvisionCodeWhere" },
+    provisionedByAggregate: { __type: "DisplayProvisionedByAggregateInput" },
+    provisionedByConnection: { __type: "DisplayProvisionedByConnectionWhere" },
+    provisionedByConnection_NOT: {
+      __type: "DisplayProvisionedByConnectionWhere",
+    },
+    provisionedBy_NOT: { __type: "ProvisionCodeWhere" },
+    provisioned_NOT: { __type: "Boolean" },
     screens: { __type: "DisplayScreenWhere" },
     screensAggregate: { __type: "DisplayScreensAggregateInput" },
     screensConnection: { __type: "DisplayScreensConnectionWhere" },
@@ -5111,6 +5877,215 @@ export const generatedSchema = {
     hasNextPage: { __type: "Boolean!" },
     hasPreviousPage: { __type: "Boolean!" },
     startCursor: { __type: "String" },
+  },
+  ProvisionCode: {
+    __typename: { __type: "String!" },
+    createdAt: { __type: "DateTime" },
+    display: {
+      __type: "Display",
+      __args: { options: "DisplayOptions", where: "DisplayWhere" },
+    },
+    displayAggregate: {
+      __type: "ProvisionCodeDisplayDisplayAggregationSelection",
+      __args: { where: "DisplayWhere" },
+    },
+    displayConnection: {
+      __type: "ProvisionCodeDisplayConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ProvisionCodeDisplayConnectionSort!]",
+        where: "ProvisionCodeDisplayConnectionWhere",
+      },
+    },
+    id: { __type: "ID" },
+    slug: { __type: "String" },
+  },
+  ProvisionCodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    createdAt: { __type: "DateTimeAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    slug: { __type: "StringAggregateSelection!" },
+  },
+  ProvisionCodeConnectInput: {
+    display: { __type: "ProvisionCodeDisplayConnectFieldInput" },
+  },
+  ProvisionCodeConnectWhere: { node: { __type: "ProvisionCodeWhere!" } },
+  ProvisionCodeCreateInput: {
+    createdAt: { __type: "DateTime" },
+    display: { __type: "ProvisionCodeDisplayFieldInput" },
+    slug: { __type: "String" },
+  },
+  ProvisionCodeDeleteInput: {
+    display: { __type: "ProvisionCodeDisplayDeleteFieldInput" },
+  },
+  ProvisionCodeDisconnectInput: {
+    display: { __type: "ProvisionCodeDisplayDisconnectFieldInput" },
+  },
+  ProvisionCodeDisplayAggregateInput: {
+    AND: { __type: "[ProvisionCodeDisplayAggregateInput!]" },
+    OR: { __type: "[ProvisionCodeDisplayAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ProvisionCodeDisplayNodeAggregationWhereInput" },
+  },
+  ProvisionCodeDisplayConnectFieldInput: {
+    connect: { __type: "DisplayConnectInput" },
+    where: { __type: "DisplayConnectWhere" },
+  },
+  ProvisionCodeDisplayConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ProvisionCodeDisplayRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ProvisionCodeDisplayConnectionSort: { node: { __type: "DisplaySort" } },
+  ProvisionCodeDisplayConnectionWhere: {
+    AND: { __type: "[ProvisionCodeDisplayConnectionWhere!]" },
+    OR: { __type: "[ProvisionCodeDisplayConnectionWhere!]" },
+    node: { __type: "DisplayWhere" },
+    node_NOT: { __type: "DisplayWhere" },
+  },
+  ProvisionCodeDisplayCreateFieldInput: {
+    node: { __type: "DisplayCreateInput!" },
+  },
+  ProvisionCodeDisplayDeleteFieldInput: {
+    delete: { __type: "DisplayDeleteInput" },
+    where: { __type: "ProvisionCodeDisplayConnectionWhere" },
+  },
+  ProvisionCodeDisplayDisconnectFieldInput: {
+    disconnect: { __type: "DisplayDisconnectInput" },
+    where: { __type: "ProvisionCodeDisplayConnectionWhere" },
+  },
+  ProvisionCodeDisplayDisplayAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ProvisionCodeDisplayDisplayNodeAggregateSelection" },
+  },
+  ProvisionCodeDisplayDisplayNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    id: { __type: "IDAggregateSelection!" },
+    label: { __type: "StringAggregateSelection!" },
+    provisionedAt: { __type: "DateTimeAggregateSelection!" },
+  },
+  ProvisionCodeDisplayFieldInput: {
+    connect: { __type: "ProvisionCodeDisplayConnectFieldInput" },
+    create: { __type: "ProvisionCodeDisplayCreateFieldInput" },
+  },
+  ProvisionCodeDisplayNodeAggregationWhereInput: {
+    AND: { __type: "[ProvisionCodeDisplayNodeAggregationWhereInput!]" },
+    OR: { __type: "[ProvisionCodeDisplayNodeAggregationWhereInput!]" },
+    id_EQUAL: { __type: "ID" },
+    label_AVERAGE_EQUAL: { __type: "Float" },
+    label_AVERAGE_GT: { __type: "Float" },
+    label_AVERAGE_GTE: { __type: "Float" },
+    label_AVERAGE_LT: { __type: "Float" },
+    label_AVERAGE_LTE: { __type: "Float" },
+    label_EQUAL: { __type: "String" },
+    label_GT: { __type: "Int" },
+    label_GTE: { __type: "Int" },
+    label_LONGEST_EQUAL: { __type: "Int" },
+    label_LONGEST_GT: { __type: "Int" },
+    label_LONGEST_GTE: { __type: "Int" },
+    label_LONGEST_LT: { __type: "Int" },
+    label_LONGEST_LTE: { __type: "Int" },
+    label_LT: { __type: "Int" },
+    label_LTE: { __type: "Int" },
+    label_SHORTEST_EQUAL: { __type: "Int" },
+    label_SHORTEST_GT: { __type: "Int" },
+    label_SHORTEST_GTE: { __type: "Int" },
+    label_SHORTEST_LT: { __type: "Int" },
+    label_SHORTEST_LTE: { __type: "Int" },
+    provisionedAt_EQUAL: { __type: "DateTime" },
+    provisionedAt_GT: { __type: "DateTime" },
+    provisionedAt_GTE: { __type: "DateTime" },
+    provisionedAt_LT: { __type: "DateTime" },
+    provisionedAt_LTE: { __type: "DateTime" },
+    provisionedAt_MAX_EQUAL: { __type: "DateTime" },
+    provisionedAt_MAX_GT: { __type: "DateTime" },
+    provisionedAt_MAX_GTE: { __type: "DateTime" },
+    provisionedAt_MAX_LT: { __type: "DateTime" },
+    provisionedAt_MAX_LTE: { __type: "DateTime" },
+    provisionedAt_MIN_EQUAL: { __type: "DateTime" },
+    provisionedAt_MIN_GT: { __type: "DateTime" },
+    provisionedAt_MIN_GTE: { __type: "DateTime" },
+    provisionedAt_MIN_LT: { __type: "DateTime" },
+    provisionedAt_MIN_LTE: { __type: "DateTime" },
+  },
+  ProvisionCodeDisplayRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Display!" },
+  },
+  ProvisionCodeDisplayUpdateConnectionInput: {
+    node: { __type: "DisplayUpdateInput" },
+  },
+  ProvisionCodeDisplayUpdateFieldInput: {
+    connect: { __type: "ProvisionCodeDisplayConnectFieldInput" },
+    create: { __type: "ProvisionCodeDisplayCreateFieldInput" },
+    delete: { __type: "ProvisionCodeDisplayDeleteFieldInput" },
+    disconnect: { __type: "ProvisionCodeDisplayDisconnectFieldInput" },
+    update: { __type: "ProvisionCodeDisplayUpdateConnectionInput" },
+    where: { __type: "ProvisionCodeDisplayConnectionWhere" },
+  },
+  ProvisionCodeOptions: {
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+    sort: { __type: "[ProvisionCodeSort]" },
+  },
+  ProvisionCodeRelationInput: {
+    display: { __type: "ProvisionCodeDisplayCreateFieldInput" },
+  },
+  ProvisionCodeSort: {
+    createdAt: { __type: "SortDirection" },
+    id: { __type: "SortDirection" },
+    slug: { __type: "SortDirection" },
+  },
+  ProvisionCodeUpdateInput: {
+    createdAt: { __type: "DateTime" },
+    display: { __type: "ProvisionCodeDisplayUpdateFieldInput" },
+    slug: { __type: "String" },
+  },
+  ProvisionCodeWhere: {
+    AND: { __type: "[ProvisionCodeWhere!]" },
+    OR: { __type: "[ProvisionCodeWhere!]" },
+    createdAt: { __type: "DateTime" },
+    createdAt_GT: { __type: "DateTime" },
+    createdAt_GTE: { __type: "DateTime" },
+    createdAt_IN: { __type: "[DateTime]" },
+    createdAt_LT: { __type: "DateTime" },
+    createdAt_LTE: { __type: "DateTime" },
+    createdAt_NOT: { __type: "DateTime" },
+    createdAt_NOT_IN: { __type: "[DateTime]" },
+    display: { __type: "DisplayWhere" },
+    displayAggregate: { __type: "ProvisionCodeDisplayAggregateInput" },
+    displayConnection: { __type: "ProvisionCodeDisplayConnectionWhere" },
+    displayConnection_NOT: { __type: "ProvisionCodeDisplayConnectionWhere" },
+    display_NOT: { __type: "DisplayWhere" },
+    id: { __type: "ID" },
+    id_CONTAINS: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    slug: { __type: "String" },
+    slug_CONTAINS: { __type: "String" },
+    slug_ENDS_WITH: { __type: "String" },
+    slug_IN: { __type: "[String]" },
+    slug_NOT: { __type: "String" },
+    slug_NOT_CONTAINS: { __type: "String" },
+    slug_NOT_ENDS_WITH: { __type: "String" },
+    slug_NOT_IN: { __type: "[String]" },
+    slug_NOT_STARTS_WITH: { __type: "String" },
+    slug_STARTS_WITH: { __type: "String" },
   },
   StringAggregateSelection: {
     __typename: { __type: "String!" },
@@ -5170,6 +6145,11 @@ export const generatedSchema = {
     relationshipsCreated: { __type: "Int!" },
     relationshipsDeleted: { __type: "Int!" },
   },
+  UpdateProvisionCodesMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    provisionCodes: { __type: "[ProvisionCode!]!" },
+  },
   mutation: {
     __typename: { __type: "String!" },
     createCampaignAnalytics: {
@@ -5207,6 +6187,10 @@ export const generatedSchema = {
     createDisplays: {
       __type: "CreateDisplaysMutationResponse!",
       __args: { input: "[DisplayCreateInput!]!" },
+    },
+    createProvisionCodes: {
+      __type: "CreateProvisionCodesMutationResponse!",
+      __args: { input: "[ProvisionCodeCreateInput!]!" },
     },
     deleteCampaignAnalytics: {
       __type: "DeleteInfo!",
@@ -5249,6 +6233,13 @@ export const generatedSchema = {
     deleteDisplays: {
       __type: "DeleteInfo!",
       __args: { delete: "DisplayDeleteInput", where: "DisplayWhere" },
+    },
+    deleteProvisionCodes: {
+      __type: "DeleteInfo!",
+      __args: {
+        delete: "ProvisionCodeDeleteInput",
+        where: "ProvisionCodeWhere",
+      },
     },
     updateCampaignAnalytics: {
       __type: "UpdateCampaignAnalyticsMutationResponse!",
@@ -5339,6 +6330,17 @@ export const generatedSchema = {
         disconnect: "DisplayDisconnectInput",
         update: "DisplayUpdateInput",
         where: "DisplayWhere",
+      },
+    },
+    updateProvisionCodes: {
+      __type: "UpdateProvisionCodesMutationResponse!",
+      __args: {
+        connect: "ProvisionCodeConnectInput",
+        create: "ProvisionCodeRelationInput",
+        delete: "ProvisionCodeDeleteInput",
+        disconnect: "ProvisionCodeDisconnectInput",
+        update: "ProvisionCodeUpdateInput",
+        where: "ProvisionCodeWhere",
       },
     },
   },
@@ -5449,6 +6451,18 @@ export const generatedSchema = {
       __args: { where: "DisplayWhere" },
     },
     displaysCount: { __type: "Int!", __args: { where: "DisplayWhere" } },
+    provisionCodes: {
+      __type: "[ProvisionCode!]!",
+      __args: { options: "ProvisionCodeOptions", where: "ProvisionCodeWhere" },
+    },
+    provisionCodesAggregate: {
+      __type: "ProvisionCodeAggregateSelection!",
+      __args: { where: "ProvisionCodeWhere" },
+    },
+    provisionCodesCount: {
+      __type: "Int!",
+      __args: { where: "ProvisionCodeWhere" },
+    },
   },
   subscription: {},
 } as const;
@@ -5468,6 +6482,7 @@ export interface Campaign {
     sort?: Maybe<Array<CampaignAnalyticsConnectionSort>>;
     where?: Maybe<CampaignAnalyticsConnectionWhere>;
   }) => CampaignAnalyticsConnection;
+  assetFolder?: Maybe<ScalarsEnums["String"]>;
   assets?: Maybe<Array<Maybe<CampaignAsset>>>;
   customer?: Maybe<ScalarsEnums["String"]>;
   id: ScalarsEnums["ID"];
@@ -5476,6 +6491,7 @@ export interface Campaign {
 
 export interface CampaignAggregateSelection {
   __typename?: "CampaignAggregateSelection";
+  assetFolder: StringAggregateSelection;
   count: ScalarsEnums["Int"];
   customer: StringAggregateSelection;
   id: IDAggregateSelection;
@@ -5497,19 +6513,19 @@ export interface CampaignAnalytic {
     sort?: Maybe<Array<CampaignAnalyticCampaignConnectionSort>>;
     where?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
   }) => CampaignAnalyticCampaignConnection;
+  data?: Maybe<ScalarsEnums["String"]>;
   id: ScalarsEnums["ID"];
-  ts?: Maybe<ScalarsEnums["DateTime"]>;
+  name?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
-  value?: Maybe<ScalarsEnums["String"]>;
 }
 
 export interface CampaignAnalyticAggregateSelection {
   __typename?: "CampaignAnalyticAggregateSelection";
   count: ScalarsEnums["Int"];
+  data: StringAggregateSelection;
   id: IDAggregateSelection;
-  ts: DateTimeAggregateSelection;
+  name: StringAggregateSelection;
   type: StringAggregateSelection;
-  value: StringAggregateSelection;
 }
 
 export interface CampaignAnalyticCampaignCampaignAggregationSelection {
@@ -5520,6 +6536,7 @@ export interface CampaignAnalyticCampaignCampaignAggregationSelection {
 
 export interface CampaignAnalyticCampaignCampaignNodeAggregateSelection {
   __typename?: "CampaignAnalyticCampaignCampaignNodeAggregateSelection";
+  assetFolder: StringAggregateSelection;
   customer: StringAggregateSelection;
   id: IDAggregateSelection;
   name: StringAggregateSelection;
@@ -5570,10 +6587,10 @@ export interface CampaignCampaignAnalyticAnalyticsAggregationSelection {
 
 export interface CampaignCampaignAnalyticAnalyticsNodeAggregateSelection {
   __typename?: "CampaignCampaignAnalyticAnalyticsNodeAggregateSelection";
+  data: StringAggregateSelection;
   id: IDAggregateSelection;
-  ts: DateTimeAggregateSelection;
+  name: StringAggregateSelection;
   type: StringAggregateSelection;
-  value: StringAggregateSelection;
 }
 
 export interface Cluster {
@@ -5652,6 +6669,7 @@ export interface ClusterClusterTierTiersNodeAggregateSelection {
   id: IDAggregateSelection;
   name: StringAggregateSelection;
   percent: FloatAggregateSelection;
+  slots: FloatAggregateSelection;
 }
 
 export interface ClusterDisplayDisplaysAggregationSelection {
@@ -5664,6 +6682,7 @@ export interface ClusterDisplayDisplaysNodeAggregateSelection {
   __typename?: "ClusterDisplayDisplaysNodeAggregateSelection";
   id: IDAggregateSelection;
   label: StringAggregateSelection;
+  provisionedAt: DateTimeAggregateSelection;
 }
 
 export interface ClusterDisplaysConnection {
@@ -5741,6 +6760,7 @@ export interface ClusterScheduleCampaignCampaignAggregationSelection {
 
 export interface ClusterScheduleCampaignCampaignNodeAggregateSelection {
   __typename?: "ClusterScheduleCampaignCampaignNodeAggregateSelection";
+  assetFolder: StringAggregateSelection;
   customer: StringAggregateSelection;
   id: IDAggregateSelection;
   name: StringAggregateSelection;
@@ -5795,6 +6815,7 @@ export interface ClusterScheduleClusterTierTierNodeAggregateSelection {
   id: IDAggregateSelection;
   name: StringAggregateSelection;
   percent: FloatAggregateSelection;
+  slots: FloatAggregateSelection;
 }
 
 export interface ClusterScheduleConnection {
@@ -5841,6 +6862,7 @@ export interface ClusterTier {
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   percent?: Maybe<ScalarsEnums["Float"]>;
+  slots?: Maybe<ScalarsEnums["Float"]>;
 }
 
 export interface ClusterTierAggregateSelection {
@@ -5849,6 +6871,7 @@ export interface ClusterTierAggregateSelection {
   id: IDAggregateSelection;
   name: StringAggregateSelection;
   percent: FloatAggregateSelection;
+  slots: FloatAggregateSelection;
 }
 
 export interface ClusterTierClusterClusterAggregationSelection {
@@ -5934,6 +6957,7 @@ export interface ComputerDisplayDisplayNodeAggregateSelection {
   __typename?: "ComputerDisplayDisplayNodeAggregateSelection";
   id: IDAggregateSelection;
   label: StringAggregateSelection;
+  provisionedAt: DateTimeAggregateSelection;
 }
 
 export interface ComputerDisplayRelationship {
@@ -6003,6 +7027,12 @@ export interface CreateInfo {
   relationshipsCreated: ScalarsEnums["Int"];
 }
 
+export interface CreateProvisionCodesMutationResponse {
+  __typename?: "CreateProvisionCodesMutationResponse";
+  info: CreateInfo;
+  provisionCodes: Array<ProvisionCode>;
+}
+
 export interface DateTimeAggregateSelection {
   __typename?: "DateTimeAggregateSelection";
   max: ScalarsEnums["DateTime"];
@@ -6059,6 +7089,21 @@ export interface Display {
     sort?: Maybe<Array<DisplayLocationConnectionSort>>;
     where?: Maybe<DisplayLocationConnectionWhere>;
   }) => DisplayLocationConnection;
+  provisioned?: Maybe<ScalarsEnums["Boolean"]>;
+  provisionedAt?: Maybe<ScalarsEnums["DateTime"]>;
+  provisionedBy: (args?: {
+    options?: Maybe<ProvisionCodeOptions>;
+    where?: Maybe<ProvisionCodeWhere>;
+  }) => Maybe<ProvisionCode>;
+  provisionedByAggregate: (args?: {
+    where?: Maybe<ProvisionCodeWhere>;
+  }) => Maybe<DisplayProvisionCodeProvisionedByAggregationSelection>;
+  provisionedByConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<DisplayProvisionedByConnectionSort>>;
+    where?: Maybe<DisplayProvisionedByConnectionWhere>;
+  }) => DisplayProvisionedByConnection;
   screens: (args?: {
     options?: Maybe<DisplayScreenOptions>;
     where?: Maybe<DisplayScreenWhere>;
@@ -6079,6 +7124,7 @@ export interface DisplayAggregateSelection {
   count: ScalarsEnums["Int"];
   id: IDAggregateSelection;
   label: StringAggregateSelection;
+  provisionedAt: DateTimeAggregateSelection;
 }
 
 export interface DisplayClusterClusterAggregationSelection {
@@ -6195,6 +7241,32 @@ export interface DisplayLocationRelationship {
   node: DisplayLocation;
 }
 
+export interface DisplayProvisionCodeProvisionedByAggregationSelection {
+  __typename?: "DisplayProvisionCodeProvisionedByAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<DisplayProvisionCodeProvisionedByNodeAggregateSelection>;
+}
+
+export interface DisplayProvisionCodeProvisionedByNodeAggregateSelection {
+  __typename?: "DisplayProvisionCodeProvisionedByNodeAggregateSelection";
+  createdAt: DateTimeAggregateSelection;
+  id: IDAggregateSelection;
+  slug: StringAggregateSelection;
+}
+
+export interface DisplayProvisionedByConnection {
+  __typename?: "DisplayProvisionedByConnection";
+  edges: Array<DisplayProvisionedByRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface DisplayProvisionedByRelationship {
+  __typename?: "DisplayProvisionedByRelationship";
+  cursor: ScalarsEnums["String"];
+  node: ProvisionCode;
+}
+
 export interface DisplayScreen {
   __typename?: "DisplayScreen";
   height?: Maybe<ScalarsEnums["Float"]>;
@@ -6251,6 +7323,60 @@ export interface PageInfo {
   hasNextPage: ScalarsEnums["Boolean"];
   hasPreviousPage: ScalarsEnums["Boolean"];
   startCursor?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface ProvisionCode {
+  __typename?: "ProvisionCode";
+  createdAt?: Maybe<ScalarsEnums["DateTime"]>;
+  display: (args?: {
+    options?: Maybe<DisplayOptions>;
+    where?: Maybe<DisplayWhere>;
+  }) => Maybe<Display>;
+  displayAggregate: (args?: {
+    where?: Maybe<DisplayWhere>;
+  }) => Maybe<ProvisionCodeDisplayDisplayAggregationSelection>;
+  displayConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ProvisionCodeDisplayConnectionSort>>;
+    where?: Maybe<ProvisionCodeDisplayConnectionWhere>;
+  }) => ProvisionCodeDisplayConnection;
+  id?: Maybe<ScalarsEnums["ID"]>;
+  slug?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface ProvisionCodeAggregateSelection {
+  __typename?: "ProvisionCodeAggregateSelection";
+  count: ScalarsEnums["Int"];
+  createdAt: DateTimeAggregateSelection;
+  id: IDAggregateSelection;
+  slug: StringAggregateSelection;
+}
+
+export interface ProvisionCodeDisplayConnection {
+  __typename?: "ProvisionCodeDisplayConnection";
+  edges: Array<ProvisionCodeDisplayRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface ProvisionCodeDisplayDisplayAggregationSelection {
+  __typename?: "ProvisionCodeDisplayDisplayAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ProvisionCodeDisplayDisplayNodeAggregateSelection>;
+}
+
+export interface ProvisionCodeDisplayDisplayNodeAggregateSelection {
+  __typename?: "ProvisionCodeDisplayDisplayNodeAggregateSelection";
+  id: IDAggregateSelection;
+  label: StringAggregateSelection;
+  provisionedAt: DateTimeAggregateSelection;
+}
+
+export interface ProvisionCodeDisplayRelationship {
+  __typename?: "ProvisionCodeDisplayRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Display;
 }
 
 export interface StringAggregateSelection {
@@ -6322,6 +7448,12 @@ export interface UpdateInfo {
   relationshipsDeleted: ScalarsEnums["Int"];
 }
 
+export interface UpdateProvisionCodesMutationResponse {
+  __typename?: "UpdateProvisionCodesMutationResponse";
+  info: UpdateInfo;
+  provisionCodes: Array<ProvisionCode>;
+}
+
 export interface Mutation {
   __typename?: "Mutation";
   createCampaignAnalytics: (args: {
@@ -6351,6 +7483,9 @@ export interface Mutation {
   createDisplays: (args: {
     input: Array<DisplayCreateInput>;
   }) => CreateDisplaysMutationResponse;
+  createProvisionCodes: (args: {
+    input: Array<ProvisionCodeCreateInput>;
+  }) => CreateProvisionCodesMutationResponse;
   deleteCampaignAnalytics: (args?: {
     delete?: Maybe<CampaignAnalyticDeleteInput>;
     where?: Maybe<CampaignAnalyticWhere>;
@@ -6384,6 +7519,10 @@ export interface Mutation {
   deleteDisplays: (args?: {
     delete?: Maybe<DisplayDeleteInput>;
     where?: Maybe<DisplayWhere>;
+  }) => DeleteInfo;
+  deleteProvisionCodes: (args?: {
+    delete?: Maybe<ProvisionCodeDeleteInput>;
+    where?: Maybe<ProvisionCodeWhere>;
   }) => DeleteInfo;
   updateCampaignAnalytics: (args?: {
     connect?: Maybe<CampaignAnalyticConnectInput>;
@@ -6449,6 +7588,14 @@ export interface Mutation {
     update?: Maybe<DisplayUpdateInput>;
     where?: Maybe<DisplayWhere>;
   }) => UpdateDisplaysMutationResponse;
+  updateProvisionCodes: (args?: {
+    connect?: Maybe<ProvisionCodeConnectInput>;
+    create?: Maybe<ProvisionCodeRelationInput>;
+    delete?: Maybe<ProvisionCodeDeleteInput>;
+    disconnect?: Maybe<ProvisionCodeDisconnectInput>;
+    update?: Maybe<ProvisionCodeUpdateInput>;
+    where?: Maybe<ProvisionCodeWhere>;
+  }) => UpdateProvisionCodesMutationResponse;
 }
 
 export interface Query {
@@ -6543,6 +7690,16 @@ export interface Query {
   displaysCount: (args?: {
     where?: Maybe<DisplayWhere>;
   }) => ScalarsEnums["Int"];
+  provisionCodes: (args?: {
+    options?: Maybe<ProvisionCodeOptions>;
+    where?: Maybe<ProvisionCodeWhere>;
+  }) => Array<ProvisionCode>;
+  provisionCodesAggregate: (args?: {
+    where?: Maybe<ProvisionCodeWhere>;
+  }) => ProvisionCodeAggregateSelection;
+  provisionCodesCount: (args?: {
+    where?: Maybe<ProvisionCodeWhere>;
+  }) => ScalarsEnums["Int"];
 }
 
 export interface Subscription {
@@ -6613,6 +7770,7 @@ export interface SchemaObjectTypes {
   CreateDisplayScreensMutationResponse: CreateDisplayScreensMutationResponse;
   CreateDisplaysMutationResponse: CreateDisplaysMutationResponse;
   CreateInfo: CreateInfo;
+  CreateProvisionCodesMutationResponse: CreateProvisionCodesMutationResponse;
   DateTimeAggregateSelection: DateTimeAggregateSelection;
   DeleteInfo: DeleteInfo;
   Display: Display;
@@ -6633,6 +7791,10 @@ export interface SchemaObjectTypes {
   DisplayLocationAggregateSelection: DisplayLocationAggregateSelection;
   DisplayLocationConnection: DisplayLocationConnection;
   DisplayLocationRelationship: DisplayLocationRelationship;
+  DisplayProvisionCodeProvisionedByAggregationSelection: DisplayProvisionCodeProvisionedByAggregationSelection;
+  DisplayProvisionCodeProvisionedByNodeAggregateSelection: DisplayProvisionCodeProvisionedByNodeAggregateSelection;
+  DisplayProvisionedByConnection: DisplayProvisionedByConnection;
+  DisplayProvisionedByRelationship: DisplayProvisionedByRelationship;
   DisplayScreen: DisplayScreen;
   DisplayScreenAggregateSelection: DisplayScreenAggregateSelection;
   DisplayScreensConnection: DisplayScreensConnection;
@@ -6641,6 +7803,12 @@ export interface SchemaObjectTypes {
   IDAggregateSelection: IDAggregateSelection;
   Mutation: Mutation;
   PageInfo: PageInfo;
+  ProvisionCode: ProvisionCode;
+  ProvisionCodeAggregateSelection: ProvisionCodeAggregateSelection;
+  ProvisionCodeDisplayConnection: ProvisionCodeDisplayConnection;
+  ProvisionCodeDisplayDisplayAggregationSelection: ProvisionCodeDisplayDisplayAggregationSelection;
+  ProvisionCodeDisplayDisplayNodeAggregateSelection: ProvisionCodeDisplayDisplayNodeAggregateSelection;
+  ProvisionCodeDisplayRelationship: ProvisionCodeDisplayRelationship;
   Query: Query;
   StringAggregateSelection: StringAggregateSelection;
   Subscription: Subscription;
@@ -6654,6 +7822,7 @@ export interface SchemaObjectTypes {
   UpdateDisplayScreensMutationResponse: UpdateDisplayScreensMutationResponse;
   UpdateDisplaysMutationResponse: UpdateDisplaysMutationResponse;
   UpdateInfo: UpdateInfo;
+  UpdateProvisionCodesMutationResponse: UpdateProvisionCodesMutationResponse;
 }
 export type SchemaObjectTypesNames =
   | "Campaign"
@@ -6719,6 +7888,7 @@ export type SchemaObjectTypesNames =
   | "CreateDisplayScreensMutationResponse"
   | "CreateDisplaysMutationResponse"
   | "CreateInfo"
+  | "CreateProvisionCodesMutationResponse"
   | "DateTimeAggregateSelection"
   | "DeleteInfo"
   | "Display"
@@ -6739,6 +7909,10 @@ export type SchemaObjectTypesNames =
   | "DisplayLocationAggregateSelection"
   | "DisplayLocationConnection"
   | "DisplayLocationRelationship"
+  | "DisplayProvisionCodeProvisionedByAggregationSelection"
+  | "DisplayProvisionCodeProvisionedByNodeAggregateSelection"
+  | "DisplayProvisionedByConnection"
+  | "DisplayProvisionedByRelationship"
   | "DisplayScreen"
   | "DisplayScreenAggregateSelection"
   | "DisplayScreensConnection"
@@ -6747,6 +7921,12 @@ export type SchemaObjectTypesNames =
   | "IDAggregateSelection"
   | "Mutation"
   | "PageInfo"
+  | "ProvisionCode"
+  | "ProvisionCodeAggregateSelection"
+  | "ProvisionCodeDisplayConnection"
+  | "ProvisionCodeDisplayDisplayAggregationSelection"
+  | "ProvisionCodeDisplayDisplayNodeAggregateSelection"
+  | "ProvisionCodeDisplayRelationship"
   | "Query"
   | "StringAggregateSelection"
   | "Subscription"
@@ -6759,7 +7939,8 @@ export type SchemaObjectTypesNames =
   | "UpdateDisplayLocationsMutationResponse"
   | "UpdateDisplayScreensMutationResponse"
   | "UpdateDisplaysMutationResponse"
-  | "UpdateInfo";
+  | "UpdateInfo"
+  | "UpdateProvisionCodesMutationResponse";
 
 export interface GeneratedSchema {
   query: Query;

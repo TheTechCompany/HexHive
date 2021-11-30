@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+   
     "@hexhive/auth": "^0.0.5-alpha.0",
     "@hexhive/types": "^0.0.6-alpha.0",
     "express-jwt": "^6.0.0",

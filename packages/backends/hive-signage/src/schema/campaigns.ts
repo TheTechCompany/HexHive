@@ -23,9 +23,9 @@ export default `
 
 	type CampaignAnalytic {
 		id: ID! @id
-		ts: DateTime
 		campaign: Campaign @relationship(type: "HAS_ANALYTICS", direction: IN)
 		type: String
-		value: String
+		name: String
+		data: String
 	}
 `
