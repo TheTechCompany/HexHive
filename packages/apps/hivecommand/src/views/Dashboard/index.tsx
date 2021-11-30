@@ -120,10 +120,10 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
                             {pages.map((x, ix) => (
                                 <Route exact path={[x.path].map((x) => `${x}`)} component={x.component} />
                             ))}
-                            <Route path={`/devices/:id/controls`} component={DeviceControl} />
-                            <Route path={`/devices/:id/graphs`} component={DeviceControlGraph} />
-                            <Route path={`/devices/:id/devices`} component={DeviceDevices} />
-                            <Route path={`/devices/:id`} component={DeviceSingle} />
+                            <Route path={`/devices/:id`} component={DeviceControl} />
+                            {/* <Route path={`/devices/:id/graphs`} component={DeviceControlGraph} />
+                            <Route path={`/devices/:id/devices`} component={DeviceDevices} /> */}
+                            {/* <Route path={`/devices/:id`} component={DeviceSingle} /> */}
                             <Route path={`/programs/:id`} component={EditorPage} />
                             <Route path={`/plugins/:id/editor`} exact component={PluginEditor} />
                             <Route path={`/plugins/:id`} exact component={PluginSingle} />

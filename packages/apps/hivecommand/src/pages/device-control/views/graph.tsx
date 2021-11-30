@@ -8,8 +8,8 @@ import { DeviceControlContext } from '../context';
 
 const GraphBlock = (props) => {
 	return (
-		<Box flex elevation="small" round="xsmall">
-			<Text>{props.label}</Text>
+		<Box background="neutral-1" flex elevation="small" round="xsmall">
+			<Box direction="row" pad={{horizontal: 'small'}}><Text>{props.label}</Text></Box>
 			<LineGraph
 				data={props.data || []}
 				xKey={props.xKey || 'timestamp'}
@@ -124,6 +124,7 @@ export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = 
 
 	return (
 		<Box 
+			pad="xsmall"
 			flex
 			gap="xsmall"
 			background="light-1" 
