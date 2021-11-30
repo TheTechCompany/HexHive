@@ -1,6 +1,5 @@
 import { Logout as ExitToApp, Add } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
-import { deviceActions, programActions } from '../../actions';
 import { Box, List, Text, Button, Select, Collapsible } from 'grommet';
 //import { Map } from '@thetechcompany/live-ui'
 import { Graph } from '../../components/ui/graph';

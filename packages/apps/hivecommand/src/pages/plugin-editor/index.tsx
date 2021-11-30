@@ -1,4 +1,3 @@
-import { deviceActions, stackActions } from '../../actions';
 import React, { useEffect, useState } from 'react';
 import { Stack, useQuery } from '@hexhive/client';
 import { useQuery as useApollo, useApolloClient, gql } from '@apollo/client'

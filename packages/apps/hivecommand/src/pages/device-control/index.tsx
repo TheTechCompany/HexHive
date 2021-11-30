@@ -12,7 +12,7 @@ import { useMutation } from '@hexhive/client';
 import { HMICanvas } from '../../components/hmi-canvas/HMICanvas';
 import { Bubble } from '../../components/Bubble/Bubble';
 import { getDevicesForNode } from './utils';
-import { Play, Stop, Checkmark, Services, Analytics, Info, Technology} from 'grommet-icons';
+import { Play, Stop, Checkmark, Services, Cycle, Analytics, Info, Technology} from 'grommet-icons';
 import Toolbar from './toolbar';
 import { DeviceControlProvider } from './context';
 import Controls from './views/control'
@@ -28,6 +28,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
     const client = useApolloClient();
 
+    
 
     const toolbar_menu = [
         {id: 'info', icon: <Info />},
@@ -35,6 +36,13 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         {id: 'graphs', icon: <Analytics />},
         {id: 'devices', icon: <Technology />}
     ]
+
+    const view = toolbar_menu.find((a) => {
+        return matchPath(window.location.pathname, {
+            path: `/dashboard/command${props.match.url}/${a.id}`,
+            exact: false
+        }) != null;
+    })
 
     const { data : deviceValueData } = useQuery(gql`
     query DeviceValues( $idStr: String) {
@@ -505,12 +513,11 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 <Text>{rootDevice?.name} - {program?.name}</Text>
                 
                 <Box direction="row">
-                    <Button
-                        onClick={toggleOperatingMode}
+                    {view?.id == 'controls' && (<Button
                         plain
                         hoverIndicator
                         style={{padding: 6, borderRadius: 3}}
-                        icon={rootDevice?.operatingMode == "AUTO" ? <Stop size="small" /> : <Play size="small" />} />
+                        icon={<Cycle size="small" />} />)}
                 </Box>
             </Box>
             <Box                

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, DataTable, Text, CheckBox, Button } from 'grommet';
 import moment from 'moment';
-import { CommandDevice, CommandProgram, Maybe, Program } from '@hexhive/client'
+import { CommandDevice, CommandProgram, Maybe } from '@hexhive/client'
 import * as Icons from 'grommet-icons'
 
 export interface DeploymentListProps {

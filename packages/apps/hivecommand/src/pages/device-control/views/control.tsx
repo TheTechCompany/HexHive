@@ -5,7 +5,20 @@ import { Checkmark } from 'grommet-icons';
 import { DeviceControlContext } from '../context';
 import { getDevicesForNode } from '../utils';
 import { Bubble } from '../../../components/Bubble/Bubble';
+import { BaseStyle } from '@hexhive/styles';
 
+const ActionButton = (props) => {
+	return (
+		<Box background="accent-1" round="xsmall" width={'100%'} elevation="small">
+			<Button 
+				plain
+				hoverIndicator={'accent-2'}
+				onClick={props.onClick}
+				style={{padding: 6, borderRadius: 3, width: '100%'}}
+				label={props.label} />
+		</Box>
+	)
+}
 export default () => {
 
     const [ infoTarget, setInfoTarget ] = useState<{x?: number, y?: number}>(undefined);
@@ -217,6 +230,8 @@ export default () => {
     }, [selected])
  
 	return (
+		<Box flex direction="row">
+			<Box flex>
 		<HMICanvas 
 		id={program.id}
 		program={program}
@@ -241,5 +256,25 @@ export default () => {
 			setSelected(select)
 		}}
 		/>
+		</Box>
+			<Box elevation="small" background="light-1">
+				<Box background="accent-1" align="center">
+					<Text>Controls</Text>
+				</Box>
+				<Box pad="small" align="center" flex>
+					<Box border={{side: 'bottom', size: 'small'}}>
+						<Text>Current State</Text>
+
+						<Text size="small">Mode: Running</Text>
+					</Box>
+					<Box align="center" border={{side: 'bottom', size: 'small'}}>
+						<Text>Commands</Text>
+						<ActionButton 
+
+							label="Start" />
+					</Box>
+				</Box>
+			</Box>
+		</Box>
 	)
 }
