@@ -4,12 +4,10 @@ import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-
 import { Box, Text, Spinner, Button, Collapsible, List } from 'grommet';
 import { programActions } from '../../actions';
 import { useQuery as useQLess} from '@hexhive/client';
-import Editor from '@hexhive/command-editor'
 import qs from 'qs';
 import { matchPath, RouteComponentProps } from 'react-router-dom';
 import { IconNodeFactory, InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath, HyperTree } from '@hexhive/ui'
 import { useAutomergeDoc } from '@hexhive/collaboration-client'
-import { IEditorProgram } from '@hexhive/command-editor';
 import { IFlowShardPaths } from '@hexhive/types/dist/interfaces';
 //const Editor = lazy(() => import('@hive-flow/editor'));
 import { ZoomControls } from '../../components/zoom-controls';

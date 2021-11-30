@@ -1,6 +1,5 @@
 import { InfiniteCanvasNode } from 'core/hexhive-ui/src/components';
-import { Reducer } from 'core/hive-command-editor/node_modules/@types/react';
-import React from 'react';
+import React, {Reducer} from 'react';
 
 export const useEditor = (reduction: (state, action) => any, initialState: any) => {
 	return React.useReducer<

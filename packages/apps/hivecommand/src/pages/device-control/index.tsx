@@ -1,11 +1,10 @@
 import { IconNodeFactory } from '@hexhive/ui';
 import { Box, Button, CheckBox, Text, TextInput } from 'grommet';
-// import { FlowEditor } from '@hexhive/command-editor';
 import { InfiniteCanvas } from '@hexhive/ui';
 import React, { useState, useMemo, useEffect } from 'react';
 import { HMINodeFactory } from '../../components/hmi-node/HMINodeFactory';
 import { useQuery, gql, useApolloClient } from '@apollo/client';
-import { matchPath, Route, RouteComponentProps, Switch } from 'react-router';
+import { matchPath, Route, RouteComponentProps, Switch } from 'react-router-dom';
 // import program from 'shared/hexhive-types/src/models/program';
 import * as HMINodes from '../../assets/hmi-elements'
 
@@ -17,7 +16,7 @@ import { Play, Stop, Checkmark, Services, Analytics } from 'grommet-icons';
 import Toolbar from './toolbar';
 import { DeviceControlProvider } from './context';
 import Controls from './views/control'
-import Graphs from './views/graph'
+import {DeviceControlGraph} from './views/graph'
 
 export interface DeviceControlProps extends RouteComponentProps<{id: string}>{
 
@@ -469,6 +468,15 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }
     }
 
+    console.log(toolbar_menu.map((a) => ({
+        path: matchPath(window.location.pathname, {
+            path: `/dashboard/command${props.match.url}/${a?.id}`,
+            exact: false
+        }),
+        def: window.location.pathname,
+        id: `${props.match.url}/${a.id}`
+    })))
+
     return (
         <DeviceControlProvider value={{
             controlId: props.match.params.id,
@@ -510,7 +518,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 direction="row">
                 <Toolbar 
                     active={toolbar_menu.find((a) => matchPath(window.location.pathname, {
-                        path: `${props.match.url}/${a?.id}`
+                        path: `/dashboard/command${props.match.url}/${a?.id}`,
+                        exact: false
                     }) != null)?.id}
                     onItemClick={(item) => {
                         props.history.push(`${props.match.url}/${item.id}`)
@@ -519,7 +528,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 <Box flex>
                     <Switch>
                         <Route path={`${props.match.url}/controls`} component={Controls} />
-                        <Route path={`${props.match.url}/graphs`} component={Graphs} />
+                        <Route path={`${props.match.url}/graphs`} component={DeviceControlGraph} />
                     </Switch>
                 </Box>
           
