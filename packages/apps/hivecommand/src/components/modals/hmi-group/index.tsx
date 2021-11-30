@@ -20,7 +20,6 @@ export const HMIGroupModal = (props) => {
 
 
 	const onSubmit = () => {
-		console.log({nodes}, {ports} )
 		let ids = nodes.map((x) => x.id).concat(ports.map((x) => x.id))
 		let coords = nodes.map((x) => ({x: x.x, y: x.y})).concat(ports.map((x) => ({x: PORT_ANCHOR.x + x.x, y: PORT_ANCHOR.y + x.y})))
 // 
@@ -37,12 +36,10 @@ export const HMIGroupModal = (props) => {
 		}
 
 		props.onSubmit?.(group)
-		// console.log(group)
 	}
 
 	useEffect(() => {
 		if(props.base){
-	console.log("BASE", props.base)
 
 			setNodes([{
 				id: 'base',
@@ -82,7 +79,6 @@ export const HMIGroupModal = (props) => {
 			updateNode: (id, update) => {
 				let n = nodes.slice()
 				let ix = n.map((x) => x.id).indexOf(id);
-				console.log(id, update, ix, n)
 				if(ix > -1){
 					n[ix].extras = {
 						...n[ix].extras,
@@ -124,9 +120,7 @@ export const HMIGroupModal = (props) => {
 						onNodeUpdate={(node) => {
 							let n = nodes.slice()
 							let ix = nodes.map((x) => x.id).indexOf(node.id);
-							console.log("UPDATE", node)
 							if(ix > -1){
-								console.log("Update node")
 								n[ix].x = node.x;
 								n[ix].y = node.y;
 							}

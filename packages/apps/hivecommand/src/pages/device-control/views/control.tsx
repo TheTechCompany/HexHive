@@ -29,50 +29,19 @@ export default () => {
 	const { program, actions, values, hmi, hmiNodes, groups, changeDeviceMode, changeDeviceValue, performAction, controlId } = useContext(DeviceControlContext)
 
 
-    const deviceValues = (device: string) => {
-        const values : any[] = getDeviceValue(device)
-
-        console.log("Values", values, device)
-        return (
-            <Box>
-                Values
-                {values?.map((value, ix) => (
-                    <Text>{value.valueKey} {value.value}</Text>
-                ))}
-            </Box>
-        )
-    }
-
     const getDeviceValue = (name?: string, units?: {key: string, units?: string}[]) => {
         //Find map between P&ID tag and bus-port
 
         if(!name) return;
 
-        // let idToBus = peripherals.reduce((prev, curr) => {
-        //     let map = curr?.mappedDevicesConnection?.edges || [];
-
-        //     return prev.concat(map.map((x) => ({
-        //         deviceId: x
-        //         name: x.node?.device?.name,
-        //         key: x.node?.key?.key,
-        //         value: x.node?.value?.key
-        //     })))
-        // }, [])
-
-        // console.log("ID TO BUS", idToBus, name)
-        
-        // return idToBus.filter((a) => a.name == name).map((busPort) => {
-
+    
         let v = values.filter((a) => a?.deviceId == name);
         let state = program?.devices?.find((a) => a.name == name).type?.state;
 
-            // console.log(v, busPort)
-        // console.log(v, units)
-            // return {key: busPort.value, value: v.find((a) => a.valueKey == busPort.key)?.value};
+         
         return v.reduce((prev, curr) => {
             let unit = units?.find((a) => a.key == curr.valueKey);
             let stateItem = state.find((a) => a.key == curr.valueKey);
-            console.log(unit)
             let value = curr.value;
 
             if(!stateItem) return prev;
@@ -82,7 +51,7 @@ export default () => {
             }
             return {
                 ...prev,
-                [curr.valueKey]: value //`${value} ${unit && unit.units ? unit.units : ''}`
+                [curr.valueKey]: value
             }
         }, {})
     
@@ -91,7 +60,6 @@ export default () => {
     const renderActionValue = (deviceName: string, deviceInfo: any, deviceMode: string, state: any) => {
         let value = getDeviceValue(deviceName, deviceInfo.state)?.[state.key];
 
-        console.log(deviceName, deviceInfo, state, value)
         if(state.writable && deviceMode == "Manual"){
             return (
                 <TextInput 
@@ -195,21 +163,17 @@ export default () => {
   
 			  </Box>
 		 )
-		})
-	 //    let deviceInfo = node?.devicePlaceholder?.type;
- 
-	  
+		}) 
  
 	 }
 
 
 	 const deviceModes = program?.devices?.map((a) => {
         let vals = values.filter((b) => b?.deviceId == a.name);
-        if(!vals.find((a) => a.valueKey == "mode")) console.log(a.name)
+        // if(!vals.find((a) => a.valueKey == "mode")) console.log(a.name)
         return {name: a.name, mode: vals.find((a) => a.valueKey == 'mode')?.value};
     }) || [];
 
-    // console.log({deviceModes})
 
 	const sendChanges = (deviceName: string, stateKey: string, stateValue: any) => {
         changeDeviceValue({
@@ -250,7 +214,6 @@ export default () => {
 			let node = program.hmi?.[0]?.nodes?.concat(program?.hmi?.[0]?.groups).find((a) => a.id == select.id)
 
 			const { x, y, scaleX, scaleY} = node;
-			console.log({node})
 			setInfoTarget({x: x + (node.width || node?.type?.width), y: y})
 			
 			setSelected(select)
