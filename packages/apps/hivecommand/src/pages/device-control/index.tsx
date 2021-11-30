@@ -12,14 +12,16 @@ import { useMutation } from '@hexhive/client';
 import { HMICanvas } from '../../components/hmi-canvas/HMICanvas';
 import { Bubble } from '../../components/Bubble/Bubble';
 import { getDevicesForNode } from './utils';
-import { Play, Stop, Checkmark, Services, Analytics } from 'grommet-icons';
+import { Play, Stop, Checkmark, Services, Analytics, Info, Technology} from 'grommet-icons';
 import Toolbar from './toolbar';
 import { DeviceControlProvider } from './context';
 import Controls from './views/control'
 import {DeviceControlGraph} from './views/graph'
+import { DeviceDevices } from '../device-devices';
+import { DeviceSingle } from '../device-single';
 
 export interface DeviceControlProps extends RouteComponentProps<{id: string}>{
-
+    
 }
 
 export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
@@ -28,8 +30,10 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
 
     const toolbar_menu = [
+        {id: 'info', icon: <Info />},
         {id: 'controls', icon: <Services />},
-        {id: 'graphs', icon: <Analytics />}
+        {id: 'graphs', icon: <Analytics />},
+        {id: 'devices', icon: <Technology />}
     ]
 
     const { data : deviceValueData } = useQuery(gql`
@@ -50,7 +54,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
             query Q ($id: ID){
      
             commandDevices(where: {id: $id}){
-
+                name
                 operatingMode
 
                 calibrations {
@@ -498,13 +502,9 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 justify="between"
                 background="accent-2"
                 direction="row">
-                <Text>{program.name}</Text>
+                <Text>{rootDevice?.name} - {program?.name}</Text>
                 
                 <Box direction="row">
-                    <Button
-                        onClick={() => props.history.push(`./graphs`)}
-                        label={"Graphs"}
-                        />
                     <Button
                         onClick={toggleOperatingMode}
                         plain
@@ -527,8 +527,10 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                     items={toolbar_menu} />
                 <Box flex>
                     <Switch>
+                        <Route path={[`${props.match.url}`, `${props.match.url}/info`]} exact component={DeviceSingle} />
                         <Route path={`${props.match.url}/controls`} component={Controls} />
                         <Route path={`${props.match.url}/graphs`} component={DeviceControlGraph} />
+                        <Route path={`${props.match.url}/devices`} component={DeviceDevices} />
                     </Switch>
                 </Box>
           

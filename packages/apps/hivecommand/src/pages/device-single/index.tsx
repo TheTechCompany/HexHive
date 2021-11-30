@@ -346,37 +346,7 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                     console.log(connections)
                 }}
                 open={modalOpen} />
-            <Box 
-                direction="row"
-                align="center"
-                justify="between"
-                pad="xsmall"
-                background="accent-2">
-                <Text>
-                    {device?.name}
-                </Text>
-                <Box direction="row">
-                    <Button
-                        onClick={() => {
-                            props.history.push(`${props.match.url}/devices`)
-                        }}
-                        plain
-                        hoverIndicator
-                        style={{padding: 6, borderRadius: 3}}
-                        size="small"
-                        label="Devices" />
-                    <Button 
-                    
-                        hoverIndicator 
-                        plain 
-                        style={{padding:6, borderRadius: 3}} 
-                        size="small" 
-                        icon={<Add size="small" />} />
-                    {/* <Button icon={<ExitToApp />}
-                        onClick={() => goToControls()}
-                        label="Go to controls" /> */}
-                </Box>
-            </Box>
+           
 
             {/* <DeviceBusModal
                 open={modalOpen}

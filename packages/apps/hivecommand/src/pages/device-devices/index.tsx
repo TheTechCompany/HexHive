@@ -152,10 +152,6 @@ export const DeviceDevices : React.FC<any> = (props) => {
 				configuration={[]}
 				deviceTypes={data?.commandProgramDevices}
 				/>
-			<Box pad="xsmall" direction="row" background="accent-2">
-				<Text>{device?.name} - Devices</Text>
-
-			</Box>
 			<Box overflow="scroll" flex>
 				<List
 					pad="none" 
