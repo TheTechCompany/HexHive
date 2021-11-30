@@ -8,6 +8,7 @@ export interface FormControlProps {
 	labelKey?: string;
 	value?: any;
 	onChange?: (value: any) => void;
+	multiple?: boolean;
 }
 export const FormControl : React.FC<FormControlProps> = (props) => {
 	return (
@@ -16,6 +17,7 @@ export const FormControl : React.FC<FormControlProps> = (props) => {
 			direction="column" >
 			<Text alignSelf="start" size="small">{props.placeholder}</Text>
 			<Select 
+				multiple={props.multiple}
 				valueKey={{key: props.valueKey || 'id', reduce: true}}
 				labelKey={props.labelKey || "name"}
 				options={props.options || []}

@@ -4365,6 +4365,126 @@ export interface CommandPluginWhere {
   organisationConnection_NOT?: Maybe<CommandPluginOrganisationConnectionWhere>;
 }
 
+export interface CommandProgramActionConnectInput {
+  flow?: Maybe<Array<CommandProgramActionFlowConnectFieldInput>>;
+}
+
+export interface CommandProgramActionConnectWhere {
+  node: CommandProgramActionWhere;
+}
+
+export interface CommandProgramActionCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  flow?: Maybe<CommandProgramActionFlowFieldInput>;
+}
+
+export interface CommandProgramActionDeleteInput {
+  flow?: Maybe<Array<CommandProgramActionFlowDeleteFieldInput>>;
+}
+
+export interface CommandProgramActionDisconnectInput {
+  flow?: Maybe<Array<CommandProgramActionFlowDisconnectFieldInput>>;
+}
+
+export interface CommandProgramActionFlowConnectFieldInput {
+  where?: Maybe<CommandProgramFlowConnectWhere>;
+  connect?: Maybe<Array<CommandProgramFlowConnectInput>>;
+}
+
+export interface CommandProgramActionFlowConnectionSort {
+  node?: Maybe<CommandProgramFlowSort>;
+}
+
+export interface CommandProgramActionFlowConnectionWhere {
+  AND?: Maybe<Array<CommandProgramActionFlowConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramActionFlowConnectionWhere>>;
+  node?: Maybe<CommandProgramFlowWhere>;
+  node_NOT?: Maybe<CommandProgramFlowWhere>;
+}
+
+export interface CommandProgramActionFlowCreateFieldInput {
+  node: CommandProgramFlowCreateInput;
+}
+
+export interface CommandProgramActionFlowDeleteFieldInput {
+  where?: Maybe<CommandProgramActionFlowConnectionWhere>;
+  delete?: Maybe<CommandProgramFlowDeleteInput>;
+}
+
+export interface CommandProgramActionFlowDisconnectFieldInput {
+  where?: Maybe<CommandProgramActionFlowConnectionWhere>;
+  disconnect?: Maybe<CommandProgramFlowDisconnectInput>;
+}
+
+export interface CommandProgramActionFlowFieldInput {
+  create?: Maybe<Array<CommandProgramActionFlowCreateFieldInput>>;
+  connect?: Maybe<Array<CommandProgramActionFlowConnectFieldInput>>;
+}
+
+export interface CommandProgramActionFlowUpdateConnectionInput {
+  node?: Maybe<CommandProgramFlowUpdateInput>;
+}
+
+export interface CommandProgramActionFlowUpdateFieldInput {
+  where?: Maybe<CommandProgramActionFlowConnectionWhere>;
+  update?: Maybe<CommandProgramActionFlowUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandProgramActionFlowConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandProgramActionFlowDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandProgramActionFlowCreateFieldInput>>;
+  delete?: Maybe<Array<CommandProgramActionFlowDeleteFieldInput>>;
+}
+
+export interface CommandProgramActionOptions {
+  /** Specify one or more CommandProgramActionSort objects to sort CommandProgramActions by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandProgramActionSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandProgramActionRelationInput {
+  flow?: Maybe<Array<CommandProgramActionFlowCreateFieldInput>>;
+}
+
+/** Fields to sort CommandProgramActions by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramActionSort object. */
+export interface CommandProgramActionSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+}
+
+export interface CommandProgramActionUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  flow?: Maybe<Array<CommandProgramActionFlowUpdateFieldInput>>;
+}
+
+export interface CommandProgramActionWhere {
+  OR?: Maybe<Array<CommandProgramActionWhere>>;
+  AND?: Maybe<Array<CommandProgramActionWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  flow?: Maybe<CommandProgramFlowWhere>;
+  flow_NOT?: Maybe<CommandProgramFlowWhere>;
+  flowConnection?: Maybe<CommandProgramActionFlowConnectionWhere>;
+  flowConnection_NOT?: Maybe<CommandProgramActionFlowConnectionWhere>;
+}
+
 export interface CommandProgramAlarmConnectWhere {
   node: CommandProgramAlarmWhere;
 }
@@ -6788,12 +6908,61 @@ export interface CommandProgramFlowWhere {
   programsConnection_NOT?: Maybe<CommandProgramFlowProgramsConnectionWhere>;
 }
 
+export interface CommandProgramHMIActionsConnectFieldInput {
+  where?: Maybe<CommandProgramActionConnectWhere>;
+  connect?: Maybe<Array<CommandProgramActionConnectInput>>;
+}
+
+export interface CommandProgramHMIActionsConnectionSort {
+  node?: Maybe<CommandProgramActionSort>;
+}
+
+export interface CommandProgramHMIActionsConnectionWhere {
+  AND?: Maybe<Array<CommandProgramHMIActionsConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramHMIActionsConnectionWhere>>;
+  node?: Maybe<CommandProgramActionWhere>;
+  node_NOT?: Maybe<CommandProgramActionWhere>;
+}
+
+export interface CommandProgramHMIActionsCreateFieldInput {
+  node: CommandProgramActionCreateInput;
+}
+
+export interface CommandProgramHMIActionsDeleteFieldInput {
+  where?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+  delete?: Maybe<CommandProgramActionDeleteInput>;
+}
+
+export interface CommandProgramHMIActionsDisconnectFieldInput {
+  where?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+  disconnect?: Maybe<CommandProgramActionDisconnectInput>;
+}
+
+export interface CommandProgramHMIActionsFieldInput {
+  create?: Maybe<Array<CommandProgramHMIActionsCreateFieldInput>>;
+  connect?: Maybe<Array<CommandProgramHMIActionsConnectFieldInput>>;
+}
+
+export interface CommandProgramHMIActionsUpdateConnectionInput {
+  node?: Maybe<CommandProgramActionUpdateInput>;
+}
+
+export interface CommandProgramHMIActionsUpdateFieldInput {
+  where?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+  update?: Maybe<CommandProgramHMIActionsUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandProgramHMIActionsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandProgramHMIActionsDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandProgramHMIActionsCreateFieldInput>>;
+  delete?: Maybe<Array<CommandProgramHMIActionsDeleteFieldInput>>;
+}
+
 export interface CommandProgramHmiConnectFieldInput {
   where?: Maybe<CommandProgramHMIConnectWhere>;
   connect?: Maybe<Array<CommandProgramHMIConnectInput>>;
 }
 
 export interface CommandProgramHMIConnectInput {
+  actions?: Maybe<Array<CommandProgramHMIActionsConnectFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsConnectFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsConnectFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesConnectFieldInput>>;
@@ -6821,6 +6990,7 @@ export interface CommandProgramHmiCreateFieldInput {
 
 export interface CommandProgramHMICreateInput {
   name?: Maybe<Scalars["String"]>;
+  actions?: Maybe<CommandProgramHMIActionsFieldInput>;
   paths?: Maybe<CommandProgramHMIPathsFieldInput>;
   groups?: Maybe<CommandProgramHMIGroupsFieldInput>;
   nodes?: Maybe<CommandProgramHMINodesFieldInput>;
@@ -6833,6 +7003,7 @@ export interface CommandProgramHmiDeleteFieldInput {
 }
 
 export interface CommandProgramHMIDeleteInput {
+  actions?: Maybe<Array<CommandProgramHMIActionsDeleteFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsDeleteFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsDeleteFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesDeleteFieldInput>>;
@@ -6845,6 +7016,7 @@ export interface CommandProgramHmiDisconnectFieldInput {
 }
 
 export interface CommandProgramHMIDisconnectInput {
+  actions?: Maybe<Array<CommandProgramHMIActionsDisconnectFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsDisconnectFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsDisconnectFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesDisconnectFieldInput>>;
@@ -7056,6 +7228,7 @@ export interface CommandProgramHMIProgramsUpdateFieldInput {
 }
 
 export interface CommandProgramHMIRelationInput {
+  actions?: Maybe<Array<CommandProgramHMIActionsCreateFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsCreateFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsCreateFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesCreateFieldInput>>;
@@ -7083,6 +7256,7 @@ export interface CommandProgramHmiUpdateFieldInput {
 
 export interface CommandProgramHMIUpdateInput {
   name?: Maybe<Scalars["String"]>;
+  actions?: Maybe<Array<CommandProgramHMIActionsUpdateFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsUpdateFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsUpdateFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesUpdateFieldInput>>;
@@ -7112,6 +7286,8 @@ export interface CommandProgramHMIWhere {
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  actions?: Maybe<CommandProgramActionWhere>;
+  actions_NOT?: Maybe<CommandProgramActionWhere>;
   paths?: Maybe<CommandHMIPathWhere>;
   paths_NOT?: Maybe<CommandHMIPathWhere>;
   groups?: Maybe<CommandHMIGroupWhere>;
@@ -7120,6 +7296,8 @@ export interface CommandProgramHMIWhere {
   nodes_NOT?: Maybe<CommandHMINodeWhere>;
   programs?: Maybe<CommandProgramWhere>;
   programs_NOT?: Maybe<CommandProgramWhere>;
+  actionsConnection?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+  actionsConnection_NOT?: Maybe<CommandProgramHMIActionsConnectionWhere>;
   pathsConnection?: Maybe<CommandProgramHMIPathsConnectionWhere>;
   pathsConnection_NOT?: Maybe<CommandProgramHMIPathsConnectionWhere>;
   groupsConnection?: Maybe<CommandProgramHMIGroupsConnectionWhere>;
@@ -15669,6 +15847,17 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "CommandProgramWhere" },
     },
+    commandProgramActions: {
+      __type: "[CommandProgramAction!]!",
+      __args: {
+        where: "CommandProgramActionWhere",
+        options: "CommandProgramActionOptions",
+      },
+    },
+    commandProgramActionsCount: {
+      __type: "Int!",
+      __args: { where: "CommandProgramActionWhere" },
+    },
     commandProgramAlarms: {
       __type: "[CommandProgramAlarm!]!",
       __args: {
@@ -16820,6 +17009,28 @@ export const generatedSchema = {
         disconnect: "CommandProgramDisconnectInput",
         create: "CommandProgramRelationInput",
         delete: "CommandProgramDeleteInput",
+      },
+    },
+    createCommandProgramActions: {
+      __type: "CreateCommandProgramActionsMutationResponse!",
+      __args: { input: "[CommandProgramActionCreateInput!]!" },
+    },
+    deleteCommandProgramActions: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandProgramActionWhere",
+        delete: "CommandProgramActionDeleteInput",
+      },
+    },
+    updateCommandProgramActions: {
+      __type: "UpdateCommandProgramActionsMutationResponse!",
+      __args: {
+        where: "CommandProgramActionWhere",
+        update: "CommandProgramActionUpdateInput",
+        connect: "CommandProgramActionConnectInput",
+        disconnect: "CommandProgramActionDisconnectInput",
+        create: "CommandProgramActionRelationInput",
+        delete: "CommandProgramActionDeleteInput",
       },
     },
     createCommandProgramAlarms: {
@@ -18882,6 +19093,38 @@ export const generatedSchema = {
       },
     },
   },
+  CommandProgramAction: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    flow: {
+      __type: "[CommandProgramFlow]",
+      __args: {
+        where: "CommandProgramFlowWhere",
+        options: "CommandProgramFlowOptions",
+      },
+    },
+    flowConnection: {
+      __type: "CommandProgramActionFlowConnection!",
+      __args: {
+        where: "CommandProgramActionFlowConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramActionFlowConnectionSort!]",
+      },
+    },
+  },
+  CommandProgramActionFlowConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramActionFlowRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramActionFlowRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramFlow!" },
+  },
   CommandProgramAlarm: {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
@@ -19594,6 +19837,13 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     name: { __type: "String" },
+    actions: {
+      __type: "[CommandProgramAction]",
+      __args: {
+        where: "CommandProgramActionWhere",
+        options: "CommandProgramActionOptions",
+      },
+    },
     paths: {
       __type: "[CommandHMIPath]",
       __args: {
@@ -19620,6 +19870,15 @@ export const generatedSchema = {
       __args: {
         where: "CommandProgramWhere",
         options: "CommandProgramOptions",
+      },
+    },
+    actionsConnection: {
+      __type: "CommandProgramHMIActionsConnection!",
+      __args: {
+        where: "CommandProgramHMIActionsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramHMIActionsConnectionSort!]",
       },
     },
     pathsConnection: {
@@ -19658,6 +19917,17 @@ export const generatedSchema = {
         sort: "[CommandProgramHMIProgramsConnectionSort!]",
       },
     },
+  },
+  CommandProgramHMIActionsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramHMIActionsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramHMIActionsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramAction!" },
   },
   CommandProgramHmiConnection: {
     __typename: { __type: "String!" },
@@ -20135,6 +20405,11 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
     commandPlugins: { __type: "[CommandPlugin!]!" },
+  },
+  CreateCommandProgramActionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandProgramActions: { __type: "[CommandProgramAction!]!" },
   },
   CreateCommandProgramAlarmsMutationResponse: {
     __typename: { __type: "String!" },
@@ -22604,6 +22879,11 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     commandPlugins: { __type: "[CommandPlugin!]!" },
+  },
+  UpdateCommandProgramActionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandProgramActions: { __type: "[CommandProgramAction!]!" },
   },
   UpdateCommandProgramAlarmsMutationResponse: {
     __typename: { __type: "String!" },
@@ -26826,6 +27106,105 @@ export const generatedSchema = {
       __type: "CommandPluginOrganisationConnectionWhere",
     },
   },
+  CommandProgramActionConnectInput: {
+    flow: { __type: "[CommandProgramActionFlowConnectFieldInput!]" },
+  },
+  CommandProgramActionConnectWhere: {
+    node: { __type: "CommandProgramActionWhere!" },
+  },
+  CommandProgramActionCreateInput: {
+    name: { __type: "String" },
+    flow: { __type: "CommandProgramActionFlowFieldInput" },
+  },
+  CommandProgramActionDeleteInput: {
+    flow: { __type: "[CommandProgramActionFlowDeleteFieldInput!]" },
+  },
+  CommandProgramActionDisconnectInput: {
+    flow: { __type: "[CommandProgramActionFlowDisconnectFieldInput!]" },
+  },
+  CommandProgramActionFlowConnectFieldInput: {
+    where: { __type: "CommandProgramFlowConnectWhere" },
+    connect: { __type: "[CommandProgramFlowConnectInput!]" },
+  },
+  CommandProgramActionFlowConnectionSort: {
+    node: { __type: "CommandProgramFlowSort" },
+  },
+  CommandProgramActionFlowConnectionWhere: {
+    AND: { __type: "[CommandProgramActionFlowConnectionWhere!]" },
+    OR: { __type: "[CommandProgramActionFlowConnectionWhere!]" },
+    node: { __type: "CommandProgramFlowWhere" },
+    node_NOT: { __type: "CommandProgramFlowWhere" },
+  },
+  CommandProgramActionFlowCreateFieldInput: {
+    node: { __type: "CommandProgramFlowCreateInput!" },
+  },
+  CommandProgramActionFlowDeleteFieldInput: {
+    where: { __type: "CommandProgramActionFlowConnectionWhere" },
+    delete: { __type: "CommandProgramFlowDeleteInput" },
+  },
+  CommandProgramActionFlowDisconnectFieldInput: {
+    where: { __type: "CommandProgramActionFlowConnectionWhere" },
+    disconnect: { __type: "CommandProgramFlowDisconnectInput" },
+  },
+  CommandProgramActionFlowFieldInput: {
+    create: { __type: "[CommandProgramActionFlowCreateFieldInput!]" },
+    connect: { __type: "[CommandProgramActionFlowConnectFieldInput!]" },
+  },
+  CommandProgramActionFlowUpdateConnectionInput: {
+    node: { __type: "CommandProgramFlowUpdateInput" },
+  },
+  CommandProgramActionFlowUpdateFieldInput: {
+    where: { __type: "CommandProgramActionFlowConnectionWhere" },
+    update: { __type: "CommandProgramActionFlowUpdateConnectionInput" },
+    connect: { __type: "[CommandProgramActionFlowConnectFieldInput!]" },
+    disconnect: { __type: "[CommandProgramActionFlowDisconnectFieldInput!]" },
+    create: { __type: "[CommandProgramActionFlowCreateFieldInput!]" },
+    delete: { __type: "[CommandProgramActionFlowDeleteFieldInput!]" },
+  },
+  CommandProgramActionOptions: {
+    sort: { __type: "[CommandProgramActionSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandProgramActionRelationInput: {
+    flow: { __type: "[CommandProgramActionFlowCreateFieldInput!]" },
+  },
+  CommandProgramActionSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
+  CommandProgramActionUpdateInput: {
+    name: { __type: "String" },
+    flow: { __type: "[CommandProgramActionFlowUpdateFieldInput!]" },
+  },
+  CommandProgramActionWhere: {
+    OR: { __type: "[CommandProgramActionWhere!]" },
+    AND: { __type: "[CommandProgramActionWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    flow: { __type: "CommandProgramFlowWhere" },
+    flow_NOT: { __type: "CommandProgramFlowWhere" },
+    flowConnection: { __type: "CommandProgramActionFlowConnectionWhere" },
+    flowConnection_NOT: { __type: "CommandProgramActionFlowConnectionWhere" },
+  },
   CommandProgramAlarmConnectWhere: {
     node: { __type: "CommandProgramAlarmWhere!" },
   },
@@ -29174,11 +29553,51 @@ export const generatedSchema = {
       __type: "CommandProgramFlowProgramsConnectionWhere",
     },
   },
+  CommandProgramHMIActionsConnectFieldInput: {
+    where: { __type: "CommandProgramActionConnectWhere" },
+    connect: { __type: "[CommandProgramActionConnectInput!]" },
+  },
+  CommandProgramHMIActionsConnectionSort: {
+    node: { __type: "CommandProgramActionSort" },
+  },
+  CommandProgramHMIActionsConnectionWhere: {
+    AND: { __type: "[CommandProgramHMIActionsConnectionWhere!]" },
+    OR: { __type: "[CommandProgramHMIActionsConnectionWhere!]" },
+    node: { __type: "CommandProgramActionWhere" },
+    node_NOT: { __type: "CommandProgramActionWhere" },
+  },
+  CommandProgramHMIActionsCreateFieldInput: {
+    node: { __type: "CommandProgramActionCreateInput!" },
+  },
+  CommandProgramHMIActionsDeleteFieldInput: {
+    where: { __type: "CommandProgramHMIActionsConnectionWhere" },
+    delete: { __type: "CommandProgramActionDeleteInput" },
+  },
+  CommandProgramHMIActionsDisconnectFieldInput: {
+    where: { __type: "CommandProgramHMIActionsConnectionWhere" },
+    disconnect: { __type: "CommandProgramActionDisconnectInput" },
+  },
+  CommandProgramHMIActionsFieldInput: {
+    create: { __type: "[CommandProgramHMIActionsCreateFieldInput!]" },
+    connect: { __type: "[CommandProgramHMIActionsConnectFieldInput!]" },
+  },
+  CommandProgramHMIActionsUpdateConnectionInput: {
+    node: { __type: "CommandProgramActionUpdateInput" },
+  },
+  CommandProgramHMIActionsUpdateFieldInput: {
+    where: { __type: "CommandProgramHMIActionsConnectionWhere" },
+    update: { __type: "CommandProgramHMIActionsUpdateConnectionInput" },
+    connect: { __type: "[CommandProgramHMIActionsConnectFieldInput!]" },
+    disconnect: { __type: "[CommandProgramHMIActionsDisconnectFieldInput!]" },
+    create: { __type: "[CommandProgramHMIActionsCreateFieldInput!]" },
+    delete: { __type: "[CommandProgramHMIActionsDeleteFieldInput!]" },
+  },
   CommandProgramHmiConnectFieldInput: {
     where: { __type: "CommandProgramHMIConnectWhere" },
     connect: { __type: "[CommandProgramHMIConnectInput!]" },
   },
   CommandProgramHMIConnectInput: {
+    actions: { __type: "[CommandProgramHMIActionsConnectFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsConnectFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsConnectFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesConnectFieldInput!]" },
@@ -29201,6 +29620,7 @@ export const generatedSchema = {
   },
   CommandProgramHMICreateInput: {
     name: { __type: "String" },
+    actions: { __type: "CommandProgramHMIActionsFieldInput" },
     paths: { __type: "CommandProgramHMIPathsFieldInput" },
     groups: { __type: "CommandProgramHMIGroupsFieldInput" },
     nodes: { __type: "CommandProgramHMINodesFieldInput" },
@@ -29211,6 +29631,7 @@ export const generatedSchema = {
     delete: { __type: "CommandProgramHMIDeleteInput" },
   },
   CommandProgramHMIDeleteInput: {
+    actions: { __type: "[CommandProgramHMIActionsDeleteFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsDeleteFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsDeleteFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesDeleteFieldInput!]" },
@@ -29221,6 +29642,7 @@ export const generatedSchema = {
     disconnect: { __type: "CommandProgramHMIDisconnectInput" },
   },
   CommandProgramHMIDisconnectInput: {
+    actions: { __type: "[CommandProgramHMIActionsDisconnectFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsDisconnectFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsDisconnectFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesDisconnectFieldInput!]" },
@@ -29392,6 +29814,7 @@ export const generatedSchema = {
     delete: { __type: "[CommandProgramHMIProgramsDeleteFieldInput!]" },
   },
   CommandProgramHMIRelationInput: {
+    actions: { __type: "[CommandProgramHMIActionsCreateFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsCreateFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsCreateFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesCreateFieldInput!]" },
@@ -29414,6 +29837,7 @@ export const generatedSchema = {
   },
   CommandProgramHMIUpdateInput: {
     name: { __type: "String" },
+    actions: { __type: "[CommandProgramHMIActionsUpdateFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsUpdateFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsUpdateFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesUpdateFieldInput!]" },
@@ -29442,6 +29866,8 @@ export const generatedSchema = {
     name_NOT_STARTS_WITH: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
+    actions: { __type: "CommandProgramActionWhere" },
+    actions_NOT: { __type: "CommandProgramActionWhere" },
     paths: { __type: "CommandHMIPathWhere" },
     paths_NOT: { __type: "CommandHMIPathWhere" },
     groups: { __type: "CommandHMIGroupWhere" },
@@ -29450,6 +29876,10 @@ export const generatedSchema = {
     nodes_NOT: { __type: "CommandHMINodeWhere" },
     programs: { __type: "CommandProgramWhere" },
     programs_NOT: { __type: "CommandProgramWhere" },
+    actionsConnection: { __type: "CommandProgramHMIActionsConnectionWhere" },
+    actionsConnection_NOT: {
+      __type: "CommandProgramHMIActionsConnectionWhere",
+    },
     pathsConnection: { __type: "CommandProgramHMIPathsConnectionWhere" },
     pathsConnection_NOT: { __type: "CommandProgramHMIPathsConnectionWhere" },
     groupsConnection: { __type: "CommandProgramHMIGroupsConnectionWhere" },
@@ -36892,6 +37322,13 @@ export interface Query {
   commandProgramsCount: (args?: {
     where?: Maybe<CommandProgramWhere>;
   }) => ScalarsEnums["Int"];
+  commandProgramActions: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+    options?: Maybe<CommandProgramActionOptions>;
+  }) => Array<CommandProgramAction>;
+  commandProgramActionsCount: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+  }) => ScalarsEnums["Int"];
   commandProgramAlarms: (args?: {
     where?: Maybe<CommandProgramAlarmWhere>;
     options?: Maybe<CommandProgramAlarmOptions>;
@@ -37716,6 +38153,21 @@ export interface Mutation {
     create?: Maybe<CommandProgramRelationInput>;
     delete?: Maybe<CommandProgramDeleteInput>;
   }) => UpdateCommandProgramsMutationResponse;
+  createCommandProgramActions: (args: {
+    input: Array<CommandProgramActionCreateInput>;
+  }) => CreateCommandProgramActionsMutationResponse;
+  deleteCommandProgramActions: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+    delete?: Maybe<CommandProgramActionDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandProgramActions: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+    update?: Maybe<CommandProgramActionUpdateInput>;
+    connect?: Maybe<CommandProgramActionConnectInput>;
+    disconnect?: Maybe<CommandProgramActionDisconnectInput>;
+    create?: Maybe<CommandProgramActionRelationInput>;
+    delete?: Maybe<CommandProgramActionDeleteInput>;
+  }) => UpdateCommandProgramActionsMutationResponse;
   createCommandProgramAlarms: (args: {
     input: Array<CommandProgramAlarmCreateInput>;
   }) => CreateCommandProgramAlarmsMutationResponse;
@@ -39445,6 +39897,35 @@ export interface CommandProgram {
   }) => CommandProgramUsedOnConnection;
 }
 
+export interface CommandProgramAction {
+  __typename?: "CommandProgramAction";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  flow: (args?: {
+    where?: Maybe<CommandProgramFlowWhere>;
+    options?: Maybe<CommandProgramFlowOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramFlow>>>;
+  flowConnection: (args?: {
+    where?: Maybe<CommandProgramActionFlowConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramActionFlowConnectionSort>>;
+  }) => CommandProgramActionFlowConnection;
+}
+
+export interface CommandProgramActionFlowConnection {
+  __typename?: "CommandProgramActionFlowConnection";
+  edges: Array<CommandProgramActionFlowRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramActionFlowRelationship {
+  __typename?: "CommandProgramActionFlowRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramFlow;
+}
+
 export interface CommandProgramAlarm {
   __typename?: "CommandProgramAlarm";
   id: ScalarsEnums["ID"];
@@ -40083,6 +40564,10 @@ export interface CommandProgramHMI {
   __typename?: "CommandProgramHMI";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
+  actions: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+    options?: Maybe<CommandProgramActionOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramAction>>>;
   paths: (args?: {
     where?: Maybe<CommandHMIPathWhere>;
     options?: Maybe<CommandHMIPathOptions>;
@@ -40099,6 +40584,12 @@ export interface CommandProgramHMI {
     where?: Maybe<CommandProgramWhere>;
     options?: Maybe<CommandProgramOptions>;
   }) => Maybe<Array<Maybe<CommandProgram>>>;
+  actionsConnection: (args?: {
+    where?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramHMIActionsConnectionSort>>;
+  }) => CommandProgramHMIActionsConnection;
   pathsConnection: (args?: {
     where?: Maybe<CommandProgramHMIPathsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -40123,6 +40614,19 @@ export interface CommandProgramHMI {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandProgramHMIProgramsConnectionSort>>;
   }) => CommandProgramHMIProgramsConnection;
+}
+
+export interface CommandProgramHMIActionsConnection {
+  __typename?: "CommandProgramHMIActionsConnection";
+  edges: Array<CommandProgramHMIActionsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramHMIActionsRelationship {
+  __typename?: "CommandProgramHMIActionsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramAction;
 }
 
 export interface CommandProgramHmiConnection {
@@ -40596,6 +41100,12 @@ export interface CreateCommandPluginsMutationResponse {
   __typename?: "CreateCommandPluginsMutationResponse";
   info: CreateInfo;
   commandPlugins: Array<CommandPlugin>;
+}
+
+export interface CreateCommandProgramActionsMutationResponse {
+  __typename?: "CreateCommandProgramActionsMutationResponse";
+  info: CreateInfo;
+  commandProgramActions: Array<CommandProgramAction>;
 }
 
 export interface CreateCommandProgramAlarmsMutationResponse {
@@ -42993,6 +43503,12 @@ export interface UpdateCommandPluginsMutationResponse {
   commandPlugins: Array<CommandPlugin>;
 }
 
+export interface UpdateCommandProgramActionsMutationResponse {
+  __typename?: "UpdateCommandProgramActionsMutationResponse";
+  info: UpdateInfo;
+  commandProgramActions: Array<CommandProgramAction>;
+}
+
 export interface UpdateCommandProgramAlarmsMutationResponse {
   __typename?: "UpdateCommandProgramAlarmsMutationResponse";
   info: UpdateInfo;
@@ -43419,6 +43935,9 @@ export interface SchemaObjectTypes {
   CommandPluginOrganisationConnection: CommandPluginOrganisationConnection;
   CommandPluginOrganisationRelationship: CommandPluginOrganisationRelationship;
   CommandProgram: CommandProgram;
+  CommandProgramAction: CommandProgramAction;
+  CommandProgramActionFlowConnection: CommandProgramActionFlowConnection;
+  CommandProgramActionFlowRelationship: CommandProgramActionFlowRelationship;
   CommandProgramAlarm: CommandProgramAlarm;
   CommandProgramAlarmsConnection: CommandProgramAlarmsConnection;
   CommandProgramAlarmsRelationship: CommandProgramAlarmsRelationship;
@@ -43481,6 +44000,8 @@ export interface SchemaObjectTypes {
   CommandProgramFlowProgramsConnection: CommandProgramFlowProgramsConnection;
   CommandProgramFlowProgramsRelationship: CommandProgramFlowProgramsRelationship;
   CommandProgramHMI: CommandProgramHMI;
+  CommandProgramHMIActionsConnection: CommandProgramHMIActionsConnection;
+  CommandProgramHMIActionsRelationship: CommandProgramHMIActionsRelationship;
   CommandProgramHmiConnection: CommandProgramHmiConnection;
   CommandProgramHMIGroupsConnection: CommandProgramHMIGroupsConnection;
   CommandProgramHMIGroupsRelationship: CommandProgramHMIGroupsRelationship;
@@ -43539,6 +44060,7 @@ export interface SchemaObjectTypes {
   CreateCommandPeripheralProductDatapointsMutationResponse: CreateCommandPeripheralProductDatapointsMutationResponse;
   CreateCommandPluginItemsMutationResponse: CreateCommandPluginItemsMutationResponse;
   CreateCommandPluginsMutationResponse: CreateCommandPluginsMutationResponse;
+  CreateCommandProgramActionsMutationResponse: CreateCommandProgramActionsMutationResponse;
   CreateCommandProgramAlarmsMutationResponse: CreateCommandProgramAlarmsMutationResponse;
   CreateCommandProgramDeviceActionsMutationResponse: CreateCommandProgramDeviceActionsMutationResponse;
   CreateCommandProgramDeviceCalibrationsMutationResponse: CreateCommandProgramDeviceCalibrationsMutationResponse;
@@ -43794,6 +44316,7 @@ export interface SchemaObjectTypes {
   UpdateCommandPeripheralProductDatapointsMutationResponse: UpdateCommandPeripheralProductDatapointsMutationResponse;
   UpdateCommandPluginItemsMutationResponse: UpdateCommandPluginItemsMutationResponse;
   UpdateCommandPluginsMutationResponse: UpdateCommandPluginsMutationResponse;
+  UpdateCommandProgramActionsMutationResponse: UpdateCommandProgramActionsMutationResponse;
   UpdateCommandProgramAlarmsMutationResponse: UpdateCommandProgramAlarmsMutationResponse;
   UpdateCommandProgramDeviceActionsMutationResponse: UpdateCommandProgramDeviceActionsMutationResponse;
   UpdateCommandProgramDeviceCalibrationsMutationResponse: UpdateCommandProgramDeviceCalibrationsMutationResponse;
@@ -43961,6 +44484,9 @@ export type SchemaObjectTypesNames =
   | "CommandPluginOrganisationConnection"
   | "CommandPluginOrganisationRelationship"
   | "CommandProgram"
+  | "CommandProgramAction"
+  | "CommandProgramActionFlowConnection"
+  | "CommandProgramActionFlowRelationship"
   | "CommandProgramAlarm"
   | "CommandProgramAlarmsConnection"
   | "CommandProgramAlarmsRelationship"
@@ -44023,6 +44549,8 @@ export type SchemaObjectTypesNames =
   | "CommandProgramFlowProgramsConnection"
   | "CommandProgramFlowProgramsRelationship"
   | "CommandProgramHMI"
+  | "CommandProgramHMIActionsConnection"
+  | "CommandProgramHMIActionsRelationship"
   | "CommandProgramHmiConnection"
   | "CommandProgramHMIGroupsConnection"
   | "CommandProgramHMIGroupsRelationship"
@@ -44081,6 +44609,7 @@ export type SchemaObjectTypesNames =
   | "CreateCommandPeripheralProductDatapointsMutationResponse"
   | "CreateCommandPluginItemsMutationResponse"
   | "CreateCommandPluginsMutationResponse"
+  | "CreateCommandProgramActionsMutationResponse"
   | "CreateCommandProgramAlarmsMutationResponse"
   | "CreateCommandProgramDeviceActionsMutationResponse"
   | "CreateCommandProgramDeviceCalibrationsMutationResponse"
@@ -44336,6 +44865,7 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandPeripheralProductDatapointsMutationResponse"
   | "UpdateCommandPluginItemsMutationResponse"
   | "UpdateCommandPluginsMutationResponse"
+  | "UpdateCommandProgramActionsMutationResponse"
   | "UpdateCommandProgramAlarmsMutationResponse"
   | "UpdateCommandProgramDeviceActionsMutationResponse"
   | "UpdateCommandProgramDeviceCalibrationsMutationResponse"

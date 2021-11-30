@@ -26,7 +26,7 @@ export default () => {
 
     const [ workingState, setWorkingState ] = useState<any>({})
 
-	const { program, values, hmi, hmiNodes, groups, changeDeviceMode, changeDeviceValue, performAction, controlId } = useContext(DeviceControlContext)
+	const { program, actions, values, hmi, hmiNodes, groups, changeDeviceMode, changeDeviceValue, performAction, controlId } = useContext(DeviceControlContext)
 
 
     const deviceValues = (device: string) => {
@@ -261,17 +261,22 @@ export default () => {
 				<Box background="accent-1" align="center">
 					<Text>Controls</Text>
 				</Box>
-				<Box pad="small" align="center" flex>
+				<Box pad="small"flex>
 					<Box border={{side: 'bottom', size: 'small'}}>
 						<Text>Current State</Text>
 
 						<Text size="small">Mode: Running</Text>
 					</Box>
-					<Box align="center" border={{side: 'bottom', size: 'small'}}>
+					<Box  border={{side: 'bottom', size: 'small'}}>
 						<Text>Commands</Text>
-						<ActionButton 
-
-							label="Start" />
+						<Box gap="xsmall">
+							<ActionButton 
+								label="Start" />
+							{actions.map((action) => (
+								<ActionButton
+									label={action.name} />
+							))}
+						</Box>
 					</Box>
 				</Box>
 			</Box>
