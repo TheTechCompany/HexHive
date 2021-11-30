@@ -10,13 +10,10 @@ import { Sidebar } from '@hexhive/ui'
 import { DeviceDevices } from '../../pages/device-devices';
 const PluginEditor = React.lazy(() => import('../../pages/plugin-editor').then((r) => ({default: r.PluginEditorPage})))
 const DeviceControl = React.lazy(() => import('../../pages/device-control').then((r) => ({default: r.DeviceControl})))
-const DeviceControlGraph = React.lazy(() => import('../../pages/device-control-graph').then((r) => ({default: r.DeviceControlGraph})))
 
 const Devices = React.lazy(() => import('../../pages/device-list').then((r) => ({ default: r.Devices })))
-const DeviceSingle = React.lazy(() => import('../../pages/device-single').then((r) => ({ default: r.DeviceSingle })))
 
 const ProgramList = React.lazy(() => import('../../pages/program-list').then((r) => ({ default: r.ProgramList })));
-const ProgramViewer = React.lazy(() => import('../../pages/program-viewer').then((r) => ({ default: r.ProgramViewer })))
 const PluginList = React.lazy(() => import('../../pages/plugin-list').then((r) => ({ default: r.PluginList })));
 const PluginSingle = React.lazy(() => import('../../pages/plugin-single').then((r) => ({ default: r.PluginSingle })));
 

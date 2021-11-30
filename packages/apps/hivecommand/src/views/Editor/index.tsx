@@ -1,8 +1,6 @@
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import React, { Suspense, lazy, useEffect, useRef, useState, useCallback } from 'react';
-import { GET_PROGRAM, GET_PROGRAM_SHARDS, GET_STACKS } from '../../actions/flow-shards';
 import { Box, Text, Spinner, Button, Collapsible, List } from 'grommet';
-import { programActions } from '../../actions';
 import { useQuery as useQLess} from '@hexhive/client';
 import qs from 'qs';
 import { matchPath, RouteComponentProps } from 'react-router-dom';
@@ -216,7 +214,6 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
 
     // const Processes = (shardQuery.data || {}).FlowShardMany || []
     // const program_root = (programQuery.data || {}).ProgramOne;
-    const stacks = gqless.StackMany() // ((stackQuery.data || {}).StackMany || [])
 
     console.log("PROGRAM", program)
     
