@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, useQuery } from '@hexhive/client';
 import { useQuery as useApollo, useApolloClient, gql } from '@apollo/client'
 import { PluginEditorMenu } from './menu';
 import { Box, Text } from 'grommet';
 import { UIEditor } from './editors/ui-editor';
 import { ProgramCanvasModal } from '../../components/modals/program-canvas';
-import { useMutation } from '@hexhive/client';
+import {useQuery, useMutation } from '@hexhive/client';
 import { ObjectTypeDefinitionNode } from 'graphql';
 
 export const PluginEditorPage : React.FC<any> = (props) => {

@@ -6,7 +6,7 @@ import { NodeDropdown  } from '../../../../components/node-dropdown';
 import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank, BlowerSparge, NfMembrane, DosingTank } from '../../../../assets/hmi-elements';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import * as HMIIcons from '../../../../assets/hmi-elements'
-import { Nodes, Add, Aggregate, Subtract, RotateLeft, RotateRight } from 'grommet-icons'
+import { Nodes, Action, Add, Aggregate, Subtract, RotateLeft, RotateRight } from 'grommet-icons'
 import Settings from './Settings'
 import { nanoid } from 'nanoid';
 import { useMutation } from '@hexhive/client';
@@ -838,6 +838,12 @@ export const Controls = (props) => {
 
     const renderMenu = () => {
         switch(menuOpen){
+            case 'actions':
+                return (
+                    <Box>
+                        <Text>Action Palette</Text>
+                    </Box>
+                );
             case 'nodes':
                 return (
                     <NodeDropdown
@@ -1217,12 +1223,17 @@ export const Controls = (props) => {
                     active={menuOpen == 'nodes'}
                     onClick={() => changeMenu('nodes')}
                     hoverIndicator
-                    icon={<Nodes />} />
+                    icon={<Nodes color="black" />} />
                 <Button 
                     active={menuOpen == 'config'}
                     onClick={() => changeMenu('config')}
                     hoverIndicator
                     icon={<Settings />} />
+                <Button 
+                    active={menuOpen == 'actions'}
+                    onClick={() => changeMenu('actions')}
+                    hoverIndicator
+                    icon={<Action color="black" />} />
             </Box>
 		</Box>
 	)
