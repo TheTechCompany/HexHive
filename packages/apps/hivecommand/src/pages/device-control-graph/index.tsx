@@ -74,7 +74,7 @@ export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = 
 	const values1 = useMemo(() => {
 		return data?.commandDeviceTimeseries1?.filter((a) => a.value != '0' && a.value != 0).map((x) => {
 			let date = new Date(x.timestamp)
-			date = new Date(date.getTime()) // + (date.getTimezoneOffset() * 60000))
+			date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
 			return {timestamp: moment(date).format('DD/MM/YYYY - hh:mma'), value: parseFloat(x.value)}
 		}) 
 	}, [data?.commandDeviceTimeseries1])
@@ -83,7 +83,7 @@ export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = 
 		return data?.commandDeviceTimeseries2?.filter((a) => a.value != '0' && a.value != 0).map((x) => {
 			let date = new Date(x.timestamp)
 			console.log(date.getTimezoneOffset() * 60000)
-			date = new Date(date.getTime()) //- (date.getTimezoneOffset() * 60000))
+			date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
 			return {timestamp: moment(date).format('DD/MM/YYYY - hh:mma'), value: x.value}
 		}) 
 	}, [data?.commandDeviceTimeseries2])
