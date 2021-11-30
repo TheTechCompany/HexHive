@@ -1,6 +1,6 @@
 import { Box, Button, Text, List } from 'grommet';
 import React, { useState } from 'react';
-import { Add } from 'grommet-icons';
+import { Add, MoreVertical } from 'grommet-icons';
 import { mutation, useMutation, useQuery } from '@hexhive-api/signage'
 import { WorkflowModal } from '../../modals/display-modal';
 import { RouteComponentProps } from 'react-router-dom';
@@ -13,10 +13,21 @@ export interface TriggerListProps extends RouteComponentProps {
 export const CampaignList : React.FC<TriggerListProps> = (props) => {
     const [ modalOpen, openModal ] = useState<boolean>(false);
 
+    const [ selected, setSelected ] = useState<any>(undefined)
+
     const query = useQuery()
 
     const campaigns = query.campaigns()
 
+    const [ deleteCampaign, deleteInfo ] = useMutation((mutation, args: {id: string}) => {
+        if(!args.id) {return}
+        const item = mutation.deleteCampaigns({where: {id: args.id}})
+        return {
+            item: {
+                ...item.nodesDeleted?.[0]
+            }
+        }
+    })
     const [ createCampaign, createInfo ] = useMutation((mutation, args: {name: string}) => {
         const item = mutation.createCampaigns({input: [{name: args.name}]})
         return {
@@ -41,7 +52,13 @@ export const CampaignList : React.FC<TriggerListProps> = (props) => {
             elevation="small">
            <CampaignModal   
             open={modalOpen}
+            selected={selected}
             onClose={() => openModal(false)}
+            onDelete={() => {
+                deleteCampaign({args: {id: selected.id}}).then(() => {
+                    openModal(false)
+                })
+            }}
             onSubmit={(campaign) => {
                 createCampaign({args: {name: campaign.name}}).then(() => {
                     openModal(false)
@@ -53,9 +70,27 @@ export const CampaignList : React.FC<TriggerListProps> = (props) => {
             </Box>
             <Box flex>
                 <List 
-                    onClickItem={({item}) => props.history.push(`${props.match.url}/${item.id}`)}
                     primaryKey={"name"}
-                    data={campaigns} />
+                    data={campaigns}>
+                    {(datum) => (
+                        <Box
+                            onClick={() => props.history.push(`${props.match.url}/${datum.id}`)}
+                            align="center" justify="between" direction="row">
+                            <Text>{datum.name}</Text>
+                            <Button 
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    e.preventDefault()
+                                    openModal(true)
+                                    setSelected(datum)
+                                }}
+                                plain 
+                                style={{padding: 6, borderRadius: 3}}
+                                hoverIndicator 
+                                icon={<MoreVertical size="small" />} />
+                        </Box>
+                    )}
+                </List>
             </Box>
         </Box>
     )

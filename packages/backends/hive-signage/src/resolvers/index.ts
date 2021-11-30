@@ -4,9 +4,12 @@ export default (fs: FileStore) => ({
 	Campaign: {
 		assets: async (root: any, ) => {
 			console.log(root)
-			console.log("Asset", await fs.lsAsset(root.id))
+			try{
+				return await fs.lsAsset(root.id)
 
-			return await fs.lsAsset(root.id)
+			}catch(e){
+				return []
+			}
 		}
 	}	
 })
