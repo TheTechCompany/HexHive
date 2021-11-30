@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { gql, useQuery as useApollo } from '@apollo/client'
-import { CommandPlugin, Stack, StackItems, useQuery } from '@hexhive/client'
+import { CommandPlugin, useQuery } from '@hexhive/client'
 // import { GridList, LiveComponent, Paper } from '@thetechcompany/live-ui'
 import { Box, Text, Button  } from 'grommet';
 import { StackItemModal } from '../../components/modals/stacks/item';
-import { stackActions } from '../../actions';
 import { useEffect } from 'react';
 import * as Icons from 'grommet-icons'
 import { Title } from '../../components/ui/title';
@@ -93,7 +92,7 @@ export const PluginSingle = styled((props: any) => {
             <StackItemModal
                 open={modalOpen} 
                 onClose={() => openModal(false)}
-                onSubmit={(stackItem: StackItems) => {
+                onSubmit={(stackItem: any) => {
                     // console.log(stackItem)
                     // let items  = stack?.?.slice() || [];
                     // items?.push(stackItem as any)

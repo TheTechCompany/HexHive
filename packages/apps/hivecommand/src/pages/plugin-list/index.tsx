@@ -1,8 +1,7 @@
 import { Add } from 'grommet-icons';
-import { stackActions } from '../../actions';
 import { StackModal } from '../../components/modals/stacks';
 import React, {Suspense, useEffect, useState} from 'react';
-import { useQuery, useMutation, Stack } from '@hexhive/client'
+import { useQuery, useMutation } from '@hexhive/client'
 import styled from 'styled-components'
 import { Box, Button, CheckBox, TextInput, Text } from 'grommet'
 import { PluginStore } from '../../components/plugin-store/PluginStore'
@@ -61,7 +60,7 @@ export const BaseStackList : React.FC<StackListProps> = (props) => {
             className={props.className}>
             <StackModal 
                 open={modalOpen}
-                onSubmit={(stack : Stack) => {
+                onSubmit={(stack : any) => {
                     console.log(stack)
                     if(stack.name){
                         
