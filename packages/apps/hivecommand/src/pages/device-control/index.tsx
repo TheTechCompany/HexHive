@@ -359,33 +359,6 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }
     }, [])
 
-    // const deviceValueList = useMemo(() => {
-    //     let idToBus = peripherals.reduce((prev, curr) => {
-    //         let map = curr?.mappedDevicesConnection?.edges || [];
-    //         return prev.concat(map.map((x) => ({
-    //             bus: curr.id, 
-    //             port: x.port, 
-    //             name: x.node?.device?.name,
-    //             key: x.node?.key?.key,
-    //             value: x.node?.value?.key
-    //         })))
-    //     }, [])
-
-    //     console.log("ID TO BUS", idToBus, name)
-    //     return data?.commandDeviceValue.map((value) => {
-
-    //         let dataPoints = idToBus.filter((a) => a.bus == value.bus && a.port == value.port);
-
-    //         device: idToBus.find((a) => a.bus == value.bus && a.port == value.port)?.name,
-    //         value: value.value,
-    //         key: value.valueKey
-    //     })
-    //     // let busPort = idToBus.find((a) => a.name == name)
-    //     // if(!busPort) return;
-    //     // return values.filter((a) => a?.port == busPort.port && a?.bus == busPort.bus);
-        
-    // }, [data?.commandDeviceValue])
-
 
     const program = data?.commandDevices?.[0]?.activeProgram || {};
 
@@ -400,31 +373,13 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
         if(!name) return;
 
-        // let idToBus = peripherals.reduce((prev, curr) => {
-        //     let map = curr?.mappedDevicesConnection?.edges || [];
-
-        //     return prev.concat(map.map((x) => ({
-        //         deviceId: x
-        //         name: x.node?.device?.name,
-        //         key: x.node?.key?.key,
-        //         value: x.node?.value?.key
-        //     })))
-        // }, [])
-
-        // console.log("ID TO BUS", idToBus, name)
-        
-        // return idToBus.filter((a) => a.name == name).map((busPort) => {
-
+      
         let v = values.filter((a) => a?.deviceId == name);
         let state = program?.devices?.find((a) => a.name == name).type?.state;
 
-            // console.log(v, busPort)
-        // console.log(v, units)
-            // return {key: busPort.value, value: v.find((a) => a.valueKey == busPort.key)?.value};
         return v.reduce((prev, curr) => {
             let unit = units?.find((a) => a.key == curr.valueKey);
             let stateItem = state.find((a) => a.key == curr.valueKey);
-            console.log(unit)
             let value = curr.value;
 
             if(!stateItem) return prev;
@@ -493,14 +448,6 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }
     }
 
-    console.log(toolbar_menu.map((a) => ({
-        path: matchPath(window.location.pathname, {
-            path: `/dashboard/command${props.match.url}/${a?.id}`,
-            exact: false
-        }),
-        def: window.location.pathname,
-        id: `${props.match.url}/${a.id}`
-    })))
 
     return (
         <DeviceControlProvider value={{
@@ -512,7 +459,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
             hmiNodes, 
             groups, 
             changeDeviceMode, 
-            changeDeviceValue 
+            changeDeviceValue,
+            performAction
         }}>
         <Box
             round="xsmall"

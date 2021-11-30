@@ -55,8 +55,6 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
     // const options = getDeviceOptions(props.extras?.devicePlaceholder?.name)
 
     // const conf = getDeviceConf(props.extras?.devicePlaceholder?.name)
-   
-    console.log({conf}, {options})
 
 
     const Icon = useSVGStyle(props.extras?.icon && typeof(props.extras?.icon) === 'string' ? (Icons as any)[props.extras.icon] : (props.extras?.icon) ? props.extras?.icon : Icons.Previous, (props) => ({
