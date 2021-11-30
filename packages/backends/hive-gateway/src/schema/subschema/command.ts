@@ -141,6 +141,12 @@ export default `
 		usedOn: CommandDevice @relationship(type: "RUNNING_PROGRAM", direction: IN)
 	}
 
+	type CommandProgramAction {
+		id: ID! @id
+		name: String
+		flow: [CommandProgramFlow] @relationship(type: "USES_FLOW", direction: OUT)
+	}
+
 	type CommandProgramAlarm {
 		id: ID! @id
 		name: String
@@ -301,6 +307,9 @@ export default `
 	type CommandProgramHMI {
 		id: ID! @id
 		name: String
+
+		actions: [CommandProgramAction] @relationship(type: "HAS_ACTION", direction: OUT)
+
 		paths: [CommandHMIPath] @relationship(type: "USES_PATH", direction: OUT)
 		groups: [CommandHMIGroup] @relationship(type: "USES_GROUP", direction: OUT)
 		nodes: [CommandHMINode] @relationship(type: "USES_NODE", direction: OUT)

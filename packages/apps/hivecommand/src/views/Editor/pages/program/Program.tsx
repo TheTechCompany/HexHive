@@ -505,7 +505,7 @@ export const Program = (props) => {
                         },
                         {
                             key: 'settings',
-                            icon: <Settings />,
+                            icon: <Settings width="24px" />,
                             panel: (
                                 <ProgramDrawer />
                             )

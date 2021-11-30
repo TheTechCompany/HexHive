@@ -14,6 +14,7 @@ import { pick } from 'lodash';
 import { throttle } from 'lodash';
 import { HMIGroupModal } from '../../../../components/modals/hmi-group';
 import { debounce } from 'lodash';
+import { AssignFlowModal } from 'apps/hivecommand/src/components/modals/assign-flow';
 
 export const Controls = (props) => {
     
@@ -25,6 +26,8 @@ export const Controls = (props) => {
         _setSelected(s)
         selectedRef.current.selected = s;
     }
+
+    const [ assignModalOpen, openAssignModal ] = useState<boolean>(false);
 
     const [ target, setTarget ] = useState<{x?: number, y?: number}>({})
 
@@ -289,6 +292,12 @@ export const Controls = (props) => {
                 hmi {
                     id
                     name
+
+                    actions {
+                        id
+                        name
+                    }
+
                     paths {
                         id
                         source {
@@ -407,6 +416,15 @@ export const Controls = (props) => {
                             rotation
                             length
                         }
+                    }
+                }
+
+                program {
+                    id
+                    name
+                    children {
+                        id
+                        name
                     }
                 }
 
@@ -658,6 +676,7 @@ export const Controls = (props) => {
             let connected_to =  paths.filter((a) => nodes.indexOf(a.target) > -1).map((x) => x.id)
         
             deleteInfo = mutation.updateCommandProgramHMIS({
+                where: {id: props.activeProgram},
                 delete: {
                     paths: [{
                         where: {
@@ -684,6 +703,40 @@ export const Controls = (props) => {
             }
     })
 
+    const [ createHMIAction, createActionInfo ] = useMutation((mutation, args: {
+        name: string;
+        flow: string[];
+    }) => {
+        const item = mutation.updateCommandProgramHMIS({
+            where: {id: props.activeProgram},
+            update: {
+                actions: [{
+                    create: [{
+                        node: {
+                            name: args.name,
+                            flow: {
+                                connect: args.flow.map((flow) => ({
+                                    where: {node: {id: flow}}
+                                }))
+                            }
+                        }
+                    }]
+                    
+                }]
+            }
+        })
+        return {
+            item: {
+                ...item.commandProgramHmis?.[0]
+            }
+        }
+    })
+
+    const [ updateHMIAction, updateActionInfo ] = useMutation((mutation, args: {
+
+    }) => {
+        
+    })
     // const [ updateConnection ] = useMutation((mutation, args : {
     //     id: string,
     //     source: string,
@@ -762,6 +815,12 @@ export const Controls = (props) => {
     })
 
     const devices = data?.commandPrograms?.[0]?.devices
+    const flows = data?.commandPrograms?.[0]?.program;
+    let program = data?.commandPrograms?.[0]
+
+    let activeProgram = (program?.hmi)?.find((a) => a.id == props.activeProgram)
+
+    console.log({flows})
     
     useEffect(() => {
         let program = data?.commandPrograms?.[0]
@@ -840,8 +899,20 @@ export const Controls = (props) => {
         switch(menuOpen){
             case 'actions':
                 return (
-                    <Box>
-                        <Text>Action Palette</Text>
+                    <Box flex>
+                        <Box direction="row" justify="between">
+                            <Text>Action Palette</Text>
+                            <Button 
+                                onClick={() => openAssignModal(true)}
+                                style={{padding: 6, borderRadius: 3}} 
+                                plain 
+                                hoverIndicator
+                                icon={<Add size="small" />} />
+                        </Box>
+
+                        <List 
+                            primaryKey={'name'}
+                            data={activeProgram?.actions} />
                     </Box>
                 );
             case 'nodes':
@@ -1055,6 +1126,21 @@ export const Controls = (props) => {
 		<Box 
             direction="row"
             flex>
+            <AssignFlowModal   
+                flows={flows}
+                onClose={() => openAssignModal(false)}
+                onSubmit={(assignment) => {
+                    createHMIAction({
+                        args: {
+                            name: assignment.name,
+                            flow: assignment.flow, 
+                        }
+                    }).then(() => {
+                        openAssignModal(false);
+
+                    })
+                }}
+                open={assignModalOpen} />
             <HMIGroupModal
                 base={aggregate}
                 open={modalOpen}
@@ -1228,7 +1314,7 @@ export const Controls = (props) => {
                     active={menuOpen == 'config'}
                     onClick={() => changeMenu('config')}
                     hoverIndicator
-                    icon={<Settings />} />
+                    icon={<Settings width="24px" />} />
                 <Button 
                     active={menuOpen == 'actions'}
                     onClick={() => changeMenu('actions')}

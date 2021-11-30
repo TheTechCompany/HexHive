@@ -108,9 +108,20 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 activeProgram {
                     id
                     name
+                    
                     hmi{
                         id
                         name
+
+                        actions {
+                            id
+                            name
+                            flow {
+                                id
+                                name
+                            }
+                        }
+
                         paths {
                             source {
                                 ... on CommandHMINode {
@@ -378,6 +389,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
     const program = data?.commandDevices?.[0]?.activeProgram || {};
 
+    const actions = program?.hmi?.[0]?.actions || [];
+
     const hmi = program?.hmi?.[0]?.nodes || [];
     const groups = program?.hmi?.[0]?.groups || [];
 
@@ -491,6 +504,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
 
     return (
         <DeviceControlProvider value={{
+            actions,
             controlId: props.match.params.id,
             program, 
             values, 
