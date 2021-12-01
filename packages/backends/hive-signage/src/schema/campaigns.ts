@@ -3,12 +3,20 @@ export default `
 		id: ID! @id
 		name: String
 
+		views: Int @ignore
+		interactions: Int @ignore
+		interactionTimeline: [CampaignInteraction] @ignore
+
 		analytics: [CampaignAnalytic] @relationship(type: "HAS_ANALYTICS", direction: OUT)
 		assetFolder: String
 		assets: [CampaignAsset] @ignore
 		customer: String
 	}
 
+	type CampaignInteraction @exclude {
+		time: DateTime
+		interactions: Int
+	}
 
 	type CampaignAsset @exclude {
 		id: ID! @id

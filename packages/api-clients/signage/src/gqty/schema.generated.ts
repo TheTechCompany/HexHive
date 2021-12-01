@@ -2820,7 +2820,10 @@ export const generatedSchema = {
     assets: { __type: "[CampaignAsset]" },
     customer: { __type: "String" },
     id: { __type: "ID!" },
+    interactionTimeline: { __type: "[CampaignInteraction]" },
+    interactions: { __type: "Int" },
     name: { __type: "String" },
+    views: { __type: "Int" },
   },
   CampaignAggregateSelection: {
     __typename: { __type: "String!" },
@@ -3244,6 +3247,11 @@ export const generatedSchema = {
   },
   CampaignDisconnectInput: {
     analytics: { __type: "[CampaignAnalyticsDisconnectFieldInput!]" },
+  },
+  CampaignInteraction: {
+    __typename: { __type: "String!" },
+    interactions: { __type: "Int" },
+    time: { __type: "DateTime" },
   },
   CampaignOptions: {
     limit: { __type: "Int" },
@@ -6486,7 +6494,10 @@ export interface Campaign {
   assets?: Maybe<Array<Maybe<CampaignAsset>>>;
   customer?: Maybe<ScalarsEnums["String"]>;
   id: ScalarsEnums["ID"];
+  interactionTimeline?: Maybe<Array<Maybe<CampaignInteraction>>>;
+  interactions?: Maybe<ScalarsEnums["Int"]>;
   name?: Maybe<ScalarsEnums["String"]>;
+  views?: Maybe<ScalarsEnums["Int"]>;
 }
 
 export interface CampaignAggregateSelection {
@@ -6591,6 +6602,12 @@ export interface CampaignCampaignAnalyticAnalyticsNodeAggregateSelection {
   id: IDAggregateSelection;
   name: StringAggregateSelection;
   type: StringAggregateSelection;
+}
+
+export interface CampaignInteraction {
+  __typename?: "CampaignInteraction";
+  interactions?: Maybe<ScalarsEnums["Int"]>;
+  time?: Maybe<ScalarsEnums["DateTime"]>;
 }
 
 export interface Cluster {
@@ -7720,6 +7737,7 @@ export interface SchemaObjectTypes {
   CampaignAsset: CampaignAsset;
   CampaignCampaignAnalyticAnalyticsAggregationSelection: CampaignCampaignAnalyticAnalyticsAggregationSelection;
   CampaignCampaignAnalyticAnalyticsNodeAggregateSelection: CampaignCampaignAnalyticAnalyticsNodeAggregateSelection;
+  CampaignInteraction: CampaignInteraction;
   Cluster: Cluster;
   ClusterAggregateSelection: ClusterAggregateSelection;
   ClusterClusterScheduleScheduleAggregationSelection: ClusterClusterScheduleScheduleAggregationSelection;
@@ -7838,6 +7856,7 @@ export type SchemaObjectTypesNames =
   | "CampaignAsset"
   | "CampaignCampaignAnalyticAnalyticsAggregationSelection"
   | "CampaignCampaignAnalyticAnalyticsNodeAggregateSelection"
+  | "CampaignInteraction"
   | "Cluster"
   | "ClusterAggregateSelection"
   | "ClusterClusterScheduleScheduleAggregationSelection"

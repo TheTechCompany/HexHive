@@ -14,6 +14,7 @@ import signageApi from './routes'
 
 import {OGM} from "@neo4j/graphql-ogm"
 import { FileStore } from './de-file-store'
+import { Pool } from 'pg';
 
 (async () => {
 	const app = express();
@@ -25,12 +26,21 @@ import { FileStore } from './de-file-store'
 	)
 	console.log(`Neo4j...`)
 
+	const pgClient = new Pool({
+		// database: 'qdb',
+		host: process.env.TIMESERIES_HOST,
+		port: 5432,
+		user: 'postgres',
+		password: process.env.TIMESERIES_PASSWORD,
+	});
+
+	console.log("Postgres")
 
 	const fs = new FileStore();
 
 	await fs.init()
 
-	const resolved = resolvers(fs)
+	const resolved = await resolvers(fs, pgClient)
 	const ogm = new OGM({typeDefs, driver})
 	const neoSchema : Neo4jGraphQL = new Neo4jGraphQL({ typeDefs, resolvers: resolved , driver })
 
