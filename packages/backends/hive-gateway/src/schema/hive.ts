@@ -361,6 +361,49 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			}
 		},
 		Mutation: {
+			requestFlow: async (root: any, args: any, context: any) => {
+				console.log(args)
+				const device = await session.readTransaction(async (tx) => {
+
+					const res = await tx.run(`
+						MATCH (device:CommandDevice {id: $id})
+						OPTIONAL MATCH (action:CommandProgramAction {id: $actionId})-->(flow:CommandProgramFlow)
+						RETURN device{.*, action: flow{.*}}
+					`, {
+						id: args.deviceId,
+						actionId: args.actionId
+					})
+					return res.records?.[0]?.get(0)
+					// return await getDeviceActions(tx, args.deviceId, args.deviceName)
+				
+				})
+
+				let action = device.action
+
+				console.log(device, action)
+				if(action){
+					let actionRequest = {
+						address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
+						deviceId: args.deviceId,
+						flow: action.id
+					}
+					return await channel.sendToQueue(`COMMAND:FLOW:PRIORITIZE`, Buffer.from(JSON.stringify(actionRequest)))
+				}
+				// 	return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(actionRequest)))
+				// }
+
+				// console.log("DEVICE ACTION", device, args.action, action)
+
+				// let stateChange = {
+				// 	device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
+				// 	busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
+				// 	value: args.value == '0' ? false : true //false
+				// }
+
+				// console.log("Sending state change", stateChange)
+			
+				// return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(stateChange)))
+			},
 			performDeviceAction: async (root: any, args: any, context: any) => {
 				console.log(args)
 				const device = await session.readTransaction(async (tx) => {

@@ -143,7 +143,7 @@ const setupWebsockets = (io: Server) => {
 
 	await mqChannel.assertQueue(`COMMAND:DEVICE:CONTROL`)
 	await mqChannel.assertQueue(`COMMAND:DEVICE:MODE`);
-	
+	await mqChannel.assertQueue(`COMMAND:FLOW:PRIORITIZE`);
 
 	// const collaborationServer = new CollaborationServer();
          
