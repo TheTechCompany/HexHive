@@ -63,6 +63,7 @@
     "@types/react-dom": "^17.0.8",
     "@types/systemjs": "^6.1.0",
     "@types/webpack-env": "^1.16.0",
+    "moment": "^2.29.1",
     "monaco-editor": "^0.27.0",
     "process": "^0.11.10",
     "qrcode.react": "^1.0.1",
@@ -71,6 +72,8 @@
     "react-dom": "^17.0.2",
     "react-resize-aware": "^3.1.1",
     "react-router-dom": "^5.3.0",
-    "single-spa-react": "^4.2.0"
+    "recharts": "^2.1.6",
+    "single-spa-react": "^4.2.0",
+    "webpack": "5.64.4"
   }
 }

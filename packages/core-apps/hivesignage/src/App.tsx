@@ -88,7 +88,7 @@ export const App = (props) => {
                     <Route path={'/computers'} exact component={ComputerList} />
                     <Route path={'/computers/:id'} component={ComputerSingle} />
                     <Route path={"/campaigns"} exact component={CampaignList} />
-                    <Route path={"/campaigns/:id"} exact component={CampaignSingle} />
+                    <Route path={"/campaigns/:id"} component={CampaignSingle} />
                     <Route path={`/analytics`} exact component={Analytics} />
                 </Switch>
             </Box>
