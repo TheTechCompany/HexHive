@@ -16210,6 +16210,10 @@ export const generatedSchema = {
       __type: "CommandDeviceResponse",
       __args: { deviceId: "String", deviceName: "String", mode: "String" },
     },
+    requestFlow: {
+      __type: "CommandDeviceResponse",
+      __args: { deviceId: "String", actionId: "String" },
+    },
     createHiveServices: {
       __type: "CreateHiveServicesMutationResponse!",
       __args: { input: "[HiveServiceCreateInput!]!" },
@@ -37577,6 +37581,10 @@ export interface Mutation {
     deviceId?: Maybe<Scalars["String"]>;
     deviceName?: Maybe<Scalars["String"]>;
     mode?: Maybe<Scalars["String"]>;
+  }) => Maybe<CommandDeviceResponse>;
+  requestFlow: (args?: {
+    deviceId?: Maybe<Scalars["String"]>;
+    actionId?: Maybe<Scalars["String"]>;
   }) => Maybe<CommandDeviceResponse>;
   createHiveServices: (args: {
     input: Array<HiveServiceCreateInput>;

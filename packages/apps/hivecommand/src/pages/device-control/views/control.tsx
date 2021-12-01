@@ -6,6 +6,7 @@ import { DeviceControlContext } from '../context';
 import { getDevicesForNode } from '../utils';
 import { Bubble } from '../../../components/Bubble/Bubble';
 import { BaseStyle } from '@hexhive/styles';
+import { useMutation } from '@hexhive/client';
 
 const ActionButton = (props) => {
 	return (
@@ -28,6 +29,21 @@ export default () => {
 
 	const { program, actions, values, hmi, hmiNodes, groups, changeDeviceMode, changeDeviceValue, performAction, controlId } = useContext(DeviceControlContext)
 
+	const [ requestFlow, requestFlowInfo ] = useMutation((mutation, args: {
+		deviceId: string,
+		actionId: string
+	}) => {
+		const item = mutation.requestFlow({
+			deviceId: args.deviceId,
+			actionId: args.actionId
+		})
+
+		return {
+			item: {
+				success: item.success
+			}
+		}
+	})
 
     const getDeviceValue = (name?: string, units?: {key: string, units?: string}[]) => {
         //Find map between P&ID tag and bus-port
@@ -192,6 +208,15 @@ export default () => {
     useEffect(() => {
         setWorkingState({})
     }, [selected])
+
+	const controlAction = (action) => {
+		requestFlow({args: {
+			deviceId: controlId,
+			actionId: action.id
+		}}).then(() => {
+			
+		})
+	}
  
 	return (
 		<Box flex direction="row">
@@ -237,6 +262,7 @@ export default () => {
 								label="Start" />
 							{actions.map((action) => (
 								<ActionButton
+									onClick={() => controlAction(action)}
 									label={action.name} />
 							))}
 						</Box>

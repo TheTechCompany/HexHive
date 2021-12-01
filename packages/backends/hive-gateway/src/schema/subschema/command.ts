@@ -13,6 +13,14 @@ export default `
 		commandDeviceTimeseriesTotal(deviceId: String, device: String, valueKey: String, startDate: String, endDate: String): CommandDeviceTimeseriesTotal
 	}
 
+	extend type Mutation {
+		performDeviceAction(deviceId: String, deviceName: String, action: String): CommandDeviceResponse
+		changeDeviceValue(deviceId: String, deviceName: String, key: String, value: String): CommandDeviceResponse
+		changeMode(deviceId: String, mode: String): CommandDeviceResponse
+		changeDeviceMode(deviceId: String, deviceName: String, mode: String): CommandDeviceResponse
+		requestFlow(deviceId: String, actionId: String): CommandDeviceResponse
+	}
+
 	type CommandDeviceTimeseriesTotal @exclude {
 		total: Float
 	}
@@ -31,12 +39,7 @@ export default `
 		value: String
 	}
 
-	extend type Mutation {
-		performDeviceAction(deviceId: String, deviceName: String, action: String): CommandDeviceResponse
-		changeDeviceValue(deviceId: String, deviceName: String, key: String, value: String): CommandDeviceResponse
-		changeMode(deviceId: String, mode: String): CommandDeviceResponse
-		changeDeviceMode(deviceId: String, deviceName: String, mode: String): CommandDeviceResponse
-	}
+
 
 	type CommandDeviceResponse {
 		success: Boolean

@@ -12,29 +12,29 @@ import { useMutation } from '@hexhive/client';
 import { HMICanvas } from '../../components/hmi-canvas/HMICanvas';
 import { Bubble } from '../../components/Bubble/Bubble';
 import { getDevicesForNode } from './utils';
-import { Play, Stop, Checkmark, Services, Cycle, Analytics, Info, Technology} from 'grommet-icons';
+import { Play, Stop, Checkmark, Services, Cycle, Analytics, Info, Technology } from 'grommet-icons';
 import Toolbar from './toolbar';
 import { DeviceControlProvider } from './context';
 import Controls from './views/control'
-import {DeviceControlGraph} from './views/graph'
+import { DeviceControlGraph } from './views/graph'
 import { DeviceDevices } from '../device-devices';
 import { DeviceSingle } from '../device-single';
 
-export interface DeviceControlProps extends RouteComponentProps<{id: string}>{
-    
+export interface DeviceControlProps extends RouteComponentProps<{ id: string }> {
+
 }
 
-export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
+export const DeviceControl: React.FC<DeviceControlProps> = (props) => {
 
     const client = useApolloClient();
 
-    
+
 
     const toolbar_menu = [
-        {id: 'info', icon: <Info />},
-        {id: 'controls', icon: <Services />},
-        {id: 'graphs', icon: <Analytics />},
-        {id: 'devices', icon: <Technology />}
+        { id: 'info', icon: <Info /> },
+        { id: 'controls', icon: <Services /> },
+        { id: 'graphs', icon: <Analytics /> },
+        { id: 'devices', icon: <Technology /> }
     ]
 
     const view = toolbar_menu.find((a) => {
@@ -44,7 +44,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }) != null;
     })
 
-    const { data : deviceValueData } = useQuery(gql`
+    const { data: deviceValueData } = useQuery(gql`
     query DeviceValues( $idStr: String) {
         commandDeviceValue(device: $idStr){
             device
@@ -65,6 +65,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 name
                 operatingMode
 
+                online
                 calibrations {
                     device {
                         id
@@ -286,14 +287,14 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }
     })
 
-    const [ performAction, performInfo ] = useMutation((mutation, args: {
+    const [performAction, performInfo] = useMutation((mutation, args: {
         deviceId: string,
         deviceName: string,
         action: string
     }) => {
 
         // console.log({args})
-        const item = mutation.performDeviceAction({deviceId: args.deviceId, deviceName: args.deviceName, action: args.action})
+        const item = mutation.performDeviceAction({ deviceId: args.deviceId, deviceName: args.deviceName, action: args.action })
 
         return {
             item: {
@@ -302,12 +303,12 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         }
     })
 
-    const [ changeDeviceMode, changeDeviceModeInfo ] = useMutation((mutation, args: {
+    const [changeDeviceMode, changeDeviceModeInfo] = useMutation((mutation, args: {
         deviceId: string,
         deviceName: string,
         mode: string
     }) => {
-        const item = mutation.changeDeviceMode({deviceId: args.deviceId, deviceName: args.deviceName, mode: args.mode})
+        const item = mutation.changeDeviceMode({ deviceId: args.deviceId, deviceName: args.deviceName, mode: args.mode })
 
         return {
             item: {
@@ -317,7 +318,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     })
 
 
-    const [ changeDeviceValue, changeDeviceInfo ] = useMutation((mutation, args: {
+    const [changeDeviceValue, changeDeviceInfo] = useMutation((mutation, args: {
         deviceName: string,
         key: string,
         value: any
@@ -346,12 +347,12 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     const values = deviceValueData?.commandDeviceValue || []
 
     const refetch = () => {
-        client.refetchQueries({include: ['Q']})
+        client.refetchQueries({ include: ['Q'] })
     }
 
     useEffect(() => {
         const timer = setInterval(() => {
-            client.refetchQueries({include: ['DeviceValues']})
+            client.refetchQueries({ include: ['DeviceValues'] })
         }, 1 * 1000)
 
         return () => {
@@ -368,12 +369,12 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     const groups = program?.hmi?.[0]?.groups || [];
 
 
-    const getDeviceValue = (name?: string, units?: {key: string, units?: string}[]) => {
+    const getDeviceValue = (name?: string, units?: { key: string, units?: string }[]) => {
         //Find map between P&ID tag and bus-port
 
-        if(!name) return;
+        if (!name) return;
 
-      
+
         let v = values.filter((a) => a?.deviceId == name);
         let state = program?.devices?.find((a) => a.name == name).type?.state;
 
@@ -382,9 +383,9 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
             let stateItem = state.find((a) => a.key == curr.valueKey);
             let value = curr.value;
 
-            if(!stateItem) return prev;
+            if (!stateItem) return prev;
 
-            if(stateItem?.type == "IntegerT" || stateItem?.type == "UIntegerT"){
+            if (stateItem?.type == "IntegerT" || stateItem?.type == "UIntegerT") {
                 value = parseFloat(value).toFixed(2)
             }
             return {
@@ -392,14 +393,14 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 [curr.valueKey]: value //`${value} ${unit && unit.units ? unit.units : ''}`
             }
         }, {})
-    
+
     }
     const hmiNodes = useMemo(() => {
         return hmi.concat(groups.map((x) => x.nodes).reduce((prev, curr) => prev.concat(curr), [])).filter((a) => a?.devicePlaceholder?.name).map((node) => {
 
             let device = node?.devicePlaceholder?.name;
             let value = getDeviceValue(device, node?.devicePlaceholder?.type?.state);
-            let conf =  data?.commandDevices?.[0]?.calibrations?.filter((a) => a.device?.id == node.devicePlaceholder.id)
+            let conf = data?.commandDevices?.[0]?.calibrations?.filter((a) => a.device?.id == node.devicePlaceholder.id)
 
             // console.log("CONF", conf)
             return {
@@ -410,9 +411,9 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         })
     }, [data, deviceValueData])
 
-   
 
-    const [ changeRootMode, changeModeInfo ] = useMutation((mutation, args: {deviceId: string, mode: string}) => {
+
+    const [changeRootMode, changeModeInfo] = useMutation((mutation, args: { deviceId: string, mode: string }) => {
         const item = mutation.changeMode({
             deviceId: args.deviceId,
             mode: args.mode
@@ -426,7 +427,7 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
     })
 
     const toggleOperatingMode = () => {
-        if(rootDevice?.operatingMode == "AUTO"){
+        if (rootDevice?.operatingMode == "AUTO") {
             changeRootMode({
                 args: {
                     deviceId: props.match.params.id,
@@ -435,8 +436,8 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
             }).then(() => {
                 refetch()
             })
-         //   setRootDevice({...rootDevice, operatingMode: "Manual"})
-        }else{
+            //   setRootDevice({...rootDevice, operatingMode: "Manual"})
+        } else {
             changeRootMode({
                 args: {
                     deviceId: props.match.params.id,
@@ -453,57 +454,64 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
         <DeviceControlProvider value={{
             actions,
             controlId: props.match.params.id,
-            program, 
-            values, 
-            hmi, 
-            hmiNodes, 
-            groups, 
-            changeDeviceMode, 
+            program,
+            values,
+            hmi,
+            hmiNodes,
+            groups,
+            changeDeviceMode,
             changeDeviceValue,
             performAction
         }}>
-        <Box
-            round="xsmall"
-            overflow="hidden"
-            flex>
-            <Box 
-                pad="xsmall"
-                align="center"
-                justify="between"
-                background="accent-2"
-                direction="row">
-                <Text>{rootDevice?.name} - {program?.name}</Text>
-                
-                <Box direction="row">
-                    {view?.id == 'controls' && (<Button
-                        plain
-                        hoverIndicator
-                        style={{padding: 6, borderRadius: 3}}
-                        icon={<Cycle size="small" />} />)}
+            <Box
+                round="xsmall"
+                overflow="hidden"
+                flex>
+                <Box
+                    pad="xsmall"
+                    align="center"
+                    justify="between"
+                    background="accent-2"
+                    direction="row">
+                    <Box direction="row" align="center">
+                        <Box
+                            margin={{ right: 'small' }}
+                            width="7px"
+                            height="7px"
+                            round="small"
+                            background={rootDevice?.online ? 'green' : 'red'} />
+                        <Text>{rootDevice?.name} - {program?.name}</Text>
+                    </Box>
+                    <Box direction="row">
+                        {view?.id == 'controls' && (<Button
+                            plain
+                            hoverIndicator
+                            style={{ padding: 6, borderRadius: 3 }}
+                            icon={<Cycle size="small" />} />)}
+                    </Box>
                 </Box>
-            </Box>
-            <Box                
-                flex
-                direction="row">
-                <Toolbar 
-                    active={toolbar_menu.find((a) => matchPath(window.location.pathname, {
-                        path: `/dashboard/command${props.match.url}/${a?.id}`,
-                        exact: false
-                    }) != null)?.id}
-                    onItemClick={(item) => {
-                        props.history.push(`${props.match.url}/${item.id}`)
-                    }}
-                    items={toolbar_menu} />
-                <Box flex>
-                    <Switch>
-                        <Route path={[`${props.match.url}`, `${props.match.url}/info`]} exact component={DeviceSingle} />
-                        <Route path={`${props.match.url}/controls`} component={Controls} />
-                        <Route path={`${props.match.url}/graphs`} component={DeviceControlGraph} />
-                        <Route path={`${props.match.url}/devices`} component={DeviceDevices} />
-                    </Switch>
-                </Box>
-          
-            {/* <InfiniteCanvas 
+                <Box
+                    flex
+                    direction="row">
+                    <Toolbar
+                        active={toolbar_menu.find((a) => matchPath(window.location.pathname, {
+                            path: `/dashboard/command${props.match.url}/${a?.id}`,
+                            exact: false
+                        }) != null)?.id}
+                        onItemClick={(item) => {
+                            props.history.push(`${props.match.url}/${item.id}`)
+                        }}
+                        items={toolbar_menu} />
+                    <Box flex>
+                        <Switch>
+                            <Route path={[`${props.match.url}`, `${props.match.url}/info`]} exact component={DeviceSingle} />
+                            <Route path={`${props.match.url}/controls`} component={Controls} />
+                            <Route path={`${props.match.url}/graphs`} component={DeviceControlGraph} />
+                            <Route path={`${props.match.url}/devices`} component={DeviceDevices} />
+                        </Switch>
+                    </Box>
+
+                    {/* <InfiniteCanvas 
                 editable={false}
                 factories={[
                     new IconNodeFactory(),
@@ -515,14 +523,14 @@ export const DeviceControl : React.FC<DeviceControlProps> = (props) => {
                 nodes={nodes}
                 paths={[]}
                    /> */}
-            {/* <Box 
+                    {/* <Box 
                 pad="xsmall"
                 width="small"
                 background="neutral-1">
                 {renderActions()}
             </Box> */}
+                </Box>
             </Box>
-        </Box>
         </DeviceControlProvider>
     )
 }
