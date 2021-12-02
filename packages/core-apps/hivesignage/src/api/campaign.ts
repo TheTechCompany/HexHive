@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let apiUrl = process.env.NODE_ENV == 'production' ? (`https://greenco.co.nz`) : "http://localhost:9009"
+let apiUrl = process.env.NODE_ENV == 'production' ? (`https://api.greenco.co.nz`) : "http://localhost:9009"
 
 export const uploadCampaignAssets = async (campaignId: string, files: Array<File>, loading?: (percent: number) => void) => {
 	let fd = new FormData();
