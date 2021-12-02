@@ -1,5 +1,5 @@
 import { Box } from 'grommet';
-import { Add, Shop, Spa, Robot, Document, Folder} from 'grommet-icons'
+import { Add, Shop, Spa, Robot, Document, Folder, Monitor } from 'grommet-icons'
 import React, { useEffect, useState } from 'react';
 import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
@@ -126,6 +126,13 @@ export const BaseHexHive : React.FC<HexHiveProps> = (props) => {
                 title: "Settings",
                 left: 8,
                 path: '/settings'
+            },
+            {
+                id: '3_5JcF5u_XV4LDQErU6r9',
+                icon: <Monitor />,
+                top: 3,
+                left: 9,
+                path: '/signage'
             }
         ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
     }
