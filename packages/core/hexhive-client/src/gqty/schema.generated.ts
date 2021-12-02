@@ -32,6 +32,436 @@ export enum SortDirection {
   DESC = "DESC",
 }
 
+export interface CampaignAnalyticCampaignConnectFieldInput {
+  where?: Maybe<CampaignConnectWhere>;
+  connect?: Maybe<CampaignConnectInput>;
+}
+
+export interface CampaignAnalyticCampaignConnectionSort {
+  node?: Maybe<CampaignSort>;
+}
+
+export interface CampaignAnalyticCampaignConnectionWhere {
+  AND?: Maybe<Array<CampaignAnalyticCampaignConnectionWhere>>;
+  OR?: Maybe<Array<CampaignAnalyticCampaignConnectionWhere>>;
+  node?: Maybe<CampaignWhere>;
+  node_NOT?: Maybe<CampaignWhere>;
+}
+
+export interface CampaignAnalyticCampaignCreateFieldInput {
+  node: CampaignCreateInput;
+}
+
+export interface CampaignAnalyticCampaignDeleteFieldInput {
+  where?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
+  delete?: Maybe<CampaignDeleteInput>;
+}
+
+export interface CampaignAnalyticCampaignDisconnectFieldInput {
+  where?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
+  disconnect?: Maybe<CampaignDisconnectInput>;
+}
+
+export interface CampaignAnalyticCampaignFieldInput {
+  create?: Maybe<CampaignAnalyticCampaignCreateFieldInput>;
+  connect?: Maybe<CampaignAnalyticCampaignConnectFieldInput>;
+}
+
+export interface CampaignAnalyticCampaignUpdateConnectionInput {
+  node?: Maybe<CampaignUpdateInput>;
+}
+
+export interface CampaignAnalyticCampaignUpdateFieldInput {
+  where?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
+  update?: Maybe<CampaignAnalyticCampaignUpdateConnectionInput>;
+  connect?: Maybe<CampaignAnalyticCampaignConnectFieldInput>;
+  disconnect?: Maybe<CampaignAnalyticCampaignDisconnectFieldInput>;
+  create?: Maybe<CampaignAnalyticCampaignCreateFieldInput>;
+  delete?: Maybe<CampaignAnalyticCampaignDeleteFieldInput>;
+}
+
+export interface CampaignAnalyticConnectInput {
+  campaign?: Maybe<CampaignAnalyticCampaignConnectFieldInput>;
+}
+
+export interface CampaignAnalyticConnectWhere {
+  node: CampaignAnalyticWhere;
+}
+
+export interface CampaignAnalyticCreateInput {
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  ts?: Maybe<Scalars["DateTime"]>;
+  campaign?: Maybe<CampaignAnalyticCampaignFieldInput>;
+}
+
+export interface CampaignAnalyticDeleteInput {
+  campaign?: Maybe<CampaignAnalyticCampaignDeleteFieldInput>;
+}
+
+export interface CampaignAnalyticDisconnectInput {
+  campaign?: Maybe<CampaignAnalyticCampaignDisconnectFieldInput>;
+}
+
+export interface CampaignAnalyticOptions {
+  /** Specify one or more CampaignAnalyticSort objects to sort CampaignAnalytics by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CampaignAnalyticSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CampaignAnalyticRelationInput {
+  campaign?: Maybe<CampaignAnalyticCampaignCreateFieldInput>;
+}
+
+export interface CampaignAnalyticsConnectFieldInput {
+  where?: Maybe<CampaignAnalyticConnectWhere>;
+  connect?: Maybe<Array<CampaignAnalyticConnectInput>>;
+}
+
+export interface CampaignAnalyticsConnectionSort {
+  node?: Maybe<CampaignAnalyticSort>;
+}
+
+export interface CampaignAnalyticsConnectionWhere {
+  AND?: Maybe<Array<CampaignAnalyticsConnectionWhere>>;
+  OR?: Maybe<Array<CampaignAnalyticsConnectionWhere>>;
+  node?: Maybe<CampaignAnalyticWhere>;
+  node_NOT?: Maybe<CampaignAnalyticWhere>;
+}
+
+export interface CampaignAnalyticsCreateFieldInput {
+  node: CampaignAnalyticCreateInput;
+}
+
+export interface CampaignAnalyticsDeleteFieldInput {
+  where?: Maybe<CampaignAnalyticsConnectionWhere>;
+  delete?: Maybe<CampaignAnalyticDeleteInput>;
+}
+
+export interface CampaignAnalyticsDisconnectFieldInput {
+  where?: Maybe<CampaignAnalyticsConnectionWhere>;
+  disconnect?: Maybe<CampaignAnalyticDisconnectInput>;
+}
+
+export interface CampaignAnalyticsFieldInput {
+  create?: Maybe<Array<CampaignAnalyticsCreateFieldInput>>;
+  connect?: Maybe<Array<CampaignAnalyticsConnectFieldInput>>;
+}
+
+/** Fields to sort CampaignAnalytics by. The order in which sorts are applied is not guaranteed when specifying many fields in one CampaignAnalyticSort object. */
+export interface CampaignAnalyticSort {
+  id?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+  value?: Maybe<SortDirection>;
+  ts?: Maybe<SortDirection>;
+}
+
+export interface CampaignAnalyticsUpdateConnectionInput {
+  node?: Maybe<CampaignAnalyticUpdateInput>;
+}
+
+export interface CampaignAnalyticsUpdateFieldInput {
+  where?: Maybe<CampaignAnalyticsConnectionWhere>;
+  update?: Maybe<CampaignAnalyticsUpdateConnectionInput>;
+  connect?: Maybe<Array<CampaignAnalyticsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CampaignAnalyticsDisconnectFieldInput>>;
+  create?: Maybe<Array<CampaignAnalyticsCreateFieldInput>>;
+  delete?: Maybe<Array<CampaignAnalyticsDeleteFieldInput>>;
+}
+
+export interface CampaignAnalyticUpdateInput {
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  ts?: Maybe<Scalars["DateTime"]>;
+  campaign?: Maybe<CampaignAnalyticCampaignUpdateFieldInput>;
+}
+
+export interface CampaignAnalyticWhere {
+  OR?: Maybe<Array<CampaignAnalyticWhere>>;
+  AND?: Maybe<Array<CampaignAnalyticWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  value_NOT?: Maybe<Scalars["String"]>;
+  value_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_CONTAINS?: Maybe<Scalars["String"]>;
+  value_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  value_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  ts?: Maybe<Scalars["DateTime"]>;
+  ts_NOT?: Maybe<Scalars["DateTime"]>;
+  ts_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  ts_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  ts_LT?: Maybe<Scalars["DateTime"]>;
+  ts_LTE?: Maybe<Scalars["DateTime"]>;
+  ts_GT?: Maybe<Scalars["DateTime"]>;
+  ts_GTE?: Maybe<Scalars["DateTime"]>;
+  campaign?: Maybe<CampaignWhere>;
+  campaign_NOT?: Maybe<CampaignWhere>;
+  campaignConnection?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
+  campaignConnection_NOT?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
+}
+
+export interface CampaignAssetConnectWhere {
+  node: CampaignAssetWhere;
+}
+
+export interface CampaignAssetCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  cid?: Maybe<Scalars["String"]>;
+}
+
+export interface CampaignAssetOptions {
+  /** Specify one or more CampaignAssetSort objects to sort CampaignAssets by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CampaignAssetSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CampaignAssetsConnectFieldInput {
+  where?: Maybe<CampaignAssetConnectWhere>;
+}
+
+export interface CampaignAssetsConnectionSort {
+  node?: Maybe<CampaignAssetSort>;
+}
+
+export interface CampaignAssetsConnectionWhere {
+  AND?: Maybe<Array<CampaignAssetsConnectionWhere>>;
+  OR?: Maybe<Array<CampaignAssetsConnectionWhere>>;
+  node?: Maybe<CampaignAssetWhere>;
+  node_NOT?: Maybe<CampaignAssetWhere>;
+}
+
+export interface CampaignAssetsCreateFieldInput {
+  node: CampaignAssetCreateInput;
+}
+
+export interface CampaignAssetsDeleteFieldInput {
+  where?: Maybe<CampaignAssetsConnectionWhere>;
+}
+
+export interface CampaignAssetsDisconnectFieldInput {
+  where?: Maybe<CampaignAssetsConnectionWhere>;
+}
+
+export interface CampaignAssetsFieldInput {
+  create?: Maybe<Array<CampaignAssetsCreateFieldInput>>;
+  connect?: Maybe<Array<CampaignAssetsConnectFieldInput>>;
+}
+
+/** Fields to sort CampaignAssets by. The order in which sorts are applied is not guaranteed when specifying many fields in one CampaignAssetSort object. */
+export interface CampaignAssetSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+  cid?: Maybe<SortDirection>;
+}
+
+export interface CampaignAssetsUpdateConnectionInput {
+  node?: Maybe<CampaignAssetUpdateInput>;
+}
+
+export interface CampaignAssetsUpdateFieldInput {
+  where?: Maybe<CampaignAssetsConnectionWhere>;
+  update?: Maybe<CampaignAssetsUpdateConnectionInput>;
+  connect?: Maybe<Array<CampaignAssetsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CampaignAssetsDisconnectFieldInput>>;
+  create?: Maybe<Array<CampaignAssetsCreateFieldInput>>;
+  delete?: Maybe<Array<CampaignAssetsDeleteFieldInput>>;
+}
+
+export interface CampaignAssetUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  cid?: Maybe<Scalars["String"]>;
+}
+
+export interface CampaignAssetWhere {
+  OR?: Maybe<Array<CampaignAssetWhere>>;
+  AND?: Maybe<Array<CampaignAssetWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  cid?: Maybe<Scalars["String"]>;
+  cid_NOT?: Maybe<Scalars["String"]>;
+  cid_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  cid_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  cid_CONTAINS?: Maybe<Scalars["String"]>;
+  cid_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  cid_STARTS_WITH?: Maybe<Scalars["String"]>;
+  cid_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  cid_ENDS_WITH?: Maybe<Scalars["String"]>;
+  cid_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+}
+
+export interface CampaignConnectInput {
+  analytics?: Maybe<Array<CampaignAnalyticsConnectFieldInput>>;
+  assets?: Maybe<Array<CampaignAssetsConnectFieldInput>>;
+}
+
+export interface CampaignConnectWhere {
+  node: CampaignWhere;
+}
+
+export interface CampaignCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  customer?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  analytics?: Maybe<CampaignAnalyticsFieldInput>;
+  assets?: Maybe<CampaignAssetsFieldInput>;
+}
+
+export interface CampaignDeleteInput {
+  analytics?: Maybe<Array<CampaignAnalyticsDeleteFieldInput>>;
+  assets?: Maybe<Array<CampaignAssetsDeleteFieldInput>>;
+}
+
+export interface CampaignDisconnectInput {
+  analytics?: Maybe<Array<CampaignAnalyticsDisconnectFieldInput>>;
+  assets?: Maybe<Array<CampaignAssetsDisconnectFieldInput>>;
+}
+
+export interface CampaignOptions {
+  /** Specify one or more CampaignSort objects to sort Campaigns by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CampaignSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CampaignRelationInput {
+  analytics?: Maybe<Array<CampaignAnalyticsCreateFieldInput>>;
+  assets?: Maybe<Array<CampaignAssetsCreateFieldInput>>;
+}
+
+/** Fields to sort Campaigns by. The order in which sorts are applied is not guaranteed when specifying many fields in one CampaignSort object. */
+export interface CampaignSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  customer?: Maybe<SortDirection>;
+  startDate?: Maybe<SortDirection>;
+  endDate?: Maybe<SortDirection>;
+}
+
+export interface CampaignUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  customer?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  analytics?: Maybe<Array<CampaignAnalyticsUpdateFieldInput>>;
+  assets?: Maybe<Array<CampaignAssetsUpdateFieldInput>>;
+}
+
+export interface CampaignWhere {
+  OR?: Maybe<Array<CampaignWhere>>;
+  AND?: Maybe<Array<CampaignWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  customer?: Maybe<Scalars["String"]>;
+  customer_NOT?: Maybe<Scalars["String"]>;
+  customer_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  customer_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  customer_CONTAINS?: Maybe<Scalars["String"]>;
+  customer_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  customer_STARTS_WITH?: Maybe<Scalars["String"]>;
+  customer_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  customer_ENDS_WITH?: Maybe<Scalars["String"]>;
+  customer_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  startDate_NOT?: Maybe<Scalars["DateTime"]>;
+  startDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startDate_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  endDate_NOT?: Maybe<Scalars["DateTime"]>;
+  endDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  endDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  endDate_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_GTE?: Maybe<Scalars["DateTime"]>;
+  analytics?: Maybe<CampaignAnalyticWhere>;
+  analytics_NOT?: Maybe<CampaignAnalyticWhere>;
+  assets?: Maybe<CampaignAssetWhere>;
+  assets_NOT?: Maybe<CampaignAssetWhere>;
+  analyticsConnection?: Maybe<CampaignAnalyticsConnectionWhere>;
+  analyticsConnection_NOT?: Maybe<CampaignAnalyticsConnectionWhere>;
+  assetsConnection?: Maybe<CampaignAssetsConnectionWhere>;
+  assetsConnection_NOT?: Maybe<CampaignAssetsConnectionWhere>;
+}
+
 export interface CartesianPointInput {
   x: Scalars["Float"];
   y: Scalars["Float"];
@@ -8382,6 +8812,426 @@ export interface CommandProgramWhere {
   usedOnConnection_NOT?: Maybe<CommandProgramUsedOnConnectionWhere>;
 }
 
+export interface DisplayConnectInput {
+  location?: Maybe<DisplayLocationConnectFieldInput>;
+  screens?: Maybe<Array<DisplayScreensConnectFieldInput>>;
+}
+
+export interface DisplayConnectWhere {
+  node: DisplayWhere;
+}
+
+export interface DisplayCreateInput {
+  label?: Maybe<Scalars["String"]>;
+  location?: Maybe<DisplayLocationFieldInput>;
+  screens?: Maybe<DisplayScreensFieldInput>;
+}
+
+export interface DisplayDeleteInput {
+  location?: Maybe<DisplayLocationDeleteFieldInput>;
+  screens?: Maybe<Array<DisplayScreensDeleteFieldInput>>;
+}
+
+export interface DisplayDisconnectInput {
+  location?: Maybe<DisplayLocationDisconnectFieldInput>;
+  screens?: Maybe<Array<DisplayScreensDisconnectFieldInput>>;
+}
+
+export interface DisplayLocationConnectFieldInput {
+  where?: Maybe<DisplayLocationConnectWhere>;
+  connect?: Maybe<DisplayLocationConnectInput>;
+}
+
+export interface DisplayLocationConnectInput {
+  displays?: Maybe<Array<DisplayLocationDisplaysConnectFieldInput>>;
+}
+
+export interface DisplayLocationConnectionSort {
+  node?: Maybe<DisplayLocationSort>;
+}
+
+export interface DisplayLocationConnectionWhere {
+  AND?: Maybe<Array<DisplayLocationConnectionWhere>>;
+  OR?: Maybe<Array<DisplayLocationConnectionWhere>>;
+  node?: Maybe<DisplayLocationWhere>;
+  node_NOT?: Maybe<DisplayLocationWhere>;
+}
+
+export interface DisplayLocationConnectWhere {
+  node: DisplayLocationWhere;
+}
+
+export interface DisplayLocationCreateFieldInput {
+  node: DisplayLocationCreateInput;
+}
+
+export interface DisplayLocationCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  lat?: Maybe<Scalars["Float"]>;
+  lng?: Maybe<Scalars["Float"]>;
+  elevation?: Maybe<Scalars["Float"]>;
+  displays?: Maybe<DisplayLocationDisplaysFieldInput>;
+}
+
+export interface DisplayLocationDeleteFieldInput {
+  where?: Maybe<DisplayLocationConnectionWhere>;
+  delete?: Maybe<DisplayLocationDeleteInput>;
+}
+
+export interface DisplayLocationDeleteInput {
+  displays?: Maybe<Array<DisplayLocationDisplaysDeleteFieldInput>>;
+}
+
+export interface DisplayLocationDisconnectFieldInput {
+  where?: Maybe<DisplayLocationConnectionWhere>;
+  disconnect?: Maybe<DisplayLocationDisconnectInput>;
+}
+
+export interface DisplayLocationDisconnectInput {
+  displays?: Maybe<Array<DisplayLocationDisplaysDisconnectFieldInput>>;
+}
+
+export interface DisplayLocationDisplaysConnectFieldInput {
+  where?: Maybe<DisplayConnectWhere>;
+  connect?: Maybe<Array<DisplayConnectInput>>;
+}
+
+export interface DisplayLocationDisplaysConnectionSort {
+  node?: Maybe<DisplaySort>;
+}
+
+export interface DisplayLocationDisplaysConnectionWhere {
+  AND?: Maybe<Array<DisplayLocationDisplaysConnectionWhere>>;
+  OR?: Maybe<Array<DisplayLocationDisplaysConnectionWhere>>;
+  node?: Maybe<DisplayWhere>;
+  node_NOT?: Maybe<DisplayWhere>;
+}
+
+export interface DisplayLocationDisplaysCreateFieldInput {
+  node: DisplayCreateInput;
+}
+
+export interface DisplayLocationDisplaysDeleteFieldInput {
+  where?: Maybe<DisplayLocationDisplaysConnectionWhere>;
+  delete?: Maybe<DisplayDeleteInput>;
+}
+
+export interface DisplayLocationDisplaysDisconnectFieldInput {
+  where?: Maybe<DisplayLocationDisplaysConnectionWhere>;
+  disconnect?: Maybe<DisplayDisconnectInput>;
+}
+
+export interface DisplayLocationDisplaysFieldInput {
+  create?: Maybe<Array<DisplayLocationDisplaysCreateFieldInput>>;
+  connect?: Maybe<Array<DisplayLocationDisplaysConnectFieldInput>>;
+}
+
+export interface DisplayLocationDisplaysUpdateConnectionInput {
+  node?: Maybe<DisplayUpdateInput>;
+}
+
+export interface DisplayLocationDisplaysUpdateFieldInput {
+  where?: Maybe<DisplayLocationDisplaysConnectionWhere>;
+  update?: Maybe<DisplayLocationDisplaysUpdateConnectionInput>;
+  connect?: Maybe<Array<DisplayLocationDisplaysConnectFieldInput>>;
+  disconnect?: Maybe<Array<DisplayLocationDisplaysDisconnectFieldInput>>;
+  create?: Maybe<Array<DisplayLocationDisplaysCreateFieldInput>>;
+  delete?: Maybe<Array<DisplayLocationDisplaysDeleteFieldInput>>;
+}
+
+export interface DisplayLocationFieldInput {
+  create?: Maybe<DisplayLocationCreateFieldInput>;
+  connect?: Maybe<DisplayLocationConnectFieldInput>;
+}
+
+export interface DisplayLocationOptions {
+  /** Specify one or more DisplayLocationSort objects to sort DisplayLocations by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<DisplayLocationSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface DisplayLocationRelationInput {
+  displays?: Maybe<Array<DisplayLocationDisplaysCreateFieldInput>>;
+}
+
+/** Fields to sort DisplayLocations by. The order in which sorts are applied is not guaranteed when specifying many fields in one DisplayLocationSort object. */
+export interface DisplayLocationSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  lat?: Maybe<SortDirection>;
+  lng?: Maybe<SortDirection>;
+  elevation?: Maybe<SortDirection>;
+}
+
+export interface DisplayLocationUpdateConnectionInput {
+  node?: Maybe<DisplayLocationUpdateInput>;
+}
+
+export interface DisplayLocationUpdateFieldInput {
+  where?: Maybe<DisplayLocationConnectionWhere>;
+  update?: Maybe<DisplayLocationUpdateConnectionInput>;
+  connect?: Maybe<DisplayLocationConnectFieldInput>;
+  disconnect?: Maybe<DisplayLocationDisconnectFieldInput>;
+  create?: Maybe<DisplayLocationCreateFieldInput>;
+  delete?: Maybe<DisplayLocationDeleteFieldInput>;
+}
+
+export interface DisplayLocationUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  lat?: Maybe<Scalars["Float"]>;
+  lng?: Maybe<Scalars["Float"]>;
+  elevation?: Maybe<Scalars["Float"]>;
+  displays?: Maybe<Array<DisplayLocationDisplaysUpdateFieldInput>>;
+}
+
+export interface DisplayLocationWhere {
+  OR?: Maybe<Array<DisplayLocationWhere>>;
+  AND?: Maybe<Array<DisplayLocationWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  lat?: Maybe<Scalars["Float"]>;
+  lat_NOT?: Maybe<Scalars["Float"]>;
+  lat_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  lat_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  lat_LT?: Maybe<Scalars["Float"]>;
+  lat_LTE?: Maybe<Scalars["Float"]>;
+  lat_GT?: Maybe<Scalars["Float"]>;
+  lat_GTE?: Maybe<Scalars["Float"]>;
+  lng?: Maybe<Scalars["Float"]>;
+  lng_NOT?: Maybe<Scalars["Float"]>;
+  lng_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  lng_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  lng_LT?: Maybe<Scalars["Float"]>;
+  lng_LTE?: Maybe<Scalars["Float"]>;
+  lng_GT?: Maybe<Scalars["Float"]>;
+  lng_GTE?: Maybe<Scalars["Float"]>;
+  elevation?: Maybe<Scalars["Float"]>;
+  elevation_NOT?: Maybe<Scalars["Float"]>;
+  elevation_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  elevation_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  elevation_LT?: Maybe<Scalars["Float"]>;
+  elevation_LTE?: Maybe<Scalars["Float"]>;
+  elevation_GT?: Maybe<Scalars["Float"]>;
+  elevation_GTE?: Maybe<Scalars["Float"]>;
+  displays?: Maybe<DisplayWhere>;
+  displays_NOT?: Maybe<DisplayWhere>;
+  displaysConnection?: Maybe<DisplayLocationDisplaysConnectionWhere>;
+  displaysConnection_NOT?: Maybe<DisplayLocationDisplaysConnectionWhere>;
+}
+
+export interface DisplayOptions {
+  /** Specify one or more DisplaySort objects to sort Displays by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<DisplaySort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface DisplayRelationInput {
+  location?: Maybe<DisplayLocationCreateFieldInput>;
+  screens?: Maybe<Array<DisplayScreensCreateFieldInput>>;
+}
+
+export interface DisplayScreenConnectWhere {
+  node: DisplayScreenWhere;
+}
+
+export interface DisplayScreenCreateInput {
+  width?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars["Float"]>;
+  resWidth?: Maybe<Scalars["Float"]>;
+  resHeight?: Maybe<Scalars["Float"]>;
+  orientation?: Maybe<Scalars["Float"]>;
+}
+
+export interface DisplayScreenOptions {
+  /** Specify one or more DisplayScreenSort objects to sort DisplayScreens by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<DisplayScreenSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface DisplayScreensConnectFieldInput {
+  where?: Maybe<DisplayScreenConnectWhere>;
+}
+
+export interface DisplayScreensConnectionSort {
+  node?: Maybe<DisplayScreenSort>;
+}
+
+export interface DisplayScreensConnectionWhere {
+  AND?: Maybe<Array<DisplayScreensConnectionWhere>>;
+  OR?: Maybe<Array<DisplayScreensConnectionWhere>>;
+  node?: Maybe<DisplayScreenWhere>;
+  node_NOT?: Maybe<DisplayScreenWhere>;
+}
+
+export interface DisplayScreensCreateFieldInput {
+  node: DisplayScreenCreateInput;
+}
+
+export interface DisplayScreensDeleteFieldInput {
+  where?: Maybe<DisplayScreensConnectionWhere>;
+}
+
+export interface DisplayScreensDisconnectFieldInput {
+  where?: Maybe<DisplayScreensConnectionWhere>;
+}
+
+export interface DisplayScreensFieldInput {
+  create?: Maybe<Array<DisplayScreensCreateFieldInput>>;
+  connect?: Maybe<Array<DisplayScreensConnectFieldInput>>;
+}
+
+/** Fields to sort DisplayScreens by. The order in which sorts are applied is not guaranteed when specifying many fields in one DisplayScreenSort object. */
+export interface DisplayScreenSort {
+  id?: Maybe<SortDirection>;
+  width?: Maybe<SortDirection>;
+  height?: Maybe<SortDirection>;
+  resWidth?: Maybe<SortDirection>;
+  resHeight?: Maybe<SortDirection>;
+  orientation?: Maybe<SortDirection>;
+}
+
+export interface DisplayScreensUpdateConnectionInput {
+  node?: Maybe<DisplayScreenUpdateInput>;
+}
+
+export interface DisplayScreensUpdateFieldInput {
+  where?: Maybe<DisplayScreensConnectionWhere>;
+  update?: Maybe<DisplayScreensUpdateConnectionInput>;
+  connect?: Maybe<Array<DisplayScreensConnectFieldInput>>;
+  disconnect?: Maybe<Array<DisplayScreensDisconnectFieldInput>>;
+  create?: Maybe<Array<DisplayScreensCreateFieldInput>>;
+  delete?: Maybe<Array<DisplayScreensDeleteFieldInput>>;
+}
+
+export interface DisplayScreenUpdateInput {
+  width?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars["Float"]>;
+  resWidth?: Maybe<Scalars["Float"]>;
+  resHeight?: Maybe<Scalars["Float"]>;
+  orientation?: Maybe<Scalars["Float"]>;
+}
+
+export interface DisplayScreenWhere {
+  OR?: Maybe<Array<DisplayScreenWhere>>;
+  AND?: Maybe<Array<DisplayScreenWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  width?: Maybe<Scalars["Float"]>;
+  width_NOT?: Maybe<Scalars["Float"]>;
+  width_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  width_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  width_LT?: Maybe<Scalars["Float"]>;
+  width_LTE?: Maybe<Scalars["Float"]>;
+  width_GT?: Maybe<Scalars["Float"]>;
+  width_GTE?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars["Float"]>;
+  height_NOT?: Maybe<Scalars["Float"]>;
+  height_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  height_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  height_LT?: Maybe<Scalars["Float"]>;
+  height_LTE?: Maybe<Scalars["Float"]>;
+  height_GT?: Maybe<Scalars["Float"]>;
+  height_GTE?: Maybe<Scalars["Float"]>;
+  resWidth?: Maybe<Scalars["Float"]>;
+  resWidth_NOT?: Maybe<Scalars["Float"]>;
+  resWidth_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  resWidth_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  resWidth_LT?: Maybe<Scalars["Float"]>;
+  resWidth_LTE?: Maybe<Scalars["Float"]>;
+  resWidth_GT?: Maybe<Scalars["Float"]>;
+  resWidth_GTE?: Maybe<Scalars["Float"]>;
+  resHeight?: Maybe<Scalars["Float"]>;
+  resHeight_NOT?: Maybe<Scalars["Float"]>;
+  resHeight_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  resHeight_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  resHeight_LT?: Maybe<Scalars["Float"]>;
+  resHeight_LTE?: Maybe<Scalars["Float"]>;
+  resHeight_GT?: Maybe<Scalars["Float"]>;
+  resHeight_GTE?: Maybe<Scalars["Float"]>;
+  orientation?: Maybe<Scalars["Float"]>;
+  orientation_NOT?: Maybe<Scalars["Float"]>;
+  orientation_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  orientation_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  orientation_LT?: Maybe<Scalars["Float"]>;
+  orientation_LTE?: Maybe<Scalars["Float"]>;
+  orientation_GT?: Maybe<Scalars["Float"]>;
+  orientation_GTE?: Maybe<Scalars["Float"]>;
+}
+
+/** Fields to sort Displays by. The order in which sorts are applied is not guaranteed when specifying many fields in one DisplaySort object. */
+export interface DisplaySort {
+  id?: Maybe<SortDirection>;
+  label?: Maybe<SortDirection>;
+}
+
+export interface DisplayUpdateInput {
+  label?: Maybe<Scalars["String"]>;
+  location?: Maybe<DisplayLocationUpdateFieldInput>;
+  screens?: Maybe<Array<DisplayScreensUpdateFieldInput>>;
+}
+
+export interface DisplayWhere {
+  OR?: Maybe<Array<DisplayWhere>>;
+  AND?: Maybe<Array<DisplayWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  label?: Maybe<Scalars["String"]>;
+  label_NOT?: Maybe<Scalars["String"]>;
+  label_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  label_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  label_CONTAINS?: Maybe<Scalars["String"]>;
+  label_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  label_STARTS_WITH?: Maybe<Scalars["String"]>;
+  label_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  label_ENDS_WITH?: Maybe<Scalars["String"]>;
+  label_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  location?: Maybe<DisplayLocationWhere>;
+  location_NOT?: Maybe<DisplayLocationWhere>;
+  screens?: Maybe<DisplayScreenWhere>;
+  screens_NOT?: Maybe<DisplayScreenWhere>;
+  locationConnection?: Maybe<DisplayLocationConnectionWhere>;
+  locationConnection_NOT?: Maybe<DisplayLocationConnectionWhere>;
+  screensConnection?: Maybe<DisplayScreensConnectionWhere>;
+  screensConnection_NOT?: Maybe<DisplayScreensConnectionWhere>;
+}
+
 export interface EquipmentConnectInput {
   organisation?: Maybe<EquipmentOrganisationConnectFieldInput>;
 }
@@ -15740,6 +16590,54 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "ScheduleItemWhere" },
     },
+    displays: {
+      __type: "[Display!]!",
+      __args: { where: "DisplayWhere", options: "DisplayOptions" },
+    },
+    displaysCount: { __type: "Int!", __args: { where: "DisplayWhere" } },
+    displayScreens: {
+      __type: "[DisplayScreen!]!",
+      __args: { where: "DisplayScreenWhere", options: "DisplayScreenOptions" },
+    },
+    displayScreensCount: {
+      __type: "Int!",
+      __args: { where: "DisplayScreenWhere" },
+    },
+    displayLocations: {
+      __type: "[DisplayLocation!]!",
+      __args: {
+        where: "DisplayLocationWhere",
+        options: "DisplayLocationOptions",
+      },
+    },
+    displayLocationsCount: {
+      __type: "Int!",
+      __args: { where: "DisplayLocationWhere" },
+    },
+    campaigns: {
+      __type: "[Campaign!]!",
+      __args: { where: "CampaignWhere", options: "CampaignOptions" },
+    },
+    campaignsCount: { __type: "Int!", __args: { where: "CampaignWhere" } },
+    campaignAssets: {
+      __type: "[CampaignAsset!]!",
+      __args: { where: "CampaignAssetWhere", options: "CampaignAssetOptions" },
+    },
+    campaignAssetsCount: {
+      __type: "Int!",
+      __args: { where: "CampaignAssetWhere" },
+    },
+    campaignAnalytics: {
+      __type: "[CampaignAnalytic!]!",
+      __args: {
+        where: "CampaignAnalyticWhere",
+        options: "CampaignAnalyticOptions",
+      },
+    },
+    campaignAnalyticsCount: {
+      __type: "Int!",
+      __args: { where: "CampaignAnalyticWhere" },
+    },
     commandKeyValues: {
       __type: "[CommandKeyValue!]!",
       __args: {
@@ -16816,6 +17714,118 @@ export const generatedSchema = {
         delete: "ScheduleItemDeleteInput",
       },
     },
+    createDisplays: {
+      __type: "CreateDisplaysMutationResponse!",
+      __args: { input: "[DisplayCreateInput!]!" },
+    },
+    deleteDisplays: {
+      __type: "DeleteInfo!",
+      __args: { where: "DisplayWhere", delete: "DisplayDeleteInput" },
+    },
+    updateDisplays: {
+      __type: "UpdateDisplaysMutationResponse!",
+      __args: {
+        where: "DisplayWhere",
+        update: "DisplayUpdateInput",
+        connect: "DisplayConnectInput",
+        disconnect: "DisplayDisconnectInput",
+        create: "DisplayRelationInput",
+        delete: "DisplayDeleteInput",
+      },
+    },
+    createDisplayScreens: {
+      __type: "CreateDisplayScreensMutationResponse!",
+      __args: { input: "[DisplayScreenCreateInput!]!" },
+    },
+    deleteDisplayScreens: {
+      __type: "DeleteInfo!",
+      __args: { where: "DisplayScreenWhere" },
+    },
+    updateDisplayScreens: {
+      __type: "UpdateDisplayScreensMutationResponse!",
+      __args: {
+        where: "DisplayScreenWhere",
+        update: "DisplayScreenUpdateInput",
+      },
+    },
+    createDisplayLocations: {
+      __type: "CreateDisplayLocationsMutationResponse!",
+      __args: { input: "[DisplayLocationCreateInput!]!" },
+    },
+    deleteDisplayLocations: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "DisplayLocationWhere",
+        delete: "DisplayLocationDeleteInput",
+      },
+    },
+    updateDisplayLocations: {
+      __type: "UpdateDisplayLocationsMutationResponse!",
+      __args: {
+        where: "DisplayLocationWhere",
+        update: "DisplayLocationUpdateInput",
+        connect: "DisplayLocationConnectInput",
+        disconnect: "DisplayLocationDisconnectInput",
+        create: "DisplayLocationRelationInput",
+        delete: "DisplayLocationDeleteInput",
+      },
+    },
+    createCampaigns: {
+      __type: "CreateCampaignsMutationResponse!",
+      __args: { input: "[CampaignCreateInput!]!" },
+    },
+    deleteCampaigns: {
+      __type: "DeleteInfo!",
+      __args: { where: "CampaignWhere", delete: "CampaignDeleteInput" },
+    },
+    updateCampaigns: {
+      __type: "UpdateCampaignsMutationResponse!",
+      __args: {
+        where: "CampaignWhere",
+        update: "CampaignUpdateInput",
+        connect: "CampaignConnectInput",
+        disconnect: "CampaignDisconnectInput",
+        create: "CampaignRelationInput",
+        delete: "CampaignDeleteInput",
+      },
+    },
+    createCampaignAssets: {
+      __type: "CreateCampaignAssetsMutationResponse!",
+      __args: { input: "[CampaignAssetCreateInput!]!" },
+    },
+    deleteCampaignAssets: {
+      __type: "DeleteInfo!",
+      __args: { where: "CampaignAssetWhere" },
+    },
+    updateCampaignAssets: {
+      __type: "UpdateCampaignAssetsMutationResponse!",
+      __args: {
+        where: "CampaignAssetWhere",
+        update: "CampaignAssetUpdateInput",
+      },
+    },
+    createCampaignAnalytics: {
+      __type: "CreateCampaignAnalyticsMutationResponse!",
+      __args: { input: "[CampaignAnalyticCreateInput!]!" },
+    },
+    deleteCampaignAnalytics: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CampaignAnalyticWhere",
+        delete: "CampaignAnalyticDeleteInput",
+      },
+    },
+    updateCampaignAnalytics: {
+      __type: "UpdateCampaignAnalyticsMutationResponse!",
+      __args: {
+        where: "CampaignAnalyticWhere",
+        update: "CampaignAnalyticUpdateInput",
+        connect: "CampaignAnalyticConnectInput",
+        disconnect: "CampaignAnalyticDisconnectInput",
+        create: "CampaignAnalyticRelationInput",
+        delete: "CampaignAnalyticDeleteInput",
+      },
+    },
     createCommandKeyValues: {
       __type: "CreateCommandKeyValuesMutationResponse!",
       __args: { input: "[CommandKeyValueCreateInput!]!" },
@@ -17734,6 +18744,103 @@ export const generatedSchema = {
     source: { __type: "String" },
     target: { __type: "String" },
     $on: { __type: "$HivePipelineFlowPath!" },
+  },
+  Campaign: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    customer: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    analytics: {
+      __type: "[CampaignAnalytic]",
+      __args: {
+        where: "CampaignAnalyticWhere",
+        options: "CampaignAnalyticOptions",
+      },
+    },
+    assets: {
+      __type: "[CampaignAsset]",
+      __args: { where: "CampaignAssetWhere", options: "CampaignAssetOptions" },
+    },
+    analyticsConnection: {
+      __type: "CampaignAnalyticsConnection!",
+      __args: {
+        where: "CampaignAnalyticsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CampaignAnalyticsConnectionSort!]",
+      },
+    },
+    assetsConnection: {
+      __type: "CampaignAssetsConnection!",
+      __args: {
+        where: "CampaignAssetsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CampaignAssetsConnectionSort!]",
+      },
+    },
+  },
+  CampaignAnalytic: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    ts: { __type: "DateTime" },
+    campaign: {
+      __type: "Campaign",
+      __args: { where: "CampaignWhere", options: "CampaignOptions" },
+    },
+    campaignConnection: {
+      __type: "CampaignAnalyticCampaignConnection!",
+      __args: {
+        where: "CampaignAnalyticCampaignConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CampaignAnalyticCampaignConnectionSort!]",
+      },
+    },
+  },
+  CampaignAnalyticCampaignConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CampaignAnalyticCampaignRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CampaignAnalyticCampaignRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Campaign!" },
+  },
+  CampaignAnalyticsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CampaignAnalyticsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CampaignAnalyticsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CampaignAnalytic!" },
+  },
+  CampaignAsset: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    type: { __type: "String" },
+    cid: { __type: "String" },
+  },
+  CampaignAssetsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CampaignAssetsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CampaignAssetsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CampaignAsset!" },
   },
   CartesianPoint: {
     __typename: { __type: "String!" },
@@ -20301,6 +21408,21 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "CommandDevice!" },
   },
+  CreateCampaignAnalyticsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    campaignAnalytics: { __type: "[CampaignAnalytic!]!" },
+  },
+  CreateCampaignAssetsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    campaignAssets: { __type: "[CampaignAsset!]!" },
+  },
+  CreateCampaignsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    campaigns: { __type: "[Campaign!]!" },
+  },
   CreateCommandActionItemsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -20507,6 +21629,21 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandPrograms: { __type: "[CommandProgram!]!" },
   },
+  CreateDisplayLocationsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    displayLocations: { __type: "[DisplayLocation!]!" },
+  },
+  CreateDisplayScreensMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    displayScreens: { __type: "[DisplayScreen!]!" },
+  },
+  CreateDisplaysMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    displays: { __type: "[Display!]!" },
+  },
   CreateEquipmentMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -20685,6 +21822,103 @@ export const generatedSchema = {
     bookmark: { __type: "String" },
     nodesDeleted: { __type: "Int!" },
     relationshipsDeleted: { __type: "Int!" },
+  },
+  Display: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    label: { __type: "String" },
+    location: {
+      __type: "DisplayLocation",
+      __args: {
+        where: "DisplayLocationWhere",
+        options: "DisplayLocationOptions",
+      },
+    },
+    screens: {
+      __type: "[DisplayScreen]",
+      __args: { where: "DisplayScreenWhere", options: "DisplayScreenOptions" },
+    },
+    locationConnection: {
+      __type: "DisplayLocationConnection!",
+      __args: {
+        where: "DisplayLocationConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[DisplayLocationConnectionSort!]",
+      },
+    },
+    screensConnection: {
+      __type: "DisplayScreensConnection!",
+      __args: {
+        where: "DisplayScreensConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[DisplayScreensConnectionSort!]",
+      },
+    },
+  },
+  DisplayLocation: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    lat: { __type: "Float" },
+    lng: { __type: "Float" },
+    elevation: { __type: "Float" },
+    displays: {
+      __type: "[Display]",
+      __args: { where: "DisplayWhere", options: "DisplayOptions" },
+    },
+    displaysConnection: {
+      __type: "DisplayLocationDisplaysConnection!",
+      __args: {
+        where: "DisplayLocationDisplaysConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[DisplayLocationDisplaysConnectionSort!]",
+      },
+    },
+  },
+  DisplayLocationConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[DisplayLocationRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  DisplayLocationDisplaysConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[DisplayLocationDisplaysRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  DisplayLocationDisplaysRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Display!" },
+  },
+  DisplayLocationRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "DisplayLocation!" },
+  },
+  DisplayScreen: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    width: { __type: "Float" },
+    height: { __type: "Float" },
+    resWidth: { __type: "Float" },
+    resHeight: { __type: "Float" },
+    orientation: { __type: "Float" },
+  },
+  DisplayScreensConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[DisplayScreensRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  DisplayScreensRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "DisplayScreen!" },
   },
   Equipment: {
     __typename: { __type: "String!" },
@@ -22775,6 +24009,21 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "TimelineProject!" },
   },
+  UpdateCampaignAnalyticsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    campaignAnalytics: { __type: "[CampaignAnalytic!]!" },
+  },
+  UpdateCampaignAssetsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    campaignAssets: { __type: "[CampaignAsset!]!" },
+  },
+  UpdateCampaignsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    campaigns: { __type: "[Campaign!]!" },
+  },
   UpdateCommandActionItemsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -22981,6 +24230,21 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandPrograms: { __type: "[CommandProgram!]!" },
   },
+  UpdateDisplayLocationsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    displayLocations: { __type: "[DisplayLocation!]!" },
+  },
+  UpdateDisplayScreensMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    displayScreens: { __type: "[DisplayScreen!]!" },
+  },
+  UpdateDisplaysMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    displays: { __type: "[Display!]!" },
+  },
   UpdateEquipmentMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -23162,6 +24426,367 @@ export const generatedSchema = {
     invoiced: { __type: "Float" },
     start: { __type: "DateTime" },
     end: { __type: "DateTime" },
+  },
+  CampaignAnalyticCampaignConnectFieldInput: {
+    where: { __type: "CampaignConnectWhere" },
+    connect: { __type: "CampaignConnectInput" },
+  },
+  CampaignAnalyticCampaignConnectionSort: { node: { __type: "CampaignSort" } },
+  CampaignAnalyticCampaignConnectionWhere: {
+    AND: { __type: "[CampaignAnalyticCampaignConnectionWhere!]" },
+    OR: { __type: "[CampaignAnalyticCampaignConnectionWhere!]" },
+    node: { __type: "CampaignWhere" },
+    node_NOT: { __type: "CampaignWhere" },
+  },
+  CampaignAnalyticCampaignCreateFieldInput: {
+    node: { __type: "CampaignCreateInput!" },
+  },
+  CampaignAnalyticCampaignDeleteFieldInput: {
+    where: { __type: "CampaignAnalyticCampaignConnectionWhere" },
+    delete: { __type: "CampaignDeleteInput" },
+  },
+  CampaignAnalyticCampaignDisconnectFieldInput: {
+    where: { __type: "CampaignAnalyticCampaignConnectionWhere" },
+    disconnect: { __type: "CampaignDisconnectInput" },
+  },
+  CampaignAnalyticCampaignFieldInput: {
+    create: { __type: "CampaignAnalyticCampaignCreateFieldInput" },
+    connect: { __type: "CampaignAnalyticCampaignConnectFieldInput" },
+  },
+  CampaignAnalyticCampaignUpdateConnectionInput: {
+    node: { __type: "CampaignUpdateInput" },
+  },
+  CampaignAnalyticCampaignUpdateFieldInput: {
+    where: { __type: "CampaignAnalyticCampaignConnectionWhere" },
+    update: { __type: "CampaignAnalyticCampaignUpdateConnectionInput" },
+    connect: { __type: "CampaignAnalyticCampaignConnectFieldInput" },
+    disconnect: { __type: "CampaignAnalyticCampaignDisconnectFieldInput" },
+    create: { __type: "CampaignAnalyticCampaignCreateFieldInput" },
+    delete: { __type: "CampaignAnalyticCampaignDeleteFieldInput" },
+  },
+  CampaignAnalyticConnectInput: {
+    campaign: { __type: "CampaignAnalyticCampaignConnectFieldInput" },
+  },
+  CampaignAnalyticConnectWhere: { node: { __type: "CampaignAnalyticWhere!" } },
+  CampaignAnalyticCreateInput: {
+    type: { __type: "String" },
+    value: { __type: "String" },
+    ts: { __type: "DateTime" },
+    campaign: { __type: "CampaignAnalyticCampaignFieldInput" },
+  },
+  CampaignAnalyticDeleteInput: {
+    campaign: { __type: "CampaignAnalyticCampaignDeleteFieldInput" },
+  },
+  CampaignAnalyticDisconnectInput: {
+    campaign: { __type: "CampaignAnalyticCampaignDisconnectFieldInput" },
+  },
+  CampaignAnalyticOptions: {
+    sort: { __type: "[CampaignAnalyticSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CampaignAnalyticRelationInput: {
+    campaign: { __type: "CampaignAnalyticCampaignCreateFieldInput" },
+  },
+  CampaignAnalyticsConnectFieldInput: {
+    where: { __type: "CampaignAnalyticConnectWhere" },
+    connect: { __type: "[CampaignAnalyticConnectInput!]" },
+  },
+  CampaignAnalyticsConnectionSort: { node: { __type: "CampaignAnalyticSort" } },
+  CampaignAnalyticsConnectionWhere: {
+    AND: { __type: "[CampaignAnalyticsConnectionWhere!]" },
+    OR: { __type: "[CampaignAnalyticsConnectionWhere!]" },
+    node: { __type: "CampaignAnalyticWhere" },
+    node_NOT: { __type: "CampaignAnalyticWhere" },
+  },
+  CampaignAnalyticsCreateFieldInput: {
+    node: { __type: "CampaignAnalyticCreateInput!" },
+  },
+  CampaignAnalyticsDeleteFieldInput: {
+    where: { __type: "CampaignAnalyticsConnectionWhere" },
+    delete: { __type: "CampaignAnalyticDeleteInput" },
+  },
+  CampaignAnalyticsDisconnectFieldInput: {
+    where: { __type: "CampaignAnalyticsConnectionWhere" },
+    disconnect: { __type: "CampaignAnalyticDisconnectInput" },
+  },
+  CampaignAnalyticsFieldInput: {
+    create: { __type: "[CampaignAnalyticsCreateFieldInput!]" },
+    connect: { __type: "[CampaignAnalyticsConnectFieldInput!]" },
+  },
+  CampaignAnalyticSort: {
+    id: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+    value: { __type: "SortDirection" },
+    ts: { __type: "SortDirection" },
+  },
+  CampaignAnalyticsUpdateConnectionInput: {
+    node: { __type: "CampaignAnalyticUpdateInput" },
+  },
+  CampaignAnalyticsUpdateFieldInput: {
+    where: { __type: "CampaignAnalyticsConnectionWhere" },
+    update: { __type: "CampaignAnalyticsUpdateConnectionInput" },
+    connect: { __type: "[CampaignAnalyticsConnectFieldInput!]" },
+    disconnect: { __type: "[CampaignAnalyticsDisconnectFieldInput!]" },
+    create: { __type: "[CampaignAnalyticsCreateFieldInput!]" },
+    delete: { __type: "[CampaignAnalyticsDeleteFieldInput!]" },
+  },
+  CampaignAnalyticUpdateInput: {
+    type: { __type: "String" },
+    value: { __type: "String" },
+    ts: { __type: "DateTime" },
+    campaign: { __type: "CampaignAnalyticCampaignUpdateFieldInput" },
+  },
+  CampaignAnalyticWhere: {
+    OR: { __type: "[CampaignAnalyticWhere!]" },
+    AND: { __type: "[CampaignAnalyticWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    value: { __type: "String" },
+    value_NOT: { __type: "String" },
+    value_IN: { __type: "[String]" },
+    value_NOT_IN: { __type: "[String]" },
+    value_CONTAINS: { __type: "String" },
+    value_NOT_CONTAINS: { __type: "String" },
+    value_STARTS_WITH: { __type: "String" },
+    value_NOT_STARTS_WITH: { __type: "String" },
+    value_ENDS_WITH: { __type: "String" },
+    value_NOT_ENDS_WITH: { __type: "String" },
+    ts: { __type: "DateTime" },
+    ts_NOT: { __type: "DateTime" },
+    ts_IN: { __type: "[DateTime]" },
+    ts_NOT_IN: { __type: "[DateTime]" },
+    ts_LT: { __type: "DateTime" },
+    ts_LTE: { __type: "DateTime" },
+    ts_GT: { __type: "DateTime" },
+    ts_GTE: { __type: "DateTime" },
+    campaign: { __type: "CampaignWhere" },
+    campaign_NOT: { __type: "CampaignWhere" },
+    campaignConnection: { __type: "CampaignAnalyticCampaignConnectionWhere" },
+    campaignConnection_NOT: {
+      __type: "CampaignAnalyticCampaignConnectionWhere",
+    },
+  },
+  CampaignAssetConnectWhere: { node: { __type: "CampaignAssetWhere!" } },
+  CampaignAssetCreateInput: {
+    name: { __type: "String" },
+    type: { __type: "String" },
+    cid: { __type: "String" },
+  },
+  CampaignAssetOptions: {
+    sort: { __type: "[CampaignAssetSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CampaignAssetsConnectFieldInput: {
+    where: { __type: "CampaignAssetConnectWhere" },
+  },
+  CampaignAssetsConnectionSort: { node: { __type: "CampaignAssetSort" } },
+  CampaignAssetsConnectionWhere: {
+    AND: { __type: "[CampaignAssetsConnectionWhere!]" },
+    OR: { __type: "[CampaignAssetsConnectionWhere!]" },
+    node: { __type: "CampaignAssetWhere" },
+    node_NOT: { __type: "CampaignAssetWhere" },
+  },
+  CampaignAssetsCreateFieldInput: {
+    node: { __type: "CampaignAssetCreateInput!" },
+  },
+  CampaignAssetsDeleteFieldInput: {
+    where: { __type: "CampaignAssetsConnectionWhere" },
+  },
+  CampaignAssetsDisconnectFieldInput: {
+    where: { __type: "CampaignAssetsConnectionWhere" },
+  },
+  CampaignAssetsFieldInput: {
+    create: { __type: "[CampaignAssetsCreateFieldInput!]" },
+    connect: { __type: "[CampaignAssetsConnectFieldInput!]" },
+  },
+  CampaignAssetSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+    cid: { __type: "SortDirection" },
+  },
+  CampaignAssetsUpdateConnectionInput: {
+    node: { __type: "CampaignAssetUpdateInput" },
+  },
+  CampaignAssetsUpdateFieldInput: {
+    where: { __type: "CampaignAssetsConnectionWhere" },
+    update: { __type: "CampaignAssetsUpdateConnectionInput" },
+    connect: { __type: "[CampaignAssetsConnectFieldInput!]" },
+    disconnect: { __type: "[CampaignAssetsDisconnectFieldInput!]" },
+    create: { __type: "[CampaignAssetsCreateFieldInput!]" },
+    delete: { __type: "[CampaignAssetsDeleteFieldInput!]" },
+  },
+  CampaignAssetUpdateInput: {
+    name: { __type: "String" },
+    type: { __type: "String" },
+    cid: { __type: "String" },
+  },
+  CampaignAssetWhere: {
+    OR: { __type: "[CampaignAssetWhere!]" },
+    AND: { __type: "[CampaignAssetWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    cid: { __type: "String" },
+    cid_NOT: { __type: "String" },
+    cid_IN: { __type: "[String]" },
+    cid_NOT_IN: { __type: "[String]" },
+    cid_CONTAINS: { __type: "String" },
+    cid_NOT_CONTAINS: { __type: "String" },
+    cid_STARTS_WITH: { __type: "String" },
+    cid_NOT_STARTS_WITH: { __type: "String" },
+    cid_ENDS_WITH: { __type: "String" },
+    cid_NOT_ENDS_WITH: { __type: "String" },
+  },
+  CampaignConnectInput: {
+    analytics: { __type: "[CampaignAnalyticsConnectFieldInput!]" },
+    assets: { __type: "[CampaignAssetsConnectFieldInput!]" },
+  },
+  CampaignConnectWhere: { node: { __type: "CampaignWhere!" } },
+  CampaignCreateInput: {
+    name: { __type: "String" },
+    customer: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    analytics: { __type: "CampaignAnalyticsFieldInput" },
+    assets: { __type: "CampaignAssetsFieldInput" },
+  },
+  CampaignDeleteInput: {
+    analytics: { __type: "[CampaignAnalyticsDeleteFieldInput!]" },
+    assets: { __type: "[CampaignAssetsDeleteFieldInput!]" },
+  },
+  CampaignDisconnectInput: {
+    analytics: { __type: "[CampaignAnalyticsDisconnectFieldInput!]" },
+    assets: { __type: "[CampaignAssetsDisconnectFieldInput!]" },
+  },
+  CampaignOptions: {
+    sort: { __type: "[CampaignSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CampaignRelationInput: {
+    analytics: { __type: "[CampaignAnalyticsCreateFieldInput!]" },
+    assets: { __type: "[CampaignAssetsCreateFieldInput!]" },
+  },
+  CampaignSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    customer: { __type: "SortDirection" },
+    startDate: { __type: "SortDirection" },
+    endDate: { __type: "SortDirection" },
+  },
+  CampaignUpdateInput: {
+    name: { __type: "String" },
+    customer: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    analytics: { __type: "[CampaignAnalyticsUpdateFieldInput!]" },
+    assets: { __type: "[CampaignAssetsUpdateFieldInput!]" },
+  },
+  CampaignWhere: {
+    OR: { __type: "[CampaignWhere!]" },
+    AND: { __type: "[CampaignWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    customer: { __type: "String" },
+    customer_NOT: { __type: "String" },
+    customer_IN: { __type: "[String]" },
+    customer_NOT_IN: { __type: "[String]" },
+    customer_CONTAINS: { __type: "String" },
+    customer_NOT_CONTAINS: { __type: "String" },
+    customer_STARTS_WITH: { __type: "String" },
+    customer_NOT_STARTS_WITH: { __type: "String" },
+    customer_ENDS_WITH: { __type: "String" },
+    customer_NOT_ENDS_WITH: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    startDate_NOT: { __type: "DateTime" },
+    startDate_IN: { __type: "[DateTime]" },
+    startDate_NOT_IN: { __type: "[DateTime]" },
+    startDate_LT: { __type: "DateTime" },
+    startDate_LTE: { __type: "DateTime" },
+    startDate_GT: { __type: "DateTime" },
+    startDate_GTE: { __type: "DateTime" },
+    endDate: { __type: "DateTime" },
+    endDate_NOT: { __type: "DateTime" },
+    endDate_IN: { __type: "[DateTime]" },
+    endDate_NOT_IN: { __type: "[DateTime]" },
+    endDate_LT: { __type: "DateTime" },
+    endDate_LTE: { __type: "DateTime" },
+    endDate_GT: { __type: "DateTime" },
+    endDate_GTE: { __type: "DateTime" },
+    analytics: { __type: "CampaignAnalyticWhere" },
+    analytics_NOT: { __type: "CampaignAnalyticWhere" },
+    assets: { __type: "CampaignAssetWhere" },
+    assets_NOT: { __type: "CampaignAssetWhere" },
+    analyticsConnection: { __type: "CampaignAnalyticsConnectionWhere" },
+    analyticsConnection_NOT: { __type: "CampaignAnalyticsConnectionWhere" },
+    assetsConnection: { __type: "CampaignAssetsConnectionWhere" },
+    assetsConnection_NOT: { __type: "CampaignAssetsConnectionWhere" },
   },
   CartesianPointInput: {
     x: { __type: "Float!" },
@@ -30962,6 +32587,357 @@ export const generatedSchema = {
     usedOnConnection: { __type: "CommandProgramUsedOnConnectionWhere" },
     usedOnConnection_NOT: { __type: "CommandProgramUsedOnConnectionWhere" },
   },
+  DisplayConnectInput: {
+    location: { __type: "DisplayLocationConnectFieldInput" },
+    screens: { __type: "[DisplayScreensConnectFieldInput!]" },
+  },
+  DisplayConnectWhere: { node: { __type: "DisplayWhere!" } },
+  DisplayCreateInput: {
+    label: { __type: "String" },
+    location: { __type: "DisplayLocationFieldInput" },
+    screens: { __type: "DisplayScreensFieldInput" },
+  },
+  DisplayDeleteInput: {
+    location: { __type: "DisplayLocationDeleteFieldInput" },
+    screens: { __type: "[DisplayScreensDeleteFieldInput!]" },
+  },
+  DisplayDisconnectInput: {
+    location: { __type: "DisplayLocationDisconnectFieldInput" },
+    screens: { __type: "[DisplayScreensDisconnectFieldInput!]" },
+  },
+  DisplayLocationConnectFieldInput: {
+    where: { __type: "DisplayLocationConnectWhere" },
+    connect: { __type: "DisplayLocationConnectInput" },
+  },
+  DisplayLocationConnectInput: {
+    displays: { __type: "[DisplayLocationDisplaysConnectFieldInput!]" },
+  },
+  DisplayLocationConnectionSort: { node: { __type: "DisplayLocationSort" } },
+  DisplayLocationConnectionWhere: {
+    AND: { __type: "[DisplayLocationConnectionWhere!]" },
+    OR: { __type: "[DisplayLocationConnectionWhere!]" },
+    node: { __type: "DisplayLocationWhere" },
+    node_NOT: { __type: "DisplayLocationWhere" },
+  },
+  DisplayLocationConnectWhere: { node: { __type: "DisplayLocationWhere!" } },
+  DisplayLocationCreateFieldInput: {
+    node: { __type: "DisplayLocationCreateInput!" },
+  },
+  DisplayLocationCreateInput: {
+    name: { __type: "String" },
+    lat: { __type: "Float" },
+    lng: { __type: "Float" },
+    elevation: { __type: "Float" },
+    displays: { __type: "DisplayLocationDisplaysFieldInput" },
+  },
+  DisplayLocationDeleteFieldInput: {
+    where: { __type: "DisplayLocationConnectionWhere" },
+    delete: { __type: "DisplayLocationDeleteInput" },
+  },
+  DisplayLocationDeleteInput: {
+    displays: { __type: "[DisplayLocationDisplaysDeleteFieldInput!]" },
+  },
+  DisplayLocationDisconnectFieldInput: {
+    where: { __type: "DisplayLocationConnectionWhere" },
+    disconnect: { __type: "DisplayLocationDisconnectInput" },
+  },
+  DisplayLocationDisconnectInput: {
+    displays: { __type: "[DisplayLocationDisplaysDisconnectFieldInput!]" },
+  },
+  DisplayLocationDisplaysConnectFieldInput: {
+    where: { __type: "DisplayConnectWhere" },
+    connect: { __type: "[DisplayConnectInput!]" },
+  },
+  DisplayLocationDisplaysConnectionSort: { node: { __type: "DisplaySort" } },
+  DisplayLocationDisplaysConnectionWhere: {
+    AND: { __type: "[DisplayLocationDisplaysConnectionWhere!]" },
+    OR: { __type: "[DisplayLocationDisplaysConnectionWhere!]" },
+    node: { __type: "DisplayWhere" },
+    node_NOT: { __type: "DisplayWhere" },
+  },
+  DisplayLocationDisplaysCreateFieldInput: {
+    node: { __type: "DisplayCreateInput!" },
+  },
+  DisplayLocationDisplaysDeleteFieldInput: {
+    where: { __type: "DisplayLocationDisplaysConnectionWhere" },
+    delete: { __type: "DisplayDeleteInput" },
+  },
+  DisplayLocationDisplaysDisconnectFieldInput: {
+    where: { __type: "DisplayLocationDisplaysConnectionWhere" },
+    disconnect: { __type: "DisplayDisconnectInput" },
+  },
+  DisplayLocationDisplaysFieldInput: {
+    create: { __type: "[DisplayLocationDisplaysCreateFieldInput!]" },
+    connect: { __type: "[DisplayLocationDisplaysConnectFieldInput!]" },
+  },
+  DisplayLocationDisplaysUpdateConnectionInput: {
+    node: { __type: "DisplayUpdateInput" },
+  },
+  DisplayLocationDisplaysUpdateFieldInput: {
+    where: { __type: "DisplayLocationDisplaysConnectionWhere" },
+    update: { __type: "DisplayLocationDisplaysUpdateConnectionInput" },
+    connect: { __type: "[DisplayLocationDisplaysConnectFieldInput!]" },
+    disconnect: { __type: "[DisplayLocationDisplaysDisconnectFieldInput!]" },
+    create: { __type: "[DisplayLocationDisplaysCreateFieldInput!]" },
+    delete: { __type: "[DisplayLocationDisplaysDeleteFieldInput!]" },
+  },
+  DisplayLocationFieldInput: {
+    create: { __type: "DisplayLocationCreateFieldInput" },
+    connect: { __type: "DisplayLocationConnectFieldInput" },
+  },
+  DisplayLocationOptions: {
+    sort: { __type: "[DisplayLocationSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  DisplayLocationRelationInput: {
+    displays: { __type: "[DisplayLocationDisplaysCreateFieldInput!]" },
+  },
+  DisplayLocationSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    lat: { __type: "SortDirection" },
+    lng: { __type: "SortDirection" },
+    elevation: { __type: "SortDirection" },
+  },
+  DisplayLocationUpdateConnectionInput: {
+    node: { __type: "DisplayLocationUpdateInput" },
+  },
+  DisplayLocationUpdateFieldInput: {
+    where: { __type: "DisplayLocationConnectionWhere" },
+    update: { __type: "DisplayLocationUpdateConnectionInput" },
+    connect: { __type: "DisplayLocationConnectFieldInput" },
+    disconnect: { __type: "DisplayLocationDisconnectFieldInput" },
+    create: { __type: "DisplayLocationCreateFieldInput" },
+    delete: { __type: "DisplayLocationDeleteFieldInput" },
+  },
+  DisplayLocationUpdateInput: {
+    name: { __type: "String" },
+    lat: { __type: "Float" },
+    lng: { __type: "Float" },
+    elevation: { __type: "Float" },
+    displays: { __type: "[DisplayLocationDisplaysUpdateFieldInput!]" },
+  },
+  DisplayLocationWhere: {
+    OR: { __type: "[DisplayLocationWhere!]" },
+    AND: { __type: "[DisplayLocationWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    lat: { __type: "Float" },
+    lat_NOT: { __type: "Float" },
+    lat_IN: { __type: "[Float]" },
+    lat_NOT_IN: { __type: "[Float]" },
+    lat_LT: { __type: "Float" },
+    lat_LTE: { __type: "Float" },
+    lat_GT: { __type: "Float" },
+    lat_GTE: { __type: "Float" },
+    lng: { __type: "Float" },
+    lng_NOT: { __type: "Float" },
+    lng_IN: { __type: "[Float]" },
+    lng_NOT_IN: { __type: "[Float]" },
+    lng_LT: { __type: "Float" },
+    lng_LTE: { __type: "Float" },
+    lng_GT: { __type: "Float" },
+    lng_GTE: { __type: "Float" },
+    elevation: { __type: "Float" },
+    elevation_NOT: { __type: "Float" },
+    elevation_IN: { __type: "[Float]" },
+    elevation_NOT_IN: { __type: "[Float]" },
+    elevation_LT: { __type: "Float" },
+    elevation_LTE: { __type: "Float" },
+    elevation_GT: { __type: "Float" },
+    elevation_GTE: { __type: "Float" },
+    displays: { __type: "DisplayWhere" },
+    displays_NOT: { __type: "DisplayWhere" },
+    displaysConnection: { __type: "DisplayLocationDisplaysConnectionWhere" },
+    displaysConnection_NOT: {
+      __type: "DisplayLocationDisplaysConnectionWhere",
+    },
+  },
+  DisplayOptions: {
+    sort: { __type: "[DisplaySort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  DisplayRelationInput: {
+    location: { __type: "DisplayLocationCreateFieldInput" },
+    screens: { __type: "[DisplayScreensCreateFieldInput!]" },
+  },
+  DisplayScreenConnectWhere: { node: { __type: "DisplayScreenWhere!" } },
+  DisplayScreenCreateInput: {
+    width: { __type: "Float" },
+    height: { __type: "Float" },
+    resWidth: { __type: "Float" },
+    resHeight: { __type: "Float" },
+    orientation: { __type: "Float" },
+  },
+  DisplayScreenOptions: {
+    sort: { __type: "[DisplayScreenSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  DisplayScreensConnectFieldInput: {
+    where: { __type: "DisplayScreenConnectWhere" },
+  },
+  DisplayScreensConnectionSort: { node: { __type: "DisplayScreenSort" } },
+  DisplayScreensConnectionWhere: {
+    AND: { __type: "[DisplayScreensConnectionWhere!]" },
+    OR: { __type: "[DisplayScreensConnectionWhere!]" },
+    node: { __type: "DisplayScreenWhere" },
+    node_NOT: { __type: "DisplayScreenWhere" },
+  },
+  DisplayScreensCreateFieldInput: {
+    node: { __type: "DisplayScreenCreateInput!" },
+  },
+  DisplayScreensDeleteFieldInput: {
+    where: { __type: "DisplayScreensConnectionWhere" },
+  },
+  DisplayScreensDisconnectFieldInput: {
+    where: { __type: "DisplayScreensConnectionWhere" },
+  },
+  DisplayScreensFieldInput: {
+    create: { __type: "[DisplayScreensCreateFieldInput!]" },
+    connect: { __type: "[DisplayScreensConnectFieldInput!]" },
+  },
+  DisplayScreenSort: {
+    id: { __type: "SortDirection" },
+    width: { __type: "SortDirection" },
+    height: { __type: "SortDirection" },
+    resWidth: { __type: "SortDirection" },
+    resHeight: { __type: "SortDirection" },
+    orientation: { __type: "SortDirection" },
+  },
+  DisplayScreensUpdateConnectionInput: {
+    node: { __type: "DisplayScreenUpdateInput" },
+  },
+  DisplayScreensUpdateFieldInput: {
+    where: { __type: "DisplayScreensConnectionWhere" },
+    update: { __type: "DisplayScreensUpdateConnectionInput" },
+    connect: { __type: "[DisplayScreensConnectFieldInput!]" },
+    disconnect: { __type: "[DisplayScreensDisconnectFieldInput!]" },
+    create: { __type: "[DisplayScreensCreateFieldInput!]" },
+    delete: { __type: "[DisplayScreensDeleteFieldInput!]" },
+  },
+  DisplayScreenUpdateInput: {
+    width: { __type: "Float" },
+    height: { __type: "Float" },
+    resWidth: { __type: "Float" },
+    resHeight: { __type: "Float" },
+    orientation: { __type: "Float" },
+  },
+  DisplayScreenWhere: {
+    OR: { __type: "[DisplayScreenWhere!]" },
+    AND: { __type: "[DisplayScreenWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    width: { __type: "Float" },
+    width_NOT: { __type: "Float" },
+    width_IN: { __type: "[Float]" },
+    width_NOT_IN: { __type: "[Float]" },
+    width_LT: { __type: "Float" },
+    width_LTE: { __type: "Float" },
+    width_GT: { __type: "Float" },
+    width_GTE: { __type: "Float" },
+    height: { __type: "Float" },
+    height_NOT: { __type: "Float" },
+    height_IN: { __type: "[Float]" },
+    height_NOT_IN: { __type: "[Float]" },
+    height_LT: { __type: "Float" },
+    height_LTE: { __type: "Float" },
+    height_GT: { __type: "Float" },
+    height_GTE: { __type: "Float" },
+    resWidth: { __type: "Float" },
+    resWidth_NOT: { __type: "Float" },
+    resWidth_IN: { __type: "[Float]" },
+    resWidth_NOT_IN: { __type: "[Float]" },
+    resWidth_LT: { __type: "Float" },
+    resWidth_LTE: { __type: "Float" },
+    resWidth_GT: { __type: "Float" },
+    resWidth_GTE: { __type: "Float" },
+    resHeight: { __type: "Float" },
+    resHeight_NOT: { __type: "Float" },
+    resHeight_IN: { __type: "[Float]" },
+    resHeight_NOT_IN: { __type: "[Float]" },
+    resHeight_LT: { __type: "Float" },
+    resHeight_LTE: { __type: "Float" },
+    resHeight_GT: { __type: "Float" },
+    resHeight_GTE: { __type: "Float" },
+    orientation: { __type: "Float" },
+    orientation_NOT: { __type: "Float" },
+    orientation_IN: { __type: "[Float]" },
+    orientation_NOT_IN: { __type: "[Float]" },
+    orientation_LT: { __type: "Float" },
+    orientation_LTE: { __type: "Float" },
+    orientation_GT: { __type: "Float" },
+    orientation_GTE: { __type: "Float" },
+  },
+  DisplaySort: {
+    id: { __type: "SortDirection" },
+    label: { __type: "SortDirection" },
+  },
+  DisplayUpdateInput: {
+    label: { __type: "String" },
+    location: { __type: "DisplayLocationUpdateFieldInput" },
+    screens: { __type: "[DisplayScreensUpdateFieldInput!]" },
+  },
+  DisplayWhere: {
+    OR: { __type: "[DisplayWhere!]" },
+    AND: { __type: "[DisplayWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    label: { __type: "String" },
+    label_NOT: { __type: "String" },
+    label_IN: { __type: "[String]" },
+    label_NOT_IN: { __type: "[String]" },
+    label_CONTAINS: { __type: "String" },
+    label_NOT_CONTAINS: { __type: "String" },
+    label_STARTS_WITH: { __type: "String" },
+    label_NOT_STARTS_WITH: { __type: "String" },
+    label_ENDS_WITH: { __type: "String" },
+    label_NOT_ENDS_WITH: { __type: "String" },
+    location: { __type: "DisplayLocationWhere" },
+    location_NOT: { __type: "DisplayLocationWhere" },
+    screens: { __type: "DisplayScreenWhere" },
+    screens_NOT: { __type: "DisplayScreenWhere" },
+    locationConnection: { __type: "DisplayLocationConnectionWhere" },
+    locationConnection_NOT: { __type: "DisplayLocationConnectionWhere" },
+    screensConnection: { __type: "DisplayScreensConnectionWhere" },
+    screensConnection_NOT: { __type: "DisplayScreensConnectionWhere" },
+  },
   EquipmentConnectInput: {
     organisation: { __type: "EquipmentOrganisationConnectFieldInput" },
   },
@@ -37256,6 +39232,48 @@ export interface Query {
   scheduleItemsCount: (args?: {
     where?: Maybe<ScheduleItemWhere>;
   }) => ScalarsEnums["Int"];
+  displays: (args?: {
+    where?: Maybe<DisplayWhere>;
+    options?: Maybe<DisplayOptions>;
+  }) => Array<Display>;
+  displaysCount: (args?: {
+    where?: Maybe<DisplayWhere>;
+  }) => ScalarsEnums["Int"];
+  displayScreens: (args?: {
+    where?: Maybe<DisplayScreenWhere>;
+    options?: Maybe<DisplayScreenOptions>;
+  }) => Array<DisplayScreen>;
+  displayScreensCount: (args?: {
+    where?: Maybe<DisplayScreenWhere>;
+  }) => ScalarsEnums["Int"];
+  displayLocations: (args?: {
+    where?: Maybe<DisplayLocationWhere>;
+    options?: Maybe<DisplayLocationOptions>;
+  }) => Array<DisplayLocation>;
+  displayLocationsCount: (args?: {
+    where?: Maybe<DisplayLocationWhere>;
+  }) => ScalarsEnums["Int"];
+  campaigns: (args?: {
+    where?: Maybe<CampaignWhere>;
+    options?: Maybe<CampaignOptions>;
+  }) => Array<Campaign>;
+  campaignsCount: (args?: {
+    where?: Maybe<CampaignWhere>;
+  }) => ScalarsEnums["Int"];
+  campaignAssets: (args?: {
+    where?: Maybe<CampaignAssetWhere>;
+    options?: Maybe<CampaignAssetOptions>;
+  }) => Array<CampaignAsset>;
+  campaignAssetsCount: (args?: {
+    where?: Maybe<CampaignAssetWhere>;
+  }) => ScalarsEnums["Int"];
+  campaignAnalytics: (args?: {
+    where?: Maybe<CampaignAnalyticWhere>;
+    options?: Maybe<CampaignAnalyticOptions>;
+  }) => Array<CampaignAnalytic>;
+  campaignAnalyticsCount: (args?: {
+    where?: Maybe<CampaignAnalyticWhere>;
+  }) => ScalarsEnums["Int"];
   commandKeyValues: (args?: {
     where?: Maybe<CommandKeyValueWhere>;
     options?: Maybe<CommandKeyValueOptions>;
@@ -38026,6 +40044,86 @@ export interface Mutation {
     create?: Maybe<ScheduleItemRelationInput>;
     delete?: Maybe<ScheduleItemDeleteInput>;
   }) => UpdateScheduleItemsMutationResponse;
+  createDisplays: (args: {
+    input: Array<DisplayCreateInput>;
+  }) => CreateDisplaysMutationResponse;
+  deleteDisplays: (args?: {
+    where?: Maybe<DisplayWhere>;
+    delete?: Maybe<DisplayDeleteInput>;
+  }) => DeleteInfo;
+  updateDisplays: (args?: {
+    where?: Maybe<DisplayWhere>;
+    update?: Maybe<DisplayUpdateInput>;
+    connect?: Maybe<DisplayConnectInput>;
+    disconnect?: Maybe<DisplayDisconnectInput>;
+    create?: Maybe<DisplayRelationInput>;
+    delete?: Maybe<DisplayDeleteInput>;
+  }) => UpdateDisplaysMutationResponse;
+  createDisplayScreens: (args: {
+    input: Array<DisplayScreenCreateInput>;
+  }) => CreateDisplayScreensMutationResponse;
+  deleteDisplayScreens: (args?: {
+    where?: Maybe<DisplayScreenWhere>;
+  }) => DeleteInfo;
+  updateDisplayScreens: (args?: {
+    where?: Maybe<DisplayScreenWhere>;
+    update?: Maybe<DisplayScreenUpdateInput>;
+  }) => UpdateDisplayScreensMutationResponse;
+  createDisplayLocations: (args: {
+    input: Array<DisplayLocationCreateInput>;
+  }) => CreateDisplayLocationsMutationResponse;
+  deleteDisplayLocations: (args?: {
+    where?: Maybe<DisplayLocationWhere>;
+    delete?: Maybe<DisplayLocationDeleteInput>;
+  }) => DeleteInfo;
+  updateDisplayLocations: (args?: {
+    where?: Maybe<DisplayLocationWhere>;
+    update?: Maybe<DisplayLocationUpdateInput>;
+    connect?: Maybe<DisplayLocationConnectInput>;
+    disconnect?: Maybe<DisplayLocationDisconnectInput>;
+    create?: Maybe<DisplayLocationRelationInput>;
+    delete?: Maybe<DisplayLocationDeleteInput>;
+  }) => UpdateDisplayLocationsMutationResponse;
+  createCampaigns: (args: {
+    input: Array<CampaignCreateInput>;
+  }) => CreateCampaignsMutationResponse;
+  deleteCampaigns: (args?: {
+    where?: Maybe<CampaignWhere>;
+    delete?: Maybe<CampaignDeleteInput>;
+  }) => DeleteInfo;
+  updateCampaigns: (args?: {
+    where?: Maybe<CampaignWhere>;
+    update?: Maybe<CampaignUpdateInput>;
+    connect?: Maybe<CampaignConnectInput>;
+    disconnect?: Maybe<CampaignDisconnectInput>;
+    create?: Maybe<CampaignRelationInput>;
+    delete?: Maybe<CampaignDeleteInput>;
+  }) => UpdateCampaignsMutationResponse;
+  createCampaignAssets: (args: {
+    input: Array<CampaignAssetCreateInput>;
+  }) => CreateCampaignAssetsMutationResponse;
+  deleteCampaignAssets: (args?: {
+    where?: Maybe<CampaignAssetWhere>;
+  }) => DeleteInfo;
+  updateCampaignAssets: (args?: {
+    where?: Maybe<CampaignAssetWhere>;
+    update?: Maybe<CampaignAssetUpdateInput>;
+  }) => UpdateCampaignAssetsMutationResponse;
+  createCampaignAnalytics: (args: {
+    input: Array<CampaignAnalyticCreateInput>;
+  }) => CreateCampaignAnalyticsMutationResponse;
+  deleteCampaignAnalytics: (args?: {
+    where?: Maybe<CampaignAnalyticWhere>;
+    delete?: Maybe<CampaignAnalyticDeleteInput>;
+  }) => DeleteInfo;
+  updateCampaignAnalytics: (args?: {
+    where?: Maybe<CampaignAnalyticWhere>;
+    update?: Maybe<CampaignAnalyticUpdateInput>;
+    connect?: Maybe<CampaignAnalyticConnectInput>;
+    disconnect?: Maybe<CampaignAnalyticDisconnectInput>;
+    create?: Maybe<CampaignAnalyticRelationInput>;
+    delete?: Maybe<CampaignAnalyticDeleteInput>;
+  }) => UpdateCampaignAnalyticsMutationResponse;
   createCommandKeyValues: (args: {
     input: Array<CommandKeyValueCreateInput>;
   }) => CreateCommandKeyValuesMutationResponse;
@@ -38705,6 +40803,100 @@ export interface HivePipelineFlowPath {
   source?: Maybe<ScalarsEnums["String"]>;
   target?: Maybe<ScalarsEnums["String"]>;
   $on: $HivePipelineFlowPath;
+}
+
+export interface Campaign {
+  __typename?: "Campaign";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  customer?: Maybe<ScalarsEnums["String"]>;
+  startDate?: Maybe<ScalarsEnums["DateTime"]>;
+  endDate?: Maybe<ScalarsEnums["DateTime"]>;
+  analytics: (args?: {
+    where?: Maybe<CampaignAnalyticWhere>;
+    options?: Maybe<CampaignAnalyticOptions>;
+  }) => Maybe<Array<Maybe<CampaignAnalytic>>>;
+  assets: (args?: {
+    where?: Maybe<CampaignAssetWhere>;
+    options?: Maybe<CampaignAssetOptions>;
+  }) => Maybe<Array<Maybe<CampaignAsset>>>;
+  analyticsConnection: (args?: {
+    where?: Maybe<CampaignAnalyticsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CampaignAnalyticsConnectionSort>>;
+  }) => CampaignAnalyticsConnection;
+  assetsConnection: (args?: {
+    where?: Maybe<CampaignAssetsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CampaignAssetsConnectionSort>>;
+  }) => CampaignAssetsConnection;
+}
+
+export interface CampaignAnalytic {
+  __typename?: "CampaignAnalytic";
+  id: ScalarsEnums["ID"];
+  type?: Maybe<ScalarsEnums["String"]>;
+  value?: Maybe<ScalarsEnums["String"]>;
+  ts?: Maybe<ScalarsEnums["DateTime"]>;
+  campaign: (args?: {
+    where?: Maybe<CampaignWhere>;
+    options?: Maybe<CampaignOptions>;
+  }) => Maybe<Campaign>;
+  campaignConnection: (args?: {
+    where?: Maybe<CampaignAnalyticCampaignConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CampaignAnalyticCampaignConnectionSort>>;
+  }) => CampaignAnalyticCampaignConnection;
+}
+
+export interface CampaignAnalyticCampaignConnection {
+  __typename?: "CampaignAnalyticCampaignConnection";
+  edges: Array<CampaignAnalyticCampaignRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CampaignAnalyticCampaignRelationship {
+  __typename?: "CampaignAnalyticCampaignRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Campaign;
+}
+
+export interface CampaignAnalyticsConnection {
+  __typename?: "CampaignAnalyticsConnection";
+  edges: Array<CampaignAnalyticsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CampaignAnalyticsRelationship {
+  __typename?: "CampaignAnalyticsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CampaignAnalytic;
+}
+
+export interface CampaignAsset {
+  __typename?: "CampaignAsset";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
+  cid?: Maybe<ScalarsEnums["String"]>;
+}
+
+export interface CampaignAssetsConnection {
+  __typename?: "CampaignAssetsConnection";
+  edges: Array<CampaignAssetsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CampaignAssetsRelationship {
+  __typename?: "CampaignAssetsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CampaignAsset;
 }
 
 export interface CartesianPoint {
@@ -40984,6 +43176,24 @@ export interface CommandProgramUsedOnRelationship {
   node: CommandDevice;
 }
 
+export interface CreateCampaignAnalyticsMutationResponse {
+  __typename?: "CreateCampaignAnalyticsMutationResponse";
+  info: CreateInfo;
+  campaignAnalytics: Array<CampaignAnalytic>;
+}
+
+export interface CreateCampaignAssetsMutationResponse {
+  __typename?: "CreateCampaignAssetsMutationResponse";
+  info: CreateInfo;
+  campaignAssets: Array<CampaignAsset>;
+}
+
+export interface CreateCampaignsMutationResponse {
+  __typename?: "CreateCampaignsMutationResponse";
+  info: CreateInfo;
+  campaigns: Array<Campaign>;
+}
+
 export interface CreateCommandActionItemsMutationResponse {
   __typename?: "CreateCommandActionItemsMutationResponse";
   info: CreateInfo;
@@ -41212,6 +43422,24 @@ export interface CreateCommandProgramsMutationResponse {
   commandPrograms: Array<CommandProgram>;
 }
 
+export interface CreateDisplayLocationsMutationResponse {
+  __typename?: "CreateDisplayLocationsMutationResponse";
+  info: CreateInfo;
+  displayLocations: Array<DisplayLocation>;
+}
+
+export interface CreateDisplayScreensMutationResponse {
+  __typename?: "CreateDisplayScreensMutationResponse";
+  info: CreateInfo;
+  displayScreens: Array<DisplayScreen>;
+}
+
+export interface CreateDisplaysMutationResponse {
+  __typename?: "CreateDisplaysMutationResponse";
+  info: CreateInfo;
+  displays: Array<Display>;
+}
+
 export interface CreateEquipmentMutationResponse {
   __typename?: "CreateEquipmentMutationResponse";
   info: CreateInfo;
@@ -41422,6 +43650,100 @@ export interface DeleteInfo {
   bookmark?: Maybe<ScalarsEnums["String"]>;
   nodesDeleted: ScalarsEnums["Int"];
   relationshipsDeleted: ScalarsEnums["Int"];
+}
+
+export interface Display {
+  __typename?: "Display";
+  id: ScalarsEnums["ID"];
+  label?: Maybe<ScalarsEnums["String"]>;
+  location: (args?: {
+    where?: Maybe<DisplayLocationWhere>;
+    options?: Maybe<DisplayLocationOptions>;
+  }) => Maybe<DisplayLocation>;
+  screens: (args?: {
+    where?: Maybe<DisplayScreenWhere>;
+    options?: Maybe<DisplayScreenOptions>;
+  }) => Maybe<Array<Maybe<DisplayScreen>>>;
+  locationConnection: (args?: {
+    where?: Maybe<DisplayLocationConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<DisplayLocationConnectionSort>>;
+  }) => DisplayLocationConnection;
+  screensConnection: (args?: {
+    where?: Maybe<DisplayScreensConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<DisplayScreensConnectionSort>>;
+  }) => DisplayScreensConnection;
+}
+
+export interface DisplayLocation {
+  __typename?: "DisplayLocation";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  lat?: Maybe<ScalarsEnums["Float"]>;
+  lng?: Maybe<ScalarsEnums["Float"]>;
+  elevation?: Maybe<ScalarsEnums["Float"]>;
+  displays: (args?: {
+    where?: Maybe<DisplayWhere>;
+    options?: Maybe<DisplayOptions>;
+  }) => Maybe<Array<Maybe<Display>>>;
+  displaysConnection: (args?: {
+    where?: Maybe<DisplayLocationDisplaysConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<DisplayLocationDisplaysConnectionSort>>;
+  }) => DisplayLocationDisplaysConnection;
+}
+
+export interface DisplayLocationConnection {
+  __typename?: "DisplayLocationConnection";
+  edges: Array<DisplayLocationRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface DisplayLocationDisplaysConnection {
+  __typename?: "DisplayLocationDisplaysConnection";
+  edges: Array<DisplayLocationDisplaysRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface DisplayLocationDisplaysRelationship {
+  __typename?: "DisplayLocationDisplaysRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Display;
+}
+
+export interface DisplayLocationRelationship {
+  __typename?: "DisplayLocationRelationship";
+  cursor: ScalarsEnums["String"];
+  node: DisplayLocation;
+}
+
+export interface DisplayScreen {
+  __typename?: "DisplayScreen";
+  id: ScalarsEnums["ID"];
+  width?: Maybe<ScalarsEnums["Float"]>;
+  height?: Maybe<ScalarsEnums["Float"]>;
+  resWidth?: Maybe<ScalarsEnums["Float"]>;
+  resHeight?: Maybe<ScalarsEnums["Float"]>;
+  orientation?: Maybe<ScalarsEnums["Float"]>;
+}
+
+export interface DisplayScreensConnection {
+  __typename?: "DisplayScreensConnection";
+  edges: Array<DisplayScreensRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface DisplayScreensRelationship {
+  __typename?: "DisplayScreensRelationship";
+  cursor: ScalarsEnums["String"];
+  node: DisplayScreen;
 }
 
 export interface Equipment {
@@ -43385,6 +45707,24 @@ export interface TimelineItemProjectRelationship {
   node: TimelineProject;
 }
 
+export interface UpdateCampaignAnalyticsMutationResponse {
+  __typename?: "UpdateCampaignAnalyticsMutationResponse";
+  info: UpdateInfo;
+  campaignAnalytics: Array<CampaignAnalytic>;
+}
+
+export interface UpdateCampaignAssetsMutationResponse {
+  __typename?: "UpdateCampaignAssetsMutationResponse";
+  info: UpdateInfo;
+  campaignAssets: Array<CampaignAsset>;
+}
+
+export interface UpdateCampaignsMutationResponse {
+  __typename?: "UpdateCampaignsMutationResponse";
+  info: UpdateInfo;
+  campaigns: Array<Campaign>;
+}
+
 export interface UpdateCommandActionItemsMutationResponse {
   __typename?: "UpdateCommandActionItemsMutationResponse";
   info: UpdateInfo;
@@ -43613,6 +45953,24 @@ export interface UpdateCommandProgramsMutationResponse {
   commandPrograms: Array<CommandProgram>;
 }
 
+export interface UpdateDisplayLocationsMutationResponse {
+  __typename?: "UpdateDisplayLocationsMutationResponse";
+  info: UpdateInfo;
+  displayLocations: Array<DisplayLocation>;
+}
+
+export interface UpdateDisplayScreensMutationResponse {
+  __typename?: "UpdateDisplayScreensMutationResponse";
+  info: UpdateInfo;
+  displayScreens: Array<DisplayScreen>;
+}
+
+export interface UpdateDisplaysMutationResponse {
+  __typename?: "UpdateDisplaysMutationResponse";
+  info: UpdateInfo;
+  displays: Array<Display>;
+}
+
 export interface UpdateEquipmentMutationResponse {
   __typename?: "UpdateEquipmentMutationResponse";
   info: UpdateInfo;
@@ -43838,6 +46196,15 @@ export interface SchemaObjectTypes {
   OctoPrintProgress: OctoPrintProgress;
   OctoPrintFilament: OctoPrintFilament;
   OctoPrintFile: OctoPrintFile;
+  Campaign: Campaign;
+  CampaignAnalytic: CampaignAnalytic;
+  CampaignAnalyticCampaignConnection: CampaignAnalyticCampaignConnection;
+  CampaignAnalyticCampaignRelationship: CampaignAnalyticCampaignRelationship;
+  CampaignAnalyticsConnection: CampaignAnalyticsConnection;
+  CampaignAnalyticsRelationship: CampaignAnalyticsRelationship;
+  CampaignAsset: CampaignAsset;
+  CampaignAssetsConnection: CampaignAssetsConnection;
+  CampaignAssetsRelationship: CampaignAssetsRelationship;
   CartesianPoint: CartesianPoint;
   CommandActionItem: CommandActionItem;
   CommandActionItemDeviceConnection: CommandActionItemDeviceConnection;
@@ -44047,6 +46414,9 @@ export interface SchemaObjectTypes {
   CommandProgramProgramRelationship: CommandProgramProgramRelationship;
   CommandProgramUsedOnConnection: CommandProgramUsedOnConnection;
   CommandProgramUsedOnRelationship: CommandProgramUsedOnRelationship;
+  CreateCampaignAnalyticsMutationResponse: CreateCampaignAnalyticsMutationResponse;
+  CreateCampaignAssetsMutationResponse: CreateCampaignAssetsMutationResponse;
+  CreateCampaignsMutationResponse: CreateCampaignsMutationResponse;
   CreateCommandActionItemsMutationResponse: CreateCommandActionItemsMutationResponse;
   CreateCommandDevicePeripheralMapsMutationResponse: CreateCommandDevicePeripheralMapsMutationResponse;
   CreateCommandDevicePeripheralProductsMutationResponse: CreateCommandDevicePeripheralProductsMutationResponse;
@@ -44085,6 +46455,9 @@ export interface SchemaObjectTypes {
   CreateCommandProgramNodeFlowConfigurationsMutationResponse: CreateCommandProgramNodeFlowConfigurationsMutationResponse;
   CreateCommandProgramNodesMutationResponse: CreateCommandProgramNodesMutationResponse;
   CreateCommandProgramsMutationResponse: CreateCommandProgramsMutationResponse;
+  CreateDisplayLocationsMutationResponse: CreateDisplayLocationsMutationResponse;
+  CreateDisplayScreensMutationResponse: CreateDisplayScreensMutationResponse;
+  CreateDisplaysMutationResponse: CreateDisplaysMutationResponse;
   CreateEquipmentMutationResponse: CreateEquipmentMutationResponse;
   CreateEstimatesMutationResponse: CreateEstimatesMutationResponse;
   CreateFileSystemsMutationResponse: CreateFileSystemsMutationResponse;
@@ -44120,6 +46493,15 @@ export interface SchemaObjectTypes {
   CreateTimelineItemItemsMutationResponse: CreateTimelineItemItemsMutationResponse;
   CreateTimelineItemsMutationResponse: CreateTimelineItemsMutationResponse;
   DeleteInfo: DeleteInfo;
+  Display: Display;
+  DisplayLocation: DisplayLocation;
+  DisplayLocationConnection: DisplayLocationConnection;
+  DisplayLocationDisplaysConnection: DisplayLocationDisplaysConnection;
+  DisplayLocationDisplaysRelationship: DisplayLocationDisplaysRelationship;
+  DisplayLocationRelationship: DisplayLocationRelationship;
+  DisplayScreen: DisplayScreen;
+  DisplayScreensConnection: DisplayScreensConnection;
+  DisplayScreensRelationship: DisplayScreensRelationship;
   Equipment: Equipment;
   EquipmentOrganisationConnection: EquipmentOrganisationConnection;
   EquipmentOrganisationRelationship: EquipmentOrganisationRelationship;
@@ -44303,6 +46685,9 @@ export interface SchemaObjectTypes {
   TimelineItemOrganisationRelationship: TimelineItemOrganisationRelationship;
   TimelineItemProjectConnection: TimelineItemProjectConnection;
   TimelineItemProjectRelationship: TimelineItemProjectRelationship;
+  UpdateCampaignAnalyticsMutationResponse: UpdateCampaignAnalyticsMutationResponse;
+  UpdateCampaignAssetsMutationResponse: UpdateCampaignAssetsMutationResponse;
+  UpdateCampaignsMutationResponse: UpdateCampaignsMutationResponse;
   UpdateCommandActionItemsMutationResponse: UpdateCommandActionItemsMutationResponse;
   UpdateCommandDevicePeripheralMapsMutationResponse: UpdateCommandDevicePeripheralMapsMutationResponse;
   UpdateCommandDevicePeripheralProductsMutationResponse: UpdateCommandDevicePeripheralProductsMutationResponse;
@@ -44341,6 +46726,9 @@ export interface SchemaObjectTypes {
   UpdateCommandProgramNodeFlowConfigurationsMutationResponse: UpdateCommandProgramNodeFlowConfigurationsMutationResponse;
   UpdateCommandProgramNodesMutationResponse: UpdateCommandProgramNodesMutationResponse;
   UpdateCommandProgramsMutationResponse: UpdateCommandProgramsMutationResponse;
+  UpdateDisplayLocationsMutationResponse: UpdateDisplayLocationsMutationResponse;
+  UpdateDisplayScreensMutationResponse: UpdateDisplayScreensMutationResponse;
+  UpdateDisplaysMutationResponse: UpdateDisplaysMutationResponse;
   UpdateEquipmentMutationResponse: UpdateEquipmentMutationResponse;
   UpdateEstimatesMutationResponse: UpdateEstimatesMutationResponse;
   UpdateFileSystemsMutationResponse: UpdateFileSystemsMutationResponse;
@@ -44387,6 +46775,15 @@ export type SchemaObjectTypesNames =
   | "OctoPrintProgress"
   | "OctoPrintFilament"
   | "OctoPrintFile"
+  | "Campaign"
+  | "CampaignAnalytic"
+  | "CampaignAnalyticCampaignConnection"
+  | "CampaignAnalyticCampaignRelationship"
+  | "CampaignAnalyticsConnection"
+  | "CampaignAnalyticsRelationship"
+  | "CampaignAsset"
+  | "CampaignAssetsConnection"
+  | "CampaignAssetsRelationship"
   | "CartesianPoint"
   | "CommandActionItem"
   | "CommandActionItemDeviceConnection"
@@ -44596,6 +46993,9 @@ export type SchemaObjectTypesNames =
   | "CommandProgramProgramRelationship"
   | "CommandProgramUsedOnConnection"
   | "CommandProgramUsedOnRelationship"
+  | "CreateCampaignAnalyticsMutationResponse"
+  | "CreateCampaignAssetsMutationResponse"
+  | "CreateCampaignsMutationResponse"
   | "CreateCommandActionItemsMutationResponse"
   | "CreateCommandDevicePeripheralMapsMutationResponse"
   | "CreateCommandDevicePeripheralProductsMutationResponse"
@@ -44634,6 +47034,9 @@ export type SchemaObjectTypesNames =
   | "CreateCommandProgramNodeFlowConfigurationsMutationResponse"
   | "CreateCommandProgramNodesMutationResponse"
   | "CreateCommandProgramsMutationResponse"
+  | "CreateDisplayLocationsMutationResponse"
+  | "CreateDisplayScreensMutationResponse"
+  | "CreateDisplaysMutationResponse"
   | "CreateEquipmentMutationResponse"
   | "CreateEstimatesMutationResponse"
   | "CreateFileSystemsMutationResponse"
@@ -44669,6 +47072,15 @@ export type SchemaObjectTypesNames =
   | "CreateTimelineItemItemsMutationResponse"
   | "CreateTimelineItemsMutationResponse"
   | "DeleteInfo"
+  | "Display"
+  | "DisplayLocation"
+  | "DisplayLocationConnection"
+  | "DisplayLocationDisplaysConnection"
+  | "DisplayLocationDisplaysRelationship"
+  | "DisplayLocationRelationship"
+  | "DisplayScreen"
+  | "DisplayScreensConnection"
+  | "DisplayScreensRelationship"
   | "Equipment"
   | "EquipmentOrganisationConnection"
   | "EquipmentOrganisationRelationship"
@@ -44852,6 +47264,9 @@ export type SchemaObjectTypesNames =
   | "TimelineItemOrganisationRelationship"
   | "TimelineItemProjectConnection"
   | "TimelineItemProjectRelationship"
+  | "UpdateCampaignAnalyticsMutationResponse"
+  | "UpdateCampaignAssetsMutationResponse"
+  | "UpdateCampaignsMutationResponse"
   | "UpdateCommandActionItemsMutationResponse"
   | "UpdateCommandDevicePeripheralMapsMutationResponse"
   | "UpdateCommandDevicePeripheralProductsMutationResponse"
@@ -44890,6 +47305,9 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandProgramNodeFlowConfigurationsMutationResponse"
   | "UpdateCommandProgramNodesMutationResponse"
   | "UpdateCommandProgramsMutationResponse"
+  | "UpdateDisplayLocationsMutationResponse"
+  | "UpdateDisplayScreensMutationResponse"
+  | "UpdateDisplaysMutationResponse"
   | "UpdateEquipmentMutationResponse"
   | "UpdateEstimatesMutationResponse"
   | "UpdateFileSystemsMutationResponse"

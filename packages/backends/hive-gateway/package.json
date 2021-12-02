@@ -18,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@graphql-tools/stitch": "^8.0.8",
+   
     "@hexhive/auth": "^0.0.5-alpha.0",
     "@hexhive/collaboration-server": "^0.0.6-alpha.0",
     "@hexhive/data-core": "^0.0.6-alpha.0",
