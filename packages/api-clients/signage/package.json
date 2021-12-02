@@ -1,0 +1,23 @@
+{
+  "name": "@hexhive-api/signage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "gqty": "gqty.config.cjs",
+  "scripts": {
+    "generate": "gqty generate",
+    "build": "tsc -b",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@gqty/react": "^2.1.0",
+    "gqty": "^2.1.0"
+  },
+  "devDependencies": {
+    "@gqty/cli": "^2.3.0",
+    "graphql": "^16.0.1",
+    "typescript": "^4.4.4"
+  }
+}

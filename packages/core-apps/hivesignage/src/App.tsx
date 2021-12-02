@@ -1,14 +1,17 @@
 import { Box, Text, List } from 'grommet';
 import React from 'react';
 import { Switch, Route, matchPath} from 'react-router-dom'
-import { TaskEditor } from './views/task-editor';
-import { TaskList } from './views/task-list';
-import { Workflows } from './views/workflow-editor';
-import { WorkflowList } from './views/workflow-list';
+import { Analytics } from './views/analytics';
+import { DisplayList } from './views/display-list';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { TriggerList } from './views/trigger-list';
-import { TriggerEditor } from './views/trigger-editor';
+import { CampaignList } from './views/campaign-list';
 import { HomeView } from './views/home';
+import { CampaignSingle } from './views/campaign-single';
+import { ClusterList } from './views/cluster-list/ClusterList';
+import { ComputerList } from './views/computer-list/ComputerList';
+import { ClusterSingle } from './views/cluster-single/ClusterSingle';
+import { ComputerSingle } from './views/computer-single/ComputerSingle';
+import { DisplaySingle } from './views/display-single/DisplaySingle';
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_API ? `${process.env.REACT_APP_API}/graphql`: 'http://localhost:7000/graphql',
@@ -23,16 +26,24 @@ export const App = (props) => {
 
     const menu = [
         {
-            label: "Workflows",
-            path: "/workflows"
+            label: "Clusters",
+            path: "/clusters"
         },
         {
-            label: "Tasks",
-            path: "/tasks"
+            label: "Computers",
+            path: '/computers'
         },
         {
-            label: "Triggers",
-            path: '/triggers'
+            label: "Displays",
+            path: "/displays"
+        },
+        {
+            label: "Campaigns",
+            path: "/campaigns"
+        },
+        {
+            label: "Analytics",
+            path: '/analytics'
         }
     ]
 
@@ -57,7 +68,7 @@ export const App = (props) => {
                             focusIndicator={false}
                             hoverIndicator
                             pad={'xsmall'}
-                            background={matchPath(window.location.pathname, {path: `/dashboard/automate${datum.path}`}) ? 'accent-2': ''}
+                            background={matchPath(window.location.pathname, {path: `/dashboard/signage${datum.path}`}) ? 'accent-2': ''}
                             direction="row">
                             <Text>{datum.label}</Text>
                         </Box>
@@ -70,12 +81,15 @@ export const App = (props) => {
                 pad="xsmall">
                 <Switch>
                     <Route path={"/"} exact component={HomeView} />
-                    <Route path={"/workflows"} exact component={WorkflowList} />
-                    <Route path={"/workflows/:id"} exact component={Workflows} />
-                    <Route path={"/tasks"} exact component={TaskList} />
-                    <Route path={"/tasks/:id"} component={TaskEditor} />
-                    <Route path={`/triggers`} exact component={TriggerList} />
-                    <Route path={`/triggers/:id`} exact component={TriggerEditor} />
+                    <Route path={"/displays"} exact component={DisplayList} />
+                    <Route path={"/displays/:id"}  component={DisplaySingle} />
+                    <Route path={'/clusters'} exact component={ClusterList} />
+                    <Route path={'/clusters/:id'} component={ClusterSingle} />
+                    <Route path={'/computers'} exact component={ComputerList} />
+                    <Route path={'/computers/:id'} component={ComputerSingle} />
+                    <Route path={"/campaigns"} exact component={CampaignList} />
+                    <Route path={"/campaigns/:id"} component={CampaignSingle} />
+                    <Route path={`/analytics`} exact component={Analytics} />
                 </Switch>
             </Box>
 

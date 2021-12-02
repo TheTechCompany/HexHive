@@ -24,6 +24,7 @@
     "url": "https://github.com/TheTechCompany/sudbuster/issues"
   },
   "dependencies": {
+   
     "automerge": "^1.0.1-preview.3",
     "ws": "^7.5.3"
   },
