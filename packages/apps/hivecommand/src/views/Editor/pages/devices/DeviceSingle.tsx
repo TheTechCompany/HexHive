@@ -8,6 +8,8 @@ import { DevicePluginModal } from '../../../../components/modals/device-plugin';
 import { nanoid } from 'nanoid';
 import { NamedTypeNode, ObjectTypeDefinitionNode } from 'graphql';
 import { DeviceInterlock } from '../../../../components/modals/device-interlock';
+import { DeviceSetpointModal } from '../../../../components/modals/device-setpoint';
+import { ListBox } from '../../../../components/ListBox';
 
 export interface DeviceSingleProps extends RouteComponentProps<any> {
 	program?: string;
@@ -37,7 +39,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 	const [selectedInterlock, setSelectedInterlock] = useState<any>()
 	const [modalOpen, openModal] = useState<boolean>(false);
 	const [interlockModalOpen, openInterlockModal] = useState<boolean>(false);
-
+	const [ setpointModalOpen, openSetpointModal ] = useState<boolean>(false);
 	const query = useQuery({ suspense: false, staleWhileRevalidate: true })
 
 	const selectPlugin = (plugin: any) => {
@@ -45,13 +47,82 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 		setSelected(plugin)
 	}
 
+	const [ updateSetpoint, updateSetpointInfo ] = useMutation((mutation, args: {
+		id: string,
+		name: string,
+		type: 'ratio' | 'value',
+		key: string,
+		value: string
+	}) => {
+		const item = mutation.updateCommandProgramDevicePlaceholders({
+			where: {id: deviceId},
+			update: {
+				setpoints: [{
+					where: {node: {id: args.id}},
+					update: {
+						node: {
+							name: args.name,
+							key: {connect: {where: {node: {id: args.key}}}},
+							type: args.type,
+							value: args.value
+						}
+					}
+				}]
+			}
+		})
+
+		return {
+			item: {
+				...item?.commandProgramDevicePlaceholders?.[0]
+			}
+		}
+	})
+	const [ addSetpoint, addSetpointInfo ] = useMutation((mutation, args: {
+		name: string,
+		type: "ratio" | "value",
+		key: string,
+		value: string
+	}) => {
+		const item = mutation.updateCommandProgramDevicePlaceholders({
+			where: {id: deviceId},
+			update: {
+				setpoints: [{
+					create: [{
+						node: {
+							name: args.name,
+							key: {connect: {where: {node: {id: args.key}}}},
+							type: args.type,
+							value: args.value
+						}
+					}]
+				}]
+			}
+		})
+		return {
+			item: {
+				...item.commandProgramDevicePlaceholders?.[0]
+			}
+		}
+	})
+
 	const [ addDeviceInterlock, addInterlockInfo ] = useMutation((mutation, args: {
 		inputDeviceId: string,
 		inputDeviceKeyId: string,
+		type: string,
 		comparator: string,
 		assertion: string;
 		action: string
 	}) => {
+		let assertionValue = {};
+		if(args.type == "setpoint"){
+			assertionValue = {
+				setpoint: {connect: {where: {node: {id: args.assertion}}}}
+			}
+		}else if(args.type == "value"){
+			assertionValue = {
+				value: args.assertion
+			}
+		}
 		const item = mutation.updateCommandProgramDevicePlaceholders({
 			where: {id: deviceId},
 			update: {
@@ -61,7 +132,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 							inputDevice: {connect: {where: {node: {id: args.inputDeviceId}}}},
 							inputDeviceKey: {connect: {where: {node: {id: args.inputDeviceKeyId}}}},
 							comparator: args.comparator,
-							assertion: args.assertion,
+							assertion: {create: {node: {type: args.type, ...assertionValue}}},
 							action: {connect: {where: {node: {id: args.action}}}}
 						}
 					}]
@@ -80,10 +151,21 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 		id: string;
 		inputDeviceId: string,
 		inputDeviceKeyId: string,
+		type: string,
 		comparator: string,
 		assertion: string;
 		action: string
 	}) => {
+		let assertionUpdate = {};
+		if(args.type == "setpoint"){
+			assertionUpdate = {
+				setpoint: {connect: {where: {node: {id: args.assertion}}}}
+			}
+		}else if(args.type == "value"){
+			assertionUpdate = {
+				value: args.assertion
+			}
+		}
 		const item = mutation.updateCommandProgramDevicePlaceholders({
 			where: {id: deviceId},
 			update: {
@@ -94,7 +176,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 							inputDevice: {connect: {where: {node: {id: args.inputDeviceId}}}},
 							inputDeviceKey: {connect: {where: {node: {id: args.inputDeviceKeyId}}}},
 							comparator: args.comparator,
-							assertion: args.assertion,
+							assertion: {create: {node: {type: args.type, ...assertionUpdate}}},
 							action: {connect: {where: {node: {id: args.action}}}}
 						}
 					}
@@ -139,14 +221,15 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 						node: {
 							plugin: {connect: {where: {node: {id: args.plugin}}}},
 							...ruleUpdate,
-							configuration: {
-								create: conf.map((c) => ({
+							configuration: conf.map((c) => ({
+								where: {node: {key: c.key}},
+								update: {
 									node: {
 										key: c.key,
 										value: c.value
 									}
-								}))
-							}
+								}
+							}))
 						}
 					}
 				}]
@@ -212,9 +295,15 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 					name
 					type {
 						state {
-							id
+							id 
 							key
+							type
 						}
+					}
+
+					setpoints {
+						id
+						name
 					}
 				}
 
@@ -237,8 +326,24 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 						id
 						key
 					}
+
+					state {
+						id
+						key
+						type
+					}
 				}
 
+				setpoints {
+					id
+					name
+					type
+					key {
+						id
+						key
+					}
+					value
+				}
 				interlocks {
 					id
 					inputDevice {
@@ -255,7 +360,14 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 					}
 
 					comparator
-					assertion
+					assertion {
+						type
+						value
+						setpoint {
+							id
+							name
+						}
+					}
 				}
 
 				plugins {
@@ -291,6 +403,8 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 
 	const device = data?.commandProgramDevicePlaceholders?.[0];
 
+	console.log(device)
+
 	const flows = data?.commandPrograms?.[0]?.program?.map((item) => [item, ...(item.children || []).map((x) => ({...x, name: `${item.name} - ${x.name}`}))]).reduce((prev, curr) => prev.concat(curr), [])
 	const devices = data?.commandPrograms?.[0]?.devices;
 	const plugins = data?.commandProgramDevicePlugins || [];
@@ -299,6 +413,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 		<Box flex>
 			<DeviceInterlock
 				devices={devices}
+				device={device}
 				actions={device?.type?.actions || []}
 				open={interlockModalOpen}
 				selected={selectedInterlock}
@@ -314,6 +429,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 								inputDeviceId: lock.inputDevice,
 								inputDeviceKeyId: lock.inputDeviceKey,
 								comparator: lock.comparator,
+								type: lock.valueType,
 								assertion: lock.assertion,
 								action: lock.action
 							}
@@ -326,6 +442,7 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 								inputDeviceId: lock.inputDevice,
 								inputDeviceKeyId: lock.inputDeviceKey,
 								comparator: lock.comparator,
+								type: lock.valueType,
 								assertion: lock.assertion,
 								action: lock.action
 							}
@@ -335,12 +452,44 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 					}
 		
 				}} />
+			<DeviceSetpointModal
+				selected={selected}
+				onSubmit={(setpoint) => {
+
+					if(setpoint.id){
+						updateSetpoint({
+							args: {
+								id: setpoint.id,
+								...setpoint
+							}
+						}).then(() => {
+							openSetpointModal(false)
+							refetch()
+						})
+					}else{
+					addSetpoint({
+						args: {
+							...setpoint
+						}
+					}).then(() => {
+						openSetpointModal(false)
+						refetch()
+					})
+					}	
+				}}
+				onClose={() => {
+					openSetpointModal(false)
+				}}
+				stateItems={device?.type?.state}
+				open={setpointModalOpen} />
 			<DevicePluginModal
 				selected={selected}
 				open={modalOpen}
 				onSubmit={(config) => {
 
-					addDevicePlugin({ args: config })
+					addDevicePlugin({ args: config }).then(() => {
+						refetch()
+					})
 				}}
 				onClose={() => openModal(false)}
 				devices={devices}
@@ -349,71 +498,51 @@ export const DeviceSingle: React.FC<DeviceSingleProps> = (props) => {
 			/>
 			<Box direction="row" justify="between" align="center" pad="small">
 				<Text size="medium">{device?.name}</Text>
-
 			</Box>
-
+			
+			<Box flex gap="xsmall" direction="column">
 			<Box gap="xsmall" direction="row" flex>
-				<Box flex>
-					<Box direction="row" justify="between" align="center">
-						<Text>Interlocks</Text>
-						<Button
-							size='small'
-							hoverIndicator
-							onClick={() => openInterlockModal(true)}
-							plain
-							style={{ padding: 6, borderRadius: 3 }}
-							icon={<Add size="small" />}
-						/>
-					</Box>
-					<List
-						pad="small"
-						primaryKey="name"
-						data={device?.interlocks || []}>
-						{(datum) => (
-							<Box direction="row" justify="between" align="center">
-								<Text size="small">{datum?.inputDevice?.name}</Text>
-								<Button
-									onClick={() => {
-										openInterlockModal(true)
-										setSelectedInterlock(datum)
-										// selectPlugin(datum)
-									}}
-									plain
-									style={{ padding: 6, borderRadius: 3 }}
-									icon={<MoreVertical size="small" />}
-									hoverIndicator />
-							</Box>
-						)}
-					</List>
-				</Box>
-			<Box flex>
-				<Box direction="row" justify="between" align="center">
-					<Text>Controllers</Text>
-					<Button
-						size='small'
-						hoverIndicator
-						onClick={() => openModal(true)}
-						plain
-						style={{ padding: 6, borderRadius: 3 }}
-						icon={<Add size="small" />}
-					/>
-				</Box>
-				<List
-					pad="small"
-					primaryKey="name"
-					data={device?.plugins || []}>
-					{(datum) => (
-						<Box direction="row" justify="between" align="center">
-							<Text size="small">{datum.plugin?.name} {datum?.rules && `- ${datum?.rules?.name}`}</Text>
-							<Button
-								onClick={() => selectPlugin(datum)}
-								plain
-								style={{ padding: 6, borderRadius: 3 }}
-								icon={<MoreVertical size="small" />}
-								hoverIndicator />
-						</Box>
-					)}
-				</List>
+				<ListBox 
+					label="Interlocks" 
+					onAdd={() => openInterlockModal(true)}
+					data={device?.interlocks || []}
+					onItemEdit={(item) => {openInterlockModal(true); setSelectedInterlock(item)}}
+					renderItem={(item) => {
+						return (
+							<Text size="small">{item.inputDevice?.name}</Text>
+						)
+					}} />
+				<ListBox 
+					label="Controllers"
+					onAdd={() => openModal(true)}
+					data={device?.plugins || []}
+					onItemEdit={(item) => {selectPlugin(item)}}
+					renderItem={(item) => {
+						return (
+							<Text size="small">{item.plugin?.name} {item?.rules && `- ${item?.rules?.name}`}</Text>
+						)
+					}} />
+
+			
+			</Box>
+			<Box gap="xsmall" flex direction="row">
+				<ListBox
+					label="Setpoints"
+					onAdd={() => openSetpointModal(true)}
+					onItemEdit={(item) => {openSetpointModal(true); setSelected(item)}}
+					data={device?.setpoints || []}
+					renderItem={(item) => {
+						return (
+							<Text size="small">{item.name}</Text>
+						)
+					}} />
+				<ListBox
+					label="Actions"
+					data={device?.type?.actions || []}
+					renderItem={(item) => (
+						<Text>{item.key}</Text>
+					)} />
+			
 			</Box>
 			</Box>
 

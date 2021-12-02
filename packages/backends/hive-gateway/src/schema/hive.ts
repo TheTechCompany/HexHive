@@ -143,6 +143,69 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			// }
 		},
 		Query: {
+			commandDeviceTimeseriesTotal: async (root: any, args: {
+				deviceId: string, //device in quest
+				device: string, //deviceId in quest
+				valueKey?: string,
+				startDate?: string,
+			}) => {
+				const client = await pgClient.connect()
+
+				const { deviceId, device, valueKey, startDate } = args
+
+				console.log({deviceId}, {device}, {valueKey})
+				const query = `
+				SELECT 
+					sum(SUB.total) as total
+				FROM 
+					(
+						SELECT (CAST(value AS DOUBLE PRECISION) / 60) * EXTRACT(EPOCH from (LEAD(timestamp) over (order by timestamp) - timestamp)) as total
+						FROM
+							command_device_values
+						WHERE
+							device = $1
+							AND deviceId = $2
+							AND valueKey = $3
+							AND timestamp >= NOW() - (7 * INTERVAL '1 day') 
+						GROUP by deviceId, device, valueKey, timestamp, value
+					) as SUB
+				`//startDate
+				const result = await client.query(query, [deviceId, device, valueKey ])
+				await client.release()
+				console.log(result)
+				return result.rows?.[0]
+			},
+			commandDeviceTimeseries: async (root: any, args: {
+				deviceId: string, //device in quest
+				device: string, //deviceId in quest
+				valueKey?: string,
+				startDate?: string,
+			}) => {
+				const client = await pgClient.connect()
+
+				let query = `SELECT * FROM command_device_values WHERE deviceId=$1 AND device=$2`;
+				let params = [args.device, args.deviceId]
+
+				if(args.startDate){
+					params.push(new Date(args.startDate).toISOString())
+					query += ` AND timestamp >= $${params.length}`
+				}
+				if(args.valueKey) {
+					params.push(args.valueKey)
+
+					query += ` AND valueKey=$${params.length}`
+				}
+
+				console.log(query, params)
+
+				const result = await client.query(
+					query,
+					params
+				)
+
+				await client.release()
+				return result.rows;
+			},
 			commandDeviceValue: async (root: any, args: {
 				bus: string,
 				device: string,
@@ -306,6 +369,49 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			}
 		},
 		Mutation: {
+			requestFlow: async (root: any, args: any, context: any) => {
+				console.log(args)
+				const device = await session.readTransaction(async (tx) => {
+
+					const res = await tx.run(`
+						MATCH (device:CommandDevice {id: $id})
+						OPTIONAL MATCH (action:CommandProgramAction {id: $actionId})-->(flow:CommandProgramFlow)
+						RETURN device{.*, action: flow{.*}}
+					`, {
+						id: args.deviceId,
+						actionId: args.actionId
+					})
+					return res.records?.[0]?.get(0)
+					// return await getDeviceActions(tx, args.deviceId, args.deviceName)
+				
+				})
+
+				let action = device.action
+
+				console.log(device, action)
+				if(action){
+					let actionRequest = {
+						address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
+						deviceId: args.deviceId,
+						flow: action.id
+					}
+					return await channel.sendToQueue(`COMMAND:FLOW:PRIORITIZE`, Buffer.from(JSON.stringify(actionRequest)))
+				}
+				// 	return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(actionRequest)))
+				// }
+
+				// console.log("DEVICE ACTION", device, args.action, action)
+
+				// let stateChange = {
+				// 	device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
+				// 	busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
+				// 	value: args.value == '0' ? false : true //false
+				// }
+
+				// console.log("Sending state change", stateChange)
+			
+				// return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(stateChange)))
+			},
 			performDeviceAction: async (root: any, args: any, context: any) => {
 				console.log(args)
 				const device = await session.readTransaction(async (tx) => {

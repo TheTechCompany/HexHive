@@ -31,7 +31,7 @@ function SvgPump(props: {scaleX?: number, width: string, height: string, conf?: 
       </g>
     </svg>
     <div style={{position: 'absolute', width: '100%', border: '2px solid gray', borderRadius: 5, transform: `scaleX(${1 / props.scaleX})`, display: 'flex', justifyContent: 'center', alignItems: 'center', top: '-30px', left: '0', right: '0'}}>
-      <span style={{color: 'white', fontSize: 10}}>{getSpeed()}%</span>
+      <span style={{color: 'white', fontSize: 12}}>{getSpeed()}%</span>
     </div>
     </>
   );

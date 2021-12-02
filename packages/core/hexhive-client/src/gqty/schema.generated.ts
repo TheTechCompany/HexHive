@@ -23,11 +23,6 @@ export interface Scalars {
   Float: number;
   /** A date and time, represented as an ISO-8601 string */
   DateTime: string;
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: any;
-  /** The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field. */
-  MongoID: any;
-  Date: any;
 }
 
 export enum SortDirection {
@@ -691,65 +686,57 @@ export interface CommandDeviceActiveProgramUpdateFieldInput {
   delete?: Maybe<CommandDeviceActiveProgramDeleteFieldInput>;
 }
 
-export interface CommandDeviceConfiguredDevicesConnectFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationConnectWhere>;
-  connect?: Maybe<Array<CommandProgramPeripheralConfigurationConnectInput>>;
-  edge?: Maybe<CommandDevicePeripheralPortCreateInput>;
+export interface CommandDeviceCalibrationsConnectFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationConnectWhere>;
+  connect?: Maybe<Array<CommandProgramDeviceCalibrationConnectInput>>;
 }
 
-export interface CommandDeviceConfiguredDevicesConnectionSort {
-  node?: Maybe<CommandProgramPeripheralConfigurationSort>;
-  edge?: Maybe<CommandDevicePeripheralPortSort>;
+export interface CommandDeviceCalibrationsConnectionSort {
+  node?: Maybe<CommandProgramDeviceCalibrationSort>;
 }
 
-export interface CommandDeviceConfiguredDevicesConnectionWhere {
-  AND?: Maybe<Array<CommandDeviceConfiguredDevicesConnectionWhere>>;
-  OR?: Maybe<Array<CommandDeviceConfiguredDevicesConnectionWhere>>;
-  edge?: Maybe<CommandDevicePeripheralPortWhere>;
-  edge_NOT?: Maybe<CommandDevicePeripheralPortWhere>;
-  node?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-  node_NOT?: Maybe<CommandProgramPeripheralConfigurationWhere>;
+export interface CommandDeviceCalibrationsConnectionWhere {
+  AND?: Maybe<Array<CommandDeviceCalibrationsConnectionWhere>>;
+  OR?: Maybe<Array<CommandDeviceCalibrationsConnectionWhere>>;
+  node?: Maybe<CommandProgramDeviceCalibrationWhere>;
+  node_NOT?: Maybe<CommandProgramDeviceCalibrationWhere>;
 }
 
-export interface CommandDeviceConfiguredDevicesCreateFieldInput {
-  node: CommandProgramPeripheralConfigurationCreateInput;
-  edge?: Maybe<CommandDevicePeripheralPortCreateInput>;
+export interface CommandDeviceCalibrationsCreateFieldInput {
+  node: CommandProgramDeviceCalibrationCreateInput;
 }
 
-export interface CommandDeviceConfiguredDevicesDeleteFieldInput {
-  where?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
-  delete?: Maybe<CommandProgramPeripheralConfigurationDeleteInput>;
+export interface CommandDeviceCalibrationsDeleteFieldInput {
+  where?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
+  delete?: Maybe<CommandProgramDeviceCalibrationDeleteInput>;
 }
 
-export interface CommandDeviceConfiguredDevicesDisconnectFieldInput {
-  where?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
-  disconnect?: Maybe<CommandProgramPeripheralConfigurationDisconnectInput>;
+export interface CommandDeviceCalibrationsDisconnectFieldInput {
+  where?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDeviceCalibrationDisconnectInput>;
 }
 
-export interface CommandDeviceConfiguredDevicesFieldInput {
-  create?: Maybe<Array<CommandDeviceConfiguredDevicesCreateFieldInput>>;
-  connect?: Maybe<Array<CommandDeviceConfiguredDevicesConnectFieldInput>>;
+export interface CommandDeviceCalibrationsFieldInput {
+  create?: Maybe<Array<CommandDeviceCalibrationsCreateFieldInput>>;
+  connect?: Maybe<Array<CommandDeviceCalibrationsConnectFieldInput>>;
 }
 
-export interface CommandDeviceConfiguredDevicesUpdateConnectionInput {
-  node?: Maybe<CommandProgramPeripheralConfigurationUpdateInput>;
-  edge?: Maybe<CommandDevicePeripheralPortUpdateInput>;
+export interface CommandDeviceCalibrationsUpdateConnectionInput {
+  node?: Maybe<CommandProgramDeviceCalibrationUpdateInput>;
 }
 
-export interface CommandDeviceConfiguredDevicesUpdateFieldInput {
-  where?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
-  update?: Maybe<CommandDeviceConfiguredDevicesUpdateConnectionInput>;
-  connect?: Maybe<Array<CommandDeviceConfiguredDevicesConnectFieldInput>>;
-  disconnect?: Maybe<Array<CommandDeviceConfiguredDevicesDisconnectFieldInput>>;
-  create?: Maybe<Array<CommandDeviceConfiguredDevicesCreateFieldInput>>;
-  delete?: Maybe<Array<CommandDeviceConfiguredDevicesDeleteFieldInput>>;
+export interface CommandDeviceCalibrationsUpdateFieldInput {
+  where?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
+  update?: Maybe<CommandDeviceCalibrationsUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandDeviceCalibrationsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandDeviceCalibrationsDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandDeviceCalibrationsCreateFieldInput>>;
+  delete?: Maybe<Array<CommandDeviceCalibrationsDeleteFieldInput>>;
 }
 
 export interface CommandDeviceConnectInput {
   activeProgram?: Maybe<CommandDeviceActiveProgramConnectFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesConnectFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsConnectFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsConnectFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationConnectFieldInput>;
 }
@@ -765,25 +752,21 @@ export interface CommandDeviceCreateInput {
   online?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
   activeProgram?: Maybe<CommandDeviceActiveProgramFieldInput>;
-  configuredDevices?: Maybe<CommandDeviceConfiguredDevicesFieldInput>;
+  calibrations?: Maybe<CommandDeviceCalibrationsFieldInput>;
   peripherals?: Maybe<CommandDevicePeripheralsFieldInput>;
   organisation?: Maybe<CommandDeviceOrganisationFieldInput>;
 }
 
 export interface CommandDeviceDeleteInput {
   activeProgram?: Maybe<CommandDeviceActiveProgramDeleteFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesDeleteFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsDeleteFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsDeleteFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationDeleteFieldInput>;
 }
 
 export interface CommandDeviceDisconnectInput {
   activeProgram?: Maybe<CommandDeviceActiveProgramDisconnectFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesDisconnectFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsDisconnectFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsDisconnectFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationDisconnectFieldInput>;
 }
@@ -1913,9 +1896,7 @@ export interface CommandDevicePluginWhere {
 
 export interface CommandDeviceRelationInput {
   activeProgram?: Maybe<CommandDeviceActiveProgramCreateFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesCreateFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsCreateFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsCreateFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationCreateFieldInput>;
 }
@@ -1947,6 +1928,152 @@ export interface CommandDeviceResponseWhere {
   success_NOT?: Maybe<Scalars["Boolean"]>;
 }
 
+export interface CommandDeviceSetpointConnectInput {
+  key?: Maybe<CommandDeviceSetpointKeyConnectFieldInput>;
+}
+
+export interface CommandDeviceSetpointConnectWhere {
+  node: CommandDeviceSetpointWhere;
+}
+
+export interface CommandDeviceSetpointCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  key?: Maybe<CommandDeviceSetpointKeyFieldInput>;
+}
+
+export interface CommandDeviceSetpointDeleteInput {
+  key?: Maybe<CommandDeviceSetpointKeyDeleteFieldInput>;
+}
+
+export interface CommandDeviceSetpointDisconnectInput {
+  key?: Maybe<CommandDeviceSetpointKeyDisconnectFieldInput>;
+}
+
+export interface CommandDeviceSetpointKeyConnectFieldInput {
+  where?: Maybe<CommandProgramDeviceStateConnectWhere>;
+  connect?: Maybe<CommandProgramDeviceStateConnectInput>;
+}
+
+export interface CommandDeviceSetpointKeyConnectionSort {
+  node?: Maybe<CommandProgramDeviceStateSort>;
+}
+
+export interface CommandDeviceSetpointKeyConnectionWhere {
+  AND?: Maybe<Array<CommandDeviceSetpointKeyConnectionWhere>>;
+  OR?: Maybe<Array<CommandDeviceSetpointKeyConnectionWhere>>;
+  node?: Maybe<CommandProgramDeviceStateWhere>;
+  node_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+}
+
+export interface CommandDeviceSetpointKeyCreateFieldInput {
+  node: CommandProgramDeviceStateCreateInput;
+}
+
+export interface CommandDeviceSetpointKeyDeleteFieldInput {
+  where?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+  delete?: Maybe<CommandProgramDeviceStateDeleteInput>;
+}
+
+export interface CommandDeviceSetpointKeyDisconnectFieldInput {
+  where?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDeviceStateDisconnectInput>;
+}
+
+export interface CommandDeviceSetpointKeyFieldInput {
+  create?: Maybe<CommandDeviceSetpointKeyCreateFieldInput>;
+  connect?: Maybe<CommandDeviceSetpointKeyConnectFieldInput>;
+}
+
+export interface CommandDeviceSetpointKeyUpdateConnectionInput {
+  node?: Maybe<CommandProgramDeviceStateUpdateInput>;
+}
+
+export interface CommandDeviceSetpointKeyUpdateFieldInput {
+  where?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+  update?: Maybe<CommandDeviceSetpointKeyUpdateConnectionInput>;
+  connect?: Maybe<CommandDeviceSetpointKeyConnectFieldInput>;
+  disconnect?: Maybe<CommandDeviceSetpointKeyDisconnectFieldInput>;
+  create?: Maybe<CommandDeviceSetpointKeyCreateFieldInput>;
+  delete?: Maybe<CommandDeviceSetpointKeyDeleteFieldInput>;
+}
+
+export interface CommandDeviceSetpointOptions {
+  /** Specify one or more CommandDeviceSetpointSort objects to sort CommandDeviceSetpoints by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandDeviceSetpointSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandDeviceSetpointRelationInput {
+  key?: Maybe<CommandDeviceSetpointKeyCreateFieldInput>;
+}
+
+/** Fields to sort CommandDeviceSetpoints by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandDeviceSetpointSort object. */
+export interface CommandDeviceSetpointSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+  value?: Maybe<SortDirection>;
+}
+
+export interface CommandDeviceSetpointUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  key?: Maybe<CommandDeviceSetpointKeyUpdateFieldInput>;
+}
+
+export interface CommandDeviceSetpointWhere {
+  OR?: Maybe<Array<CommandDeviceSetpointWhere>>;
+  AND?: Maybe<Array<CommandDeviceSetpointWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  value_NOT?: Maybe<Scalars["String"]>;
+  value_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_CONTAINS?: Maybe<Scalars["String"]>;
+  value_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  value_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  key?: Maybe<CommandProgramDeviceStateWhere>;
+  key_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+  keyConnection?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+  keyConnection_NOT?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+}
+
 /** Fields to sort CommandDevices by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandDeviceSort object. */
 export interface CommandDeviceSort {
   id?: Maybe<SortDirection>;
@@ -1964,9 +2091,7 @@ export interface CommandDeviceUpdateInput {
   online?: Maybe<Scalars["Boolean"]>;
   lastOnline?: Maybe<Scalars["DateTime"]>;
   activeProgram?: Maybe<CommandDeviceActiveProgramUpdateFieldInput>;
-  configuredDevices?: Maybe<
-    Array<CommandDeviceConfiguredDevicesUpdateFieldInput>
-  >;
+  calibrations?: Maybe<Array<CommandDeviceCalibrationsUpdateFieldInput>>;
   peripherals?: Maybe<Array<CommandDevicePeripheralsUpdateFieldInput>>;
   organisation?: Maybe<CommandDeviceOrganisationUpdateFieldInput>;
 }
@@ -2100,16 +2225,16 @@ export interface CommandDeviceWhere {
   lastOnline_GTE?: Maybe<Scalars["DateTime"]>;
   activeProgram?: Maybe<CommandProgramWhere>;
   activeProgram_NOT?: Maybe<CommandProgramWhere>;
-  configuredDevices?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-  configuredDevices_NOT?: Maybe<CommandProgramPeripheralConfigurationWhere>;
+  calibrations?: Maybe<CommandProgramDeviceCalibrationWhere>;
+  calibrations_NOT?: Maybe<CommandProgramDeviceCalibrationWhere>;
   peripherals?: Maybe<CommandDevicePeripheralWhere>;
   peripherals_NOT?: Maybe<CommandDevicePeripheralWhere>;
   organisation?: Maybe<HiveOrganisationWhere>;
   organisation_NOT?: Maybe<HiveOrganisationWhere>;
   activeProgramConnection?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
   activeProgramConnection_NOT?: Maybe<CommandDeviceActiveProgramConnectionWhere>;
-  configuredDevicesConnection?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
-  configuredDevicesConnection_NOT?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
+  calibrationsConnection?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
+  calibrationsConnection_NOT?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
   peripheralsConnection?: Maybe<CommandDevicePeripheralsConnectionWhere>;
   peripheralsConnection_NOT?: Maybe<CommandDevicePeripheralsConnectionWhere>;
   organisationConnection?: Maybe<CommandDeviceOrganisationConnectionWhere>;
@@ -3711,9 +3836,191 @@ export interface CommandInterlockActionUpdateFieldInput {
   delete?: Maybe<CommandInterlockActionDeleteFieldInput>;
 }
 
+export interface CommandInterlockAssertionConnectFieldInput {
+  where?: Maybe<CommandInterlockAssertionConnectWhere>;
+  connect?: Maybe<CommandInterlockAssertionConnectInput>;
+}
+
+export interface CommandInterlockAssertionConnectInput {
+  setpoint?: Maybe<CommandInterlockAssertionSetpointConnectFieldInput>;
+}
+
+export interface CommandInterlockAssertionConnectionSort {
+  node?: Maybe<CommandInterlockAssertionSort>;
+}
+
+export interface CommandInterlockAssertionConnectionWhere {
+  AND?: Maybe<Array<CommandInterlockAssertionConnectionWhere>>;
+  OR?: Maybe<Array<CommandInterlockAssertionConnectionWhere>>;
+  node?: Maybe<CommandInterlockAssertionWhere>;
+  node_NOT?: Maybe<CommandInterlockAssertionWhere>;
+}
+
+export interface CommandInterlockAssertionConnectWhere {
+  node: CommandInterlockAssertionWhere;
+}
+
+export interface CommandInterlockAssertionCreateFieldInput {
+  node: CommandInterlockAssertionCreateInput;
+}
+
+export interface CommandInterlockAssertionCreateInput {
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  setpoint?: Maybe<CommandInterlockAssertionSetpointFieldInput>;
+}
+
+export interface CommandInterlockAssertionDeleteFieldInput {
+  where?: Maybe<CommandInterlockAssertionConnectionWhere>;
+  delete?: Maybe<CommandInterlockAssertionDeleteInput>;
+}
+
+export interface CommandInterlockAssertionDeleteInput {
+  setpoint?: Maybe<CommandInterlockAssertionSetpointDeleteFieldInput>;
+}
+
+export interface CommandInterlockAssertionDisconnectFieldInput {
+  where?: Maybe<CommandInterlockAssertionConnectionWhere>;
+  disconnect?: Maybe<CommandInterlockAssertionDisconnectInput>;
+}
+
+export interface CommandInterlockAssertionDisconnectInput {
+  setpoint?: Maybe<CommandInterlockAssertionSetpointDisconnectFieldInput>;
+}
+
+export interface CommandInterlockAssertionFieldInput {
+  create?: Maybe<CommandInterlockAssertionCreateFieldInput>;
+  connect?: Maybe<CommandInterlockAssertionConnectFieldInput>;
+}
+
+export interface CommandInterlockAssertionOptions {
+  /** Specify one or more CommandInterlockAssertionSort objects to sort CommandInterlockAssertions by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandInterlockAssertionSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandInterlockAssertionRelationInput {
+  setpoint?: Maybe<CommandInterlockAssertionSetpointCreateFieldInput>;
+}
+
+export interface CommandInterlockAssertionSetpointConnectFieldInput {
+  where?: Maybe<CommandDeviceSetpointConnectWhere>;
+  connect?: Maybe<CommandDeviceSetpointConnectInput>;
+}
+
+export interface CommandInterlockAssertionSetpointConnectionSort {
+  node?: Maybe<CommandDeviceSetpointSort>;
+}
+
+export interface CommandInterlockAssertionSetpointConnectionWhere {
+  AND?: Maybe<Array<CommandInterlockAssertionSetpointConnectionWhere>>;
+  OR?: Maybe<Array<CommandInterlockAssertionSetpointConnectionWhere>>;
+  node?: Maybe<CommandDeviceSetpointWhere>;
+  node_NOT?: Maybe<CommandDeviceSetpointWhere>;
+}
+
+export interface CommandInterlockAssertionSetpointCreateFieldInput {
+  node: CommandDeviceSetpointCreateInput;
+}
+
+export interface CommandInterlockAssertionSetpointDeleteFieldInput {
+  where?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+  delete?: Maybe<CommandDeviceSetpointDeleteInput>;
+}
+
+export interface CommandInterlockAssertionSetpointDisconnectFieldInput {
+  where?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+  disconnect?: Maybe<CommandDeviceSetpointDisconnectInput>;
+}
+
+export interface CommandInterlockAssertionSetpointFieldInput {
+  create?: Maybe<CommandInterlockAssertionSetpointCreateFieldInput>;
+  connect?: Maybe<CommandInterlockAssertionSetpointConnectFieldInput>;
+}
+
+export interface CommandInterlockAssertionSetpointUpdateConnectionInput {
+  node?: Maybe<CommandDeviceSetpointUpdateInput>;
+}
+
+export interface CommandInterlockAssertionSetpointUpdateFieldInput {
+  where?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+  update?: Maybe<CommandInterlockAssertionSetpointUpdateConnectionInput>;
+  connect?: Maybe<CommandInterlockAssertionSetpointConnectFieldInput>;
+  disconnect?: Maybe<CommandInterlockAssertionSetpointDisconnectFieldInput>;
+  create?: Maybe<CommandInterlockAssertionSetpointCreateFieldInput>;
+  delete?: Maybe<CommandInterlockAssertionSetpointDeleteFieldInput>;
+}
+
+/** Fields to sort CommandInterlockAssertions by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandInterlockAssertionSort object. */
+export interface CommandInterlockAssertionSort {
+  id?: Maybe<SortDirection>;
+  type?: Maybe<SortDirection>;
+  value?: Maybe<SortDirection>;
+}
+
+export interface CommandInterlockAssertionUpdateConnectionInput {
+  node?: Maybe<CommandInterlockAssertionUpdateInput>;
+}
+
+export interface CommandInterlockAssertionUpdateFieldInput {
+  where?: Maybe<CommandInterlockAssertionConnectionWhere>;
+  update?: Maybe<CommandInterlockAssertionUpdateConnectionInput>;
+  connect?: Maybe<CommandInterlockAssertionConnectFieldInput>;
+  disconnect?: Maybe<CommandInterlockAssertionDisconnectFieldInput>;
+  create?: Maybe<CommandInterlockAssertionCreateFieldInput>;
+  delete?: Maybe<CommandInterlockAssertionDeleteFieldInput>;
+}
+
+export interface CommandInterlockAssertionUpdateInput {
+  type?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  setpoint?: Maybe<CommandInterlockAssertionSetpointUpdateFieldInput>;
+}
+
+export interface CommandInterlockAssertionWhere {
+  OR?: Maybe<Array<CommandInterlockAssertionWhere>>;
+  AND?: Maybe<Array<CommandInterlockAssertionWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  type?: Maybe<Scalars["String"]>;
+  type_NOT?: Maybe<Scalars["String"]>;
+  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  type_CONTAINS?: Maybe<Scalars["String"]>;
+  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  type_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  type_ENDS_WITH?: Maybe<Scalars["String"]>;
+  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
+  value_NOT?: Maybe<Scalars["String"]>;
+  value_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  value_CONTAINS?: Maybe<Scalars["String"]>;
+  value_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  value_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  value_ENDS_WITH?: Maybe<Scalars["String"]>;
+  value_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  setpoint?: Maybe<CommandDeviceSetpointWhere>;
+  setpoint_NOT?: Maybe<CommandDeviceSetpointWhere>;
+  setpointConnection?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+  setpointConnection_NOT?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+}
+
 export interface CommandInterlockConnectInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceConnectFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyConnectFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionConnectFieldInput>;
   action?: Maybe<CommandInterlockActionConnectFieldInput>;
   device?: Maybe<CommandInterlockDeviceConnectFieldInput>;
 }
@@ -3724,9 +4031,9 @@ export interface CommandInterlockConnectWhere {
 
 export interface CommandInterlockCreateInput {
   comparator?: Maybe<Scalars["String"]>;
-  assertion?: Maybe<Scalars["String"]>;
   inputDevice?: Maybe<CommandInterlockInputDeviceFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionFieldInput>;
   action?: Maybe<CommandInterlockActionFieldInput>;
   device?: Maybe<CommandInterlockDeviceFieldInput>;
 }
@@ -3734,6 +4041,7 @@ export interface CommandInterlockCreateInput {
 export interface CommandInterlockDeleteInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceDeleteFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyDeleteFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionDeleteFieldInput>;
   action?: Maybe<CommandInterlockActionDeleteFieldInput>;
   device?: Maybe<CommandInterlockDeviceDeleteFieldInput>;
 }
@@ -3789,6 +4097,7 @@ export interface CommandInterlockDeviceUpdateFieldInput {
 export interface CommandInterlockDisconnectInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceDisconnectFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyDisconnectFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionDisconnectFieldInput>;
   action?: Maybe<CommandInterlockActionDisconnectFieldInput>;
   device?: Maybe<CommandInterlockDeviceDisconnectFieldInput>;
 }
@@ -3899,6 +4208,7 @@ export interface CommandInterlockOptions {
 export interface CommandInterlockRelationInput {
   inputDevice?: Maybe<CommandInterlockInputDeviceCreateFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyCreateFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionCreateFieldInput>;
   action?: Maybe<CommandInterlockActionCreateFieldInput>;
   device?: Maybe<CommandInterlockDeviceCreateFieldInput>;
 }
@@ -3907,14 +4217,13 @@ export interface CommandInterlockRelationInput {
 export interface CommandInterlockSort {
   id?: Maybe<SortDirection>;
   comparator?: Maybe<SortDirection>;
-  assertion?: Maybe<SortDirection>;
 }
 
 export interface CommandInterlockUpdateInput {
   comparator?: Maybe<Scalars["String"]>;
-  assertion?: Maybe<Scalars["String"]>;
   inputDevice?: Maybe<CommandInterlockInputDeviceUpdateFieldInput>;
   inputDeviceKey?: Maybe<CommandInterlockInputDeviceKeyUpdateFieldInput>;
+  assertion?: Maybe<CommandInterlockAssertionUpdateFieldInput>;
   action?: Maybe<CommandInterlockActionUpdateFieldInput>;
   device?: Maybe<CommandInterlockDeviceUpdateFieldInput>;
 }
@@ -3942,20 +4251,12 @@ export interface CommandInterlockWhere {
   comparator_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   comparator_ENDS_WITH?: Maybe<Scalars["String"]>;
   comparator_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  assertion?: Maybe<Scalars["String"]>;
-  assertion_NOT?: Maybe<Scalars["String"]>;
-  assertion_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  assertion_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  assertion_CONTAINS?: Maybe<Scalars["String"]>;
-  assertion_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  assertion_STARTS_WITH?: Maybe<Scalars["String"]>;
-  assertion_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  assertion_ENDS_WITH?: Maybe<Scalars["String"]>;
-  assertion_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
   inputDevice?: Maybe<CommandProgramDevicePlaceholderWhere>;
   inputDevice_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
   inputDeviceKey?: Maybe<CommandProgramDeviceStateWhere>;
   inputDeviceKey_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+  assertion?: Maybe<CommandInterlockAssertionWhere>;
+  assertion_NOT?: Maybe<CommandInterlockAssertionWhere>;
   action?: Maybe<CommandProgramDeviceActionWhere>;
   action_NOT?: Maybe<CommandProgramDeviceActionWhere>;
   device?: Maybe<CommandProgramDevicePlaceholderWhere>;
@@ -3964,6 +4265,8 @@ export interface CommandInterlockWhere {
   inputDeviceConnection_NOT?: Maybe<CommandInterlockInputDeviceConnectionWhere>;
   inputDeviceKeyConnection?: Maybe<CommandInterlockInputDeviceKeyConnectionWhere>;
   inputDeviceKeyConnection_NOT?: Maybe<CommandInterlockInputDeviceKeyConnectionWhere>;
+  assertionConnection?: Maybe<CommandInterlockAssertionConnectionWhere>;
+  assertionConnection_NOT?: Maybe<CommandInterlockAssertionConnectionWhere>;
   actionConnection?: Maybe<CommandInterlockActionConnectionWhere>;
   actionConnection_NOT?: Maybe<CommandInterlockActionConnectionWhere>;
   deviceConnection?: Maybe<CommandInterlockDeviceConnectionWhere>;
@@ -3975,7 +4278,6 @@ export interface CommandKeyValueConnectWhere {
 }
 
 export interface CommandKeyValueCreateInput {
-  id?: Maybe<Scalars["ID"]>;
   key?: Maybe<Scalars["String"]>;
   value?: Maybe<Scalars["String"]>;
 }
@@ -3995,7 +4297,6 @@ export interface CommandKeyValueSort {
 }
 
 export interface CommandKeyValueUpdateInput {
-  id?: Maybe<Scalars["ID"]>;
   key?: Maybe<Scalars["String"]>;
   value?: Maybe<Scalars["String"]>;
 }
@@ -4494,6 +4795,126 @@ export interface CommandPluginWhere {
   organisationConnection_NOT?: Maybe<CommandPluginOrganisationConnectionWhere>;
 }
 
+export interface CommandProgramActionConnectInput {
+  flow?: Maybe<Array<CommandProgramActionFlowConnectFieldInput>>;
+}
+
+export interface CommandProgramActionConnectWhere {
+  node: CommandProgramActionWhere;
+}
+
+export interface CommandProgramActionCreateInput {
+  name?: Maybe<Scalars["String"]>;
+  flow?: Maybe<CommandProgramActionFlowFieldInput>;
+}
+
+export interface CommandProgramActionDeleteInput {
+  flow?: Maybe<Array<CommandProgramActionFlowDeleteFieldInput>>;
+}
+
+export interface CommandProgramActionDisconnectInput {
+  flow?: Maybe<Array<CommandProgramActionFlowDisconnectFieldInput>>;
+}
+
+export interface CommandProgramActionFlowConnectFieldInput {
+  where?: Maybe<CommandProgramFlowConnectWhere>;
+  connect?: Maybe<Array<CommandProgramFlowConnectInput>>;
+}
+
+export interface CommandProgramActionFlowConnectionSort {
+  node?: Maybe<CommandProgramFlowSort>;
+}
+
+export interface CommandProgramActionFlowConnectionWhere {
+  AND?: Maybe<Array<CommandProgramActionFlowConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramActionFlowConnectionWhere>>;
+  node?: Maybe<CommandProgramFlowWhere>;
+  node_NOT?: Maybe<CommandProgramFlowWhere>;
+}
+
+export interface CommandProgramActionFlowCreateFieldInput {
+  node: CommandProgramFlowCreateInput;
+}
+
+export interface CommandProgramActionFlowDeleteFieldInput {
+  where?: Maybe<CommandProgramActionFlowConnectionWhere>;
+  delete?: Maybe<CommandProgramFlowDeleteInput>;
+}
+
+export interface CommandProgramActionFlowDisconnectFieldInput {
+  where?: Maybe<CommandProgramActionFlowConnectionWhere>;
+  disconnect?: Maybe<CommandProgramFlowDisconnectInput>;
+}
+
+export interface CommandProgramActionFlowFieldInput {
+  create?: Maybe<Array<CommandProgramActionFlowCreateFieldInput>>;
+  connect?: Maybe<Array<CommandProgramActionFlowConnectFieldInput>>;
+}
+
+export interface CommandProgramActionFlowUpdateConnectionInput {
+  node?: Maybe<CommandProgramFlowUpdateInput>;
+}
+
+export interface CommandProgramActionFlowUpdateFieldInput {
+  where?: Maybe<CommandProgramActionFlowConnectionWhere>;
+  update?: Maybe<CommandProgramActionFlowUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandProgramActionFlowConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandProgramActionFlowDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandProgramActionFlowCreateFieldInput>>;
+  delete?: Maybe<Array<CommandProgramActionFlowDeleteFieldInput>>;
+}
+
+export interface CommandProgramActionOptions {
+  /** Specify one or more CommandProgramActionSort objects to sort CommandProgramActions by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandProgramActionSort>>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+}
+
+export interface CommandProgramActionRelationInput {
+  flow?: Maybe<Array<CommandProgramActionFlowCreateFieldInput>>;
+}
+
+/** Fields to sort CommandProgramActions by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramActionSort object. */
+export interface CommandProgramActionSort {
+  id?: Maybe<SortDirection>;
+  name?: Maybe<SortDirection>;
+}
+
+export interface CommandProgramActionUpdateInput {
+  name?: Maybe<Scalars["String"]>;
+  flow?: Maybe<Array<CommandProgramActionFlowUpdateFieldInput>>;
+}
+
+export interface CommandProgramActionWhere {
+  OR?: Maybe<Array<CommandProgramActionWhere>>;
+  AND?: Maybe<Array<CommandProgramActionWhere>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  name_NOT?: Maybe<Scalars["String"]>;
+  name_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  name_CONTAINS?: Maybe<Scalars["String"]>;
+  name_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  name_ENDS_WITH?: Maybe<Scalars["String"]>;
+  name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  flow?: Maybe<CommandProgramFlowWhere>;
+  flow_NOT?: Maybe<CommandProgramFlowWhere>;
+  flowConnection?: Maybe<CommandProgramActionFlowConnectionWhere>;
+  flowConnection_NOT?: Maybe<CommandProgramActionFlowConnectionWhere>;
+}
+
 export interface CommandProgramAlarmConnectWhere {
   node: CommandProgramAlarmWhere;
 }
@@ -4805,84 +5226,211 @@ export interface CommandProgramDeviceActionWhere {
   deviceConnection_NOT?: Maybe<CommandProgramDeviceActionDeviceConnectionWhere>;
 }
 
-export interface CommandProgramDeviceConfigurationConnectFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectWhere>;
+export interface CommandProgramDeviceCalibrationConnectInput {
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceConnectFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput>;
 }
 
-export interface CommandProgramDeviceConfigurationConnectionSort {
-  node?: Maybe<CommandProgramDeviceConfigurationSort>;
+export interface CommandProgramDeviceCalibrationConnectWhere {
+  node: CommandProgramDeviceCalibrationWhere;
 }
 
-export interface CommandProgramDeviceConfigurationConnectionWhere {
-  AND?: Maybe<Array<CommandProgramDeviceConfigurationConnectionWhere>>;
-  OR?: Maybe<Array<CommandProgramDeviceConfigurationConnectionWhere>>;
-  node?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  node_NOT?: Maybe<CommandProgramDeviceConfigurationWhere>;
+export interface CommandProgramDeviceCalibrationCreateInput {
+  min?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyFieldInput>;
 }
 
-export interface CommandProgramDeviceConfigurationConnectWhere {
-  node: CommandProgramDeviceConfigurationWhere;
+export interface CommandProgramDeviceCalibrationDeleteInput {
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceDeleteFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput>;
 }
 
-export interface CommandProgramDeviceConfigurationCreateFieldInput {
-  node: CommandProgramDeviceConfigurationCreateInput;
+export interface CommandProgramDeviceCalibrationDeviceConnectFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderConnectWhere>;
+  connect?: Maybe<CommandProgramDevicePlaceholderConnectInput>;
 }
 
-export interface CommandProgramDeviceConfigurationCreateInput {
-  key?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
+export interface CommandProgramDeviceCalibrationDeviceConnectionSort {
+  node?: Maybe<CommandProgramDevicePlaceholderSort>;
 }
 
-export interface CommandProgramDeviceConfigurationDeleteFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
+export interface CommandProgramDeviceCalibrationDeviceConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDeviceCalibrationDeviceConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDeviceCalibrationDeviceConnectionWhere>>;
+  node?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  node_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
 }
 
-export interface CommandProgramDeviceConfigurationDisconnectFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
+export interface CommandProgramDeviceCalibrationDeviceCreateFieldInput {
+  node: CommandProgramDevicePlaceholderCreateInput;
 }
 
-export interface CommandProgramDeviceConfigurationFieldInput {
-  create?: Maybe<Array<CommandProgramDeviceConfigurationCreateFieldInput>>;
-  connect?: Maybe<Array<CommandProgramDeviceConfigurationConnectFieldInput>>;
+export interface CommandProgramDeviceCalibrationDeviceDeleteFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
 }
 
-export interface CommandProgramDeviceConfigurationOptions {
-  /** Specify one or more CommandProgramDeviceConfigurationSort objects to sort CommandProgramDeviceConfigurations by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: Maybe<Array<Maybe<CommandProgramDeviceConfigurationSort>>>;
+export interface CommandProgramDeviceCalibrationDeviceDisconnectFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDevicePlaceholderDisconnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceFieldInput {
+  create?: Maybe<CommandProgramDeviceCalibrationDeviceCreateFieldInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationDeviceConnectFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput {
+  where?: Maybe<CommandProgramDeviceStateConnectWhere>;
+  connect?: Maybe<CommandProgramDeviceStateConnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyConnectionSort {
+  node?: Maybe<CommandProgramDeviceStateSort>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>>;
+  node?: Maybe<CommandProgramDeviceStateWhere>;
+  node_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput {
+  node: CommandProgramDeviceStateCreateInput;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+  delete?: Maybe<CommandProgramDeviceStateDeleteInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+  disconnect?: Maybe<CommandProgramDeviceStateDisconnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyFieldInput {
+  create?: Maybe<CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyUpdateConnectionInput {
+  node?: Maybe<CommandProgramDeviceStateUpdateInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyUpdateFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+  update?: Maybe<CommandProgramDeviceCalibrationDeviceKeyUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput>;
+  create?: Maybe<CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput>;
+  delete?: Maybe<CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceUpdateConnectionInput {
+  node?: Maybe<CommandProgramDevicePlaceholderUpdateInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceUpdateFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  update?: Maybe<CommandProgramDeviceCalibrationDeviceUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationDeviceConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramDeviceCalibrationDeviceDisconnectFieldInput>;
+  create?: Maybe<CommandProgramDeviceCalibrationDeviceCreateFieldInput>;
+  delete?: Maybe<CommandProgramDeviceCalibrationDeviceDeleteFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationDisconnectInput {
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceDisconnectFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationOptions {
+  /** Specify one or more CommandProgramDeviceCalibrationSort objects to sort CommandProgramDeviceCalibrations by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<CommandProgramDeviceCalibrationSort>>>;
   limit?: Maybe<Scalars["Int"]>;
   offset?: Maybe<Scalars["Int"]>;
 }
 
-/** Fields to sort CommandProgramDeviceConfigurations by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramDeviceConfigurationSort object. */
-export interface CommandProgramDeviceConfigurationSort {
+export interface CommandProgramDeviceCalibrationRelationInput {
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceCreateFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceCreateFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceConnectFieldInput {
+  where?: Maybe<CommandDeviceConnectWhere>;
+  connect?: Maybe<CommandDeviceConnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceConnectionSort {
+  node?: Maybe<CommandDeviceSort>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>>;
+  node?: Maybe<CommandDeviceWhere>;
+  node_NOT?: Maybe<CommandDeviceWhere>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceCreateFieldInput {
+  node: CommandDeviceCreateInput;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  delete?: Maybe<CommandDeviceDeleteInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  disconnect?: Maybe<CommandDeviceDisconnectInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceFieldInput {
+  create?: Maybe<CommandProgramDeviceCalibrationRootDeviceCreateFieldInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectFieldInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceUpdateConnectionInput {
+  node?: Maybe<CommandDeviceUpdateInput>;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceUpdateFieldInput {
+  where?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  update?: Maybe<CommandProgramDeviceCalibrationRootDeviceUpdateConnectionInput>;
+  connect?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectFieldInput>;
+  disconnect?: Maybe<CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput>;
+  create?: Maybe<CommandProgramDeviceCalibrationRootDeviceCreateFieldInput>;
+  delete?: Maybe<CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput>;
+}
+
+/** Fields to sort CommandProgramDeviceCalibrations by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramDeviceCalibrationSort object. */
+export interface CommandProgramDeviceCalibrationSort {
   id?: Maybe<SortDirection>;
-  key?: Maybe<SortDirection>;
-  type?: Maybe<SortDirection>;
+  min?: Maybe<SortDirection>;
+  max?: Maybe<SortDirection>;
 }
 
-export interface CommandProgramDeviceConfigurationUpdateConnectionInput {
-  node?: Maybe<CommandProgramDeviceConfigurationUpdateInput>;
+export interface CommandProgramDeviceCalibrationUpdateInput {
+  min?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
+  rootDevice?: Maybe<CommandProgramDeviceCalibrationRootDeviceUpdateFieldInput>;
+  device?: Maybe<CommandProgramDeviceCalibrationDeviceUpdateFieldInput>;
+  deviceKey?: Maybe<CommandProgramDeviceCalibrationDeviceKeyUpdateFieldInput>;
 }
 
-export interface CommandProgramDeviceConfigurationUpdateFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
-  update?: Maybe<CommandProgramDeviceConfigurationUpdateConnectionInput>;
-  connect?: Maybe<Array<CommandProgramDeviceConfigurationConnectFieldInput>>;
-  disconnect?: Maybe<
-    Array<CommandProgramDeviceConfigurationDisconnectFieldInput>
-  >;
-  create?: Maybe<Array<CommandProgramDeviceConfigurationCreateFieldInput>>;
-  delete?: Maybe<Array<CommandProgramDeviceConfigurationDeleteFieldInput>>;
-}
-
-export interface CommandProgramDeviceConfigurationUpdateInput {
-  key?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-}
-
-export interface CommandProgramDeviceConfigurationWhere {
-  OR?: Maybe<Array<CommandProgramDeviceConfigurationWhere>>;
-  AND?: Maybe<Array<CommandProgramDeviceConfigurationWhere>>;
+export interface CommandProgramDeviceCalibrationWhere {
+  OR?: Maybe<Array<CommandProgramDeviceCalibrationWhere>>;
+  AND?: Maybe<Array<CommandProgramDeviceCalibrationWhere>>;
   id?: Maybe<Scalars["ID"]>;
   id_NOT?: Maybe<Scalars["ID"]>;
   id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
@@ -4893,32 +5441,41 @@ export interface CommandProgramDeviceConfigurationWhere {
   id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
   id_ENDS_WITH?: Maybe<Scalars["ID"]>;
   id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  key?: Maybe<Scalars["String"]>;
-  key_NOT?: Maybe<Scalars["String"]>;
-  key_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  key_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  key_CONTAINS?: Maybe<Scalars["String"]>;
-  key_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  key_STARTS_WITH?: Maybe<Scalars["String"]>;
-  key_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  key_ENDS_WITH?: Maybe<Scalars["String"]>;
-  key_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  type_NOT?: Maybe<Scalars["String"]>;
-  type_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  type_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  type_CONTAINS?: Maybe<Scalars["String"]>;
-  type_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  type_STARTS_WITH?: Maybe<Scalars["String"]>;
-  type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  type_ENDS_WITH?: Maybe<Scalars["String"]>;
-  type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  min?: Maybe<Scalars["String"]>;
+  min_NOT?: Maybe<Scalars["String"]>;
+  min_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  min_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  min_CONTAINS?: Maybe<Scalars["String"]>;
+  min_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  min_STARTS_WITH?: Maybe<Scalars["String"]>;
+  min_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  min_ENDS_WITH?: Maybe<Scalars["String"]>;
+  min_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  max?: Maybe<Scalars["String"]>;
+  max_NOT?: Maybe<Scalars["String"]>;
+  max_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  max_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  max_CONTAINS?: Maybe<Scalars["String"]>;
+  max_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  max_STARTS_WITH?: Maybe<Scalars["String"]>;
+  max_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  max_ENDS_WITH?: Maybe<Scalars["String"]>;
+  max_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  rootDevice?: Maybe<CommandDeviceWhere>;
+  rootDevice_NOT?: Maybe<CommandDeviceWhere>;
+  device?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  device_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  deviceKey?: Maybe<CommandProgramDeviceStateWhere>;
+  deviceKey_NOT?: Maybe<CommandProgramDeviceStateWhere>;
+  rootDeviceConnection?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  rootDeviceConnection_NOT?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+  deviceConnection?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  deviceConnection_NOT?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+  deviceKeyConnection?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+  deviceKeyConnection_NOT?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
 }
 
 export interface CommandProgramDeviceConnectInput {
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationConnectFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInConnectFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateConnectFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsConnectFieldInput>>;
@@ -4931,25 +5488,18 @@ export interface CommandProgramDeviceConnectWhere {
 export interface CommandProgramDeviceCreateInput {
   name?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
-  configuration?: Maybe<CommandProgramDeviceConfigurationFieldInput>;
   usedIn?: Maybe<CommandProgramDeviceUsedInFieldInput>;
   state?: Maybe<CommandProgramDeviceStateFieldInput>;
   actions?: Maybe<CommandProgramDeviceActionsFieldInput>;
 }
 
 export interface CommandProgramDeviceDeleteInput {
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationDeleteFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInDeleteFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateDeleteFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsDeleteFieldInput>>;
 }
 
 export interface CommandProgramDeviceDisconnectInput {
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationDisconnectFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInDisconnectFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateDisconnectFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsDisconnectFieldInput>>;
@@ -4967,6 +5517,9 @@ export interface CommandProgramDevicePlaceholderConnectInput {
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksConnectFieldInput>
   >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsConnectFieldInput>
+  >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsConnectFieldInput>
   >;
@@ -4981,6 +5534,7 @@ export interface CommandProgramDevicePlaceholderCreateInput {
   requiresMutex?: Maybe<Scalars["Boolean"]>;
   type?: Maybe<CommandProgramDevicePlaceholderTypeFieldInput>;
   interlocks?: Maybe<CommandProgramDevicePlaceholderInterlocksFieldInput>;
+  setpoints?: Maybe<CommandProgramDevicePlaceholderSetpointsFieldInput>;
   plugins?: Maybe<CommandProgramDevicePlaceholderPluginsFieldInput>;
 }
 
@@ -4988,6 +5542,9 @@ export interface CommandProgramDevicePlaceholderDeleteInput {
   type?: Maybe<CommandProgramDevicePlaceholderTypeDeleteFieldInput>;
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksDeleteFieldInput>
+  >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsDeleteFieldInput>
   >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsDeleteFieldInput>
@@ -4998,6 +5555,9 @@ export interface CommandProgramDevicePlaceholderDisconnectInput {
   type?: Maybe<CommandProgramDevicePlaceholderTypeDisconnectFieldInput>;
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksDisconnectFieldInput>
+  >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput>
   >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsDisconnectFieldInput>
@@ -5130,8 +5690,71 @@ export interface CommandProgramDevicePlaceholderRelationInput {
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksCreateFieldInput>
   >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsCreateFieldInput>
+  >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsCreateFieldInput>
+  >;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsConnectFieldInput {
+  where?: Maybe<CommandDeviceSetpointConnectWhere>;
+  connect?: Maybe<Array<CommandDeviceSetpointConnectInput>>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsConnectionSort {
+  node?: Maybe<CommandDeviceSetpointSort>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsConnectionWhere {
+  AND?: Maybe<Array<CommandProgramDevicePlaceholderSetpointsConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramDevicePlaceholderSetpointsConnectionWhere>>;
+  node?: Maybe<CommandDeviceSetpointWhere>;
+  node_NOT?: Maybe<CommandDeviceSetpointWhere>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsCreateFieldInput {
+  node: CommandDeviceSetpointCreateInput;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsDeleteFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+  delete?: Maybe<CommandDeviceSetpointDeleteInput>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+  disconnect?: Maybe<CommandDeviceSetpointDisconnectInput>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsFieldInput {
+  create?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsCreateFieldInput>
+  >;
+  connect?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsConnectFieldInput>
+  >;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsUpdateConnectionInput {
+  node?: Maybe<CommandDeviceSetpointUpdateInput>;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsUpdateFieldInput {
+  where?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+  update?: Maybe<CommandProgramDevicePlaceholderSetpointsUpdateConnectionInput>;
+  connect?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsConnectFieldInput>
+  >;
+  disconnect?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput>
+  >;
+  create?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsCreateFieldInput>
+  >;
+  delete?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsDeleteFieldInput>
   >;
 }
 
@@ -5197,6 +5820,9 @@ export interface CommandProgramDevicePlaceholderUpdateInput {
   interlocks?: Maybe<
     Array<CommandProgramDevicePlaceholderInterlocksUpdateFieldInput>
   >;
+  setpoints?: Maybe<
+    Array<CommandProgramDevicePlaceholderSetpointsUpdateFieldInput>
+  >;
   plugins?: Maybe<
     Array<CommandProgramDevicePlaceholderPluginsUpdateFieldInput>
   >;
@@ -5231,12 +5857,16 @@ export interface CommandProgramDevicePlaceholderWhere {
   type_NOT?: Maybe<CommandProgramDeviceWhere>;
   interlocks?: Maybe<CommandInterlockWhere>;
   interlocks_NOT?: Maybe<CommandInterlockWhere>;
+  setpoints?: Maybe<CommandDeviceSetpointWhere>;
+  setpoints_NOT?: Maybe<CommandDeviceSetpointWhere>;
   plugins?: Maybe<CommandDevicePluginWhere>;
   plugins_NOT?: Maybe<CommandDevicePluginWhere>;
   typeConnection?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
   typeConnection_NOT?: Maybe<CommandProgramDevicePlaceholderTypeConnectionWhere>;
   interlocksConnection?: Maybe<CommandProgramDevicePlaceholderInterlocksConnectionWhere>;
   interlocksConnection_NOT?: Maybe<CommandProgramDevicePlaceholderInterlocksConnectionWhere>;
+  setpointsConnection?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+  setpointsConnection_NOT?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
   pluginsConnection?: Maybe<CommandProgramDevicePlaceholderPluginsConnectionWhere>;
   pluginsConnection_NOT?: Maybe<CommandProgramDevicePlaceholderPluginsConnectionWhere>;
 }
@@ -5771,9 +6401,6 @@ export interface CommandProgramDevicePluginWhere {
 }
 
 export interface CommandProgramDeviceRelationInput {
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationCreateFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInCreateFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateCreateFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsCreateFieldInput>>;
@@ -6075,9 +6702,6 @@ export interface CommandProgramDevicesUpdateFieldInput {
 export interface CommandProgramDeviceUpdateInput {
   name?: Maybe<Scalars["String"]>;
   type?: Maybe<Scalars["String"]>;
-  configuration?: Maybe<
-    Array<CommandProgramDeviceConfigurationUpdateFieldInput>
-  >;
   usedIn?: Maybe<Array<CommandProgramDeviceUsedInUpdateFieldInput>>;
   state?: Maybe<Array<CommandProgramDeviceStateUpdateFieldInput>>;
   actions?: Maybe<Array<CommandProgramDeviceActionsUpdateFieldInput>>;
@@ -6164,16 +6788,12 @@ export interface CommandProgramDeviceWhere {
   type_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   type_ENDS_WITH?: Maybe<Scalars["String"]>;
   type_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  configuration?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  configuration_NOT?: Maybe<CommandProgramDeviceConfigurationWhere>;
   usedIn?: Maybe<CommandProgramDevicePlaceholderWhere>;
   usedIn_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
   state?: Maybe<CommandProgramDeviceStateWhere>;
   state_NOT?: Maybe<CommandProgramDeviceStateWhere>;
   actions?: Maybe<CommandProgramDeviceActionWhere>;
   actions_NOT?: Maybe<CommandProgramDeviceActionWhere>;
-  configurationConnection?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
-  configurationConnection_NOT?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
   usedInConnection?: Maybe<CommandProgramDeviceUsedInConnectionWhere>;
   usedInConnection_NOT?: Maybe<CommandProgramDeviceUsedInConnectionWhere>;
   stateConnection?: Maybe<CommandProgramDeviceStateConnectionWhere>;
@@ -6718,12 +7338,61 @@ export interface CommandProgramFlowWhere {
   programsConnection_NOT?: Maybe<CommandProgramFlowProgramsConnectionWhere>;
 }
 
+export interface CommandProgramHMIActionsConnectFieldInput {
+  where?: Maybe<CommandProgramActionConnectWhere>;
+  connect?: Maybe<Array<CommandProgramActionConnectInput>>;
+}
+
+export interface CommandProgramHMIActionsConnectionSort {
+  node?: Maybe<CommandProgramActionSort>;
+}
+
+export interface CommandProgramHMIActionsConnectionWhere {
+  AND?: Maybe<Array<CommandProgramHMIActionsConnectionWhere>>;
+  OR?: Maybe<Array<CommandProgramHMIActionsConnectionWhere>>;
+  node?: Maybe<CommandProgramActionWhere>;
+  node_NOT?: Maybe<CommandProgramActionWhere>;
+}
+
+export interface CommandProgramHMIActionsCreateFieldInput {
+  node: CommandProgramActionCreateInput;
+}
+
+export interface CommandProgramHMIActionsDeleteFieldInput {
+  where?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+  delete?: Maybe<CommandProgramActionDeleteInput>;
+}
+
+export interface CommandProgramHMIActionsDisconnectFieldInput {
+  where?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+  disconnect?: Maybe<CommandProgramActionDisconnectInput>;
+}
+
+export interface CommandProgramHMIActionsFieldInput {
+  create?: Maybe<Array<CommandProgramHMIActionsCreateFieldInput>>;
+  connect?: Maybe<Array<CommandProgramHMIActionsConnectFieldInput>>;
+}
+
+export interface CommandProgramHMIActionsUpdateConnectionInput {
+  node?: Maybe<CommandProgramActionUpdateInput>;
+}
+
+export interface CommandProgramHMIActionsUpdateFieldInput {
+  where?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+  update?: Maybe<CommandProgramHMIActionsUpdateConnectionInput>;
+  connect?: Maybe<Array<CommandProgramHMIActionsConnectFieldInput>>;
+  disconnect?: Maybe<Array<CommandProgramHMIActionsDisconnectFieldInput>>;
+  create?: Maybe<Array<CommandProgramHMIActionsCreateFieldInput>>;
+  delete?: Maybe<Array<CommandProgramHMIActionsDeleteFieldInput>>;
+}
+
 export interface CommandProgramHmiConnectFieldInput {
   where?: Maybe<CommandProgramHMIConnectWhere>;
   connect?: Maybe<Array<CommandProgramHMIConnectInput>>;
 }
 
 export interface CommandProgramHMIConnectInput {
+  actions?: Maybe<Array<CommandProgramHMIActionsConnectFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsConnectFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsConnectFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesConnectFieldInput>>;
@@ -6751,6 +7420,7 @@ export interface CommandProgramHmiCreateFieldInput {
 
 export interface CommandProgramHMICreateInput {
   name?: Maybe<Scalars["String"]>;
+  actions?: Maybe<CommandProgramHMIActionsFieldInput>;
   paths?: Maybe<CommandProgramHMIPathsFieldInput>;
   groups?: Maybe<CommandProgramHMIGroupsFieldInput>;
   nodes?: Maybe<CommandProgramHMINodesFieldInput>;
@@ -6763,6 +7433,7 @@ export interface CommandProgramHmiDeleteFieldInput {
 }
 
 export interface CommandProgramHMIDeleteInput {
+  actions?: Maybe<Array<CommandProgramHMIActionsDeleteFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsDeleteFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsDeleteFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesDeleteFieldInput>>;
@@ -6775,6 +7446,7 @@ export interface CommandProgramHmiDisconnectFieldInput {
 }
 
 export interface CommandProgramHMIDisconnectInput {
+  actions?: Maybe<Array<CommandProgramHMIActionsDisconnectFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsDisconnectFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsDisconnectFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesDisconnectFieldInput>>;
@@ -6986,6 +7658,7 @@ export interface CommandProgramHMIProgramsUpdateFieldInput {
 }
 
 export interface CommandProgramHMIRelationInput {
+  actions?: Maybe<Array<CommandProgramHMIActionsCreateFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsCreateFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsCreateFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesCreateFieldInput>>;
@@ -7013,6 +7686,7 @@ export interface CommandProgramHmiUpdateFieldInput {
 
 export interface CommandProgramHMIUpdateInput {
   name?: Maybe<Scalars["String"]>;
+  actions?: Maybe<Array<CommandProgramHMIActionsUpdateFieldInput>>;
   paths?: Maybe<Array<CommandProgramHMIPathsUpdateFieldInput>>;
   groups?: Maybe<Array<CommandProgramHMIGroupsUpdateFieldInput>>;
   nodes?: Maybe<Array<CommandProgramHMINodesUpdateFieldInput>>;
@@ -7042,6 +7716,8 @@ export interface CommandProgramHMIWhere {
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
   name_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  actions?: Maybe<CommandProgramActionWhere>;
+  actions_NOT?: Maybe<CommandProgramActionWhere>;
   paths?: Maybe<CommandHMIPathWhere>;
   paths_NOT?: Maybe<CommandHMIPathWhere>;
   groups?: Maybe<CommandHMIGroupWhere>;
@@ -7050,6 +7726,8 @@ export interface CommandProgramHMIWhere {
   nodes_NOT?: Maybe<CommandHMINodeWhere>;
   programs?: Maybe<CommandProgramWhere>;
   programs_NOT?: Maybe<CommandProgramWhere>;
+  actionsConnection?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+  actionsConnection_NOT?: Maybe<CommandProgramHMIActionsConnectionWhere>;
   pathsConnection?: Maybe<CommandProgramHMIPathsConnectionWhere>;
   pathsConnection_NOT?: Maybe<CommandProgramHMIPathsConnectionWhere>;
   groupsConnection?: Maybe<CommandProgramHMIGroupsConnectionWhere>;
@@ -7947,183 +8625,6 @@ export interface CommandProgramOrganisationUpdateFieldInput {
   disconnect?: Maybe<CommandProgramOrganisationDisconnectFieldInput>;
   create?: Maybe<CommandProgramOrganisationCreateFieldInput>;
   delete?: Maybe<CommandProgramOrganisationDeleteFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfConnectFieldInput {
-  where?: Maybe<CommandProgramDeviceConfigurationConnectWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfConnectionSort {
-  node?: Maybe<CommandProgramDeviceConfigurationSort>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfConnectionWhere {
-  AND?: Maybe<Array<CommandProgramPeripheralConfigurationConfConnectionWhere>>;
-  OR?: Maybe<Array<CommandProgramPeripheralConfigurationConfConnectionWhere>>;
-  node?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  node_NOT?: Maybe<CommandProgramDeviceConfigurationWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfCreateFieldInput {
-  node: CommandProgramDeviceConfigurationCreateInput;
-}
-
-export interface CommandProgramPeripheralConfigurationConfDeleteFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfDisconnectFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfFieldInput {
-  create?: Maybe<CommandProgramPeripheralConfigurationConfCreateFieldInput>;
-  connect?: Maybe<CommandProgramPeripheralConfigurationConfConnectFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfUpdateConnectionInput {
-  node?: Maybe<CommandProgramDeviceConfigurationUpdateInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConfUpdateFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-  update?: Maybe<CommandProgramPeripheralConfigurationConfUpdateConnectionInput>;
-  connect?: Maybe<CommandProgramPeripheralConfigurationConfConnectFieldInput>;
-  disconnect?: Maybe<CommandProgramPeripheralConfigurationConfDisconnectFieldInput>;
-  create?: Maybe<CommandProgramPeripheralConfigurationConfCreateFieldInput>;
-  delete?: Maybe<CommandProgramPeripheralConfigurationConfDeleteFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConnectInput {
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfConnectFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationConnectWhere {
-  node: CommandProgramPeripheralConfigurationWhere;
-}
-
-export interface CommandProgramPeripheralConfigurationCreateInput {
-  value?: Maybe<Scalars["String"]>;
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeleteInput {
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceDeleteFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfDeleteFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceConnectFieldInput {
-  where?: Maybe<CommandProgramDevicePlaceholderConnectWhere>;
-  connect?: Maybe<CommandProgramDevicePlaceholderConnectInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceConnectionSort {
-  node?: Maybe<CommandProgramDevicePlaceholderSort>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceConnectionWhere {
-  AND?: Maybe<
-    Array<CommandProgramPeripheralConfigurationDeviceConnectionWhere>
-  >;
-  OR?: Maybe<Array<CommandProgramPeripheralConfigurationDeviceConnectionWhere>>;
-  node?: Maybe<CommandProgramDevicePlaceholderWhere>;
-  node_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceCreateFieldInput {
-  node: CommandProgramDevicePlaceholderCreateInput;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceDeleteFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  disconnect?: Maybe<CommandProgramDevicePlaceholderDisconnectInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceFieldInput {
-  create?: Maybe<CommandProgramPeripheralConfigurationDeviceCreateFieldInput>;
-  connect?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceUpdateConnectionInput {
-  node?: Maybe<CommandProgramDevicePlaceholderUpdateInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceUpdateFieldInput {
-  where?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  update?: Maybe<CommandProgramPeripheralConfigurationDeviceUpdateConnectionInput>;
-  connect?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectFieldInput>;
-  disconnect?: Maybe<CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput>;
-  create?: Maybe<CommandProgramPeripheralConfigurationDeviceCreateFieldInput>;
-  delete?: Maybe<CommandProgramPeripheralConfigurationDeviceDeleteFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationDisconnectInput {
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfDisconnectFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationOptions {
-  /** Specify one or more CommandProgramPeripheralConfigurationSort objects to sort CommandProgramPeripheralConfigurations by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: Maybe<Array<Maybe<CommandProgramPeripheralConfigurationSort>>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-}
-
-export interface CommandProgramPeripheralConfigurationRelationInput {
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceCreateFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfCreateFieldInput>;
-}
-
-/** Fields to sort CommandProgramPeripheralConfigurations by. The order in which sorts are applied is not guaranteed when specifying many fields in one CommandProgramPeripheralConfigurationSort object. */
-export interface CommandProgramPeripheralConfigurationSort {
-  id?: Maybe<SortDirection>;
-  value?: Maybe<SortDirection>;
-}
-
-export interface CommandProgramPeripheralConfigurationUpdateInput {
-  value?: Maybe<Scalars["String"]>;
-  device?: Maybe<CommandProgramPeripheralConfigurationDeviceUpdateFieldInput>;
-  conf?: Maybe<CommandProgramPeripheralConfigurationConfUpdateFieldInput>;
-}
-
-export interface CommandProgramPeripheralConfigurationWhere {
-  OR?: Maybe<Array<CommandProgramPeripheralConfigurationWhere>>;
-  AND?: Maybe<Array<CommandProgramPeripheralConfigurationWhere>>;
-  id?: Maybe<Scalars["ID"]>;
-  id_NOT?: Maybe<Scalars["ID"]>;
-  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  id_CONTAINS?: Maybe<Scalars["ID"]>;
-  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
-  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  value?: Maybe<Scalars["String"]>;
-  value_NOT?: Maybe<Scalars["String"]>;
-  value_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  value_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  value_CONTAINS?: Maybe<Scalars["String"]>;
-  value_NOT_CONTAINS?: Maybe<Scalars["String"]>;
-  value_STARTS_WITH?: Maybe<Scalars["String"]>;
-  value_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
-  value_ENDS_WITH?: Maybe<Scalars["String"]>;
-  value_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
-  device?: Maybe<CommandProgramDevicePlaceholderWhere>;
-  device_NOT?: Maybe<CommandProgramDevicePlaceholderWhere>;
-  conf?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  conf_NOT?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  deviceConnection?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  deviceConnection_NOT?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-  confConnection?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-  confConnection_NOT?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
 }
 
 export interface CommandProgramProgramConnectFieldInput {
@@ -15787,2122 +16288,6 @@ export interface TimelineProjectWhere {
   Estimate?: Maybe<EstimateWhere>;
 }
 
-export enum SortFindByIdsDeviceInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindOneDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindOneDeviceOperatorsInput>;
-  OR?: Maybe<Array<FilterFindOneDeviceInput>>;
-  AND?: Maybe<Array<FilterFindOneDeviceInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindOneDeviceOperatorsInput {
-  _id?: Maybe<FilterFindOneDevice_idOperatorsInput>;
-}
-
-export interface FilterFindOneDevice_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindOneDeviceInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindManyDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindManyDeviceOperatorsInput>;
-  OR?: Maybe<Array<FilterFindManyDeviceInput>>;
-  AND?: Maybe<Array<FilterFindManyDeviceInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindManyDeviceOperatorsInput {
-  _id?: Maybe<FilterFindManyDevice_idOperatorsInput>;
-}
-
-export interface FilterFindManyDevice_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindManyDeviceInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterCountDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterCountDeviceOperatorsInput>;
-  OR?: Maybe<Array<FilterCountDeviceInput>>;
-  AND?: Maybe<Array<FilterCountDeviceInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterCountDeviceOperatorsInput {
-  _id?: Maybe<FilterCountDevice_idOperatorsInput>;
-}
-
-export interface FilterCountDevice_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortConnectionDeviceEnum {
-  _ID_DESC = "_ID_DESC",
-  _ID_ASC = "_ID_ASC",
-}
-
-export enum SortFindByIdsDNSRecordInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindOneDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindOneDNSRecordOperatorsInput>;
-  OR?: Maybe<Array<FilterFindOneDNSRecordInput>>;
-  AND?: Maybe<Array<FilterFindOneDNSRecordInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindOneDNSRecordOperatorsInput {
-  _id?: Maybe<FilterFindOneDNSRecord_idOperatorsInput>;
-}
-
-export interface FilterFindOneDNSRecord_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindOneDNSRecordInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindManyDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindManyDNSRecordOperatorsInput>;
-  OR?: Maybe<Array<FilterFindManyDNSRecordInput>>;
-  AND?: Maybe<Array<FilterFindManyDNSRecordInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindManyDNSRecordOperatorsInput {
-  _id?: Maybe<FilterFindManyDNSRecord_idOperatorsInput>;
-}
-
-export interface FilterFindManyDNSRecord_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindManyDNSRecordInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterCountDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterCountDNSRecordOperatorsInput>;
-  OR?: Maybe<Array<FilterCountDNSRecordInput>>;
-  AND?: Maybe<Array<FilterCountDNSRecordInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterCountDNSRecordOperatorsInput {
-  _id?: Maybe<FilterCountDNSRecord_idOperatorsInput>;
-}
-
-export interface FilterCountDNSRecord_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortConnectionDNSRecordEnum {
-  _ID_DESC = "_ID_DESC",
-  _ID_ASC = "_ID_ASC",
-}
-
-export enum SortFindByIdsProgramInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindOneProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<FilterFindOneProgramIoInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindOneProgramOperatorsInput>;
-  OR?: Maybe<Array<FilterFindOneProgramInput>>;
-  AND?: Maybe<Array<FilterFindOneProgramInput>>;
-}
-
-export interface FilterFindOneProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindOneProgramOperatorsInput {
-  _id?: Maybe<FilterFindOneProgram_idOperatorsInput>;
-}
-
-export interface FilterFindOneProgram_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindOneProgramInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindManyProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<FilterFindManyProgramIoInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindManyProgramOperatorsInput>;
-  OR?: Maybe<Array<FilterFindManyProgramInput>>;
-  AND?: Maybe<Array<FilterFindManyProgramInput>>;
-}
-
-export interface FilterFindManyProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindManyProgramOperatorsInput {
-  _id?: Maybe<FilterFindManyProgram_idOperatorsInput>;
-}
-
-export interface FilterFindManyProgram_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindManyProgramInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterCountProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<FilterCountProgramIoInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterCountProgramOperatorsInput>;
-  OR?: Maybe<Array<FilterCountProgramInput>>;
-  AND?: Maybe<Array<FilterCountProgramInput>>;
-}
-
-export interface FilterCountProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterCountProgramOperatorsInput {
-  _id?: Maybe<FilterCountProgram_idOperatorsInput>;
-}
-
-export interface FilterCountProgram_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortConnectionProgramEnum {
-  _ID_DESC = "_ID_DESC",
-  _ID_ASC = "_ID_ASC",
-}
-
-export enum SortFindByIdsFlowShardInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindOneFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FilterFindOneFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FilterFindOneFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindOneFlowShardOperatorsInput>;
-  OR?: Maybe<Array<FilterFindOneFlowShardInput>>;
-  AND?: Maybe<Array<FilterFindOneFlowShardInput>>;
-}
-
-export interface FilterFindOneFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindOneFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<FilterFindOneFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindOneFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindOneFlowShardOperatorsInput {
-  _id?: Maybe<FilterFindOneFlowShard_idOperatorsInput>;
-}
-
-export interface FilterFindOneFlowShard_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindOneFlowShardInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindManyFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FilterFindManyFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FilterFindManyFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindManyFlowShardOperatorsInput>;
-  OR?: Maybe<Array<FilterFindManyFlowShardInput>>;
-  AND?: Maybe<Array<FilterFindManyFlowShardInput>>;
-}
-
-export interface FilterFindManyFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindManyFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<FilterFindManyFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindManyFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindManyFlowShardOperatorsInput {
-  _id?: Maybe<FilterFindManyFlowShard_idOperatorsInput>;
-}
-
-export interface FilterFindManyFlowShard_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindManyFlowShardInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterCountFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FilterCountFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FilterCountFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterCountFlowShardOperatorsInput>;
-  OR?: Maybe<Array<FilterCountFlowShardInput>>;
-  AND?: Maybe<Array<FilterCountFlowShardInput>>;
-}
-
-export interface FilterCountFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterCountFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<FilterCountFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterCountFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterCountFlowShardOperatorsInput {
-  _id?: Maybe<FilterCountFlowShard_idOperatorsInput>;
-}
-
-export interface FilterCountFlowShard_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortConnectionFlowShardEnum {
-  _ID_DESC = "_ID_DESC",
-  _ID_ASC = "_ID_ASC",
-}
-
-export enum SortFindByIdsStackInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindOneStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<FilterFindOneStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindOneStackOperatorsInput>;
-  OR?: Maybe<Array<FilterFindOneStackInput>>;
-  AND?: Maybe<Array<FilterFindOneStackInput>>;
-}
-
-export interface FilterFindOneStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<FilterFindOneStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<FilterFindOneStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<FilterFindOneStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<FilterFindOneStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindOneStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindOneStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindOneStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindOneStackOperatorsInput {
-  _id?: Maybe<FilterFindOneStack_idOperatorsInput>;
-}
-
-export interface FilterFindOneStack_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindOneStackInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterFindManyStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<FilterFindManyStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterFindManyStackOperatorsInput>;
-  OR?: Maybe<Array<FilterFindManyStackInput>>;
-  AND?: Maybe<Array<FilterFindManyStackInput>>;
-}
-
-export interface FilterFindManyStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<FilterFindManyStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<FilterFindManyStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<FilterFindManyStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<FilterFindManyStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindManyStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindManyStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterFindManyStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterFindManyStackOperatorsInput {
-  _id?: Maybe<FilterFindManyStack_idOperatorsInput>;
-}
-
-export interface FilterFindManyStack_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortFindManyStackInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterCountStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<FilterCountStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterCountStackOperatorsInput>;
-  OR?: Maybe<Array<FilterCountStackInput>>;
-  AND?: Maybe<Array<FilterCountStackInput>>;
-}
-
-export interface FilterCountStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<FilterCountStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<FilterCountStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<FilterCountStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<FilterCountStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterCountStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterCountStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterCountStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterCountStackOperatorsInput {
-  _id?: Maybe<FilterCountStack_idOperatorsInput>;
-}
-
-export interface FilterCountStack_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortConnectionStackEnum {
-  _ID_DESC = "_ID_DESC",
-  _ID_ASC = "_ID_ASC",
-}
-
-export interface StackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<StackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<StackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<StackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<StackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface StackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface StackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface StackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface CreateOneDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface CreateManyDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface UpdateByIdDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface UpdateOneDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface FilterUpdateOneDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateOneDeviceOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateOneDeviceInput>>;
-  AND?: Maybe<Array<FilterUpdateOneDeviceInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateOneDeviceOperatorsInput {
-  _id?: Maybe<FilterUpdateOneDevice_idOperatorsInput>;
-}
-
-export interface FilterUpdateOneDevice_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateOneDeviceInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface UpdateManyDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface FilterUpdateManyDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateManyDeviceOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateManyDeviceInput>>;
-  AND?: Maybe<Array<FilterUpdateManyDeviceInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateManyDeviceOperatorsInput {
-  _id?: Maybe<FilterUpdateManyDevice_idOperatorsInput>;
-}
-
-export interface FilterUpdateManyDevice_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateManyDeviceInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveOneDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveOneDeviceOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveOneDeviceInput>>;
-  AND?: Maybe<Array<FilterRemoveOneDeviceInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveOneDeviceOperatorsInput {
-  _id?: Maybe<FilterRemoveOneDevice_idOperatorsInput>;
-}
-
-export interface FilterRemoveOneDevice_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortRemoveOneDeviceInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveManyDeviceInput {
-  name?: Maybe<Scalars["String"]>;
-  connected?: Maybe<Scalars["Boolean"]>;
-  lastSeen?: Maybe<Scalars["Date"]>;
-  network_name?: Maybe<Scalars["String"]>;
-  did?: Maybe<Scalars["String"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveManyDeviceOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveManyDeviceInput>>;
-  AND?: Maybe<Array<FilterRemoveManyDeviceInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveManyDeviceOperatorsInput {
-  _id?: Maybe<FilterRemoveManyDevice_idOperatorsInput>;
-}
-
-export interface FilterRemoveManyDevice_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export interface CreateOneDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-}
-
-export interface CreateManyDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-}
-
-export interface UpdateByIdDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-}
-
-export interface UpdateOneDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-}
-
-export interface FilterUpdateOneDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateOneDNSRecordOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateOneDNSRecordInput>>;
-  AND?: Maybe<Array<FilterUpdateOneDNSRecordInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateOneDNSRecordOperatorsInput {
-  _id?: Maybe<FilterUpdateOneDNSRecord_idOperatorsInput>;
-}
-
-export interface FilterUpdateOneDNSRecord_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateOneDNSRecordInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface UpdateManyDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-}
-
-export interface FilterUpdateManyDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateManyDNSRecordOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateManyDNSRecordInput>>;
-  AND?: Maybe<Array<FilterUpdateManyDNSRecordInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateManyDNSRecordOperatorsInput {
-  _id?: Maybe<FilterUpdateManyDNSRecord_idOperatorsInput>;
-}
-
-export interface FilterUpdateManyDNSRecord_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateManyDNSRecordInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveOneDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveOneDNSRecordOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveOneDNSRecordInput>>;
-  AND?: Maybe<Array<FilterRemoveOneDNSRecordInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveOneDNSRecordOperatorsInput {
-  _id?: Maybe<FilterRemoveOneDNSRecord_idOperatorsInput>;
-}
-
-export interface FilterRemoveOneDNSRecord_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortRemoveOneDNSRecordInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveManyDNSRecordInput {
-  subdomain?: Maybe<Scalars["String"]>;
-  domain?: Maybe<Scalars["String"]>;
-  address?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveManyDNSRecordOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveManyDNSRecordInput>>;
-  AND?: Maybe<Array<FilterRemoveManyDNSRecordInput>>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveManyDNSRecordOperatorsInput {
-  _id?: Maybe<FilterRemoveManyDNSRecord_idOperatorsInput>;
-}
-
-export interface FilterRemoveManyDNSRecord_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export interface CreateOneProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<ProgramIoInput>>>;
-}
-
-export interface ProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface CreateManyProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<ProgramIoInput>>>;
-}
-
-export interface UpdateByIdProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<UpdateByIdProgramIoInput>>>;
-}
-
-export interface UpdateByIdProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateOneProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<UpdateOneProgramIoInput>>>;
-}
-
-export interface UpdateOneProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateOneProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<FilterUpdateOneProgramIoInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateOneProgramOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateOneProgramInput>>;
-  AND?: Maybe<Array<FilterUpdateOneProgramInput>>;
-}
-
-export interface FilterUpdateOneProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateOneProgramOperatorsInput {
-  _id?: Maybe<FilterUpdateOneProgram_idOperatorsInput>;
-}
-
-export interface FilterUpdateOneProgram_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateOneProgramInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface UpdateManyProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<UpdateManyProgramIoInput>>>;
-}
-
-export interface UpdateManyProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateManyProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<FilterUpdateManyProgramIoInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateManyProgramOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateManyProgramInput>>;
-  AND?: Maybe<Array<FilterUpdateManyProgramInput>>;
-}
-
-export interface FilterUpdateManyProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateManyProgramOperatorsInput {
-  _id?: Maybe<FilterUpdateManyProgram_idOperatorsInput>;
-}
-
-export interface FilterUpdateManyProgram_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateManyProgramInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveOneProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<FilterRemoveOneProgramIoInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveOneProgramOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveOneProgramInput>>;
-  AND?: Maybe<Array<FilterRemoveOneProgramInput>>;
-}
-
-export interface FilterRemoveOneProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveOneProgramOperatorsInput {
-  _id?: Maybe<FilterRemoveOneProgram_idOperatorsInput>;
-}
-
-export interface FilterRemoveOneProgram_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortRemoveOneProgramInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveManyProgramInput {
-  name?: Maybe<Scalars["String"]>;
-  plugins?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  program?: Maybe<Array<Maybe<Scalars["JSON"]>>>;
-  io?: Maybe<Array<Maybe<FilterRemoveManyProgramIoInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveManyProgramOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveManyProgramInput>>;
-  AND?: Maybe<Array<FilterRemoveManyProgramInput>>;
-}
-
-export interface FilterRemoveManyProgramIoInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveManyProgramOperatorsInput {
-  _id?: Maybe<FilterRemoveManyProgram_idOperatorsInput>;
-}
-
-export interface FilterRemoveManyProgram_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export interface CreateOneFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-}
-
-export interface FlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<FlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface CreateManyFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-}
-
-export interface UpdateByIdFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<UpdateByIdFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<UpdateByIdFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-}
-
-export interface UpdateByIdFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateByIdFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<UpdateByIdFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateByIdFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateOneFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<UpdateOneFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<UpdateOneFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-}
-
-export interface UpdateOneFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateOneFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<UpdateOneFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateOneFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateOneFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FilterUpdateOneFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FilterUpdateOneFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateOneFlowShardOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateOneFlowShardInput>>;
-  AND?: Maybe<Array<FilterUpdateOneFlowShardInput>>;
-}
-
-export interface FilterUpdateOneFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateOneFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<FilterUpdateOneFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateOneFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateOneFlowShardOperatorsInput {
-  _id?: Maybe<FilterUpdateOneFlowShard_idOperatorsInput>;
-}
-
-export interface FilterUpdateOneFlowShard_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateOneFlowShardInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface UpdateManyFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<UpdateManyFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<UpdateManyFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-}
-
-export interface UpdateManyFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateManyFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<UpdateManyFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateManyFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateManyFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FilterUpdateManyFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FilterUpdateManyFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateManyFlowShardOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateManyFlowShardInput>>;
-  AND?: Maybe<Array<FilterUpdateManyFlowShardInput>>;
-}
-
-export interface FilterUpdateManyFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateManyFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<FilterUpdateManyFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateManyFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateManyFlowShardOperatorsInput {
-  _id?: Maybe<FilterUpdateManyFlowShard_idOperatorsInput>;
-}
-
-export interface FilterUpdateManyFlowShard_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateManyFlowShardInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveOneFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FilterRemoveOneFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FilterRemoveOneFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveOneFlowShardOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveOneFlowShardInput>>;
-  AND?: Maybe<Array<FilterRemoveOneFlowShardInput>>;
-}
-
-export interface FilterRemoveOneFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveOneFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<FilterRemoveOneFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveOneFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveOneFlowShardOperatorsInput {
-  _id?: Maybe<FilterRemoveOneFlowShard_idOperatorsInput>;
-}
-
-export interface FilterRemoveOneFlowShard_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortRemoveOneFlowShardInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveManyFlowShardInput {
-  name?: Maybe<Scalars["String"]>;
-  parent?: Maybe<Scalars["MongoID"]>;
-  program?: Maybe<Scalars["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FilterRemoveManyFlowShardNodesInput>>>;
-  paths?: Maybe<Array<Maybe<FilterRemoveManyFlowShardPathsInput>>>;
-  items?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveManyFlowShardOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveManyFlowShardInput>>;
-  AND?: Maybe<Array<FilterRemoveManyFlowShardInput>>;
-}
-
-export interface FilterRemoveManyFlowShardNodesInput {
-  type?: Maybe<Scalars["String"]>;
-  extras?: Maybe<Scalars["JSON"]>;
-  ports?: Maybe<Scalars["JSON"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveManyFlowShardPathsInput {
-  type?: Maybe<Scalars["String"]>;
-  source?: Maybe<Scalars["String"]>;
-  sourceHandle?: Maybe<Scalars["String"]>;
-  target?: Maybe<Scalars["String"]>;
-  targetHandle?: Maybe<Scalars["String"]>;
-  points?: Maybe<Array<Maybe<FilterRemoveManyFlowShardPathsPointsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveManyFlowShardPathsPointsInput {
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveManyFlowShardOperatorsInput {
-  _id?: Maybe<FilterRemoveManyFlowShard_idOperatorsInput>;
-}
-
-export interface FilterRemoveManyFlowShard_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export interface CreateOneStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<StackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface CreateManyStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<StackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface UpdateByIdStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<UpdateByIdStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface UpdateByIdStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<UpdateByIdStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<UpdateByIdStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<UpdateByIdStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<UpdateByIdStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateByIdStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateByIdStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateByIdStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateOneStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<UpdateOneStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface UpdateOneStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<UpdateOneStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<UpdateOneStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<UpdateOneStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<UpdateOneStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateOneStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateOneStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateOneStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateOneStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<FilterUpdateOneStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateOneStackOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateOneStackInput>>;
-  AND?: Maybe<Array<FilterUpdateOneStackInput>>;
-}
-
-export interface FilterUpdateOneStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<FilterUpdateOneStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<FilterUpdateOneStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<FilterUpdateOneStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<FilterUpdateOneStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateOneStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateOneStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateOneStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateOneStackOperatorsInput {
-  _id?: Maybe<FilterUpdateOneStack_idOperatorsInput>;
-}
-
-export interface FilterUpdateOneStack_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateOneStackInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface UpdateManyStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<UpdateManyStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-}
-
-export interface UpdateManyStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<UpdateManyStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<UpdateManyStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<UpdateManyStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<UpdateManyStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateManyStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateManyStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface UpdateManyStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateManyStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<FilterUpdateManyStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterUpdateManyStackOperatorsInput>;
-  OR?: Maybe<Array<FilterUpdateManyStackInput>>;
-  AND?: Maybe<Array<FilterUpdateManyStackInput>>;
-}
-
-export interface FilterUpdateManyStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<FilterUpdateManyStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<FilterUpdateManyStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<FilterUpdateManyStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<FilterUpdateManyStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateManyStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateManyStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterUpdateManyStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterUpdateManyStackOperatorsInput {
-  _id?: Maybe<FilterUpdateManyStack_idOperatorsInput>;
-}
-
-export interface FilterUpdateManyStack_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortUpdateManyStackInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveOneStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<FilterRemoveOneStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveOneStackOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveOneStackInput>>;
-  AND?: Maybe<Array<FilterRemoveOneStackInput>>;
-}
-
-export interface FilterRemoveOneStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<FilterRemoveOneStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<FilterRemoveOneStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<FilterRemoveOneStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<FilterRemoveOneStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveOneStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveOneStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveOneStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveOneStackOperatorsInput {
-  _id?: Maybe<FilterRemoveOneStack_idOperatorsInput>;
-}
-
-export interface FilterRemoveOneStack_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
-export enum SortRemoveOneStackInput {
-  _ID_ASC = "_ID_ASC",
-  _ID_DESC = "_ID_DESC",
-}
-
-export interface FilterRemoveManyStackInput {
-  name?: Maybe<Scalars["String"]>;
-  items?: Maybe<Array<Maybe<FilterRemoveManyStackItemsInput>>>;
-  program?: Maybe<Scalars["String"]>;
-  location?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-  /** List of *indexed* fields that can be filtered via operators. */
-  _operators?: Maybe<FilterRemoveManyStackOperatorsInput>;
-  OR?: Maybe<Array<FilterRemoveManyStackInput>>;
-  AND?: Maybe<Array<FilterRemoveManyStackInput>>;
-}
-
-export interface FilterRemoveManyStackItemsInput {
-  key?: Maybe<Scalars["String"]>;
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  dimensions?: Maybe<FilterRemoveManyStackItemsDimensionsInput>;
-  inputs?: Maybe<Array<Maybe<FilterRemoveManyStackItemsInputsInput>>>;
-  outputs?: Maybe<Array<Maybe<FilterRemoveManyStackItemsInputsInput>>>;
-  actions?: Maybe<Scalars["String"]>;
-  ui?: Maybe<Scalars["String"]>;
-  ports?: Maybe<Array<Maybe<FilterRemoveManyStackItemsPortsInput>>>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveManyStackItemsDimensionsInput {
-  width?: Maybe<Scalars["Float"]>;
-  height?: Maybe<Scalars["Float"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveManyStackItemsInputsInput {
-  name?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  typeData?: Maybe<Scalars["JSON"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-export interface FilterRemoveManyStackItemsPortsInput {
-  name?: Maybe<Scalars["String"]>;
-  x?: Maybe<Scalars["Float"]>;
-  y?: Maybe<Scalars["Float"]>;
-  rotation?: Maybe<Scalars["Float"]>;
-  type?: Maybe<Scalars["String"]>;
-  _id?: Maybe<Scalars["MongoID"]>;
-}
-
-/** For performance reason this type contains only *indexed* fields. */
-export interface FilterRemoveManyStackOperatorsInput {
-  _id?: Maybe<FilterRemoveManyStack_idOperatorsInput>;
-}
-
-export interface FilterRemoveManyStack_idOperatorsInput {
-  gt?: Maybe<Scalars["MongoID"]>;
-  gte?: Maybe<Scalars["MongoID"]>;
-  lt?: Maybe<Scalars["MongoID"]>;
-  lte?: Maybe<Scalars["MongoID"]>;
-  ne?: Maybe<Scalars["MongoID"]>;
-  in?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  nin?: Maybe<Array<Maybe<Scalars["MongoID"]>>>;
-  exists?: Maybe<Scalars["Boolean"]>;
-}
-
 export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   ID: true,
   String: true,
@@ -17911,44 +16296,6 @@ export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   Boolean: true,
   DateTime: true,
   SortDirection: true,
-  JSON: true,
-  MongoID: true,
-  Date: true,
-  SortFindByIdsDeviceInput: true,
-  SortFindOneDeviceInput: true,
-  SortFindManyDeviceInput: true,
-  SortConnectionDeviceEnum: true,
-  SortFindByIdsDNSRecordInput: true,
-  SortFindOneDNSRecordInput: true,
-  SortFindManyDNSRecordInput: true,
-  SortConnectionDNSRecordEnum: true,
-  SortFindByIdsProgramInput: true,
-  SortFindOneProgramInput: true,
-  SortFindManyProgramInput: true,
-  SortConnectionProgramEnum: true,
-  SortFindByIdsFlowShardInput: true,
-  SortFindOneFlowShardInput: true,
-  SortFindManyFlowShardInput: true,
-  SortConnectionFlowShardEnum: true,
-  SortFindByIdsStackInput: true,
-  SortFindOneStackInput: true,
-  SortFindManyStackInput: true,
-  SortConnectionStackEnum: true,
-  SortUpdateOneDeviceInput: true,
-  SortUpdateManyDeviceInput: true,
-  SortRemoveOneDeviceInput: true,
-  SortUpdateOneDNSRecordInput: true,
-  SortUpdateManyDNSRecordInput: true,
-  SortRemoveOneDNSRecordInput: true,
-  SortUpdateOneProgramInput: true,
-  SortUpdateManyProgramInput: true,
-  SortRemoveOneProgramInput: true,
-  SortUpdateOneFlowShardInput: true,
-  SortUpdateManyFlowShardInput: true,
-  SortRemoveOneFlowShardInput: true,
-  SortUpdateOneStackInput: true,
-  SortUpdateManyStackInput: true,
-  SortRemoveOneStackInput: true,
 };
 export const generatedSchema = {
   query: {
@@ -17966,6 +16313,25 @@ export const generatedSchema = {
     commandDeviceValue: {
       __type: "[CommandDeviceValue]",
       __args: { device: "String", bus: "String", port: "String" },
+    },
+    commandDeviceTimeseries: {
+      __type: "[CommandDeviceTimeseriesData]",
+      __args: {
+        deviceId: "String",
+        device: "String",
+        valueKey: "String",
+        startDate: "String",
+      },
+    },
+    commandDeviceTimeseriesTotal: {
+      __type: "CommandDeviceTimeseriesTotal",
+      __args: {
+        deviceId: "String",
+        device: "String",
+        valueKey: "String",
+        startDate: "String",
+        endDate: "String",
+      },
     },
     hiveServices: {
       __type: "[HiveService!]!",
@@ -18324,16 +16690,16 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "CommandDevicePeripheralWhere" },
     },
-    commandProgramPeripheralConfigurations: {
-      __type: "[CommandProgramPeripheralConfiguration!]!",
+    commandProgramDeviceCalibrations: {
+      __type: "[CommandProgramDeviceCalibration!]!",
       __args: {
-        where: "CommandProgramPeripheralConfigurationWhere",
-        options: "CommandProgramPeripheralConfigurationOptions",
+        where: "CommandProgramDeviceCalibrationWhere",
+        options: "CommandProgramDeviceCalibrationOptions",
       },
     },
-    commandProgramPeripheralConfigurationsCount: {
+    commandProgramDeviceCalibrationsCount: {
       __type: "Int!",
-      __args: { where: "CommandProgramPeripheralConfigurationWhere" },
+      __args: { where: "CommandProgramDeviceCalibrationWhere" },
     },
     commandDevicePeripheralProducts: {
       __type: "[CommandDevicePeripheralProduct!]!",
@@ -18379,6 +16745,17 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "CommandProgramWhere" },
     },
+    commandProgramActions: {
+      __type: "[CommandProgramAction!]!",
+      __args: {
+        where: "CommandProgramActionWhere",
+        options: "CommandProgramActionOptions",
+      },
+    },
+    commandProgramActionsCount: {
+      __type: "Int!",
+      __args: { where: "CommandProgramActionWhere" },
+    },
     commandProgramAlarms: {
       __type: "[CommandProgramAlarm!]!",
       __args: {
@@ -18401,6 +16778,17 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "CommandInterlockWhere" },
     },
+    commandInterlockAssertions: {
+      __type: "[CommandInterlockAssertion!]!",
+      __args: {
+        where: "CommandInterlockAssertionWhere",
+        options: "CommandInterlockAssertionOptions",
+      },
+    },
+    commandInterlockAssertionsCount: {
+      __type: "Int!",
+      __args: { where: "CommandInterlockAssertionWhere" },
+    },
     commandProgramDevicePlaceholders: {
       __type: "[CommandProgramDevicePlaceholder!]!",
       __args: {
@@ -18411,6 +16799,17 @@ export const generatedSchema = {
     commandProgramDevicePlaceholdersCount: {
       __type: "Int!",
       __args: { where: "CommandProgramDevicePlaceholderWhere" },
+    },
+    commandDeviceSetpoints: {
+      __type: "[CommandDeviceSetpoint!]!",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        options: "CommandDeviceSetpointOptions",
+      },
+    },
+    commandDeviceSetpointsCount: {
+      __type: "Int!",
+      __args: { where: "CommandDeviceSetpointWhere" },
     },
     commandDevicePlugins: {
       __type: "[CommandDevicePlugin!]!",
@@ -18488,17 +16887,6 @@ export const generatedSchema = {
     commandProgramDevicesCount: {
       __type: "Int!",
       __args: { where: "CommandProgramDeviceWhere" },
-    },
-    commandProgramDeviceConfigurations: {
-      __type: "[CommandProgramDeviceConfiguration!]!",
-      __args: {
-        where: "CommandProgramDeviceConfigurationWhere",
-        options: "CommandProgramDeviceConfigurationOptions",
-      },
-    },
-    commandProgramDeviceConfigurationsCount: {
-      __type: "Int!",
-      __args: { where: "CommandProgramDeviceConfigurationWhere" },
     },
     commandProgramDeviceActions: {
       __type: "[CommandProgramDeviceAction!]!",
@@ -18678,441 +17066,6 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "CommandPluginItemWhere" },
     },
-    ProgramShard: { __type: "Program", __args: { id: "String" } },
-    ProgramShards: { __type: "[Program]" },
-    DeviceById: { __type: "Device", __args: { _id: "MongoID!" } },
-    DeviceByIds: {
-      __type: "[Device!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsDeviceInput",
-      },
-    },
-    DeviceOne: {
-      __type: "Device",
-      __args: {
-        filter: "FilterFindOneDeviceInput",
-        skip: "Int",
-        sort: "SortFindOneDeviceInput",
-      },
-    },
-    DeviceMany: {
-      __type: "[Device!]!",
-      __args: {
-        filter: "FilterFindManyDeviceInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyDeviceInput",
-      },
-    },
-    DeviceDataLoader: { __type: "Device", __args: { _id: "MongoID!" } },
-    DeviceDataLoaderMany: {
-      __type: "[Device]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    DeviceByIdLean: { __type: "Device", __args: { _id: "MongoID!" } },
-    DeviceByIdsLean: {
-      __type: "[Device!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsDeviceInput",
-      },
-    },
-    DeviceOneLean: {
-      __type: "Device",
-      __args: {
-        filter: "FilterFindOneDeviceInput",
-        skip: "Int",
-        sort: "SortFindOneDeviceInput",
-      },
-    },
-    DeviceManyLean: {
-      __type: "[Device!]!",
-      __args: {
-        filter: "FilterFindManyDeviceInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyDeviceInput",
-      },
-    },
-    DeviceDataLoaderLean: { __type: "Device", __args: { _id: "MongoID!" } },
-    DeviceDataLoaderManyLean: {
-      __type: "[Device]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    DeviceCount: {
-      __type: "Int",
-      __args: { filter: "FilterCountDeviceInput" },
-    },
-    DeviceConnection: {
-      __type: "DeviceConnection",
-      __args: {
-        first: "Int",
-        after: "String",
-        last: "Int",
-        before: "String",
-        filter: "FilterFindManyDeviceInput",
-        sort: "SortConnectionDeviceEnum",
-      },
-    },
-    DevicerPagination: {
-      __type: "DevicePagination",
-      __args: {
-        page: "Int",
-        perPage: "Int",
-        filter: "FilterFindManyDeviceInput",
-        sort: "SortFindManyDeviceInput",
-      },
-    },
-    DNSRecordById: { __type: "DNSRecord", __args: { _id: "MongoID!" } },
-    DNSRecordByIds: {
-      __type: "[DNSRecord!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsDNSRecordInput",
-      },
-    },
-    DNSRecordOne: {
-      __type: "DNSRecord",
-      __args: {
-        filter: "FilterFindOneDNSRecordInput",
-        skip: "Int",
-        sort: "SortFindOneDNSRecordInput",
-      },
-    },
-    DNSRecordMany: {
-      __type: "[DNSRecord!]!",
-      __args: {
-        filter: "FilterFindManyDNSRecordInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyDNSRecordInput",
-      },
-    },
-    DNSRecordDataLoader: { __type: "DNSRecord", __args: { _id: "MongoID!" } },
-    DNSRecordDataLoaderMany: {
-      __type: "[DNSRecord]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    DNSRecordByIdLean: { __type: "DNSRecord", __args: { _id: "MongoID!" } },
-    DNSRecordByIdsLean: {
-      __type: "[DNSRecord!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsDNSRecordInput",
-      },
-    },
-    DNSRecordOneLean: {
-      __type: "DNSRecord",
-      __args: {
-        filter: "FilterFindOneDNSRecordInput",
-        skip: "Int",
-        sort: "SortFindOneDNSRecordInput",
-      },
-    },
-    DNSRecordManyLean: {
-      __type: "[DNSRecord!]!",
-      __args: {
-        filter: "FilterFindManyDNSRecordInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyDNSRecordInput",
-      },
-    },
-    DNSRecordDataLoaderLean: {
-      __type: "DNSRecord",
-      __args: { _id: "MongoID!" },
-    },
-    DNSRecordDataLoaderManyLean: {
-      __type: "[DNSRecord]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    DNSRecordCount: {
-      __type: "Int",
-      __args: { filter: "FilterCountDNSRecordInput" },
-    },
-    DNSRecordConnection: {
-      __type: "DNSRecordConnection",
-      __args: {
-        first: "Int",
-        after: "String",
-        last: "Int",
-        before: "String",
-        filter: "FilterFindManyDNSRecordInput",
-        sort: "SortConnectionDNSRecordEnum",
-      },
-    },
-    DNSRecordrPagination: {
-      __type: "DNSRecordPagination",
-      __args: {
-        page: "Int",
-        perPage: "Int",
-        filter: "FilterFindManyDNSRecordInput",
-        sort: "SortFindManyDNSRecordInput",
-      },
-    },
-    ProgramById: { __type: "Program", __args: { _id: "MongoID!" } },
-    ProgramByIds: {
-      __type: "[Program!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsProgramInput",
-      },
-    },
-    ProgramOne: {
-      __type: "Program",
-      __args: {
-        filter: "FilterFindOneProgramInput",
-        skip: "Int",
-        sort: "SortFindOneProgramInput",
-      },
-    },
-    ProgramMany: {
-      __type: "[Program!]!",
-      __args: {
-        filter: "FilterFindManyProgramInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyProgramInput",
-      },
-    },
-    ProgramDataLoader: { __type: "Program", __args: { _id: "MongoID!" } },
-    ProgramDataLoaderMany: {
-      __type: "[Program]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    ProgramByIdLean: { __type: "Program", __args: { _id: "MongoID!" } },
-    ProgramByIdsLean: {
-      __type: "[Program!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsProgramInput",
-      },
-    },
-    ProgramOneLean: {
-      __type: "Program",
-      __args: {
-        filter: "FilterFindOneProgramInput",
-        skip: "Int",
-        sort: "SortFindOneProgramInput",
-      },
-    },
-    ProgramManyLean: {
-      __type: "[Program!]!",
-      __args: {
-        filter: "FilterFindManyProgramInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyProgramInput",
-      },
-    },
-    ProgramDataLoaderLean: { __type: "Program", __args: { _id: "MongoID!" } },
-    ProgramDataLoaderManyLean: {
-      __type: "[Program]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    ProgramCount: {
-      __type: "Int",
-      __args: { filter: "FilterCountProgramInput" },
-    },
-    ProgramConnection: {
-      __type: "ProgramConnection",
-      __args: {
-        first: "Int",
-        after: "String",
-        last: "Int",
-        before: "String",
-        filter: "FilterFindManyProgramInput",
-        sort: "SortConnectionProgramEnum",
-      },
-    },
-    ProgramrPagination: {
-      __type: "ProgramPagination",
-      __args: {
-        page: "Int",
-        perPage: "Int",
-        filter: "FilterFindManyProgramInput",
-        sort: "SortFindManyProgramInput",
-      },
-    },
-    FlowShardById: { __type: "FlowShard", __args: { _id: "MongoID!" } },
-    FlowShardByIds: {
-      __type: "[FlowShard!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsFlowShardInput",
-      },
-    },
-    FlowShardOne: {
-      __type: "FlowShard",
-      __args: {
-        filter: "FilterFindOneFlowShardInput",
-        skip: "Int",
-        sort: "SortFindOneFlowShardInput",
-      },
-    },
-    FlowShardMany: {
-      __type: "[FlowShard!]!",
-      __args: {
-        filter: "FilterFindManyFlowShardInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyFlowShardInput",
-      },
-    },
-    FlowShardDataLoader: { __type: "FlowShard", __args: { _id: "MongoID!" } },
-    FlowShardDataLoaderMany: {
-      __type: "[FlowShard]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    FlowShardByIdLean: { __type: "FlowShard", __args: { _id: "MongoID!" } },
-    FlowShardByIdsLean: {
-      __type: "[FlowShard!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsFlowShardInput",
-      },
-    },
-    FlowShardOneLean: {
-      __type: "FlowShard",
-      __args: {
-        filter: "FilterFindOneFlowShardInput",
-        skip: "Int",
-        sort: "SortFindOneFlowShardInput",
-      },
-    },
-    FlowShardManyLean: {
-      __type: "[FlowShard!]!",
-      __args: {
-        filter: "FilterFindManyFlowShardInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyFlowShardInput",
-      },
-    },
-    FlowShardDataLoaderLean: {
-      __type: "FlowShard",
-      __args: { _id: "MongoID!" },
-    },
-    FlowShardDataLoaderManyLean: {
-      __type: "[FlowShard]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    FlowShardCount: {
-      __type: "Int",
-      __args: { filter: "FilterCountFlowShardInput" },
-    },
-    FlowShardConnection: {
-      __type: "FlowShardConnection",
-      __args: {
-        first: "Int",
-        after: "String",
-        last: "Int",
-        before: "String",
-        filter: "FilterFindManyFlowShardInput",
-        sort: "SortConnectionFlowShardEnum",
-      },
-    },
-    FlowShardrPagination: {
-      __type: "FlowShardPagination",
-      __args: {
-        page: "Int",
-        perPage: "Int",
-        filter: "FilterFindManyFlowShardInput",
-        sort: "SortFindManyFlowShardInput",
-      },
-    },
-    StackById: { __type: "Stack", __args: { _id: "MongoID!" } },
-    StackByIds: {
-      __type: "[Stack!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsStackInput",
-      },
-    },
-    StackOne: {
-      __type: "Stack",
-      __args: {
-        filter: "FilterFindOneStackInput",
-        skip: "Int",
-        sort: "SortFindOneStackInput",
-      },
-    },
-    StackMany: {
-      __type: "[Stack!]!",
-      __args: {
-        filter: "FilterFindManyStackInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyStackInput",
-      },
-    },
-    StackDataLoader: { __type: "Stack", __args: { _id: "MongoID!" } },
-    StackDataLoaderMany: {
-      __type: "[Stack]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    StackByIdLean: { __type: "Stack", __args: { _id: "MongoID!" } },
-    StackByIdsLean: {
-      __type: "[Stack!]!",
-      __args: {
-        _ids: "[MongoID!]!",
-        limit: "Int",
-        sort: "SortFindByIdsStackInput",
-      },
-    },
-    StackOneLean: {
-      __type: "Stack",
-      __args: {
-        filter: "FilterFindOneStackInput",
-        skip: "Int",
-        sort: "SortFindOneStackInput",
-      },
-    },
-    StackManyLean: {
-      __type: "[Stack!]!",
-      __args: {
-        filter: "FilterFindManyStackInput",
-        skip: "Int",
-        limit: "Int",
-        sort: "SortFindManyStackInput",
-      },
-    },
-    StackDataLoaderLean: { __type: "Stack", __args: { _id: "MongoID!" } },
-    StackDataLoaderManyLean: {
-      __type: "[Stack]!",
-      __args: { _ids: "[MongoID!]!" },
-    },
-    StackCount: { __type: "Int", __args: { filter: "FilterCountStackInput" } },
-    StackConnection: {
-      __type: "StackConnection",
-      __args: {
-        first: "Int",
-        after: "String",
-        last: "Int",
-        before: "String",
-        filter: "FilterFindManyStackInput",
-        sort: "SortConnectionStackEnum",
-      },
-    },
-    StackrPagination: {
-      __type: "StackPagination",
-      __args: {
-        page: "Int",
-        perPage: "Int",
-        filter: "FilterFindManyStackInput",
-        sort: "SortFindManyStackInput",
-      },
-    },
   },
   mutation: {
     __typename: { __type: "String!" },
@@ -19154,6 +17107,10 @@ export const generatedSchema = {
     changeDeviceMode: {
       __type: "CommandDeviceResponse",
       __args: { deviceId: "String", deviceName: "String", mode: "String" },
+    },
+    requestFlow: {
+      __type: "CommandDeviceResponse",
+      __args: { deviceId: "String", actionId: "String" },
     },
     createHiveServices: {
       __type: "CreateHiveServicesMutationResponse!",
@@ -19958,26 +17915,26 @@ export const generatedSchema = {
         delete: "CommandDevicePeripheralDeleteInput",
       },
     },
-    createCommandProgramPeripheralConfigurations: {
-      __type: "CreateCommandProgramPeripheralConfigurationsMutationResponse!",
-      __args: { input: "[CommandProgramPeripheralConfigurationCreateInput!]!" },
+    createCommandProgramDeviceCalibrations: {
+      __type: "CreateCommandProgramDeviceCalibrationsMutationResponse!",
+      __args: { input: "[CommandProgramDeviceCalibrationCreateInput!]!" },
     },
-    deleteCommandProgramPeripheralConfigurations: {
+    deleteCommandProgramDeviceCalibrations: {
       __type: "DeleteInfo!",
       __args: {
-        where: "CommandProgramPeripheralConfigurationWhere",
-        delete: "CommandProgramPeripheralConfigurationDeleteInput",
+        where: "CommandProgramDeviceCalibrationWhere",
+        delete: "CommandProgramDeviceCalibrationDeleteInput",
       },
     },
-    updateCommandProgramPeripheralConfigurations: {
-      __type: "UpdateCommandProgramPeripheralConfigurationsMutationResponse!",
+    updateCommandProgramDeviceCalibrations: {
+      __type: "UpdateCommandProgramDeviceCalibrationsMutationResponse!",
       __args: {
-        where: "CommandProgramPeripheralConfigurationWhere",
-        update: "CommandProgramPeripheralConfigurationUpdateInput",
-        connect: "CommandProgramPeripheralConfigurationConnectInput",
-        disconnect: "CommandProgramPeripheralConfigurationDisconnectInput",
-        create: "CommandProgramPeripheralConfigurationRelationInput",
-        delete: "CommandProgramPeripheralConfigurationDeleteInput",
+        where: "CommandProgramDeviceCalibrationWhere",
+        update: "CommandProgramDeviceCalibrationUpdateInput",
+        connect: "CommandProgramDeviceCalibrationConnectInput",
+        disconnect: "CommandProgramDeviceCalibrationDisconnectInput",
+        create: "CommandProgramDeviceCalibrationRelationInput",
+        delete: "CommandProgramDeviceCalibrationDeleteInput",
       },
     },
     createCommandDevicePeripheralProducts: {
@@ -20068,6 +18025,28 @@ export const generatedSchema = {
         delete: "CommandProgramDeleteInput",
       },
     },
+    createCommandProgramActions: {
+      __type: "CreateCommandProgramActionsMutationResponse!",
+      __args: { input: "[CommandProgramActionCreateInput!]!" },
+    },
+    deleteCommandProgramActions: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandProgramActionWhere",
+        delete: "CommandProgramActionDeleteInput",
+      },
+    },
+    updateCommandProgramActions: {
+      __type: "UpdateCommandProgramActionsMutationResponse!",
+      __args: {
+        where: "CommandProgramActionWhere",
+        update: "CommandProgramActionUpdateInput",
+        connect: "CommandProgramActionConnectInput",
+        disconnect: "CommandProgramActionDisconnectInput",
+        create: "CommandProgramActionRelationInput",
+        delete: "CommandProgramActionDeleteInput",
+      },
+    },
     createCommandProgramAlarms: {
       __type: "CreateCommandProgramAlarmsMutationResponse!",
       __args: { input: "[CommandProgramAlarmCreateInput!]!" },
@@ -20105,6 +18084,28 @@ export const generatedSchema = {
         delete: "CommandInterlockDeleteInput",
       },
     },
+    createCommandInterlockAssertions: {
+      __type: "CreateCommandInterlockAssertionsMutationResponse!",
+      __args: { input: "[CommandInterlockAssertionCreateInput!]!" },
+    },
+    deleteCommandInterlockAssertions: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandInterlockAssertionWhere",
+        delete: "CommandInterlockAssertionDeleteInput",
+      },
+    },
+    updateCommandInterlockAssertions: {
+      __type: "UpdateCommandInterlockAssertionsMutationResponse!",
+      __args: {
+        where: "CommandInterlockAssertionWhere",
+        update: "CommandInterlockAssertionUpdateInput",
+        connect: "CommandInterlockAssertionConnectInput",
+        disconnect: "CommandInterlockAssertionDisconnectInput",
+        create: "CommandInterlockAssertionRelationInput",
+        delete: "CommandInterlockAssertionDeleteInput",
+      },
+    },
     createCommandProgramDevicePlaceholders: {
       __type: "CreateCommandProgramDevicePlaceholdersMutationResponse!",
       __args: { input: "[CommandProgramDevicePlaceholderCreateInput!]!" },
@@ -20125,6 +18126,28 @@ export const generatedSchema = {
         disconnect: "CommandProgramDevicePlaceholderDisconnectInput",
         create: "CommandProgramDevicePlaceholderRelationInput",
         delete: "CommandProgramDevicePlaceholderDeleteInput",
+      },
+    },
+    createCommandDeviceSetpoints: {
+      __type: "CreateCommandDeviceSetpointsMutationResponse!",
+      __args: { input: "[CommandDeviceSetpointCreateInput!]!" },
+    },
+    deleteCommandDeviceSetpoints: {
+      __type: "DeleteInfo!",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        delete: "CommandDeviceSetpointDeleteInput",
+      },
+    },
+    updateCommandDeviceSetpoints: {
+      __type: "UpdateCommandDeviceSetpointsMutationResponse!",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        update: "CommandDeviceSetpointUpdateInput",
+        connect: "CommandDeviceSetpointConnectInput",
+        disconnect: "CommandDeviceSetpointDisconnectInput",
+        create: "CommandDeviceSetpointRelationInput",
+        delete: "CommandDeviceSetpointDeleteInput",
       },
     },
     createCommandDevicePlugins: {
@@ -20271,21 +18294,6 @@ export const generatedSchema = {
         disconnect: "CommandProgramDeviceDisconnectInput",
         create: "CommandProgramDeviceRelationInput",
         delete: "CommandProgramDeviceDeleteInput",
-      },
-    },
-    createCommandProgramDeviceConfigurations: {
-      __type: "CreateCommandProgramDeviceConfigurationsMutationResponse!",
-      __args: { input: "[CommandProgramDeviceConfigurationCreateInput!]!" },
-    },
-    deleteCommandProgramDeviceConfigurations: {
-      __type: "DeleteInfo!",
-      __args: { where: "CommandProgramDeviceConfigurationWhere" },
-    },
-    updateCommandProgramDeviceConfigurations: {
-      __type: "UpdateCommandProgramDeviceConfigurationsMutationResponse!",
-      __args: {
-        where: "CommandProgramDeviceConfigurationWhere",
-        update: "CommandProgramDeviceConfigurationUpdateInput",
       },
     },
     createCommandProgramDeviceActions: {
@@ -20645,276 +18653,6 @@ export const generatedSchema = {
         delete: "CommandPluginItemDeleteInput",
       },
     },
-    addProgramIO: {
-      __type: "ProgramIo",
-      __args: { program: "String", name: "String", type: "String" },
-    },
-    addHMIFlow: {
-      __type: "FlowShard",
-      __args: {
-        program: "String",
-        parent: "String",
-        name: "String",
-        nodes: "JSON",
-        paths: "JSON",
-      },
-    },
-    updateHMIFlow: {
-      __type: "FlowShard",
-      __args: { id: "String", name: "String", nodes: "JSON", paths: "JSON" },
-    },
-    addProgramFlow: {
-      __type: "FlowShard",
-      __args: {
-        program: "String",
-        parent: "String",
-        name: "String",
-        nodes: "JSON",
-        paths: "JSON",
-      },
-    },
-    updateProgramFlow: {
-      __type: "FlowShard",
-      __args: { id: "String", name: "String", nodes: "JSON", paths: "JSON" },
-    },
-    removeProgramFlow: {
-      __type: "Program",
-      __args: { id: "String", shard: "String" },
-    },
-    addStackItem: {
-      __type: "StackItems",
-      __args: { stack: "String", record: "StackItemsInput" },
-    },
-    DeviceCreateOne: {
-      __type: "CreateOneDevicePayload",
-      __args: { record: "CreateOneDeviceInput!" },
-    },
-    DeviceCreateMany: {
-      __type: "CreateManyDevicePayload",
-      __args: { records: "[CreateManyDeviceInput!]!" },
-    },
-    DeviceUpdateById: {
-      __type: "UpdateByIdDevicePayload",
-      __args: { _id: "MongoID!", record: "UpdateByIdDeviceInput!" },
-    },
-    DeviceUpdateOne: {
-      __type: "UpdateOneDevicePayload",
-      __args: {
-        record: "UpdateOneDeviceInput!",
-        filter: "FilterUpdateOneDeviceInput",
-        sort: "SortUpdateOneDeviceInput",
-        skip: "Int",
-      },
-    },
-    DeviceUpdateMany: {
-      __type: "UpdateManyDevicePayload",
-      __args: {
-        record: "UpdateManyDeviceInput!",
-        filter: "FilterUpdateManyDeviceInput",
-        sort: "SortUpdateManyDeviceInput",
-        skip: "Int",
-        limit: "Int",
-      },
-    },
-    DeviceRemoveById: {
-      __type: "RemoveByIdDevicePayload",
-      __args: { _id: "MongoID!" },
-    },
-    DeviceRemoveOne: {
-      __type: "RemoveOneDevicePayload",
-      __args: {
-        filter: "FilterRemoveOneDeviceInput",
-        sort: "SortRemoveOneDeviceInput",
-      },
-    },
-    DeviceRemoveMany: {
-      __type: "RemoveManyDevicePayload",
-      __args: { filter: "FilterRemoveManyDeviceInput!", limit: "Int" },
-    },
-    DNSRecordCreateOne: {
-      __type: "CreateOneDNSRecordPayload",
-      __args: { record: "CreateOneDNSRecordInput!" },
-    },
-    DNSRecordCreateMany: {
-      __type: "CreateManyDNSRecordPayload",
-      __args: { records: "[CreateManyDNSRecordInput!]!" },
-    },
-    DNSRecordUpdateById: {
-      __type: "UpdateByIdDNSRecordPayload",
-      __args: { _id: "MongoID!", record: "UpdateByIdDNSRecordInput!" },
-    },
-    DNSRecordUpdateOne: {
-      __type: "UpdateOneDNSRecordPayload",
-      __args: {
-        record: "UpdateOneDNSRecordInput!",
-        filter: "FilterUpdateOneDNSRecordInput",
-        sort: "SortUpdateOneDNSRecordInput",
-        skip: "Int",
-      },
-    },
-    DNSRecordUpdateMany: {
-      __type: "UpdateManyDNSRecordPayload",
-      __args: {
-        record: "UpdateManyDNSRecordInput!",
-        filter: "FilterUpdateManyDNSRecordInput",
-        sort: "SortUpdateManyDNSRecordInput",
-        skip: "Int",
-        limit: "Int",
-      },
-    },
-    DNSRecordRemoveById: {
-      __type: "RemoveByIdDNSRecordPayload",
-      __args: { _id: "MongoID!" },
-    },
-    DNSRecordRemoveOne: {
-      __type: "RemoveOneDNSRecordPayload",
-      __args: {
-        filter: "FilterRemoveOneDNSRecordInput",
-        sort: "SortRemoveOneDNSRecordInput",
-      },
-    },
-    DNSRecordRemoveMany: {
-      __type: "RemoveManyDNSRecordPayload",
-      __args: { filter: "FilterRemoveManyDNSRecordInput!", limit: "Int" },
-    },
-    ProgramCreateOne: {
-      __type: "CreateOneProgramPayload",
-      __args: { record: "CreateOneProgramInput!" },
-    },
-    ProgramCreateMany: {
-      __type: "CreateManyProgramPayload",
-      __args: { records: "[CreateManyProgramInput!]!" },
-    },
-    ProgramUpdateById: {
-      __type: "UpdateByIdProgramPayload",
-      __args: { _id: "MongoID!", record: "UpdateByIdProgramInput!" },
-    },
-    ProgramUpdateOne: {
-      __type: "UpdateOneProgramPayload",
-      __args: {
-        record: "UpdateOneProgramInput!",
-        filter: "FilterUpdateOneProgramInput",
-        sort: "SortUpdateOneProgramInput",
-        skip: "Int",
-      },
-    },
-    ProgramUpdateMany: {
-      __type: "UpdateManyProgramPayload",
-      __args: {
-        record: "UpdateManyProgramInput!",
-        filter: "FilterUpdateManyProgramInput",
-        sort: "SortUpdateManyProgramInput",
-        skip: "Int",
-        limit: "Int",
-      },
-    },
-    ProgramRemoveById: {
-      __type: "RemoveByIdProgramPayload",
-      __args: { _id: "MongoID!" },
-    },
-    ProgramRemoveOne: {
-      __type: "RemoveOneProgramPayload",
-      __args: {
-        filter: "FilterRemoveOneProgramInput",
-        sort: "SortRemoveOneProgramInput",
-      },
-    },
-    ProgramRemoveMany: {
-      __type: "RemoveManyProgramPayload",
-      __args: { filter: "FilterRemoveManyProgramInput!", limit: "Int" },
-    },
-    FlowShardCreateOne: {
-      __type: "CreateOneFlowShardPayload",
-      __args: { record: "CreateOneFlowShardInput!" },
-    },
-    FlowShardCreateMany: {
-      __type: "CreateManyFlowShardPayload",
-      __args: { records: "[CreateManyFlowShardInput!]!" },
-    },
-    FlowShardUpdateById: {
-      __type: "UpdateByIdFlowShardPayload",
-      __args: { _id: "MongoID!", record: "UpdateByIdFlowShardInput!" },
-    },
-    FlowShardUpdateOne: {
-      __type: "UpdateOneFlowShardPayload",
-      __args: {
-        record: "UpdateOneFlowShardInput!",
-        filter: "FilterUpdateOneFlowShardInput",
-        sort: "SortUpdateOneFlowShardInput",
-        skip: "Int",
-      },
-    },
-    FlowShardUpdateMany: {
-      __type: "UpdateManyFlowShardPayload",
-      __args: {
-        record: "UpdateManyFlowShardInput!",
-        filter: "FilterUpdateManyFlowShardInput",
-        sort: "SortUpdateManyFlowShardInput",
-        skip: "Int",
-        limit: "Int",
-      },
-    },
-    FlowShardRemoveById: {
-      __type: "RemoveByIdFlowShardPayload",
-      __args: { _id: "MongoID!" },
-    },
-    FlowShardRemoveOne: {
-      __type: "RemoveOneFlowShardPayload",
-      __args: {
-        filter: "FilterRemoveOneFlowShardInput",
-        sort: "SortRemoveOneFlowShardInput",
-      },
-    },
-    FlowShardRemoveMany: {
-      __type: "RemoveManyFlowShardPayload",
-      __args: { filter: "FilterRemoveManyFlowShardInput!", limit: "Int" },
-    },
-    StackCreateOne: {
-      __type: "CreateOneStackPayload",
-      __args: { record: "CreateOneStackInput!" },
-    },
-    StackCreateMany: {
-      __type: "CreateManyStackPayload",
-      __args: { records: "[CreateManyStackInput!]!" },
-    },
-    StackUpdateById: {
-      __type: "UpdateByIdStackPayload",
-      __args: { _id: "MongoID!", record: "UpdateByIdStackInput!" },
-    },
-    StackUpdateOne: {
-      __type: "UpdateOneStackPayload",
-      __args: {
-        record: "UpdateOneStackInput!",
-        filter: "FilterUpdateOneStackInput",
-        sort: "SortUpdateOneStackInput",
-        skip: "Int",
-      },
-    },
-    StackUpdateMany: {
-      __type: "UpdateManyStackPayload",
-      __args: {
-        record: "UpdateManyStackInput!",
-        filter: "FilterUpdateManyStackInput",
-        sort: "SortUpdateManyStackInput",
-        skip: "Int",
-        limit: "Int",
-      },
-    },
-    StackRemoveById: {
-      __type: "RemoveByIdStackPayload",
-      __args: { _id: "MongoID!" },
-    },
-    StackRemoveOne: {
-      __type: "RemoveOneStackPayload",
-      __args: {
-        filter: "FilterRemoveOneStackInput",
-        sort: "SortRemoveOneStackInput",
-      },
-    },
-    StackRemoveMany: {
-      __type: "RemoveManyStackPayload",
-      __args: { filter: "FilterRemoveManyStackInput!", limit: "Int" },
-    },
   },
   subscription: {},
   Printer: {
@@ -21186,11 +18924,11 @@ export const generatedSchema = {
         options: "CommandProgramOptions",
       },
     },
-    configuredDevices: {
-      __type: "[CommandProgramPeripheralConfiguration]",
+    calibrations: {
+      __type: "[CommandProgramDeviceCalibration]",
       __args: {
-        where: "CommandProgramPeripheralConfigurationWhere",
-        options: "CommandProgramPeripheralConfigurationOptions",
+        where: "CommandProgramDeviceCalibrationWhere",
+        options: "CommandProgramDeviceCalibrationOptions",
       },
     },
     peripherals: {
@@ -21216,13 +18954,13 @@ export const generatedSchema = {
         sort: "[CommandDeviceActiveProgramConnectionSort!]",
       },
     },
-    configuredDevicesConnection: {
-      __type: "CommandDeviceConfiguredDevicesConnection!",
+    calibrationsConnection: {
+      __type: "CommandDeviceCalibrationsConnection!",
       __args: {
-        where: "CommandDeviceConfiguredDevicesConnectionWhere",
+        where: "CommandDeviceCalibrationsConnectionWhere",
         first: "Int",
         after: "String",
-        sort: "[CommandDeviceConfiguredDevicesConnectionSort!]",
+        sort: "[CommandDeviceCalibrationsConnectionSort!]",
       },
     },
     peripheralsConnection: {
@@ -21255,17 +18993,16 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "CommandProgram!" },
   },
-  CommandDeviceConfiguredDevicesConnection: {
+  CommandDeviceCalibrationsConnection: {
     __typename: { __type: "String!" },
-    edges: { __type: "[CommandDeviceConfiguredDevicesRelationship!]!" },
+    edges: { __type: "[CommandDeviceCalibrationsRelationship!]!" },
     totalCount: { __type: "Int!" },
     pageInfo: { __type: "PageInfo!" },
   },
-  CommandDeviceConfiguredDevicesRelationship: {
+  CommandDeviceCalibrationsRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
-    node: { __type: "CommandProgramPeripheralConfiguration!" },
-    port: { __type: "String" },
+    node: { __type: "CommandProgramDeviceCalibration!" },
   },
   CommandDeviceOrganisationConnection: {
     __typename: { __type: "String!" },
@@ -21617,6 +19354,52 @@ export const generatedSchema = {
   CommandDeviceResponse: {
     __typename: { __type: "String!" },
     success: { __type: "Boolean" },
+  },
+  CommandDeviceSetpoint: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    key: {
+      __type: "CommandProgramDeviceState",
+      __args: {
+        where: "CommandProgramDeviceStateWhere",
+        options: "CommandProgramDeviceStateOptions",
+      },
+    },
+    keyConnection: {
+      __type: "CommandDeviceSetpointKeyConnection!",
+      __args: {
+        where: "CommandDeviceSetpointKeyConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandDeviceSetpointKeyConnectionSort!]",
+      },
+    },
+  },
+  CommandDeviceSetpointKeyConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandDeviceSetpointKeyRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandDeviceSetpointKeyRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramDeviceState!" },
+  },
+  CommandDeviceTimeseriesData: {
+    __typename: { __type: "String!" },
+    device: { __type: "String" },
+    deviceId: { __type: "String" },
+    valueKey: { __type: "String" },
+    value: { __type: "String" },
+    timestamp: { __type: "DateTime" },
+  },
+  CommandDeviceTimeseriesTotal: {
+    __typename: { __type: "String!" },
+    total: { __type: "Float" },
   },
   CommandDeviceValue: {
     __typename: { __type: "String!" },
@@ -22006,7 +19789,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     comparator: { __type: "String" },
-    assertion: { __type: "String" },
     inputDevice: {
       __type: "CommandProgramDevicePlaceholder",
       __args: {
@@ -22019,6 +19801,13 @@ export const generatedSchema = {
       __args: {
         where: "CommandProgramDeviceStateWhere",
         options: "CommandProgramDeviceStateOptions",
+      },
+    },
+    assertion: {
+      __type: "CommandInterlockAssertion",
+      __args: {
+        where: "CommandInterlockAssertionWhere",
+        options: "CommandInterlockAssertionOptions",
       },
     },
     action: {
@@ -22053,6 +19842,15 @@ export const generatedSchema = {
         sort: "[CommandInterlockInputDeviceKeyConnectionSort!]",
       },
     },
+    assertionConnection: {
+      __type: "CommandInterlockAssertionConnection!",
+      __args: {
+        where: "CommandInterlockAssertionConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandInterlockAssertionConnectionSort!]",
+      },
+    },
     actionConnection: {
       __type: "CommandInterlockActionConnection!",
       __args: {
@@ -22082,6 +19880,50 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "CommandProgramDeviceAction!" },
+  },
+  CommandInterlockAssertion: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    setpoint: {
+      __type: "CommandDeviceSetpoint",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        options: "CommandDeviceSetpointOptions",
+      },
+    },
+    setpointConnection: {
+      __type: "CommandInterlockAssertionSetpointConnection!",
+      __args: {
+        where: "CommandInterlockAssertionSetpointConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandInterlockAssertionSetpointConnectionSort!]",
+      },
+    },
+  },
+  CommandInterlockAssertionConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandInterlockAssertionRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandInterlockAssertionRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandInterlockAssertion!" },
+  },
+  CommandInterlockAssertionSetpointConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandInterlockAssertionSetpointRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandInterlockAssertionSetpointRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandDeviceSetpoint!" },
   },
   CommandInterlockDeviceConnection: {
     __typename: { __type: "String!" },
@@ -22362,6 +20204,38 @@ export const generatedSchema = {
       },
     },
   },
+  CommandProgramAction: {
+    __typename: { __type: "String!" },
+    id: { __type: "ID!" },
+    name: { __type: "String" },
+    flow: {
+      __type: "[CommandProgramFlow]",
+      __args: {
+        where: "CommandProgramFlowWhere",
+        options: "CommandProgramFlowOptions",
+      },
+    },
+    flowConnection: {
+      __type: "CommandProgramActionFlowConnection!",
+      __args: {
+        where: "CommandProgramActionFlowConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramActionFlowConnectionSort!]",
+      },
+    },
+  },
+  CommandProgramActionFlowConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramActionFlowRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramActionFlowRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramFlow!" },
+  },
   CommandProgramAlarm: {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
@@ -22384,13 +20258,6 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     name: { __type: "String" },
     type: { __type: "String" },
-    configuration: {
-      __type: "[CommandProgramDeviceConfiguration]",
-      __args: {
-        where: "CommandProgramDeviceConfigurationWhere",
-        options: "CommandProgramDeviceConfigurationOptions",
-      },
-    },
     usedIn: {
       __type: "[CommandProgramDevicePlaceholder]",
       __args: {
@@ -22410,15 +20277,6 @@ export const generatedSchema = {
       __args: {
         where: "CommandProgramDeviceActionWhere",
         options: "CommandProgramDeviceActionOptions",
-      },
-    },
-    configurationConnection: {
-      __type: "CommandProgramDeviceConfigurationConnection!",
-      __args: {
-        where: "CommandProgramDeviceConfigurationConnectionWhere",
-        first: "Int",
-        after: "String",
-        sort: "[CommandProgramDeviceConfigurationConnectionSort!]",
       },
     },
     usedInConnection: {
@@ -22492,22 +20350,93 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "CommandProgramDeviceAction!" },
   },
-  CommandProgramDeviceConfiguration: {
+  CommandProgramDeviceCalibration: {
     __typename: { __type: "String!" },
-    id: { __type: "ID!" },
-    key: { __type: "String" },
-    type: { __type: "String" },
+    id: { __type: "ID" },
+    min: { __type: "String" },
+    max: { __type: "String" },
+    rootDevice: {
+      __type: "CommandDevice",
+      __args: { where: "CommandDeviceWhere", options: "CommandDeviceOptions" },
+    },
+    device: {
+      __type: "CommandProgramDevicePlaceholder",
+      __args: {
+        where: "CommandProgramDevicePlaceholderWhere",
+        options: "CommandProgramDevicePlaceholderOptions",
+      },
+    },
+    deviceKey: {
+      __type: "CommandProgramDeviceState",
+      __args: {
+        where: "CommandProgramDeviceStateWhere",
+        options: "CommandProgramDeviceStateOptions",
+      },
+    },
+    rootDeviceConnection: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnection!",
+      __args: {
+        where: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDeviceCalibrationRootDeviceConnectionSort!]",
+      },
+    },
+    deviceConnection: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnection!",
+      __args: {
+        where: "CommandProgramDeviceCalibrationDeviceConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDeviceCalibrationDeviceConnectionSort!]",
+      },
+    },
+    deviceKeyConnection: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnection!",
+      __args: {
+        where: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDeviceCalibrationDeviceKeyConnectionSort!]",
+      },
+    },
   },
-  CommandProgramDeviceConfigurationConnection: {
+  CommandProgramDeviceCalibrationDeviceConnection: {
     __typename: { __type: "String!" },
-    edges: { __type: "[CommandProgramDeviceConfigurationRelationship!]!" },
+    edges: { __type: "[CommandProgramDeviceCalibrationDeviceRelationship!]!" },
     totalCount: { __type: "Int!" },
     pageInfo: { __type: "PageInfo!" },
   },
-  CommandProgramDeviceConfigurationRelationship: {
+  CommandProgramDeviceCalibrationDeviceKeyConnection: {
+    __typename: { __type: "String!" },
+    edges: {
+      __type: "[CommandProgramDeviceCalibrationDeviceKeyRelationship!]!",
+    },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
-    node: { __type: "CommandProgramDeviceConfiguration!" },
+    node: { __type: "CommandProgramDeviceState!" },
+  },
+  CommandProgramDeviceCalibrationDeviceRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramDevicePlaceholder!" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceConnection: {
+    __typename: { __type: "String!" },
+    edges: {
+      __type: "[CommandProgramDeviceCalibrationRootDeviceRelationship!]!",
+    },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandDevice!" },
   },
   CommandProgramDevicePlaceholder: {
     __typename: { __type: "String!" },
@@ -22526,6 +20455,13 @@ export const generatedSchema = {
       __args: {
         where: "CommandInterlockWhere",
         options: "CommandInterlockOptions",
+      },
+    },
+    setpoints: {
+      __type: "[CommandDeviceSetpoint]",
+      __args: {
+        where: "CommandDeviceSetpointWhere",
+        options: "CommandDeviceSetpointOptions",
       },
     },
     plugins: {
@@ -22551,6 +20487,15 @@ export const generatedSchema = {
         first: "Int",
         after: "String",
         sort: "[CommandProgramDevicePlaceholderInterlocksConnectionSort!]",
+      },
+    },
+    setpointsConnection: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnection!",
+      __args: {
+        where: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramDevicePlaceholderSetpointsConnectionSort!]",
       },
     },
     pluginsConnection: {
@@ -22586,6 +20531,19 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "CommandDevicePlugin!" },
+  },
+  CommandProgramDevicePlaceholderSetpointsConnection: {
+    __typename: { __type: "String!" },
+    edges: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsRelationship!]!",
+    },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramDevicePlaceholderSetpointsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandDeviceSetpoint!" },
   },
   CommandProgramDevicePlaceholderTypeConnection: {
     __typename: { __type: "String!" },
@@ -22990,6 +20948,13 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
     name: { __type: "String" },
+    actions: {
+      __type: "[CommandProgramAction]",
+      __args: {
+        where: "CommandProgramActionWhere",
+        options: "CommandProgramActionOptions",
+      },
+    },
     paths: {
       __type: "[CommandHMIPath]",
       __args: {
@@ -23016,6 +20981,15 @@ export const generatedSchema = {
       __args: {
         where: "CommandProgramWhere",
         options: "CommandProgramOptions",
+      },
+    },
+    actionsConnection: {
+      __type: "CommandProgramHMIActionsConnection!",
+      __args: {
+        where: "CommandProgramHMIActionsConnectionWhere",
+        first: "Int",
+        after: "String",
+        sort: "[CommandProgramHMIActionsConnectionSort!]",
       },
     },
     pathsConnection: {
@@ -23054,6 +21028,17 @@ export const generatedSchema = {
         sort: "[CommandProgramHMIProgramsConnectionSort!]",
       },
     },
+  },
+  CommandProgramHMIActionsConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[CommandProgramHMIActionsRelationship!]!" },
+    totalCount: { __type: "Int!" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  CommandProgramHMIActionsRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "CommandProgramAction!" },
   },
   CommandProgramHmiConnection: {
     __typename: { __type: "String!" },
@@ -23401,69 +21386,6 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "HiveOrganisation!" },
   },
-  CommandProgramPeripheralConfiguration: {
-    __typename: { __type: "String!" },
-    id: { __type: "ID" },
-    value: { __type: "String" },
-    device: {
-      __type: "CommandProgramDevicePlaceholder",
-      __args: {
-        where: "CommandProgramDevicePlaceholderWhere",
-        options: "CommandProgramDevicePlaceholderOptions",
-      },
-    },
-    conf: {
-      __type: "CommandProgramDeviceConfiguration",
-      __args: {
-        where: "CommandProgramDeviceConfigurationWhere",
-        options: "CommandProgramDeviceConfigurationOptions",
-      },
-    },
-    deviceConnection: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnection!",
-      __args: {
-        where: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-        first: "Int",
-        after: "String",
-        sort: "[CommandProgramPeripheralConfigurationDeviceConnectionSort!]",
-      },
-    },
-    confConnection: {
-      __type: "CommandProgramPeripheralConfigurationConfConnection!",
-      __args: {
-        where: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-        first: "Int",
-        after: "String",
-        sort: "[CommandProgramPeripheralConfigurationConfConnectionSort!]",
-      },
-    },
-  },
-  CommandProgramPeripheralConfigurationConfConnection: {
-    __typename: { __type: "String!" },
-    edges: {
-      __type: "[CommandProgramPeripheralConfigurationConfRelationship!]!",
-    },
-    totalCount: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-  },
-  CommandProgramPeripheralConfigurationConfRelationship: {
-    __typename: { __type: "String!" },
-    cursor: { __type: "String!" },
-    node: { __type: "CommandProgramDeviceConfiguration!" },
-  },
-  CommandProgramPeripheralConfigurationDeviceConnection: {
-    __typename: { __type: "String!" },
-    edges: {
-      __type: "[CommandProgramPeripheralConfigurationDeviceRelationship!]!",
-    },
-    totalCount: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-  },
-  CommandProgramPeripheralConfigurationDeviceRelationship: {
-    __typename: { __type: "String!" },
-    cursor: { __type: "String!" },
-    node: { __type: "CommandProgramDevicePlaceholder!" },
-  },
   CommandProgramProgramConnection: {
     __typename: { __type: "String!" },
     edges: { __type: "[CommandProgramProgramRelationship!]!" },
@@ -23533,6 +21455,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandDeviceResponses: { __type: "[CommandDeviceResponse!]!" },
   },
+  CreateCommandDeviceSetpointsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandDeviceSetpoints: { __type: "[CommandDeviceSetpoint!]!" },
+  },
   CreateCommandDevicesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -23573,6 +21500,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandHmiPorts: { __type: "[CommandHMIPort!]!" },
   },
+  CreateCommandInterlockAssertionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandInterlockAssertions: { __type: "[CommandInterlockAssertion!]!" },
+  },
   CreateCommandInterlocksMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -23600,6 +21532,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandPlugins: { __type: "[CommandPlugin!]!" },
   },
+  CreateCommandProgramActionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    commandProgramActions: { __type: "[CommandProgramAction!]!" },
+  },
   CreateCommandProgramAlarmsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -23610,11 +21547,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     commandProgramDeviceActions: { __type: "[CommandProgramDeviceAction!]!" },
   },
-  CreateCommandProgramDeviceConfigurationsMutationResponse: {
+  CreateCommandProgramDeviceCalibrationsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
-    commandProgramDeviceConfigurations: {
-      __type: "[CommandProgramDeviceConfiguration!]!",
+    commandProgramDeviceCalibrations: {
+      __type: "[CommandProgramDeviceCalibration!]!",
     },
   },
   CreateCommandProgramDevicePlaceholdersMutationResponse: {
@@ -23686,13 +21623,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
     commandProgramNodes: { __type: "[CommandProgramNode!]!" },
-  },
-  CreateCommandProgramPeripheralConfigurationsMutationResponse: {
-    __typename: { __type: "String!" },
-    info: { __type: "CreateInfo!" },
-    commandProgramPeripheralConfigurations: {
-      __type: "[CommandProgramPeripheralConfiguration!]!",
-    },
   },
   CreateCommandProgramsMutationResponse: {
     __typename: { __type: "String!" },
@@ -26126,6 +24056,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandDeviceResponses: { __type: "[CommandDeviceResponse!]!" },
   },
+  UpdateCommandDeviceSetpointsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandDeviceSetpoints: { __type: "[CommandDeviceSetpoint!]!" },
+  },
   UpdateCommandDevicesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -26166,6 +24101,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandHmiPorts: { __type: "[CommandHMIPort!]!" },
   },
+  UpdateCommandInterlockAssertionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandInterlockAssertions: { __type: "[CommandInterlockAssertion!]!" },
+  },
   UpdateCommandInterlocksMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -26193,6 +24133,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandPlugins: { __type: "[CommandPlugin!]!" },
   },
+  UpdateCommandProgramActionsMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    commandProgramActions: { __type: "[CommandProgramAction!]!" },
+  },
   UpdateCommandProgramAlarmsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -26203,11 +24148,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     commandProgramDeviceActions: { __type: "[CommandProgramDeviceAction!]!" },
   },
-  UpdateCommandProgramDeviceConfigurationsMutationResponse: {
+  UpdateCommandProgramDeviceCalibrationsMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
-    commandProgramDeviceConfigurations: {
-      __type: "[CommandProgramDeviceConfiguration!]!",
+    commandProgramDeviceCalibrations: {
+      __type: "[CommandProgramDeviceCalibration!]!",
     },
   },
   UpdateCommandProgramDevicePlaceholdersMutationResponse: {
@@ -26279,13 +24224,6 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
     commandProgramNodes: { __type: "[CommandProgramNode!]!" },
-  },
-  UpdateCommandProgramPeripheralConfigurationsMutationResponse: {
-    __typename: { __type: "String!" },
-    info: { __type: "UpdateInfo!" },
-    commandProgramPeripheralConfigurations: {
-      __type: "[CommandProgramPeripheralConfiguration!]!",
-    },
   },
   UpdateCommandProgramsMutationResponse: {
     __typename: { __type: "String!" },
@@ -27036,60 +24974,48 @@ export const generatedSchema = {
     create: { __type: "CommandDeviceActiveProgramCreateFieldInput" },
     delete: { __type: "CommandDeviceActiveProgramDeleteFieldInput" },
   },
-  CommandDeviceConfiguredDevicesConnectFieldInput: {
-    where: { __type: "CommandProgramPeripheralConfigurationConnectWhere" },
-    connect: { __type: "[CommandProgramPeripheralConfigurationConnectInput!]" },
-    edge: { __type: "CommandDevicePeripheralPortCreateInput" },
+  CommandDeviceCalibrationsConnectFieldInput: {
+    where: { __type: "CommandProgramDeviceCalibrationConnectWhere" },
+    connect: { __type: "[CommandProgramDeviceCalibrationConnectInput!]" },
   },
-  CommandDeviceConfiguredDevicesConnectionSort: {
-    node: { __type: "CommandProgramPeripheralConfigurationSort" },
-    edge: { __type: "CommandDevicePeripheralPortSort" },
+  CommandDeviceCalibrationsConnectionSort: {
+    node: { __type: "CommandProgramDeviceCalibrationSort" },
   },
-  CommandDeviceConfiguredDevicesConnectionWhere: {
-    AND: { __type: "[CommandDeviceConfiguredDevicesConnectionWhere!]" },
-    OR: { __type: "[CommandDeviceConfiguredDevicesConnectionWhere!]" },
-    edge: { __type: "CommandDevicePeripheralPortWhere" },
-    edge_NOT: { __type: "CommandDevicePeripheralPortWhere" },
-    node: { __type: "CommandProgramPeripheralConfigurationWhere" },
-    node_NOT: { __type: "CommandProgramPeripheralConfigurationWhere" },
+  CommandDeviceCalibrationsConnectionWhere: {
+    AND: { __type: "[CommandDeviceCalibrationsConnectionWhere!]" },
+    OR: { __type: "[CommandDeviceCalibrationsConnectionWhere!]" },
+    node: { __type: "CommandProgramDeviceCalibrationWhere" },
+    node_NOT: { __type: "CommandProgramDeviceCalibrationWhere" },
   },
-  CommandDeviceConfiguredDevicesCreateFieldInput: {
-    node: { __type: "CommandProgramPeripheralConfigurationCreateInput!" },
-    edge: { __type: "CommandDevicePeripheralPortCreateInput" },
+  CommandDeviceCalibrationsCreateFieldInput: {
+    node: { __type: "CommandProgramDeviceCalibrationCreateInput!" },
   },
-  CommandDeviceConfiguredDevicesDeleteFieldInput: {
-    where: { __type: "CommandDeviceConfiguredDevicesConnectionWhere" },
-    delete: { __type: "CommandProgramPeripheralConfigurationDeleteInput" },
+  CommandDeviceCalibrationsDeleteFieldInput: {
+    where: { __type: "CommandDeviceCalibrationsConnectionWhere" },
+    delete: { __type: "CommandProgramDeviceCalibrationDeleteInput" },
   },
-  CommandDeviceConfiguredDevicesDisconnectFieldInput: {
-    where: { __type: "CommandDeviceConfiguredDevicesConnectionWhere" },
-    disconnect: {
-      __type: "CommandProgramPeripheralConfigurationDisconnectInput",
-    },
+  CommandDeviceCalibrationsDisconnectFieldInput: {
+    where: { __type: "CommandDeviceCalibrationsConnectionWhere" },
+    disconnect: { __type: "CommandProgramDeviceCalibrationDisconnectInput" },
   },
-  CommandDeviceConfiguredDevicesFieldInput: {
-    create: { __type: "[CommandDeviceConfiguredDevicesCreateFieldInput!]" },
-    connect: { __type: "[CommandDeviceConfiguredDevicesConnectFieldInput!]" },
+  CommandDeviceCalibrationsFieldInput: {
+    create: { __type: "[CommandDeviceCalibrationsCreateFieldInput!]" },
+    connect: { __type: "[CommandDeviceCalibrationsConnectFieldInput!]" },
   },
-  CommandDeviceConfiguredDevicesUpdateConnectionInput: {
-    node: { __type: "CommandProgramPeripheralConfigurationUpdateInput" },
-    edge: { __type: "CommandDevicePeripheralPortUpdateInput" },
+  CommandDeviceCalibrationsUpdateConnectionInput: {
+    node: { __type: "CommandProgramDeviceCalibrationUpdateInput" },
   },
-  CommandDeviceConfiguredDevicesUpdateFieldInput: {
-    where: { __type: "CommandDeviceConfiguredDevicesConnectionWhere" },
-    update: { __type: "CommandDeviceConfiguredDevicesUpdateConnectionInput" },
-    connect: { __type: "[CommandDeviceConfiguredDevicesConnectFieldInput!]" },
-    disconnect: {
-      __type: "[CommandDeviceConfiguredDevicesDisconnectFieldInput!]",
-    },
-    create: { __type: "[CommandDeviceConfiguredDevicesCreateFieldInput!]" },
-    delete: { __type: "[CommandDeviceConfiguredDevicesDeleteFieldInput!]" },
+  CommandDeviceCalibrationsUpdateFieldInput: {
+    where: { __type: "CommandDeviceCalibrationsConnectionWhere" },
+    update: { __type: "CommandDeviceCalibrationsUpdateConnectionInput" },
+    connect: { __type: "[CommandDeviceCalibrationsConnectFieldInput!]" },
+    disconnect: { __type: "[CommandDeviceCalibrationsDisconnectFieldInput!]" },
+    create: { __type: "[CommandDeviceCalibrationsCreateFieldInput!]" },
+    delete: { __type: "[CommandDeviceCalibrationsDeleteFieldInput!]" },
   },
   CommandDeviceConnectInput: {
     activeProgram: { __type: "CommandDeviceActiveProgramConnectFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesConnectFieldInput!]",
-    },
+    calibrations: { __type: "[CommandDeviceCalibrationsConnectFieldInput!]" },
     peripherals: { __type: "[CommandDevicePeripheralsConnectFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationConnectFieldInput" },
   },
@@ -27101,22 +25027,20 @@ export const generatedSchema = {
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
     activeProgram: { __type: "CommandDeviceActiveProgramFieldInput" },
-    configuredDevices: { __type: "CommandDeviceConfiguredDevicesFieldInput" },
+    calibrations: { __type: "CommandDeviceCalibrationsFieldInput" },
     peripherals: { __type: "CommandDevicePeripheralsFieldInput" },
     organisation: { __type: "CommandDeviceOrganisationFieldInput" },
   },
   CommandDeviceDeleteInput: {
     activeProgram: { __type: "CommandDeviceActiveProgramDeleteFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesDeleteFieldInput!]",
-    },
+    calibrations: { __type: "[CommandDeviceCalibrationsDeleteFieldInput!]" },
     peripherals: { __type: "[CommandDevicePeripheralsDeleteFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationDeleteFieldInput" },
   },
   CommandDeviceDisconnectInput: {
     activeProgram: { __type: "CommandDeviceActiveProgramDisconnectFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesDisconnectFieldInput!]",
+    calibrations: {
+      __type: "[CommandDeviceCalibrationsDisconnectFieldInput!]",
     },
     peripherals: { __type: "[CommandDevicePeripheralsDisconnectFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationDisconnectFieldInput" },
@@ -28175,9 +26099,7 @@ export const generatedSchema = {
   },
   CommandDeviceRelationInput: {
     activeProgram: { __type: "CommandDeviceActiveProgramCreateFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesCreateFieldInput!]",
-    },
+    calibrations: { __type: "[CommandDeviceCalibrationsCreateFieldInput!]" },
     peripherals: { __type: "[CommandDevicePeripheralsCreateFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationCreateFieldInput" },
   },
@@ -28195,6 +26117,131 @@ export const generatedSchema = {
     success: { __type: "Boolean" },
     success_NOT: { __type: "Boolean" },
   },
+  CommandDeviceSetpointConnectInput: {
+    key: { __type: "CommandDeviceSetpointKeyConnectFieldInput" },
+  },
+  CommandDeviceSetpointConnectWhere: {
+    node: { __type: "CommandDeviceSetpointWhere!" },
+  },
+  CommandDeviceSetpointCreateInput: {
+    name: { __type: "String" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    key: { __type: "CommandDeviceSetpointKeyFieldInput" },
+  },
+  CommandDeviceSetpointDeleteInput: {
+    key: { __type: "CommandDeviceSetpointKeyDeleteFieldInput" },
+  },
+  CommandDeviceSetpointDisconnectInput: {
+    key: { __type: "CommandDeviceSetpointKeyDisconnectFieldInput" },
+  },
+  CommandDeviceSetpointKeyConnectFieldInput: {
+    where: { __type: "CommandProgramDeviceStateConnectWhere" },
+    connect: { __type: "CommandProgramDeviceStateConnectInput" },
+  },
+  CommandDeviceSetpointKeyConnectionSort: {
+    node: { __type: "CommandProgramDeviceStateSort" },
+  },
+  CommandDeviceSetpointKeyConnectionWhere: {
+    AND: { __type: "[CommandDeviceSetpointKeyConnectionWhere!]" },
+    OR: { __type: "[CommandDeviceSetpointKeyConnectionWhere!]" },
+    node: { __type: "CommandProgramDeviceStateWhere" },
+    node_NOT: { __type: "CommandProgramDeviceStateWhere" },
+  },
+  CommandDeviceSetpointKeyCreateFieldInput: {
+    node: { __type: "CommandProgramDeviceStateCreateInput!" },
+  },
+  CommandDeviceSetpointKeyDeleteFieldInput: {
+    where: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+    delete: { __type: "CommandProgramDeviceStateDeleteInput" },
+  },
+  CommandDeviceSetpointKeyDisconnectFieldInput: {
+    where: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+    disconnect: { __type: "CommandProgramDeviceStateDisconnectInput" },
+  },
+  CommandDeviceSetpointKeyFieldInput: {
+    create: { __type: "CommandDeviceSetpointKeyCreateFieldInput" },
+    connect: { __type: "CommandDeviceSetpointKeyConnectFieldInput" },
+  },
+  CommandDeviceSetpointKeyUpdateConnectionInput: {
+    node: { __type: "CommandProgramDeviceStateUpdateInput" },
+  },
+  CommandDeviceSetpointKeyUpdateFieldInput: {
+    where: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+    update: { __type: "CommandDeviceSetpointKeyUpdateConnectionInput" },
+    connect: { __type: "CommandDeviceSetpointKeyConnectFieldInput" },
+    disconnect: { __type: "CommandDeviceSetpointKeyDisconnectFieldInput" },
+    create: { __type: "CommandDeviceSetpointKeyCreateFieldInput" },
+    delete: { __type: "CommandDeviceSetpointKeyDeleteFieldInput" },
+  },
+  CommandDeviceSetpointOptions: {
+    sort: { __type: "[CommandDeviceSetpointSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandDeviceSetpointRelationInput: {
+    key: { __type: "CommandDeviceSetpointKeyCreateFieldInput" },
+  },
+  CommandDeviceSetpointSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+    value: { __type: "SortDirection" },
+  },
+  CommandDeviceSetpointUpdateInput: {
+    name: { __type: "String" },
+    type: { __type: "String" },
+    value: { __type: "String" },
+    key: { __type: "CommandDeviceSetpointKeyUpdateFieldInput" },
+  },
+  CommandDeviceSetpointWhere: {
+    OR: { __type: "[CommandDeviceSetpointWhere!]" },
+    AND: { __type: "[CommandDeviceSetpointWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    value: { __type: "String" },
+    value_NOT: { __type: "String" },
+    value_IN: { __type: "[String]" },
+    value_NOT_IN: { __type: "[String]" },
+    value_CONTAINS: { __type: "String" },
+    value_NOT_CONTAINS: { __type: "String" },
+    value_STARTS_WITH: { __type: "String" },
+    value_NOT_STARTS_WITH: { __type: "String" },
+    value_ENDS_WITH: { __type: "String" },
+    value_NOT_ENDS_WITH: { __type: "String" },
+    key: { __type: "CommandProgramDeviceStateWhere" },
+    key_NOT: { __type: "CommandProgramDeviceStateWhere" },
+    keyConnection: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+    keyConnection_NOT: { __type: "CommandDeviceSetpointKeyConnectionWhere" },
+  },
   CommandDeviceSort: {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
@@ -28210,9 +26257,7 @@ export const generatedSchema = {
     online: { __type: "Boolean" },
     lastOnline: { __type: "DateTime" },
     activeProgram: { __type: "CommandDeviceActiveProgramUpdateFieldInput" },
-    configuredDevices: {
-      __type: "[CommandDeviceConfiguredDevicesUpdateFieldInput!]",
-    },
+    calibrations: { __type: "[CommandDeviceCalibrationsUpdateFieldInput!]" },
     peripherals: { __type: "[CommandDevicePeripheralsUpdateFieldInput!]" },
     organisation: { __type: "CommandDeviceOrganisationUpdateFieldInput" },
   },
@@ -28338,10 +26383,8 @@ export const generatedSchema = {
     lastOnline_GTE: { __type: "DateTime" },
     activeProgram: { __type: "CommandProgramWhere" },
     activeProgram_NOT: { __type: "CommandProgramWhere" },
-    configuredDevices: { __type: "CommandProgramPeripheralConfigurationWhere" },
-    configuredDevices_NOT: {
-      __type: "CommandProgramPeripheralConfigurationWhere",
-    },
+    calibrations: { __type: "CommandProgramDeviceCalibrationWhere" },
+    calibrations_NOT: { __type: "CommandProgramDeviceCalibrationWhere" },
     peripherals: { __type: "CommandDevicePeripheralWhere" },
     peripherals_NOT: { __type: "CommandDevicePeripheralWhere" },
     organisation: { __type: "HiveOrganisationWhere" },
@@ -28352,11 +26395,11 @@ export const generatedSchema = {
     activeProgramConnection_NOT: {
       __type: "CommandDeviceActiveProgramConnectionWhere",
     },
-    configuredDevicesConnection: {
-      __type: "CommandDeviceConfiguredDevicesConnectionWhere",
+    calibrationsConnection: {
+      __type: "CommandDeviceCalibrationsConnectionWhere",
     },
-    configuredDevicesConnection_NOT: {
-      __type: "CommandDeviceConfiguredDevicesConnectionWhere",
+    calibrationsConnection_NOT: {
+      __type: "CommandDeviceCalibrationsConnectionWhere",
     },
     peripheralsConnection: {
       __type: "CommandDevicePeripheralsConnectionWhere",
@@ -29814,20 +27857,182 @@ export const generatedSchema = {
     create: { __type: "CommandInterlockActionCreateFieldInput" },
     delete: { __type: "CommandInterlockActionDeleteFieldInput" },
   },
+  CommandInterlockAssertionConnectFieldInput: {
+    where: { __type: "CommandInterlockAssertionConnectWhere" },
+    connect: { __type: "CommandInterlockAssertionConnectInput" },
+  },
+  CommandInterlockAssertionConnectInput: {
+    setpoint: { __type: "CommandInterlockAssertionSetpointConnectFieldInput" },
+  },
+  CommandInterlockAssertionConnectionSort: {
+    node: { __type: "CommandInterlockAssertionSort" },
+  },
+  CommandInterlockAssertionConnectionWhere: {
+    AND: { __type: "[CommandInterlockAssertionConnectionWhere!]" },
+    OR: { __type: "[CommandInterlockAssertionConnectionWhere!]" },
+    node: { __type: "CommandInterlockAssertionWhere" },
+    node_NOT: { __type: "CommandInterlockAssertionWhere" },
+  },
+  CommandInterlockAssertionConnectWhere: {
+    node: { __type: "CommandInterlockAssertionWhere!" },
+  },
+  CommandInterlockAssertionCreateFieldInput: {
+    node: { __type: "CommandInterlockAssertionCreateInput!" },
+  },
+  CommandInterlockAssertionCreateInput: {
+    type: { __type: "String" },
+    value: { __type: "String" },
+    setpoint: { __type: "CommandInterlockAssertionSetpointFieldInput" },
+  },
+  CommandInterlockAssertionDeleteFieldInput: {
+    where: { __type: "CommandInterlockAssertionConnectionWhere" },
+    delete: { __type: "CommandInterlockAssertionDeleteInput" },
+  },
+  CommandInterlockAssertionDeleteInput: {
+    setpoint: { __type: "CommandInterlockAssertionSetpointDeleteFieldInput" },
+  },
+  CommandInterlockAssertionDisconnectFieldInput: {
+    where: { __type: "CommandInterlockAssertionConnectionWhere" },
+    disconnect: { __type: "CommandInterlockAssertionDisconnectInput" },
+  },
+  CommandInterlockAssertionDisconnectInput: {
+    setpoint: {
+      __type: "CommandInterlockAssertionSetpointDisconnectFieldInput",
+    },
+  },
+  CommandInterlockAssertionFieldInput: {
+    create: { __type: "CommandInterlockAssertionCreateFieldInput" },
+    connect: { __type: "CommandInterlockAssertionConnectFieldInput" },
+  },
+  CommandInterlockAssertionOptions: {
+    sort: { __type: "[CommandInterlockAssertionSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandInterlockAssertionRelationInput: {
+    setpoint: { __type: "CommandInterlockAssertionSetpointCreateFieldInput" },
+  },
+  CommandInterlockAssertionSetpointConnectFieldInput: {
+    where: { __type: "CommandDeviceSetpointConnectWhere" },
+    connect: { __type: "CommandDeviceSetpointConnectInput" },
+  },
+  CommandInterlockAssertionSetpointConnectionSort: {
+    node: { __type: "CommandDeviceSetpointSort" },
+  },
+  CommandInterlockAssertionSetpointConnectionWhere: {
+    AND: { __type: "[CommandInterlockAssertionSetpointConnectionWhere!]" },
+    OR: { __type: "[CommandInterlockAssertionSetpointConnectionWhere!]" },
+    node: { __type: "CommandDeviceSetpointWhere" },
+    node_NOT: { __type: "CommandDeviceSetpointWhere" },
+  },
+  CommandInterlockAssertionSetpointCreateFieldInput: {
+    node: { __type: "CommandDeviceSetpointCreateInput!" },
+  },
+  CommandInterlockAssertionSetpointDeleteFieldInput: {
+    where: { __type: "CommandInterlockAssertionSetpointConnectionWhere" },
+    delete: { __type: "CommandDeviceSetpointDeleteInput" },
+  },
+  CommandInterlockAssertionSetpointDisconnectFieldInput: {
+    where: { __type: "CommandInterlockAssertionSetpointConnectionWhere" },
+    disconnect: { __type: "CommandDeviceSetpointDisconnectInput" },
+  },
+  CommandInterlockAssertionSetpointFieldInput: {
+    create: { __type: "CommandInterlockAssertionSetpointCreateFieldInput" },
+    connect: { __type: "CommandInterlockAssertionSetpointConnectFieldInput" },
+  },
+  CommandInterlockAssertionSetpointUpdateConnectionInput: {
+    node: { __type: "CommandDeviceSetpointUpdateInput" },
+  },
+  CommandInterlockAssertionSetpointUpdateFieldInput: {
+    where: { __type: "CommandInterlockAssertionSetpointConnectionWhere" },
+    update: {
+      __type: "CommandInterlockAssertionSetpointUpdateConnectionInput",
+    },
+    connect: { __type: "CommandInterlockAssertionSetpointConnectFieldInput" },
+    disconnect: {
+      __type: "CommandInterlockAssertionSetpointDisconnectFieldInput",
+    },
+    create: { __type: "CommandInterlockAssertionSetpointCreateFieldInput" },
+    delete: { __type: "CommandInterlockAssertionSetpointDeleteFieldInput" },
+  },
+  CommandInterlockAssertionSort: {
+    id: { __type: "SortDirection" },
+    type: { __type: "SortDirection" },
+    value: { __type: "SortDirection" },
+  },
+  CommandInterlockAssertionUpdateConnectionInput: {
+    node: { __type: "CommandInterlockAssertionUpdateInput" },
+  },
+  CommandInterlockAssertionUpdateFieldInput: {
+    where: { __type: "CommandInterlockAssertionConnectionWhere" },
+    update: { __type: "CommandInterlockAssertionUpdateConnectionInput" },
+    connect: { __type: "CommandInterlockAssertionConnectFieldInput" },
+    disconnect: { __type: "CommandInterlockAssertionDisconnectFieldInput" },
+    create: { __type: "CommandInterlockAssertionCreateFieldInput" },
+    delete: { __type: "CommandInterlockAssertionDeleteFieldInput" },
+  },
+  CommandInterlockAssertionUpdateInput: {
+    type: { __type: "String" },
+    value: { __type: "String" },
+    setpoint: { __type: "CommandInterlockAssertionSetpointUpdateFieldInput" },
+  },
+  CommandInterlockAssertionWhere: {
+    OR: { __type: "[CommandInterlockAssertionWhere!]" },
+    AND: { __type: "[CommandInterlockAssertionWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    type: { __type: "String" },
+    type_NOT: { __type: "String" },
+    type_IN: { __type: "[String]" },
+    type_NOT_IN: { __type: "[String]" },
+    type_CONTAINS: { __type: "String" },
+    type_NOT_CONTAINS: { __type: "String" },
+    type_STARTS_WITH: { __type: "String" },
+    type_NOT_STARTS_WITH: { __type: "String" },
+    type_ENDS_WITH: { __type: "String" },
+    type_NOT_ENDS_WITH: { __type: "String" },
+    value: { __type: "String" },
+    value_NOT: { __type: "String" },
+    value_IN: { __type: "[String]" },
+    value_NOT_IN: { __type: "[String]" },
+    value_CONTAINS: { __type: "String" },
+    value_NOT_CONTAINS: { __type: "String" },
+    value_STARTS_WITH: { __type: "String" },
+    value_NOT_STARTS_WITH: { __type: "String" },
+    value_ENDS_WITH: { __type: "String" },
+    value_NOT_ENDS_WITH: { __type: "String" },
+    setpoint: { __type: "CommandDeviceSetpointWhere" },
+    setpoint_NOT: { __type: "CommandDeviceSetpointWhere" },
+    setpointConnection: {
+      __type: "CommandInterlockAssertionSetpointConnectionWhere",
+    },
+    setpointConnection_NOT: {
+      __type: "CommandInterlockAssertionSetpointConnectionWhere",
+    },
+  },
   CommandInterlockConnectInput: {
     inputDevice: { __type: "CommandInterlockInputDeviceConnectFieldInput" },
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyConnectFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionConnectFieldInput" },
     action: { __type: "CommandInterlockActionConnectFieldInput" },
     device: { __type: "CommandInterlockDeviceConnectFieldInput" },
   },
   CommandInterlockConnectWhere: { node: { __type: "CommandInterlockWhere!" } },
   CommandInterlockCreateInput: {
     comparator: { __type: "String" },
-    assertion: { __type: "String" },
     inputDevice: { __type: "CommandInterlockInputDeviceFieldInput" },
     inputDeviceKey: { __type: "CommandInterlockInputDeviceKeyFieldInput" },
+    assertion: { __type: "CommandInterlockAssertionFieldInput" },
     action: { __type: "CommandInterlockActionFieldInput" },
     device: { __type: "CommandInterlockDeviceFieldInput" },
   },
@@ -29836,6 +28041,7 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyDeleteFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionDeleteFieldInput" },
     action: { __type: "CommandInterlockActionDeleteFieldInput" },
     device: { __type: "CommandInterlockDeviceDeleteFieldInput" },
   },
@@ -29883,6 +28089,7 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyDisconnectFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionDisconnectFieldInput" },
     action: { __type: "CommandInterlockActionDisconnectFieldInput" },
     device: { __type: "CommandInterlockDeviceDisconnectFieldInput" },
   },
@@ -29976,21 +28183,21 @@ export const generatedSchema = {
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyCreateFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionCreateFieldInput" },
     action: { __type: "CommandInterlockActionCreateFieldInput" },
     device: { __type: "CommandInterlockDeviceCreateFieldInput" },
   },
   CommandInterlockSort: {
     id: { __type: "SortDirection" },
     comparator: { __type: "SortDirection" },
-    assertion: { __type: "SortDirection" },
   },
   CommandInterlockUpdateInput: {
     comparator: { __type: "String" },
-    assertion: { __type: "String" },
     inputDevice: { __type: "CommandInterlockInputDeviceUpdateFieldInput" },
     inputDeviceKey: {
       __type: "CommandInterlockInputDeviceKeyUpdateFieldInput",
     },
+    assertion: { __type: "CommandInterlockAssertionUpdateFieldInput" },
     action: { __type: "CommandInterlockActionUpdateFieldInput" },
     device: { __type: "CommandInterlockDeviceUpdateFieldInput" },
   },
@@ -30017,20 +28224,12 @@ export const generatedSchema = {
     comparator_NOT_STARTS_WITH: { __type: "String" },
     comparator_ENDS_WITH: { __type: "String" },
     comparator_NOT_ENDS_WITH: { __type: "String" },
-    assertion: { __type: "String" },
-    assertion_NOT: { __type: "String" },
-    assertion_IN: { __type: "[String]" },
-    assertion_NOT_IN: { __type: "[String]" },
-    assertion_CONTAINS: { __type: "String" },
-    assertion_NOT_CONTAINS: { __type: "String" },
-    assertion_STARTS_WITH: { __type: "String" },
-    assertion_NOT_STARTS_WITH: { __type: "String" },
-    assertion_ENDS_WITH: { __type: "String" },
-    assertion_NOT_ENDS_WITH: { __type: "String" },
     inputDevice: { __type: "CommandProgramDevicePlaceholderWhere" },
     inputDevice_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
     inputDeviceKey: { __type: "CommandProgramDeviceStateWhere" },
     inputDeviceKey_NOT: { __type: "CommandProgramDeviceStateWhere" },
+    assertion: { __type: "CommandInterlockAssertionWhere" },
+    assertion_NOT: { __type: "CommandInterlockAssertionWhere" },
     action: { __type: "CommandProgramDeviceActionWhere" },
     action_NOT: { __type: "CommandProgramDeviceActionWhere" },
     device: { __type: "CommandProgramDevicePlaceholderWhere" },
@@ -30047,6 +28246,10 @@ export const generatedSchema = {
     inputDeviceKeyConnection_NOT: {
       __type: "CommandInterlockInputDeviceKeyConnectionWhere",
     },
+    assertionConnection: { __type: "CommandInterlockAssertionConnectionWhere" },
+    assertionConnection_NOT: {
+      __type: "CommandInterlockAssertionConnectionWhere",
+    },
     actionConnection: { __type: "CommandInterlockActionConnectionWhere" },
     actionConnection_NOT: { __type: "CommandInterlockActionConnectionWhere" },
     deviceConnection: { __type: "CommandInterlockDeviceConnectionWhere" },
@@ -30054,7 +28257,6 @@ export const generatedSchema = {
   },
   CommandKeyValueConnectWhere: { node: { __type: "CommandKeyValueWhere!" } },
   CommandKeyValueCreateInput: {
-    id: { __type: "ID" },
     key: { __type: "String" },
     value: { __type: "String" },
   },
@@ -30069,7 +28271,6 @@ export const generatedSchema = {
     value: { __type: "SortDirection" },
   },
   CommandKeyValueUpdateInput: {
-    id: { __type: "ID" },
     key: { __type: "String" },
     value: { __type: "String" },
   },
@@ -30534,6 +28735,105 @@ export const generatedSchema = {
       __type: "CommandPluginOrganisationConnectionWhere",
     },
   },
+  CommandProgramActionConnectInput: {
+    flow: { __type: "[CommandProgramActionFlowConnectFieldInput!]" },
+  },
+  CommandProgramActionConnectWhere: {
+    node: { __type: "CommandProgramActionWhere!" },
+  },
+  CommandProgramActionCreateInput: {
+    name: { __type: "String" },
+    flow: { __type: "CommandProgramActionFlowFieldInput" },
+  },
+  CommandProgramActionDeleteInput: {
+    flow: { __type: "[CommandProgramActionFlowDeleteFieldInput!]" },
+  },
+  CommandProgramActionDisconnectInput: {
+    flow: { __type: "[CommandProgramActionFlowDisconnectFieldInput!]" },
+  },
+  CommandProgramActionFlowConnectFieldInput: {
+    where: { __type: "CommandProgramFlowConnectWhere" },
+    connect: { __type: "[CommandProgramFlowConnectInput!]" },
+  },
+  CommandProgramActionFlowConnectionSort: {
+    node: { __type: "CommandProgramFlowSort" },
+  },
+  CommandProgramActionFlowConnectionWhere: {
+    AND: { __type: "[CommandProgramActionFlowConnectionWhere!]" },
+    OR: { __type: "[CommandProgramActionFlowConnectionWhere!]" },
+    node: { __type: "CommandProgramFlowWhere" },
+    node_NOT: { __type: "CommandProgramFlowWhere" },
+  },
+  CommandProgramActionFlowCreateFieldInput: {
+    node: { __type: "CommandProgramFlowCreateInput!" },
+  },
+  CommandProgramActionFlowDeleteFieldInput: {
+    where: { __type: "CommandProgramActionFlowConnectionWhere" },
+    delete: { __type: "CommandProgramFlowDeleteInput" },
+  },
+  CommandProgramActionFlowDisconnectFieldInput: {
+    where: { __type: "CommandProgramActionFlowConnectionWhere" },
+    disconnect: { __type: "CommandProgramFlowDisconnectInput" },
+  },
+  CommandProgramActionFlowFieldInput: {
+    create: { __type: "[CommandProgramActionFlowCreateFieldInput!]" },
+    connect: { __type: "[CommandProgramActionFlowConnectFieldInput!]" },
+  },
+  CommandProgramActionFlowUpdateConnectionInput: {
+    node: { __type: "CommandProgramFlowUpdateInput" },
+  },
+  CommandProgramActionFlowUpdateFieldInput: {
+    where: { __type: "CommandProgramActionFlowConnectionWhere" },
+    update: { __type: "CommandProgramActionFlowUpdateConnectionInput" },
+    connect: { __type: "[CommandProgramActionFlowConnectFieldInput!]" },
+    disconnect: { __type: "[CommandProgramActionFlowDisconnectFieldInput!]" },
+    create: { __type: "[CommandProgramActionFlowCreateFieldInput!]" },
+    delete: { __type: "[CommandProgramActionFlowDeleteFieldInput!]" },
+  },
+  CommandProgramActionOptions: {
+    sort: { __type: "[CommandProgramActionSort]" },
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+  },
+  CommandProgramActionRelationInput: {
+    flow: { __type: "[CommandProgramActionFlowCreateFieldInput!]" },
+  },
+  CommandProgramActionSort: {
+    id: { __type: "SortDirection" },
+    name: { __type: "SortDirection" },
+  },
+  CommandProgramActionUpdateInput: {
+    name: { __type: "String" },
+    flow: { __type: "[CommandProgramActionFlowUpdateFieldInput!]" },
+  },
+  CommandProgramActionWhere: {
+    OR: { __type: "[CommandProgramActionWhere!]" },
+    AND: { __type: "[CommandProgramActionWhere!]" },
+    id: { __type: "ID" },
+    id_NOT: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_CONTAINS: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    name: { __type: "String" },
+    name_NOT: { __type: "String" },
+    name_IN: { __type: "[String]" },
+    name_NOT_IN: { __type: "[String]" },
+    name_CONTAINS: { __type: "String" },
+    name_NOT_CONTAINS: { __type: "String" },
+    name_STARTS_WITH: { __type: "String" },
+    name_NOT_STARTS_WITH: { __type: "String" },
+    name_ENDS_WITH: { __type: "String" },
+    name_NOT_ENDS_WITH: { __type: "String" },
+    flow: { __type: "CommandProgramFlowWhere" },
+    flow_NOT: { __type: "CommandProgramFlowWhere" },
+    flowConnection: { __type: "CommandProgramActionFlowConnectionWhere" },
+    flowConnection_NOT: { __type: "CommandProgramActionFlowConnectionWhere" },
+  },
   CommandProgramAlarmConnectWhere: {
     node: { __type: "CommandProgramAlarmWhere!" },
   },
@@ -30802,74 +29102,255 @@ export const generatedSchema = {
       __type: "CommandProgramDeviceActionDeviceConnectionWhere",
     },
   },
-  CommandProgramDeviceConfigurationConnectFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectWhere" },
-  },
-  CommandProgramDeviceConfigurationConnectionSort: {
-    node: { __type: "CommandProgramDeviceConfigurationSort" },
-  },
-  CommandProgramDeviceConfigurationConnectionWhere: {
-    AND: { __type: "[CommandProgramDeviceConfigurationConnectionWhere!]" },
-    OR: { __type: "[CommandProgramDeviceConfigurationConnectionWhere!]" },
-    node: { __type: "CommandProgramDeviceConfigurationWhere" },
-    node_NOT: { __type: "CommandProgramDeviceConfigurationWhere" },
-  },
-  CommandProgramDeviceConfigurationConnectWhere: {
-    node: { __type: "CommandProgramDeviceConfigurationWhere!" },
-  },
-  CommandProgramDeviceConfigurationCreateFieldInput: {
-    node: { __type: "CommandProgramDeviceConfigurationCreateInput!" },
-  },
-  CommandProgramDeviceConfigurationCreateInput: {
-    key: { __type: "String" },
-    type: { __type: "String" },
-  },
-  CommandProgramDeviceConfigurationDeleteFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectionWhere" },
-  },
-  CommandProgramDeviceConfigurationDisconnectFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectionWhere" },
-  },
-  CommandProgramDeviceConfigurationFieldInput: {
-    create: { __type: "[CommandProgramDeviceConfigurationCreateFieldInput!]" },
-    connect: {
-      __type: "[CommandProgramDeviceConfigurationConnectFieldInput!]",
+  CommandProgramDeviceCalibrationConnectInput: {
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectFieldInput",
+    },
+    device: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectFieldInput",
+    },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput",
     },
   },
-  CommandProgramDeviceConfigurationOptions: {
-    sort: { __type: "[CommandProgramDeviceConfigurationSort]" },
+  CommandProgramDeviceCalibrationConnectWhere: {
+    node: { __type: "CommandProgramDeviceCalibrationWhere!" },
+  },
+  CommandProgramDeviceCalibrationCreateInput: {
+    min: { __type: "String" },
+    max: { __type: "String" },
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceFieldInput",
+    },
+    device: { __type: "CommandProgramDeviceCalibrationDeviceFieldInput" },
+    deviceKey: { __type: "CommandProgramDeviceCalibrationDeviceKeyFieldInput" },
+  },
+  CommandProgramDeviceCalibrationDeleteInput: {
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput",
+    },
+    device: { __type: "CommandProgramDeviceCalibrationDeviceDeleteFieldInput" },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationDeviceConnectFieldInput: {
+    where: { __type: "CommandProgramDevicePlaceholderConnectWhere" },
+    connect: { __type: "CommandProgramDevicePlaceholderConnectInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceConnectionSort: {
+    node: { __type: "CommandProgramDevicePlaceholderSort" },
+  },
+  CommandProgramDeviceCalibrationDeviceConnectionWhere: {
+    AND: { __type: "[CommandProgramDeviceCalibrationDeviceConnectionWhere!]" },
+    OR: { __type: "[CommandProgramDeviceCalibrationDeviceConnectionWhere!]" },
+    node: { __type: "CommandProgramDevicePlaceholderWhere" },
+    node_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
+  },
+  CommandProgramDeviceCalibrationDeviceCreateFieldInput: {
+    node: { __type: "CommandProgramDevicePlaceholderCreateInput!" },
+  },
+  CommandProgramDeviceCalibrationDeviceDeleteFieldInput: {
+    where: { __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere" },
+    delete: { __type: "CommandProgramDevicePlaceholderDeleteInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceDisconnectFieldInput: {
+    where: { __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere" },
+    disconnect: { __type: "CommandProgramDevicePlaceholderDisconnectInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceFieldInput: {
+    create: { __type: "CommandProgramDeviceCalibrationDeviceCreateFieldInput" },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput: {
+    where: { __type: "CommandProgramDeviceStateConnectWhere" },
+    connect: { __type: "CommandProgramDeviceStateConnectInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyConnectionSort: {
+    node: { __type: "CommandProgramDeviceStateSort" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyConnectionWhere: {
+    AND: {
+      __type: "[CommandProgramDeviceCalibrationDeviceKeyConnectionWhere!]",
+    },
+    OR: {
+      __type: "[CommandProgramDeviceCalibrationDeviceKeyConnectionWhere!]",
+    },
+    node: { __type: "CommandProgramDeviceStateWhere" },
+    node_NOT: { __type: "CommandProgramDeviceStateWhere" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput: {
+    node: { __type: "CommandProgramDeviceStateCreateInput!" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
+    delete: { __type: "CommandProgramDeviceStateDeleteInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
+    disconnect: { __type: "CommandProgramDeviceStateDisconnectInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyFieldInput: {
+    create: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput",
+    },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyUpdateConnectionInput: {
+    node: { __type: "CommandProgramDeviceStateUpdateInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceKeyUpdateFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
+    update: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyUpdateConnectionInput",
+    },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectFieldInput",
+    },
+    disconnect: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput",
+    },
+    create: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput",
+    },
+    delete: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyDeleteFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationDeviceUpdateConnectionInput: {
+    node: { __type: "CommandProgramDevicePlaceholderUpdateInput" },
+  },
+  CommandProgramDeviceCalibrationDeviceUpdateFieldInput: {
+    where: { __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere" },
+    update: {
+      __type: "CommandProgramDeviceCalibrationDeviceUpdateConnectionInput",
+    },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectFieldInput",
+    },
+    disconnect: {
+      __type: "CommandProgramDeviceCalibrationDeviceDisconnectFieldInput",
+    },
+    create: { __type: "CommandProgramDeviceCalibrationDeviceCreateFieldInput" },
+    delete: { __type: "CommandProgramDeviceCalibrationDeviceDeleteFieldInput" },
+  },
+  CommandProgramDeviceCalibrationDisconnectInput: {
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput",
+    },
+    device: {
+      __type: "CommandProgramDeviceCalibrationDeviceDisconnectFieldInput",
+    },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyDisconnectFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationOptions: {
+    sort: { __type: "[CommandProgramDeviceCalibrationSort]" },
     limit: { __type: "Int" },
     offset: { __type: "Int" },
   },
-  CommandProgramDeviceConfigurationSort: {
-    id: { __type: "SortDirection" },
-    key: { __type: "SortDirection" },
-    type: { __type: "SortDirection" },
+  CommandProgramDeviceCalibrationRelationInput: {
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceCreateFieldInput",
+    },
+    device: { __type: "CommandProgramDeviceCalibrationDeviceCreateFieldInput" },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyCreateFieldInput",
+    },
   },
-  CommandProgramDeviceConfigurationUpdateConnectionInput: {
-    node: { __type: "CommandProgramDeviceConfigurationUpdateInput" },
+  CommandProgramDeviceCalibrationRootDeviceConnectFieldInput: {
+    where: { __type: "CommandDeviceConnectWhere" },
+    connect: { __type: "CommandDeviceConnectInput" },
   },
-  CommandProgramDeviceConfigurationUpdateFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectionWhere" },
-    update: {
-      __type: "CommandProgramDeviceConfigurationUpdateConnectionInput",
+  CommandProgramDeviceCalibrationRootDeviceConnectionSort: {
+    node: { __type: "CommandDeviceSort" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceConnectionWhere: {
+    AND: {
+      __type: "[CommandProgramDeviceCalibrationRootDeviceConnectionWhere!]",
+    },
+    OR: {
+      __type: "[CommandProgramDeviceCalibrationRootDeviceConnectionWhere!]",
+    },
+    node: { __type: "CommandDeviceWhere" },
+    node_NOT: { __type: "CommandDeviceWhere" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceCreateFieldInput: {
+    node: { __type: "CommandDeviceCreateInput!" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    delete: { __type: "CommandDeviceDeleteInput" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    disconnect: { __type: "CommandDeviceDisconnectInput" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceFieldInput: {
+    create: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceCreateFieldInput",
     },
     connect: {
-      __type: "[CommandProgramDeviceConfigurationConnectFieldInput!]",
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationRootDeviceUpdateConnectionInput: {
+    node: { __type: "CommandDeviceUpdateInput" },
+  },
+  CommandProgramDeviceCalibrationRootDeviceUpdateFieldInput: {
+    where: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    update: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceUpdateConnectionInput",
+    },
+    connect: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectFieldInput",
     },
     disconnect: {
-      __type: "[CommandProgramDeviceConfigurationDisconnectFieldInput!]",
+      __type: "CommandProgramDeviceCalibrationRootDeviceDisconnectFieldInput",
     },
-    create: { __type: "[CommandProgramDeviceConfigurationCreateFieldInput!]" },
-    delete: { __type: "[CommandProgramDeviceConfigurationDeleteFieldInput!]" },
+    create: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceCreateFieldInput",
+    },
+    delete: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceDeleteFieldInput",
+    },
   },
-  CommandProgramDeviceConfigurationUpdateInput: {
-    key: { __type: "String" },
-    type: { __type: "String" },
+  CommandProgramDeviceCalibrationSort: {
+    id: { __type: "SortDirection" },
+    min: { __type: "SortDirection" },
+    max: { __type: "SortDirection" },
   },
-  CommandProgramDeviceConfigurationWhere: {
-    OR: { __type: "[CommandProgramDeviceConfigurationWhere!]" },
-    AND: { __type: "[CommandProgramDeviceConfigurationWhere!]" },
+  CommandProgramDeviceCalibrationUpdateInput: {
+    min: { __type: "String" },
+    max: { __type: "String" },
+    rootDevice: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceUpdateFieldInput",
+    },
+    device: { __type: "CommandProgramDeviceCalibrationDeviceUpdateFieldInput" },
+    deviceKey: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyUpdateFieldInput",
+    },
+  },
+  CommandProgramDeviceCalibrationWhere: {
+    OR: { __type: "[CommandProgramDeviceCalibrationWhere!]" },
+    AND: { __type: "[CommandProgramDeviceCalibrationWhere!]" },
     id: { __type: "ID" },
     id_NOT: { __type: "ID" },
     id_IN: { __type: "[ID]" },
@@ -30880,31 +29361,52 @@ export const generatedSchema = {
     id_NOT_STARTS_WITH: { __type: "ID" },
     id_ENDS_WITH: { __type: "ID" },
     id_NOT_ENDS_WITH: { __type: "ID" },
-    key: { __type: "String" },
-    key_NOT: { __type: "String" },
-    key_IN: { __type: "[String]" },
-    key_NOT_IN: { __type: "[String]" },
-    key_CONTAINS: { __type: "String" },
-    key_NOT_CONTAINS: { __type: "String" },
-    key_STARTS_WITH: { __type: "String" },
-    key_NOT_STARTS_WITH: { __type: "String" },
-    key_ENDS_WITH: { __type: "String" },
-    key_NOT_ENDS_WITH: { __type: "String" },
-    type: { __type: "String" },
-    type_NOT: { __type: "String" },
-    type_IN: { __type: "[String]" },
-    type_NOT_IN: { __type: "[String]" },
-    type_CONTAINS: { __type: "String" },
-    type_NOT_CONTAINS: { __type: "String" },
-    type_STARTS_WITH: { __type: "String" },
-    type_NOT_STARTS_WITH: { __type: "String" },
-    type_ENDS_WITH: { __type: "String" },
-    type_NOT_ENDS_WITH: { __type: "String" },
+    min: { __type: "String" },
+    min_NOT: { __type: "String" },
+    min_IN: { __type: "[String]" },
+    min_NOT_IN: { __type: "[String]" },
+    min_CONTAINS: { __type: "String" },
+    min_NOT_CONTAINS: { __type: "String" },
+    min_STARTS_WITH: { __type: "String" },
+    min_NOT_STARTS_WITH: { __type: "String" },
+    min_ENDS_WITH: { __type: "String" },
+    min_NOT_ENDS_WITH: { __type: "String" },
+    max: { __type: "String" },
+    max_NOT: { __type: "String" },
+    max_IN: { __type: "[String]" },
+    max_NOT_IN: { __type: "[String]" },
+    max_CONTAINS: { __type: "String" },
+    max_NOT_CONTAINS: { __type: "String" },
+    max_STARTS_WITH: { __type: "String" },
+    max_NOT_STARTS_WITH: { __type: "String" },
+    max_ENDS_WITH: { __type: "String" },
+    max_NOT_ENDS_WITH: { __type: "String" },
+    rootDevice: { __type: "CommandDeviceWhere" },
+    rootDevice_NOT: { __type: "CommandDeviceWhere" },
+    device: { __type: "CommandProgramDevicePlaceholderWhere" },
+    device_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
+    deviceKey: { __type: "CommandProgramDeviceStateWhere" },
+    deviceKey_NOT: { __type: "CommandProgramDeviceStateWhere" },
+    rootDeviceConnection: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    rootDeviceConnection_NOT: {
+      __type: "CommandProgramDeviceCalibrationRootDeviceConnectionWhere",
+    },
+    deviceConnection: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere",
+    },
+    deviceConnection_NOT: {
+      __type: "CommandProgramDeviceCalibrationDeviceConnectionWhere",
+    },
+    deviceKeyConnection: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
+    deviceKeyConnection_NOT: {
+      __type: "CommandProgramDeviceCalibrationDeviceKeyConnectionWhere",
+    },
   },
   CommandProgramDeviceConnectInput: {
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationConnectFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInConnectFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateConnectFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsConnectFieldInput!]" },
@@ -30915,23 +29417,16 @@ export const generatedSchema = {
   CommandProgramDeviceCreateInput: {
     name: { __type: "String" },
     type: { __type: "String" },
-    configuration: { __type: "CommandProgramDeviceConfigurationFieldInput" },
     usedIn: { __type: "CommandProgramDeviceUsedInFieldInput" },
     state: { __type: "CommandProgramDeviceStateFieldInput" },
     actions: { __type: "CommandProgramDeviceActionsFieldInput" },
   },
   CommandProgramDeviceDeleteInput: {
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationDeleteFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInDeleteFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateDeleteFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsDeleteFieldInput!]" },
   },
   CommandProgramDeviceDisconnectInput: {
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationDisconnectFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInDisconnectFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateDisconnectFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsDisconnectFieldInput!]" },
@@ -30945,6 +29440,9 @@ export const generatedSchema = {
     type: { __type: "CommandProgramDevicePlaceholderTypeConnectFieldInput" },
     interlocks: {
       __type: "[CommandProgramDevicePlaceholderInterlocksConnectFieldInput!]",
+    },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectFieldInput!]",
     },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsConnectFieldInput!]",
@@ -30960,12 +29458,16 @@ export const generatedSchema = {
     interlocks: {
       __type: "CommandProgramDevicePlaceholderInterlocksFieldInput",
     },
+    setpoints: { __type: "CommandProgramDevicePlaceholderSetpointsFieldInput" },
     plugins: { __type: "CommandProgramDevicePlaceholderPluginsFieldInput" },
   },
   CommandProgramDevicePlaceholderDeleteInput: {
     type: { __type: "CommandProgramDevicePlaceholderTypeDeleteFieldInput" },
     interlocks: {
       __type: "[CommandProgramDevicePlaceholderInterlocksDeleteFieldInput!]",
+    },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsDeleteFieldInput!]",
     },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsDeleteFieldInput!]",
@@ -30976,6 +29478,9 @@ export const generatedSchema = {
     interlocks: {
       __type:
         "[CommandProgramDevicePlaceholderInterlocksDisconnectFieldInput!]",
+    },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput!]",
     },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsDisconnectFieldInput!]",
@@ -31108,8 +29613,74 @@ export const generatedSchema = {
     interlocks: {
       __type: "[CommandProgramDevicePlaceholderInterlocksCreateFieldInput!]",
     },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsCreateFieldInput!]",
+    },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsCreateFieldInput!]",
+    },
+  },
+  CommandProgramDevicePlaceholderSetpointsConnectFieldInput: {
+    where: { __type: "CommandDeviceSetpointConnectWhere" },
+    connect: { __type: "[CommandDeviceSetpointConnectInput!]" },
+  },
+  CommandProgramDevicePlaceholderSetpointsConnectionSort: {
+    node: { __type: "CommandDeviceSetpointSort" },
+  },
+  CommandProgramDevicePlaceholderSetpointsConnectionWhere: {
+    AND: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectionWhere!]",
+    },
+    OR: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectionWhere!]",
+    },
+    node: { __type: "CommandDeviceSetpointWhere" },
+    node_NOT: { __type: "CommandDeviceSetpointWhere" },
+  },
+  CommandProgramDevicePlaceholderSetpointsCreateFieldInput: {
+    node: { __type: "CommandDeviceSetpointCreateInput!" },
+  },
+  CommandProgramDevicePlaceholderSetpointsDeleteFieldInput: {
+    where: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+    },
+    delete: { __type: "CommandDeviceSetpointDeleteInput" },
+  },
+  CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput: {
+    where: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+    },
+    disconnect: { __type: "CommandDeviceSetpointDisconnectInput" },
+  },
+  CommandProgramDevicePlaceholderSetpointsFieldInput: {
+    create: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsCreateFieldInput!]",
+    },
+    connect: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectFieldInput!]",
+    },
+  },
+  CommandProgramDevicePlaceholderSetpointsUpdateConnectionInput: {
+    node: { __type: "CommandDeviceSetpointUpdateInput" },
+  },
+  CommandProgramDevicePlaceholderSetpointsUpdateFieldInput: {
+    where: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+    },
+    update: {
+      __type: "CommandProgramDevicePlaceholderSetpointsUpdateConnectionInput",
+    },
+    connect: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsConnectFieldInput!]",
+    },
+    disconnect: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsDisconnectFieldInput!]",
+    },
+    create: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsCreateFieldInput!]",
+    },
+    delete: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsDeleteFieldInput!]",
     },
   },
   CommandProgramDevicePlaceholderSort: {
@@ -31167,6 +29738,9 @@ export const generatedSchema = {
     interlocks: {
       __type: "[CommandProgramDevicePlaceholderInterlocksUpdateFieldInput!]",
     },
+    setpoints: {
+      __type: "[CommandProgramDevicePlaceholderSetpointsUpdateFieldInput!]",
+    },
     plugins: {
       __type: "[CommandProgramDevicePlaceholderPluginsUpdateFieldInput!]",
     },
@@ -31200,6 +29774,8 @@ export const generatedSchema = {
     type_NOT: { __type: "CommandProgramDeviceWhere" },
     interlocks: { __type: "CommandInterlockWhere" },
     interlocks_NOT: { __type: "CommandInterlockWhere" },
+    setpoints: { __type: "CommandDeviceSetpointWhere" },
+    setpoints_NOT: { __type: "CommandDeviceSetpointWhere" },
     plugins: { __type: "CommandDevicePluginWhere" },
     plugins_NOT: { __type: "CommandDevicePluginWhere" },
     typeConnection: {
@@ -31213,6 +29789,12 @@ export const generatedSchema = {
     },
     interlocksConnection_NOT: {
       __type: "CommandProgramDevicePlaceholderInterlocksConnectionWhere",
+    },
+    setpointsConnection: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
+    },
+    setpointsConnection_NOT: {
+      __type: "CommandProgramDevicePlaceholderSetpointsConnectionWhere",
     },
     pluginsConnection: {
       __type: "CommandProgramDevicePlaceholderPluginsConnectionWhere",
@@ -31766,9 +30348,6 @@ export const generatedSchema = {
     },
   },
   CommandProgramDeviceRelationInput: {
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationCreateFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInCreateFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateCreateFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsCreateFieldInput!]" },
@@ -32034,9 +30613,6 @@ export const generatedSchema = {
   CommandProgramDeviceUpdateInput: {
     name: { __type: "String" },
     type: { __type: "String" },
-    configuration: {
-      __type: "[CommandProgramDeviceConfigurationUpdateFieldInput!]",
-    },
     usedIn: { __type: "[CommandProgramDeviceUsedInUpdateFieldInput!]" },
     state: { __type: "[CommandProgramDeviceStateUpdateFieldInput!]" },
     actions: { __type: "[CommandProgramDeviceActionsUpdateFieldInput!]" },
@@ -32113,20 +30689,12 @@ export const generatedSchema = {
     type_NOT_STARTS_WITH: { __type: "String" },
     type_ENDS_WITH: { __type: "String" },
     type_NOT_ENDS_WITH: { __type: "String" },
-    configuration: { __type: "CommandProgramDeviceConfigurationWhere" },
-    configuration_NOT: { __type: "CommandProgramDeviceConfigurationWhere" },
     usedIn: { __type: "CommandProgramDevicePlaceholderWhere" },
     usedIn_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
     state: { __type: "CommandProgramDeviceStateWhere" },
     state_NOT: { __type: "CommandProgramDeviceStateWhere" },
     actions: { __type: "CommandProgramDeviceActionWhere" },
     actions_NOT: { __type: "CommandProgramDeviceActionWhere" },
-    configurationConnection: {
-      __type: "CommandProgramDeviceConfigurationConnectionWhere",
-    },
-    configurationConnection_NOT: {
-      __type: "CommandProgramDeviceConfigurationConnectionWhere",
-    },
     usedInConnection: { __type: "CommandProgramDeviceUsedInConnectionWhere" },
     usedInConnection_NOT: {
       __type: "CommandProgramDeviceUsedInConnectionWhere",
@@ -32614,11 +31182,51 @@ export const generatedSchema = {
       __type: "CommandProgramFlowProgramsConnectionWhere",
     },
   },
+  CommandProgramHMIActionsConnectFieldInput: {
+    where: { __type: "CommandProgramActionConnectWhere" },
+    connect: { __type: "[CommandProgramActionConnectInput!]" },
+  },
+  CommandProgramHMIActionsConnectionSort: {
+    node: { __type: "CommandProgramActionSort" },
+  },
+  CommandProgramHMIActionsConnectionWhere: {
+    AND: { __type: "[CommandProgramHMIActionsConnectionWhere!]" },
+    OR: { __type: "[CommandProgramHMIActionsConnectionWhere!]" },
+    node: { __type: "CommandProgramActionWhere" },
+    node_NOT: { __type: "CommandProgramActionWhere" },
+  },
+  CommandProgramHMIActionsCreateFieldInput: {
+    node: { __type: "CommandProgramActionCreateInput!" },
+  },
+  CommandProgramHMIActionsDeleteFieldInput: {
+    where: { __type: "CommandProgramHMIActionsConnectionWhere" },
+    delete: { __type: "CommandProgramActionDeleteInput" },
+  },
+  CommandProgramHMIActionsDisconnectFieldInput: {
+    where: { __type: "CommandProgramHMIActionsConnectionWhere" },
+    disconnect: { __type: "CommandProgramActionDisconnectInput" },
+  },
+  CommandProgramHMIActionsFieldInput: {
+    create: { __type: "[CommandProgramHMIActionsCreateFieldInput!]" },
+    connect: { __type: "[CommandProgramHMIActionsConnectFieldInput!]" },
+  },
+  CommandProgramHMIActionsUpdateConnectionInput: {
+    node: { __type: "CommandProgramActionUpdateInput" },
+  },
+  CommandProgramHMIActionsUpdateFieldInput: {
+    where: { __type: "CommandProgramHMIActionsConnectionWhere" },
+    update: { __type: "CommandProgramHMIActionsUpdateConnectionInput" },
+    connect: { __type: "[CommandProgramHMIActionsConnectFieldInput!]" },
+    disconnect: { __type: "[CommandProgramHMIActionsDisconnectFieldInput!]" },
+    create: { __type: "[CommandProgramHMIActionsCreateFieldInput!]" },
+    delete: { __type: "[CommandProgramHMIActionsDeleteFieldInput!]" },
+  },
   CommandProgramHmiConnectFieldInput: {
     where: { __type: "CommandProgramHMIConnectWhere" },
     connect: { __type: "[CommandProgramHMIConnectInput!]" },
   },
   CommandProgramHMIConnectInput: {
+    actions: { __type: "[CommandProgramHMIActionsConnectFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsConnectFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsConnectFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesConnectFieldInput!]" },
@@ -32641,6 +31249,7 @@ export const generatedSchema = {
   },
   CommandProgramHMICreateInput: {
     name: { __type: "String" },
+    actions: { __type: "CommandProgramHMIActionsFieldInput" },
     paths: { __type: "CommandProgramHMIPathsFieldInput" },
     groups: { __type: "CommandProgramHMIGroupsFieldInput" },
     nodes: { __type: "CommandProgramHMINodesFieldInput" },
@@ -32651,6 +31260,7 @@ export const generatedSchema = {
     delete: { __type: "CommandProgramHMIDeleteInput" },
   },
   CommandProgramHMIDeleteInput: {
+    actions: { __type: "[CommandProgramHMIActionsDeleteFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsDeleteFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsDeleteFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesDeleteFieldInput!]" },
@@ -32661,6 +31271,7 @@ export const generatedSchema = {
     disconnect: { __type: "CommandProgramHMIDisconnectInput" },
   },
   CommandProgramHMIDisconnectInput: {
+    actions: { __type: "[CommandProgramHMIActionsDisconnectFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsDisconnectFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsDisconnectFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesDisconnectFieldInput!]" },
@@ -32832,6 +31443,7 @@ export const generatedSchema = {
     delete: { __type: "[CommandProgramHMIProgramsDeleteFieldInput!]" },
   },
   CommandProgramHMIRelationInput: {
+    actions: { __type: "[CommandProgramHMIActionsCreateFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsCreateFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsCreateFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesCreateFieldInput!]" },
@@ -32854,6 +31466,7 @@ export const generatedSchema = {
   },
   CommandProgramHMIUpdateInput: {
     name: { __type: "String" },
+    actions: { __type: "[CommandProgramHMIActionsUpdateFieldInput!]" },
     paths: { __type: "[CommandProgramHMIPathsUpdateFieldInput!]" },
     groups: { __type: "[CommandProgramHMIGroupsUpdateFieldInput!]" },
     nodes: { __type: "[CommandProgramHMINodesUpdateFieldInput!]" },
@@ -32882,6 +31495,8 @@ export const generatedSchema = {
     name_NOT_STARTS_WITH: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
     name_NOT_ENDS_WITH: { __type: "String" },
+    actions: { __type: "CommandProgramActionWhere" },
+    actions_NOT: { __type: "CommandProgramActionWhere" },
     paths: { __type: "CommandHMIPathWhere" },
     paths_NOT: { __type: "CommandHMIPathWhere" },
     groups: { __type: "CommandHMIGroupWhere" },
@@ -32890,6 +31505,10 @@ export const generatedSchema = {
     nodes_NOT: { __type: "CommandHMINodeWhere" },
     programs: { __type: "CommandProgramWhere" },
     programs_NOT: { __type: "CommandProgramWhere" },
+    actionsConnection: { __type: "CommandProgramHMIActionsConnectionWhere" },
+    actionsConnection_NOT: {
+      __type: "CommandProgramHMIActionsConnectionWhere",
+    },
     pathsConnection: { __type: "CommandProgramHMIPathsConnectionWhere" },
     pathsConnection_NOT: { __type: "CommandProgramHMIPathsConnectionWhere" },
     groupsConnection: { __type: "CommandProgramHMIGroupsConnectionWhere" },
@@ -33799,228 +32418,6 @@ export const generatedSchema = {
     disconnect: { __type: "CommandProgramOrganisationDisconnectFieldInput" },
     create: { __type: "CommandProgramOrganisationCreateFieldInput" },
     delete: { __type: "CommandProgramOrganisationDeleteFieldInput" },
-  },
-  CommandProgramPeripheralConfigurationConfConnectFieldInput: {
-    where: { __type: "CommandProgramDeviceConfigurationConnectWhere" },
-  },
-  CommandProgramPeripheralConfigurationConfConnectionSort: {
-    node: { __type: "CommandProgramDeviceConfigurationSort" },
-  },
-  CommandProgramPeripheralConfigurationConfConnectionWhere: {
-    AND: {
-      __type: "[CommandProgramPeripheralConfigurationConfConnectionWhere!]",
-    },
-    OR: {
-      __type: "[CommandProgramPeripheralConfigurationConfConnectionWhere!]",
-    },
-    node: { __type: "CommandProgramDeviceConfigurationWhere" },
-    node_NOT: { __type: "CommandProgramDeviceConfigurationWhere" },
-  },
-  CommandProgramPeripheralConfigurationConfCreateFieldInput: {
-    node: { __type: "CommandProgramDeviceConfigurationCreateInput!" },
-  },
-  CommandProgramPeripheralConfigurationConfDeleteFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
-  },
-  CommandProgramPeripheralConfigurationConfDisconnectFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
-  },
-  CommandProgramPeripheralConfigurationConfFieldInput: {
-    create: {
-      __type: "CommandProgramPeripheralConfigurationConfCreateFieldInput",
-    },
-    connect: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationConfUpdateConnectionInput: {
-    node: { __type: "CommandProgramDeviceConfigurationUpdateInput" },
-  },
-  CommandProgramPeripheralConfigurationConfUpdateFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
-    update: {
-      __type: "CommandProgramPeripheralConfigurationConfUpdateConnectionInput",
-    },
-    connect: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectFieldInput",
-    },
-    disconnect: {
-      __type: "CommandProgramPeripheralConfigurationConfDisconnectFieldInput",
-    },
-    create: {
-      __type: "CommandProgramPeripheralConfigurationConfCreateFieldInput",
-    },
-    delete: {
-      __type: "CommandProgramPeripheralConfigurationConfDeleteFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationConnectInput: {
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationConnectWhere: {
-    node: { __type: "CommandProgramPeripheralConfigurationWhere!" },
-  },
-  CommandProgramPeripheralConfigurationCreateInput: {
-    value: { __type: "String" },
-    device: { __type: "CommandProgramPeripheralConfigurationDeviceFieldInput" },
-    conf: { __type: "CommandProgramPeripheralConfigurationConfFieldInput" },
-  },
-  CommandProgramPeripheralConfigurationDeleteInput: {
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceDeleteFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfDeleteFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationDeviceConnectFieldInput: {
-    where: { __type: "CommandProgramDevicePlaceholderConnectWhere" },
-    connect: { __type: "CommandProgramDevicePlaceholderConnectInput" },
-  },
-  CommandProgramPeripheralConfigurationDeviceConnectionSort: {
-    node: { __type: "CommandProgramDevicePlaceholderSort" },
-  },
-  CommandProgramPeripheralConfigurationDeviceConnectionWhere: {
-    AND: {
-      __type: "[CommandProgramPeripheralConfigurationDeviceConnectionWhere!]",
-    },
-    OR: {
-      __type: "[CommandProgramPeripheralConfigurationDeviceConnectionWhere!]",
-    },
-    node: { __type: "CommandProgramDevicePlaceholderWhere" },
-    node_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
-  },
-  CommandProgramPeripheralConfigurationDeviceCreateFieldInput: {
-    node: { __type: "CommandProgramDevicePlaceholderCreateInput!" },
-  },
-  CommandProgramPeripheralConfigurationDeviceDeleteFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    delete: { __type: "CommandProgramDevicePlaceholderDeleteInput" },
-  },
-  CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    disconnect: { __type: "CommandProgramDevicePlaceholderDisconnectInput" },
-  },
-  CommandProgramPeripheralConfigurationDeviceFieldInput: {
-    create: {
-      __type: "CommandProgramPeripheralConfigurationDeviceCreateFieldInput",
-    },
-    connect: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationDeviceUpdateConnectionInput: {
-    node: { __type: "CommandProgramDevicePlaceholderUpdateInput" },
-  },
-  CommandProgramPeripheralConfigurationDeviceUpdateFieldInput: {
-    where: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    update: {
-      __type:
-        "CommandProgramPeripheralConfigurationDeviceUpdateConnectionInput",
-    },
-    connect: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectFieldInput",
-    },
-    disconnect: {
-      __type: "CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput",
-    },
-    create: {
-      __type: "CommandProgramPeripheralConfigurationDeviceCreateFieldInput",
-    },
-    delete: {
-      __type: "CommandProgramPeripheralConfigurationDeviceDeleteFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationDisconnectInput: {
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceDisconnectFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfDisconnectFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationOptions: {
-    sort: { __type: "[CommandProgramPeripheralConfigurationSort]" },
-    limit: { __type: "Int" },
-    offset: { __type: "Int" },
-  },
-  CommandProgramPeripheralConfigurationRelationInput: {
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceCreateFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfCreateFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationSort: {
-    id: { __type: "SortDirection" },
-    value: { __type: "SortDirection" },
-  },
-  CommandProgramPeripheralConfigurationUpdateInput: {
-    value: { __type: "String" },
-    device: {
-      __type: "CommandProgramPeripheralConfigurationDeviceUpdateFieldInput",
-    },
-    conf: {
-      __type: "CommandProgramPeripheralConfigurationConfUpdateFieldInput",
-    },
-  },
-  CommandProgramPeripheralConfigurationWhere: {
-    OR: { __type: "[CommandProgramPeripheralConfigurationWhere!]" },
-    AND: { __type: "[CommandProgramPeripheralConfigurationWhere!]" },
-    id: { __type: "ID" },
-    id_NOT: { __type: "ID" },
-    id_IN: { __type: "[ID]" },
-    id_NOT_IN: { __type: "[ID]" },
-    id_CONTAINS: { __type: "ID" },
-    id_NOT_CONTAINS: { __type: "ID" },
-    id_STARTS_WITH: { __type: "ID" },
-    id_NOT_STARTS_WITH: { __type: "ID" },
-    id_ENDS_WITH: { __type: "ID" },
-    id_NOT_ENDS_WITH: { __type: "ID" },
-    value: { __type: "String" },
-    value_NOT: { __type: "String" },
-    value_IN: { __type: "[String]" },
-    value_NOT_IN: { __type: "[String]" },
-    value_CONTAINS: { __type: "String" },
-    value_NOT_CONTAINS: { __type: "String" },
-    value_STARTS_WITH: { __type: "String" },
-    value_NOT_STARTS_WITH: { __type: "String" },
-    value_ENDS_WITH: { __type: "String" },
-    value_NOT_ENDS_WITH: { __type: "String" },
-    device: { __type: "CommandProgramDevicePlaceholderWhere" },
-    device_NOT: { __type: "CommandProgramDevicePlaceholderWhere" },
-    conf: { __type: "CommandProgramDeviceConfigurationWhere" },
-    conf_NOT: { __type: "CommandProgramDeviceConfigurationWhere" },
-    deviceConnection: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    deviceConnection_NOT: {
-      __type: "CommandProgramPeripheralConfigurationDeviceConnectionWhere",
-    },
-    confConnection: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
-    confConnection_NOT: {
-      __type: "CommandProgramPeripheralConfigurationConfConnectionWhere",
-    },
   },
   CommandProgramProgramConnectFieldInput: {
     where: { __type: "CommandProgramFlowConnectWhere" },
@@ -40563,2131 +38960,11 @@ export const generatedSchema = {
     Project: { __type: "ProjectWhere" },
     Estimate: { __type: "EstimateWhere" },
   },
-  ValidationError: {
-    __typename: { __type: "String!" },
-    message: { __type: "String" },
-    errors: { __type: "[ValidatorError!]" },
-  },
-  ErrorInterface: {
-    __typename: { __type: "String!" },
-    message: { __type: "String" },
-    $on: { __type: "$ErrorInterface!" },
-  },
-  ValidatorError: {
-    __typename: { __type: "String!" },
-    message: { __type: "String" },
-    path: { __type: "String" },
-    value: { __type: "JSON" },
-    idx: { __type: "Int!" },
-  },
-  MongoError: {
-    __typename: { __type: "String!" },
-    message: { __type: "String" },
-    code: { __type: "Int" },
-  },
-  RuntimeError: {
-    __typename: { __type: "String!" },
-    message: { __type: "String" },
-  },
-  Program: {
-    __typename: { __type: "String!" },
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[ProgramIo]" },
-    _id: { __type: "MongoID!" },
-  },
-  ProgramIo: {
-    __typename: { __type: "String!" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  Device: {
-    __typename: { __type: "String!" },
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID!" },
-  },
-  FilterFindOneDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindOneDeviceOperatorsInput" },
-    OR: { __type: "[FilterFindOneDeviceInput!]" },
-    AND: { __type: "[FilterFindOneDeviceInput!]" },
-  },
-  FilterFindOneDeviceOperatorsInput: {
-    _id: { __type: "FilterFindOneDevice_idOperatorsInput" },
-  },
-  FilterFindOneDevice_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterFindManyDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindManyDeviceOperatorsInput" },
-    OR: { __type: "[FilterFindManyDeviceInput!]" },
-    AND: { __type: "[FilterFindManyDeviceInput!]" },
-  },
-  FilterFindManyDeviceOperatorsInput: {
-    _id: { __type: "FilterFindManyDevice_idOperatorsInput" },
-  },
-  FilterFindManyDevice_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterCountDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterCountDeviceOperatorsInput" },
-    OR: { __type: "[FilterCountDeviceInput!]" },
-    AND: { __type: "[FilterCountDeviceInput!]" },
-  },
-  FilterCountDeviceOperatorsInput: {
-    _id: { __type: "FilterCountDevice_idOperatorsInput" },
-  },
-  FilterCountDevice_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  DeviceConnection: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-    edges: { __type: "[DeviceEdge!]!" },
-  },
-  DeviceEdge: {
-    __typename: { __type: "String!" },
-    node: { __type: "Device!" },
-    cursor: { __type: "String!" },
-  },
-  DevicePagination: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int" },
-    items: { __type: "[Device!]" },
-    pageInfo: { __type: "PaginationInfo!" },
-  },
-  PaginationInfo: {
-    __typename: { __type: "String!" },
-    currentPage: { __type: "Int!" },
-    perPage: { __type: "Int!" },
-    pageCount: { __type: "Int" },
-    itemCount: { __type: "Int" },
-    hasNextPage: { __type: "Boolean" },
-    hasPreviousPage: { __type: "Boolean" },
-  },
-  DNSRecord: {
-    __typename: { __type: "String!" },
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-    _id: { __type: "MongoID!" },
-  },
-  FilterFindOneDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindOneDNSRecordOperatorsInput" },
-    OR: { __type: "[FilterFindOneDNSRecordInput!]" },
-    AND: { __type: "[FilterFindOneDNSRecordInput!]" },
-  },
-  FilterFindOneDNSRecordOperatorsInput: {
-    _id: { __type: "FilterFindOneDNSRecord_idOperatorsInput" },
-  },
-  FilterFindOneDNSRecord_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterFindManyDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindManyDNSRecordOperatorsInput" },
-    OR: { __type: "[FilterFindManyDNSRecordInput!]" },
-    AND: { __type: "[FilterFindManyDNSRecordInput!]" },
-  },
-  FilterFindManyDNSRecordOperatorsInput: {
-    _id: { __type: "FilterFindManyDNSRecord_idOperatorsInput" },
-  },
-  FilterFindManyDNSRecord_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterCountDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterCountDNSRecordOperatorsInput" },
-    OR: { __type: "[FilterCountDNSRecordInput!]" },
-    AND: { __type: "[FilterCountDNSRecordInput!]" },
-  },
-  FilterCountDNSRecordOperatorsInput: {
-    _id: { __type: "FilterCountDNSRecord_idOperatorsInput" },
-  },
-  FilterCountDNSRecord_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  DNSRecordConnection: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-    edges: { __type: "[DNSRecordEdge!]!" },
-  },
-  DNSRecordEdge: {
-    __typename: { __type: "String!" },
-    node: { __type: "DNSRecord!" },
-    cursor: { __type: "String!" },
-  },
-  DNSRecordPagination: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int" },
-    items: { __type: "[DNSRecord!]" },
-    pageInfo: { __type: "PaginationInfo!" },
-  },
-  FilterFindOneProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[FilterFindOneProgramIoInput]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindOneProgramOperatorsInput" },
-    OR: { __type: "[FilterFindOneProgramInput!]" },
-    AND: { __type: "[FilterFindOneProgramInput!]" },
-  },
-  FilterFindOneProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneProgramOperatorsInput: {
-    _id: { __type: "FilterFindOneProgram_idOperatorsInput" },
-  },
-  FilterFindOneProgram_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterFindManyProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[FilterFindManyProgramIoInput]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindManyProgramOperatorsInput" },
-    OR: { __type: "[FilterFindManyProgramInput!]" },
-    AND: { __type: "[FilterFindManyProgramInput!]" },
-  },
-  FilterFindManyProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindManyProgramOperatorsInput: {
-    _id: { __type: "FilterFindManyProgram_idOperatorsInput" },
-  },
-  FilterFindManyProgram_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterCountProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[FilterCountProgramIoInput]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterCountProgramOperatorsInput" },
-    OR: { __type: "[FilterCountProgramInput!]" },
-    AND: { __type: "[FilterCountProgramInput!]" },
-  },
-  FilterCountProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterCountProgramOperatorsInput: {
-    _id: { __type: "FilterCountProgram_idOperatorsInput" },
-  },
-  FilterCountProgram_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  ProgramConnection: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-    edges: { __type: "[ProgramEdge!]!" },
-  },
-  ProgramEdge: {
-    __typename: { __type: "String!" },
-    node: { __type: "Program!" },
-    cursor: { __type: "String!" },
-  },
-  ProgramPagination: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int" },
-    items: { __type: "[Program!]" },
-    pageInfo: { __type: "PaginationInfo!" },
-  },
-  FlowShard: {
-    __typename: { __type: "String!" },
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FlowShardNodes]" },
-    paths: { __type: "[FlowShardPaths]" },
-    items: { __type: "[MongoID]" },
-    _id: { __type: "MongoID!" },
-  },
-  FlowShardNodes: {
-    __typename: { __type: "String!" },
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FlowShardPaths: {
-    __typename: { __type: "String!" },
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FlowShardPathsPoints]" },
-    _id: { __type: "MongoID" },
-  },
-  FlowShardPathsPoints: {
-    __typename: { __type: "String!" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FilterFindOneFlowShardNodesInput]" },
-    paths: { __type: "[FilterFindOneFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindOneFlowShardOperatorsInput" },
-    OR: { __type: "[FilterFindOneFlowShardInput!]" },
-    AND: { __type: "[FilterFindOneFlowShardInput!]" },
-  },
-  FilterFindOneFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FilterFindOneFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneFlowShardOperatorsInput: {
-    _id: { __type: "FilterFindOneFlowShard_idOperatorsInput" },
-  },
-  FilterFindOneFlowShard_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterFindManyFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FilterFindManyFlowShardNodesInput]" },
-    paths: { __type: "[FilterFindManyFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindManyFlowShardOperatorsInput" },
-    OR: { __type: "[FilterFindManyFlowShardInput!]" },
-    AND: { __type: "[FilterFindManyFlowShardInput!]" },
-  },
-  FilterFindManyFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindManyFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FilterFindManyFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindManyFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindManyFlowShardOperatorsInput: {
-    _id: { __type: "FilterFindManyFlowShard_idOperatorsInput" },
-  },
-  FilterFindManyFlowShard_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterCountFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FilterCountFlowShardNodesInput]" },
-    paths: { __type: "[FilterCountFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterCountFlowShardOperatorsInput" },
-    OR: { __type: "[FilterCountFlowShardInput!]" },
-    AND: { __type: "[FilterCountFlowShardInput!]" },
-  },
-  FilterCountFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterCountFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FilterCountFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterCountFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterCountFlowShardOperatorsInput: {
-    _id: { __type: "FilterCountFlowShard_idOperatorsInput" },
-  },
-  FilterCountFlowShard_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FlowShardConnection: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-    edges: { __type: "[FlowShardEdge!]!" },
-  },
-  FlowShardEdge: {
-    __typename: { __type: "String!" },
-    node: { __type: "FlowShard!" },
-    cursor: { __type: "String!" },
-  },
-  FlowShardPagination: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int" },
-    items: { __type: "[FlowShard!]" },
-    pageInfo: { __type: "PaginationInfo!" },
-  },
-  Stack: {
-    __typename: { __type: "String!" },
-    name: { __type: "String" },
-    items: { __type: "[StackItems]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID!" },
-  },
-  StackItems: {
-    __typename: { __type: "String!" },
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "StackItemsDimensions" },
-    inputs: { __type: "[StackItemsInputs]" },
-    outputs: { __type: "[StackItemsInputs]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[StackItemsPorts]" },
-    _id: { __type: "MongoID" },
-  },
-  StackItemsDimensions: {
-    __typename: { __type: "String!" },
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  StackItemsInputs: {
-    __typename: { __type: "String!" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  StackItemsPorts: {
-    __typename: { __type: "String!" },
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[FilterFindOneStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindOneStackOperatorsInput" },
-    OR: { __type: "[FilterFindOneStackInput!]" },
-    AND: { __type: "[FilterFindOneStackInput!]" },
-  },
-  FilterFindOneStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "FilterFindOneStackItemsDimensionsInput" },
-    inputs: { __type: "[FilterFindOneStackItemsInputsInput]" },
-    outputs: { __type: "[FilterFindOneStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[FilterFindOneStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindOneStackOperatorsInput: {
-    _id: { __type: "FilterFindOneStack_idOperatorsInput" },
-  },
-  FilterFindOneStack_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterFindManyStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[FilterFindManyStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterFindManyStackOperatorsInput" },
-    OR: { __type: "[FilterFindManyStackInput!]" },
-    AND: { __type: "[FilterFindManyStackInput!]" },
-  },
-  FilterFindManyStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "FilterFindManyStackItemsDimensionsInput" },
-    inputs: { __type: "[FilterFindManyStackItemsInputsInput]" },
-    outputs: { __type: "[FilterFindManyStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[FilterFindManyStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindManyStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindManyStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindManyStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterFindManyStackOperatorsInput: {
-    _id: { __type: "FilterFindManyStack_idOperatorsInput" },
-  },
-  FilterFindManyStack_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  FilterCountStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[FilterCountStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterCountStackOperatorsInput" },
-    OR: { __type: "[FilterCountStackInput!]" },
-    AND: { __type: "[FilterCountStackInput!]" },
-  },
-  FilterCountStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "FilterCountStackItemsDimensionsInput" },
-    inputs: { __type: "[FilterCountStackItemsInputsInput]" },
-    outputs: { __type: "[FilterCountStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[FilterCountStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterCountStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterCountStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  FilterCountStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterCountStackOperatorsInput: {
-    _id: { __type: "FilterCountStack_idOperatorsInput" },
-  },
-  FilterCountStack_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  StackConnection: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int!" },
-    pageInfo: { __type: "PageInfo!" },
-    edges: { __type: "[StackEdge!]!" },
-  },
-  StackEdge: {
-    __typename: { __type: "String!" },
-    node: { __type: "Stack!" },
-    cursor: { __type: "String!" },
-  },
-  StackPagination: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int" },
-    items: { __type: "[Stack!]" },
-    pageInfo: { __type: "PaginationInfo!" },
-  },
-  StackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "StackItemsDimensionsInput" },
-    inputs: { __type: "[StackItemsInputsInput]" },
-    outputs: { __type: "[StackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[StackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  StackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  StackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  StackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  CreateOneDevicePayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Device" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateOneDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-  },
-  CreateManyDevicePayload: {
-    __typename: { __type: "String!" },
-    recordIds: { __type: "[MongoID!]!" },
-    records: { __type: "[Device!]" },
-    createdCount: { __type: "Int!" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateManyDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-  },
-  UpdateByIdDevicePayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Device" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateByIdDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-  },
-  UpdateOneDevicePayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Device" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateOneDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-  },
-  FilterUpdateOneDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateOneDeviceOperatorsInput" },
-    OR: { __type: "[FilterUpdateOneDeviceInput!]" },
-    AND: { __type: "[FilterUpdateOneDeviceInput!]" },
-  },
-  FilterUpdateOneDeviceOperatorsInput: {
-    _id: { __type: "FilterUpdateOneDevice_idOperatorsInput" },
-  },
-  FilterUpdateOneDevice_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  UpdateManyDevicePayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateManyDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-  },
-  FilterUpdateManyDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateManyDeviceOperatorsInput" },
-    OR: { __type: "[FilterUpdateManyDeviceInput!]" },
-    AND: { __type: "[FilterUpdateManyDeviceInput!]" },
-  },
-  FilterUpdateManyDeviceOperatorsInput: {
-    _id: { __type: "FilterUpdateManyDevice_idOperatorsInput" },
-  },
-  FilterUpdateManyDevice_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveByIdDevicePayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Device" },
-    error: { __type: "ErrorInterface" },
-  },
-  RemoveOneDevicePayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Device" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveOneDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveOneDeviceOperatorsInput" },
-    OR: { __type: "[FilterRemoveOneDeviceInput!]" },
-    AND: { __type: "[FilterRemoveOneDeviceInput!]" },
-  },
-  FilterRemoveOneDeviceOperatorsInput: {
-    _id: { __type: "FilterRemoveOneDevice_idOperatorsInput" },
-  },
-  FilterRemoveOneDevice_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveManyDevicePayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveManyDeviceInput: {
-    name: { __type: "String" },
-    connected: { __type: "Boolean" },
-    lastSeen: { __type: "Date" },
-    network_name: { __type: "String" },
-    did: { __type: "String" },
-    program: { __type: "MongoID" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveManyDeviceOperatorsInput" },
-    OR: { __type: "[FilterRemoveManyDeviceInput!]" },
-    AND: { __type: "[FilterRemoveManyDeviceInput!]" },
-  },
-  FilterRemoveManyDeviceOperatorsInput: {
-    _id: { __type: "FilterRemoveManyDevice_idOperatorsInput" },
-  },
-  FilterRemoveManyDevice_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  CreateOneDNSRecordPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "DNSRecord" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateOneDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-  },
-  CreateManyDNSRecordPayload: {
-    __typename: { __type: "String!" },
-    recordIds: { __type: "[MongoID!]!" },
-    records: { __type: "[DNSRecord!]" },
-    createdCount: { __type: "Int!" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateManyDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-  },
-  UpdateByIdDNSRecordPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "DNSRecord" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateByIdDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-  },
-  UpdateOneDNSRecordPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "DNSRecord" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateOneDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-  },
-  FilterUpdateOneDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateOneDNSRecordOperatorsInput" },
-    OR: { __type: "[FilterUpdateOneDNSRecordInput!]" },
-    AND: { __type: "[FilterUpdateOneDNSRecordInput!]" },
-  },
-  FilterUpdateOneDNSRecordOperatorsInput: {
-    _id: { __type: "FilterUpdateOneDNSRecord_idOperatorsInput" },
-  },
-  FilterUpdateOneDNSRecord_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  UpdateManyDNSRecordPayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateManyDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-  },
-  FilterUpdateManyDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateManyDNSRecordOperatorsInput" },
-    OR: { __type: "[FilterUpdateManyDNSRecordInput!]" },
-    AND: { __type: "[FilterUpdateManyDNSRecordInput!]" },
-  },
-  FilterUpdateManyDNSRecordOperatorsInput: {
-    _id: { __type: "FilterUpdateManyDNSRecord_idOperatorsInput" },
-  },
-  FilterUpdateManyDNSRecord_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveByIdDNSRecordPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "DNSRecord" },
-    error: { __type: "ErrorInterface" },
-  },
-  RemoveOneDNSRecordPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "DNSRecord" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveOneDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveOneDNSRecordOperatorsInput" },
-    OR: { __type: "[FilterRemoveOneDNSRecordInput!]" },
-    AND: { __type: "[FilterRemoveOneDNSRecordInput!]" },
-  },
-  FilterRemoveOneDNSRecordOperatorsInput: {
-    _id: { __type: "FilterRemoveOneDNSRecord_idOperatorsInput" },
-  },
-  FilterRemoveOneDNSRecord_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveManyDNSRecordPayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveManyDNSRecordInput: {
-    subdomain: { __type: "String" },
-    domain: { __type: "String" },
-    address: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveManyDNSRecordOperatorsInput" },
-    OR: { __type: "[FilterRemoveManyDNSRecordInput!]" },
-    AND: { __type: "[FilterRemoveManyDNSRecordInput!]" },
-  },
-  FilterRemoveManyDNSRecordOperatorsInput: {
-    _id: { __type: "FilterRemoveManyDNSRecord_idOperatorsInput" },
-  },
-  FilterRemoveManyDNSRecord_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  CreateOneProgramPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Program" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateOneProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[ProgramIoInput]" },
-  },
-  ProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  CreateManyProgramPayload: {
-    __typename: { __type: "String!" },
-    recordIds: { __type: "[MongoID!]!" },
-    records: { __type: "[Program!]" },
-    createdCount: { __type: "Int!" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateManyProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[ProgramIoInput]" },
-  },
-  UpdateByIdProgramPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Program" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateByIdProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[UpdateByIdProgramIoInput]" },
-  },
-  UpdateByIdProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateOneProgramPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Program" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateOneProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[UpdateOneProgramIoInput]" },
-  },
-  UpdateOneProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[FilterUpdateOneProgramIoInput]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateOneProgramOperatorsInput" },
-    OR: { __type: "[FilterUpdateOneProgramInput!]" },
-    AND: { __type: "[FilterUpdateOneProgramInput!]" },
-  },
-  FilterUpdateOneProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneProgramOperatorsInput: {
-    _id: { __type: "FilterUpdateOneProgram_idOperatorsInput" },
-  },
-  FilterUpdateOneProgram_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  UpdateManyProgramPayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateManyProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[UpdateManyProgramIoInput]" },
-  },
-  UpdateManyProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[FilterUpdateManyProgramIoInput]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateManyProgramOperatorsInput" },
-    OR: { __type: "[FilterUpdateManyProgramInput!]" },
-    AND: { __type: "[FilterUpdateManyProgramInput!]" },
-  },
-  FilterUpdateManyProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyProgramOperatorsInput: {
-    _id: { __type: "FilterUpdateManyProgram_idOperatorsInput" },
-  },
-  FilterUpdateManyProgram_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveByIdProgramPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Program" },
-    error: { __type: "ErrorInterface" },
-  },
-  RemoveOneProgramPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Program" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveOneProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[FilterRemoveOneProgramIoInput]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveOneProgramOperatorsInput" },
-    OR: { __type: "[FilterRemoveOneProgramInput!]" },
-    AND: { __type: "[FilterRemoveOneProgramInput!]" },
-  },
-  FilterRemoveOneProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveOneProgramOperatorsInput: {
-    _id: { __type: "FilterRemoveOneProgram_idOperatorsInput" },
-  },
-  FilterRemoveOneProgram_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveManyProgramPayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveManyProgramInput: {
-    name: { __type: "String" },
-    plugins: { __type: "[JSON]" },
-    hmi: { __type: "[JSON]" },
-    program: { __type: "[JSON]" },
-    io: { __type: "[FilterRemoveManyProgramIoInput]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveManyProgramOperatorsInput" },
-    OR: { __type: "[FilterRemoveManyProgramInput!]" },
-    AND: { __type: "[FilterRemoveManyProgramInput!]" },
-  },
-  FilterRemoveManyProgramIoInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveManyProgramOperatorsInput: {
-    _id: { __type: "FilterRemoveManyProgram_idOperatorsInput" },
-  },
-  FilterRemoveManyProgram_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  CreateOneFlowShardPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "FlowShard" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateOneFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FlowShardNodesInput]" },
-    paths: { __type: "[FlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-  },
-  FlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  CreateManyFlowShardPayload: {
-    __typename: { __type: "String!" },
-    recordIds: { __type: "[MongoID!]!" },
-    records: { __type: "[FlowShard!]" },
-    createdCount: { __type: "Int!" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateManyFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FlowShardNodesInput]" },
-    paths: { __type: "[FlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-  },
-  UpdateByIdFlowShardPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "FlowShard" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateByIdFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[UpdateByIdFlowShardNodesInput]" },
-    paths: { __type: "[UpdateByIdFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-  },
-  UpdateByIdFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateByIdFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[UpdateByIdFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateByIdFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateOneFlowShardPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "FlowShard" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateOneFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[UpdateOneFlowShardNodesInput]" },
-    paths: { __type: "[UpdateOneFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-  },
-  UpdateOneFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateOneFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[UpdateOneFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateOneFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FilterUpdateOneFlowShardNodesInput]" },
-    paths: { __type: "[FilterUpdateOneFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateOneFlowShardOperatorsInput" },
-    OR: { __type: "[FilterUpdateOneFlowShardInput!]" },
-    AND: { __type: "[FilterUpdateOneFlowShardInput!]" },
-  },
-  FilterUpdateOneFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FilterUpdateOneFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneFlowShardOperatorsInput: {
-    _id: { __type: "FilterUpdateOneFlowShard_idOperatorsInput" },
-  },
-  FilterUpdateOneFlowShard_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  UpdateManyFlowShardPayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateManyFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[UpdateManyFlowShardNodesInput]" },
-    paths: { __type: "[UpdateManyFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-  },
-  UpdateManyFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateManyFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[UpdateManyFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateManyFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FilterUpdateManyFlowShardNodesInput]" },
-    paths: { __type: "[FilterUpdateManyFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateManyFlowShardOperatorsInput" },
-    OR: { __type: "[FilterUpdateManyFlowShardInput!]" },
-    AND: { __type: "[FilterUpdateManyFlowShardInput!]" },
-  },
-  FilterUpdateManyFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FilterUpdateManyFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyFlowShardOperatorsInput: {
-    _id: { __type: "FilterUpdateManyFlowShard_idOperatorsInput" },
-  },
-  FilterUpdateManyFlowShard_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveByIdFlowShardPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "FlowShard" },
-    error: { __type: "ErrorInterface" },
-  },
-  RemoveOneFlowShardPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "FlowShard" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveOneFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FilterRemoveOneFlowShardNodesInput]" },
-    paths: { __type: "[FilterRemoveOneFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveOneFlowShardOperatorsInput" },
-    OR: { __type: "[FilterRemoveOneFlowShardInput!]" },
-    AND: { __type: "[FilterRemoveOneFlowShardInput!]" },
-  },
-  FilterRemoveOneFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveOneFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FilterRemoveOneFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveOneFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveOneFlowShardOperatorsInput: {
-    _id: { __type: "FilterRemoveOneFlowShard_idOperatorsInput" },
-  },
-  FilterRemoveOneFlowShard_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveManyFlowShardPayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveManyFlowShardInput: {
-    name: { __type: "String" },
-    parent: { __type: "MongoID" },
-    program: { __type: "MongoID" },
-    nodes: { __type: "[FilterRemoveManyFlowShardNodesInput]" },
-    paths: { __type: "[FilterRemoveManyFlowShardPathsInput]" },
-    items: { __type: "[MongoID]" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveManyFlowShardOperatorsInput" },
-    OR: { __type: "[FilterRemoveManyFlowShardInput!]" },
-    AND: { __type: "[FilterRemoveManyFlowShardInput!]" },
-  },
-  FilterRemoveManyFlowShardNodesInput: {
-    type: { __type: "String" },
-    extras: { __type: "JSON" },
-    ports: { __type: "JSON" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveManyFlowShardPathsInput: {
-    type: { __type: "String" },
-    source: { __type: "String" },
-    sourceHandle: { __type: "String" },
-    target: { __type: "String" },
-    targetHandle: { __type: "String" },
-    points: { __type: "[FilterRemoveManyFlowShardPathsPointsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveManyFlowShardPathsPointsInput: {
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveManyFlowShardOperatorsInput: {
-    _id: { __type: "FilterRemoveManyFlowShard_idOperatorsInput" },
-  },
-  FilterRemoveManyFlowShard_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  CreateOneStackPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Stack" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateOneStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[StackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-  },
-  CreateManyStackPayload: {
-    __typename: { __type: "String!" },
-    recordIds: { __type: "[MongoID!]!" },
-    records: { __type: "[Stack!]" },
-    createdCount: { __type: "Int!" },
-    error: { __type: "ErrorInterface" },
-  },
-  CreateManyStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[StackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-  },
-  UpdateByIdStackPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Stack" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateByIdStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[UpdateByIdStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-  },
-  UpdateByIdStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "UpdateByIdStackItemsDimensionsInput" },
-    inputs: { __type: "[UpdateByIdStackItemsInputsInput]" },
-    outputs: { __type: "[UpdateByIdStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[UpdateByIdStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateByIdStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateByIdStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateByIdStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateOneStackPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Stack" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateOneStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[UpdateOneStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-  },
-  UpdateOneStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "UpdateOneStackItemsDimensionsInput" },
-    inputs: { __type: "[UpdateOneStackItemsInputsInput]" },
-    outputs: { __type: "[UpdateOneStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[UpdateOneStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateOneStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateOneStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateOneStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[FilterUpdateOneStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateOneStackOperatorsInput" },
-    OR: { __type: "[FilterUpdateOneStackInput!]" },
-    AND: { __type: "[FilterUpdateOneStackInput!]" },
-  },
-  FilterUpdateOneStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "FilterUpdateOneStackItemsDimensionsInput" },
-    inputs: { __type: "[FilterUpdateOneStackItemsInputsInput]" },
-    outputs: { __type: "[FilterUpdateOneStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[FilterUpdateOneStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateOneStackOperatorsInput: {
-    _id: { __type: "FilterUpdateOneStack_idOperatorsInput" },
-  },
-  FilterUpdateOneStack_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  UpdateManyStackPayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  UpdateManyStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[UpdateManyStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-  },
-  UpdateManyStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "UpdateManyStackItemsDimensionsInput" },
-    inputs: { __type: "[UpdateManyStackItemsInputsInput]" },
-    outputs: { __type: "[UpdateManyStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[UpdateManyStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateManyStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateManyStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  UpdateManyStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[FilterUpdateManyStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterUpdateManyStackOperatorsInput" },
-    OR: { __type: "[FilterUpdateManyStackInput!]" },
-    AND: { __type: "[FilterUpdateManyStackInput!]" },
-  },
-  FilterUpdateManyStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "FilterUpdateManyStackItemsDimensionsInput" },
-    inputs: { __type: "[FilterUpdateManyStackItemsInputsInput]" },
-    outputs: { __type: "[FilterUpdateManyStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[FilterUpdateManyStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterUpdateManyStackOperatorsInput: {
-    _id: { __type: "FilterUpdateManyStack_idOperatorsInput" },
-  },
-  FilterUpdateManyStack_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveByIdStackPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Stack" },
-    error: { __type: "ErrorInterface" },
-  },
-  RemoveOneStackPayload: {
-    __typename: { __type: "String!" },
-    recordId: { __type: "MongoID" },
-    record: { __type: "Stack" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveOneStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[FilterRemoveOneStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveOneStackOperatorsInput" },
-    OR: { __type: "[FilterRemoveOneStackInput!]" },
-    AND: { __type: "[FilterRemoveOneStackInput!]" },
-  },
-  FilterRemoveOneStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "FilterRemoveOneStackItemsDimensionsInput" },
-    inputs: { __type: "[FilterRemoveOneStackItemsInputsInput]" },
-    outputs: { __type: "[FilterRemoveOneStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[FilterRemoveOneStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveOneStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveOneStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveOneStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveOneStackOperatorsInput: {
-    _id: { __type: "FilterRemoveOneStack_idOperatorsInput" },
-  },
-  FilterRemoveOneStack_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
-  RemoveManyStackPayload: {
-    __typename: { __type: "String!" },
-    numAffected: { __type: "Int" },
-    error: { __type: "ErrorInterface" },
-  },
-  FilterRemoveManyStackInput: {
-    name: { __type: "String" },
-    items: { __type: "[FilterRemoveManyStackItemsInput]" },
-    program: { __type: "String" },
-    location: { __type: "String" },
-    _id: { __type: "MongoID" },
-    _operators: { __type: "FilterRemoveManyStackOperatorsInput" },
-    OR: { __type: "[FilterRemoveManyStackInput!]" },
-    AND: { __type: "[FilterRemoveManyStackInput!]" },
-  },
-  FilterRemoveManyStackItemsInput: {
-    key: { __type: "String" },
-    name: { __type: "String" },
-    type: { __type: "String" },
-    dimensions: { __type: "FilterRemoveManyStackItemsDimensionsInput" },
-    inputs: { __type: "[FilterRemoveManyStackItemsInputsInput]" },
-    outputs: { __type: "[FilterRemoveManyStackItemsInputsInput]" },
-    actions: { __type: "String" },
-    ui: { __type: "String" },
-    ports: { __type: "[FilterRemoveManyStackItemsPortsInput]" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveManyStackItemsDimensionsInput: {
-    width: { __type: "Float" },
-    height: { __type: "Float" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveManyStackItemsInputsInput: {
-    name: { __type: "String" },
-    type: { __type: "String" },
-    typeData: { __type: "JSON" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveManyStackItemsPortsInput: {
-    name: { __type: "String" },
-    x: { __type: "Float" },
-    y: { __type: "Float" },
-    rotation: { __type: "Float" },
-    type: { __type: "String" },
-    _id: { __type: "MongoID" },
-  },
-  FilterRemoveManyStackOperatorsInput: {
-    _id: { __type: "FilterRemoveManyStack_idOperatorsInput" },
-  },
-  FilterRemoveManyStack_idOperatorsInput: {
-    gt: { __type: "MongoID" },
-    gte: { __type: "MongoID" },
-    lt: { __type: "MongoID" },
-    lte: { __type: "MongoID" },
-    ne: { __type: "MongoID" },
-    in: { __type: "[MongoID]" },
-    nin: { __type: "[MongoID]" },
-    exists: { __type: "Boolean" },
-  },
   [SchemaUnionsKey]: {
     CommandHMINodes: ["CommandHMINode", "CommandHMIGroup"],
     HivePipelineRunner: ["HiveProcess", "HivePipelineTrigger"],
     TimelineProject: ["Project", "Estimate"],
     CommandDevicePeripheralPort: [
-      "CommandDeviceConfiguredDevicesRelationship",
       "CommandDevicePeripheralConnectedDevicesRelationship",
       "CommandDevicePeripheralMappedDevicesRelationship",
       "CommandDevicePeripheralProductPeripheralRelationship",
@@ -42709,7 +38986,6 @@ export const generatedSchema = {
       "HivePipelineNodeCallerRelationship",
       "HivePipelineNodeNextRelationship",
     ],
-    ErrorInterface: ["ValidationError", "MongoError", "RuntimeError"],
   },
 } as const;
 
@@ -42730,6 +39006,19 @@ export interface Query {
     bus?: Maybe<Scalars["String"]>;
     port?: Maybe<Scalars["String"]>;
   }) => Maybe<Array<Maybe<CommandDeviceValue>>>;
+  commandDeviceTimeseries: (args?: {
+    deviceId?: Maybe<Scalars["String"]>;
+    device?: Maybe<Scalars["String"]>;
+    valueKey?: Maybe<Scalars["String"]>;
+    startDate?: Maybe<Scalars["String"]>;
+  }) => Maybe<Array<Maybe<CommandDeviceTimeseriesData>>>;
+  commandDeviceTimeseriesTotal: (args?: {
+    deviceId?: Maybe<Scalars["String"]>;
+    device?: Maybe<Scalars["String"]>;
+    valueKey?: Maybe<Scalars["String"]>;
+    startDate?: Maybe<Scalars["String"]>;
+    endDate?: Maybe<Scalars["String"]>;
+  }) => Maybe<CommandDeviceTimeseriesTotal>;
   hiveServices: (args?: {
     where?: Maybe<HiveServiceWhere>;
     options?: Maybe<HiveServiceOptions>;
@@ -43020,12 +39309,12 @@ export interface Query {
   commandDevicePeripheralsCount: (args?: {
     where?: Maybe<CommandDevicePeripheralWhere>;
   }) => ScalarsEnums["Int"];
-  commandProgramPeripheralConfigurations: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-    options?: Maybe<CommandProgramPeripheralConfigurationOptions>;
-  }) => Array<CommandProgramPeripheralConfiguration>;
-  commandProgramPeripheralConfigurationsCount: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
+  commandProgramDeviceCalibrations: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
+    options?: Maybe<CommandProgramDeviceCalibrationOptions>;
+  }) => Array<CommandProgramDeviceCalibration>;
+  commandProgramDeviceCalibrationsCount: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
   }) => ScalarsEnums["Int"];
   commandDevicePeripheralProducts: (args?: {
     where?: Maybe<CommandDevicePeripheralProductWhere>;
@@ -43055,6 +39344,13 @@ export interface Query {
   commandProgramsCount: (args?: {
     where?: Maybe<CommandProgramWhere>;
   }) => ScalarsEnums["Int"];
+  commandProgramActions: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+    options?: Maybe<CommandProgramActionOptions>;
+  }) => Array<CommandProgramAction>;
+  commandProgramActionsCount: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+  }) => ScalarsEnums["Int"];
   commandProgramAlarms: (args?: {
     where?: Maybe<CommandProgramAlarmWhere>;
     options?: Maybe<CommandProgramAlarmOptions>;
@@ -43069,12 +39365,26 @@ export interface Query {
   commandInterlocksCount: (args?: {
     where?: Maybe<CommandInterlockWhere>;
   }) => ScalarsEnums["Int"];
+  commandInterlockAssertions: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+    options?: Maybe<CommandInterlockAssertionOptions>;
+  }) => Array<CommandInterlockAssertion>;
+  commandInterlockAssertionsCount: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+  }) => ScalarsEnums["Int"];
   commandProgramDevicePlaceholders: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
     options?: Maybe<CommandProgramDevicePlaceholderOptions>;
   }) => Array<CommandProgramDevicePlaceholder>;
   commandProgramDevicePlaceholdersCount: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+  }) => ScalarsEnums["Int"];
+  commandDeviceSetpoints: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    options?: Maybe<CommandDeviceSetpointOptions>;
+  }) => Array<CommandDeviceSetpoint>;
+  commandDeviceSetpointsCount: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
   }) => ScalarsEnums["Int"];
   commandDevicePlugins: (args?: {
     where?: Maybe<CommandDevicePluginWhere>;
@@ -43124,13 +39434,6 @@ export interface Query {
   }) => Array<CommandProgramDevice>;
   commandProgramDevicesCount: (args?: {
     where?: Maybe<CommandProgramDeviceWhere>;
-  }) => ScalarsEnums["Int"];
-  commandProgramDeviceConfigurations: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-    options?: Maybe<CommandProgramDeviceConfigurationOptions>;
-  }) => Array<CommandProgramDeviceConfiguration>;
-  commandProgramDeviceConfigurationsCount: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
   }) => ScalarsEnums["Int"];
   commandProgramDeviceActions: (args?: {
     where?: Maybe<CommandProgramDeviceActionWhere>;
@@ -43251,582 +39554,6 @@ export interface Query {
   commandPluginItemsCount: (args?: {
     where?: Maybe<CommandPluginItemWhere>;
   }) => ScalarsEnums["Int"];
-  ProgramShard: (args?: { id?: Maybe<Scalars["String"]> }) => Maybe<Program>;
-  ProgramShards?: Maybe<Array<Maybe<Program>>>;
-  DeviceById: (args: { _id: Scalars["MongoID"] }) => Maybe<Device>;
-  DeviceByIds: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsDeviceInput>;
-  }) => Array<Device>;
-  DeviceOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneDeviceInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneDeviceInput>;
-  }) => Maybe<Device>;
-  DeviceMany: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyDeviceInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyDeviceInput>;
-  }) => Array<Device>;
-  DeviceDataLoader: (args: { _id: Scalars["MongoID"] }) => Maybe<Device>;
-  DeviceDataLoaderMany: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<Device>>;
-  DeviceByIdLean: (args: { _id: Scalars["MongoID"] }) => Maybe<Device>;
-  DeviceByIdsLean: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsDeviceInput>;
-  }) => Array<Device>;
-  DeviceOneLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneDeviceInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneDeviceInput>;
-  }) => Maybe<Device>;
-  DeviceManyLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyDeviceInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyDeviceInput>;
-  }) => Array<Device>;
-  DeviceDataLoaderLean: (args: { _id: Scalars["MongoID"] }) => Maybe<Device>;
-  DeviceDataLoaderManyLean: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<Device>>;
-  DeviceCount: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterCountDeviceInput>;
-  }) => Maybe<ScalarsEnums["Int"]>;
-  DeviceConnection: (args?: {
-    /**
-     * Forward pagination argument for returning at most first edges
-     */
-    first?: Maybe<Scalars["Int"]>
-    /**
-     * Forward pagination argument for returning at most first edges
-     */;
-    after?: Maybe<Scalars["String"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    last?: Maybe<Scalars["Int"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    before?: Maybe<Scalars["String"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyDeviceInput>
-    /**
-     * Sort argument for data ordering
-     * @defaultValue `"_ID_DESC"`
-     */;
-    sort?: Maybe<SortConnectionDeviceEnum>;
-  }) => Maybe<DeviceConnection>;
-  DevicerPagination: (args?: {
-    /**
-     * Page number for displaying
-     */
-    page?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `20`
-     */;
-    perPage?: Maybe<Scalars["Int"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyDeviceInput>;
-    sort?: Maybe<SortFindManyDeviceInput>;
-  }) => Maybe<DevicePagination>;
-  DNSRecordById: (args: { _id: Scalars["MongoID"] }) => Maybe<DNSRecord>;
-  DNSRecordByIds: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsDNSRecordInput>;
-  }) => Array<DNSRecord>;
-  DNSRecordOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneDNSRecordInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneDNSRecordInput>;
-  }) => Maybe<DNSRecord>;
-  DNSRecordMany: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyDNSRecordInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyDNSRecordInput>;
-  }) => Array<DNSRecord>;
-  DNSRecordDataLoader: (args: { _id: Scalars["MongoID"] }) => Maybe<DNSRecord>;
-  DNSRecordDataLoaderMany: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<DNSRecord>>;
-  DNSRecordByIdLean: (args: { _id: Scalars["MongoID"] }) => Maybe<DNSRecord>;
-  DNSRecordByIdsLean: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsDNSRecordInput>;
-  }) => Array<DNSRecord>;
-  DNSRecordOneLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneDNSRecordInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneDNSRecordInput>;
-  }) => Maybe<DNSRecord>;
-  DNSRecordManyLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyDNSRecordInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyDNSRecordInput>;
-  }) => Array<DNSRecord>;
-  DNSRecordDataLoaderLean: (args: {
-    _id: Scalars["MongoID"];
-  }) => Maybe<DNSRecord>;
-  DNSRecordDataLoaderManyLean: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<DNSRecord>>;
-  DNSRecordCount: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterCountDNSRecordInput>;
-  }) => Maybe<ScalarsEnums["Int"]>;
-  DNSRecordConnection: (args?: {
-    /**
-     * Forward pagination argument for returning at most first edges
-     */
-    first?: Maybe<Scalars["Int"]>
-    /**
-     * Forward pagination argument for returning at most first edges
-     */;
-    after?: Maybe<Scalars["String"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    last?: Maybe<Scalars["Int"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    before?: Maybe<Scalars["String"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyDNSRecordInput>
-    /**
-     * Sort argument for data ordering
-     * @defaultValue `"_ID_DESC"`
-     */;
-    sort?: Maybe<SortConnectionDNSRecordEnum>;
-  }) => Maybe<DNSRecordConnection>;
-  DNSRecordrPagination: (args?: {
-    /**
-     * Page number for displaying
-     */
-    page?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `20`
-     */;
-    perPage?: Maybe<Scalars["Int"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyDNSRecordInput>;
-    sort?: Maybe<SortFindManyDNSRecordInput>;
-  }) => Maybe<DNSRecordPagination>;
-  ProgramById: (args: { _id: Scalars["MongoID"] }) => Maybe<Program>;
-  ProgramByIds: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsProgramInput>;
-  }) => Array<Program>;
-  ProgramOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneProgramInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneProgramInput>;
-  }) => Maybe<Program>;
-  ProgramMany: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyProgramInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyProgramInput>;
-  }) => Array<Program>;
-  ProgramDataLoader: (args: { _id: Scalars["MongoID"] }) => Maybe<Program>;
-  ProgramDataLoaderMany: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<Program>>;
-  ProgramByIdLean: (args: { _id: Scalars["MongoID"] }) => Maybe<Program>;
-  ProgramByIdsLean: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsProgramInput>;
-  }) => Array<Program>;
-  ProgramOneLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneProgramInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneProgramInput>;
-  }) => Maybe<Program>;
-  ProgramManyLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyProgramInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyProgramInput>;
-  }) => Array<Program>;
-  ProgramDataLoaderLean: (args: { _id: Scalars["MongoID"] }) => Maybe<Program>;
-  ProgramDataLoaderManyLean: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<Program>>;
-  ProgramCount: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterCountProgramInput>;
-  }) => Maybe<ScalarsEnums["Int"]>;
-  ProgramConnection: (args?: {
-    /**
-     * Forward pagination argument for returning at most first edges
-     */
-    first?: Maybe<Scalars["Int"]>
-    /**
-     * Forward pagination argument for returning at most first edges
-     */;
-    after?: Maybe<Scalars["String"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    last?: Maybe<Scalars["Int"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    before?: Maybe<Scalars["String"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyProgramInput>
-    /**
-     * Sort argument for data ordering
-     * @defaultValue `"_ID_DESC"`
-     */;
-    sort?: Maybe<SortConnectionProgramEnum>;
-  }) => Maybe<ProgramConnection>;
-  ProgramrPagination: (args?: {
-    /**
-     * Page number for displaying
-     */
-    page?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `20`
-     */;
-    perPage?: Maybe<Scalars["Int"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyProgramInput>;
-    sort?: Maybe<SortFindManyProgramInput>;
-  }) => Maybe<ProgramPagination>;
-  FlowShardById: (args: { _id: Scalars["MongoID"] }) => Maybe<FlowShard>;
-  FlowShardByIds: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsFlowShardInput>;
-  }) => Array<FlowShard>;
-  FlowShardOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneFlowShardInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneFlowShardInput>;
-  }) => Maybe<FlowShard>;
-  FlowShardMany: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyFlowShardInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyFlowShardInput>;
-  }) => Array<FlowShard>;
-  FlowShardDataLoader: (args: { _id: Scalars["MongoID"] }) => Maybe<FlowShard>;
-  FlowShardDataLoaderMany: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<FlowShard>>;
-  FlowShardByIdLean: (args: { _id: Scalars["MongoID"] }) => Maybe<FlowShard>;
-  FlowShardByIdsLean: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsFlowShardInput>;
-  }) => Array<FlowShard>;
-  FlowShardOneLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneFlowShardInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneFlowShardInput>;
-  }) => Maybe<FlowShard>;
-  FlowShardManyLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyFlowShardInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyFlowShardInput>;
-  }) => Array<FlowShard>;
-  FlowShardDataLoaderLean: (args: {
-    _id: Scalars["MongoID"];
-  }) => Maybe<FlowShard>;
-  FlowShardDataLoaderManyLean: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<FlowShard>>;
-  FlowShardCount: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterCountFlowShardInput>;
-  }) => Maybe<ScalarsEnums["Int"]>;
-  FlowShardConnection: (args?: {
-    /**
-     * Forward pagination argument for returning at most first edges
-     */
-    first?: Maybe<Scalars["Int"]>
-    /**
-     * Forward pagination argument for returning at most first edges
-     */;
-    after?: Maybe<Scalars["String"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    last?: Maybe<Scalars["Int"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    before?: Maybe<Scalars["String"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyFlowShardInput>
-    /**
-     * Sort argument for data ordering
-     * @defaultValue `"_ID_DESC"`
-     */;
-    sort?: Maybe<SortConnectionFlowShardEnum>;
-  }) => Maybe<FlowShardConnection>;
-  FlowShardrPagination: (args?: {
-    /**
-     * Page number for displaying
-     */
-    page?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `20`
-     */;
-    perPage?: Maybe<Scalars["Int"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyFlowShardInput>;
-    sort?: Maybe<SortFindManyFlowShardInput>;
-  }) => Maybe<FlowShardPagination>;
-  StackById: (args: { _id: Scalars["MongoID"] }) => Maybe<Stack>;
-  StackByIds: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsStackInput>;
-  }) => Array<Stack>;
-  StackOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneStackInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneStackInput>;
-  }) => Maybe<Stack>;
-  StackMany: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyStackInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyStackInput>;
-  }) => Array<Stack>;
-  StackDataLoader: (args: { _id: Scalars["MongoID"] }) => Maybe<Stack>;
-  StackDataLoaderMany: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<Stack>>;
-  StackByIdLean: (args: { _id: Scalars["MongoID"] }) => Maybe<Stack>;
-  StackByIdsLean: (args: {
-    _ids: Array<Scalars["MongoID"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindByIdsStackInput>;
-  }) => Array<Stack>;
-  StackOneLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindOneStackInput>;
-    skip?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindOneStackInput>;
-  }) => Maybe<Stack>;
-  StackManyLean: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterFindManyStackInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<SortFindManyStackInput>;
-  }) => Array<Stack>;
-  StackDataLoaderLean: (args: { _id: Scalars["MongoID"] }) => Maybe<Stack>;
-  StackDataLoaderManyLean: (args: {
-    _ids: Array<Scalars["MongoID"]>;
-  }) => Array<Maybe<Stack>>;
-  StackCount: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterCountStackInput>;
-  }) => Maybe<ScalarsEnums["Int"]>;
-  StackConnection: (args?: {
-    /**
-     * Forward pagination argument for returning at most first edges
-     */
-    first?: Maybe<Scalars["Int"]>
-    /**
-     * Forward pagination argument for returning at most first edges
-     */;
-    after?: Maybe<Scalars["String"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    last?: Maybe<Scalars["Int"]>
-    /**
-     * Backward pagination argument for returning at most last edges
-     */;
-    before?: Maybe<Scalars["String"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyStackInput>
-    /**
-     * Sort argument for data ordering
-     * @defaultValue `"_ID_DESC"`
-     */;
-    sort?: Maybe<SortConnectionStackEnum>;
-  }) => Maybe<StackConnection>;
-  StackrPagination: (args?: {
-    /**
-     * Page number for displaying
-     */
-    page?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `20`
-     */;
-    perPage?: Maybe<Scalars["Int"]>
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterFindManyStackInput>;
-    sort?: Maybe<SortFindManyStackInput>;
-  }) => Maybe<StackPagination>;
 }
 
 export interface Mutation {
@@ -43872,6 +39599,10 @@ export interface Mutation {
     deviceId?: Maybe<Scalars["String"]>;
     deviceName?: Maybe<Scalars["String"]>;
     mode?: Maybe<Scalars["String"]>;
+  }) => Maybe<CommandDeviceResponse>;
+  requestFlow: (args?: {
+    deviceId?: Maybe<Scalars["String"]>;
+    actionId?: Maybe<Scalars["String"]>;
   }) => Maybe<CommandDeviceResponse>;
   createHiveServices: (args: {
     input: Array<HiveServiceCreateInput>;
@@ -44453,21 +40184,21 @@ export interface Mutation {
     create?: Maybe<CommandDevicePeripheralRelationInput>;
     delete?: Maybe<CommandDevicePeripheralDeleteInput>;
   }) => UpdateCommandDevicePeripheralsMutationResponse;
-  createCommandProgramPeripheralConfigurations: (args: {
-    input: Array<CommandProgramPeripheralConfigurationCreateInput>;
-  }) => CreateCommandProgramPeripheralConfigurationsMutationResponse;
-  deleteCommandProgramPeripheralConfigurations: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-    delete?: Maybe<CommandProgramPeripheralConfigurationDeleteInput>;
+  createCommandProgramDeviceCalibrations: (args: {
+    input: Array<CommandProgramDeviceCalibrationCreateInput>;
+  }) => CreateCommandProgramDeviceCalibrationsMutationResponse;
+  deleteCommandProgramDeviceCalibrations: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
+    delete?: Maybe<CommandProgramDeviceCalibrationDeleteInput>;
   }) => DeleteInfo;
-  updateCommandProgramPeripheralConfigurations: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-    update?: Maybe<CommandProgramPeripheralConfigurationUpdateInput>;
-    connect?: Maybe<CommandProgramPeripheralConfigurationConnectInput>;
-    disconnect?: Maybe<CommandProgramPeripheralConfigurationDisconnectInput>;
-    create?: Maybe<CommandProgramPeripheralConfigurationRelationInput>;
-    delete?: Maybe<CommandProgramPeripheralConfigurationDeleteInput>;
-  }) => UpdateCommandProgramPeripheralConfigurationsMutationResponse;
+  updateCommandProgramDeviceCalibrations: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
+    update?: Maybe<CommandProgramDeviceCalibrationUpdateInput>;
+    connect?: Maybe<CommandProgramDeviceCalibrationConnectInput>;
+    disconnect?: Maybe<CommandProgramDeviceCalibrationDisconnectInput>;
+    create?: Maybe<CommandProgramDeviceCalibrationRelationInput>;
+    delete?: Maybe<CommandProgramDeviceCalibrationDeleteInput>;
+  }) => UpdateCommandProgramDeviceCalibrationsMutationResponse;
   createCommandDevicePeripheralProducts: (args: {
     input: Array<CommandDevicePeripheralProductCreateInput>;
   }) => CreateCommandDevicePeripheralProductsMutationResponse;
@@ -44528,6 +40259,21 @@ export interface Mutation {
     create?: Maybe<CommandProgramRelationInput>;
     delete?: Maybe<CommandProgramDeleteInput>;
   }) => UpdateCommandProgramsMutationResponse;
+  createCommandProgramActions: (args: {
+    input: Array<CommandProgramActionCreateInput>;
+  }) => CreateCommandProgramActionsMutationResponse;
+  deleteCommandProgramActions: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+    delete?: Maybe<CommandProgramActionDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandProgramActions: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+    update?: Maybe<CommandProgramActionUpdateInput>;
+    connect?: Maybe<CommandProgramActionConnectInput>;
+    disconnect?: Maybe<CommandProgramActionDisconnectInput>;
+    create?: Maybe<CommandProgramActionRelationInput>;
+    delete?: Maybe<CommandProgramActionDeleteInput>;
+  }) => UpdateCommandProgramActionsMutationResponse;
   createCommandProgramAlarms: (args: {
     input: Array<CommandProgramAlarmCreateInput>;
   }) => CreateCommandProgramAlarmsMutationResponse;
@@ -44553,6 +40299,21 @@ export interface Mutation {
     create?: Maybe<CommandInterlockRelationInput>;
     delete?: Maybe<CommandInterlockDeleteInput>;
   }) => UpdateCommandInterlocksMutationResponse;
+  createCommandInterlockAssertions: (args: {
+    input: Array<CommandInterlockAssertionCreateInput>;
+  }) => CreateCommandInterlockAssertionsMutationResponse;
+  deleteCommandInterlockAssertions: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+    delete?: Maybe<CommandInterlockAssertionDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandInterlockAssertions: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+    update?: Maybe<CommandInterlockAssertionUpdateInput>;
+    connect?: Maybe<CommandInterlockAssertionConnectInput>;
+    disconnect?: Maybe<CommandInterlockAssertionDisconnectInput>;
+    create?: Maybe<CommandInterlockAssertionRelationInput>;
+    delete?: Maybe<CommandInterlockAssertionDeleteInput>;
+  }) => UpdateCommandInterlockAssertionsMutationResponse;
   createCommandProgramDevicePlaceholders: (args: {
     input: Array<CommandProgramDevicePlaceholderCreateInput>;
   }) => CreateCommandProgramDevicePlaceholdersMutationResponse;
@@ -44568,6 +40329,21 @@ export interface Mutation {
     create?: Maybe<CommandProgramDevicePlaceholderRelationInput>;
     delete?: Maybe<CommandProgramDevicePlaceholderDeleteInput>;
   }) => UpdateCommandProgramDevicePlaceholdersMutationResponse;
+  createCommandDeviceSetpoints: (args: {
+    input: Array<CommandDeviceSetpointCreateInput>;
+  }) => CreateCommandDeviceSetpointsMutationResponse;
+  deleteCommandDeviceSetpoints: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    delete?: Maybe<CommandDeviceSetpointDeleteInput>;
+  }) => DeleteInfo;
+  updateCommandDeviceSetpoints: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    update?: Maybe<CommandDeviceSetpointUpdateInput>;
+    connect?: Maybe<CommandDeviceSetpointConnectInput>;
+    disconnect?: Maybe<CommandDeviceSetpointDisconnectInput>;
+    create?: Maybe<CommandDeviceSetpointRelationInput>;
+    delete?: Maybe<CommandDeviceSetpointDeleteInput>;
+  }) => UpdateCommandDeviceSetpointsMutationResponse;
   createCommandDevicePlugins: (args: {
     input: Array<CommandDevicePluginCreateInput>;
   }) => CreateCommandDevicePluginsMutationResponse;
@@ -44663,16 +40439,6 @@ export interface Mutation {
     create?: Maybe<CommandProgramDeviceRelationInput>;
     delete?: Maybe<CommandProgramDeviceDeleteInput>;
   }) => UpdateCommandProgramDevicesMutationResponse;
-  createCommandProgramDeviceConfigurations: (args: {
-    input: Array<CommandProgramDeviceConfigurationCreateInput>;
-  }) => CreateCommandProgramDeviceConfigurationsMutationResponse;
-  deleteCommandProgramDeviceConfigurations: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-  }) => DeleteInfo;
-  updateCommandProgramDeviceConfigurations: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-    update?: Maybe<CommandProgramDeviceConfigurationUpdateInput>;
-  }) => UpdateCommandProgramDeviceConfigurationsMutationResponse;
   createCommandProgramDeviceActions: (args: {
     input: Array<CommandProgramDeviceActionCreateInput>;
   }) => CreateCommandProgramDeviceActionsMutationResponse;
@@ -44918,425 +40684,6 @@ export interface Mutation {
     create?: Maybe<CommandPluginItemRelationInput>;
     delete?: Maybe<CommandPluginItemDeleteInput>;
   }) => UpdateCommandPluginItemsMutationResponse;
-  addProgramIO: (args?: {
-    program?: Maybe<Scalars["String"]>;
-    name?: Maybe<Scalars["String"]>;
-    type?: Maybe<Scalars["String"]>;
-  }) => Maybe<ProgramIo>;
-  addHMIFlow: (args?: {
-    program?: Maybe<Scalars["String"]>;
-    parent?: Maybe<Scalars["String"]>;
-    name?: Maybe<Scalars["String"]>;
-    nodes?: Maybe<Scalars["JSON"]>;
-    paths?: Maybe<Scalars["JSON"]>;
-  }) => Maybe<FlowShard>;
-  updateHMIFlow: (args?: {
-    id?: Maybe<Scalars["String"]>;
-    name?: Maybe<Scalars["String"]>;
-    nodes?: Maybe<Scalars["JSON"]>;
-    paths?: Maybe<Scalars["JSON"]>;
-  }) => Maybe<FlowShard>;
-  addProgramFlow: (args?: {
-    program?: Maybe<Scalars["String"]>;
-    parent?: Maybe<Scalars["String"]>;
-    name?: Maybe<Scalars["String"]>;
-    nodes?: Maybe<Scalars["JSON"]>;
-    paths?: Maybe<Scalars["JSON"]>;
-  }) => Maybe<FlowShard>;
-  updateProgramFlow: (args?: {
-    id?: Maybe<Scalars["String"]>;
-    name?: Maybe<Scalars["String"]>;
-    nodes?: Maybe<Scalars["JSON"]>;
-    paths?: Maybe<Scalars["JSON"]>;
-  }) => Maybe<FlowShard>;
-  removeProgramFlow: (args?: {
-    id?: Maybe<Scalars["String"]>;
-    shard?: Maybe<Scalars["String"]>;
-  }) => Maybe<Program>;
-  addStackItem: (args?: {
-    stack?: Maybe<Scalars["String"]>;
-    record?: Maybe<StackItemsInput>;
-  }) => Maybe<StackItems>;
-  /**
-   * Create one document with mongoose defaults, setters, hooks and validation
-   */
-  DeviceCreateOne: (args: {
-    record: CreateOneDeviceInput;
-  }) => Maybe<CreateOneDevicePayload>;
-  /**
-   * Creates Many documents with mongoose defaults, setters, hooks and validation
-   */
-  DeviceCreateMany: (args: {
-    records: Array<CreateManyDeviceInput>;
-  }) => Maybe<CreateManyDevicePayload>;
-  /**
-   * Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  DeviceUpdateById: (args: {
-    _id: Scalars["MongoID"];
-    record: UpdateByIdDeviceInput;
-  }) => Maybe<UpdateByIdDevicePayload>;
-  /**
-   * Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  DeviceUpdateOne: (args: {
-    record: UpdateOneDeviceInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateOneDeviceInput>;
-    sort?: Maybe<SortUpdateOneDeviceInput>;
-    skip?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateOneDevicePayload>;
-  /**
-   * Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  DeviceUpdateMany: (args: {
-    record: UpdateManyDeviceInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateManyDeviceInput>;
-    sort?: Maybe<SortUpdateManyDeviceInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateManyDevicePayload>;
-  /**
-   * Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
-   */
-  DeviceRemoveById: (args: {
-    _id: Scalars["MongoID"];
-  }) => Maybe<RemoveByIdDevicePayload>;
-  /**
-   * Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document.
-   */
-  DeviceRemoveOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterRemoveOneDeviceInput>;
-    sort?: Maybe<SortRemoveOneDeviceInput>;
-  }) => Maybe<RemoveOneDevicePayload>;
-  /**
-   * Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  DeviceRemoveMany: (args: {
-    /**
-     * Filter by fields
-     */
-    filter: FilterRemoveManyDeviceInput
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<RemoveManyDevicePayload>;
-  /**
-   * Create one document with mongoose defaults, setters, hooks and validation
-   */
-  DNSRecordCreateOne: (args: {
-    record: CreateOneDNSRecordInput;
-  }) => Maybe<CreateOneDNSRecordPayload>;
-  /**
-   * Creates Many documents with mongoose defaults, setters, hooks and validation
-   */
-  DNSRecordCreateMany: (args: {
-    records: Array<CreateManyDNSRecordInput>;
-  }) => Maybe<CreateManyDNSRecordPayload>;
-  /**
-   * Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  DNSRecordUpdateById: (args: {
-    _id: Scalars["MongoID"];
-    record: UpdateByIdDNSRecordInput;
-  }) => Maybe<UpdateByIdDNSRecordPayload>;
-  /**
-   * Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  DNSRecordUpdateOne: (args: {
-    record: UpdateOneDNSRecordInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateOneDNSRecordInput>;
-    sort?: Maybe<SortUpdateOneDNSRecordInput>;
-    skip?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateOneDNSRecordPayload>;
-  /**
-   * Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  DNSRecordUpdateMany: (args: {
-    record: UpdateManyDNSRecordInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateManyDNSRecordInput>;
-    sort?: Maybe<SortUpdateManyDNSRecordInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateManyDNSRecordPayload>;
-  /**
-   * Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
-   */
-  DNSRecordRemoveById: (args: {
-    _id: Scalars["MongoID"];
-  }) => Maybe<RemoveByIdDNSRecordPayload>;
-  /**
-   * Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document.
-   */
-  DNSRecordRemoveOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterRemoveOneDNSRecordInput>;
-    sort?: Maybe<SortRemoveOneDNSRecordInput>;
-  }) => Maybe<RemoveOneDNSRecordPayload>;
-  /**
-   * Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  DNSRecordRemoveMany: (args: {
-    /**
-     * Filter by fields
-     */
-    filter: FilterRemoveManyDNSRecordInput
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<RemoveManyDNSRecordPayload>;
-  /**
-   * Create one document with mongoose defaults, setters, hooks and validation
-   */
-  ProgramCreateOne: (args: {
-    record: CreateOneProgramInput;
-  }) => Maybe<CreateOneProgramPayload>;
-  /**
-   * Creates Many documents with mongoose defaults, setters, hooks and validation
-   */
-  ProgramCreateMany: (args: {
-    records: Array<CreateManyProgramInput>;
-  }) => Maybe<CreateManyProgramPayload>;
-  /**
-   * Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  ProgramUpdateById: (args: {
-    _id: Scalars["MongoID"];
-    record: UpdateByIdProgramInput;
-  }) => Maybe<UpdateByIdProgramPayload>;
-  /**
-   * Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  ProgramUpdateOne: (args: {
-    record: UpdateOneProgramInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateOneProgramInput>;
-    sort?: Maybe<SortUpdateOneProgramInput>;
-    skip?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateOneProgramPayload>;
-  /**
-   * Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  ProgramUpdateMany: (args: {
-    record: UpdateManyProgramInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateManyProgramInput>;
-    sort?: Maybe<SortUpdateManyProgramInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateManyProgramPayload>;
-  /**
-   * Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
-   */
-  ProgramRemoveById: (args: {
-    _id: Scalars["MongoID"];
-  }) => Maybe<RemoveByIdProgramPayload>;
-  /**
-   * Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document.
-   */
-  ProgramRemoveOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterRemoveOneProgramInput>;
-    sort?: Maybe<SortRemoveOneProgramInput>;
-  }) => Maybe<RemoveOneProgramPayload>;
-  /**
-   * Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  ProgramRemoveMany: (args: {
-    /**
-     * Filter by fields
-     */
-    filter: FilterRemoveManyProgramInput
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<RemoveManyProgramPayload>;
-  /**
-   * Create one document with mongoose defaults, setters, hooks and validation
-   */
-  FlowShardCreateOne: (args: {
-    record: CreateOneFlowShardInput;
-  }) => Maybe<CreateOneFlowShardPayload>;
-  /**
-   * Creates Many documents with mongoose defaults, setters, hooks and validation
-   */
-  FlowShardCreateMany: (args: {
-    records: Array<CreateManyFlowShardInput>;
-  }) => Maybe<CreateManyFlowShardPayload>;
-  /**
-   * Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  FlowShardUpdateById: (args: {
-    _id: Scalars["MongoID"];
-    record: UpdateByIdFlowShardInput;
-  }) => Maybe<UpdateByIdFlowShardPayload>;
-  /**
-   * Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  FlowShardUpdateOne: (args: {
-    record: UpdateOneFlowShardInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateOneFlowShardInput>;
-    sort?: Maybe<SortUpdateOneFlowShardInput>;
-    skip?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateOneFlowShardPayload>;
-  /**
-   * Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  FlowShardUpdateMany: (args: {
-    record: UpdateManyFlowShardInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateManyFlowShardInput>;
-    sort?: Maybe<SortUpdateManyFlowShardInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateManyFlowShardPayload>;
-  /**
-   * Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
-   */
-  FlowShardRemoveById: (args: {
-    _id: Scalars["MongoID"];
-  }) => Maybe<RemoveByIdFlowShardPayload>;
-  /**
-   * Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document.
-   */
-  FlowShardRemoveOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterRemoveOneFlowShardInput>;
-    sort?: Maybe<SortRemoveOneFlowShardInput>;
-  }) => Maybe<RemoveOneFlowShardPayload>;
-  /**
-   * Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  FlowShardRemoveMany: (args: {
-    /**
-     * Filter by fields
-     */
-    filter: FilterRemoveManyFlowShardInput
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<RemoveManyFlowShardPayload>;
-  /**
-   * Create one document with mongoose defaults, setters, hooks and validation
-   */
-  StackCreateOne: (args: {
-    record: CreateOneStackInput;
-  }) => Maybe<CreateOneStackPayload>;
-  /**
-   * Creates Many documents with mongoose defaults, setters, hooks and validation
-   */
-  StackCreateMany: (args: {
-    records: Array<CreateManyStackInput>;
-  }) => Maybe<CreateManyStackPayload>;
-  /**
-   * Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  StackUpdateById: (args: {
-    _id: Scalars["MongoID"];
-    record: UpdateByIdStackInput;
-  }) => Maybe<UpdateByIdStackPayload>;
-  /**
-   * Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
-   */
-  StackUpdateOne: (args: {
-    record: UpdateOneStackInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateOneStackInput>;
-    sort?: Maybe<SortUpdateOneStackInput>;
-    skip?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateOneStackPayload>;
-  /**
-   * Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  StackUpdateMany: (args: {
-    record: UpdateManyStackInput
-    /**
-     * Filter by fields
-     */;
-    filter?: Maybe<FilterUpdateManyStackInput>;
-    sort?: Maybe<SortUpdateManyStackInput>;
-    skip?: Maybe<Scalars["Int"]>
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<UpdateManyStackPayload>;
-  /**
-   * Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
-   */
-  StackRemoveById: (args: {
-    _id: Scalars["MongoID"];
-  }) => Maybe<RemoveByIdStackPayload>;
-  /**
-   * Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document.
-   */
-  StackRemoveOne: (args?: {
-    /**
-     * Filter by fields
-     */
-    filter?: Maybe<FilterRemoveOneStackInput>;
-    sort?: Maybe<SortRemoveOneStackInput>;
-  }) => Maybe<RemoveOneStackPayload>;
-  /**
-   * Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation.
-   */
-  StackRemoveMany: (args: {
-    /**
-     * Filter by fields
-     */
-    filter: FilterRemoveManyStackInput
-    /**
-     * @defaultValue `100`
-     */;
-    limit?: Maybe<Scalars["Int"]>;
-  }) => Maybe<RemoveManyStackPayload>;
 }
 
 export interface Subscription {
@@ -45410,7 +40757,6 @@ export interface TimelineProject {
 
 export interface CommandDevicePeripheralPort {
   __typename?:
-    | "CommandDeviceConfiguredDevicesRelationship"
     | "CommandDevicePeripheralConnectedDevicesRelationship"
     | "CommandDevicePeripheralMappedDevicesRelationship"
     | "CommandDevicePeripheralProductPeripheralRelationship";
@@ -45626,10 +40972,10 @@ export interface CommandDevice {
     where?: Maybe<CommandProgramWhere>;
     options?: Maybe<CommandProgramOptions>;
   }) => Maybe<CommandProgram>;
-  configuredDevices: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationWhere>;
-    options?: Maybe<CommandProgramPeripheralConfigurationOptions>;
-  }) => Maybe<Array<Maybe<CommandProgramPeripheralConfiguration>>>;
+  calibrations: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationWhere>;
+    options?: Maybe<CommandProgramDeviceCalibrationOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramDeviceCalibration>>>;
   peripherals: (args?: {
     where?: Maybe<CommandDevicePeripheralWhere>;
     options?: Maybe<CommandDevicePeripheralOptions>;
@@ -45644,12 +40990,12 @@ export interface CommandDevice {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandDeviceActiveProgramConnectionSort>>;
   }) => CommandDeviceActiveProgramConnection;
-  configuredDevicesConnection: (args?: {
-    where?: Maybe<CommandDeviceConfiguredDevicesConnectionWhere>;
+  calibrationsConnection: (args?: {
+    where?: Maybe<CommandDeviceCalibrationsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
     after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<Array<CommandDeviceConfiguredDevicesConnectionSort>>;
-  }) => CommandDeviceConfiguredDevicesConnection;
+    sort?: Maybe<Array<CommandDeviceCalibrationsConnectionSort>>;
+  }) => CommandDeviceCalibrationsConnection;
   peripheralsConnection: (args?: {
     where?: Maybe<CommandDevicePeripheralsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -45677,18 +41023,17 @@ export interface CommandDeviceActiveProgramRelationship {
   node: CommandProgram;
 }
 
-export interface CommandDeviceConfiguredDevicesConnection {
-  __typename?: "CommandDeviceConfiguredDevicesConnection";
-  edges: Array<CommandDeviceConfiguredDevicesRelationship>;
+export interface CommandDeviceCalibrationsConnection {
+  __typename?: "CommandDeviceCalibrationsConnection";
+  edges: Array<CommandDeviceCalibrationsRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface CommandDeviceConfiguredDevicesRelationship {
-  __typename?: "CommandDeviceConfiguredDevicesRelationship";
+export interface CommandDeviceCalibrationsRelationship {
+  __typename?: "CommandDeviceCalibrationsRelationship";
   cursor: ScalarsEnums["String"];
-  node: CommandProgramPeripheralConfiguration;
-  port?: Maybe<ScalarsEnums["String"]>;
+  node: CommandProgramDeviceCalibration;
 }
 
 export interface CommandDeviceOrganisationConnection {
@@ -46004,6 +41349,51 @@ export interface CommandDevicePluginRulesRelationship {
 export interface CommandDeviceResponse {
   __typename?: "CommandDeviceResponse";
   success?: Maybe<ScalarsEnums["Boolean"]>;
+}
+
+export interface CommandDeviceSetpoint {
+  __typename?: "CommandDeviceSetpoint";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  type?: Maybe<ScalarsEnums["String"]>;
+  value?: Maybe<ScalarsEnums["String"]>;
+  key: (args?: {
+    where?: Maybe<CommandProgramDeviceStateWhere>;
+    options?: Maybe<CommandProgramDeviceStateOptions>;
+  }) => Maybe<CommandProgramDeviceState>;
+  keyConnection: (args?: {
+    where?: Maybe<CommandDeviceSetpointKeyConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandDeviceSetpointKeyConnectionSort>>;
+  }) => CommandDeviceSetpointKeyConnection;
+}
+
+export interface CommandDeviceSetpointKeyConnection {
+  __typename?: "CommandDeviceSetpointKeyConnection";
+  edges: Array<CommandDeviceSetpointKeyRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandDeviceSetpointKeyRelationship {
+  __typename?: "CommandDeviceSetpointKeyRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramDeviceState;
+}
+
+export interface CommandDeviceTimeseriesData {
+  __typename?: "CommandDeviceTimeseriesData";
+  device?: Maybe<ScalarsEnums["String"]>;
+  deviceId?: Maybe<ScalarsEnums["String"]>;
+  valueKey?: Maybe<ScalarsEnums["String"]>;
+  value?: Maybe<ScalarsEnums["String"]>;
+  timestamp?: Maybe<ScalarsEnums["DateTime"]>;
+}
+
+export interface CommandDeviceTimeseriesTotal {
+  __typename?: "CommandDeviceTimeseriesTotal";
+  total?: Maybe<ScalarsEnums["Float"]>;
 }
 
 export interface CommandDeviceValue {
@@ -46363,7 +41753,6 @@ export interface CommandInterlock {
   __typename?: "CommandInterlock";
   id: ScalarsEnums["ID"];
   comparator?: Maybe<ScalarsEnums["String"]>;
-  assertion?: Maybe<ScalarsEnums["String"]>;
   inputDevice: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
     options?: Maybe<CommandProgramDevicePlaceholderOptions>;
@@ -46372,6 +41761,10 @@ export interface CommandInterlock {
     where?: Maybe<CommandProgramDeviceStateWhere>;
     options?: Maybe<CommandProgramDeviceStateOptions>;
   }) => Maybe<CommandProgramDeviceState>;
+  assertion: (args?: {
+    where?: Maybe<CommandInterlockAssertionWhere>;
+    options?: Maybe<CommandInterlockAssertionOptions>;
+  }) => Maybe<CommandInterlockAssertion>;
   action: (args?: {
     where?: Maybe<CommandProgramDeviceActionWhere>;
     options?: Maybe<CommandProgramDeviceActionOptions>;
@@ -46392,6 +41785,12 @@ export interface CommandInterlock {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandInterlockInputDeviceKeyConnectionSort>>;
   }) => CommandInterlockInputDeviceKeyConnection;
+  assertionConnection: (args?: {
+    where?: Maybe<CommandInterlockAssertionConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandInterlockAssertionConnectionSort>>;
+  }) => CommandInterlockAssertionConnection;
   actionConnection: (args?: {
     where?: Maybe<CommandInterlockActionConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -46417,6 +41816,49 @@ export interface CommandInterlockActionRelationship {
   __typename?: "CommandInterlockActionRelationship";
   cursor: ScalarsEnums["String"];
   node: CommandProgramDeviceAction;
+}
+
+export interface CommandInterlockAssertion {
+  __typename?: "CommandInterlockAssertion";
+  id: ScalarsEnums["ID"];
+  type?: Maybe<ScalarsEnums["String"]>;
+  value?: Maybe<ScalarsEnums["String"]>;
+  setpoint: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    options?: Maybe<CommandDeviceSetpointOptions>;
+  }) => Maybe<CommandDeviceSetpoint>;
+  setpointConnection: (args?: {
+    where?: Maybe<CommandInterlockAssertionSetpointConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandInterlockAssertionSetpointConnectionSort>>;
+  }) => CommandInterlockAssertionSetpointConnection;
+}
+
+export interface CommandInterlockAssertionConnection {
+  __typename?: "CommandInterlockAssertionConnection";
+  edges: Array<CommandInterlockAssertionRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandInterlockAssertionRelationship {
+  __typename?: "CommandInterlockAssertionRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandInterlockAssertion;
+}
+
+export interface CommandInterlockAssertionSetpointConnection {
+  __typename?: "CommandInterlockAssertionSetpointConnection";
+  edges: Array<CommandInterlockAssertionSetpointRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandInterlockAssertionSetpointRelationship {
+  __typename?: "CommandInterlockAssertionSetpointRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandDeviceSetpoint;
 }
 
 export interface CommandInterlockDeviceConnection {
@@ -46655,6 +42097,35 @@ export interface CommandProgram {
   }) => CommandProgramUsedOnConnection;
 }
 
+export interface CommandProgramAction {
+  __typename?: "CommandProgramAction";
+  id: ScalarsEnums["ID"];
+  name?: Maybe<ScalarsEnums["String"]>;
+  flow: (args?: {
+    where?: Maybe<CommandProgramFlowWhere>;
+    options?: Maybe<CommandProgramFlowOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramFlow>>>;
+  flowConnection: (args?: {
+    where?: Maybe<CommandProgramActionFlowConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramActionFlowConnectionSort>>;
+  }) => CommandProgramActionFlowConnection;
+}
+
+export interface CommandProgramActionFlowConnection {
+  __typename?: "CommandProgramActionFlowConnection";
+  edges: Array<CommandProgramActionFlowRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramActionFlowRelationship {
+  __typename?: "CommandProgramActionFlowRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramFlow;
+}
+
 export interface CommandProgramAlarm {
   __typename?: "CommandProgramAlarm";
   id: ScalarsEnums["ID"];
@@ -46680,10 +42151,6 @@ export interface CommandProgramDevice {
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
   type?: Maybe<ScalarsEnums["String"]>;
-  configuration: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-    options?: Maybe<CommandProgramDeviceConfigurationOptions>;
-  }) => Maybe<Array<Maybe<CommandProgramDeviceConfiguration>>>;
   usedIn: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderWhere>;
     options?: Maybe<CommandProgramDevicePlaceholderOptions>;
@@ -46696,12 +42163,6 @@ export interface CommandProgramDevice {
     where?: Maybe<CommandProgramDeviceActionWhere>;
     options?: Maybe<CommandProgramDeviceActionOptions>;
   }) => Maybe<Array<Maybe<CommandProgramDeviceAction>>>;
-  configurationConnection: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationConnectionWhere>;
-    first?: Maybe<Scalars["Int"]>;
-    after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<Array<CommandProgramDeviceConfigurationConnectionSort>>;
-  }) => CommandProgramDeviceConfigurationConnection;
   usedInConnection: (args?: {
     where?: Maybe<CommandProgramDeviceUsedInConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -46764,24 +42225,82 @@ export interface CommandProgramDeviceActionsRelationship {
   node: CommandProgramDeviceAction;
 }
 
-export interface CommandProgramDeviceConfiguration {
-  __typename?: "CommandProgramDeviceConfiguration";
-  id: ScalarsEnums["ID"];
-  key?: Maybe<ScalarsEnums["String"]>;
-  type?: Maybe<ScalarsEnums["String"]>;
+export interface CommandProgramDeviceCalibration {
+  __typename?: "CommandProgramDeviceCalibration";
+  id?: Maybe<ScalarsEnums["ID"]>;
+  min?: Maybe<ScalarsEnums["String"]>;
+  max?: Maybe<ScalarsEnums["String"]>;
+  rootDevice: (args?: {
+    where?: Maybe<CommandDeviceWhere>;
+    options?: Maybe<CommandDeviceOptions>;
+  }) => Maybe<CommandDevice>;
+  device: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
+    options?: Maybe<CommandProgramDevicePlaceholderOptions>;
+  }) => Maybe<CommandProgramDevicePlaceholder>;
+  deviceKey: (args?: {
+    where?: Maybe<CommandProgramDeviceStateWhere>;
+    options?: Maybe<CommandProgramDeviceStateOptions>;
+  }) => Maybe<CommandProgramDeviceState>;
+  rootDeviceConnection: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationRootDeviceConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<
+      Array<CommandProgramDeviceCalibrationRootDeviceConnectionSort>
+    >;
+  }) => CommandProgramDeviceCalibrationRootDeviceConnection;
+  deviceConnection: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationDeviceConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDeviceCalibrationDeviceConnectionSort>>;
+  }) => CommandProgramDeviceCalibrationDeviceConnection;
+  deviceKeyConnection: (args?: {
+    where?: Maybe<CommandProgramDeviceCalibrationDeviceKeyConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDeviceCalibrationDeviceKeyConnectionSort>>;
+  }) => CommandProgramDeviceCalibrationDeviceKeyConnection;
 }
 
-export interface CommandProgramDeviceConfigurationConnection {
-  __typename?: "CommandProgramDeviceConfigurationConnection";
-  edges: Array<CommandProgramDeviceConfigurationRelationship>;
+export interface CommandProgramDeviceCalibrationDeviceConnection {
+  __typename?: "CommandProgramDeviceCalibrationDeviceConnection";
+  edges: Array<CommandProgramDeviceCalibrationDeviceRelationship>;
   totalCount: ScalarsEnums["Int"];
   pageInfo: PageInfo;
 }
 
-export interface CommandProgramDeviceConfigurationRelationship {
-  __typename?: "CommandProgramDeviceConfigurationRelationship";
+export interface CommandProgramDeviceCalibrationDeviceKeyConnection {
+  __typename?: "CommandProgramDeviceCalibrationDeviceKeyConnection";
+  edges: Array<CommandProgramDeviceCalibrationDeviceKeyRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceKeyRelationship {
+  __typename?: "CommandProgramDeviceCalibrationDeviceKeyRelationship";
   cursor: ScalarsEnums["String"];
-  node: CommandProgramDeviceConfiguration;
+  node: CommandProgramDeviceState;
+}
+
+export interface CommandProgramDeviceCalibrationDeviceRelationship {
+  __typename?: "CommandProgramDeviceCalibrationDeviceRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramDevicePlaceholder;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceConnection {
+  __typename?: "CommandProgramDeviceCalibrationRootDeviceConnection";
+  edges: Array<CommandProgramDeviceCalibrationRootDeviceRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDeviceCalibrationRootDeviceRelationship {
+  __typename?: "CommandProgramDeviceCalibrationRootDeviceRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandDevice;
 }
 
 export interface CommandProgramDevicePlaceholder {
@@ -46797,6 +42316,10 @@ export interface CommandProgramDevicePlaceholder {
     where?: Maybe<CommandInterlockWhere>;
     options?: Maybe<CommandInterlockOptions>;
   }) => Maybe<Array<Maybe<CommandInterlock>>>;
+  setpoints: (args?: {
+    where?: Maybe<CommandDeviceSetpointWhere>;
+    options?: Maybe<CommandDeviceSetpointOptions>;
+  }) => Maybe<Array<Maybe<CommandDeviceSetpoint>>>;
   plugins: (args?: {
     where?: Maybe<CommandDevicePluginWhere>;
     options?: Maybe<CommandDevicePluginOptions>;
@@ -46815,6 +42338,12 @@ export interface CommandProgramDevicePlaceholder {
       Array<CommandProgramDevicePlaceholderInterlocksConnectionSort>
     >;
   }) => CommandProgramDevicePlaceholderInterlocksConnection;
+  setpointsConnection: (args?: {
+    where?: Maybe<CommandProgramDevicePlaceholderSetpointsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramDevicePlaceholderSetpointsConnectionSort>>;
+  }) => CommandProgramDevicePlaceholderSetpointsConnection;
   pluginsConnection: (args?: {
     where?: Maybe<CommandProgramDevicePlaceholderPluginsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -46847,6 +42376,19 @@ export interface CommandProgramDevicePlaceholderPluginsRelationship {
   __typename?: "CommandProgramDevicePlaceholderPluginsRelationship";
   cursor: ScalarsEnums["String"];
   node: CommandDevicePlugin;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsConnection {
+  __typename?: "CommandProgramDevicePlaceholderSetpointsConnection";
+  edges: Array<CommandProgramDevicePlaceholderSetpointsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramDevicePlaceholderSetpointsRelationship {
+  __typename?: "CommandProgramDevicePlaceholderSetpointsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandDeviceSetpoint;
 }
 
 export interface CommandProgramDevicePlaceholderTypeConnection {
@@ -47222,6 +42764,10 @@ export interface CommandProgramHMI {
   __typename?: "CommandProgramHMI";
   id: ScalarsEnums["ID"];
   name?: Maybe<ScalarsEnums["String"]>;
+  actions: (args?: {
+    where?: Maybe<CommandProgramActionWhere>;
+    options?: Maybe<CommandProgramActionOptions>;
+  }) => Maybe<Array<Maybe<CommandProgramAction>>>;
   paths: (args?: {
     where?: Maybe<CommandHMIPathWhere>;
     options?: Maybe<CommandHMIPathOptions>;
@@ -47238,6 +42784,12 @@ export interface CommandProgramHMI {
     where?: Maybe<CommandProgramWhere>;
     options?: Maybe<CommandProgramOptions>;
   }) => Maybe<Array<Maybe<CommandProgram>>>;
+  actionsConnection: (args?: {
+    where?: Maybe<CommandProgramHMIActionsConnectionWhere>;
+    first?: Maybe<Scalars["Int"]>;
+    after?: Maybe<Scalars["String"]>;
+    sort?: Maybe<Array<CommandProgramHMIActionsConnectionSort>>;
+  }) => CommandProgramHMIActionsConnection;
   pathsConnection: (args?: {
     where?: Maybe<CommandProgramHMIPathsConnectionWhere>;
     first?: Maybe<Scalars["Int"]>;
@@ -47262,6 +42814,19 @@ export interface CommandProgramHMI {
     after?: Maybe<Scalars["String"]>;
     sort?: Maybe<Array<CommandProgramHMIProgramsConnectionSort>>;
   }) => CommandProgramHMIProgramsConnection;
+}
+
+export interface CommandProgramHMIActionsConnection {
+  __typename?: "CommandProgramHMIActionsConnection";
+  edges: Array<CommandProgramHMIActionsRelationship>;
+  totalCount: ScalarsEnums["Int"];
+  pageInfo: PageInfo;
+}
+
+export interface CommandProgramHMIActionsRelationship {
+  __typename?: "CommandProgramHMIActionsRelationship";
+  cursor: ScalarsEnums["String"];
+  node: CommandProgramAction;
 }
 
 export interface CommandProgramHmiConnection {
@@ -47585,62 +43150,6 @@ export interface CommandProgramOrganisationRelationship {
   node: HiveOrganisation;
 }
 
-export interface CommandProgramPeripheralConfiguration {
-  __typename?: "CommandProgramPeripheralConfiguration";
-  id?: Maybe<ScalarsEnums["ID"]>;
-  value?: Maybe<ScalarsEnums["String"]>;
-  device: (args?: {
-    where?: Maybe<CommandProgramDevicePlaceholderWhere>;
-    options?: Maybe<CommandProgramDevicePlaceholderOptions>;
-  }) => Maybe<CommandProgramDevicePlaceholder>;
-  conf: (args?: {
-    where?: Maybe<CommandProgramDeviceConfigurationWhere>;
-    options?: Maybe<CommandProgramDeviceConfigurationOptions>;
-  }) => Maybe<CommandProgramDeviceConfiguration>;
-  deviceConnection: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationDeviceConnectionWhere>;
-    first?: Maybe<Scalars["Int"]>;
-    after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<
-      Array<CommandProgramPeripheralConfigurationDeviceConnectionSort>
-    >;
-  }) => CommandProgramPeripheralConfigurationDeviceConnection;
-  confConnection: (args?: {
-    where?: Maybe<CommandProgramPeripheralConfigurationConfConnectionWhere>;
-    first?: Maybe<Scalars["Int"]>;
-    after?: Maybe<Scalars["String"]>;
-    sort?: Maybe<
-      Array<CommandProgramPeripheralConfigurationConfConnectionSort>
-    >;
-  }) => CommandProgramPeripheralConfigurationConfConnection;
-}
-
-export interface CommandProgramPeripheralConfigurationConfConnection {
-  __typename?: "CommandProgramPeripheralConfigurationConfConnection";
-  edges: Array<CommandProgramPeripheralConfigurationConfRelationship>;
-  totalCount: ScalarsEnums["Int"];
-  pageInfo: PageInfo;
-}
-
-export interface CommandProgramPeripheralConfigurationConfRelationship {
-  __typename?: "CommandProgramPeripheralConfigurationConfRelationship";
-  cursor: ScalarsEnums["String"];
-  node: CommandProgramDeviceConfiguration;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceConnection {
-  __typename?: "CommandProgramPeripheralConfigurationDeviceConnection";
-  edges: Array<CommandProgramPeripheralConfigurationDeviceRelationship>;
-  totalCount: ScalarsEnums["Int"];
-  pageInfo: PageInfo;
-}
-
-export interface CommandProgramPeripheralConfigurationDeviceRelationship {
-  __typename?: "CommandProgramPeripheralConfigurationDeviceRelationship";
-  cursor: ScalarsEnums["String"];
-  node: CommandProgramDevicePlaceholder;
-}
-
 export interface CommandProgramProgramConnection {
   __typename?: "CommandProgramProgramConnection";
   edges: Array<CommandProgramProgramRelationship>;
@@ -47721,6 +43230,12 @@ export interface CreateCommandDeviceResponsesMutationResponse {
   commandDeviceResponses: Array<CommandDeviceResponse>;
 }
 
+export interface CreateCommandDeviceSetpointsMutationResponse {
+  __typename?: "CreateCommandDeviceSetpointsMutationResponse";
+  info: CreateInfo;
+  commandDeviceSetpoints: Array<CommandDeviceSetpoint>;
+}
+
 export interface CreateCommandDevicesMutationResponse {
   __typename?: "CreateCommandDevicesMutationResponse";
   info: CreateInfo;
@@ -47769,6 +43284,12 @@ export interface CreateCommandHMIPortsMutationResponse {
   commandHmiPorts: Array<CommandHMIPort>;
 }
 
+export interface CreateCommandInterlockAssertionsMutationResponse {
+  __typename?: "CreateCommandInterlockAssertionsMutationResponse";
+  info: CreateInfo;
+  commandInterlockAssertions: Array<CommandInterlockAssertion>;
+}
+
 export interface CreateCommandInterlocksMutationResponse {
   __typename?: "CreateCommandInterlocksMutationResponse";
   info: CreateInfo;
@@ -47799,6 +43320,12 @@ export interface CreateCommandPluginsMutationResponse {
   commandPlugins: Array<CommandPlugin>;
 }
 
+export interface CreateCommandProgramActionsMutationResponse {
+  __typename?: "CreateCommandProgramActionsMutationResponse";
+  info: CreateInfo;
+  commandProgramActions: Array<CommandProgramAction>;
+}
+
 export interface CreateCommandProgramAlarmsMutationResponse {
   __typename?: "CreateCommandProgramAlarmsMutationResponse";
   info: CreateInfo;
@@ -47811,10 +43338,10 @@ export interface CreateCommandProgramDeviceActionsMutationResponse {
   commandProgramDeviceActions: Array<CommandProgramDeviceAction>;
 }
 
-export interface CreateCommandProgramDeviceConfigurationsMutationResponse {
-  __typename?: "CreateCommandProgramDeviceConfigurationsMutationResponse";
+export interface CreateCommandProgramDeviceCalibrationsMutationResponse {
+  __typename?: "CreateCommandProgramDeviceCalibrationsMutationResponse";
   info: CreateInfo;
-  commandProgramDeviceConfigurations: Array<CommandProgramDeviceConfiguration>;
+  commandProgramDeviceCalibrations: Array<CommandProgramDeviceCalibration>;
 }
 
 export interface CreateCommandProgramDevicePlaceholdersMutationResponse {
@@ -47887,12 +43414,6 @@ export interface CreateCommandProgramNodesMutationResponse {
   __typename?: "CreateCommandProgramNodesMutationResponse";
   info: CreateInfo;
   commandProgramNodes: Array<CommandProgramNode>;
-}
-
-export interface CreateCommandProgramPeripheralConfigurationsMutationResponse {
-  __typename?: "CreateCommandProgramPeripheralConfigurationsMutationResponse";
-  info: CreateInfo;
-  commandProgramPeripheralConfigurations: Array<CommandProgramPeripheralConfiguration>;
 }
 
 export interface CreateCommandProgramsMutationResponse {
@@ -49600,25 +45121,13 @@ export interface HiveUserRolesRelationship {
 }
 
 /**
- * Information about pagination in a connection.
+ * Pagination information (Relay)
  */
 export interface PageInfo {
   __typename?: "PageInfo";
-  /**
-   * When paginating forwards, are there more items?
-   */
   hasNextPage: ScalarsEnums["Boolean"];
-  /**
-   * When paginating backwards, are there more items?
-   */
   hasPreviousPage: ScalarsEnums["Boolean"];
-  /**
-   * When paginating backwards, the cursor to continue.
-   */
   startCursor?: Maybe<ScalarsEnums["String"]>;
-  /**
-   * When paginating forwards, the cursor to continue.
-   */
   endCursor?: Maybe<ScalarsEnums["String"]>;
 }
 
@@ -50252,6 +45761,12 @@ export interface UpdateCommandDeviceResponsesMutationResponse {
   commandDeviceResponses: Array<CommandDeviceResponse>;
 }
 
+export interface UpdateCommandDeviceSetpointsMutationResponse {
+  __typename?: "UpdateCommandDeviceSetpointsMutationResponse";
+  info: UpdateInfo;
+  commandDeviceSetpoints: Array<CommandDeviceSetpoint>;
+}
+
 export interface UpdateCommandDevicesMutationResponse {
   __typename?: "UpdateCommandDevicesMutationResponse";
   info: UpdateInfo;
@@ -50300,6 +45815,12 @@ export interface UpdateCommandHMIPortsMutationResponse {
   commandHmiPorts: Array<CommandHMIPort>;
 }
 
+export interface UpdateCommandInterlockAssertionsMutationResponse {
+  __typename?: "UpdateCommandInterlockAssertionsMutationResponse";
+  info: UpdateInfo;
+  commandInterlockAssertions: Array<CommandInterlockAssertion>;
+}
+
 export interface UpdateCommandInterlocksMutationResponse {
   __typename?: "UpdateCommandInterlocksMutationResponse";
   info: UpdateInfo;
@@ -50330,6 +45851,12 @@ export interface UpdateCommandPluginsMutationResponse {
   commandPlugins: Array<CommandPlugin>;
 }
 
+export interface UpdateCommandProgramActionsMutationResponse {
+  __typename?: "UpdateCommandProgramActionsMutationResponse";
+  info: UpdateInfo;
+  commandProgramActions: Array<CommandProgramAction>;
+}
+
 export interface UpdateCommandProgramAlarmsMutationResponse {
   __typename?: "UpdateCommandProgramAlarmsMutationResponse";
   info: UpdateInfo;
@@ -50342,10 +45869,10 @@ export interface UpdateCommandProgramDeviceActionsMutationResponse {
   commandProgramDeviceActions: Array<CommandProgramDeviceAction>;
 }
 
-export interface UpdateCommandProgramDeviceConfigurationsMutationResponse {
-  __typename?: "UpdateCommandProgramDeviceConfigurationsMutationResponse";
+export interface UpdateCommandProgramDeviceCalibrationsMutationResponse {
+  __typename?: "UpdateCommandProgramDeviceCalibrationsMutationResponse";
   info: UpdateInfo;
-  commandProgramDeviceConfigurations: Array<CommandProgramDeviceConfiguration>;
+  commandProgramDeviceCalibrations: Array<CommandProgramDeviceCalibration>;
 }
 
 export interface UpdateCommandProgramDevicePlaceholdersMutationResponse {
@@ -50418,12 +45945,6 @@ export interface UpdateCommandProgramNodesMutationResponse {
   __typename?: "UpdateCommandProgramNodesMutationResponse";
   info: UpdateInfo;
   commandProgramNodes: Array<CommandProgramNode>;
-}
-
-export interface UpdateCommandProgramPeripheralConfigurationsMutationResponse {
-  __typename?: "UpdateCommandProgramPeripheralConfigurationsMutationResponse";
-  info: UpdateInfo;
-  commandProgramPeripheralConfigurations: Array<CommandProgramPeripheralConfiguration>;
 }
 
 export interface UpdateCommandProgramsMutationResponse {
@@ -50665,1086 +46186,6 @@ export interface WorkInProgress {
   end?: Maybe<ScalarsEnums["DateTime"]>;
 }
 
-export interface ValidationError {
-  __typename?: "ValidationError";
-  /**
-   * Combined error message from all validators
-   */
-  message?: Maybe<ScalarsEnums["String"]>;
-  /**
-   * List of validator errors
-   */
-  errors?: Maybe<Array<ValidatorError>>;
-}
-
-export interface ErrorInterface {
-  __typename?: "ValidationError" | "MongoError" | "RuntimeError";
-  /**
-   * Generic error message
-   */
-  message?: Maybe<ScalarsEnums["String"]>;
-  $on: $ErrorInterface;
-}
-
-export interface ValidatorError {
-  __typename?: "ValidatorError";
-  /**
-   * Validation error message
-   */
-  message?: Maybe<ScalarsEnums["String"]>;
-  /**
-   * Source of the validation error from the model path
-   */
-  path?: Maybe<ScalarsEnums["String"]>;
-  /**
-   * Field value which occurs the validation error
-   */
-  value?: Maybe<ScalarsEnums["JSON"]>;
-  /**
-   * Input record idx in array which occurs the validation error. This `idx` is useful for createMany operation. For singular operations it always be 0. For *Many operations `idx` represents record index in array received from user.
-   */
-  idx: ScalarsEnums["Int"];
-}
-
-export interface MongoError {
-  __typename?: "MongoError";
-  /**
-   * MongoDB error message
-   */
-  message?: Maybe<ScalarsEnums["String"]>;
-  /**
-   * MongoDB error code
-   */
-  code?: Maybe<ScalarsEnums["Int"]>;
-}
-
-export interface RuntimeError {
-  __typename?: "RuntimeError";
-  /**
-   * Runtime error message
-   */
-  message?: Maybe<ScalarsEnums["String"]>;
-}
-
-export interface Program {
-  __typename?: "Program";
-  name?: Maybe<ScalarsEnums["String"]>;
-  plugins?: Maybe<Array<Maybe<ScalarsEnums["JSON"]>>>;
-  hmi?: Maybe<Array<Maybe<ScalarsEnums["JSON"]>>>;
-  program?: Maybe<Array<Maybe<ScalarsEnums["JSON"]>>>;
-  io?: Maybe<Array<Maybe<ProgramIo>>>;
-  _id: ScalarsEnums["MongoID"];
-}
-
-export interface ProgramIo {
-  __typename?: "ProgramIo";
-  name?: Maybe<ScalarsEnums["String"]>;
-  type?: Maybe<ScalarsEnums["String"]>;
-  _id?: Maybe<ScalarsEnums["MongoID"]>;
-}
-
-export interface Device {
-  __typename?: "Device";
-  name?: Maybe<ScalarsEnums["String"]>;
-  connected?: Maybe<ScalarsEnums["Boolean"]>;
-  lastSeen?: Maybe<ScalarsEnums["Date"]>;
-  network_name?: Maybe<ScalarsEnums["String"]>;
-  did?: Maybe<ScalarsEnums["String"]>;
-  program?: Maybe<ScalarsEnums["MongoID"]>;
-  location?: Maybe<ScalarsEnums["String"]>;
-  _id: ScalarsEnums["MongoID"];
-}
-
-/**
- * A connection to a list of items.
- */
-export interface DeviceConnection {
-  __typename?: "DeviceConnection";
-  /**
-   * Total object count.
-   */
-  count: ScalarsEnums["Int"];
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PageInfo;
-  /**
-   * Information to aid in pagination.
-   */
-  edges: Array<DeviceEdge>;
-}
-
-/**
- * An edge in a connection.
- */
-export interface DeviceEdge {
-  __typename?: "DeviceEdge";
-  /**
-   * The item at the end of the edge
-   */
-  node: Device;
-  /**
-   * A cursor for use in pagination
-   */
-  cursor: ScalarsEnums["String"];
-}
-
-/**
- * List of items with pagination.
- */
-export interface DevicePagination {
-  __typename?: "DevicePagination";
-  /**
-   * Total object count.
-   */
-  count?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Array of objects.
-   */
-  items?: Maybe<Array<Device>>;
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PaginationInfo;
-}
-
-export interface PaginationInfo {
-  __typename?: "PaginationInfo";
-  currentPage: ScalarsEnums["Int"];
-  perPage: ScalarsEnums["Int"];
-  pageCount?: Maybe<ScalarsEnums["Int"]>;
-  itemCount?: Maybe<ScalarsEnums["Int"]>;
-  hasNextPage?: Maybe<ScalarsEnums["Boolean"]>;
-  hasPreviousPage?: Maybe<ScalarsEnums["Boolean"]>;
-}
-
-export interface DNSRecord {
-  __typename?: "DNSRecord";
-  subdomain?: Maybe<ScalarsEnums["String"]>;
-  domain?: Maybe<ScalarsEnums["String"]>;
-  address?: Maybe<ScalarsEnums["String"]>;
-  _id: ScalarsEnums["MongoID"];
-}
-
-/**
- * A connection to a list of items.
- */
-export interface DNSRecordConnection {
-  __typename?: "DNSRecordConnection";
-  /**
-   * Total object count.
-   */
-  count: ScalarsEnums["Int"];
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PageInfo;
-  /**
-   * Information to aid in pagination.
-   */
-  edges: Array<DNSRecordEdge>;
-}
-
-/**
- * An edge in a connection.
- */
-export interface DNSRecordEdge {
-  __typename?: "DNSRecordEdge";
-  /**
-   * The item at the end of the edge
-   */
-  node: DNSRecord;
-  /**
-   * A cursor for use in pagination
-   */
-  cursor: ScalarsEnums["String"];
-}
-
-/**
- * List of items with pagination.
- */
-export interface DNSRecordPagination {
-  __typename?: "DNSRecordPagination";
-  /**
-   * Total object count.
-   */
-  count?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Array of objects.
-   */
-  items?: Maybe<Array<DNSRecord>>;
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PaginationInfo;
-}
-
-/**
- * A connection to a list of items.
- */
-export interface ProgramConnection {
-  __typename?: "ProgramConnection";
-  /**
-   * Total object count.
-   */
-  count: ScalarsEnums["Int"];
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PageInfo;
-  /**
-   * Information to aid in pagination.
-   */
-  edges: Array<ProgramEdge>;
-}
-
-/**
- * An edge in a connection.
- */
-export interface ProgramEdge {
-  __typename?: "ProgramEdge";
-  /**
-   * The item at the end of the edge
-   */
-  node: Program;
-  /**
-   * A cursor for use in pagination
-   */
-  cursor: ScalarsEnums["String"];
-}
-
-/**
- * List of items with pagination.
- */
-export interface ProgramPagination {
-  __typename?: "ProgramPagination";
-  /**
-   * Total object count.
-   */
-  count?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Array of objects.
-   */
-  items?: Maybe<Array<Program>>;
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PaginationInfo;
-}
-
-export interface FlowShard {
-  __typename?: "FlowShard";
-  name?: Maybe<ScalarsEnums["String"]>;
-  parent?: Maybe<ScalarsEnums["MongoID"]>;
-  program?: Maybe<ScalarsEnums["MongoID"]>;
-  nodes?: Maybe<Array<Maybe<FlowShardNodes>>>;
-  paths?: Maybe<Array<Maybe<FlowShardPaths>>>;
-  items?: Maybe<Array<Maybe<ScalarsEnums["MongoID"]>>>;
-  _id: ScalarsEnums["MongoID"];
-}
-
-export interface FlowShardNodes {
-  __typename?: "FlowShardNodes";
-  type?: Maybe<ScalarsEnums["String"]>;
-  extras?: Maybe<ScalarsEnums["JSON"]>;
-  ports?: Maybe<ScalarsEnums["JSON"]>;
-  x?: Maybe<ScalarsEnums["Float"]>;
-  y?: Maybe<ScalarsEnums["Float"]>;
-  _id?: Maybe<ScalarsEnums["MongoID"]>;
-}
-
-export interface FlowShardPaths {
-  __typename?: "FlowShardPaths";
-  type?: Maybe<ScalarsEnums["String"]>;
-  source?: Maybe<ScalarsEnums["String"]>;
-  sourceHandle?: Maybe<ScalarsEnums["String"]>;
-  target?: Maybe<ScalarsEnums["String"]>;
-  targetHandle?: Maybe<ScalarsEnums["String"]>;
-  points?: Maybe<Array<Maybe<FlowShardPathsPoints>>>;
-  _id?: Maybe<ScalarsEnums["MongoID"]>;
-}
-
-export interface FlowShardPathsPoints {
-  __typename?: "FlowShardPathsPoints";
-  x?: Maybe<ScalarsEnums["Float"]>;
-  y?: Maybe<ScalarsEnums["Float"]>;
-  _id?: Maybe<ScalarsEnums["MongoID"]>;
-}
-
-/**
- * A connection to a list of items.
- */
-export interface FlowShardConnection {
-  __typename?: "FlowShardConnection";
-  /**
-   * Total object count.
-   */
-  count: ScalarsEnums["Int"];
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PageInfo;
-  /**
-   * Information to aid in pagination.
-   */
-  edges: Array<FlowShardEdge>;
-}
-
-/**
- * An edge in a connection.
- */
-export interface FlowShardEdge {
-  __typename?: "FlowShardEdge";
-  /**
-   * The item at the end of the edge
-   */
-  node: FlowShard;
-  /**
-   * A cursor for use in pagination
-   */
-  cursor: ScalarsEnums["String"];
-}
-
-/**
- * List of items with pagination.
- */
-export interface FlowShardPagination {
-  __typename?: "FlowShardPagination";
-  /**
-   * Total object count.
-   */
-  count?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Array of objects.
-   */
-  items?: Maybe<Array<FlowShard>>;
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PaginationInfo;
-}
-
-export interface Stack {
-  __typename?: "Stack";
-  name?: Maybe<ScalarsEnums["String"]>;
-  items?: Maybe<Array<Maybe<StackItems>>>;
-  program?: Maybe<ScalarsEnums["String"]>;
-  location?: Maybe<ScalarsEnums["String"]>;
-  _id: ScalarsEnums["MongoID"];
-}
-
-export interface StackItems {
-  __typename?: "StackItems";
-  key?: Maybe<ScalarsEnums["String"]>;
-  name?: Maybe<ScalarsEnums["String"]>;
-  type?: Maybe<ScalarsEnums["String"]>;
-  dimensions?: Maybe<StackItemsDimensions>;
-  inputs?: Maybe<Array<Maybe<StackItemsInputs>>>;
-  outputs?: Maybe<Array<Maybe<StackItemsInputs>>>;
-  actions?: Maybe<ScalarsEnums["String"]>;
-  ui?: Maybe<ScalarsEnums["String"]>;
-  ports?: Maybe<Array<Maybe<StackItemsPorts>>>;
-  _id?: Maybe<ScalarsEnums["MongoID"]>;
-}
-
-export interface StackItemsDimensions {
-  __typename?: "StackItemsDimensions";
-  width?: Maybe<ScalarsEnums["Float"]>;
-  height?: Maybe<ScalarsEnums["Float"]>;
-  _id?: Maybe<ScalarsEnums["MongoID"]>;
-}
-
-export interface StackItemsInputs {
-  __typename?: "StackItemsInputs";
-  name?: Maybe<ScalarsEnums["String"]>;
-  type?: Maybe<ScalarsEnums["String"]>;
-  typeData?: Maybe<ScalarsEnums["JSON"]>;
-  _id?: Maybe<ScalarsEnums["MongoID"]>;
-}
-
-export interface StackItemsPorts {
-  __typename?: "StackItemsPorts";
-  name?: Maybe<ScalarsEnums["String"]>;
-  x?: Maybe<ScalarsEnums["Float"]>;
-  y?: Maybe<ScalarsEnums["Float"]>;
-  rotation?: Maybe<ScalarsEnums["Float"]>;
-  type?: Maybe<ScalarsEnums["String"]>;
-  _id?: Maybe<ScalarsEnums["MongoID"]>;
-}
-
-/**
- * A connection to a list of items.
- */
-export interface StackConnection {
-  __typename?: "StackConnection";
-  /**
-   * Total object count.
-   */
-  count: ScalarsEnums["Int"];
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PageInfo;
-  /**
-   * Information to aid in pagination.
-   */
-  edges: Array<StackEdge>;
-}
-
-/**
- * An edge in a connection.
- */
-export interface StackEdge {
-  __typename?: "StackEdge";
-  /**
-   * The item at the end of the edge
-   */
-  node: Stack;
-  /**
-   * A cursor for use in pagination
-   */
-  cursor: ScalarsEnums["String"];
-}
-
-/**
- * List of items with pagination.
- */
-export interface StackPagination {
-  __typename?: "StackPagination";
-  /**
-   * Total object count.
-   */
-  count?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Array of objects.
-   */
-  items?: Maybe<Array<Stack>>;
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: PaginationInfo;
-}
-
-export interface CreateOneDevicePayload {
-  __typename?: "CreateOneDevicePayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Created document
-   */
-  record?: Maybe<Device>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateManyDevicePayload {
-  __typename?: "CreateManyDevicePayload";
-  /**
-   * Documents IDs
-   */
-  recordIds: Array<ScalarsEnums["MongoID"]>;
-  /**
-   * Created documents
-   */
-  records?: Maybe<Array<Device>>;
-  /**
-   * Number of created documents
-   */
-  createdCount: ScalarsEnums["Int"];
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateByIdDevicePayload {
-  __typename?: "UpdateByIdDevicePayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<Device>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateOneDevicePayload {
-  __typename?: "UpdateOneDevicePayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<Device>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateManyDevicePayload {
-  __typename?: "UpdateManyDevicePayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveByIdDevicePayload {
-  __typename?: "RemoveByIdDevicePayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<Device>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveOneDevicePayload {
-  __typename?: "RemoveOneDevicePayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<Device>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveManyDevicePayload {
-  __typename?: "RemoveManyDevicePayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateOneDNSRecordPayload {
-  __typename?: "CreateOneDNSRecordPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Created document
-   */
-  record?: Maybe<DNSRecord>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateManyDNSRecordPayload {
-  __typename?: "CreateManyDNSRecordPayload";
-  /**
-   * Documents IDs
-   */
-  recordIds: Array<ScalarsEnums["MongoID"]>;
-  /**
-   * Created documents
-   */
-  records?: Maybe<Array<DNSRecord>>;
-  /**
-   * Number of created documents
-   */
-  createdCount: ScalarsEnums["Int"];
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateByIdDNSRecordPayload {
-  __typename?: "UpdateByIdDNSRecordPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<DNSRecord>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateOneDNSRecordPayload {
-  __typename?: "UpdateOneDNSRecordPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<DNSRecord>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateManyDNSRecordPayload {
-  __typename?: "UpdateManyDNSRecordPayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveByIdDNSRecordPayload {
-  __typename?: "RemoveByIdDNSRecordPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<DNSRecord>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveOneDNSRecordPayload {
-  __typename?: "RemoveOneDNSRecordPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<DNSRecord>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveManyDNSRecordPayload {
-  __typename?: "RemoveManyDNSRecordPayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateOneProgramPayload {
-  __typename?: "CreateOneProgramPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Created document
-   */
-  record?: Maybe<Program>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateManyProgramPayload {
-  __typename?: "CreateManyProgramPayload";
-  /**
-   * Documents IDs
-   */
-  recordIds: Array<ScalarsEnums["MongoID"]>;
-  /**
-   * Created documents
-   */
-  records?: Maybe<Array<Program>>;
-  /**
-   * Number of created documents
-   */
-  createdCount: ScalarsEnums["Int"];
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateByIdProgramPayload {
-  __typename?: "UpdateByIdProgramPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<Program>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateOneProgramPayload {
-  __typename?: "UpdateOneProgramPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<Program>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateManyProgramPayload {
-  __typename?: "UpdateManyProgramPayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveByIdProgramPayload {
-  __typename?: "RemoveByIdProgramPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<Program>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveOneProgramPayload {
-  __typename?: "RemoveOneProgramPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<Program>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveManyProgramPayload {
-  __typename?: "RemoveManyProgramPayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateOneFlowShardPayload {
-  __typename?: "CreateOneFlowShardPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Created document
-   */
-  record?: Maybe<FlowShard>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateManyFlowShardPayload {
-  __typename?: "CreateManyFlowShardPayload";
-  /**
-   * Documents IDs
-   */
-  recordIds: Array<ScalarsEnums["MongoID"]>;
-  /**
-   * Created documents
-   */
-  records?: Maybe<Array<FlowShard>>;
-  /**
-   * Number of created documents
-   */
-  createdCount: ScalarsEnums["Int"];
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateByIdFlowShardPayload {
-  __typename?: "UpdateByIdFlowShardPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<FlowShard>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateOneFlowShardPayload {
-  __typename?: "UpdateOneFlowShardPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<FlowShard>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateManyFlowShardPayload {
-  __typename?: "UpdateManyFlowShardPayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveByIdFlowShardPayload {
-  __typename?: "RemoveByIdFlowShardPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<FlowShard>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveOneFlowShardPayload {
-  __typename?: "RemoveOneFlowShardPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<FlowShard>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveManyFlowShardPayload {
-  __typename?: "RemoveManyFlowShardPayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateOneStackPayload {
-  __typename?: "CreateOneStackPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Created document
-   */
-  record?: Maybe<Stack>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface CreateManyStackPayload {
-  __typename?: "CreateManyStackPayload";
-  /**
-   * Documents IDs
-   */
-  recordIds: Array<ScalarsEnums["MongoID"]>;
-  /**
-   * Created documents
-   */
-  records?: Maybe<Array<Stack>>;
-  /**
-   * Number of created documents
-   */
-  createdCount: ScalarsEnums["Int"];
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateByIdStackPayload {
-  __typename?: "UpdateByIdStackPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<Stack>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateOneStackPayload {
-  __typename?: "UpdateOneStackPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Updated document
-   */
-  record?: Maybe<Stack>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface UpdateManyStackPayload {
-  __typename?: "UpdateManyStackPayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveByIdStackPayload {
-  __typename?: "RemoveByIdStackPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<Stack>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveOneStackPayload {
-  __typename?: "RemoveOneStackPayload";
-  /**
-   * Document ID
-   */
-  recordId?: Maybe<ScalarsEnums["MongoID"]>;
-  /**
-   * Removed document
-   */
-  record?: Maybe<Stack>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
-export interface RemoveManyStackPayload {
-  __typename?: "RemoveManyStackPayload";
-  /**
-   * Affected documents number
-   */
-  numAffected?: Maybe<ScalarsEnums["Int"]>;
-  /**
-   * Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
-   */
-  error?: Maybe<ErrorInterface>;
-}
-
 export interface SchemaObjectTypes {
   Query: Query;
   Mutation: Mutation;
@@ -51773,8 +46214,8 @@ export interface SchemaObjectTypes {
   CommandDevice: CommandDevice;
   CommandDeviceActiveProgramConnection: CommandDeviceActiveProgramConnection;
   CommandDeviceActiveProgramRelationship: CommandDeviceActiveProgramRelationship;
-  CommandDeviceConfiguredDevicesConnection: CommandDeviceConfiguredDevicesConnection;
-  CommandDeviceConfiguredDevicesRelationship: CommandDeviceConfiguredDevicesRelationship;
+  CommandDeviceCalibrationsConnection: CommandDeviceCalibrationsConnection;
+  CommandDeviceCalibrationsRelationship: CommandDeviceCalibrationsRelationship;
   CommandDeviceOrganisationConnection: CommandDeviceOrganisationConnection;
   CommandDeviceOrganisationRelationship: CommandDeviceOrganisationRelationship;
   CommandDevicePeripheral: CommandDevicePeripheral;
@@ -51806,6 +46247,11 @@ export interface SchemaObjectTypes {
   CommandDevicePluginRulesConnection: CommandDevicePluginRulesConnection;
   CommandDevicePluginRulesRelationship: CommandDevicePluginRulesRelationship;
   CommandDeviceResponse: CommandDeviceResponse;
+  CommandDeviceSetpoint: CommandDeviceSetpoint;
+  CommandDeviceSetpointKeyConnection: CommandDeviceSetpointKeyConnection;
+  CommandDeviceSetpointKeyRelationship: CommandDeviceSetpointKeyRelationship;
+  CommandDeviceTimeseriesData: CommandDeviceTimeseriesData;
+  CommandDeviceTimeseriesTotal: CommandDeviceTimeseriesTotal;
   CommandDeviceValue: CommandDeviceValue;
   CommandHMIDevice: CommandHMIDevice;
   CommandHMIDevicePort: CommandHMIDevicePort;
@@ -51840,6 +46286,11 @@ export interface SchemaObjectTypes {
   CommandInterlock: CommandInterlock;
   CommandInterlockActionConnection: CommandInterlockActionConnection;
   CommandInterlockActionRelationship: CommandInterlockActionRelationship;
+  CommandInterlockAssertion: CommandInterlockAssertion;
+  CommandInterlockAssertionConnection: CommandInterlockAssertionConnection;
+  CommandInterlockAssertionRelationship: CommandInterlockAssertionRelationship;
+  CommandInterlockAssertionSetpointConnection: CommandInterlockAssertionSetpointConnection;
+  CommandInterlockAssertionSetpointRelationship: CommandInterlockAssertionSetpointRelationship;
   CommandInterlockDeviceConnection: CommandInterlockDeviceConnection;
   CommandInterlockDeviceRelationship: CommandInterlockDeviceRelationship;
   CommandInterlockInputDeviceConnection: CommandInterlockInputDeviceConnection;
@@ -51859,6 +46310,9 @@ export interface SchemaObjectTypes {
   CommandPluginOrganisationConnection: CommandPluginOrganisationConnection;
   CommandPluginOrganisationRelationship: CommandPluginOrganisationRelationship;
   CommandProgram: CommandProgram;
+  CommandProgramAction: CommandProgramAction;
+  CommandProgramActionFlowConnection: CommandProgramActionFlowConnection;
+  CommandProgramActionFlowRelationship: CommandProgramActionFlowRelationship;
   CommandProgramAlarm: CommandProgramAlarm;
   CommandProgramAlarmsConnection: CommandProgramAlarmsConnection;
   CommandProgramAlarmsRelationship: CommandProgramAlarmsRelationship;
@@ -51868,14 +46322,20 @@ export interface SchemaObjectTypes {
   CommandProgramDeviceActionDeviceRelationship: CommandProgramDeviceActionDeviceRelationship;
   CommandProgramDeviceActionsConnection: CommandProgramDeviceActionsConnection;
   CommandProgramDeviceActionsRelationship: CommandProgramDeviceActionsRelationship;
-  CommandProgramDeviceConfiguration: CommandProgramDeviceConfiguration;
-  CommandProgramDeviceConfigurationConnection: CommandProgramDeviceConfigurationConnection;
-  CommandProgramDeviceConfigurationRelationship: CommandProgramDeviceConfigurationRelationship;
+  CommandProgramDeviceCalibration: CommandProgramDeviceCalibration;
+  CommandProgramDeviceCalibrationDeviceConnection: CommandProgramDeviceCalibrationDeviceConnection;
+  CommandProgramDeviceCalibrationDeviceKeyConnection: CommandProgramDeviceCalibrationDeviceKeyConnection;
+  CommandProgramDeviceCalibrationDeviceKeyRelationship: CommandProgramDeviceCalibrationDeviceKeyRelationship;
+  CommandProgramDeviceCalibrationDeviceRelationship: CommandProgramDeviceCalibrationDeviceRelationship;
+  CommandProgramDeviceCalibrationRootDeviceConnection: CommandProgramDeviceCalibrationRootDeviceConnection;
+  CommandProgramDeviceCalibrationRootDeviceRelationship: CommandProgramDeviceCalibrationRootDeviceRelationship;
   CommandProgramDevicePlaceholder: CommandProgramDevicePlaceholder;
   CommandProgramDevicePlaceholderInterlocksConnection: CommandProgramDevicePlaceholderInterlocksConnection;
   CommandProgramDevicePlaceholderInterlocksRelationship: CommandProgramDevicePlaceholderInterlocksRelationship;
   CommandProgramDevicePlaceholderPluginsConnection: CommandProgramDevicePlaceholderPluginsConnection;
   CommandProgramDevicePlaceholderPluginsRelationship: CommandProgramDevicePlaceholderPluginsRelationship;
+  CommandProgramDevicePlaceholderSetpointsConnection: CommandProgramDevicePlaceholderSetpointsConnection;
+  CommandProgramDevicePlaceholderSetpointsRelationship: CommandProgramDevicePlaceholderSetpointsRelationship;
   CommandProgramDevicePlaceholderTypeConnection: CommandProgramDevicePlaceholderTypeConnection;
   CommandProgramDevicePlaceholderTypeRelationship: CommandProgramDevicePlaceholderTypeRelationship;
   CommandProgramDevicePlugin: CommandProgramDevicePlugin;
@@ -51915,6 +46375,8 @@ export interface SchemaObjectTypes {
   CommandProgramFlowProgramsConnection: CommandProgramFlowProgramsConnection;
   CommandProgramFlowProgramsRelationship: CommandProgramFlowProgramsRelationship;
   CommandProgramHMI: CommandProgramHMI;
+  CommandProgramHMIActionsConnection: CommandProgramHMIActionsConnection;
+  CommandProgramHMIActionsRelationship: CommandProgramHMIActionsRelationship;
   CommandProgramHmiConnection: CommandProgramHmiConnection;
   CommandProgramHMIGroupsConnection: CommandProgramHMIGroupsConnection;
   CommandProgramHMIGroupsRelationship: CommandProgramHMIGroupsRelationship;
@@ -51948,11 +46410,6 @@ export interface SchemaObjectTypes {
   CommandProgramNodeSubprocessRelationship: CommandProgramNodeSubprocessRelationship;
   CommandProgramOrganisationConnection: CommandProgramOrganisationConnection;
   CommandProgramOrganisationRelationship: CommandProgramOrganisationRelationship;
-  CommandProgramPeripheralConfiguration: CommandProgramPeripheralConfiguration;
-  CommandProgramPeripheralConfigurationConfConnection: CommandProgramPeripheralConfigurationConfConnection;
-  CommandProgramPeripheralConfigurationConfRelationship: CommandProgramPeripheralConfigurationConfRelationship;
-  CommandProgramPeripheralConfigurationDeviceConnection: CommandProgramPeripheralConfigurationDeviceConnection;
-  CommandProgramPeripheralConfigurationDeviceRelationship: CommandProgramPeripheralConfigurationDeviceRelationship;
   CommandProgramProgramConnection: CommandProgramProgramConnection;
   CommandProgramProgramRelationship: CommandProgramProgramRelationship;
   CommandProgramUsedOnConnection: CommandProgramUsedOnConnection;
@@ -51966,6 +46423,7 @@ export interface SchemaObjectTypes {
   CreateCommandDevicePeripheralsMutationResponse: CreateCommandDevicePeripheralsMutationResponse;
   CreateCommandDevicePluginsMutationResponse: CreateCommandDevicePluginsMutationResponse;
   CreateCommandDeviceResponsesMutationResponse: CreateCommandDeviceResponsesMutationResponse;
+  CreateCommandDeviceSetpointsMutationResponse: CreateCommandDeviceSetpointsMutationResponse;
   CreateCommandDevicesMutationResponse: CreateCommandDevicesMutationResponse;
   CreateCommandDeviceValuesMutationResponse: CreateCommandDeviceValuesMutationResponse;
   CreateCommandHMIDevicePortsMutationResponse: CreateCommandHMIDevicePortsMutationResponse;
@@ -51974,14 +46432,16 @@ export interface SchemaObjectTypes {
   CreateCommandHMINodesMutationResponse: CreateCommandHMINodesMutationResponse;
   CreateCommandHMIPathsMutationResponse: CreateCommandHMIPathsMutationResponse;
   CreateCommandHMIPortsMutationResponse: CreateCommandHMIPortsMutationResponse;
+  CreateCommandInterlockAssertionsMutationResponse: CreateCommandInterlockAssertionsMutationResponse;
   CreateCommandInterlocksMutationResponse: CreateCommandInterlocksMutationResponse;
   CreateCommandKeyValuesMutationResponse: CreateCommandKeyValuesMutationResponse;
   CreateCommandPeripheralProductDatapointsMutationResponse: CreateCommandPeripheralProductDatapointsMutationResponse;
   CreateCommandPluginItemsMutationResponse: CreateCommandPluginItemsMutationResponse;
   CreateCommandPluginsMutationResponse: CreateCommandPluginsMutationResponse;
+  CreateCommandProgramActionsMutationResponse: CreateCommandProgramActionsMutationResponse;
   CreateCommandProgramAlarmsMutationResponse: CreateCommandProgramAlarmsMutationResponse;
   CreateCommandProgramDeviceActionsMutationResponse: CreateCommandProgramDeviceActionsMutationResponse;
-  CreateCommandProgramDeviceConfigurationsMutationResponse: CreateCommandProgramDeviceConfigurationsMutationResponse;
+  CreateCommandProgramDeviceCalibrationsMutationResponse: CreateCommandProgramDeviceCalibrationsMutationResponse;
   CreateCommandProgramDevicePlaceholdersMutationResponse: CreateCommandProgramDevicePlaceholdersMutationResponse;
   CreateCommandProgramDevicePluginCompatibilitiesMutationResponse: CreateCommandProgramDevicePluginCompatibilitiesMutationResponse;
   CreateCommandProgramDevicePluginConfigurationsMutationResponse: CreateCommandProgramDevicePluginConfigurationsMutationResponse;
@@ -51994,7 +46454,6 @@ export interface SchemaObjectTypes {
   CreateCommandProgramNodeConfigurationsMutationResponse: CreateCommandProgramNodeConfigurationsMutationResponse;
   CreateCommandProgramNodeFlowConfigurationsMutationResponse: CreateCommandProgramNodeFlowConfigurationsMutationResponse;
   CreateCommandProgramNodesMutationResponse: CreateCommandProgramNodesMutationResponse;
-  CreateCommandProgramPeripheralConfigurationsMutationResponse: CreateCommandProgramPeripheralConfigurationsMutationResponse;
   CreateCommandProgramsMutationResponse: CreateCommandProgramsMutationResponse;
   CreateDisplayLocationsMutationResponse: CreateDisplayLocationsMutationResponse;
   CreateDisplayScreensMutationResponse: CreateDisplayScreensMutationResponse;
@@ -52235,6 +46694,7 @@ export interface SchemaObjectTypes {
   UpdateCommandDevicePeripheralsMutationResponse: UpdateCommandDevicePeripheralsMutationResponse;
   UpdateCommandDevicePluginsMutationResponse: UpdateCommandDevicePluginsMutationResponse;
   UpdateCommandDeviceResponsesMutationResponse: UpdateCommandDeviceResponsesMutationResponse;
+  UpdateCommandDeviceSetpointsMutationResponse: UpdateCommandDeviceSetpointsMutationResponse;
   UpdateCommandDevicesMutationResponse: UpdateCommandDevicesMutationResponse;
   UpdateCommandDeviceValuesMutationResponse: UpdateCommandDeviceValuesMutationResponse;
   UpdateCommandHMIDevicePortsMutationResponse: UpdateCommandHMIDevicePortsMutationResponse;
@@ -52243,14 +46703,16 @@ export interface SchemaObjectTypes {
   UpdateCommandHMINodesMutationResponse: UpdateCommandHMINodesMutationResponse;
   UpdateCommandHMIPathsMutationResponse: UpdateCommandHMIPathsMutationResponse;
   UpdateCommandHMIPortsMutationResponse: UpdateCommandHMIPortsMutationResponse;
+  UpdateCommandInterlockAssertionsMutationResponse: UpdateCommandInterlockAssertionsMutationResponse;
   UpdateCommandInterlocksMutationResponse: UpdateCommandInterlocksMutationResponse;
   UpdateCommandKeyValuesMutationResponse: UpdateCommandKeyValuesMutationResponse;
   UpdateCommandPeripheralProductDatapointsMutationResponse: UpdateCommandPeripheralProductDatapointsMutationResponse;
   UpdateCommandPluginItemsMutationResponse: UpdateCommandPluginItemsMutationResponse;
   UpdateCommandPluginsMutationResponse: UpdateCommandPluginsMutationResponse;
+  UpdateCommandProgramActionsMutationResponse: UpdateCommandProgramActionsMutationResponse;
   UpdateCommandProgramAlarmsMutationResponse: UpdateCommandProgramAlarmsMutationResponse;
   UpdateCommandProgramDeviceActionsMutationResponse: UpdateCommandProgramDeviceActionsMutationResponse;
-  UpdateCommandProgramDeviceConfigurationsMutationResponse: UpdateCommandProgramDeviceConfigurationsMutationResponse;
+  UpdateCommandProgramDeviceCalibrationsMutationResponse: UpdateCommandProgramDeviceCalibrationsMutationResponse;
   UpdateCommandProgramDevicePlaceholdersMutationResponse: UpdateCommandProgramDevicePlaceholdersMutationResponse;
   UpdateCommandProgramDevicePluginCompatibilitiesMutationResponse: UpdateCommandProgramDevicePluginCompatibilitiesMutationResponse;
   UpdateCommandProgramDevicePluginConfigurationsMutationResponse: UpdateCommandProgramDevicePluginConfigurationsMutationResponse;
@@ -52263,7 +46725,6 @@ export interface SchemaObjectTypes {
   UpdateCommandProgramNodeConfigurationsMutationResponse: UpdateCommandProgramNodeConfigurationsMutationResponse;
   UpdateCommandProgramNodeFlowConfigurationsMutationResponse: UpdateCommandProgramNodeFlowConfigurationsMutationResponse;
   UpdateCommandProgramNodesMutationResponse: UpdateCommandProgramNodesMutationResponse;
-  UpdateCommandProgramPeripheralConfigurationsMutationResponse: UpdateCommandProgramPeripheralConfigurationsMutationResponse;
   UpdateCommandProgramsMutationResponse: UpdateCommandProgramsMutationResponse;
   UpdateDisplayLocationsMutationResponse: UpdateDisplayLocationsMutationResponse;
   UpdateDisplayScreensMutationResponse: UpdateDisplayScreensMutationResponse;
@@ -52303,79 +46764,6 @@ export interface SchemaObjectTypes {
   UpdateTimelineItemItemsMutationResponse: UpdateTimelineItemItemsMutationResponse;
   UpdateTimelineItemsMutationResponse: UpdateTimelineItemsMutationResponse;
   WorkInProgress: WorkInProgress;
-  ValidationError: ValidationError;
-  ValidatorError: ValidatorError;
-  MongoError: MongoError;
-  RuntimeError: RuntimeError;
-  Program: Program;
-  ProgramIo: ProgramIo;
-  Device: Device;
-  DeviceConnection: DeviceConnection;
-  DeviceEdge: DeviceEdge;
-  DevicePagination: DevicePagination;
-  PaginationInfo: PaginationInfo;
-  DNSRecord: DNSRecord;
-  DNSRecordConnection: DNSRecordConnection;
-  DNSRecordEdge: DNSRecordEdge;
-  DNSRecordPagination: DNSRecordPagination;
-  ProgramConnection: ProgramConnection;
-  ProgramEdge: ProgramEdge;
-  ProgramPagination: ProgramPagination;
-  FlowShard: FlowShard;
-  FlowShardNodes: FlowShardNodes;
-  FlowShardPaths: FlowShardPaths;
-  FlowShardPathsPoints: FlowShardPathsPoints;
-  FlowShardConnection: FlowShardConnection;
-  FlowShardEdge: FlowShardEdge;
-  FlowShardPagination: FlowShardPagination;
-  Stack: Stack;
-  StackItems: StackItems;
-  StackItemsDimensions: StackItemsDimensions;
-  StackItemsInputs: StackItemsInputs;
-  StackItemsPorts: StackItemsPorts;
-  StackConnection: StackConnection;
-  StackEdge: StackEdge;
-  StackPagination: StackPagination;
-  CreateOneDevicePayload: CreateOneDevicePayload;
-  CreateManyDevicePayload: CreateManyDevicePayload;
-  UpdateByIdDevicePayload: UpdateByIdDevicePayload;
-  UpdateOneDevicePayload: UpdateOneDevicePayload;
-  UpdateManyDevicePayload: UpdateManyDevicePayload;
-  RemoveByIdDevicePayload: RemoveByIdDevicePayload;
-  RemoveOneDevicePayload: RemoveOneDevicePayload;
-  RemoveManyDevicePayload: RemoveManyDevicePayload;
-  CreateOneDNSRecordPayload: CreateOneDNSRecordPayload;
-  CreateManyDNSRecordPayload: CreateManyDNSRecordPayload;
-  UpdateByIdDNSRecordPayload: UpdateByIdDNSRecordPayload;
-  UpdateOneDNSRecordPayload: UpdateOneDNSRecordPayload;
-  UpdateManyDNSRecordPayload: UpdateManyDNSRecordPayload;
-  RemoveByIdDNSRecordPayload: RemoveByIdDNSRecordPayload;
-  RemoveOneDNSRecordPayload: RemoveOneDNSRecordPayload;
-  RemoveManyDNSRecordPayload: RemoveManyDNSRecordPayload;
-  CreateOneProgramPayload: CreateOneProgramPayload;
-  CreateManyProgramPayload: CreateManyProgramPayload;
-  UpdateByIdProgramPayload: UpdateByIdProgramPayload;
-  UpdateOneProgramPayload: UpdateOneProgramPayload;
-  UpdateManyProgramPayload: UpdateManyProgramPayload;
-  RemoveByIdProgramPayload: RemoveByIdProgramPayload;
-  RemoveOneProgramPayload: RemoveOneProgramPayload;
-  RemoveManyProgramPayload: RemoveManyProgramPayload;
-  CreateOneFlowShardPayload: CreateOneFlowShardPayload;
-  CreateManyFlowShardPayload: CreateManyFlowShardPayload;
-  UpdateByIdFlowShardPayload: UpdateByIdFlowShardPayload;
-  UpdateOneFlowShardPayload: UpdateOneFlowShardPayload;
-  UpdateManyFlowShardPayload: UpdateManyFlowShardPayload;
-  RemoveByIdFlowShardPayload: RemoveByIdFlowShardPayload;
-  RemoveOneFlowShardPayload: RemoveOneFlowShardPayload;
-  RemoveManyFlowShardPayload: RemoveManyFlowShardPayload;
-  CreateOneStackPayload: CreateOneStackPayload;
-  CreateManyStackPayload: CreateManyStackPayload;
-  UpdateByIdStackPayload: UpdateByIdStackPayload;
-  UpdateOneStackPayload: UpdateOneStackPayload;
-  UpdateManyStackPayload: UpdateManyStackPayload;
-  RemoveByIdStackPayload: RemoveByIdStackPayload;
-  RemoveOneStackPayload: RemoveOneStackPayload;
-  RemoveManyStackPayload: RemoveManyStackPayload;
 }
 export type SchemaObjectTypesNames =
   | "Query"
@@ -52405,8 +46793,8 @@ export type SchemaObjectTypesNames =
   | "CommandDevice"
   | "CommandDeviceActiveProgramConnection"
   | "CommandDeviceActiveProgramRelationship"
-  | "CommandDeviceConfiguredDevicesConnection"
-  | "CommandDeviceConfiguredDevicesRelationship"
+  | "CommandDeviceCalibrationsConnection"
+  | "CommandDeviceCalibrationsRelationship"
   | "CommandDeviceOrganisationConnection"
   | "CommandDeviceOrganisationRelationship"
   | "CommandDevicePeripheral"
@@ -52438,6 +46826,11 @@ export type SchemaObjectTypesNames =
   | "CommandDevicePluginRulesConnection"
   | "CommandDevicePluginRulesRelationship"
   | "CommandDeviceResponse"
+  | "CommandDeviceSetpoint"
+  | "CommandDeviceSetpointKeyConnection"
+  | "CommandDeviceSetpointKeyRelationship"
+  | "CommandDeviceTimeseriesData"
+  | "CommandDeviceTimeseriesTotal"
   | "CommandDeviceValue"
   | "CommandHMIDevice"
   | "CommandHMIDevicePort"
@@ -52472,6 +46865,11 @@ export type SchemaObjectTypesNames =
   | "CommandInterlock"
   | "CommandInterlockActionConnection"
   | "CommandInterlockActionRelationship"
+  | "CommandInterlockAssertion"
+  | "CommandInterlockAssertionConnection"
+  | "CommandInterlockAssertionRelationship"
+  | "CommandInterlockAssertionSetpointConnection"
+  | "CommandInterlockAssertionSetpointRelationship"
   | "CommandInterlockDeviceConnection"
   | "CommandInterlockDeviceRelationship"
   | "CommandInterlockInputDeviceConnection"
@@ -52491,6 +46889,9 @@ export type SchemaObjectTypesNames =
   | "CommandPluginOrganisationConnection"
   | "CommandPluginOrganisationRelationship"
   | "CommandProgram"
+  | "CommandProgramAction"
+  | "CommandProgramActionFlowConnection"
+  | "CommandProgramActionFlowRelationship"
   | "CommandProgramAlarm"
   | "CommandProgramAlarmsConnection"
   | "CommandProgramAlarmsRelationship"
@@ -52500,14 +46901,20 @@ export type SchemaObjectTypesNames =
   | "CommandProgramDeviceActionDeviceRelationship"
   | "CommandProgramDeviceActionsConnection"
   | "CommandProgramDeviceActionsRelationship"
-  | "CommandProgramDeviceConfiguration"
-  | "CommandProgramDeviceConfigurationConnection"
-  | "CommandProgramDeviceConfigurationRelationship"
+  | "CommandProgramDeviceCalibration"
+  | "CommandProgramDeviceCalibrationDeviceConnection"
+  | "CommandProgramDeviceCalibrationDeviceKeyConnection"
+  | "CommandProgramDeviceCalibrationDeviceKeyRelationship"
+  | "CommandProgramDeviceCalibrationDeviceRelationship"
+  | "CommandProgramDeviceCalibrationRootDeviceConnection"
+  | "CommandProgramDeviceCalibrationRootDeviceRelationship"
   | "CommandProgramDevicePlaceholder"
   | "CommandProgramDevicePlaceholderInterlocksConnection"
   | "CommandProgramDevicePlaceholderInterlocksRelationship"
   | "CommandProgramDevicePlaceholderPluginsConnection"
   | "CommandProgramDevicePlaceholderPluginsRelationship"
+  | "CommandProgramDevicePlaceholderSetpointsConnection"
+  | "CommandProgramDevicePlaceholderSetpointsRelationship"
   | "CommandProgramDevicePlaceholderTypeConnection"
   | "CommandProgramDevicePlaceholderTypeRelationship"
   | "CommandProgramDevicePlugin"
@@ -52547,6 +46954,8 @@ export type SchemaObjectTypesNames =
   | "CommandProgramFlowProgramsConnection"
   | "CommandProgramFlowProgramsRelationship"
   | "CommandProgramHMI"
+  | "CommandProgramHMIActionsConnection"
+  | "CommandProgramHMIActionsRelationship"
   | "CommandProgramHmiConnection"
   | "CommandProgramHMIGroupsConnection"
   | "CommandProgramHMIGroupsRelationship"
@@ -52580,11 +46989,6 @@ export type SchemaObjectTypesNames =
   | "CommandProgramNodeSubprocessRelationship"
   | "CommandProgramOrganisationConnection"
   | "CommandProgramOrganisationRelationship"
-  | "CommandProgramPeripheralConfiguration"
-  | "CommandProgramPeripheralConfigurationConfConnection"
-  | "CommandProgramPeripheralConfigurationConfRelationship"
-  | "CommandProgramPeripheralConfigurationDeviceConnection"
-  | "CommandProgramPeripheralConfigurationDeviceRelationship"
   | "CommandProgramProgramConnection"
   | "CommandProgramProgramRelationship"
   | "CommandProgramUsedOnConnection"
@@ -52598,6 +47002,7 @@ export type SchemaObjectTypesNames =
   | "CreateCommandDevicePeripheralsMutationResponse"
   | "CreateCommandDevicePluginsMutationResponse"
   | "CreateCommandDeviceResponsesMutationResponse"
+  | "CreateCommandDeviceSetpointsMutationResponse"
   | "CreateCommandDevicesMutationResponse"
   | "CreateCommandDeviceValuesMutationResponse"
   | "CreateCommandHMIDevicePortsMutationResponse"
@@ -52606,14 +47011,16 @@ export type SchemaObjectTypesNames =
   | "CreateCommandHMINodesMutationResponse"
   | "CreateCommandHMIPathsMutationResponse"
   | "CreateCommandHMIPortsMutationResponse"
+  | "CreateCommandInterlockAssertionsMutationResponse"
   | "CreateCommandInterlocksMutationResponse"
   | "CreateCommandKeyValuesMutationResponse"
   | "CreateCommandPeripheralProductDatapointsMutationResponse"
   | "CreateCommandPluginItemsMutationResponse"
   | "CreateCommandPluginsMutationResponse"
+  | "CreateCommandProgramActionsMutationResponse"
   | "CreateCommandProgramAlarmsMutationResponse"
   | "CreateCommandProgramDeviceActionsMutationResponse"
-  | "CreateCommandProgramDeviceConfigurationsMutationResponse"
+  | "CreateCommandProgramDeviceCalibrationsMutationResponse"
   | "CreateCommandProgramDevicePlaceholdersMutationResponse"
   | "CreateCommandProgramDevicePluginCompatibilitiesMutationResponse"
   | "CreateCommandProgramDevicePluginConfigurationsMutationResponse"
@@ -52626,7 +47033,6 @@ export type SchemaObjectTypesNames =
   | "CreateCommandProgramNodeConfigurationsMutationResponse"
   | "CreateCommandProgramNodeFlowConfigurationsMutationResponse"
   | "CreateCommandProgramNodesMutationResponse"
-  | "CreateCommandProgramPeripheralConfigurationsMutationResponse"
   | "CreateCommandProgramsMutationResponse"
   | "CreateDisplayLocationsMutationResponse"
   | "CreateDisplayScreensMutationResponse"
@@ -52867,6 +47273,7 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandDevicePeripheralsMutationResponse"
   | "UpdateCommandDevicePluginsMutationResponse"
   | "UpdateCommandDeviceResponsesMutationResponse"
+  | "UpdateCommandDeviceSetpointsMutationResponse"
   | "UpdateCommandDevicesMutationResponse"
   | "UpdateCommandDeviceValuesMutationResponse"
   | "UpdateCommandHMIDevicePortsMutationResponse"
@@ -52875,14 +47282,16 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandHMINodesMutationResponse"
   | "UpdateCommandHMIPathsMutationResponse"
   | "UpdateCommandHMIPortsMutationResponse"
+  | "UpdateCommandInterlockAssertionsMutationResponse"
   | "UpdateCommandInterlocksMutationResponse"
   | "UpdateCommandKeyValuesMutationResponse"
   | "UpdateCommandPeripheralProductDatapointsMutationResponse"
   | "UpdateCommandPluginItemsMutationResponse"
   | "UpdateCommandPluginsMutationResponse"
+  | "UpdateCommandProgramActionsMutationResponse"
   | "UpdateCommandProgramAlarmsMutationResponse"
   | "UpdateCommandProgramDeviceActionsMutationResponse"
-  | "UpdateCommandProgramDeviceConfigurationsMutationResponse"
+  | "UpdateCommandProgramDeviceCalibrationsMutationResponse"
   | "UpdateCommandProgramDevicePlaceholdersMutationResponse"
   | "UpdateCommandProgramDevicePluginCompatibilitiesMutationResponse"
   | "UpdateCommandProgramDevicePluginConfigurationsMutationResponse"
@@ -52895,7 +47304,6 @@ export type SchemaObjectTypesNames =
   | "UpdateCommandProgramNodeConfigurationsMutationResponse"
   | "UpdateCommandProgramNodeFlowConfigurationsMutationResponse"
   | "UpdateCommandProgramNodesMutationResponse"
-  | "UpdateCommandProgramPeripheralConfigurationsMutationResponse"
   | "UpdateCommandProgramsMutationResponse"
   | "UpdateDisplayLocationsMutationResponse"
   | "UpdateDisplayScreensMutationResponse"
@@ -52934,80 +47342,7 @@ export type SchemaObjectTypesNames =
   | "UpdateScheduleItemsMutationResponse"
   | "UpdateTimelineItemItemsMutationResponse"
   | "UpdateTimelineItemsMutationResponse"
-  | "WorkInProgress"
-  | "ValidationError"
-  | "ValidatorError"
-  | "MongoError"
-  | "RuntimeError"
-  | "Program"
-  | "ProgramIo"
-  | "Device"
-  | "DeviceConnection"
-  | "DeviceEdge"
-  | "DevicePagination"
-  | "PaginationInfo"
-  | "DNSRecord"
-  | "DNSRecordConnection"
-  | "DNSRecordEdge"
-  | "DNSRecordPagination"
-  | "ProgramConnection"
-  | "ProgramEdge"
-  | "ProgramPagination"
-  | "FlowShard"
-  | "FlowShardNodes"
-  | "FlowShardPaths"
-  | "FlowShardPathsPoints"
-  | "FlowShardConnection"
-  | "FlowShardEdge"
-  | "FlowShardPagination"
-  | "Stack"
-  | "StackItems"
-  | "StackItemsDimensions"
-  | "StackItemsInputs"
-  | "StackItemsPorts"
-  | "StackConnection"
-  | "StackEdge"
-  | "StackPagination"
-  | "CreateOneDevicePayload"
-  | "CreateManyDevicePayload"
-  | "UpdateByIdDevicePayload"
-  | "UpdateOneDevicePayload"
-  | "UpdateManyDevicePayload"
-  | "RemoveByIdDevicePayload"
-  | "RemoveOneDevicePayload"
-  | "RemoveManyDevicePayload"
-  | "CreateOneDNSRecordPayload"
-  | "CreateManyDNSRecordPayload"
-  | "UpdateByIdDNSRecordPayload"
-  | "UpdateOneDNSRecordPayload"
-  | "UpdateManyDNSRecordPayload"
-  | "RemoveByIdDNSRecordPayload"
-  | "RemoveOneDNSRecordPayload"
-  | "RemoveManyDNSRecordPayload"
-  | "CreateOneProgramPayload"
-  | "CreateManyProgramPayload"
-  | "UpdateByIdProgramPayload"
-  | "UpdateOneProgramPayload"
-  | "UpdateManyProgramPayload"
-  | "RemoveByIdProgramPayload"
-  | "RemoveOneProgramPayload"
-  | "RemoveManyProgramPayload"
-  | "CreateOneFlowShardPayload"
-  | "CreateManyFlowShardPayload"
-  | "UpdateByIdFlowShardPayload"
-  | "UpdateOneFlowShardPayload"
-  | "UpdateManyFlowShardPayload"
-  | "RemoveByIdFlowShardPayload"
-  | "RemoveOneFlowShardPayload"
-  | "RemoveManyFlowShardPayload"
-  | "CreateOneStackPayload"
-  | "CreateManyStackPayload"
-  | "UpdateByIdStackPayload"
-  | "UpdateOneStackPayload"
-  | "UpdateManyStackPayload"
-  | "RemoveByIdStackPayload"
-  | "RemoveOneStackPayload"
-  | "RemoveManyStackPayload";
+  | "WorkInProgress";
 
 export interface $CommandHMINodes {
   CommandHMINode?: CommandHMINode;
@@ -53025,7 +47360,6 @@ export interface $TimelineProject {
 }
 
 export interface $CommandDevicePeripheralPort {
-  CommandDeviceConfiguredDevicesRelationship?: CommandDeviceConfiguredDevicesRelationship;
   CommandDevicePeripheralConnectedDevicesRelationship?: CommandDevicePeripheralConnectedDevicesRelationship;
   CommandDevicePeripheralMappedDevicesRelationship?: CommandDevicePeripheralMappedDevicesRelationship;
   CommandDevicePeripheralProductPeripheralRelationship?: CommandDevicePeripheralProductPeripheralRelationship;
@@ -53052,12 +47386,6 @@ export interface $HivePipelineFlowPath {
   HivePipelineNodeNextRelationship?: HivePipelineNodeNextRelationship;
 }
 
-export interface $ErrorInterface {
-  ValidationError?: ValidationError;
-  MongoError?: MongoError;
-  RuntimeError?: RuntimeError;
-}
-
 export interface GeneratedSchema {
   query: Query;
   mutation: Mutation;
@@ -53070,39 +47398,4 @@ export type MakeNullable<T> = {
 
 export interface ScalarsEnums extends MakeNullable<Scalars> {
   SortDirection: SortDirection | undefined;
-  SortFindByIdsDeviceInput: SortFindByIdsDeviceInput | undefined;
-  SortFindOneDeviceInput: SortFindOneDeviceInput | undefined;
-  SortFindManyDeviceInput: SortFindManyDeviceInput | undefined;
-  SortConnectionDeviceEnum: SortConnectionDeviceEnum | undefined;
-  SortFindByIdsDNSRecordInput: SortFindByIdsDNSRecordInput | undefined;
-  SortFindOneDNSRecordInput: SortFindOneDNSRecordInput | undefined;
-  SortFindManyDNSRecordInput: SortFindManyDNSRecordInput | undefined;
-  SortConnectionDNSRecordEnum: SortConnectionDNSRecordEnum | undefined;
-  SortFindByIdsProgramInput: SortFindByIdsProgramInput | undefined;
-  SortFindOneProgramInput: SortFindOneProgramInput | undefined;
-  SortFindManyProgramInput: SortFindManyProgramInput | undefined;
-  SortConnectionProgramEnum: SortConnectionProgramEnum | undefined;
-  SortFindByIdsFlowShardInput: SortFindByIdsFlowShardInput | undefined;
-  SortFindOneFlowShardInput: SortFindOneFlowShardInput | undefined;
-  SortFindManyFlowShardInput: SortFindManyFlowShardInput | undefined;
-  SortConnectionFlowShardEnum: SortConnectionFlowShardEnum | undefined;
-  SortFindByIdsStackInput: SortFindByIdsStackInput | undefined;
-  SortFindOneStackInput: SortFindOneStackInput | undefined;
-  SortFindManyStackInput: SortFindManyStackInput | undefined;
-  SortConnectionStackEnum: SortConnectionStackEnum | undefined;
-  SortUpdateOneDeviceInput: SortUpdateOneDeviceInput | undefined;
-  SortUpdateManyDeviceInput: SortUpdateManyDeviceInput | undefined;
-  SortRemoveOneDeviceInput: SortRemoveOneDeviceInput | undefined;
-  SortUpdateOneDNSRecordInput: SortUpdateOneDNSRecordInput | undefined;
-  SortUpdateManyDNSRecordInput: SortUpdateManyDNSRecordInput | undefined;
-  SortRemoveOneDNSRecordInput: SortRemoveOneDNSRecordInput | undefined;
-  SortUpdateOneProgramInput: SortUpdateOneProgramInput | undefined;
-  SortUpdateManyProgramInput: SortUpdateManyProgramInput | undefined;
-  SortRemoveOneProgramInput: SortRemoveOneProgramInput | undefined;
-  SortUpdateOneFlowShardInput: SortUpdateOneFlowShardInput | undefined;
-  SortUpdateManyFlowShardInput: SortUpdateManyFlowShardInput | undefined;
-  SortRemoveOneFlowShardInput: SortRemoveOneFlowShardInput | undefined;
-  SortUpdateOneStackInput: SortUpdateOneStackInput | undefined;
-  SortUpdateManyStackInput: SortUpdateManyStackInput | undefined;
-  SortRemoveOneStackInput: SortRemoveOneStackInput | undefined;
 }
