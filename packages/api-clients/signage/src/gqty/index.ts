@@ -15,7 +15,9 @@ import { generatedSchema, scalarsEnumsHash } from "./schema.generated";
 
 const queryFetcher: QueryFetcher = async function (query, variables) {
   // Modify "/api/graphql" if needed
-  const response = await fetch("http://localhost:7000/graphql", {
+  let url = process.env.NODE_ENV == 'production' ? (process.env.REACT_APP_API != undefined ? `${process.env.REACT_APP_API}/graphql` : '/graphql') : "http://localhost:7000/graphql"
+
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
