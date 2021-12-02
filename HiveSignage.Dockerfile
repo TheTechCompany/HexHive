@@ -2,7 +2,7 @@ FROM node:alpine-16
 
 FROM node:16-alpine
 
-RUN apk update && apk add openssl python
+RUN apk update && apk add openssl python3
 
 WORKDIR /app
 
