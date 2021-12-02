@@ -27,7 +27,9 @@ export default () => {
 
     const [ workingState, setWorkingState ] = useState<any>({})
 
-	const { program, actions, values, hmi, hmiNodes, groups, changeDeviceMode, changeDeviceValue, performAction, controlId } = useContext(DeviceControlContext)
+	const { toggleOperatingMode, operatingMode, program, actions, values, hmi, hmiNodes, groups, changeDeviceMode, changeDeviceValue, performAction, controlId } = useContext(DeviceControlContext)
+
+	console.log({operatingMode})
 
 	const [ requestFlow, requestFlowInfo ] = useMutation((mutation, args: {
 		deviceId: string,
@@ -259,7 +261,8 @@ export default () => {
 						<Text>Commands</Text>
 						<Box gap="xsmall">
 							<ActionButton 
-								label="Start" />
+								onClick={() => toggleOperatingMode()}
+								label={operatingMode == "DISABLED" ? "Start" : "Stop"} />
 							{actions.map((action) => (
 								<ActionButton
 									onClick={() => controlAction(action)}

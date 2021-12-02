@@ -453,6 +453,8 @@ export const DeviceControl: React.FC<DeviceControlProps> = (props) => {
     return (
         <DeviceControlProvider value={{
             actions,
+            toggleOperatingMode,
+            operatingMode: rootDevice?.operatingMode,
             controlId: props.match.params.id,
             program,
             values,
