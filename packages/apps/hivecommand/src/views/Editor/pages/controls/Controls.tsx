@@ -3,10 +3,10 @@ import { Box, Text, List, Button, Collapsible, TextInput, Select, CheckBox } fro
 import { InfiniteCanvas, ContextMenu, IconNodeFactory, InfiniteCanvasNode, ZoomControls, InfiniteCanvasPath, BumpInput } from '@hexhive/ui';
 import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
 import { NodeDropdown  } from '../../../../components/node-dropdown';
-import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank, BlowerSparge, NfMembrane } from '../../../../assets/hmi-elements';
+import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank, BlowerSparge, NfMembrane, DosingTank } from '../../../../assets/hmi-elements';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import * as HMIIcons from '../../../../assets/hmi-elements'
-import { Nodes, Add, Aggregate, Subtract, RotateLeft, RotateRight } from 'grommet-icons'
+import { Nodes, Action, Add, Aggregate, Subtract, RotateLeft, RotateRight } from 'grommet-icons'
 import Settings from './Settings'
 import { nanoid } from 'nanoid';
 import { useMutation } from '@hexhive/client';
@@ -14,6 +14,7 @@ import { pick } from 'lodash';
 import { throttle } from 'lodash';
 import { HMIGroupModal } from '../../../../components/modals/hmi-group';
 import { debounce } from 'lodash';
+import { AssignFlowModal } from 'apps/hivecommand/src/components/modals/assign-flow';
 
 export const Controls = (props) => {
     
@@ -25,6 +26,8 @@ export const Controls = (props) => {
         _setSelected(s)
         selectedRef.current.selected = s;
     }
+
+    const [ assignModalOpen, openAssignModal ] = useState<boolean>(false);
 
     const [ target, setTarget ] = useState<{x?: number, y?: number}>({})
 
@@ -167,6 +170,20 @@ export const Controls = (props) => {
             }
         },
         {
+            icon: <DosingTank width="40px" height="40px" />,
+            label: "Dosing Tank",
+            extras: {
+                icon: "DosingTank",
+                ports: [
+                {
+                    id: 'outlet',
+                    x: 50,
+                    y: 65
+                }
+                ]
+            }
+        },
+        {
             icon: <PressureSensor width="40px" height="40px" />,
             label: "Pressure Sensor",
             extras: {
@@ -275,6 +292,12 @@ export const Controls = (props) => {
                 hmi {
                     id
                     name
+
+                    actions {
+                        id
+                        name
+                    }
+
                     paths {
                         id
                         source {
@@ -322,6 +345,17 @@ export const Controls = (props) => {
                             devicePlaceholder {
                                 id
                                 name
+
+                                setpoints {
+                                    id
+                                    name
+                                    key {
+                                        id
+                                        key
+                                    }
+                                    value
+                                    type
+                                }
                             }
                             x
                             y
@@ -358,6 +392,22 @@ export const Controls = (props) => {
                             rotation
                             scaleX
                             scaleY
+
+                            devicePlaceholder {
+                                id
+                                name
+
+                                setpoints {
+                                    id
+                                    name
+                                    key {
+                                        id
+                                        key
+                                    }
+                                    value
+                                    type
+                                }
+                            }
                         }
                         ports {
                             id
@@ -366,6 +416,15 @@ export const Controls = (props) => {
                             rotation
                             length
                         }
+                    }
+                }
+
+                program {
+                    id
+                    name
+                    children {
+                        id
+                        name
                     }
                 }
 
@@ -617,6 +676,7 @@ export const Controls = (props) => {
             let connected_to =  paths.filter((a) => nodes.indexOf(a.target) > -1).map((x) => x.id)
         
             deleteInfo = mutation.updateCommandProgramHMIS({
+                where: {id: props.activeProgram},
                 delete: {
                     paths: [{
                         where: {
@@ -643,6 +703,40 @@ export const Controls = (props) => {
             }
     })
 
+    const [ createHMIAction, createActionInfo ] = useMutation((mutation, args: {
+        name: string;
+        flow: string[];
+    }) => {
+        const item = mutation.updateCommandProgramHMIS({
+            where: {id: props.activeProgram},
+            update: {
+                actions: [{
+                    create: [{
+                        node: {
+                            name: args.name,
+                            flow: {
+                                connect: args.flow.map((flow) => ({
+                                    where: {node: {id: flow}}
+                                }))
+                            }
+                        }
+                    }]
+                    
+                }]
+            }
+        })
+        return {
+            item: {
+                ...item.commandProgramHmis?.[0]
+            }
+        }
+    })
+
+    const [ updateHMIAction, updateActionInfo ] = useMutation((mutation, args: {
+
+    }) => {
+        
+    })
     // const [ updateConnection ] = useMutation((mutation, args : {
     //     id: string,
     //     source: string,
@@ -721,6 +815,12 @@ export const Controls = (props) => {
     })
 
     const devices = data?.commandPrograms?.[0]?.devices
+    const flows = data?.commandPrograms?.[0]?.program;
+    let program = data?.commandPrograms?.[0]
+
+    let activeProgram = (program?.hmi)?.find((a) => a.id == props.activeProgram)
+
+    console.log({flows})
     
     useEffect(() => {
         let program = data?.commandPrograms?.[0]
@@ -762,7 +862,8 @@ export const Controls = (props) => {
                         scaleX: x.scaleX || 1,
                         scaleY: x.scaleY || 1,
                         rotation: x.rotation || 0,
-                        type: x.type
+                        type: x.type,
+                        devicePlaceholder: x.devicePlaceholder,
                     })),
                     ports: group.ports?.map((x) => ({
                         id: x.id,
@@ -796,6 +897,24 @@ export const Controls = (props) => {
 
     const renderMenu = () => {
         switch(menuOpen){
+            case 'actions':
+                return (
+                    <Box flex>
+                        <Box direction="row" justify="between">
+                            <Text>Action Palette</Text>
+                            <Button 
+                                onClick={() => openAssignModal(true)}
+                                style={{padding: 6, borderRadius: 3}} 
+                                plain 
+                                hoverIndicator
+                                icon={<Add size="small" />} />
+                        </Box>
+
+                        <List 
+                            primaryKey={'name'}
+                            data={activeProgram?.actions} />
+                    </Box>
+                );
             case 'nodes':
                 return (
                     <NodeDropdown
@@ -1007,6 +1126,21 @@ export const Controls = (props) => {
 		<Box 
             direction="row"
             flex>
+            <AssignFlowModal   
+                flows={flows}
+                onClose={() => openAssignModal(false)}
+                onSubmit={(assignment) => {
+                    createHMIAction({
+                        args: {
+                            name: assignment.name,
+                            flow: assignment.flow, 
+                        }
+                    }).then(() => {
+                        openAssignModal(false);
+
+                    })
+                }}
+                open={assignModalOpen} />
             <HMIGroupModal
                 base={aggregate}
                 open={modalOpen}
@@ -1175,12 +1309,17 @@ export const Controls = (props) => {
                     active={menuOpen == 'nodes'}
                     onClick={() => changeMenu('nodes')}
                     hoverIndicator
-                    icon={<Nodes />} />
+                    icon={<Nodes color="black" />} />
                 <Button 
                     active={menuOpen == 'config'}
                     onClick={() => changeMenu('config')}
                     hoverIndicator
-                    icon={<Settings />} />
+                    icon={<Settings width="24px" />} />
+                <Button 
+                    active={menuOpen == 'actions'}
+                    onClick={() => changeMenu('actions')}
+                    hoverIndicator
+                    icon={<Action color="black" />} />
             </Box>
 		</Box>
 	)

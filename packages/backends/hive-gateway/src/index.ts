@@ -119,11 +119,10 @@ const setupWebsockets = (io: Server) => {
 	const taskRegistry = new TaskRegistry()
 
 	const pgClient = new Pool({
-		host: process.env.QUEST_URI || 'localhost',
-		user: process.env.QUEST_USER || 'admin',
-		password: process.env.QUEST_PASS || 'quest',
-		database: 'qdb',
-		port: 8812,
+		host: process.env.TIMESERIES_HOST || 'localhost',
+		user: process.env.TIMESERIES_USER || 'postgres',
+		password: process.env.TIMESERIES_PASSWORD || 'quest',
+		port: 5432,
 		connectionTimeoutMillis: 60 * 1000
 	})
 	console.log(`PG Connection Pool`)
@@ -144,7 +143,7 @@ const setupWebsockets = (io: Server) => {
 
 	await mqChannel.assertQueue(`COMMAND:DEVICE:CONTROL`)
 	await mqChannel.assertQueue(`COMMAND:DEVICE:MODE`);
-	
+	await mqChannel.assertQueue(`COMMAND:FLOW:PRIORITIZE`);
 
 	// const collaborationServer = new CollaborationServer();
          

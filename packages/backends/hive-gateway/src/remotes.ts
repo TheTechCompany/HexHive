@@ -8,4 +8,5 @@ const SIGNAGE_URL = (!isDev ? process.env.SIGNAGE_SERVER : "http://localhost:900
 
 export const REMOTE_SCHEMA : string[] = [
 	SIGNAGE_URL
+
 ]

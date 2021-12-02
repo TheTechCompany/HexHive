@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DeviceModal } from '../../components/modals/device';
-import { deviceActions } from '../../actions'
-import { Device, Program, useMutation, CommandDevice, useQuery } from '@hexhive/client'
+import { useMutation, CommandDevice, useQuery } from '@hexhive/client'
 import { DeploymentList, DeploymentInfo } from '../../components/deployment-list';
 import { Box, TextInput, Button } from 'grommet';
 import * as Icons from 'grommet-icons';
@@ -32,6 +31,9 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
                 id
                 name
 
+                online
+                lastOnline
+
                 activeProgram{ 
                     id
                     name
@@ -54,7 +56,6 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
     //     }
     // }, [devices])
 
-    console.log("Devices", query.DeviceMany())
 
 
     const [ createDevice, {isLoading}] = useMutation((mutation, args: {
@@ -83,7 +84,7 @@ export const Devices : React.FC<DevicePageProps> = (props) => {
     }, {
         onCompleted(data) {},
         onError(error) {},
-        refetchQueries: [query.DeviceMany],
+        refetchQueries: [],
         awaitRefetchQueries: true,
         suspense: false, 
 })

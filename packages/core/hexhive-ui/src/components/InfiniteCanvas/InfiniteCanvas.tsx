@@ -266,7 +266,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
             })
         } else if (evt.button == 2) {
             //Right
-            alert("Right click")
+            // alert("Right click")
         }
     }
 

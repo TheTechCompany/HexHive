@@ -129,7 +129,7 @@ console.log(_plugin)
                     }}
                     icon={<Code />} />
             </Box>
-            <input {...getInputProps()} />
+            <input {...getInputProps() as any} />
 
             <Box flex>
                 {view == "code" ? (

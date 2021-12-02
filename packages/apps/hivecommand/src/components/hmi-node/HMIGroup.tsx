@@ -1,5 +1,5 @@
 import { Box } from 'grommet';
-import React, {useContext} from 'react';
+import React, {useMemo, useContext} from 'react';
 import { useSVGStyle } from '../../hooks/svg';
 import * as HMIIcons from '../../assets/hmi-elements'
 import { RetractingPort } from '@hexhive/ui';
@@ -19,37 +19,39 @@ export const HMIGroup : React.FC<HMIGroupProps> = (props) => {
 
 	const { getDeviceOptions, getDeviceConf } = useContext(HMICanvasContext)
 
-	let nodes = props.extras.nodes?.sort((a, b) => (a.z || 0) - (b.z || 0)).map((node) => {
-		let options : any = {};
-		let conf : any = {};
-		if(getDeviceOptions) {
-			console.log(node.devicePlaceholder?.name, getDeviceOptions(node.devicePlaceholder?.name))
-			options = getDeviceOptions(node.devicePlaceholder?.name);
-		}
-		if(getDeviceConf) {
-			conf = getDeviceConf(node.devicePlaceholder?.name);
-		}
-		console.log({options}, {conf})
-		// const options = getDeviceOptions(node?.devicePlaceholder?.name)
-		// const conf = getDeviceConf(node?.devicePlaceholder?.name)
+	let nodes = useMemo(() => {
+		return props.extras.nodes?.sort((a, b) => (a.z || 0) - (b.z || 0)).map((node) => {
+			let options : any = {};
+			let conf : any = {};
+			if(getDeviceOptions) {
+				options = getDeviceOptions(node.devicePlaceholder?.name);
+			}
+			if(getDeviceConf) {
+				conf = getDeviceConf(node.devicePlaceholder?.name);
+			}
+			
+			// const options = getDeviceOptions(node?.devicePlaceholder?.name)
+			// const conf = getDeviceConf(node?.devicePlaceholder?.name)
 
-		return {
-			id: node.id,
-			extras: {
-				icon: useSVGStyle(HMIIcons[node.type.name], (props) => ({
-					stroke: (options?.opening == 'true' || options?.starting == 'true') ? 'yellow' : options?.open == 'true' || options?.on == 'true' ? 'green' : 'gray',
-					filter: `hue-rotate(${((options?.open == true || options?.open == 'true') || (options?.on == 'true')) ? '45' : '0'}deg)`
-				})),
-				options,
-				conf
-			},
-			x: node.x,
-			y: node.y,
-			rotation: node.rotation,
-			scaleX: node.scaleX,
-			scaleY: node.scaleY
-		}
-	})
+			return {
+				id: node.id,
+				extras: {
+					icon: useSVGStyle(HMIIcons[node.type.name], (props) => ({
+						stroke: (options?.opening == 'true' || options?.starting == 'true') ? 'yellow' : (options?.open == 'true' || options?.on == 'true' || parseFloat(options?.speed) > 0)? 'green' : 'gray',
+						filter: `hue-rotate(${((options?.open == true || options?.open == 'true') || (options?.on == 'true')) ? '45' : '0'}deg)`
+					})),
+					options,
+					conf
+				},
+				x: node.x,
+				y: node.y,
+				device: node.devicePlaceholder,
+				rotation: node.rotation,
+				scaleX: node.scaleX,
+				scaleY: node.scaleY
+			}
+		})
+	}, [props.extras.nodes]);
 	// const Icons = props.icons.map((icon) => {
 	// 	return useSVGStyle(icon && typeof(icon) === 'string' ? (Icons as any)[icon] : (icon) ? icon : Icons.Previous, (props) => ({
 	// 		stroke: props.options?.open == 'true' || props.options?.on == 'true' ? 'green' : 'gray',
@@ -58,13 +60,15 @@ export const HMIGroup : React.FC<HMIGroupProps> = (props) => {
 	// })
 
 	// console.log(Icons)
-	const ports = props.extras?.ports?.map((port) => ({
-		id: port.id,
-		x: port.x,
-		y: port.y,
-		rotation: port.rotation,
-		length: port.length
-	}))
+	const ports = useMemo(() => {
+		return props.extras?.ports?.map((port) => ({
+			id: port.id,
+			x: port.x,
+			y: port.y,
+			rotation: port.rotation,
+			length: port.length
+		}))
+	}, [props.extras.ports]);
 
 	return (
 		<Box style={{position: 'relative', width: props.width, height: props.height}}>
@@ -78,7 +82,7 @@ export const HMIGroup : React.FC<HMIGroupProps> = (props) => {
 						left: Node.x, 
 						top: Node.y
 					}}> 
-						<Node.extras.icon scaleX={Node.scaleX} scaleY={Node.scaleY} rotation={Node.rotation} conf={Node.extras.conf} options={Node.extras.options} />
+						<Node.extras.icon device={Node.device} scaleX={Node.scaleX} scaleY={Node.scaleY} rotation={Node.rotation} conf={Node.extras.conf} options={Node.extras.options} />
 				</div>)}
 			{ports.map((Port) => 
 				<div style={{position: 'absolute', left: Port.x, top: Port.y}}>
