@@ -17,7 +17,7 @@ import { FileStore } from './de-file-store'
 import { Pool } from 'pg';
 import { createServer } from "http"
 
-const greenlock = require("greenlock-express")
+const greenlock = require("greenlock-express");
 
 (async () => {
 	const app = express();
@@ -92,4 +92,4 @@ const greenlock = require("greenlock-express")
 		})
 	}
 
-})()
+})();
