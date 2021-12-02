@@ -4,7 +4,6 @@ on:
   push: 
     branches:
       - production
-      - signage
 
 jobs:
   build_landing:
@@ -56,16 +55,6 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
 
-      - name: Build and push 
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with: 
-          context: .
-          file: ./HiveSignage.Dockerfile
-          push: true
-          tags: thetechcompany/hive-signage:latest
-          build-args: |
-            BUILD_ENV=github
   
       - name: Build and push 
         id: docker_build
