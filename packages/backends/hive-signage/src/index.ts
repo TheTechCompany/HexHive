@@ -15,9 +15,15 @@ import signageApi from './routes'
 import {OGM} from "@neo4j/graphql-ogm"
 import { FileStore } from './de-file-store'
 import { Pool } from 'pg';
+import { createServer } from "http"
+
+const greenlock = require("greenlock-express")
 
 (async () => {
 	const app = express();
+
+	const server = createServer(app)
+
 
 	app.use(cors())
 	const driver = neo4j.driver(
@@ -52,8 +58,38 @@ import { Pool } from 'pg';
 		graphiql: true,
 	}))
 
-	app.listen(process.env.PORT || 9009, () => {
-		console.log(`Signage Server Running on ${process.env.PORT || 9009}`)
-	})
+
+	if(process.env.NODE_ENV == "production"){
+		const httpsWorker = (glx: any)  => {
+			const server = glx.httpsServer()
+			
+			// const io = new Server(server)
+			// var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
+			// ws.on("connection", function(ws: WebSocket, req: any) {
+			//     // inspect req.headers.authorization (or cookies) for session info
+			//     collaborationServer.handleConnection(ws)
+			// });
+        
+			// servers a node app that proxies requests to a localhost
+			glx.serveApp(app)
+		}
+
+		if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
+		greenlock.init({
+			packageRoot: __dirname + "/../",
+			configDir: "./greenlock.d",
+     
+			// contact for security and critical bug notices
+			maintainerEmail: process.env.MAINTAINER_EMAIL,
+     
+			// whether or not to run at cloudscale
+			cluster: false
+		}).ready(httpsWorker)
+	}else{
+
+		app.listen(process.env.PORT || 9009, () => {
+			console.log(`Signage Server Running on ${process.env.PORT || 9009}`)
+		})
+	}
 
 })()

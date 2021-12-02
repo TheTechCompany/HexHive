@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@gqty/react": "^2.1.0",
-    "gqty": "^2.1.0"
+    "gqty": "^2.1.0",
+    "greenlock-express": "^4.0.3"
   },
   "devDependencies": {
     "@gqty/cli": "^2.3.0",
