@@ -41,6 +41,7 @@ module.exports = (webpackConfigEnv, argv) => {
           'hexhive_hivecommand': 'hexhive_hivecommand',
           'hexhive_hivemind': 'hexhive_hivemind',
           'hexhive_hivefiles': 'hexhive_hivefiles',
+          'hexhive_hivesignage': 'hexhive_hivesignage',
           'hexhive_hive3d': 'hexhive_hive3d',
           'hexhive_hiveheader': 'hexhive_hiveheader',
           'hexhive_hivesettings': 'hexhive_hivesettings'
