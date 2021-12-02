@@ -49,7 +49,7 @@ export default (ogm: OGM, fs: FileStore) => {
 		.post(upload.array('files'), async (req, res) => {
 			//Add assets to campaign
 
-			let files = req.files as any[] || [];
+			let files = (req as any).files as any[] || [];
 
 			let paths = req.body.file_paths.split(', ')
 
