@@ -26,6 +26,7 @@ const greenlock = require("greenlock-express");
 
 
 	app.use(cors())
+	
 	const driver = neo4j.driver(
 		process.env.NEO4J_URI || "localhost",
 		neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
