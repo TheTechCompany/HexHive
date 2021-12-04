@@ -2,7 +2,6 @@ import { Box, Button, List } from 'grommet';
 import React, { useState } from 'react';
 import { Add } from 'grommet-icons';
 import { mutation, useMutation, useQuery } from '@hexhive/client'
-import { WorkflowModal } from '../../modals/display-modal';
 import { RouteComponentProps } from 'react-router-dom';
 import { CampaignModal } from '../../modals/campaign-modal';
 

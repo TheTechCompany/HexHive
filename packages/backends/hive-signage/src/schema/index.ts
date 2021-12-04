@@ -1,12 +1,12 @@
 import campaigns from "./campaigns";
-import displays from "./displays";
+import machines from "./machines";
 import gql from 'graphql-tag'
-import clusters from "./clusters";
-import computers from "./computers";
+import locations from "./locations";
+import schedule from "./schedule";
 
 export default gql`
-	${clusters}
-	${computers}
+	${locations}
+	${schedule}
 	${campaigns}
-	${displays}
+	${machines}
 `
