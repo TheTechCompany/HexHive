@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Text } from 'grommet';
-import { useQuery } from '@hexhive-api/signage';
+import { client, useQuery } from '@hexhive-api/signage';
 import { Analytics, Scorecard, Map, SchedulePlay } from 'grommet-icons';
 import { Route, Switch } from 'react-router';
 import { ScheduleLocations } from './views/ScheduleLocations';
@@ -11,6 +11,7 @@ import { useQuery as useApolloQuery, useApolloClient, gql } from '@apollo/client
 import { ScheduleTiers } from './views/ScheduleTiers';
 export const ScheduleSingle = (props) => {
 	const query = useQuery()
+	const client = useApolloClient()
 
 	const { data } = useApolloQuery(gql`
 		query Q ($id: ID){
@@ -28,10 +29,31 @@ export const ScheduleSingle = (props) => {
 					name
 				}
 
+				tiers {
+					id
+					name
+					percent
+					slots
+				}
+
+				campaignsConnection {
+					edges {
+						tier
+						node {
+							id
+							name
+						}
+					}
+				}
+
 			
 			}
 		}
 	`)
+
+	const refresh = () => {
+		client.refetchQueries({include: ['Q']})
+	}
 
 	const schedule = data?.schedules?.[0]
 
@@ -60,7 +82,9 @@ export const ScheduleSingle = (props) => {
 		<ScheduleSingleProvider value={{
 			scheduleId: props.match.params.id,
 			locations: schedule?.locations,
-			campaigns: schedule?.campaigns,
+			campaigns: schedule?.campaignsConnection?.edges?.map(edge => ({...edge.node, tier: schedule?.tiers.find((a) => a.id == edge.tier)})),
+			tiers: schedule?.tiers,
+			refresh
 		}}>
 		<Box 
 			overflow="hidden"
