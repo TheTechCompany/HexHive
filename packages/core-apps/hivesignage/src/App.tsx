@@ -2,16 +2,19 @@ import { Box, Text, List } from 'grommet';
 import React from 'react';
 import { Switch, Route, matchPath} from 'react-router-dom'
 import { Analytics } from './views/analytics';
-import { DisplayList } from './views/display-list';
+import { MachineList } from './views/machine-list';
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { CampaignList } from './views/campaign-list';
 import { HomeView } from './views/home';
 import { CampaignSingle } from './views/campaign-single';
-import { ClusterList } from './views/cluster-list/ClusterList';
-import { ComputerList } from './views/computer-list/ComputerList';
-import { ClusterSingle } from './views/cluster-single/ClusterSingle';
-import { ComputerSingle } from './views/computer-single/ComputerSingle';
-import { DisplaySingle } from './views/display-single/DisplaySingle';
+import { LocationList } from './views/location-list/LocationList';
+import {  ScheduleList } from './views/schedule-list/ScheduleList';
+import { LocationSingle } from './views/location-single/LocationSingle';
+import {  ScheduleSingle } from './views/schedule-single/ScheduleSingle';
+import { MachineSingle } from './views/machine-single';
+import { SchedulePlay, System, Catalog, Map, ServerCluster, Analytics as AnalyticsIcon } from 'grommet-icons';
+import { MachineTemplateList } from './views/machine-template-list';
+import { MachineTemplateSingle } from './views/machine-template-single';
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_API ? `${process.env.REACT_APP_API}/graphql`: 'http://localhost:7000/graphql',
@@ -26,24 +29,34 @@ export const App = (props) => {
 
     const menu = [
         {
-            label: "Clusters",
-            path: "/clusters"
+            icon: <SchedulePlay />,
+            label: "Schedules",
+            path: '/schedules'
         },
         {
-            label: "Computers",
-            path: '/computers'
-        },
-        {
-            label: "Displays",
-            path: "/displays"
-        },
-        {
+            icon: <Catalog />,
             label: "Campaigns",
             path: "/campaigns"
         },
         {
-            label: "Analytics",
-            path: '/analytics'
+            icon: <Map />,
+            label: "Locations",
+            path: "/locations"
+        },
+        {
+            icon: <ServerCluster/>,
+            label: "Machines",
+            path: '/machines'
+        },
+        {
+            icon: <System />,
+            label: "Templates",
+            path: `/machine-templates`
+        },
+        {
+            icon: <AnalyticsIcon />,
+            label: "Reports",
+            path: '/reports'
         }
     ]
 
@@ -65,11 +78,14 @@ export const App = (props) => {
                     primaryKey="label">
                     {(datum) => (
                         <Box 
+                            gap="small"
                             focusIndicator={false}
                             hoverIndicator
-                            pad={'xsmall'}
+                            pad={'small'}
+                            align="center"
                             background={matchPath(window.location.pathname, {path: `/dashboard/signage${datum.path}`}) ? 'accent-2': ''}
                             direction="row">
+                            {datum.icon}
                             <Text>{datum.label}</Text>
                         </Box>
                     )}
@@ -81,15 +97,17 @@ export const App = (props) => {
                 pad="xsmall">
                 <Switch>
                     <Route path={"/"} exact component={HomeView} />
-                    <Route path={"/displays"} exact component={DisplayList} />
-                    <Route path={"/displays/:id"}  component={DisplaySingle} />
-                    <Route path={'/clusters'} exact component={ClusterList} />
-                    <Route path={'/clusters/:id'} component={ClusterSingle} />
-                    <Route path={'/computers'} exact component={ComputerList} />
-                    <Route path={'/computers/:id'} component={ComputerSingle} />
+                    <Route path={"/schedules"} exact component={ScheduleList} />
+                    <Route path={"/schedules/:id"}  component={ScheduleSingle} />
+                    <Route path={'/locations'} exact component={LocationList} />
+                    <Route path={'/locations/:id'} component={LocationSingle} />
+                    <Route path={'/machines'} exact component={MachineList} />
+                    <Route path={'/machines/:id'} component={MachineSingle} />
+                    <Route path={'/machine-templates'} exact component={MachineTemplateList} />
+                    <Route path={'/machine-templates/:id'} component={MachineTemplateSingle} />
                     <Route path={"/campaigns"} exact component={CampaignList} />
                     <Route path={"/campaigns/:id"} component={CampaignSingle} />
-                    <Route path={`/analytics`} exact component={Analytics} />
+                    <Route path={`/reports`} exact component={Analytics} />
                 </Switch>
             </Box>
 
