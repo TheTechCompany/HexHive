@@ -25,7 +25,7 @@ export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = 
 	const [ dayBefore, setDayBefore ] = useState<string>(new Date(Date.now() - (1000 * 60 * 60 * 24 * 2)).toISOString())
 
 	const { data } = useQuery(gql`
-		query Q ($device: String, $device1: String, $device2: String, $device3: String, $deviceId: String, $startDate: String, $valueKey: String, $valueKey2: String){
+		query TimeSeriesData ($device: String, $device1: String, $device2: String, $device3: String, $deviceId: String, $startDate: String, $valueKey: String, $valueKey2: String){
 			commandDeviceTimeseriesTotal(deviceId: $deviceId, device: $device, startDate: $startDate, valueKey: $valueKey) {
 				total
 			}
@@ -59,14 +59,14 @@ export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = 
 			device1: 'FIT101',
 			device2: 'PT201',
 			device3: 'PT301',
-			deviceId:controlId,
+			deviceId: controlId,
 			valueKey: 'flow',
 			valueKey2: 'pressure',
 			startDate: dayBefore
 		}
 	})
 
-	console.log("Render")
+	console.log("Render", data)
 	
 	const total = useMemo(() => {
 		return data?.commandDeviceTimeseriesTotal?.total;
@@ -134,13 +134,13 @@ export const DeviceControlGraph : React.FC<RouteComponentProps<{id: string}>> = 
 			<Box gap="xsmall" flex direction="row">
 				{/* Total Flows */}
 				<GraphBlock
-					label={`FIT301 - Total Flow: ${total?.toFixed(2)} Liters`}
+					label={`FIT301 - Last 7 days | Throughput: ${total?.toFixed(2)} Liters`}
 					data={values}
 					xKey={'timestamp'}
 					yKey={'value'} />
 			
 				<GraphBlock 
-					label={`FIT101 - Total Flow: ${total1?.toFixed(2)} Liters`}
+					label={`FIT101 - Last 7 days | Throughput: ${total1?.toFixed(2)} Liters`}
 					data={values1}
 					xKey={'timestamp'}
 					yKey={'value'} />

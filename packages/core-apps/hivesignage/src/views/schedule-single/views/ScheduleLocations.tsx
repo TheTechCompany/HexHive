@@ -46,7 +46,7 @@ export const ScheduleLocations = () => {
 				onClose={() => openModal(false)}
 				open={modalOpen} />
 			<Box pad={{left: 'xsmall'}} align="center" justify="between" direction="row">
-				<Text>Locations</Text>
+				<Text weight="bold">Locations</Text>
 				<Button onClick={() => openModal(true)} hoverIndicator icon={<Add size="small" />} />
 			</Box>
 

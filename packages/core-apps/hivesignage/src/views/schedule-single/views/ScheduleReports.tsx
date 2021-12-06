@@ -6,7 +6,7 @@ export const ScheduleReports = () => {
 	return (
 		<Box>
 			<Box pad={{left: 'xsmall'}} align="center" justify="between" direction="row">
-				<Text>Reports</Text>
+				<Text weight="bold">Reports</Text>
 				<Button hoverIndicator icon={<Add size="small" />} />
 			</Box>
 		</Box>

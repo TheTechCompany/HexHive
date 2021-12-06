@@ -4,11 +4,14 @@ type Machine {
 	name: String
 	location: Location @relationship(type: "IN_LOCATION", direction: OUT)
 	
+	computers: Computer @relationship(type: "HAS_COMPUTER", direction: OUT)
+	
 	template: MachineTemplate @relationship(type: "USES_TEMPLATE", direction: OUT)
 	
 	provisioned: Boolean
 	provisionedAt: DateTime
-	provisionedBy: ProvisionCode @relationship(type: "PROVISIONED", direction: IN)
+
+	networkName: String
 }
 
 type MachineTemplate {
@@ -76,7 +79,7 @@ type ProvisionCode {
 	display: Machine @relationship(type: "PROVISIONED", direction: OUT)
 }
 
-type DisplayScreen {
+type Screen {
 	id: ID! @id
 	width: Float
 	height: Float
@@ -88,5 +91,12 @@ type DisplayScreen {
 type Computer {
 	id: ID! @id
 	name: String
+	hostname: String
+	cpu: Float
+	memory: Float
+	os: String
+	agentVersion: String
+
+	template: ComputerTemplate @relationship(type: "IS_COMPUTER", direction: OUT)
 }
 `
