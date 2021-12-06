@@ -1608,6 +1608,26 @@ export interface LocationMachinesNodeAggregationWhereInput {
   name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
   name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
   name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  networkName_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  networkName_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  networkName_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  networkName_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  networkName_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  networkName_EQUAL?: Maybe<Scalars["String"]>;
+  networkName_GT?: Maybe<Scalars["Int"]>;
+  networkName_GTE?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  networkName_LT?: Maybe<Scalars["Int"]>;
+  networkName_LTE?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
   provisionedAt_EQUAL?: Maybe<Scalars["DateTime"]>;
   provisionedAt_GT?: Maybe<Scalars["DateTime"]>;
   provisionedAt_GTE?: Maybe<Scalars["DateTime"]>;
@@ -1729,7 +1749,6 @@ export interface LocationWhere {
 
 export interface MachineConnectInput {
   location?: Maybe<MachineLocationConnectFieldInput>;
-  provisionedBy?: Maybe<MachineProvisionedByConnectFieldInput>;
   template?: Maybe<MachineTemplateConnectFieldInput>;
 }
 
@@ -1740,21 +1759,19 @@ export interface MachineConnectWhere {
 export interface MachineCreateInput {
   location?: Maybe<MachineLocationFieldInput>;
   name?: Maybe<Scalars["String"]>;
+  networkName?: Maybe<Scalars["String"]>;
   provisioned?: Maybe<Scalars["Boolean"]>;
   provisionedAt?: Maybe<Scalars["DateTime"]>;
-  provisionedBy?: Maybe<MachineProvisionedByFieldInput>;
   template?: Maybe<MachineTemplateFieldInput>;
 }
 
 export interface MachineDeleteInput {
   location?: Maybe<MachineLocationDeleteFieldInput>;
-  provisionedBy?: Maybe<MachineProvisionedByDeleteFieldInput>;
   template?: Maybe<MachineTemplateDeleteFieldInput>;
 }
 
 export interface MachineDisconnectInput {
   location?: Maybe<MachineLocationDisconnectFieldInput>;
-  provisionedBy?: Maybe<MachineProvisionedByDisconnectFieldInput>;
   template?: Maybe<MachineTemplateDisconnectFieldInput>;
 }
 
@@ -1973,109 +1990,8 @@ export interface MachinePluginWhere {
   type_STARTS_WITH?: Maybe<Scalars["String"]>;
 }
 
-export interface MachineProvisionedByAggregateInput {
-  AND?: Maybe<Array<MachineProvisionedByAggregateInput>>;
-  OR?: Maybe<Array<MachineProvisionedByAggregateInput>>;
-  count?: Maybe<Scalars["Int"]>;
-  count_GT?: Maybe<Scalars["Int"]>;
-  count_GTE?: Maybe<Scalars["Int"]>;
-  count_LT?: Maybe<Scalars["Int"]>;
-  count_LTE?: Maybe<Scalars["Int"]>;
-  node?: Maybe<MachineProvisionedByNodeAggregationWhereInput>;
-}
-
-export interface MachineProvisionedByConnectFieldInput {
-  connect?: Maybe<ProvisionCodeConnectInput>;
-  where?: Maybe<ProvisionCodeConnectWhere>;
-}
-
-export interface MachineProvisionedByConnectionSort {
-  node?: Maybe<ProvisionCodeSort>;
-}
-
-export interface MachineProvisionedByConnectionWhere {
-  AND?: Maybe<Array<MachineProvisionedByConnectionWhere>>;
-  OR?: Maybe<Array<MachineProvisionedByConnectionWhere>>;
-  node?: Maybe<ProvisionCodeWhere>;
-  node_NOT?: Maybe<ProvisionCodeWhere>;
-}
-
-export interface MachineProvisionedByCreateFieldInput {
-  node: ProvisionCodeCreateInput;
-}
-
-export interface MachineProvisionedByDeleteFieldInput {
-  delete?: Maybe<ProvisionCodeDeleteInput>;
-  where?: Maybe<MachineProvisionedByConnectionWhere>;
-}
-
-export interface MachineProvisionedByDisconnectFieldInput {
-  disconnect?: Maybe<ProvisionCodeDisconnectInput>;
-  where?: Maybe<MachineProvisionedByConnectionWhere>;
-}
-
-export interface MachineProvisionedByFieldInput {
-  connect?: Maybe<MachineProvisionedByConnectFieldInput>;
-  create?: Maybe<MachineProvisionedByCreateFieldInput>;
-}
-
-export interface MachineProvisionedByNodeAggregationWhereInput {
-  AND?: Maybe<Array<MachineProvisionedByNodeAggregationWhereInput>>;
-  OR?: Maybe<Array<MachineProvisionedByNodeAggregationWhereInput>>;
-  createdAt_EQUAL?: Maybe<Scalars["DateTime"]>;
-  createdAt_GT?: Maybe<Scalars["DateTime"]>;
-  createdAt_GTE?: Maybe<Scalars["DateTime"]>;
-  createdAt_LT?: Maybe<Scalars["DateTime"]>;
-  createdAt_LTE?: Maybe<Scalars["DateTime"]>;
-  createdAt_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
-  createdAt_MAX_GT?: Maybe<Scalars["DateTime"]>;
-  createdAt_MAX_GTE?: Maybe<Scalars["DateTime"]>;
-  createdAt_MAX_LT?: Maybe<Scalars["DateTime"]>;
-  createdAt_MAX_LTE?: Maybe<Scalars["DateTime"]>;
-  createdAt_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
-  createdAt_MIN_GT?: Maybe<Scalars["DateTime"]>;
-  createdAt_MIN_GTE?: Maybe<Scalars["DateTime"]>;
-  createdAt_MIN_LT?: Maybe<Scalars["DateTime"]>;
-  createdAt_MIN_LTE?: Maybe<Scalars["DateTime"]>;
-  id_EQUAL?: Maybe<Scalars["ID"]>;
-  slug_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
-  slug_AVERAGE_GT?: Maybe<Scalars["Float"]>;
-  slug_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
-  slug_AVERAGE_LT?: Maybe<Scalars["Float"]>;
-  slug_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
-  slug_EQUAL?: Maybe<Scalars["String"]>;
-  slug_GT?: Maybe<Scalars["Int"]>;
-  slug_GTE?: Maybe<Scalars["Int"]>;
-  slug_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
-  slug_LONGEST_GT?: Maybe<Scalars["Int"]>;
-  slug_LONGEST_GTE?: Maybe<Scalars["Int"]>;
-  slug_LONGEST_LT?: Maybe<Scalars["Int"]>;
-  slug_LONGEST_LTE?: Maybe<Scalars["Int"]>;
-  slug_LT?: Maybe<Scalars["Int"]>;
-  slug_LTE?: Maybe<Scalars["Int"]>;
-  slug_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
-  slug_SHORTEST_GT?: Maybe<Scalars["Int"]>;
-  slug_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
-  slug_SHORTEST_LT?: Maybe<Scalars["Int"]>;
-  slug_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
-}
-
-export interface MachineProvisionedByUpdateConnectionInput {
-  node?: Maybe<ProvisionCodeUpdateInput>;
-}
-
-export interface MachineProvisionedByUpdateFieldInput {
-  connect?: Maybe<MachineProvisionedByConnectFieldInput>;
-  create?: Maybe<MachineProvisionedByCreateFieldInput>;
-  delete?: Maybe<MachineProvisionedByDeleteFieldInput>;
-  disconnect?: Maybe<MachineProvisionedByDisconnectFieldInput>;
-  update?: Maybe<MachineProvisionedByUpdateConnectionInput>;
-  where?: Maybe<MachineProvisionedByConnectionWhere>;
-}
-
 export interface MachineRelationInput {
   location?: Maybe<MachineLocationCreateFieldInput>;
-  provisionedBy?: Maybe<MachineProvisionedByCreateFieldInput>;
   template?: Maybe<MachineTemplateCreateFieldInput>;
 }
 
@@ -2083,6 +1999,7 @@ export interface MachineRelationInput {
 export interface MachineSort {
   id?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
+  networkName?: Maybe<SortDirection>;
   provisioned?: Maybe<SortDirection>;
   provisionedAt?: Maybe<SortDirection>;
 }
@@ -2718,9 +2635,9 @@ export interface MachineTemplateWhere {
 export interface MachineUpdateInput {
   location?: Maybe<MachineLocationUpdateFieldInput>;
   name?: Maybe<Scalars["String"]>;
+  networkName?: Maybe<Scalars["String"]>;
   provisioned?: Maybe<Scalars["Boolean"]>;
   provisionedAt?: Maybe<Scalars["DateTime"]>;
-  provisionedBy?: Maybe<MachineProvisionedByUpdateFieldInput>;
   template?: Maybe<MachineTemplateUpdateFieldInput>;
 }
 
@@ -2752,6 +2669,16 @@ export interface MachineWhere {
   name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  networkName?: Maybe<Scalars["String"]>;
+  networkName_CONTAINS?: Maybe<Scalars["String"]>;
+  networkName_ENDS_WITH?: Maybe<Scalars["String"]>;
+  networkName_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  networkName_NOT?: Maybe<Scalars["String"]>;
+  networkName_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  networkName_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  networkName_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  networkName_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  networkName_STARTS_WITH?: Maybe<Scalars["String"]>;
   provisioned?: Maybe<Scalars["Boolean"]>;
   provisionedAt?: Maybe<Scalars["DateTime"]>;
   provisionedAt_GT?: Maybe<Scalars["DateTime"]>;
@@ -2761,11 +2688,6 @@ export interface MachineWhere {
   provisionedAt_LTE?: Maybe<Scalars["DateTime"]>;
   provisionedAt_NOT?: Maybe<Scalars["DateTime"]>;
   provisionedAt_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
-  provisionedBy?: Maybe<ProvisionCodeWhere>;
-  provisionedByAggregate?: Maybe<MachineProvisionedByAggregateInput>;
-  provisionedByConnection?: Maybe<MachineProvisionedByConnectionWhere>;
-  provisionedByConnection_NOT?: Maybe<MachineProvisionedByConnectionWhere>;
-  provisionedBy_NOT?: Maybe<ProvisionCodeWhere>;
   provisioned_NOT?: Maybe<Scalars["Boolean"]>;
   template?: Maybe<MachineTemplateWhere>;
   templateAggregate?: Maybe<MachineTemplateAggregateInput>;
@@ -2954,10 +2876,6 @@ export interface ProvisionCodeConnectInput {
   display?: Maybe<ProvisionCodeDisplayConnectFieldInput>;
 }
 
-export interface ProvisionCodeConnectWhere {
-  node: ProvisionCodeWhere;
-}
-
 export interface ProvisionCodeCreateInput {
   createdAt?: Maybe<Scalars["DateTime"]>;
   display?: Maybe<ProvisionCodeDisplayFieldInput>;
@@ -3042,6 +2960,26 @@ export interface ProvisionCodeDisplayNodeAggregationWhereInput {
   name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
   name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
   name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  networkName_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  networkName_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  networkName_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  networkName_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  networkName_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  networkName_EQUAL?: Maybe<Scalars["String"]>;
+  networkName_GT?: Maybe<Scalars["Int"]>;
+  networkName_GTE?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  networkName_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  networkName_LT?: Maybe<Scalars["Int"]>;
+  networkName_LTE?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  networkName_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
   provisionedAt_EQUAL?: Maybe<Scalars["DateTime"]>;
   provisionedAt_GT?: Maybe<Scalars["DateTime"]>;
   provisionedAt_GTE?: Maybe<Scalars["DateTime"]>;
@@ -6162,6 +6100,7 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
+    networkName: { __type: "StringAggregateSelection!" },
     provisionedAt: { __type: "DateTimeAggregateSelection!" },
   },
   LocationMachinesAggregateInput: {
@@ -6228,6 +6167,26 @@ export const generatedSchema = {
     name_SHORTEST_GTE: { __type: "Int" },
     name_SHORTEST_LT: { __type: "Int" },
     name_SHORTEST_LTE: { __type: "Int" },
+    networkName_AVERAGE_EQUAL: { __type: "Float" },
+    networkName_AVERAGE_GT: { __type: "Float" },
+    networkName_AVERAGE_GTE: { __type: "Float" },
+    networkName_AVERAGE_LT: { __type: "Float" },
+    networkName_AVERAGE_LTE: { __type: "Float" },
+    networkName_EQUAL: { __type: "String" },
+    networkName_GT: { __type: "Int" },
+    networkName_GTE: { __type: "Int" },
+    networkName_LONGEST_EQUAL: { __type: "Int" },
+    networkName_LONGEST_GT: { __type: "Int" },
+    networkName_LONGEST_GTE: { __type: "Int" },
+    networkName_LONGEST_LT: { __type: "Int" },
+    networkName_LONGEST_LTE: { __type: "Int" },
+    networkName_LT: { __type: "Int" },
+    networkName_LTE: { __type: "Int" },
+    networkName_SHORTEST_EQUAL: { __type: "Int" },
+    networkName_SHORTEST_GT: { __type: "Int" },
+    networkName_SHORTEST_GTE: { __type: "Int" },
+    networkName_SHORTEST_LT: { __type: "Int" },
+    networkName_SHORTEST_LTE: { __type: "Int" },
     provisionedAt_EQUAL: { __type: "DateTime" },
     provisionedAt_GT: { __type: "DateTime" },
     provisionedAt_GTE: { __type: "DateTime" },
@@ -6363,25 +6322,9 @@ export const generatedSchema = {
       },
     },
     name: { __type: "String" },
+    networkName: { __type: "String" },
     provisioned: { __type: "Boolean" },
     provisionedAt: { __type: "DateTime" },
-    provisionedBy: {
-      __type: "ProvisionCode",
-      __args: { options: "ProvisionCodeOptions", where: "ProvisionCodeWhere" },
-    },
-    provisionedByAggregate: {
-      __type: "MachineProvisionCodeProvisionedByAggregationSelection",
-      __args: { where: "ProvisionCodeWhere" },
-    },
-    provisionedByConnection: {
-      __type: "MachineProvisionedByConnection!",
-      __args: {
-        after: "String",
-        first: "Int",
-        sort: "[MachineProvisionedByConnectionSort!]",
-        where: "MachineProvisionedByConnectionWhere",
-      },
-    },
     template: {
       __type: "MachineTemplate",
       __args: {
@@ -6408,30 +6351,28 @@ export const generatedSchema = {
     count: { __type: "Int!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
+    networkName: { __type: "StringAggregateSelection!" },
     provisionedAt: { __type: "DateTimeAggregateSelection!" },
   },
   MachineConnectInput: {
     location: { __type: "MachineLocationConnectFieldInput" },
-    provisionedBy: { __type: "MachineProvisionedByConnectFieldInput" },
     template: { __type: "MachineTemplateConnectFieldInput" },
   },
   MachineConnectWhere: { node: { __type: "MachineWhere!" } },
   MachineCreateInput: {
     location: { __type: "MachineLocationFieldInput" },
     name: { __type: "String" },
+    networkName: { __type: "String" },
     provisioned: { __type: "Boolean" },
     provisionedAt: { __type: "DateTime" },
-    provisionedBy: { __type: "MachineProvisionedByFieldInput" },
     template: { __type: "MachineTemplateFieldInput" },
   },
   MachineDeleteInput: {
     location: { __type: "MachineLocationDeleteFieldInput" },
-    provisionedBy: { __type: "MachineProvisionedByDeleteFieldInput" },
     template: { __type: "MachineTemplateDeleteFieldInput" },
   },
   MachineDisconnectInput: {
     location: { __type: "MachineLocationDisconnectFieldInput" },
-    provisionedBy: { __type: "MachineProvisionedByDisconnectFieldInput" },
     template: { __type: "MachineTemplateDisconnectFieldInput" },
   },
   MachineLocationAggregateInput: {
@@ -6669,123 +6610,14 @@ export const generatedSchema = {
     type_NOT_STARTS_WITH: { __type: "String" },
     type_STARTS_WITH: { __type: "String" },
   },
-  MachineProvisionCodeProvisionedByAggregationSelection: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int!" },
-    node: { __type: "MachineProvisionCodeProvisionedByNodeAggregateSelection" },
-  },
-  MachineProvisionCodeProvisionedByNodeAggregateSelection: {
-    __typename: { __type: "String!" },
-    createdAt: { __type: "DateTimeAggregateSelection!" },
-    id: { __type: "IDAggregateSelection!" },
-    slug: { __type: "StringAggregateSelection!" },
-  },
-  MachineProvisionedByAggregateInput: {
-    AND: { __type: "[MachineProvisionedByAggregateInput!]" },
-    OR: { __type: "[MachineProvisionedByAggregateInput!]" },
-    count: { __type: "Int" },
-    count_GT: { __type: "Int" },
-    count_GTE: { __type: "Int" },
-    count_LT: { __type: "Int" },
-    count_LTE: { __type: "Int" },
-    node: { __type: "MachineProvisionedByNodeAggregationWhereInput" },
-  },
-  MachineProvisionedByConnectFieldInput: {
-    connect: { __type: "ProvisionCodeConnectInput" },
-    where: { __type: "ProvisionCodeConnectWhere" },
-  },
-  MachineProvisionedByConnection: {
-    __typename: { __type: "String!" },
-    edges: { __type: "[MachineProvisionedByRelationship!]!" },
-    pageInfo: { __type: "PageInfo!" },
-    totalCount: { __type: "Int!" },
-  },
-  MachineProvisionedByConnectionSort: { node: { __type: "ProvisionCodeSort" } },
-  MachineProvisionedByConnectionWhere: {
-    AND: { __type: "[MachineProvisionedByConnectionWhere!]" },
-    OR: { __type: "[MachineProvisionedByConnectionWhere!]" },
-    node: { __type: "ProvisionCodeWhere" },
-    node_NOT: { __type: "ProvisionCodeWhere" },
-  },
-  MachineProvisionedByCreateFieldInput: {
-    node: { __type: "ProvisionCodeCreateInput!" },
-  },
-  MachineProvisionedByDeleteFieldInput: {
-    delete: { __type: "ProvisionCodeDeleteInput" },
-    where: { __type: "MachineProvisionedByConnectionWhere" },
-  },
-  MachineProvisionedByDisconnectFieldInput: {
-    disconnect: { __type: "ProvisionCodeDisconnectInput" },
-    where: { __type: "MachineProvisionedByConnectionWhere" },
-  },
-  MachineProvisionedByFieldInput: {
-    connect: { __type: "MachineProvisionedByConnectFieldInput" },
-    create: { __type: "MachineProvisionedByCreateFieldInput" },
-  },
-  MachineProvisionedByNodeAggregationWhereInput: {
-    AND: { __type: "[MachineProvisionedByNodeAggregationWhereInput!]" },
-    OR: { __type: "[MachineProvisionedByNodeAggregationWhereInput!]" },
-    createdAt_EQUAL: { __type: "DateTime" },
-    createdAt_GT: { __type: "DateTime" },
-    createdAt_GTE: { __type: "DateTime" },
-    createdAt_LT: { __type: "DateTime" },
-    createdAt_LTE: { __type: "DateTime" },
-    createdAt_MAX_EQUAL: { __type: "DateTime" },
-    createdAt_MAX_GT: { __type: "DateTime" },
-    createdAt_MAX_GTE: { __type: "DateTime" },
-    createdAt_MAX_LT: { __type: "DateTime" },
-    createdAt_MAX_LTE: { __type: "DateTime" },
-    createdAt_MIN_EQUAL: { __type: "DateTime" },
-    createdAt_MIN_GT: { __type: "DateTime" },
-    createdAt_MIN_GTE: { __type: "DateTime" },
-    createdAt_MIN_LT: { __type: "DateTime" },
-    createdAt_MIN_LTE: { __type: "DateTime" },
-    id_EQUAL: { __type: "ID" },
-    slug_AVERAGE_EQUAL: { __type: "Float" },
-    slug_AVERAGE_GT: { __type: "Float" },
-    slug_AVERAGE_GTE: { __type: "Float" },
-    slug_AVERAGE_LT: { __type: "Float" },
-    slug_AVERAGE_LTE: { __type: "Float" },
-    slug_EQUAL: { __type: "String" },
-    slug_GT: { __type: "Int" },
-    slug_GTE: { __type: "Int" },
-    slug_LONGEST_EQUAL: { __type: "Int" },
-    slug_LONGEST_GT: { __type: "Int" },
-    slug_LONGEST_GTE: { __type: "Int" },
-    slug_LONGEST_LT: { __type: "Int" },
-    slug_LONGEST_LTE: { __type: "Int" },
-    slug_LT: { __type: "Int" },
-    slug_LTE: { __type: "Int" },
-    slug_SHORTEST_EQUAL: { __type: "Int" },
-    slug_SHORTEST_GT: { __type: "Int" },
-    slug_SHORTEST_GTE: { __type: "Int" },
-    slug_SHORTEST_LT: { __type: "Int" },
-    slug_SHORTEST_LTE: { __type: "Int" },
-  },
-  MachineProvisionedByRelationship: {
-    __typename: { __type: "String!" },
-    cursor: { __type: "String!" },
-    node: { __type: "ProvisionCode!" },
-  },
-  MachineProvisionedByUpdateConnectionInput: {
-    node: { __type: "ProvisionCodeUpdateInput" },
-  },
-  MachineProvisionedByUpdateFieldInput: {
-    connect: { __type: "MachineProvisionedByConnectFieldInput" },
-    create: { __type: "MachineProvisionedByCreateFieldInput" },
-    delete: { __type: "MachineProvisionedByDeleteFieldInput" },
-    disconnect: { __type: "MachineProvisionedByDisconnectFieldInput" },
-    update: { __type: "MachineProvisionedByUpdateConnectionInput" },
-    where: { __type: "MachineProvisionedByConnectionWhere" },
-  },
   MachineRelationInput: {
     location: { __type: "MachineLocationCreateFieldInput" },
-    provisionedBy: { __type: "MachineProvisionedByCreateFieldInput" },
     template: { __type: "MachineTemplateCreateFieldInput" },
   },
   MachineSort: {
     id: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
+    networkName: { __type: "SortDirection" },
     provisioned: { __type: "SortDirection" },
     provisionedAt: { __type: "SortDirection" },
   },
@@ -7559,9 +7391,9 @@ export const generatedSchema = {
   MachineUpdateInput: {
     location: { __type: "MachineLocationUpdateFieldInput" },
     name: { __type: "String" },
+    networkName: { __type: "String" },
     provisioned: { __type: "Boolean" },
     provisionedAt: { __type: "DateTime" },
-    provisionedBy: { __type: "MachineProvisionedByUpdateFieldInput" },
     template: { __type: "MachineTemplateUpdateFieldInput" },
   },
   MachineWhere: {
@@ -7592,6 +7424,16 @@ export const generatedSchema = {
     name_NOT_IN: { __type: "[String]" },
     name_NOT_STARTS_WITH: { __type: "String" },
     name_STARTS_WITH: { __type: "String" },
+    networkName: { __type: "String" },
+    networkName_CONTAINS: { __type: "String" },
+    networkName_ENDS_WITH: { __type: "String" },
+    networkName_IN: { __type: "[String]" },
+    networkName_NOT: { __type: "String" },
+    networkName_NOT_CONTAINS: { __type: "String" },
+    networkName_NOT_ENDS_WITH: { __type: "String" },
+    networkName_NOT_IN: { __type: "[String]" },
+    networkName_NOT_STARTS_WITH: { __type: "String" },
+    networkName_STARTS_WITH: { __type: "String" },
     provisioned: { __type: "Boolean" },
     provisionedAt: { __type: "DateTime" },
     provisionedAt_GT: { __type: "DateTime" },
@@ -7601,13 +7443,6 @@ export const generatedSchema = {
     provisionedAt_LTE: { __type: "DateTime" },
     provisionedAt_NOT: { __type: "DateTime" },
     provisionedAt_NOT_IN: { __type: "[DateTime]" },
-    provisionedBy: { __type: "ProvisionCodeWhere" },
-    provisionedByAggregate: { __type: "MachineProvisionedByAggregateInput" },
-    provisionedByConnection: { __type: "MachineProvisionedByConnectionWhere" },
-    provisionedByConnection_NOT: {
-      __type: "MachineProvisionedByConnectionWhere",
-    },
-    provisionedBy_NOT: { __type: "ProvisionCodeWhere" },
     provisioned_NOT: { __type: "Boolean" },
     template: { __type: "MachineTemplateWhere" },
     templateAggregate: { __type: "MachineTemplateAggregateInput" },
@@ -7868,7 +7703,6 @@ export const generatedSchema = {
   ProvisionCodeConnectInput: {
     display: { __type: "ProvisionCodeDisplayConnectFieldInput" },
   },
-  ProvisionCodeConnectWhere: { node: { __type: "ProvisionCodeWhere!" } },
   ProvisionCodeCreateInput: {
     createdAt: { __type: "DateTime" },
     display: { __type: "ProvisionCodeDisplayFieldInput" },
@@ -7946,6 +7780,26 @@ export const generatedSchema = {
     name_SHORTEST_GTE: { __type: "Int" },
     name_SHORTEST_LT: { __type: "Int" },
     name_SHORTEST_LTE: { __type: "Int" },
+    networkName_AVERAGE_EQUAL: { __type: "Float" },
+    networkName_AVERAGE_GT: { __type: "Float" },
+    networkName_AVERAGE_GTE: { __type: "Float" },
+    networkName_AVERAGE_LT: { __type: "Float" },
+    networkName_AVERAGE_LTE: { __type: "Float" },
+    networkName_EQUAL: { __type: "String" },
+    networkName_GT: { __type: "Int" },
+    networkName_GTE: { __type: "Int" },
+    networkName_LONGEST_EQUAL: { __type: "Int" },
+    networkName_LONGEST_GT: { __type: "Int" },
+    networkName_LONGEST_GTE: { __type: "Int" },
+    networkName_LONGEST_LT: { __type: "Int" },
+    networkName_LONGEST_LTE: { __type: "Int" },
+    networkName_LT: { __type: "Int" },
+    networkName_LTE: { __type: "Int" },
+    networkName_SHORTEST_EQUAL: { __type: "Int" },
+    networkName_SHORTEST_GT: { __type: "Int" },
+    networkName_SHORTEST_GTE: { __type: "Int" },
+    networkName_SHORTEST_LT: { __type: "Int" },
+    networkName_SHORTEST_LTE: { __type: "Int" },
     provisionedAt_EQUAL: { __type: "DateTime" },
     provisionedAt_GT: { __type: "DateTime" },
     provisionedAt_GTE: { __type: "DateTime" },
@@ -7987,6 +7841,7 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
+    networkName: { __type: "StringAggregateSelection!" },
     provisionedAt: { __type: "DateTimeAggregateSelection!" },
   },
   ProvisionCodeOptions: {
@@ -10480,6 +10335,7 @@ export interface LocationMachineMachinesNodeAggregateSelection {
   __typename?: "LocationMachineMachinesNodeAggregateSelection";
   id: IDAggregateSelection;
   name: StringAggregateSelection;
+  networkName: StringAggregateSelection;
   provisionedAt: DateTimeAggregateSelection;
 }
 
@@ -10513,21 +10369,9 @@ export interface Machine {
     where?: Maybe<MachineLocationConnectionWhere>;
   }) => MachineLocationConnection;
   name?: Maybe<ScalarsEnums["String"]>;
+  networkName?: Maybe<ScalarsEnums["String"]>;
   provisioned?: Maybe<ScalarsEnums["Boolean"]>;
   provisionedAt?: Maybe<ScalarsEnums["DateTime"]>;
-  provisionedBy: (args?: {
-    options?: Maybe<ProvisionCodeOptions>;
-    where?: Maybe<ProvisionCodeWhere>;
-  }) => Maybe<ProvisionCode>;
-  provisionedByAggregate: (args?: {
-    where?: Maybe<ProvisionCodeWhere>;
-  }) => Maybe<MachineProvisionCodeProvisionedByAggregationSelection>;
-  provisionedByConnection: (args?: {
-    after?: Maybe<Scalars["String"]>;
-    first?: Maybe<Scalars["Int"]>;
-    sort?: Maybe<Array<MachineProvisionedByConnectionSort>>;
-    where?: Maybe<MachineProvisionedByConnectionWhere>;
-  }) => MachineProvisionedByConnection;
   template: (args?: {
     options?: Maybe<MachineTemplateOptions>;
     where?: Maybe<MachineTemplateWhere>;
@@ -10548,6 +10392,7 @@ export interface MachineAggregateSelection {
   count: ScalarsEnums["Int"];
   id: IDAggregateSelection;
   name: StringAggregateSelection;
+  networkName: StringAggregateSelection;
   provisionedAt: DateTimeAggregateSelection;
 }
 
@@ -10604,32 +10449,6 @@ export interface MachinePluginAggregateSelection {
   id: IDAggregateSelection;
   name: StringAggregateSelection;
   type: StringAggregateSelection;
-}
-
-export interface MachineProvisionCodeProvisionedByAggregationSelection {
-  __typename?: "MachineProvisionCodeProvisionedByAggregationSelection";
-  count: ScalarsEnums["Int"];
-  node?: Maybe<MachineProvisionCodeProvisionedByNodeAggregateSelection>;
-}
-
-export interface MachineProvisionCodeProvisionedByNodeAggregateSelection {
-  __typename?: "MachineProvisionCodeProvisionedByNodeAggregateSelection";
-  createdAt: DateTimeAggregateSelection;
-  id: IDAggregateSelection;
-  slug: StringAggregateSelection;
-}
-
-export interface MachineProvisionedByConnection {
-  __typename?: "MachineProvisionedByConnection";
-  edges: Array<MachineProvisionedByRelationship>;
-  pageInfo: PageInfo;
-  totalCount: ScalarsEnums["Int"];
-}
-
-export interface MachineProvisionedByRelationship {
-  __typename?: "MachineProvisionedByRelationship";
-  cursor: ScalarsEnums["String"];
-  node: ProvisionCode;
 }
 
 export interface MachineTemplate {
@@ -10931,6 +10750,7 @@ export interface ProvisionCodeMachineDisplayNodeAggregateSelection {
   __typename?: "ProvisionCodeMachineDisplayNodeAggregateSelection";
   id: IDAggregateSelection;
   name: StringAggregateSelection;
+  networkName: StringAggregateSelection;
   provisionedAt: DateTimeAggregateSelection;
 }
 
@@ -11805,10 +11625,6 @@ export interface SchemaObjectTypes {
   MachineMachineTemplateTemplateNodeAggregateSelection: MachineMachineTemplateTemplateNodeAggregateSelection;
   MachinePlugin: MachinePlugin;
   MachinePluginAggregateSelection: MachinePluginAggregateSelection;
-  MachineProvisionCodeProvisionedByAggregationSelection: MachineProvisionCodeProvisionedByAggregationSelection;
-  MachineProvisionCodeProvisionedByNodeAggregateSelection: MachineProvisionCodeProvisionedByNodeAggregateSelection;
-  MachineProvisionedByConnection: MachineProvisionedByConnection;
-  MachineProvisionedByRelationship: MachineProvisionedByRelationship;
   MachineTemplate: MachineTemplate;
   MachineTemplateAggregateSelection: MachineTemplateAggregateSelection;
   MachineTemplateComputerTemplateComputersAggregationSelection: MachineTemplateComputerTemplateComputersAggregationSelection;
@@ -11978,10 +11794,6 @@ export type SchemaObjectTypesNames =
   | "MachineMachineTemplateTemplateNodeAggregateSelection"
   | "MachinePlugin"
   | "MachinePluginAggregateSelection"
-  | "MachineProvisionCodeProvisionedByAggregationSelection"
-  | "MachineProvisionCodeProvisionedByNodeAggregateSelection"
-  | "MachineProvisionedByConnection"
-  | "MachineProvisionedByRelationship"
   | "MachineTemplate"
   | "MachineTemplateAggregateSelection"
   | "MachineTemplateComputerTemplateComputersAggregationSelection"

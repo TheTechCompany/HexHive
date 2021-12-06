@@ -49,7 +49,7 @@ export const ScheduleCampaigns = () => {
 					})
 				}} />
 			<Box pad={{left: 'xsmall'}} align="center" justify="between" direction="row">
-				<Text>Campaigns</Text>
+				<Text weight="bold">Campaigns</Text>
 				<Button onClick={() => openModal(true)} hoverIndicator icon={<Add size="small" />} />
 			</Box>
 

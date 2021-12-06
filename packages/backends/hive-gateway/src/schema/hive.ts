@@ -159,7 +159,7 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 					sum(SUB.total) as total
 				FROM 
 					(
-						SELECT (CAST(value AS DOUBLE PRECISION) / 60) * EXTRACT(EPOCH from (LEAD(timestamp) over (order by timestamp) - timestamp)) as total
+						SELECT (try_cast(value, 0) / 60) * EXTRACT(EPOCH from (LEAD(timestamp) over (order by timestamp) - timestamp)) as total
 						FROM
 							command_device_values
 						WHERE
@@ -202,6 +202,8 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 					query,
 					params
 				)
+
+				console.log(result)
 
 				await client.release()
 				return result.rows;

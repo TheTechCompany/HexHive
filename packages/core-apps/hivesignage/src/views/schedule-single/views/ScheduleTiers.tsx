@@ -59,7 +59,7 @@ export const ScheduleTiers = (props) => {
 	return (
 		<Box>
 			<Box pad={{left: 'xsmall'}} align="center" justify="between" direction="row">
-				<Text>Tiers</Text>
+				<Text weight="bold">Tiers</Text>
 				<Box direction="row" align="center" justify="end">
 					<Button onClick={() => openVisualModal(true)} hoverIndicator icon={<Analytics size="small" />} />
 					<Button onClick={() => openModal(true)} hoverIndicator icon={<Add size="small" />} />
