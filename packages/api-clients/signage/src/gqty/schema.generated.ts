@@ -473,8 +473,30 @@ export interface CampaignWhere {
   name_STARTS_WITH?: Maybe<Scalars["String"]>;
 }
 
+export interface ComputerConnectInput {
+  template?: Maybe<ComputerTemplateConnectFieldInput>;
+}
+
+export interface ComputerConnectWhere {
+  node: ComputerWhere;
+}
+
 export interface ComputerCreateInput {
+  agentVersion?: Maybe<Scalars["String"]>;
+  cpu?: Maybe<Scalars["Float"]>;
+  hostname?: Maybe<Scalars["String"]>;
+  memory?: Maybe<Scalars["Float"]>;
   name?: Maybe<Scalars["String"]>;
+  os?: Maybe<Scalars["String"]>;
+  template?: Maybe<ComputerTemplateFieldInput>;
+}
+
+export interface ComputerDeleteInput {
+  template?: Maybe<ComputerTemplateDeleteFieldInput>;
+}
+
+export interface ComputerDisconnectInput {
+  template?: Maybe<ComputerTemplateDisconnectFieldInput>;
 }
 
 export interface ComputerOptions {
@@ -484,10 +506,35 @@ export interface ComputerOptions {
   sort?: Maybe<Array<Maybe<ComputerSort>>>;
 }
 
+export interface ComputerRelationInput {
+  template?: Maybe<ComputerTemplateCreateFieldInput>;
+}
+
 /** Fields to sort Computers by. The order in which sorts are applied is not guaranteed when specifying many fields in one ComputerSort object. */
 export interface ComputerSort {
+  agentVersion?: Maybe<SortDirection>;
+  cpu?: Maybe<SortDirection>;
+  hostname?: Maybe<SortDirection>;
   id?: Maybe<SortDirection>;
+  memory?: Maybe<SortDirection>;
   name?: Maybe<SortDirection>;
+  os?: Maybe<SortDirection>;
+}
+
+export interface ComputerTemplateAggregateInput {
+  AND?: Maybe<Array<ComputerTemplateAggregateInput>>;
+  OR?: Maybe<Array<ComputerTemplateAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ComputerTemplateNodeAggregationWhereInput>;
+}
+
+export interface ComputerTemplateConnectFieldInput {
+  connect?: Maybe<ComputerTemplateConnectInput>;
+  where?: Maybe<ComputerTemplateConnectWhere>;
 }
 
 export interface ComputerTemplateConnectInput {
@@ -501,12 +548,32 @@ export interface ComputerTemplateConnectWhere {
   node: ComputerTemplateWhere;
 }
 
+export interface ComputerTemplateConnectionSort {
+  node?: Maybe<ComputerTemplateSort>;
+}
+
+export interface ComputerTemplateConnectionWhere {
+  AND?: Maybe<Array<ComputerTemplateConnectionWhere>>;
+  OR?: Maybe<Array<ComputerTemplateConnectionWhere>>;
+  node?: Maybe<ComputerTemplateWhere>;
+  node_NOT?: Maybe<ComputerTemplateWhere>;
+}
+
+export interface ComputerTemplateCreateFieldInput {
+  node: ComputerTemplateCreateInput;
+}
+
 export interface ComputerTemplateCreateInput {
   name?: Maybe<Scalars["String"]>;
   peripherals?: Maybe<ComputerTemplatePeripheralsFieldInput>;
   plugins?: Maybe<ComputerTemplatePluginsFieldInput>;
   screens?: Maybe<ComputerTemplateScreensFieldInput>;
   storage?: Maybe<ComputerTemplateStorageFieldInput>;
+}
+
+export interface ComputerTemplateDeleteFieldInput {
+  delete?: Maybe<ComputerTemplateDeleteInput>;
+  where?: Maybe<ComputerTemplateConnectionWhere>;
 }
 
 export interface ComputerTemplateDeleteInput {
@@ -516,11 +583,47 @@ export interface ComputerTemplateDeleteInput {
   storage?: Maybe<Array<ComputerTemplateStorageDeleteFieldInput>>;
 }
 
+export interface ComputerTemplateDisconnectFieldInput {
+  disconnect?: Maybe<ComputerTemplateDisconnectInput>;
+  where?: Maybe<ComputerTemplateConnectionWhere>;
+}
+
 export interface ComputerTemplateDisconnectInput {
   peripherals?: Maybe<Array<ComputerTemplatePeripheralsDisconnectFieldInput>>;
   plugins?: Maybe<Array<ComputerTemplatePluginsDisconnectFieldInput>>;
   screens?: Maybe<Array<ComputerTemplateScreensDisconnectFieldInput>>;
   storage?: Maybe<Array<ComputerTemplateStorageDisconnectFieldInput>>;
+}
+
+export interface ComputerTemplateFieldInput {
+  connect?: Maybe<ComputerTemplateConnectFieldInput>;
+  create?: Maybe<ComputerTemplateCreateFieldInput>;
+}
+
+export interface ComputerTemplateNodeAggregationWhereInput {
+  AND?: Maybe<Array<ComputerTemplateNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ComputerTemplateNodeAggregationWhereInput>>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  name_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  name_EQUAL?: Maybe<Scalars["String"]>;
+  name_GT?: Maybe<Scalars["Int"]>;
+  name_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  name_LT?: Maybe<Scalars["Int"]>;
+  name_LTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
 }
 
 export interface ComputerTemplateOptions {
@@ -1037,6 +1140,19 @@ export interface ComputerTemplateStorageUpdateFieldInput {
   where?: Maybe<ComputerTemplateStorageConnectionWhere>;
 }
 
+export interface ComputerTemplateUpdateConnectionInput {
+  node?: Maybe<ComputerTemplateUpdateInput>;
+}
+
+export interface ComputerTemplateUpdateFieldInput {
+  connect?: Maybe<ComputerTemplateConnectFieldInput>;
+  create?: Maybe<ComputerTemplateCreateFieldInput>;
+  delete?: Maybe<ComputerTemplateDeleteFieldInput>;
+  disconnect?: Maybe<ComputerTemplateDisconnectFieldInput>;
+  update?: Maybe<ComputerTemplateUpdateConnectionInput>;
+  where?: Maybe<ComputerTemplateConnectionWhere>;
+}
+
 export interface ComputerTemplateUpdateInput {
   name?: Maybe<Scalars["String"]>;
   peripherals?: Maybe<Array<ComputerTemplatePeripheralsUpdateFieldInput>>;
@@ -1091,12 +1207,46 @@ export interface ComputerTemplateWhere {
 }
 
 export interface ComputerUpdateInput {
+  agentVersion?: Maybe<Scalars["String"]>;
+  cpu?: Maybe<Scalars["Float"]>;
+  hostname?: Maybe<Scalars["String"]>;
+  memory?: Maybe<Scalars["Float"]>;
   name?: Maybe<Scalars["String"]>;
+  os?: Maybe<Scalars["String"]>;
+  template?: Maybe<ComputerTemplateUpdateFieldInput>;
 }
 
 export interface ComputerWhere {
   AND?: Maybe<Array<ComputerWhere>>;
   OR?: Maybe<Array<ComputerWhere>>;
+  agentVersion?: Maybe<Scalars["String"]>;
+  agentVersion_CONTAINS?: Maybe<Scalars["String"]>;
+  agentVersion_ENDS_WITH?: Maybe<Scalars["String"]>;
+  agentVersion_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  agentVersion_NOT?: Maybe<Scalars["String"]>;
+  agentVersion_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  agentVersion_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  agentVersion_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  agentVersion_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  agentVersion_STARTS_WITH?: Maybe<Scalars["String"]>;
+  cpu?: Maybe<Scalars["Float"]>;
+  cpu_GT?: Maybe<Scalars["Float"]>;
+  cpu_GTE?: Maybe<Scalars["Float"]>;
+  cpu_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  cpu_LT?: Maybe<Scalars["Float"]>;
+  cpu_LTE?: Maybe<Scalars["Float"]>;
+  cpu_NOT?: Maybe<Scalars["Float"]>;
+  cpu_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  hostname?: Maybe<Scalars["String"]>;
+  hostname_CONTAINS?: Maybe<Scalars["String"]>;
+  hostname_ENDS_WITH?: Maybe<Scalars["String"]>;
+  hostname_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  hostname_NOT?: Maybe<Scalars["String"]>;
+  hostname_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  hostname_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  hostname_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  hostname_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  hostname_STARTS_WITH?: Maybe<Scalars["String"]>;
   id?: Maybe<Scalars["ID"]>;
   id_CONTAINS?: Maybe<Scalars["ID"]>;
   id_ENDS_WITH?: Maybe<Scalars["ID"]>;
@@ -1107,6 +1257,14 @@ export interface ComputerWhere {
   id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
   id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  memory?: Maybe<Scalars["Float"]>;
+  memory_GT?: Maybe<Scalars["Float"]>;
+  memory_GTE?: Maybe<Scalars["Float"]>;
+  memory_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  memory_LT?: Maybe<Scalars["Float"]>;
+  memory_LTE?: Maybe<Scalars["Float"]>;
+  memory_NOT?: Maybe<Scalars["Float"]>;
+  memory_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
   name?: Maybe<Scalars["String"]>;
   name_CONTAINS?: Maybe<Scalars["String"]>;
   name_ENDS_WITH?: Maybe<Scalars["String"]>;
@@ -1117,94 +1275,21 @@ export interface ComputerWhere {
   name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_STARTS_WITH?: Maybe<Scalars["String"]>;
-}
-
-export interface DisplayScreenCreateInput {
-  height?: Maybe<Scalars["Float"]>;
-  orientation?: Maybe<Scalars["Float"]>;
-  resHeight?: Maybe<Scalars["Float"]>;
-  resWidth?: Maybe<Scalars["Float"]>;
-  width?: Maybe<Scalars["Float"]>;
-}
-
-export interface DisplayScreenOptions {
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  /** Specify one or more DisplayScreenSort objects to sort DisplayScreens by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: Maybe<Array<Maybe<DisplayScreenSort>>>;
-}
-
-/** Fields to sort DisplayScreens by. The order in which sorts are applied is not guaranteed when specifying many fields in one DisplayScreenSort object. */
-export interface DisplayScreenSort {
-  height?: Maybe<SortDirection>;
-  id?: Maybe<SortDirection>;
-  orientation?: Maybe<SortDirection>;
-  resHeight?: Maybe<SortDirection>;
-  resWidth?: Maybe<SortDirection>;
-  width?: Maybe<SortDirection>;
-}
-
-export interface DisplayScreenUpdateInput {
-  height?: Maybe<Scalars["Float"]>;
-  orientation?: Maybe<Scalars["Float"]>;
-  resHeight?: Maybe<Scalars["Float"]>;
-  resWidth?: Maybe<Scalars["Float"]>;
-  width?: Maybe<Scalars["Float"]>;
-}
-
-export interface DisplayScreenWhere {
-  AND?: Maybe<Array<DisplayScreenWhere>>;
-  OR?: Maybe<Array<DisplayScreenWhere>>;
-  height?: Maybe<Scalars["Float"]>;
-  height_GT?: Maybe<Scalars["Float"]>;
-  height_GTE?: Maybe<Scalars["Float"]>;
-  height_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  height_LT?: Maybe<Scalars["Float"]>;
-  height_LTE?: Maybe<Scalars["Float"]>;
-  height_NOT?: Maybe<Scalars["Float"]>;
-  height_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  id?: Maybe<Scalars["ID"]>;
-  id_CONTAINS?: Maybe<Scalars["ID"]>;
-  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  id_NOT?: Maybe<Scalars["ID"]>;
-  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
-  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
-  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
-  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
-  orientation?: Maybe<Scalars["Float"]>;
-  orientation_GT?: Maybe<Scalars["Float"]>;
-  orientation_GTE?: Maybe<Scalars["Float"]>;
-  orientation_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  orientation_LT?: Maybe<Scalars["Float"]>;
-  orientation_LTE?: Maybe<Scalars["Float"]>;
-  orientation_NOT?: Maybe<Scalars["Float"]>;
-  orientation_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  resHeight?: Maybe<Scalars["Float"]>;
-  resHeight_GT?: Maybe<Scalars["Float"]>;
-  resHeight_GTE?: Maybe<Scalars["Float"]>;
-  resHeight_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  resHeight_LT?: Maybe<Scalars["Float"]>;
-  resHeight_LTE?: Maybe<Scalars["Float"]>;
-  resHeight_NOT?: Maybe<Scalars["Float"]>;
-  resHeight_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  resWidth?: Maybe<Scalars["Float"]>;
-  resWidth_GT?: Maybe<Scalars["Float"]>;
-  resWidth_GTE?: Maybe<Scalars["Float"]>;
-  resWidth_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  resWidth_LT?: Maybe<Scalars["Float"]>;
-  resWidth_LTE?: Maybe<Scalars["Float"]>;
-  resWidth_NOT?: Maybe<Scalars["Float"]>;
-  resWidth_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  width?: Maybe<Scalars["Float"]>;
-  width_GT?: Maybe<Scalars["Float"]>;
-  width_GTE?: Maybe<Scalars["Float"]>;
-  width_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  width_LT?: Maybe<Scalars["Float"]>;
-  width_LTE?: Maybe<Scalars["Float"]>;
-  width_NOT?: Maybe<Scalars["Float"]>;
-  width_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  os?: Maybe<Scalars["String"]>;
+  os_CONTAINS?: Maybe<Scalars["String"]>;
+  os_ENDS_WITH?: Maybe<Scalars["String"]>;
+  os_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  os_NOT?: Maybe<Scalars["String"]>;
+  os_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  os_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  os_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  os_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  os_STARTS_WITH?: Maybe<Scalars["String"]>;
+  template?: Maybe<ComputerTemplateWhere>;
+  templateAggregate?: Maybe<ComputerTemplateAggregateInput>;
+  templateConnection?: Maybe<ComputerTemplateConnectionWhere>;
+  templateConnection_NOT?: Maybe<ComputerTemplateConnectionWhere>;
+  template_NOT?: Maybe<ComputerTemplateWhere>;
 }
 
 export interface LocationConnectInput {
@@ -1747,7 +1832,193 @@ export interface LocationWhere {
   name_STARTS_WITH?: Maybe<Scalars["String"]>;
 }
 
+export interface MachineComputersAggregateInput {
+  AND?: Maybe<Array<MachineComputersAggregateInput>>;
+  OR?: Maybe<Array<MachineComputersAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<MachineComputersNodeAggregationWhereInput>;
+}
+
+export interface MachineComputersConnectFieldInput {
+  connect?: Maybe<ComputerConnectInput>;
+  where?: Maybe<ComputerConnectWhere>;
+}
+
+export interface MachineComputersConnectionSort {
+  node?: Maybe<ComputerSort>;
+}
+
+export interface MachineComputersConnectionWhere {
+  AND?: Maybe<Array<MachineComputersConnectionWhere>>;
+  OR?: Maybe<Array<MachineComputersConnectionWhere>>;
+  node?: Maybe<ComputerWhere>;
+  node_NOT?: Maybe<ComputerWhere>;
+}
+
+export interface MachineComputersCreateFieldInput {
+  node: ComputerCreateInput;
+}
+
+export interface MachineComputersDeleteFieldInput {
+  delete?: Maybe<ComputerDeleteInput>;
+  where?: Maybe<MachineComputersConnectionWhere>;
+}
+
+export interface MachineComputersDisconnectFieldInput {
+  disconnect?: Maybe<ComputerDisconnectInput>;
+  where?: Maybe<MachineComputersConnectionWhere>;
+}
+
+export interface MachineComputersFieldInput {
+  connect?: Maybe<MachineComputersConnectFieldInput>;
+  create?: Maybe<MachineComputersCreateFieldInput>;
+}
+
+export interface MachineComputersNodeAggregationWhereInput {
+  AND?: Maybe<Array<MachineComputersNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<MachineComputersNodeAggregationWhereInput>>;
+  agentVersion_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  agentVersion_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  agentVersion_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  agentVersion_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  agentVersion_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  agentVersion_EQUAL?: Maybe<Scalars["String"]>;
+  agentVersion_GT?: Maybe<Scalars["Int"]>;
+  agentVersion_GTE?: Maybe<Scalars["Int"]>;
+  agentVersion_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  agentVersion_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  agentVersion_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  agentVersion_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  agentVersion_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  agentVersion_LT?: Maybe<Scalars["Int"]>;
+  agentVersion_LTE?: Maybe<Scalars["Int"]>;
+  agentVersion_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  agentVersion_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  agentVersion_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  agentVersion_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  agentVersion_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  cpu_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  cpu_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  cpu_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  cpu_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  cpu_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  cpu_EQUAL?: Maybe<Scalars["Float"]>;
+  cpu_GT?: Maybe<Scalars["Float"]>;
+  cpu_GTE?: Maybe<Scalars["Float"]>;
+  cpu_LT?: Maybe<Scalars["Float"]>;
+  cpu_LTE?: Maybe<Scalars["Float"]>;
+  cpu_MAX_EQUAL?: Maybe<Scalars["Float"]>;
+  cpu_MAX_GT?: Maybe<Scalars["Float"]>;
+  cpu_MAX_GTE?: Maybe<Scalars["Float"]>;
+  cpu_MAX_LT?: Maybe<Scalars["Float"]>;
+  cpu_MAX_LTE?: Maybe<Scalars["Float"]>;
+  cpu_MIN_EQUAL?: Maybe<Scalars["Float"]>;
+  cpu_MIN_GT?: Maybe<Scalars["Float"]>;
+  cpu_MIN_GTE?: Maybe<Scalars["Float"]>;
+  cpu_MIN_LT?: Maybe<Scalars["Float"]>;
+  cpu_MIN_LTE?: Maybe<Scalars["Float"]>;
+  hostname_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  hostname_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  hostname_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  hostname_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  hostname_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  hostname_EQUAL?: Maybe<Scalars["String"]>;
+  hostname_GT?: Maybe<Scalars["Int"]>;
+  hostname_GTE?: Maybe<Scalars["Int"]>;
+  hostname_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  hostname_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  hostname_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  hostname_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  hostname_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  hostname_LT?: Maybe<Scalars["Int"]>;
+  hostname_LTE?: Maybe<Scalars["Int"]>;
+  hostname_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  hostname_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  hostname_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  hostname_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  hostname_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  memory_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  memory_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  memory_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  memory_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  memory_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  memory_EQUAL?: Maybe<Scalars["Float"]>;
+  memory_GT?: Maybe<Scalars["Float"]>;
+  memory_GTE?: Maybe<Scalars["Float"]>;
+  memory_LT?: Maybe<Scalars["Float"]>;
+  memory_LTE?: Maybe<Scalars["Float"]>;
+  memory_MAX_EQUAL?: Maybe<Scalars["Float"]>;
+  memory_MAX_GT?: Maybe<Scalars["Float"]>;
+  memory_MAX_GTE?: Maybe<Scalars["Float"]>;
+  memory_MAX_LT?: Maybe<Scalars["Float"]>;
+  memory_MAX_LTE?: Maybe<Scalars["Float"]>;
+  memory_MIN_EQUAL?: Maybe<Scalars["Float"]>;
+  memory_MIN_GT?: Maybe<Scalars["Float"]>;
+  memory_MIN_GTE?: Maybe<Scalars["Float"]>;
+  memory_MIN_LT?: Maybe<Scalars["Float"]>;
+  memory_MIN_LTE?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  name_EQUAL?: Maybe<Scalars["String"]>;
+  name_GT?: Maybe<Scalars["Int"]>;
+  name_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  name_LT?: Maybe<Scalars["Int"]>;
+  name_LTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  os_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  os_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  os_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  os_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  os_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  os_EQUAL?: Maybe<Scalars["String"]>;
+  os_GT?: Maybe<Scalars["Int"]>;
+  os_GTE?: Maybe<Scalars["Int"]>;
+  os_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  os_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  os_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  os_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  os_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  os_LT?: Maybe<Scalars["Int"]>;
+  os_LTE?: Maybe<Scalars["Int"]>;
+  os_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  os_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  os_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  os_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  os_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+}
+
+export interface MachineComputersUpdateConnectionInput {
+  node?: Maybe<ComputerUpdateInput>;
+}
+
+export interface MachineComputersUpdateFieldInput {
+  connect?: Maybe<MachineComputersConnectFieldInput>;
+  create?: Maybe<MachineComputersCreateFieldInput>;
+  delete?: Maybe<MachineComputersDeleteFieldInput>;
+  disconnect?: Maybe<MachineComputersDisconnectFieldInput>;
+  update?: Maybe<MachineComputersUpdateConnectionInput>;
+  where?: Maybe<MachineComputersConnectionWhere>;
+}
+
 export interface MachineConnectInput {
+  computers?: Maybe<MachineComputersConnectFieldInput>;
   location?: Maybe<MachineLocationConnectFieldInput>;
   template?: Maybe<MachineTemplateConnectFieldInput>;
 }
@@ -1757,6 +2028,7 @@ export interface MachineConnectWhere {
 }
 
 export interface MachineCreateInput {
+  computers?: Maybe<MachineComputersFieldInput>;
   location?: Maybe<MachineLocationFieldInput>;
   name?: Maybe<Scalars["String"]>;
   networkName?: Maybe<Scalars["String"]>;
@@ -1766,11 +2038,13 @@ export interface MachineCreateInput {
 }
 
 export interface MachineDeleteInput {
+  computers?: Maybe<MachineComputersDeleteFieldInput>;
   location?: Maybe<MachineLocationDeleteFieldInput>;
   template?: Maybe<MachineTemplateDeleteFieldInput>;
 }
 
 export interface MachineDisconnectInput {
+  computers?: Maybe<MachineComputersDisconnectFieldInput>;
   location?: Maybe<MachineLocationDisconnectFieldInput>;
   template?: Maybe<MachineTemplateDisconnectFieldInput>;
 }
@@ -1991,6 +2265,7 @@ export interface MachinePluginWhere {
 }
 
 export interface MachineRelationInput {
+  computers?: Maybe<MachineComputersCreateFieldInput>;
   location?: Maybe<MachineLocationCreateFieldInput>;
   template?: Maybe<MachineTemplateCreateFieldInput>;
 }
@@ -2633,6 +2908,7 @@ export interface MachineTemplateWhere {
 }
 
 export interface MachineUpdateInput {
+  computers?: Maybe<MachineComputersUpdateFieldInput>;
   location?: Maybe<MachineLocationUpdateFieldInput>;
   name?: Maybe<Scalars["String"]>;
   networkName?: Maybe<Scalars["String"]>;
@@ -2644,6 +2920,11 @@ export interface MachineUpdateInput {
 export interface MachineWhere {
   AND?: Maybe<Array<MachineWhere>>;
   OR?: Maybe<Array<MachineWhere>>;
+  computers?: Maybe<ComputerWhere>;
+  computersAggregate?: Maybe<MachineComputersAggregateInput>;
+  computersConnection?: Maybe<MachineComputersConnectionWhere>;
+  computersConnection_NOT?: Maybe<MachineComputersConnectionWhere>;
+  computers_NOT?: Maybe<ComputerWhere>;
   id?: Maybe<Scalars["ID"]>;
   id_CONTAINS?: Maybe<Scalars["ID"]>;
   id_ENDS_WITH?: Maybe<Scalars["ID"]>;
@@ -3853,6 +4134,31 @@ export interface ScheduleWhere {
   tiers_NOT?: Maybe<ScheduleTierWhere>;
 }
 
+export interface ScreenCreateInput {
+  height?: Maybe<Scalars["Float"]>;
+  orientation?: Maybe<Scalars["Float"]>;
+  resHeight?: Maybe<Scalars["Float"]>;
+  resWidth?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars["Float"]>;
+}
+
+export interface ScreenOptions {
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  /** Specify one or more ScreenSort objects to sort Screens by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: Maybe<Array<Maybe<ScreenSort>>>;
+}
+
+/** Fields to sort Screens by. The order in which sorts are applied is not guaranteed when specifying many fields in one ScreenSort object. */
+export interface ScreenSort {
+  height?: Maybe<SortDirection>;
+  id?: Maybe<SortDirection>;
+  orientation?: Maybe<SortDirection>;
+  resHeight?: Maybe<SortDirection>;
+  resWidth?: Maybe<SortDirection>;
+  width?: Maybe<SortDirection>;
+}
+
 export interface ScreenTemplateComputerAggregateInput {
   AND?: Maybe<Array<ScreenTemplateComputerAggregateInput>>;
   OR?: Maybe<Array<ScreenTemplateComputerAggregateInput>>;
@@ -4047,6 +4353,69 @@ export interface ScreenTemplateWhere {
   width_LTE?: Maybe<Scalars["Int"]>;
   width_NOT?: Maybe<Scalars["Int"]>;
   width_NOT_IN?: Maybe<Array<Maybe<Scalars["Int"]>>>;
+}
+
+export interface ScreenUpdateInput {
+  height?: Maybe<Scalars["Float"]>;
+  orientation?: Maybe<Scalars["Float"]>;
+  resHeight?: Maybe<Scalars["Float"]>;
+  resWidth?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars["Float"]>;
+}
+
+export interface ScreenWhere {
+  AND?: Maybe<Array<ScreenWhere>>;
+  OR?: Maybe<Array<ScreenWhere>>;
+  height?: Maybe<Scalars["Float"]>;
+  height_GT?: Maybe<Scalars["Float"]>;
+  height_GTE?: Maybe<Scalars["Float"]>;
+  height_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  height_LT?: Maybe<Scalars["Float"]>;
+  height_LTE?: Maybe<Scalars["Float"]>;
+  height_NOT?: Maybe<Scalars["Float"]>;
+  height_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  id?: Maybe<Scalars["ID"]>;
+  id_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT?: Maybe<Scalars["ID"]>;
+  id_NOT_CONTAINS?: Maybe<Scalars["ID"]>;
+  id_NOT_ENDS_WITH?: Maybe<Scalars["ID"]>;
+  id_NOT_IN?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  id_NOT_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  id_STARTS_WITH?: Maybe<Scalars["ID"]>;
+  orientation?: Maybe<Scalars["Float"]>;
+  orientation_GT?: Maybe<Scalars["Float"]>;
+  orientation_GTE?: Maybe<Scalars["Float"]>;
+  orientation_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  orientation_LT?: Maybe<Scalars["Float"]>;
+  orientation_LTE?: Maybe<Scalars["Float"]>;
+  orientation_NOT?: Maybe<Scalars["Float"]>;
+  orientation_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  resHeight?: Maybe<Scalars["Float"]>;
+  resHeight_GT?: Maybe<Scalars["Float"]>;
+  resHeight_GTE?: Maybe<Scalars["Float"]>;
+  resHeight_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  resHeight_LT?: Maybe<Scalars["Float"]>;
+  resHeight_LTE?: Maybe<Scalars["Float"]>;
+  resHeight_NOT?: Maybe<Scalars["Float"]>;
+  resHeight_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  resWidth?: Maybe<Scalars["Float"]>;
+  resWidth_GT?: Maybe<Scalars["Float"]>;
+  resWidth_GTE?: Maybe<Scalars["Float"]>;
+  resWidth_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  resWidth_LT?: Maybe<Scalars["Float"]>;
+  resWidth_LTE?: Maybe<Scalars["Float"]>;
+  resWidth_NOT?: Maybe<Scalars["Float"]>;
+  resWidth_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  width?: Maybe<Scalars["Float"]>;
+  width_GT?: Maybe<Scalars["Float"]>;
+  width_GTE?: Maybe<Scalars["Float"]>;
+  width_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
+  width_LT?: Maybe<Scalars["Float"]>;
+  width_LTE?: Maybe<Scalars["Float"]>;
+  width_NOT?: Maybe<Scalars["Float"]>;
+  width_NOT_IN?: Maybe<Array<Maybe<Scalars["Float"]>>>;
 }
 
 export enum SortDirection {
@@ -4681,24 +5050,90 @@ export const generatedSchema = {
   },
   Computer: {
     __typename: { __type: "String!" },
+    agentVersion: { __type: "String" },
+    cpu: { __type: "Float" },
+    hostname: { __type: "String" },
     id: { __type: "ID!" },
+    memory: { __type: "Float" },
     name: { __type: "String" },
+    os: { __type: "String" },
+    template: {
+      __type: "ComputerTemplate",
+      __args: {
+        options: "ComputerTemplateOptions",
+        where: "ComputerTemplateWhere",
+      },
+    },
+    templateAggregate: {
+      __type: "ComputerComputerTemplateTemplateAggregationSelection",
+      __args: { where: "ComputerTemplateWhere" },
+    },
+    templateConnection: {
+      __type: "ComputerTemplateConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ComputerTemplateConnectionSort!]",
+        where: "ComputerTemplateConnectionWhere",
+      },
+    },
   },
   ComputerAggregateSelection: {
     __typename: { __type: "String!" },
+    agentVersion: { __type: "StringAggregateSelection!" },
     count: { __type: "Int!" },
+    cpu: { __type: "FloatAggregateSelection!" },
+    hostname: { __type: "StringAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    memory: { __type: "FloatAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
+    os: { __type: "StringAggregateSelection!" },
+  },
+  ComputerComputerTemplateTemplateAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ComputerComputerTemplateTemplateNodeAggregateSelection" },
+  },
+  ComputerComputerTemplateTemplateNodeAggregateSelection: {
+    __typename: { __type: "String!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
   },
-  ComputerCreateInput: { name: { __type: "String" } },
+  ComputerConnectInput: {
+    template: { __type: "ComputerTemplateConnectFieldInput" },
+  },
+  ComputerConnectWhere: { node: { __type: "ComputerWhere!" } },
+  ComputerCreateInput: {
+    agentVersion: { __type: "String" },
+    cpu: { __type: "Float" },
+    hostname: { __type: "String" },
+    memory: { __type: "Float" },
+    name: { __type: "String" },
+    os: { __type: "String" },
+    template: { __type: "ComputerTemplateFieldInput" },
+  },
+  ComputerDeleteInput: {
+    template: { __type: "ComputerTemplateDeleteFieldInput" },
+  },
+  ComputerDisconnectInput: {
+    template: { __type: "ComputerTemplateDisconnectFieldInput" },
+  },
   ComputerOptions: {
     limit: { __type: "Int" },
     offset: { __type: "Int" },
     sort: { __type: "[ComputerSort]" },
   },
+  ComputerRelationInput: {
+    template: { __type: "ComputerTemplateCreateFieldInput" },
+  },
   ComputerSort: {
+    agentVersion: { __type: "SortDirection" },
+    cpu: { __type: "SortDirection" },
+    hostname: { __type: "SortDirection" },
     id: { __type: "SortDirection" },
+    memory: { __type: "SortDirection" },
     name: { __type: "SortDirection" },
+    os: { __type: "SortDirection" },
   },
   ComputerTemplate: {
     __typename: { __type: "String!" },
@@ -4783,11 +5218,25 @@ export const generatedSchema = {
       },
     },
   },
+  ComputerTemplateAggregateInput: {
+    AND: { __type: "[ComputerTemplateAggregateInput!]" },
+    OR: { __type: "[ComputerTemplateAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ComputerTemplateNodeAggregationWhereInput" },
+  },
   ComputerTemplateAggregateSelection: {
     __typename: { __type: "String!" },
     count: { __type: "Int!" },
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
+  },
+  ComputerTemplateConnectFieldInput: {
+    connect: { __type: "ComputerTemplateConnectInput" },
+    where: { __type: "ComputerTemplateConnectWhere" },
   },
   ComputerTemplateConnectInput: {
     peripherals: { __type: "[ComputerTemplatePeripheralsConnectFieldInput!]" },
@@ -4796,6 +5245,22 @@ export const generatedSchema = {
     storage: { __type: "[ComputerTemplateStorageConnectFieldInput!]" },
   },
   ComputerTemplateConnectWhere: { node: { __type: "ComputerTemplateWhere!" } },
+  ComputerTemplateConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ComputerTemplateRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ComputerTemplateConnectionSort: { node: { __type: "ComputerTemplateSort" } },
+  ComputerTemplateConnectionWhere: {
+    AND: { __type: "[ComputerTemplateConnectionWhere!]" },
+    OR: { __type: "[ComputerTemplateConnectionWhere!]" },
+    node: { __type: "ComputerTemplateWhere" },
+    node_NOT: { __type: "ComputerTemplateWhere" },
+  },
+  ComputerTemplateCreateFieldInput: {
+    node: { __type: "ComputerTemplateCreateInput!" },
+  },
   ComputerTemplateCreateInput: {
     name: { __type: "String" },
     peripherals: { __type: "ComputerTemplatePeripheralsFieldInput" },
@@ -4803,11 +5268,19 @@ export const generatedSchema = {
     screens: { __type: "ComputerTemplateScreensFieldInput" },
     storage: { __type: "ComputerTemplateStorageFieldInput" },
   },
+  ComputerTemplateDeleteFieldInput: {
+    delete: { __type: "ComputerTemplateDeleteInput" },
+    where: { __type: "ComputerTemplateConnectionWhere" },
+  },
   ComputerTemplateDeleteInput: {
     peripherals: { __type: "[ComputerTemplatePeripheralsDeleteFieldInput!]" },
     plugins: { __type: "[ComputerTemplatePluginsDeleteFieldInput!]" },
     screens: { __type: "[ComputerTemplateScreensDeleteFieldInput!]" },
     storage: { __type: "[ComputerTemplateStorageDeleteFieldInput!]" },
+  },
+  ComputerTemplateDisconnectFieldInput: {
+    disconnect: { __type: "ComputerTemplateDisconnectInput" },
+    where: { __type: "ComputerTemplateConnectionWhere" },
   },
   ComputerTemplateDisconnectInput: {
     peripherals: {
@@ -4816,6 +5289,10 @@ export const generatedSchema = {
     plugins: { __type: "[ComputerTemplatePluginsDisconnectFieldInput!]" },
     screens: { __type: "[ComputerTemplateScreensDisconnectFieldInput!]" },
     storage: { __type: "[ComputerTemplateStorageDisconnectFieldInput!]" },
+  },
+  ComputerTemplateFieldInput: {
+    connect: { __type: "ComputerTemplateConnectFieldInput" },
+    create: { __type: "ComputerTemplateCreateFieldInput" },
   },
   ComputerTemplateMachinePluginPluginsAggregationSelection: {
     __typename: { __type: "String!" },
@@ -4829,6 +5306,31 @@ export const generatedSchema = {
     id: { __type: "IDAggregateSelection!" },
     name: { __type: "StringAggregateSelection!" },
     type: { __type: "StringAggregateSelection!" },
+  },
+  ComputerTemplateNodeAggregationWhereInput: {
+    AND: { __type: "[ComputerTemplateNodeAggregationWhereInput!]" },
+    OR: { __type: "[ComputerTemplateNodeAggregationWhereInput!]" },
+    id_EQUAL: { __type: "ID" },
+    name_AVERAGE_EQUAL: { __type: "Float" },
+    name_AVERAGE_GT: { __type: "Float" },
+    name_AVERAGE_GTE: { __type: "Float" },
+    name_AVERAGE_LT: { __type: "Float" },
+    name_AVERAGE_LTE: { __type: "Float" },
+    name_EQUAL: { __type: "String" },
+    name_GT: { __type: "Int" },
+    name_GTE: { __type: "Int" },
+    name_LONGEST_EQUAL: { __type: "Int" },
+    name_LONGEST_GT: { __type: "Int" },
+    name_LONGEST_GTE: { __type: "Int" },
+    name_LONGEST_LT: { __type: "Int" },
+    name_LONGEST_LTE: { __type: "Int" },
+    name_LT: { __type: "Int" },
+    name_LTE: { __type: "Int" },
+    name_SHORTEST_EQUAL: { __type: "Int" },
+    name_SHORTEST_GT: { __type: "Int" },
+    name_SHORTEST_GTE: { __type: "Int" },
+    name_SHORTEST_LT: { __type: "Int" },
+    name_SHORTEST_LTE: { __type: "Int" },
   },
   ComputerTemplateOptions: {
     limit: { __type: "Int" },
@@ -5063,6 +5565,11 @@ export const generatedSchema = {
     plugins: { __type: "[ComputerTemplatePluginsCreateFieldInput!]" },
     screens: { __type: "[ComputerTemplateScreensCreateFieldInput!]" },
     storage: { __type: "[ComputerTemplateStorageCreateFieldInput!]" },
+  },
+  ComputerTemplateRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "ComputerTemplate!" },
   },
   ComputerTemplateScreenTemplateScreensAggregationSelection: {
     __typename: { __type: "String!" },
@@ -5385,6 +5892,17 @@ export const generatedSchema = {
     update: { __type: "ComputerTemplateStorageUpdateConnectionInput" },
     where: { __type: "ComputerTemplateStorageConnectionWhere" },
   },
+  ComputerTemplateUpdateConnectionInput: {
+    node: { __type: "ComputerTemplateUpdateInput" },
+  },
+  ComputerTemplateUpdateFieldInput: {
+    connect: { __type: "ComputerTemplateConnectFieldInput" },
+    create: { __type: "ComputerTemplateCreateFieldInput" },
+    delete: { __type: "ComputerTemplateDeleteFieldInput" },
+    disconnect: { __type: "ComputerTemplateDisconnectFieldInput" },
+    update: { __type: "ComputerTemplateUpdateConnectionInput" },
+    where: { __type: "ComputerTemplateConnectionWhere" },
+  },
   ComputerTemplateUpdateInput: {
     name: { __type: "String" },
     peripherals: { __type: "[ComputerTemplatePeripheralsUpdateFieldInput!]" },
@@ -5442,10 +5960,46 @@ export const generatedSchema = {
     storageConnection_NOT: { __type: "ComputerTemplateStorageConnectionWhere" },
     storage_NOT: { __type: "StorageTemplateWhere" },
   },
-  ComputerUpdateInput: { name: { __type: "String" } },
+  ComputerUpdateInput: {
+    agentVersion: { __type: "String" },
+    cpu: { __type: "Float" },
+    hostname: { __type: "String" },
+    memory: { __type: "Float" },
+    name: { __type: "String" },
+    os: { __type: "String" },
+    template: { __type: "ComputerTemplateUpdateFieldInput" },
+  },
   ComputerWhere: {
     AND: { __type: "[ComputerWhere!]" },
     OR: { __type: "[ComputerWhere!]" },
+    agentVersion: { __type: "String" },
+    agentVersion_CONTAINS: { __type: "String" },
+    agentVersion_ENDS_WITH: { __type: "String" },
+    agentVersion_IN: { __type: "[String]" },
+    agentVersion_NOT: { __type: "String" },
+    agentVersion_NOT_CONTAINS: { __type: "String" },
+    agentVersion_NOT_ENDS_WITH: { __type: "String" },
+    agentVersion_NOT_IN: { __type: "[String]" },
+    agentVersion_NOT_STARTS_WITH: { __type: "String" },
+    agentVersion_STARTS_WITH: { __type: "String" },
+    cpu: { __type: "Float" },
+    cpu_GT: { __type: "Float" },
+    cpu_GTE: { __type: "Float" },
+    cpu_IN: { __type: "[Float]" },
+    cpu_LT: { __type: "Float" },
+    cpu_LTE: { __type: "Float" },
+    cpu_NOT: { __type: "Float" },
+    cpu_NOT_IN: { __type: "[Float]" },
+    hostname: { __type: "String" },
+    hostname_CONTAINS: { __type: "String" },
+    hostname_ENDS_WITH: { __type: "String" },
+    hostname_IN: { __type: "[String]" },
+    hostname_NOT: { __type: "String" },
+    hostname_NOT_CONTAINS: { __type: "String" },
+    hostname_NOT_ENDS_WITH: { __type: "String" },
+    hostname_NOT_IN: { __type: "[String]" },
+    hostname_NOT_STARTS_WITH: { __type: "String" },
+    hostname_STARTS_WITH: { __type: "String" },
     id: { __type: "ID" },
     id_CONTAINS: { __type: "ID" },
     id_ENDS_WITH: { __type: "ID" },
@@ -5456,6 +6010,14 @@ export const generatedSchema = {
     id_NOT_IN: { __type: "[ID]" },
     id_NOT_STARTS_WITH: { __type: "ID" },
     id_STARTS_WITH: { __type: "ID" },
+    memory: { __type: "Float" },
+    memory_GT: { __type: "Float" },
+    memory_GTE: { __type: "Float" },
+    memory_IN: { __type: "[Float]" },
+    memory_LT: { __type: "Float" },
+    memory_LTE: { __type: "Float" },
+    memory_NOT: { __type: "Float" },
+    memory_NOT_IN: { __type: "[Float]" },
     name: { __type: "String" },
     name_CONTAINS: { __type: "String" },
     name_ENDS_WITH: { __type: "String" },
@@ -5466,6 +6028,21 @@ export const generatedSchema = {
     name_NOT_IN: { __type: "[String]" },
     name_NOT_STARTS_WITH: { __type: "String" },
     name_STARTS_WITH: { __type: "String" },
+    os: { __type: "String" },
+    os_CONTAINS: { __type: "String" },
+    os_ENDS_WITH: { __type: "String" },
+    os_IN: { __type: "[String]" },
+    os_NOT: { __type: "String" },
+    os_NOT_CONTAINS: { __type: "String" },
+    os_NOT_ENDS_WITH: { __type: "String" },
+    os_NOT_IN: { __type: "[String]" },
+    os_NOT_STARTS_WITH: { __type: "String" },
+    os_STARTS_WITH: { __type: "String" },
+    template: { __type: "ComputerTemplateWhere" },
+    templateAggregate: { __type: "ComputerTemplateAggregateInput" },
+    templateConnection: { __type: "ComputerTemplateConnectionWhere" },
+    templateConnection_NOT: { __type: "ComputerTemplateConnectionWhere" },
+    template_NOT: { __type: "ComputerTemplateWhere" },
   },
   CreateCampaignAnalyticsMutationResponse: {
     __typename: { __type: "String!" },
@@ -5485,11 +6062,6 @@ export const generatedSchema = {
   CreateComputersMutationResponse: {
     __typename: { __type: "String!" },
     computers: { __type: "[Computer!]!" },
-    info: { __type: "CreateInfo!" },
-  },
-  CreateDisplayScreensMutationResponse: {
-    __typename: { __type: "String!" },
-    displayScreens: { __type: "[DisplayScreen!]!" },
     info: { __type: "CreateInfo!" },
   },
   CreateInfo: {
@@ -5548,6 +6120,11 @@ export const generatedSchema = {
     info: { __type: "CreateInfo!" },
     screenTemplates: { __type: "[ScreenTemplate!]!" },
   },
+  CreateScreensMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "CreateInfo!" },
+    screens: { __type: "[Screen!]!" },
+  },
   CreateStorageTemplatesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "CreateInfo!" },
@@ -5563,106 +6140,6 @@ export const generatedSchema = {
     bookmark: { __type: "String" },
     nodesDeleted: { __type: "Int!" },
     relationshipsDeleted: { __type: "Int!" },
-  },
-  DisplayScreen: {
-    __typename: { __type: "String!" },
-    height: { __type: "Float" },
-    id: { __type: "ID!" },
-    orientation: { __type: "Float" },
-    resHeight: { __type: "Float" },
-    resWidth: { __type: "Float" },
-    width: { __type: "Float" },
-  },
-  DisplayScreenAggregateSelection: {
-    __typename: { __type: "String!" },
-    count: { __type: "Int!" },
-    height: { __type: "FloatAggregateSelection!" },
-    id: { __type: "IDAggregateSelection!" },
-    orientation: { __type: "FloatAggregateSelection!" },
-    resHeight: { __type: "FloatAggregateSelection!" },
-    resWidth: { __type: "FloatAggregateSelection!" },
-    width: { __type: "FloatAggregateSelection!" },
-  },
-  DisplayScreenCreateInput: {
-    height: { __type: "Float" },
-    orientation: { __type: "Float" },
-    resHeight: { __type: "Float" },
-    resWidth: { __type: "Float" },
-    width: { __type: "Float" },
-  },
-  DisplayScreenOptions: {
-    limit: { __type: "Int" },
-    offset: { __type: "Int" },
-    sort: { __type: "[DisplayScreenSort]" },
-  },
-  DisplayScreenSort: {
-    height: { __type: "SortDirection" },
-    id: { __type: "SortDirection" },
-    orientation: { __type: "SortDirection" },
-    resHeight: { __type: "SortDirection" },
-    resWidth: { __type: "SortDirection" },
-    width: { __type: "SortDirection" },
-  },
-  DisplayScreenUpdateInput: {
-    height: { __type: "Float" },
-    orientation: { __type: "Float" },
-    resHeight: { __type: "Float" },
-    resWidth: { __type: "Float" },
-    width: { __type: "Float" },
-  },
-  DisplayScreenWhere: {
-    AND: { __type: "[DisplayScreenWhere!]" },
-    OR: { __type: "[DisplayScreenWhere!]" },
-    height: { __type: "Float" },
-    height_GT: { __type: "Float" },
-    height_GTE: { __type: "Float" },
-    height_IN: { __type: "[Float]" },
-    height_LT: { __type: "Float" },
-    height_LTE: { __type: "Float" },
-    height_NOT: { __type: "Float" },
-    height_NOT_IN: { __type: "[Float]" },
-    id: { __type: "ID" },
-    id_CONTAINS: { __type: "ID" },
-    id_ENDS_WITH: { __type: "ID" },
-    id_IN: { __type: "[ID]" },
-    id_NOT: { __type: "ID" },
-    id_NOT_CONTAINS: { __type: "ID" },
-    id_NOT_ENDS_WITH: { __type: "ID" },
-    id_NOT_IN: { __type: "[ID]" },
-    id_NOT_STARTS_WITH: { __type: "ID" },
-    id_STARTS_WITH: { __type: "ID" },
-    orientation: { __type: "Float" },
-    orientation_GT: { __type: "Float" },
-    orientation_GTE: { __type: "Float" },
-    orientation_IN: { __type: "[Float]" },
-    orientation_LT: { __type: "Float" },
-    orientation_LTE: { __type: "Float" },
-    orientation_NOT: { __type: "Float" },
-    orientation_NOT_IN: { __type: "[Float]" },
-    resHeight: { __type: "Float" },
-    resHeight_GT: { __type: "Float" },
-    resHeight_GTE: { __type: "Float" },
-    resHeight_IN: { __type: "[Float]" },
-    resHeight_LT: { __type: "Float" },
-    resHeight_LTE: { __type: "Float" },
-    resHeight_NOT: { __type: "Float" },
-    resHeight_NOT_IN: { __type: "[Float]" },
-    resWidth: { __type: "Float" },
-    resWidth_GT: { __type: "Float" },
-    resWidth_GTE: { __type: "Float" },
-    resWidth_IN: { __type: "[Float]" },
-    resWidth_LT: { __type: "Float" },
-    resWidth_LTE: { __type: "Float" },
-    resWidth_NOT: { __type: "Float" },
-    resWidth_NOT_IN: { __type: "[Float]" },
-    width: { __type: "Float" },
-    width_GT: { __type: "Float" },
-    width_GTE: { __type: "Float" },
-    width_IN: { __type: "[Float]" },
-    width_LT: { __type: "Float" },
-    width_LTE: { __type: "Float" },
-    width_NOT: { __type: "Float" },
-    width_NOT_IN: { __type: "[Float]" },
   },
   FloatAggregateSelection: {
     __typename: { __type: "String!" },
@@ -6303,6 +6780,23 @@ export const generatedSchema = {
   },
   Machine: {
     __typename: { __type: "String!" },
+    computers: {
+      __type: "Computer",
+      __args: { options: "ComputerOptions", where: "ComputerWhere" },
+    },
+    computersAggregate: {
+      __type: "MachineComputerComputersAggregationSelection",
+      __args: { where: "ComputerWhere" },
+    },
+    computersConnection: {
+      __type: "MachineComputersConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[MachineComputersConnectionSort!]",
+        where: "MachineComputersConnectionWhere",
+      },
+    },
     id: { __type: "ID!" },
     location: {
       __type: "Location",
@@ -6354,12 +6848,212 @@ export const generatedSchema = {
     networkName: { __type: "StringAggregateSelection!" },
     provisionedAt: { __type: "DateTimeAggregateSelection!" },
   },
+  MachineComputerComputersAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "MachineComputerComputersNodeAggregateSelection" },
+  },
+  MachineComputerComputersNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    agentVersion: { __type: "StringAggregateSelection!" },
+    cpu: { __type: "FloatAggregateSelection!" },
+    hostname: { __type: "StringAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    memory: { __type: "FloatAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
+    os: { __type: "StringAggregateSelection!" },
+  },
+  MachineComputersAggregateInput: {
+    AND: { __type: "[MachineComputersAggregateInput!]" },
+    OR: { __type: "[MachineComputersAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "MachineComputersNodeAggregationWhereInput" },
+  },
+  MachineComputersConnectFieldInput: {
+    connect: { __type: "ComputerConnectInput" },
+    where: { __type: "ComputerConnectWhere" },
+  },
+  MachineComputersConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[MachineComputersRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  MachineComputersConnectionSort: { node: { __type: "ComputerSort" } },
+  MachineComputersConnectionWhere: {
+    AND: { __type: "[MachineComputersConnectionWhere!]" },
+    OR: { __type: "[MachineComputersConnectionWhere!]" },
+    node: { __type: "ComputerWhere" },
+    node_NOT: { __type: "ComputerWhere" },
+  },
+  MachineComputersCreateFieldInput: {
+    node: { __type: "ComputerCreateInput!" },
+  },
+  MachineComputersDeleteFieldInput: {
+    delete: { __type: "ComputerDeleteInput" },
+    where: { __type: "MachineComputersConnectionWhere" },
+  },
+  MachineComputersDisconnectFieldInput: {
+    disconnect: { __type: "ComputerDisconnectInput" },
+    where: { __type: "MachineComputersConnectionWhere" },
+  },
+  MachineComputersFieldInput: {
+    connect: { __type: "MachineComputersConnectFieldInput" },
+    create: { __type: "MachineComputersCreateFieldInput" },
+  },
+  MachineComputersNodeAggregationWhereInput: {
+    AND: { __type: "[MachineComputersNodeAggregationWhereInput!]" },
+    OR: { __type: "[MachineComputersNodeAggregationWhereInput!]" },
+    agentVersion_AVERAGE_EQUAL: { __type: "Float" },
+    agentVersion_AVERAGE_GT: { __type: "Float" },
+    agentVersion_AVERAGE_GTE: { __type: "Float" },
+    agentVersion_AVERAGE_LT: { __type: "Float" },
+    agentVersion_AVERAGE_LTE: { __type: "Float" },
+    agentVersion_EQUAL: { __type: "String" },
+    agentVersion_GT: { __type: "Int" },
+    agentVersion_GTE: { __type: "Int" },
+    agentVersion_LONGEST_EQUAL: { __type: "Int" },
+    agentVersion_LONGEST_GT: { __type: "Int" },
+    agentVersion_LONGEST_GTE: { __type: "Int" },
+    agentVersion_LONGEST_LT: { __type: "Int" },
+    agentVersion_LONGEST_LTE: { __type: "Int" },
+    agentVersion_LT: { __type: "Int" },
+    agentVersion_LTE: { __type: "Int" },
+    agentVersion_SHORTEST_EQUAL: { __type: "Int" },
+    agentVersion_SHORTEST_GT: { __type: "Int" },
+    agentVersion_SHORTEST_GTE: { __type: "Int" },
+    agentVersion_SHORTEST_LT: { __type: "Int" },
+    agentVersion_SHORTEST_LTE: { __type: "Int" },
+    cpu_AVERAGE_EQUAL: { __type: "Float" },
+    cpu_AVERAGE_GT: { __type: "Float" },
+    cpu_AVERAGE_GTE: { __type: "Float" },
+    cpu_AVERAGE_LT: { __type: "Float" },
+    cpu_AVERAGE_LTE: { __type: "Float" },
+    cpu_EQUAL: { __type: "Float" },
+    cpu_GT: { __type: "Float" },
+    cpu_GTE: { __type: "Float" },
+    cpu_LT: { __type: "Float" },
+    cpu_LTE: { __type: "Float" },
+    cpu_MAX_EQUAL: { __type: "Float" },
+    cpu_MAX_GT: { __type: "Float" },
+    cpu_MAX_GTE: { __type: "Float" },
+    cpu_MAX_LT: { __type: "Float" },
+    cpu_MAX_LTE: { __type: "Float" },
+    cpu_MIN_EQUAL: { __type: "Float" },
+    cpu_MIN_GT: { __type: "Float" },
+    cpu_MIN_GTE: { __type: "Float" },
+    cpu_MIN_LT: { __type: "Float" },
+    cpu_MIN_LTE: { __type: "Float" },
+    hostname_AVERAGE_EQUAL: { __type: "Float" },
+    hostname_AVERAGE_GT: { __type: "Float" },
+    hostname_AVERAGE_GTE: { __type: "Float" },
+    hostname_AVERAGE_LT: { __type: "Float" },
+    hostname_AVERAGE_LTE: { __type: "Float" },
+    hostname_EQUAL: { __type: "String" },
+    hostname_GT: { __type: "Int" },
+    hostname_GTE: { __type: "Int" },
+    hostname_LONGEST_EQUAL: { __type: "Int" },
+    hostname_LONGEST_GT: { __type: "Int" },
+    hostname_LONGEST_GTE: { __type: "Int" },
+    hostname_LONGEST_LT: { __type: "Int" },
+    hostname_LONGEST_LTE: { __type: "Int" },
+    hostname_LT: { __type: "Int" },
+    hostname_LTE: { __type: "Int" },
+    hostname_SHORTEST_EQUAL: { __type: "Int" },
+    hostname_SHORTEST_GT: { __type: "Int" },
+    hostname_SHORTEST_GTE: { __type: "Int" },
+    hostname_SHORTEST_LT: { __type: "Int" },
+    hostname_SHORTEST_LTE: { __type: "Int" },
+    id_EQUAL: { __type: "ID" },
+    memory_AVERAGE_EQUAL: { __type: "Float" },
+    memory_AVERAGE_GT: { __type: "Float" },
+    memory_AVERAGE_GTE: { __type: "Float" },
+    memory_AVERAGE_LT: { __type: "Float" },
+    memory_AVERAGE_LTE: { __type: "Float" },
+    memory_EQUAL: { __type: "Float" },
+    memory_GT: { __type: "Float" },
+    memory_GTE: { __type: "Float" },
+    memory_LT: { __type: "Float" },
+    memory_LTE: { __type: "Float" },
+    memory_MAX_EQUAL: { __type: "Float" },
+    memory_MAX_GT: { __type: "Float" },
+    memory_MAX_GTE: { __type: "Float" },
+    memory_MAX_LT: { __type: "Float" },
+    memory_MAX_LTE: { __type: "Float" },
+    memory_MIN_EQUAL: { __type: "Float" },
+    memory_MIN_GT: { __type: "Float" },
+    memory_MIN_GTE: { __type: "Float" },
+    memory_MIN_LT: { __type: "Float" },
+    memory_MIN_LTE: { __type: "Float" },
+    name_AVERAGE_EQUAL: { __type: "Float" },
+    name_AVERAGE_GT: { __type: "Float" },
+    name_AVERAGE_GTE: { __type: "Float" },
+    name_AVERAGE_LT: { __type: "Float" },
+    name_AVERAGE_LTE: { __type: "Float" },
+    name_EQUAL: { __type: "String" },
+    name_GT: { __type: "Int" },
+    name_GTE: { __type: "Int" },
+    name_LONGEST_EQUAL: { __type: "Int" },
+    name_LONGEST_GT: { __type: "Int" },
+    name_LONGEST_GTE: { __type: "Int" },
+    name_LONGEST_LT: { __type: "Int" },
+    name_LONGEST_LTE: { __type: "Int" },
+    name_LT: { __type: "Int" },
+    name_LTE: { __type: "Int" },
+    name_SHORTEST_EQUAL: { __type: "Int" },
+    name_SHORTEST_GT: { __type: "Int" },
+    name_SHORTEST_GTE: { __type: "Int" },
+    name_SHORTEST_LT: { __type: "Int" },
+    name_SHORTEST_LTE: { __type: "Int" },
+    os_AVERAGE_EQUAL: { __type: "Float" },
+    os_AVERAGE_GT: { __type: "Float" },
+    os_AVERAGE_GTE: { __type: "Float" },
+    os_AVERAGE_LT: { __type: "Float" },
+    os_AVERAGE_LTE: { __type: "Float" },
+    os_EQUAL: { __type: "String" },
+    os_GT: { __type: "Int" },
+    os_GTE: { __type: "Int" },
+    os_LONGEST_EQUAL: { __type: "Int" },
+    os_LONGEST_GT: { __type: "Int" },
+    os_LONGEST_GTE: { __type: "Int" },
+    os_LONGEST_LT: { __type: "Int" },
+    os_LONGEST_LTE: { __type: "Int" },
+    os_LT: { __type: "Int" },
+    os_LTE: { __type: "Int" },
+    os_SHORTEST_EQUAL: { __type: "Int" },
+    os_SHORTEST_GT: { __type: "Int" },
+    os_SHORTEST_GTE: { __type: "Int" },
+    os_SHORTEST_LT: { __type: "Int" },
+    os_SHORTEST_LTE: { __type: "Int" },
+  },
+  MachineComputersRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "Computer!" },
+  },
+  MachineComputersUpdateConnectionInput: {
+    node: { __type: "ComputerUpdateInput" },
+  },
+  MachineComputersUpdateFieldInput: {
+    connect: { __type: "MachineComputersConnectFieldInput" },
+    create: { __type: "MachineComputersCreateFieldInput" },
+    delete: { __type: "MachineComputersDeleteFieldInput" },
+    disconnect: { __type: "MachineComputersDisconnectFieldInput" },
+    update: { __type: "MachineComputersUpdateConnectionInput" },
+    where: { __type: "MachineComputersConnectionWhere" },
+  },
   MachineConnectInput: {
+    computers: { __type: "MachineComputersConnectFieldInput" },
     location: { __type: "MachineLocationConnectFieldInput" },
     template: { __type: "MachineTemplateConnectFieldInput" },
   },
   MachineConnectWhere: { node: { __type: "MachineWhere!" } },
   MachineCreateInput: {
+    computers: { __type: "MachineComputersFieldInput" },
     location: { __type: "MachineLocationFieldInput" },
     name: { __type: "String" },
     networkName: { __type: "String" },
@@ -6368,10 +7062,12 @@ export const generatedSchema = {
     template: { __type: "MachineTemplateFieldInput" },
   },
   MachineDeleteInput: {
+    computers: { __type: "MachineComputersDeleteFieldInput" },
     location: { __type: "MachineLocationDeleteFieldInput" },
     template: { __type: "MachineTemplateDeleteFieldInput" },
   },
   MachineDisconnectInput: {
+    computers: { __type: "MachineComputersDisconnectFieldInput" },
     location: { __type: "MachineLocationDisconnectFieldInput" },
     template: { __type: "MachineTemplateDisconnectFieldInput" },
   },
@@ -6611,6 +7307,7 @@ export const generatedSchema = {
     type_STARTS_WITH: { __type: "String" },
   },
   MachineRelationInput: {
+    computers: { __type: "MachineComputersCreateFieldInput" },
     location: { __type: "MachineLocationCreateFieldInput" },
     template: { __type: "MachineTemplateCreateFieldInput" },
   },
@@ -7389,6 +8086,7 @@ export const generatedSchema = {
     plugins_NOT: { __type: "MachinePluginWhere" },
   },
   MachineUpdateInput: {
+    computers: { __type: "MachineComputersUpdateFieldInput" },
     location: { __type: "MachineLocationUpdateFieldInput" },
     name: { __type: "String" },
     networkName: { __type: "String" },
@@ -7399,6 +8097,11 @@ export const generatedSchema = {
   MachineWhere: {
     AND: { __type: "[MachineWhere!]" },
     OR: { __type: "[MachineWhere!]" },
+    computers: { __type: "ComputerWhere" },
+    computersAggregate: { __type: "MachineComputersAggregateInput" },
+    computersConnection: { __type: "MachineComputersConnectionWhere" },
+    computersConnection_NOT: { __type: "MachineComputersConnectionWhere" },
+    computers_NOT: { __type: "ComputerWhere" },
     id: { __type: "ID" },
     id_CONTAINS: { __type: "ID" },
     id_ENDS_WITH: { __type: "ID" },
@@ -8793,6 +9496,45 @@ export const generatedSchema = {
     tiersConnection_NOT: { __type: "ScheduleTiersConnectionWhere" },
     tiers_NOT: { __type: "ScheduleTierWhere" },
   },
+  Screen: {
+    __typename: { __type: "String!" },
+    height: { __type: "Float" },
+    id: { __type: "ID!" },
+    orientation: { __type: "Float" },
+    resHeight: { __type: "Float" },
+    resWidth: { __type: "Float" },
+    width: { __type: "Float" },
+  },
+  ScreenAggregateSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    height: { __type: "FloatAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    orientation: { __type: "FloatAggregateSelection!" },
+    resHeight: { __type: "FloatAggregateSelection!" },
+    resWidth: { __type: "FloatAggregateSelection!" },
+    width: { __type: "FloatAggregateSelection!" },
+  },
+  ScreenCreateInput: {
+    height: { __type: "Float" },
+    orientation: { __type: "Float" },
+    resHeight: { __type: "Float" },
+    resWidth: { __type: "Float" },
+    width: { __type: "Float" },
+  },
+  ScreenOptions: {
+    limit: { __type: "Int" },
+    offset: { __type: "Int" },
+    sort: { __type: "[ScreenSort]" },
+  },
+  ScreenSort: {
+    height: { __type: "SortDirection" },
+    id: { __type: "SortDirection" },
+    orientation: { __type: "SortDirection" },
+    resHeight: { __type: "SortDirection" },
+    resWidth: { __type: "SortDirection" },
+    width: { __type: "SortDirection" },
+  },
   ScreenTemplate: {
     __typename: { __type: "String!" },
     computer: {
@@ -9025,6 +9767,67 @@ export const generatedSchema = {
     width_NOT: { __type: "Int" },
     width_NOT_IN: { __type: "[Int]" },
   },
+  ScreenUpdateInput: {
+    height: { __type: "Float" },
+    orientation: { __type: "Float" },
+    resHeight: { __type: "Float" },
+    resWidth: { __type: "Float" },
+    width: { __type: "Float" },
+  },
+  ScreenWhere: {
+    AND: { __type: "[ScreenWhere!]" },
+    OR: { __type: "[ScreenWhere!]" },
+    height: { __type: "Float" },
+    height_GT: { __type: "Float" },
+    height_GTE: { __type: "Float" },
+    height_IN: { __type: "[Float]" },
+    height_LT: { __type: "Float" },
+    height_LTE: { __type: "Float" },
+    height_NOT: { __type: "Float" },
+    height_NOT_IN: { __type: "[Float]" },
+    id: { __type: "ID" },
+    id_CONTAINS: { __type: "ID" },
+    id_ENDS_WITH: { __type: "ID" },
+    id_IN: { __type: "[ID]" },
+    id_NOT: { __type: "ID" },
+    id_NOT_CONTAINS: { __type: "ID" },
+    id_NOT_ENDS_WITH: { __type: "ID" },
+    id_NOT_IN: { __type: "[ID]" },
+    id_NOT_STARTS_WITH: { __type: "ID" },
+    id_STARTS_WITH: { __type: "ID" },
+    orientation: { __type: "Float" },
+    orientation_GT: { __type: "Float" },
+    orientation_GTE: { __type: "Float" },
+    orientation_IN: { __type: "[Float]" },
+    orientation_LT: { __type: "Float" },
+    orientation_LTE: { __type: "Float" },
+    orientation_NOT: { __type: "Float" },
+    orientation_NOT_IN: { __type: "[Float]" },
+    resHeight: { __type: "Float" },
+    resHeight_GT: { __type: "Float" },
+    resHeight_GTE: { __type: "Float" },
+    resHeight_IN: { __type: "[Float]" },
+    resHeight_LT: { __type: "Float" },
+    resHeight_LTE: { __type: "Float" },
+    resHeight_NOT: { __type: "Float" },
+    resHeight_NOT_IN: { __type: "[Float]" },
+    resWidth: { __type: "Float" },
+    resWidth_GT: { __type: "Float" },
+    resWidth_GTE: { __type: "Float" },
+    resWidth_IN: { __type: "[Float]" },
+    resWidth_LT: { __type: "Float" },
+    resWidth_LTE: { __type: "Float" },
+    resWidth_NOT: { __type: "Float" },
+    resWidth_NOT_IN: { __type: "[Float]" },
+    width: { __type: "Float" },
+    width_GT: { __type: "Float" },
+    width_GTE: { __type: "Float" },
+    width_IN: { __type: "[Float]" },
+    width_LT: { __type: "Float" },
+    width_LTE: { __type: "Float" },
+    width_NOT: { __type: "Float" },
+    width_NOT_IN: { __type: "[Float]" },
+  },
   StorageTemplate: {
     __typename: { __type: "String!" },
     id: { __type: "ID!" },
@@ -9142,11 +9945,6 @@ export const generatedSchema = {
     computers: { __type: "[Computer!]!" },
     info: { __type: "UpdateInfo!" },
   },
-  UpdateDisplayScreensMutationResponse: {
-    __typename: { __type: "String!" },
-    displayScreens: { __type: "[DisplayScreen!]!" },
-    info: { __type: "UpdateInfo!" },
-  },
   UpdateInfo: {
     __typename: { __type: "String!" },
     bookmark: { __type: "String" },
@@ -9205,6 +10003,11 @@ export const generatedSchema = {
     info: { __type: "UpdateInfo!" },
     screenTemplates: { __type: "[ScreenTemplate!]!" },
   },
+  UpdateScreensMutationResponse: {
+    __typename: { __type: "String!" },
+    info: { __type: "UpdateInfo!" },
+    screens: { __type: "[Screen!]!" },
+  },
   UpdateStorageTemplatesMutationResponse: {
     __typename: { __type: "String!" },
     info: { __type: "UpdateInfo!" },
@@ -9227,10 +10030,6 @@ export const generatedSchema = {
     createComputers: {
       __type: "CreateComputersMutationResponse!",
       __args: { input: "[ComputerCreateInput!]!" },
-    },
-    createDisplayScreens: {
-      __type: "CreateDisplayScreensMutationResponse!",
-      __args: { input: "[DisplayScreenCreateInput!]!" },
     },
     createLocationGroups: {
       __type: "CreateLocationGroupsMutationResponse!",
@@ -9272,6 +10071,10 @@ export const generatedSchema = {
       __type: "CreateScreenTemplatesMutationResponse!",
       __args: { input: "[ScreenTemplateCreateInput!]!" },
     },
+    createScreens: {
+      __type: "CreateScreensMutationResponse!",
+      __args: { input: "[ScreenCreateInput!]!" },
+    },
     createStorageTemplates: {
       __type: "CreateStorageTemplatesMutationResponse!",
       __args: { input: "[StorageTemplateCreateInput!]!" },
@@ -9296,11 +10099,7 @@ export const generatedSchema = {
     },
     deleteComputers: {
       __type: "DeleteInfo!",
-      __args: { where: "ComputerWhere" },
-    },
-    deleteDisplayScreens: {
-      __type: "DeleteInfo!",
-      __args: { where: "DisplayScreenWhere" },
+      __args: { delete: "ComputerDeleteInput", where: "ComputerWhere" },
     },
     deleteLocationGroups: {
       __type: "DeleteInfo!",
@@ -9357,6 +10156,7 @@ export const generatedSchema = {
         where: "ScreenTemplateWhere",
       },
     },
+    deleteScreens: { __type: "DeleteInfo!", __args: { where: "ScreenWhere" } },
     deleteStorageTemplates: {
       __type: "DeleteInfo!",
       __args: { where: "StorageTemplateWhere" },
@@ -9396,13 +10196,13 @@ export const generatedSchema = {
     },
     updateComputers: {
       __type: "UpdateComputersMutationResponse!",
-      __args: { update: "ComputerUpdateInput", where: "ComputerWhere" },
-    },
-    updateDisplayScreens: {
-      __type: "UpdateDisplayScreensMutationResponse!",
       __args: {
-        update: "DisplayScreenUpdateInput",
-        where: "DisplayScreenWhere",
+        connect: "ComputerConnectInput",
+        create: "ComputerRelationInput",
+        delete: "ComputerDeleteInput",
+        disconnect: "ComputerDisconnectInput",
+        update: "ComputerUpdateInput",
+        where: "ComputerWhere",
       },
     },
     updateLocationGroups: {
@@ -9511,6 +10311,10 @@ export const generatedSchema = {
         where: "ScreenTemplateWhere",
       },
     },
+    updateScreens: {
+      __type: "UpdateScreensMutationResponse!",
+      __args: { update: "ScreenUpdateInput", where: "ScreenWhere" },
+    },
     updateStorageTemplates: {
       __type: "UpdateStorageTemplatesMutationResponse!",
       __args: {
@@ -9569,18 +10373,6 @@ export const generatedSchema = {
       __args: { where: "ComputerWhere" },
     },
     computersCount: { __type: "Int!", __args: { where: "ComputerWhere" } },
-    displayScreens: {
-      __type: "[DisplayScreen!]!",
-      __args: { options: "DisplayScreenOptions", where: "DisplayScreenWhere" },
-    },
-    displayScreensAggregate: {
-      __type: "DisplayScreenAggregateSelection!",
-      __args: { where: "DisplayScreenWhere" },
-    },
-    displayScreensCount: {
-      __type: "Int!",
-      __args: { where: "DisplayScreenWhere" },
-    },
     locationGroups: {
       __type: "[LocationGroup!]!",
       __args: { options: "LocationGroupOptions", where: "LocationGroupWhere" },
@@ -9701,6 +10493,15 @@ export const generatedSchema = {
       __type: "Int!",
       __args: { where: "ScreenTemplateWhere" },
     },
+    screens: {
+      __type: "[Screen!]!",
+      __args: { options: "ScreenOptions", where: "ScreenWhere" },
+    },
+    screensAggregate: {
+      __type: "ScreenAggregateSelection!",
+      __args: { where: "ScreenWhere" },
+    },
+    screensCount: { __type: "Int!", __args: { where: "ScreenWhere" } },
     storageTemplates: {
       __type: "[StorageTemplate!]!",
       __args: {
@@ -9860,13 +10661,48 @@ export interface CampaignInteraction {
 
 export interface Computer {
   __typename?: "Computer";
+  agentVersion?: Maybe<ScalarsEnums["String"]>;
+  cpu?: Maybe<ScalarsEnums["Float"]>;
+  hostname?: Maybe<ScalarsEnums["String"]>;
   id: ScalarsEnums["ID"];
+  memory?: Maybe<ScalarsEnums["Float"]>;
   name?: Maybe<ScalarsEnums["String"]>;
+  os?: Maybe<ScalarsEnums["String"]>;
+  template: (args?: {
+    options?: Maybe<ComputerTemplateOptions>;
+    where?: Maybe<ComputerTemplateWhere>;
+  }) => Maybe<ComputerTemplate>;
+  templateAggregate: (args?: {
+    where?: Maybe<ComputerTemplateWhere>;
+  }) => Maybe<ComputerComputerTemplateTemplateAggregationSelection>;
+  templateConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ComputerTemplateConnectionSort>>;
+    where?: Maybe<ComputerTemplateConnectionWhere>;
+  }) => ComputerTemplateConnection;
 }
 
 export interface ComputerAggregateSelection {
   __typename?: "ComputerAggregateSelection";
+  agentVersion: StringAggregateSelection;
   count: ScalarsEnums["Int"];
+  cpu: FloatAggregateSelection;
+  hostname: StringAggregateSelection;
+  id: IDAggregateSelection;
+  memory: FloatAggregateSelection;
+  name: StringAggregateSelection;
+  os: StringAggregateSelection;
+}
+
+export interface ComputerComputerTemplateTemplateAggregationSelection {
+  __typename?: "ComputerComputerTemplateTemplateAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ComputerComputerTemplateTemplateNodeAggregateSelection>;
+}
+
+export interface ComputerComputerTemplateTemplateNodeAggregateSelection {
+  __typename?: "ComputerComputerTemplateTemplateNodeAggregateSelection";
   id: IDAggregateSelection;
   name: StringAggregateSelection;
 }
@@ -9936,6 +10772,13 @@ export interface ComputerTemplateAggregateSelection {
   name: StringAggregateSelection;
 }
 
+export interface ComputerTemplateConnection {
+  __typename?: "ComputerTemplateConnection";
+  edges: Array<ComputerTemplateRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
 export interface ComputerTemplateMachinePluginPluginsAggregationSelection {
   __typename?: "ComputerTemplateMachinePluginPluginsAggregationSelection";
   count: ScalarsEnums["Int"];
@@ -9986,6 +10829,12 @@ export interface ComputerTemplatePluginsRelationship {
   __typename?: "ComputerTemplatePluginsRelationship";
   cursor: ScalarsEnums["String"];
   node: MachinePlugin;
+}
+
+export interface ComputerTemplateRelationship {
+  __typename?: "ComputerTemplateRelationship";
+  cursor: ScalarsEnums["String"];
+  node: ComputerTemplate;
 }
 
 export interface ComputerTemplateScreenTemplateScreensAggregationSelection {
@@ -10068,12 +10917,6 @@ export interface CreateComputersMutationResponse {
   info: CreateInfo;
 }
 
-export interface CreateDisplayScreensMutationResponse {
-  __typename?: "CreateDisplayScreensMutationResponse";
-  displayScreens: Array<DisplayScreen>;
-  info: CreateInfo;
-}
-
 export interface CreateInfo {
   __typename?: "CreateInfo";
   bookmark?: Maybe<ScalarsEnums["String"]>;
@@ -10141,6 +10984,12 @@ export interface CreateScreenTemplatesMutationResponse {
   screenTemplates: Array<ScreenTemplate>;
 }
 
+export interface CreateScreensMutationResponse {
+  __typename?: "CreateScreensMutationResponse";
+  info: CreateInfo;
+  screens: Array<Screen>;
+}
+
 export interface CreateStorageTemplatesMutationResponse {
   __typename?: "CreateStorageTemplatesMutationResponse";
   info: CreateInfo;
@@ -10158,27 +11007,6 @@ export interface DeleteInfo {
   bookmark?: Maybe<ScalarsEnums["String"]>;
   nodesDeleted: ScalarsEnums["Int"];
   relationshipsDeleted: ScalarsEnums["Int"];
-}
-
-export interface DisplayScreen {
-  __typename?: "DisplayScreen";
-  height?: Maybe<ScalarsEnums["Float"]>;
-  id: ScalarsEnums["ID"];
-  orientation?: Maybe<ScalarsEnums["Float"]>;
-  resHeight?: Maybe<ScalarsEnums["Float"]>;
-  resWidth?: Maybe<ScalarsEnums["Float"]>;
-  width?: Maybe<ScalarsEnums["Float"]>;
-}
-
-export interface DisplayScreenAggregateSelection {
-  __typename?: "DisplayScreenAggregateSelection";
-  count: ScalarsEnums["Int"];
-  height: FloatAggregateSelection;
-  id: IDAggregateSelection;
-  orientation: FloatAggregateSelection;
-  resHeight: FloatAggregateSelection;
-  resWidth: FloatAggregateSelection;
-  width: FloatAggregateSelection;
 }
 
 export interface FloatAggregateSelection {
@@ -10354,6 +11182,19 @@ export interface LocationMachinesRelationship {
 
 export interface Machine {
   __typename?: "Machine";
+  computers: (args?: {
+    options?: Maybe<ComputerOptions>;
+    where?: Maybe<ComputerWhere>;
+  }) => Maybe<Computer>;
+  computersAggregate: (args?: {
+    where?: Maybe<ComputerWhere>;
+  }) => Maybe<MachineComputerComputersAggregationSelection>;
+  computersConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<MachineComputersConnectionSort>>;
+    where?: Maybe<MachineComputersConnectionWhere>;
+  }) => MachineComputersConnection;
   id: ScalarsEnums["ID"];
   location: (args?: {
     options?: Maybe<LocationOptions>;
@@ -10394,6 +11235,36 @@ export interface MachineAggregateSelection {
   name: StringAggregateSelection;
   networkName: StringAggregateSelection;
   provisionedAt: DateTimeAggregateSelection;
+}
+
+export interface MachineComputerComputersAggregationSelection {
+  __typename?: "MachineComputerComputersAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<MachineComputerComputersNodeAggregateSelection>;
+}
+
+export interface MachineComputerComputersNodeAggregateSelection {
+  __typename?: "MachineComputerComputersNodeAggregateSelection";
+  agentVersion: StringAggregateSelection;
+  cpu: FloatAggregateSelection;
+  hostname: StringAggregateSelection;
+  id: IDAggregateSelection;
+  memory: FloatAggregateSelection;
+  name: StringAggregateSelection;
+  os: StringAggregateSelection;
+}
+
+export interface MachineComputersConnection {
+  __typename?: "MachineComputersConnection";
+  edges: Array<MachineComputersRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface MachineComputersRelationship {
+  __typename?: "MachineComputersRelationship";
+  cursor: ScalarsEnums["String"];
+  node: Computer;
 }
 
 export interface MachineLocationConnection {
@@ -10962,6 +11833,27 @@ export interface ScheduleTiersRelationship {
   node: ScheduleTier;
 }
 
+export interface Screen {
+  __typename?: "Screen";
+  height?: Maybe<ScalarsEnums["Float"]>;
+  id: ScalarsEnums["ID"];
+  orientation?: Maybe<ScalarsEnums["Float"]>;
+  resHeight?: Maybe<ScalarsEnums["Float"]>;
+  resWidth?: Maybe<ScalarsEnums["Float"]>;
+  width?: Maybe<ScalarsEnums["Float"]>;
+}
+
+export interface ScreenAggregateSelection {
+  __typename?: "ScreenAggregateSelection";
+  count: ScalarsEnums["Int"];
+  height: FloatAggregateSelection;
+  id: IDAggregateSelection;
+  orientation: FloatAggregateSelection;
+  resHeight: FloatAggregateSelection;
+  resWidth: FloatAggregateSelection;
+  width: FloatAggregateSelection;
+}
+
 export interface ScreenTemplate {
   __typename?: "ScreenTemplate";
   computer: (args?: {
@@ -11069,12 +11961,6 @@ export interface UpdateComputersMutationResponse {
   info: UpdateInfo;
 }
 
-export interface UpdateDisplayScreensMutationResponse {
-  __typename?: "UpdateDisplayScreensMutationResponse";
-  displayScreens: Array<DisplayScreen>;
-  info: UpdateInfo;
-}
-
 export interface UpdateInfo {
   __typename?: "UpdateInfo";
   bookmark?: Maybe<ScalarsEnums["String"]>;
@@ -11144,6 +12030,12 @@ export interface UpdateScreenTemplatesMutationResponse {
   screenTemplates: Array<ScreenTemplate>;
 }
 
+export interface UpdateScreensMutationResponse {
+  __typename?: "UpdateScreensMutationResponse";
+  info: UpdateInfo;
+  screens: Array<Screen>;
+}
+
 export interface UpdateStorageTemplatesMutationResponse {
   __typename?: "UpdateStorageTemplatesMutationResponse";
   info: UpdateInfo;
@@ -11164,9 +12056,6 @@ export interface Mutation {
   createComputers: (args: {
     input: Array<ComputerCreateInput>;
   }) => CreateComputersMutationResponse;
-  createDisplayScreens: (args: {
-    input: Array<DisplayScreenCreateInput>;
-  }) => CreateDisplayScreensMutationResponse;
   createLocationGroups: (args: {
     input: Array<LocationGroupCreateInput>;
   }) => CreateLocationGroupsMutationResponse;
@@ -11197,6 +12086,9 @@ export interface Mutation {
   createScreenTemplates: (args: {
     input: Array<ScreenTemplateCreateInput>;
   }) => CreateScreenTemplatesMutationResponse;
+  createScreens: (args: {
+    input: Array<ScreenCreateInput>;
+  }) => CreateScreensMutationResponse;
   createStorageTemplates: (args: {
     input: Array<StorageTemplateCreateInput>;
   }) => CreateStorageTemplatesMutationResponse;
@@ -11212,9 +12104,9 @@ export interface Mutation {
     delete?: Maybe<ComputerTemplateDeleteInput>;
     where?: Maybe<ComputerTemplateWhere>;
   }) => DeleteInfo;
-  deleteComputers: (args?: { where?: Maybe<ComputerWhere> }) => DeleteInfo;
-  deleteDisplayScreens: (args?: {
-    where?: Maybe<DisplayScreenWhere>;
+  deleteComputers: (args?: {
+    delete?: Maybe<ComputerDeleteInput>;
+    where?: Maybe<ComputerWhere>;
   }) => DeleteInfo;
   deleteLocationGroups: (args?: {
     delete?: Maybe<LocationGroupDeleteInput>;
@@ -11255,6 +12147,7 @@ export interface Mutation {
     delete?: Maybe<ScreenTemplateDeleteInput>;
     where?: Maybe<ScreenTemplateWhere>;
   }) => DeleteInfo;
+  deleteScreens: (args?: { where?: Maybe<ScreenWhere> }) => DeleteInfo;
   deleteStorageTemplates: (args?: {
     where?: Maybe<StorageTemplateWhere>;
   }) => DeleteInfo;
@@ -11283,13 +12176,13 @@ export interface Mutation {
     where?: Maybe<ComputerTemplateWhere>;
   }) => UpdateComputerTemplatesMutationResponse;
   updateComputers: (args?: {
+    connect?: Maybe<ComputerConnectInput>;
+    create?: Maybe<ComputerRelationInput>;
+    delete?: Maybe<ComputerDeleteInput>;
+    disconnect?: Maybe<ComputerDisconnectInput>;
     update?: Maybe<ComputerUpdateInput>;
     where?: Maybe<ComputerWhere>;
   }) => UpdateComputersMutationResponse;
-  updateDisplayScreens: (args?: {
-    update?: Maybe<DisplayScreenUpdateInput>;
-    where?: Maybe<DisplayScreenWhere>;
-  }) => UpdateDisplayScreensMutationResponse;
   updateLocationGroups: (args?: {
     connect?: Maybe<LocationGroupConnectInput>;
     create?: Maybe<LocationGroupRelationInput>;
@@ -11366,6 +12259,10 @@ export interface Mutation {
     update?: Maybe<ScreenTemplateUpdateInput>;
     where?: Maybe<ScreenTemplateWhere>;
   }) => UpdateScreenTemplatesMutationResponse;
+  updateScreens: (args?: {
+    update?: Maybe<ScreenUpdateInput>;
+    where?: Maybe<ScreenWhere>;
+  }) => UpdateScreensMutationResponse;
   updateStorageTemplates: (args?: {
     update?: Maybe<StorageTemplateUpdateInput>;
     where?: Maybe<StorageTemplateWhere>;
@@ -11413,16 +12310,6 @@ export interface Query {
   }) => ComputerAggregateSelection;
   computersCount: (args?: {
     where?: Maybe<ComputerWhere>;
-  }) => ScalarsEnums["Int"];
-  displayScreens: (args?: {
-    options?: Maybe<DisplayScreenOptions>;
-    where?: Maybe<DisplayScreenWhere>;
-  }) => Array<DisplayScreen>;
-  displayScreensAggregate: (args?: {
-    where?: Maybe<DisplayScreenWhere>;
-  }) => DisplayScreenAggregateSelection;
-  displayScreensCount: (args?: {
-    where?: Maybe<DisplayScreenWhere>;
   }) => ScalarsEnums["Int"];
   locationGroups: (args?: {
     options?: Maybe<LocationGroupOptions>;
@@ -11524,6 +12411,14 @@ export interface Query {
   screenTemplatesCount: (args?: {
     where?: Maybe<ScreenTemplateWhere>;
   }) => ScalarsEnums["Int"];
+  screens: (args?: {
+    options?: Maybe<ScreenOptions>;
+    where?: Maybe<ScreenWhere>;
+  }) => Array<Screen>;
+  screensAggregate: (args?: {
+    where?: Maybe<ScreenWhere>;
+  }) => ScreenAggregateSelection;
+  screensCount: (args?: { where?: Maybe<ScreenWhere> }) => ScalarsEnums["Int"];
   storageTemplates: (args?: {
     options?: Maybe<StorageTemplateOptions>;
     where?: Maybe<StorageTemplateWhere>;
@@ -11557,8 +12452,11 @@ export interface SchemaObjectTypes {
   CampaignInteraction: CampaignInteraction;
   Computer: Computer;
   ComputerAggregateSelection: ComputerAggregateSelection;
+  ComputerComputerTemplateTemplateAggregationSelection: ComputerComputerTemplateTemplateAggregationSelection;
+  ComputerComputerTemplateTemplateNodeAggregateSelection: ComputerComputerTemplateTemplateNodeAggregateSelection;
   ComputerTemplate: ComputerTemplate;
   ComputerTemplateAggregateSelection: ComputerTemplateAggregateSelection;
+  ComputerTemplateConnection: ComputerTemplateConnection;
   ComputerTemplateMachinePluginPluginsAggregationSelection: ComputerTemplateMachinePluginPluginsAggregationSelection;
   ComputerTemplateMachinePluginPluginsNodeAggregateSelection: ComputerTemplateMachinePluginPluginsNodeAggregateSelection;
   ComputerTemplatePeripheralTemplatePeripheralsAggregationSelection: ComputerTemplatePeripheralTemplatePeripheralsAggregationSelection;
@@ -11567,6 +12465,7 @@ export interface SchemaObjectTypes {
   ComputerTemplatePeripheralsRelationship: ComputerTemplatePeripheralsRelationship;
   ComputerTemplatePluginsConnection: ComputerTemplatePluginsConnection;
   ComputerTemplatePluginsRelationship: ComputerTemplatePluginsRelationship;
+  ComputerTemplateRelationship: ComputerTemplateRelationship;
   ComputerTemplateScreenTemplateScreensAggregationSelection: ComputerTemplateScreenTemplateScreensAggregationSelection;
   ComputerTemplateScreenTemplateScreensNodeAggregateSelection: ComputerTemplateScreenTemplateScreensNodeAggregateSelection;
   ComputerTemplateScreensConnection: ComputerTemplateScreensConnection;
@@ -11579,7 +12478,6 @@ export interface SchemaObjectTypes {
   CreateCampaignsMutationResponse: CreateCampaignsMutationResponse;
   CreateComputerTemplatesMutationResponse: CreateComputerTemplatesMutationResponse;
   CreateComputersMutationResponse: CreateComputersMutationResponse;
-  CreateDisplayScreensMutationResponse: CreateDisplayScreensMutationResponse;
   CreateInfo: CreateInfo;
   CreateLocationGroupsMutationResponse: CreateLocationGroupsMutationResponse;
   CreateLocationsMutationResponse: CreateLocationsMutationResponse;
@@ -11591,11 +12489,10 @@ export interface SchemaObjectTypes {
   CreateScheduleTiersMutationResponse: CreateScheduleTiersMutationResponse;
   CreateSchedulesMutationResponse: CreateSchedulesMutationResponse;
   CreateScreenTemplatesMutationResponse: CreateScreenTemplatesMutationResponse;
+  CreateScreensMutationResponse: CreateScreensMutationResponse;
   CreateStorageTemplatesMutationResponse: CreateStorageTemplatesMutationResponse;
   DateTimeAggregateSelection: DateTimeAggregateSelection;
   DeleteInfo: DeleteInfo;
-  DisplayScreen: DisplayScreen;
-  DisplayScreenAggregateSelection: DisplayScreenAggregateSelection;
   FloatAggregateSelection: FloatAggregateSelection;
   IDAggregateSelection: IDAggregateSelection;
   IntAggregateSelection: IntAggregateSelection;
@@ -11617,6 +12514,10 @@ export interface SchemaObjectTypes {
   LocationMachinesRelationship: LocationMachinesRelationship;
   Machine: Machine;
   MachineAggregateSelection: MachineAggregateSelection;
+  MachineComputerComputersAggregationSelection: MachineComputerComputersAggregationSelection;
+  MachineComputerComputersNodeAggregateSelection: MachineComputerComputersNodeAggregateSelection;
+  MachineComputersConnection: MachineComputersConnection;
+  MachineComputersRelationship: MachineComputersRelationship;
   MachineLocationConnection: MachineLocationConnection;
   MachineLocationLocationAggregationSelection: MachineLocationLocationAggregationSelection;
   MachineLocationLocationNodeAggregateSelection: MachineLocationLocationNodeAggregateSelection;
@@ -11681,6 +12582,8 @@ export interface SchemaObjectTypes {
   ScheduleTierScheduleScheduleNodeAggregateSelection: ScheduleTierScheduleScheduleNodeAggregateSelection;
   ScheduleTiersConnection: ScheduleTiersConnection;
   ScheduleTiersRelationship: ScheduleTiersRelationship;
+  Screen: Screen;
+  ScreenAggregateSelection: ScreenAggregateSelection;
   ScreenTemplate: ScreenTemplate;
   ScreenTemplateAggregateSelection: ScreenTemplateAggregateSelection;
   ScreenTemplateComputerConnection: ScreenTemplateComputerConnection;
@@ -11695,7 +12598,6 @@ export interface SchemaObjectTypes {
   UpdateCampaignsMutationResponse: UpdateCampaignsMutationResponse;
   UpdateComputerTemplatesMutationResponse: UpdateComputerTemplatesMutationResponse;
   UpdateComputersMutationResponse: UpdateComputersMutationResponse;
-  UpdateDisplayScreensMutationResponse: UpdateDisplayScreensMutationResponse;
   UpdateInfo: UpdateInfo;
   UpdateLocationGroupsMutationResponse: UpdateLocationGroupsMutationResponse;
   UpdateLocationsMutationResponse: UpdateLocationsMutationResponse;
@@ -11707,6 +12609,7 @@ export interface SchemaObjectTypes {
   UpdateScheduleTiersMutationResponse: UpdateScheduleTiersMutationResponse;
   UpdateSchedulesMutationResponse: UpdateSchedulesMutationResponse;
   UpdateScreenTemplatesMutationResponse: UpdateScreenTemplatesMutationResponse;
+  UpdateScreensMutationResponse: UpdateScreensMutationResponse;
   UpdateStorageTemplatesMutationResponse: UpdateStorageTemplatesMutationResponse;
 }
 export type SchemaObjectTypesNames =
@@ -11726,8 +12629,11 @@ export type SchemaObjectTypesNames =
   | "CampaignInteraction"
   | "Computer"
   | "ComputerAggregateSelection"
+  | "ComputerComputerTemplateTemplateAggregationSelection"
+  | "ComputerComputerTemplateTemplateNodeAggregateSelection"
   | "ComputerTemplate"
   | "ComputerTemplateAggregateSelection"
+  | "ComputerTemplateConnection"
   | "ComputerTemplateMachinePluginPluginsAggregationSelection"
   | "ComputerTemplateMachinePluginPluginsNodeAggregateSelection"
   | "ComputerTemplatePeripheralTemplatePeripheralsAggregationSelection"
@@ -11736,6 +12642,7 @@ export type SchemaObjectTypesNames =
   | "ComputerTemplatePeripheralsRelationship"
   | "ComputerTemplatePluginsConnection"
   | "ComputerTemplatePluginsRelationship"
+  | "ComputerTemplateRelationship"
   | "ComputerTemplateScreenTemplateScreensAggregationSelection"
   | "ComputerTemplateScreenTemplateScreensNodeAggregateSelection"
   | "ComputerTemplateScreensConnection"
@@ -11748,7 +12655,6 @@ export type SchemaObjectTypesNames =
   | "CreateCampaignsMutationResponse"
   | "CreateComputerTemplatesMutationResponse"
   | "CreateComputersMutationResponse"
-  | "CreateDisplayScreensMutationResponse"
   | "CreateInfo"
   | "CreateLocationGroupsMutationResponse"
   | "CreateLocationsMutationResponse"
@@ -11760,11 +12666,10 @@ export type SchemaObjectTypesNames =
   | "CreateScheduleTiersMutationResponse"
   | "CreateSchedulesMutationResponse"
   | "CreateScreenTemplatesMutationResponse"
+  | "CreateScreensMutationResponse"
   | "CreateStorageTemplatesMutationResponse"
   | "DateTimeAggregateSelection"
   | "DeleteInfo"
-  | "DisplayScreen"
-  | "DisplayScreenAggregateSelection"
   | "FloatAggregateSelection"
   | "IDAggregateSelection"
   | "IntAggregateSelection"
@@ -11786,6 +12691,10 @@ export type SchemaObjectTypesNames =
   | "LocationMachinesRelationship"
   | "Machine"
   | "MachineAggregateSelection"
+  | "MachineComputerComputersAggregationSelection"
+  | "MachineComputerComputersNodeAggregateSelection"
+  | "MachineComputersConnection"
+  | "MachineComputersRelationship"
   | "MachineLocationConnection"
   | "MachineLocationLocationAggregationSelection"
   | "MachineLocationLocationNodeAggregateSelection"
@@ -11850,6 +12759,8 @@ export type SchemaObjectTypesNames =
   | "ScheduleTierScheduleScheduleNodeAggregateSelection"
   | "ScheduleTiersConnection"
   | "ScheduleTiersRelationship"
+  | "Screen"
+  | "ScreenAggregateSelection"
   | "ScreenTemplate"
   | "ScreenTemplateAggregateSelection"
   | "ScreenTemplateComputerConnection"
@@ -11864,7 +12775,6 @@ export type SchemaObjectTypesNames =
   | "UpdateCampaignsMutationResponse"
   | "UpdateComputerTemplatesMutationResponse"
   | "UpdateComputersMutationResponse"
-  | "UpdateDisplayScreensMutationResponse"
   | "UpdateInfo"
   | "UpdateLocationGroupsMutationResponse"
   | "UpdateLocationsMutationResponse"
@@ -11876,6 +12786,7 @@ export type SchemaObjectTypesNames =
   | "UpdateScheduleTiersMutationResponse"
   | "UpdateSchedulesMutationResponse"
   | "UpdateScreenTemplatesMutationResponse"
+  | "UpdateScreensMutationResponse"
   | "UpdateStorageTemplatesMutationResponse";
 
 export interface $ScheduleItemProperties {

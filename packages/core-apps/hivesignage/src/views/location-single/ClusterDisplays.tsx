@@ -16,25 +16,25 @@ export const ClusterDisplays = (props) => {
 
 	console.log(id)
 
-	const displays = query.displays({});
-	const clusterDisplays = query.displays({where: {cluster: {id}}})
+	// const displays = query.displays({});
+	// const clusterDisplays = query.displays({where: {cluster: {id}}})
 
-	const [ assignDisplay, assignInfo ] = useMutation((mutation, args: {id: string}) => {
-		const item = mutation.updateClusters({
-			where: {id},
-			update: {
-				displays: [{
-					connect: [{where: {node: {id: args.id}}}]
-				}]
-			}
-		})
+	// const [ assignDisplay, assignInfo ] = useMutation((mutation, args: {id: string}) => {
+	// 	// const item = mutation.updateClusters({
+	// 	// 	where: {id},
+	// 	// 	update: {
+	// 	// 		displays: [{
+	// 	// 			connect: [{where: {node: {id: args.id}}}]
+	// 	// 		}]
+	// 	// 	}
+	// 	// })
 
-		return {
-			item: {
-				...item.clusters?.[0]
-			}
-		};
-	})
+	// 	return {
+	// 		item: {
+	// 			...item.clusters?.[0]
+	// 		}
+	// 	};
+	// })
 
 	return (
 		<Box flex>
@@ -44,7 +44,7 @@ export const ClusterDisplays = (props) => {
 				title={"Select Displays"}
 				list={displays}
 				 /> */}
-			<AssignDisplayModal 
+			{/* <AssignDisplayModal 
 				onClose={() => openModal(false)}
 				displays={displays}
 				onSubmit={(display) => {
@@ -73,7 +73,7 @@ export const ClusterDisplays = (props) => {
 			<List 
 				primaryKey="label"
 				data={clusterDisplays} />
-			</Box>
+			</Box> */}
 		</Box>
 	)
 }
