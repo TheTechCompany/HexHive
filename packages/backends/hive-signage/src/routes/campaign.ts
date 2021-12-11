@@ -96,8 +96,10 @@ export default (ogm: OGM, fs: FileStore) => {
 					},
 					selectionSet: `
 					{
-						id
-						assetFolder
+						campaigns {
+							id
+							assetFolder
+						}
 					}
 					`
 				})
