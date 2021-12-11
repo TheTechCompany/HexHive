@@ -115,7 +115,7 @@ export const CampaignSingle = (props) => {
 
 			
 			<ScreenPreview
-				previewUrl={files.length > 0 && `http://localhost:9009/api/campaign/${props.match.params.id}/preview/index.html`} />
+				previewUrl={files.length > 0 && `${process.env.NODE_ENV == 'production' ? 'https://api.greenco.co.nz' : 'http://localhost:9009'}/api/campaign/${props.match.params.id}/preview/index.html`} />
 
 			<Box
 				overflow="hidden"
