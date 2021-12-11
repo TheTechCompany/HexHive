@@ -94,6 +94,12 @@ export default (ogm: OGM, fs: FileStore) => {
 					update: {
 						assetFolder: folderInfo?.cid?.toString()
 					},
+					selectionSet: `
+					{
+						id
+						assetFolder
+					}
+					`
 				})
 			res.send({files})
 				// await Campaign.update({
