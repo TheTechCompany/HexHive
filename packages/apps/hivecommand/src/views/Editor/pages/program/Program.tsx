@@ -5,7 +5,7 @@ import { IconNodeFactory, InfiniteCanvasNode, InfiniteCanvas, ZoomControls, Infi
 import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
 import { nanoid } from 'nanoid';
 import { NodeDropdown } from '../../../../components/node-dropdown';
-import { Connect, Action, Trigger, Add, Clock, Cycle } from 'grommet-icons';
+import { Connect, Action, Trigger, PowerShutdown, Add, Clock, Cycle } from 'grommet-icons';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import { ProgramCanvas } from '../../../../components/program-canvas';
 
@@ -68,6 +68,14 @@ export const Program = (props) => {
                 icon: 'Trigger'
             }
         },
+        {
+            icon: <PowerShutdown />,
+            label: "Shutdown",
+            extras: {
+                label: "Shutdown",
+                icon: "PowerShutdown"
+            }
+        },
         // {
         //     icon: <Cycle />,
         //     label: "PID",
@@ -83,7 +91,8 @@ export const Program = (props) => {
                 label: "Timer",
                 icon: "Clock"
             }
-        }
+        },
+   
     ]
 
     const { data } = useQuery(gql`

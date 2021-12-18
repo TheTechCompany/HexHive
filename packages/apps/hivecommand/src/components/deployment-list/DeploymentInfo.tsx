@@ -55,10 +55,10 @@ export const BaseDeploymentInfo : React.FC<DeploymentInfoProps> = (props) => {
                 <Box flex direction="column" margin={{left: 'small'}}>
 
                     <Text color={'accent-2'}>Domain Name</Text>
-                    <Text>{props.deployment?.network_name}.hexhive.io</Text>
+                    <Text size="small">{props.deployment?.network_name}.hexhive.io</Text>
                     <hr style={{width: '100%'}} />
                     <Text color={'accent-2'}>IP Address</Text>
-                    <Text>192.166.255.0</Text>
+                    <Text size="small">192.166.255.0</Text>
 
                     <hr style={{width: '100%', backgroundColor: '#676767'}}/>
 

@@ -3403,6 +3403,56 @@ export interface ScheduleCampaignsDisconnectFieldInput {
 export interface ScheduleCampaignsEdgeAggregationWhereInput {
   AND?: Maybe<Array<ScheduleCampaignsEdgeAggregationWhereInput>>;
   OR?: Maybe<Array<ScheduleCampaignsEdgeAggregationWhereInput>>;
+  endDate_EQUAL?: Maybe<Scalars["DateTime"]>;
+  endDate_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_MAX_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_MIN_LTE?: Maybe<Scalars["DateTime"]>;
+  screen_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  screen_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  screen_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  screen_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  screen_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  screen_EQUAL?: Maybe<Scalars["String"]>;
+  screen_GT?: Maybe<Scalars["Int"]>;
+  screen_GTE?: Maybe<Scalars["Int"]>;
+  screen_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  screen_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  screen_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  screen_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  screen_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  screen_LT?: Maybe<Scalars["Int"]>;
+  screen_LTE?: Maybe<Scalars["Int"]>;
+  screen_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  screen_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  screen_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  screen_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  screen_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  startDate_EQUAL?: Maybe<Scalars["DateTime"]>;
+  startDate_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_GTE?: Maybe<Scalars["DateTime"]>;
+  startDate_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_EQUAL?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_GTE?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_MAX_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_EQUAL?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_GTE?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_MIN_LTE?: Maybe<Scalars["DateTime"]>;
   tier_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
   tier_AVERAGE_GT?: Maybe<Scalars["Float"]>;
   tier_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
@@ -3513,6 +3563,7 @@ export interface ScheduleCampaignsUpdateFieldInput {
 export interface ScheduleConnectInput {
   campaigns?: Maybe<Array<ScheduleCampaignsConnectFieldInput>>;
   locations?: Maybe<Array<ScheduleLocationsConnectFieldInput>>;
+  screens?: Maybe<Array<ScheduleScreensConnectFieldInput>>;
   tiers?: Maybe<Array<ScheduleTiersConnectFieldInput>>;
 }
 
@@ -3525,6 +3576,7 @@ export interface ScheduleCreateInput {
   endDate?: Maybe<Scalars["DateTime"]>;
   locations?: Maybe<ScheduleLocationsFieldInput>;
   name?: Maybe<Scalars["String"]>;
+  screens?: Maybe<ScheduleScreensFieldInput>;
   startDate?: Maybe<Scalars["DateTime"]>;
   tiers?: Maybe<ScheduleTiersFieldInput>;
 }
@@ -3532,30 +3584,67 @@ export interface ScheduleCreateInput {
 export interface ScheduleDeleteInput {
   campaigns?: Maybe<Array<ScheduleCampaignsDeleteFieldInput>>;
   locations?: Maybe<Array<ScheduleLocationsDeleteFieldInput>>;
+  screens?: Maybe<Array<ScheduleScreensDeleteFieldInput>>;
   tiers?: Maybe<Array<ScheduleTiersDeleteFieldInput>>;
 }
 
 export interface ScheduleDisconnectInput {
   campaigns?: Maybe<Array<ScheduleCampaignsDisconnectFieldInput>>;
   locations?: Maybe<Array<ScheduleLocationsDisconnectFieldInput>>;
+  screens?: Maybe<Array<ScheduleScreensDisconnectFieldInput>>;
   tiers?: Maybe<Array<ScheduleTiersDisconnectFieldInput>>;
 }
 
 export interface ScheduleItemPropertiesCreateInput {
+  endDate?: Maybe<Scalars["DateTime"]>;
+  screen?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
   tier?: Maybe<Scalars["String"]>;
 }
 
 export interface ScheduleItemPropertiesSort {
+  endDate?: Maybe<SortDirection>;
+  screen?: Maybe<SortDirection>;
+  startDate?: Maybe<SortDirection>;
   tier?: Maybe<SortDirection>;
 }
 
 export interface ScheduleItemPropertiesUpdateInput {
+  endDate?: Maybe<Scalars["DateTime"]>;
+  screen?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
   tier?: Maybe<Scalars["String"]>;
 }
 
 export interface ScheduleItemPropertiesWhere {
   AND?: Maybe<Array<ScheduleItemPropertiesWhere>>;
   OR?: Maybe<Array<ScheduleItemPropertiesWhere>>;
+  endDate?: Maybe<Scalars["DateTime"]>;
+  endDate_GT?: Maybe<Scalars["DateTime"]>;
+  endDate_GTE?: Maybe<Scalars["DateTime"]>;
+  endDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  endDate_LT?: Maybe<Scalars["DateTime"]>;
+  endDate_LTE?: Maybe<Scalars["DateTime"]>;
+  endDate_NOT?: Maybe<Scalars["DateTime"]>;
+  endDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  screen?: Maybe<Scalars["String"]>;
+  screen_CONTAINS?: Maybe<Scalars["String"]>;
+  screen_ENDS_WITH?: Maybe<Scalars["String"]>;
+  screen_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  screen_NOT?: Maybe<Scalars["String"]>;
+  screen_NOT_CONTAINS?: Maybe<Scalars["String"]>;
+  screen_NOT_ENDS_WITH?: Maybe<Scalars["String"]>;
+  screen_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  screen_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
+  screen_STARTS_WITH?: Maybe<Scalars["String"]>;
+  startDate?: Maybe<Scalars["DateTime"]>;
+  startDate_GT?: Maybe<Scalars["DateTime"]>;
+  startDate_GTE?: Maybe<Scalars["DateTime"]>;
+  startDate_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
+  startDate_LT?: Maybe<Scalars["DateTime"]>;
+  startDate_LTE?: Maybe<Scalars["DateTime"]>;
+  startDate_NOT?: Maybe<Scalars["DateTime"]>;
+  startDate_NOT_IN?: Maybe<Array<Maybe<Scalars["DateTime"]>>>;
   tier?: Maybe<Scalars["String"]>;
   tier_CONTAINS?: Maybe<Scalars["String"]>;
   tier_ENDS_WITH?: Maybe<Scalars["String"]>;
@@ -3723,7 +3812,153 @@ export interface ScheduleOptions {
 export interface ScheduleRelationInput {
   campaigns?: Maybe<Array<ScheduleCampaignsCreateFieldInput>>;
   locations?: Maybe<Array<ScheduleLocationsCreateFieldInput>>;
+  screens?: Maybe<Array<ScheduleScreensCreateFieldInput>>;
   tiers?: Maybe<Array<ScheduleTiersCreateFieldInput>>;
+}
+
+export interface ScheduleScreensAggregateInput {
+  AND?: Maybe<Array<ScheduleScreensAggregateInput>>;
+  OR?: Maybe<Array<ScheduleScreensAggregateInput>>;
+  count?: Maybe<Scalars["Int"]>;
+  count_GT?: Maybe<Scalars["Int"]>;
+  count_GTE?: Maybe<Scalars["Int"]>;
+  count_LT?: Maybe<Scalars["Int"]>;
+  count_LTE?: Maybe<Scalars["Int"]>;
+  node?: Maybe<ScheduleScreensNodeAggregationWhereInput>;
+}
+
+export interface ScheduleScreensConnectFieldInput {
+  connect?: Maybe<Array<ScreenTemplateConnectInput>>;
+  where?: Maybe<ScreenTemplateConnectWhere>;
+}
+
+export interface ScheduleScreensConnectionSort {
+  node?: Maybe<ScreenTemplateSort>;
+}
+
+export interface ScheduleScreensConnectionWhere {
+  AND?: Maybe<Array<ScheduleScreensConnectionWhere>>;
+  OR?: Maybe<Array<ScheduleScreensConnectionWhere>>;
+  node?: Maybe<ScreenTemplateWhere>;
+  node_NOT?: Maybe<ScreenTemplateWhere>;
+}
+
+export interface ScheduleScreensCreateFieldInput {
+  node: ScreenTemplateCreateInput;
+}
+
+export interface ScheduleScreensDeleteFieldInput {
+  delete?: Maybe<ScreenTemplateDeleteInput>;
+  where?: Maybe<ScheduleScreensConnectionWhere>;
+}
+
+export interface ScheduleScreensDisconnectFieldInput {
+  disconnect?: Maybe<ScreenTemplateDisconnectInput>;
+  where?: Maybe<ScheduleScreensConnectionWhere>;
+}
+
+export interface ScheduleScreensFieldInput {
+  connect?: Maybe<Array<ScheduleScreensConnectFieldInput>>;
+  create?: Maybe<Array<ScheduleScreensCreateFieldInput>>;
+}
+
+export interface ScheduleScreensNodeAggregationWhereInput {
+  AND?: Maybe<Array<ScheduleScreensNodeAggregationWhereInput>>;
+  OR?: Maybe<Array<ScheduleScreensNodeAggregationWhereInput>>;
+  height_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  height_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  height_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  height_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  height_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  height_EQUAL?: Maybe<Scalars["Int"]>;
+  height_GT?: Maybe<Scalars["Int"]>;
+  height_GTE?: Maybe<Scalars["Int"]>;
+  height_LT?: Maybe<Scalars["Int"]>;
+  height_LTE?: Maybe<Scalars["Int"]>;
+  height_MAX_EQUAL?: Maybe<Scalars["Int"]>;
+  height_MAX_GT?: Maybe<Scalars["Int"]>;
+  height_MAX_GTE?: Maybe<Scalars["Int"]>;
+  height_MAX_LT?: Maybe<Scalars["Int"]>;
+  height_MAX_LTE?: Maybe<Scalars["Int"]>;
+  height_MIN_EQUAL?: Maybe<Scalars["Int"]>;
+  height_MIN_GT?: Maybe<Scalars["Int"]>;
+  height_MIN_GTE?: Maybe<Scalars["Int"]>;
+  height_MIN_LT?: Maybe<Scalars["Int"]>;
+  height_MIN_LTE?: Maybe<Scalars["Int"]>;
+  id_EQUAL?: Maybe<Scalars["ID"]>;
+  name_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  name_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  name_EQUAL?: Maybe<Scalars["String"]>;
+  name_GT?: Maybe<Scalars["Int"]>;
+  name_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_GTE?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LT?: Maybe<Scalars["Int"]>;
+  name_LONGEST_LTE?: Maybe<Scalars["Int"]>;
+  name_LT?: Maybe<Scalars["Int"]>;
+  name_LTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_EQUAL?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_GTE?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LT?: Maybe<Scalars["Int"]>;
+  name_SHORTEST_LTE?: Maybe<Scalars["Int"]>;
+  rotation_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  rotation_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  rotation_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  rotation_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  rotation_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  rotation_EQUAL?: Maybe<Scalars["Int"]>;
+  rotation_GT?: Maybe<Scalars["Int"]>;
+  rotation_GTE?: Maybe<Scalars["Int"]>;
+  rotation_LT?: Maybe<Scalars["Int"]>;
+  rotation_LTE?: Maybe<Scalars["Int"]>;
+  rotation_MAX_EQUAL?: Maybe<Scalars["Int"]>;
+  rotation_MAX_GT?: Maybe<Scalars["Int"]>;
+  rotation_MAX_GTE?: Maybe<Scalars["Int"]>;
+  rotation_MAX_LT?: Maybe<Scalars["Int"]>;
+  rotation_MAX_LTE?: Maybe<Scalars["Int"]>;
+  rotation_MIN_EQUAL?: Maybe<Scalars["Int"]>;
+  rotation_MIN_GT?: Maybe<Scalars["Int"]>;
+  rotation_MIN_GTE?: Maybe<Scalars["Int"]>;
+  rotation_MIN_LT?: Maybe<Scalars["Int"]>;
+  rotation_MIN_LTE?: Maybe<Scalars["Int"]>;
+  width_AVERAGE_EQUAL?: Maybe<Scalars["Float"]>;
+  width_AVERAGE_GT?: Maybe<Scalars["Float"]>;
+  width_AVERAGE_GTE?: Maybe<Scalars["Float"]>;
+  width_AVERAGE_LT?: Maybe<Scalars["Float"]>;
+  width_AVERAGE_LTE?: Maybe<Scalars["Float"]>;
+  width_EQUAL?: Maybe<Scalars["Int"]>;
+  width_GT?: Maybe<Scalars["Int"]>;
+  width_GTE?: Maybe<Scalars["Int"]>;
+  width_LT?: Maybe<Scalars["Int"]>;
+  width_LTE?: Maybe<Scalars["Int"]>;
+  width_MAX_EQUAL?: Maybe<Scalars["Int"]>;
+  width_MAX_GT?: Maybe<Scalars["Int"]>;
+  width_MAX_GTE?: Maybe<Scalars["Int"]>;
+  width_MAX_LT?: Maybe<Scalars["Int"]>;
+  width_MAX_LTE?: Maybe<Scalars["Int"]>;
+  width_MIN_EQUAL?: Maybe<Scalars["Int"]>;
+  width_MIN_GT?: Maybe<Scalars["Int"]>;
+  width_MIN_GTE?: Maybe<Scalars["Int"]>;
+  width_MIN_LT?: Maybe<Scalars["Int"]>;
+  width_MIN_LTE?: Maybe<Scalars["Int"]>;
+}
+
+export interface ScheduleScreensUpdateConnectionInput {
+  node?: Maybe<ScreenTemplateUpdateInput>;
+}
+
+export interface ScheduleScreensUpdateFieldInput {
+  connect?: Maybe<Array<ScheduleScreensConnectFieldInput>>;
+  create?: Maybe<Array<ScheduleScreensCreateFieldInput>>;
+  delete?: Maybe<Array<ScheduleScreensDeleteFieldInput>>;
+  disconnect?: Maybe<Array<ScheduleScreensDisconnectFieldInput>>;
+  update?: Maybe<ScheduleScreensUpdateConnectionInput>;
+  where?: Maybe<ScheduleScreensConnectionWhere>;
 }
 
 /** Fields to sort Schedules by. The order in which sorts are applied is not guaranteed when specifying many fields in one ScheduleSort object. */
@@ -4074,6 +4309,7 @@ export interface ScheduleUpdateInput {
   endDate?: Maybe<Scalars["DateTime"]>;
   locations?: Maybe<Array<ScheduleLocationsUpdateFieldInput>>;
   name?: Maybe<Scalars["String"]>;
+  screens?: Maybe<Array<ScheduleScreensUpdateFieldInput>>;
   startDate?: Maybe<Scalars["DateTime"]>;
   tiers?: Maybe<Array<ScheduleTiersUpdateFieldInput>>;
 }
@@ -4119,6 +4355,11 @@ export interface ScheduleWhere {
   name_NOT_IN?: Maybe<Array<Maybe<Scalars["String"]>>>;
   name_NOT_STARTS_WITH?: Maybe<Scalars["String"]>;
   name_STARTS_WITH?: Maybe<Scalars["String"]>;
+  screens?: Maybe<ScreenTemplateWhere>;
+  screensAggregate?: Maybe<ScheduleScreensAggregateInput>;
+  screensConnection?: Maybe<ScheduleScreensConnectionWhere>;
+  screensConnection_NOT?: Maybe<ScheduleScreensConnectionWhere>;
+  screens_NOT?: Maybe<ScreenTemplateWhere>;
   startDate?: Maybe<Scalars["DateTime"]>;
   startDate_GT?: Maybe<Scalars["DateTime"]>;
   startDate_GTE?: Maybe<Scalars["DateTime"]>;
@@ -8641,6 +8882,26 @@ export const generatedSchema = {
       },
     },
     name: { __type: "String" },
+    screens: {
+      __type: "[ScreenTemplate]",
+      __args: {
+        options: "ScreenTemplateOptions",
+        where: "ScreenTemplateWhere",
+      },
+    },
+    screensAggregate: {
+      __type: "ScheduleScreenTemplateScreensAggregationSelection",
+      __args: { where: "ScreenTemplateWhere" },
+    },
+    screensConnection: {
+      __type: "ScheduleScreensConnection!",
+      __args: {
+        after: "String",
+        first: "Int",
+        sort: "[ScheduleScreensConnectionSort!]",
+        where: "ScheduleScreensConnectionWhere",
+      },
+    },
     startDate: { __type: "DateTime" },
     tiers: {
       __type: "[ScheduleTier]",
@@ -8676,6 +8937,9 @@ export const generatedSchema = {
   },
   ScheduleCampaignCampaignsEdgeAggregateSelection: {
     __typename: { __type: "String!" },
+    endDate: { __type: "DateTimeAggregateSelection!" },
+    screen: { __type: "StringAggregateSelection!" },
+    startDate: { __type: "DateTimeAggregateSelection!" },
     tier: { __type: "StringAggregateSelection!" },
   },
   ScheduleCampaignCampaignsNodeAggregateSelection: {
@@ -8734,6 +8998,56 @@ export const generatedSchema = {
   ScheduleCampaignsEdgeAggregationWhereInput: {
     AND: { __type: "[ScheduleCampaignsEdgeAggregationWhereInput!]" },
     OR: { __type: "[ScheduleCampaignsEdgeAggregationWhereInput!]" },
+    endDate_EQUAL: { __type: "DateTime" },
+    endDate_GT: { __type: "DateTime" },
+    endDate_GTE: { __type: "DateTime" },
+    endDate_LT: { __type: "DateTime" },
+    endDate_LTE: { __type: "DateTime" },
+    endDate_MAX_EQUAL: { __type: "DateTime" },
+    endDate_MAX_GT: { __type: "DateTime" },
+    endDate_MAX_GTE: { __type: "DateTime" },
+    endDate_MAX_LT: { __type: "DateTime" },
+    endDate_MAX_LTE: { __type: "DateTime" },
+    endDate_MIN_EQUAL: { __type: "DateTime" },
+    endDate_MIN_GT: { __type: "DateTime" },
+    endDate_MIN_GTE: { __type: "DateTime" },
+    endDate_MIN_LT: { __type: "DateTime" },
+    endDate_MIN_LTE: { __type: "DateTime" },
+    screen_AVERAGE_EQUAL: { __type: "Float" },
+    screen_AVERAGE_GT: { __type: "Float" },
+    screen_AVERAGE_GTE: { __type: "Float" },
+    screen_AVERAGE_LT: { __type: "Float" },
+    screen_AVERAGE_LTE: { __type: "Float" },
+    screen_EQUAL: { __type: "String" },
+    screen_GT: { __type: "Int" },
+    screen_GTE: { __type: "Int" },
+    screen_LONGEST_EQUAL: { __type: "Int" },
+    screen_LONGEST_GT: { __type: "Int" },
+    screen_LONGEST_GTE: { __type: "Int" },
+    screen_LONGEST_LT: { __type: "Int" },
+    screen_LONGEST_LTE: { __type: "Int" },
+    screen_LT: { __type: "Int" },
+    screen_LTE: { __type: "Int" },
+    screen_SHORTEST_EQUAL: { __type: "Int" },
+    screen_SHORTEST_GT: { __type: "Int" },
+    screen_SHORTEST_GTE: { __type: "Int" },
+    screen_SHORTEST_LT: { __type: "Int" },
+    screen_SHORTEST_LTE: { __type: "Int" },
+    startDate_EQUAL: { __type: "DateTime" },
+    startDate_GT: { __type: "DateTime" },
+    startDate_GTE: { __type: "DateTime" },
+    startDate_LT: { __type: "DateTime" },
+    startDate_LTE: { __type: "DateTime" },
+    startDate_MAX_EQUAL: { __type: "DateTime" },
+    startDate_MAX_GT: { __type: "DateTime" },
+    startDate_MAX_GTE: { __type: "DateTime" },
+    startDate_MAX_LT: { __type: "DateTime" },
+    startDate_MAX_LTE: { __type: "DateTime" },
+    startDate_MIN_EQUAL: { __type: "DateTime" },
+    startDate_MIN_GT: { __type: "DateTime" },
+    startDate_MIN_GTE: { __type: "DateTime" },
+    startDate_MIN_LT: { __type: "DateTime" },
+    startDate_MIN_LTE: { __type: "DateTime" },
     tier_AVERAGE_EQUAL: { __type: "Float" },
     tier_AVERAGE_GT: { __type: "Float" },
     tier_AVERAGE_GTE: { __type: "Float" },
@@ -8827,7 +9141,10 @@ export const generatedSchema = {
   ScheduleCampaignsRelationship: {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
+    endDate: { __type: "DateTime" },
     node: { __type: "Campaign!" },
+    screen: { __type: "String" },
+    startDate: { __type: "DateTime" },
     tier: { __type: "String" },
   },
   ScheduleCampaignsUpdateConnectionInput: {
@@ -8845,6 +9162,7 @@ export const generatedSchema = {
   ScheduleConnectInput: {
     campaigns: { __type: "[ScheduleCampaignsConnectFieldInput!]" },
     locations: { __type: "[ScheduleLocationsConnectFieldInput!]" },
+    screens: { __type: "[ScheduleScreensConnectFieldInput!]" },
     tiers: { __type: "[ScheduleTiersConnectFieldInput!]" },
   },
   ScheduleConnectWhere: { node: { __type: "ScheduleWhere!" } },
@@ -8853,30 +9171,77 @@ export const generatedSchema = {
     endDate: { __type: "DateTime" },
     locations: { __type: "ScheduleLocationsFieldInput" },
     name: { __type: "String" },
+    screens: { __type: "ScheduleScreensFieldInput" },
     startDate: { __type: "DateTime" },
     tiers: { __type: "ScheduleTiersFieldInput" },
   },
   ScheduleDeleteInput: {
     campaigns: { __type: "[ScheduleCampaignsDeleteFieldInput!]" },
     locations: { __type: "[ScheduleLocationsDeleteFieldInput!]" },
+    screens: { __type: "[ScheduleScreensDeleteFieldInput!]" },
     tiers: { __type: "[ScheduleTiersDeleteFieldInput!]" },
   },
   ScheduleDisconnectInput: {
     campaigns: { __type: "[ScheduleCampaignsDisconnectFieldInput!]" },
     locations: { __type: "[ScheduleLocationsDisconnectFieldInput!]" },
+    screens: { __type: "[ScheduleScreensDisconnectFieldInput!]" },
     tiers: { __type: "[ScheduleTiersDisconnectFieldInput!]" },
   },
   ScheduleItemProperties: {
     __typename: { __type: "String!" },
+    endDate: { __type: "DateTime" },
+    screen: { __type: "String" },
+    startDate: { __type: "DateTime" },
     tier: { __type: "String" },
     $on: { __type: "$ScheduleItemProperties!" },
   },
-  ScheduleItemPropertiesCreateInput: { tier: { __type: "String" } },
-  ScheduleItemPropertiesSort: { tier: { __type: "SortDirection" } },
-  ScheduleItemPropertiesUpdateInput: { tier: { __type: "String" } },
+  ScheduleItemPropertiesCreateInput: {
+    endDate: { __type: "DateTime" },
+    screen: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    tier: { __type: "String" },
+  },
+  ScheduleItemPropertiesSort: {
+    endDate: { __type: "SortDirection" },
+    screen: { __type: "SortDirection" },
+    startDate: { __type: "SortDirection" },
+    tier: { __type: "SortDirection" },
+  },
+  ScheduleItemPropertiesUpdateInput: {
+    endDate: { __type: "DateTime" },
+    screen: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    tier: { __type: "String" },
+  },
   ScheduleItemPropertiesWhere: {
     AND: { __type: "[ScheduleItemPropertiesWhere!]" },
     OR: { __type: "[ScheduleItemPropertiesWhere!]" },
+    endDate: { __type: "DateTime" },
+    endDate_GT: { __type: "DateTime" },
+    endDate_GTE: { __type: "DateTime" },
+    endDate_IN: { __type: "[DateTime]" },
+    endDate_LT: { __type: "DateTime" },
+    endDate_LTE: { __type: "DateTime" },
+    endDate_NOT: { __type: "DateTime" },
+    endDate_NOT_IN: { __type: "[DateTime]" },
+    screen: { __type: "String" },
+    screen_CONTAINS: { __type: "String" },
+    screen_ENDS_WITH: { __type: "String" },
+    screen_IN: { __type: "[String]" },
+    screen_NOT: { __type: "String" },
+    screen_NOT_CONTAINS: { __type: "String" },
+    screen_NOT_ENDS_WITH: { __type: "String" },
+    screen_NOT_IN: { __type: "[String]" },
+    screen_NOT_STARTS_WITH: { __type: "String" },
+    screen_STARTS_WITH: { __type: "String" },
+    startDate: { __type: "DateTime" },
+    startDate_GT: { __type: "DateTime" },
+    startDate_GTE: { __type: "DateTime" },
+    startDate_IN: { __type: "[DateTime]" },
+    startDate_LT: { __type: "DateTime" },
+    startDate_LTE: { __type: "DateTime" },
+    startDate_NOT: { __type: "DateTime" },
+    startDate_NOT_IN: { __type: "[DateTime]" },
     tier: { __type: "String" },
     tier_CONTAINS: { __type: "String" },
     tier_ENDS_WITH: { __type: "String" },
@@ -9052,6 +9417,7 @@ export const generatedSchema = {
   ScheduleRelationInput: {
     campaigns: { __type: "[ScheduleCampaignsCreateFieldInput!]" },
     locations: { __type: "[ScheduleLocationsCreateFieldInput!]" },
+    screens: { __type: "[ScheduleScreensCreateFieldInput!]" },
     tiers: { __type: "[ScheduleTiersCreateFieldInput!]" },
   },
   ScheduleScheduleTierTiersAggregationSelection: {
@@ -9065,6 +9431,162 @@ export const generatedSchema = {
     name: { __type: "StringAggregateSelection!" },
     percent: { __type: "FloatAggregateSelection!" },
     slots: { __type: "FloatAggregateSelection!" },
+  },
+  ScheduleScreenTemplateScreensAggregationSelection: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    node: { __type: "ScheduleScreenTemplateScreensNodeAggregateSelection" },
+  },
+  ScheduleScreenTemplateScreensNodeAggregateSelection: {
+    __typename: { __type: "String!" },
+    height: { __type: "IntAggregateSelection!" },
+    id: { __type: "IDAggregateSelection!" },
+    name: { __type: "StringAggregateSelection!" },
+    rotation: { __type: "IntAggregateSelection!" },
+    width: { __type: "IntAggregateSelection!" },
+  },
+  ScheduleScreensAggregateInput: {
+    AND: { __type: "[ScheduleScreensAggregateInput!]" },
+    OR: { __type: "[ScheduleScreensAggregateInput!]" },
+    count: { __type: "Int" },
+    count_GT: { __type: "Int" },
+    count_GTE: { __type: "Int" },
+    count_LT: { __type: "Int" },
+    count_LTE: { __type: "Int" },
+    node: { __type: "ScheduleScreensNodeAggregationWhereInput" },
+  },
+  ScheduleScreensConnectFieldInput: {
+    connect: { __type: "[ScreenTemplateConnectInput!]" },
+    where: { __type: "ScreenTemplateConnectWhere" },
+  },
+  ScheduleScreensConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[ScheduleScreensRelationship!]!" },
+    pageInfo: { __type: "PageInfo!" },
+    totalCount: { __type: "Int!" },
+  },
+  ScheduleScreensConnectionSort: { node: { __type: "ScreenTemplateSort" } },
+  ScheduleScreensConnectionWhere: {
+    AND: { __type: "[ScheduleScreensConnectionWhere!]" },
+    OR: { __type: "[ScheduleScreensConnectionWhere!]" },
+    node: { __type: "ScreenTemplateWhere" },
+    node_NOT: { __type: "ScreenTemplateWhere" },
+  },
+  ScheduleScreensCreateFieldInput: {
+    node: { __type: "ScreenTemplateCreateInput!" },
+  },
+  ScheduleScreensDeleteFieldInput: {
+    delete: { __type: "ScreenTemplateDeleteInput" },
+    where: { __type: "ScheduleScreensConnectionWhere" },
+  },
+  ScheduleScreensDisconnectFieldInput: {
+    disconnect: { __type: "ScreenTemplateDisconnectInput" },
+    where: { __type: "ScheduleScreensConnectionWhere" },
+  },
+  ScheduleScreensFieldInput: {
+    connect: { __type: "[ScheduleScreensConnectFieldInput!]" },
+    create: { __type: "[ScheduleScreensCreateFieldInput!]" },
+  },
+  ScheduleScreensNodeAggregationWhereInput: {
+    AND: { __type: "[ScheduleScreensNodeAggregationWhereInput!]" },
+    OR: { __type: "[ScheduleScreensNodeAggregationWhereInput!]" },
+    height_AVERAGE_EQUAL: { __type: "Float" },
+    height_AVERAGE_GT: { __type: "Float" },
+    height_AVERAGE_GTE: { __type: "Float" },
+    height_AVERAGE_LT: { __type: "Float" },
+    height_AVERAGE_LTE: { __type: "Float" },
+    height_EQUAL: { __type: "Int" },
+    height_GT: { __type: "Int" },
+    height_GTE: { __type: "Int" },
+    height_LT: { __type: "Int" },
+    height_LTE: { __type: "Int" },
+    height_MAX_EQUAL: { __type: "Int" },
+    height_MAX_GT: { __type: "Int" },
+    height_MAX_GTE: { __type: "Int" },
+    height_MAX_LT: { __type: "Int" },
+    height_MAX_LTE: { __type: "Int" },
+    height_MIN_EQUAL: { __type: "Int" },
+    height_MIN_GT: { __type: "Int" },
+    height_MIN_GTE: { __type: "Int" },
+    height_MIN_LT: { __type: "Int" },
+    height_MIN_LTE: { __type: "Int" },
+    id_EQUAL: { __type: "ID" },
+    name_AVERAGE_EQUAL: { __type: "Float" },
+    name_AVERAGE_GT: { __type: "Float" },
+    name_AVERAGE_GTE: { __type: "Float" },
+    name_AVERAGE_LT: { __type: "Float" },
+    name_AVERAGE_LTE: { __type: "Float" },
+    name_EQUAL: { __type: "String" },
+    name_GT: { __type: "Int" },
+    name_GTE: { __type: "Int" },
+    name_LONGEST_EQUAL: { __type: "Int" },
+    name_LONGEST_GT: { __type: "Int" },
+    name_LONGEST_GTE: { __type: "Int" },
+    name_LONGEST_LT: { __type: "Int" },
+    name_LONGEST_LTE: { __type: "Int" },
+    name_LT: { __type: "Int" },
+    name_LTE: { __type: "Int" },
+    name_SHORTEST_EQUAL: { __type: "Int" },
+    name_SHORTEST_GT: { __type: "Int" },
+    name_SHORTEST_GTE: { __type: "Int" },
+    name_SHORTEST_LT: { __type: "Int" },
+    name_SHORTEST_LTE: { __type: "Int" },
+    rotation_AVERAGE_EQUAL: { __type: "Float" },
+    rotation_AVERAGE_GT: { __type: "Float" },
+    rotation_AVERAGE_GTE: { __type: "Float" },
+    rotation_AVERAGE_LT: { __type: "Float" },
+    rotation_AVERAGE_LTE: { __type: "Float" },
+    rotation_EQUAL: { __type: "Int" },
+    rotation_GT: { __type: "Int" },
+    rotation_GTE: { __type: "Int" },
+    rotation_LT: { __type: "Int" },
+    rotation_LTE: { __type: "Int" },
+    rotation_MAX_EQUAL: { __type: "Int" },
+    rotation_MAX_GT: { __type: "Int" },
+    rotation_MAX_GTE: { __type: "Int" },
+    rotation_MAX_LT: { __type: "Int" },
+    rotation_MAX_LTE: { __type: "Int" },
+    rotation_MIN_EQUAL: { __type: "Int" },
+    rotation_MIN_GT: { __type: "Int" },
+    rotation_MIN_GTE: { __type: "Int" },
+    rotation_MIN_LT: { __type: "Int" },
+    rotation_MIN_LTE: { __type: "Int" },
+    width_AVERAGE_EQUAL: { __type: "Float" },
+    width_AVERAGE_GT: { __type: "Float" },
+    width_AVERAGE_GTE: { __type: "Float" },
+    width_AVERAGE_LT: { __type: "Float" },
+    width_AVERAGE_LTE: { __type: "Float" },
+    width_EQUAL: { __type: "Int" },
+    width_GT: { __type: "Int" },
+    width_GTE: { __type: "Int" },
+    width_LT: { __type: "Int" },
+    width_LTE: { __type: "Int" },
+    width_MAX_EQUAL: { __type: "Int" },
+    width_MAX_GT: { __type: "Int" },
+    width_MAX_GTE: { __type: "Int" },
+    width_MAX_LT: { __type: "Int" },
+    width_MAX_LTE: { __type: "Int" },
+    width_MIN_EQUAL: { __type: "Int" },
+    width_MIN_GT: { __type: "Int" },
+    width_MIN_GTE: { __type: "Int" },
+    width_MIN_LT: { __type: "Int" },
+    width_MIN_LTE: { __type: "Int" },
+  },
+  ScheduleScreensRelationship: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "ScreenTemplate!" },
+  },
+  ScheduleScreensUpdateConnectionInput: {
+    node: { __type: "ScreenTemplateUpdateInput" },
+  },
+  ScheduleScreensUpdateFieldInput: {
+    connect: { __type: "[ScheduleScreensConnectFieldInput!]" },
+    create: { __type: "[ScheduleScreensCreateFieldInput!]" },
+    delete: { __type: "[ScheduleScreensDeleteFieldInput!]" },
+    disconnect: { __type: "[ScheduleScreensDisconnectFieldInput!]" },
+    update: { __type: "ScheduleScreensUpdateConnectionInput" },
+    where: { __type: "ScheduleScreensConnectionWhere" },
   },
   ScheduleSort: {
     endDate: { __type: "SortDirection" },
@@ -9438,6 +9960,7 @@ export const generatedSchema = {
     endDate: { __type: "DateTime" },
     locations: { __type: "[ScheduleLocationsUpdateFieldInput!]" },
     name: { __type: "String" },
+    screens: { __type: "[ScheduleScreensUpdateFieldInput!]" },
     startDate: { __type: "DateTime" },
     tiers: { __type: "[ScheduleTiersUpdateFieldInput!]" },
   },
@@ -9482,6 +10005,11 @@ export const generatedSchema = {
     name_NOT_IN: { __type: "[String]" },
     name_NOT_STARTS_WITH: { __type: "String" },
     name_STARTS_WITH: { __type: "String" },
+    screens: { __type: "ScreenTemplateWhere" },
+    screensAggregate: { __type: "ScheduleScreensAggregateInput" },
+    screensConnection: { __type: "ScheduleScreensConnectionWhere" },
+    screensConnection_NOT: { __type: "ScheduleScreensConnectionWhere" },
+    screens_NOT: { __type: "ScreenTemplateWhere" },
     startDate: { __type: "DateTime" },
     startDate_GT: { __type: "DateTime" },
     startDate_GTE: { __type: "DateTime" },
@@ -11656,6 +12184,19 @@ export interface Schedule {
     where?: Maybe<ScheduleLocationsConnectionWhere>;
   }) => ScheduleLocationsConnection;
   name?: Maybe<ScalarsEnums["String"]>;
+  screens: (args?: {
+    options?: Maybe<ScreenTemplateOptions>;
+    where?: Maybe<ScreenTemplateWhere>;
+  }) => Maybe<Array<Maybe<ScreenTemplate>>>;
+  screensAggregate: (args?: {
+    where?: Maybe<ScreenTemplateWhere>;
+  }) => Maybe<ScheduleScreenTemplateScreensAggregationSelection>;
+  screensConnection: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    sort?: Maybe<Array<ScheduleScreensConnectionSort>>;
+    where?: Maybe<ScheduleScreensConnectionWhere>;
+  }) => ScheduleScreensConnection;
   startDate?: Maybe<ScalarsEnums["DateTime"]>;
   tiers: (args?: {
     options?: Maybe<ScheduleTierOptions>;
@@ -11690,6 +12231,9 @@ export interface ScheduleCampaignCampaignsAggregationSelection {
 
 export interface ScheduleCampaignCampaignsEdgeAggregateSelection {
   __typename?: "ScheduleCampaignCampaignsEdgeAggregateSelection";
+  endDate: DateTimeAggregateSelection;
+  screen: StringAggregateSelection;
+  startDate: DateTimeAggregateSelection;
   tier: StringAggregateSelection;
 }
 
@@ -11711,12 +12255,18 @@ export interface ScheduleCampaignsConnection {
 export interface ScheduleCampaignsRelationship {
   __typename?: "ScheduleCampaignsRelationship";
   cursor: ScalarsEnums["String"];
+  endDate?: Maybe<ScalarsEnums["DateTime"]>;
   node: Campaign;
+  screen?: Maybe<ScalarsEnums["String"]>;
+  startDate?: Maybe<ScalarsEnums["DateTime"]>;
   tier?: Maybe<ScalarsEnums["String"]>;
 }
 
 export interface ScheduleItemProperties {
   __typename?: "ScheduleCampaignsRelationship";
+  endDate?: Maybe<ScalarsEnums["DateTime"]>;
+  screen?: Maybe<ScalarsEnums["String"]>;
+  startDate?: Maybe<ScalarsEnums["DateTime"]>;
   tier?: Maybe<ScalarsEnums["String"]>;
   $on: $ScheduleItemProperties;
 }
@@ -11761,6 +12311,34 @@ export interface ScheduleScheduleTierTiersNodeAggregateSelection {
   name: StringAggregateSelection;
   percent: FloatAggregateSelection;
   slots: FloatAggregateSelection;
+}
+
+export interface ScheduleScreenTemplateScreensAggregationSelection {
+  __typename?: "ScheduleScreenTemplateScreensAggregationSelection";
+  count: ScalarsEnums["Int"];
+  node?: Maybe<ScheduleScreenTemplateScreensNodeAggregateSelection>;
+}
+
+export interface ScheduleScreenTemplateScreensNodeAggregateSelection {
+  __typename?: "ScheduleScreenTemplateScreensNodeAggregateSelection";
+  height: IntAggregateSelection;
+  id: IDAggregateSelection;
+  name: StringAggregateSelection;
+  rotation: IntAggregateSelection;
+  width: IntAggregateSelection;
+}
+
+export interface ScheduleScreensConnection {
+  __typename?: "ScheduleScreensConnection";
+  edges: Array<ScheduleScreensRelationship>;
+  pageInfo: PageInfo;
+  totalCount: ScalarsEnums["Int"];
+}
+
+export interface ScheduleScreensRelationship {
+  __typename?: "ScheduleScreensRelationship";
+  cursor: ScalarsEnums["String"];
+  node: ScreenTemplate;
 }
 
 export interface ScheduleTier {
@@ -12574,6 +13152,10 @@ export interface SchemaObjectTypes {
   ScheduleLocationsRelationship: ScheduleLocationsRelationship;
   ScheduleScheduleTierTiersAggregationSelection: ScheduleScheduleTierTiersAggregationSelection;
   ScheduleScheduleTierTiersNodeAggregateSelection: ScheduleScheduleTierTiersNodeAggregateSelection;
+  ScheduleScreenTemplateScreensAggregationSelection: ScheduleScreenTemplateScreensAggregationSelection;
+  ScheduleScreenTemplateScreensNodeAggregateSelection: ScheduleScreenTemplateScreensNodeAggregateSelection;
+  ScheduleScreensConnection: ScheduleScreensConnection;
+  ScheduleScreensRelationship: ScheduleScreensRelationship;
   ScheduleTier: ScheduleTier;
   ScheduleTierAggregateSelection: ScheduleTierAggregateSelection;
   ScheduleTierScheduleConnection: ScheduleTierScheduleConnection;
@@ -12751,6 +13333,10 @@ export type SchemaObjectTypesNames =
   | "ScheduleLocationsRelationship"
   | "ScheduleScheduleTierTiersAggregationSelection"
   | "ScheduleScheduleTierTiersNodeAggregateSelection"
+  | "ScheduleScreenTemplateScreensAggregationSelection"
+  | "ScheduleScreenTemplateScreensNodeAggregateSelection"
+  | "ScheduleScreensConnection"
+  | "ScheduleScreensRelationship"
   | "ScheduleTier"
   | "ScheduleTierAggregateSelection"
   | "ScheduleTierScheduleConnection"

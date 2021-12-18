@@ -3,6 +3,8 @@ type Schedule {
 	id: ID! @id
 	name: String
 
+	screens: [ScreenTemplate] @relationship(type: "HAS_SCREEN", direction: OUT)
+
 	tiers: [ScheduleTier] @relationship(type: "SCHEDULE_TIER", direction: OUT)
 
 	campaigns: [Campaign] @relationship(type: "SCHEDULES_CAMPAIGN", direction: OUT, properties: "ScheduleItemProperties")
@@ -14,6 +16,9 @@ type Schedule {
 
 interface ScheduleItemProperties @relationshipProperties {
 	tier: String
+	screen: String
+	startDate: DateTime
+	endDate: DateTime
 }
 
 

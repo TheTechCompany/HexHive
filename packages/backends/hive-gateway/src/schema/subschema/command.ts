@@ -66,6 +66,8 @@ export default `
 		
 		operatingMode: String
 
+		waitingForActions: [CommandProgramAction] @relationship(type: "WAITING_FOR", direction: OUT)
+
 		online: Boolean
 		lastOnline: DateTime
 

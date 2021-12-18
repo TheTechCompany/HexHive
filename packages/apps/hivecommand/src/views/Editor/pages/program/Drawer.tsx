@@ -192,8 +192,39 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 					
 							node: {
 								id: newIds[ix],
-								inputDevice: {connect: {where: {node: { id: (typeof(condition.inputDevice) == "object") ? condition.inputDevice.id : condition.inputDevice }}}},
-								inputDeviceKey: {connect: {where: {node: {id: (typeof(condition.inputDeviceKey) == "object") ? condition.inputDeviceKey.id : condition.inputDeviceKey}}}},
+								inputDevice: {
+									connect: {
+										where: {
+											node: {
+												 id: (typeof(condition.inputDevice) == "object") ? condition.inputDevice.id : condition.inputDevice 
+											}
+										},
+
+									},
+									disconnect: {
+										where: {
+											node: {
+												id_NOT: (typeof(condition.inputDevice) == "object") ? condition.inputDevice.id : condition.inputDevice 
+											}
+										}
+									}
+								},
+								inputDeviceKey: {
+									connect: {
+										where: {
+											node: {
+												id: (typeof(condition.inputDeviceKey) == "object") ? condition.inputDeviceKey.id : condition.inputDeviceKey
+											}
+										}
+									},
+									disconnect: {
+										where: {
+											node: {
+												id_NOT:  (typeof(condition.inputDeviceKey) == "object") ? condition.inputDeviceKey.id : condition.inputDeviceKey
+											}
+										}
+									}
+								},
 								comparator: condition.comparator,
 								assertion: condition.assertion
 							}
@@ -300,8 +331,43 @@ export const ProgramDrawer : React.FC<ProgramDrawerProps> = (props) => {
 						update: {	
 							node: {
 									release: action.release,
-									request: {connect: {where: {node: {id: typeof(action.request) == "object" ? action.request.id : action.request, device: {usedIn: {id: typeof(action.device) == "object" ? action.device.id : action.device}}}}}},
-									device: {connect: {where: {node: {id: typeof(action.device) == "object" ? action.device.id : action.device}}}}
+									request: {
+										connect: {
+											where: {
+												node: {
+													id: typeof(action.request) == "object" ? action.request.id : action.request, 
+													device: {
+														usedIn: {
+															id: typeof(action.device) == "object" ? action.device.id : action.device
+														}
+													}
+												}
+											}
+										},
+										disconnect: {
+											where: {
+												node: {
+													id_NOT: typeof(action.request) == "object" ? action.request.id : action.request, 
+												}
+											}
+										}
+									},
+									device: {
+										connect: {
+											where: {
+												node: {
+													id: typeof(action.device) == "object" ? action.device.id : action.device
+												}
+											}
+										},
+										disconnect: {
+											where: {
+												node: {
+													id_NOT: typeof(action.device) == "object" ? action.device.id : action.device
+												}
+											}
+										}
+									}
 								}
 							}
 						}))

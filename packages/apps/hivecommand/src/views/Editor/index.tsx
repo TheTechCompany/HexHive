@@ -146,31 +146,31 @@ export const EditorPage: React.FC<EditorProps> = (props) => {
     const [ addHMI, addHMIParentInfo ] = useMutation((mutation, args: {name: string, parent?: string}) => {
         let update : any = {};
 
-        if(!args.parent){
+        if(!args.parent || args.parent === "root"){
             update = {
                 hmi: [{create: [{node: {
                     name: args.name || "Default"
                 }}]}]
             }
         }else{
-            update = {
-                hmi: [{
-                    where: {id: args.parent},
-                    update: {
-                        children: [{
-                            create: [{node: {
-                                name: args.name || "Default"
-                            }}]
-                        }]
-                    }
-                }]
-            }
+            // update = {
+            //     hmi: [{
+            //         where: {node: {id: args.parent}},
+            //         update: {
+            //             node: {
+            //                 children: [{
+            //                     create: [{node: {
+            //                         name: args.name || "Default"
+            //                     }}]
+            //                 }]
+            //             }
+            //         }
+            //     }]
+            // }
         }
         const program = mutation.updateCommandPrograms({
             where: {id: props.match.params.id},
-            update: {
-              
-            }
+            update: update
         })
         return {
             item: {

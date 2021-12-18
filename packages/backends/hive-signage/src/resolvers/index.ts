@@ -15,7 +15,17 @@ export default async (fs: FileStore, pool: Pool) => {
 			},
 			interactionTimeline: async (root: any) => {
 				const res=  await client.query(
-					`SELECT "timestamp" as time, SUM(COUNT(*)) OVER(ORDER BY "timestamp") as interactions FROM  green_screen_telemetry WHERE event=$1 AND source=$2 group by "timestamp"`, 
+					`with data as (
+						select 
+						coalesce (COUNT(*), 0) as cnt,
+						time_bucket_gapfill('30 minutes', "timestamp") as time 
+						from green_screen_telemetry 
+						where "event"=$1 AND source=$2 and 
+						"timestamp" < now() and "timestamp" > now() - interval '3 week'
+						group by time
+					)
+					select time, SUM(cnt) over (order by time) as interactions from data`,
+					// `SELECT "timestamp" as time, SUM(COUNT(*)) OVER(ORDER BY "timestamp") as interactions FROM  green_screen_telemetry WHERE event=$1 AND source=$2 group by "timestamp"`, 
 					['campaign-interaction', `asset://${root.assetFolder}`])
 				return res.rows
 			},
