@@ -45,19 +45,27 @@ export const DeviceControl: React.FC<DeviceControlProps> = (props) => {
     })
 
     const { data: deviceValueData } = useQuery(gql`
-    query DeviceValues( $idStr: String) {
+    query DeviceValues( $idStr: String, $id: ID) {
         commandDeviceValue(device: $idStr){
             device
             deviceId
             value
             valueKey
         }
+
+        commandDevices (where: {id: $id}){
+            waitingForActions {
+                id
+            }
+        }
     }
     `, {
         variables: {
+            id: props.match.params.id,
             idStr: props.match.params.id
         }
     })
+
     const { data } = useQuery(gql`
             query Q ($id: ID){
      
@@ -346,6 +354,8 @@ export const DeviceControl: React.FC<DeviceControlProps> = (props) => {
 
     const values = deviceValueData?.commandDeviceValue || []
 
+    const waitingForActions = deviceValueData?.commandDevices?.[0]?.waitingForActions || [];
+
     const refetch = () => {
         client.refetchQueries({ include: ['Q'] })
     }
@@ -453,6 +463,7 @@ export const DeviceControl: React.FC<DeviceControlProps> = (props) => {
     return (
         <DeviceControlProvider value={{
             actions,
+            waitingForActions,
             toggleOperatingMode,
             operatingMode: rootDevice?.operatingMode,
             controlId: props.match.params.id,
@@ -481,7 +492,7 @@ export const DeviceControl: React.FC<DeviceControlProps> = (props) => {
                             width="7px"
                             height="7px"
                             round="small"
-                            background={rootDevice?.online ? 'green' : 'red'} />
+                            background={rootDevice?.online ? 'lime' : 'red'} />
                         <Text>{rootDevice?.name} - {program?.name}</Text>
                     </Box>
                     <Box direction="row">

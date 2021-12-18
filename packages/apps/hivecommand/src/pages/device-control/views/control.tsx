@@ -1,6 +1,6 @@
 import { HMICanvas } from '../../../components/hmi-canvas';
 import React, {useContext, useEffect, useState} from 'react';
-import { Box, Text, TextInput, CheckBox, Button } from 'grommet';
+import { Box, Text, TextInput, CheckBox, Button, Spinner } from 'grommet';
 import { Checkmark } from 'grommet-icons';
 import { DeviceControlContext } from '../context';
 import { getDevicesForNode } from '../utils';
@@ -9,14 +9,20 @@ import { BaseStyle } from '@hexhive/styles';
 import { useMutation } from '@hexhive/client';
 
 const ActionButton = (props) => {
+	console.log(props)
 	return (
-		<Box background="accent-1" round="xsmall" width={'100%'} elevation="small">
+		<Box background="accent-1" direction='row' round="xsmall" width={'100%'} align='center' justify='center' elevation="small">
 			<Button 
+				disabled={props.waiting}
 				plain
 				hoverIndicator={'accent-2'}
 				onClick={props.onClick}
 				style={{padding: 6, borderRadius: 3, width: '100%'}}
-				label={props.label} />
+				label={(<Box direction='row' align='center' justify='between'>
+					<Text size="small">{props.label}</Text>	
+					{props.waiting && <Spinner size="xsmall" />}
+				</Box>)} />
+			
 		</Box>
 	)
 }
@@ -27,9 +33,9 @@ export default () => {
 
     const [ workingState, setWorkingState ] = useState<any>({})
 
-	const { toggleOperatingMode, operatingMode, program, actions, values, hmi, hmiNodes, groups, changeDeviceMode, changeDeviceValue, performAction, controlId } = useContext(DeviceControlContext)
+	const { waitingForActions, toggleOperatingMode, operatingMode, program, actions, values, hmi, hmiNodes, groups, changeDeviceMode, changeDeviceValue, performAction, controlId } = useContext(DeviceControlContext)
 
-	console.log({operatingMode})
+	console.log({operatingMode, waitingForActions, actions})
 
 	const [ requestFlow, requestFlowInfo ] = useMutation((mutation, args: {
 		deviceId: string,
@@ -262,9 +268,10 @@ export default () => {
 						<Box gap="xsmall">
 							<ActionButton 
 								onClick={() => toggleOperatingMode()}
-								label={operatingMode == "DISABLED" ? "Start" : "Stop"} />
+								label={operatingMode == "DISABLED" ? "Start" : "Shutdown"} />
 							{actions.map((action) => (
 								<ActionButton
+									waiting={waitingForActions.map((x) => x.id).includes(action.id)}
 									onClick={() => controlAction(action)}
 									label={action.name} />
 							))}

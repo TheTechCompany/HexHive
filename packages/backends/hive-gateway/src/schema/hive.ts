@@ -30,6 +30,7 @@ import { text } from "stream/consumers"
 import { Client, Pool } from "pg"
 import { x } from "tar"
 import { getDeviceActions } from "../data/command"
+import { v4 } from "uuid"
 
 require("dotenv").config()
 
@@ -373,7 +374,8 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 		Mutation: {
 			requestFlow: async (root: any, args: any, context: any) => {
 				console.log(args)
-				const device = await session.readTransaction(async (tx) => {
+				const waitingId = nanoid()
+				const device = await session.writeTransaction(async (tx) => {
 
 					const res = await tx.run(`
 						MATCH (device:CommandDevice {id: $id})
@@ -382,6 +384,16 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 					`, {
 						id: args.deviceId,
 						actionId: args.actionId
+					})
+
+					await tx.run(`
+						MATCH (device:CommandDevice {id: $id})
+						MERGE (device)-[:WAITING_FOR {id: $waitingId, start: datetime($date)}]->(action:CommandProgramAction {id: $actionId})
+					`, {
+						id: args.deviceId,
+						actionId: args.actionId,
+						waitingId: waitingId,
+						date: new Date().toISOString()
 					})
 					return res.records?.[0]?.get(0)
 					// return await getDeviceActions(tx, args.deviceId, args.deviceName)
@@ -393,6 +405,7 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 				console.log(device, action)
 				if(action){
 					let actionRequest = {
+						waitingId: waitingId,
 						address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
 						deviceId: args.deviceId,
 						flow: action.id
@@ -454,6 +467,7 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 						action: action.key
 					}
 
+					// channel.
 					return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(actionRequest)))
 				}
 				// console.log("DEVICE ACTION", device, args.action, action)

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ResponsiveContainer, LineChart, YAxis, XAxis, Tooltip, CartesianGrid, Line } from 'recharts'
+import { ResponsiveContainer, AreaChart, YAxis, XAxis, Tooltip, CartesianGrid, Line, Area } from 'recharts'
 import { Box, Text } from 'grommet';
 import { CampaignSingleContext } from '../context';
 import moment from 'moment';
@@ -31,19 +31,26 @@ export const AnalyticsPage = () => {
 					<Text>Interactions</Text>
 				</Box>
 				<ResponsiveContainer>
-					<LineChart
+					<AreaChart
 						data={interactionTimeline?.map((x) => ({
 							...x,
-							time: (new Date(x.time).getTime())
+							time: moment(new Date(x.time).getTime()).format('DD/MM')
 						}))}
 						margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
 						>
-						<XAxis dataKey="time" />
+						<defs>
+							<linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+							<stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+							</linearGradient>
+						</defs>
+						<XAxis minTickGap={25} dataKey="time" />
 						<YAxis dataKey="interactions" />
 						<Tooltip />
 						<CartesianGrid stroke="#f5f5f5" />
-						<Line type="monotone" dataKey={"interactions"}  stroke="#ff7300" yAxisId={0} />
-					</LineChart>
+						<Area type="monotone" dataKey="interactions" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
+						{/* <Line type="monotone" dataKey={"interactions"}  stroke="#ff7300" yAxisId={0} /> */}
+					</AreaChart>
 				</ResponsiveContainer>
 			</Box>
 		</Box>

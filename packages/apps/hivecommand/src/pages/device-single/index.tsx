@@ -1,5 +1,5 @@
 import { Logout as ExitToApp, Add } from 'grommet-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, List, Text, Button, Select, Collapsible } from 'grommet';
 //import { Map } from '@thetechcompany/live-ui'
 import { Graph } from '../../components/ui/graph';
@@ -11,6 +11,7 @@ import { BusMap } from '../../components/bus-map/BusMap';
 import { DeviceBusModal } from '../../components/modals/device-bus/DeviceBusModal';
 import { DeviceBusConnectionModal } from '../../components/modals/device-bus-connections';
 import { connection } from 'mongoose';
+import { DeviceControlContext } from '../device-control/context';
 export interface DeviceSingleProps {
     match?: any;
     history?: any;
@@ -18,6 +19,8 @@ export interface DeviceSingleProps {
 
 export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
     
+    const { controlId } = useContext(DeviceControlContext)
+
     const client = useApolloClient()
 
     const [ selected, setSelected ] = useState<any>()
@@ -120,7 +123,7 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
         }
     `, {
         variables: {
-            id: props.match.params.id
+            id: controlId
         }
     })
 
