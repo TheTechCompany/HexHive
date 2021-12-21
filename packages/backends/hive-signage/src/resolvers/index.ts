@@ -6,6 +6,20 @@ export default async (fs: FileStore, pool: Pool) => {
 	const client = await pool.connect()
 
 	return {
+		Location: {
+			cameraAnalytics: async (parent: any) => {
+				const res = await client.query(
+					`SELECT properties, timestamp FROM green_screen_telemetry WHERE event=$1 AND source=$2`,
+					['camera-yolo', 'camera', ]
+				)
+				return res.rows.map(row => {
+					return {
+						timestamp: row.timestamp,
+						results: row.properties?.results?.map((x: any) => ({name: x.name, confidence: x.confidence}))
+					}
+				})
+			}
+		},
 		Campaign: {
 			interactions: async (root: any) => {
 				const res=  await client.query(

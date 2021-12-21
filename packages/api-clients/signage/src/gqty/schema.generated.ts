@@ -4761,6 +4761,16 @@ export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   String: true,
 };
 export const generatedSchema = {
+  CameraAnalytic: {
+    __typename: { __type: "String!" },
+    results: { __type: "[CameraAnalyticResult]" },
+    timestamp: { __type: "DateTime" },
+  },
+  CameraAnalyticResult: {
+    __typename: { __type: "String!" },
+    confidence: { __type: "Float" },
+    name: { __type: "String" },
+  },
   Campaign: {
     __typename: { __type: "String!" },
     analytics: {
@@ -6401,6 +6411,7 @@ export const generatedSchema = {
   },
   Location: {
     __typename: { __type: "String!" },
+    cameraAnalytics: { __type: "[CameraAnalytic]" },
     elevation: { __type: "Float" },
     groups: {
       __type: "[LocationGroup]",
@@ -11052,6 +11063,18 @@ export const generatedSchema = {
   },
 } as const;
 
+export interface CameraAnalytic {
+  __typename?: "CameraAnalytic";
+  results?: Maybe<Array<Maybe<CameraAnalyticResult>>>;
+  timestamp?: Maybe<ScalarsEnums["DateTime"]>;
+}
+
+export interface CameraAnalyticResult {
+  __typename?: "CameraAnalyticResult";
+  confidence?: Maybe<ScalarsEnums["Float"]>;
+  name?: Maybe<ScalarsEnums["String"]>;
+}
+
 export interface Campaign {
   __typename?: "Campaign";
   analytics: (args?: {
@@ -11559,6 +11582,7 @@ export interface IntAggregateSelection {
 
 export interface Location {
   __typename?: "Location";
+  cameraAnalytics?: Maybe<Array<Maybe<CameraAnalytic>>>;
   elevation?: Maybe<ScalarsEnums["Float"]>;
   groups: (args?: {
     options?: Maybe<LocationGroupOptions>;
@@ -13014,6 +13038,8 @@ export interface Subscription {
 }
 
 export interface SchemaObjectTypes {
+  CameraAnalytic: CameraAnalytic;
+  CameraAnalyticResult: CameraAnalyticResult;
   Campaign: Campaign;
   CampaignAggregateSelection: CampaignAggregateSelection;
   CampaignAnalytic: CampaignAnalytic;
@@ -13195,6 +13221,8 @@ export interface SchemaObjectTypes {
   UpdateStorageTemplatesMutationResponse: UpdateStorageTemplatesMutationResponse;
 }
 export type SchemaObjectTypesNames =
+  | "CameraAnalytic"
+  | "CameraAnalyticResult"
   | "Campaign"
   | "CampaignAggregateSelection"
   | "CampaignAnalytic"
