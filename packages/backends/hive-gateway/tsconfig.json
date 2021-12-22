@@ -75,6 +75,7 @@
     {"path": "../../core/collaboration-server"},
     {"path": "../../core/hexhive-data"},
     {"path": "../../core/hexhive-mq"},
+    {"path": "../../core/express-graphql"},
     {"path": "../../core/hexhive-events"}
   ]
 }
