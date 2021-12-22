@@ -13,8 +13,17 @@ This document serves to give a broad outline of the plumbing to create HexHive S
 The gateway serves federated appliances with a microfrontend approach to allow building networked systems.
 The gateway provides a consistent auth source and delegates routing to federated modules
 
-### `Microfrontend`
+### `Appliance`
 
-### `Graph Engine`
+An external frontend that exposes a bootstrap, mount method and a remoteEntrypoint
+
+### `Database`
+
+- Timseries
+- RDBMS
+- Graph Query
+- JSONb
 
 ### `File System`
+
+Consistent decentralized file store shared between HexHive appliances
