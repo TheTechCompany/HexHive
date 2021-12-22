@@ -11,6 +11,7 @@ export default `
 		assetFolder: String
 		assets: [CampaignAsset] @ignore
 		customer: String
+
 	}
 
 	type CampaignInteraction @exclude {

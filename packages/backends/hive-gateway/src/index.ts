@@ -6,7 +6,7 @@ import crypto from "crypto"
 import neo4j from "neo4j-driver"
 import pg, {Client, Pool} from 'pg'
 
-import { graphqlHTTP } from "express-graphql" // ES6
+import { GraphQLServer } from "@hexhive/express-graphql" // ES6
 
 import { connect_data, User } from "@hexhive/types"
 import session from 'express-session'
@@ -75,31 +75,6 @@ opts.issuer = url;
 
 opts.audience = new URL(process.env.UI_URL || "https://next.hexhive.io/dashboard").host;
 
-// const config : ConfigParams = {
-// 	authRequired: false,
-// 	auth0Logout: false,
-// 	authorizationParams: {
-// 		response_type: "code",
-// 		scope: process.env.SCOPE || "openid email name groups offline_access",
-// 		redirect_uri: process.env.REDIRECT_URI || "https://staging-api.hexhive.io/callback" || "http://localhost:7000/callback" || `https://${NODE_ENV != "production" ? "dashboard": "next"}.hexhive.io/dashboard`
-// 	},
-// 	clientAuthMethod: "client_secret_basic",
-// 	baseURL: process.env.BASE_URL || "https://staging-api.hexhive.io" || "http://localhost:7000" || `https://${NODE_ENV != "production" ? "dashboard": "next"}.hexhive.io`,
-// 	afterCallback: (req, res, session, decodedState) => {
-// 		// res.redirect(process.env.UI_URL || 'https://next.hexhive.io/dashboard')
-// 		(req as any).openidState.returnTo = (req as any).openidState.returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard"
-// 		return session
-// 	},
-// 	routes: {
-// 		login: false
-// 	},
-// 	clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
-// 	issuerBaseURL: process.env.AUTH_SERVER || "https://auth.hexhive.io",
-// 	secret: "JWT_SECRET",
-// 	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`
-// };
-
-
 const setupWebsockets = (io: Server) => {
 	
 	io.on('connection', (socket)=> {
@@ -152,84 +127,11 @@ const setupWebsockets = (io: Server) => {
 
 	console.log(`Data connections setup`)
 
-	const subschemas = await SubSchema(REMOTE_SCHEMA)
-	const schema = stitchSchemas({
+	let subschemas = await SubSchema(REMOTE_SCHEMA)
+	let schema = stitchSchemas({
 		subschemas: subschemas
 	})
 
-	// wss.on('connection', (socket) => {
-	//     collaborationServer.handleConnection(socket)
-	// })
-	// server.on('upgrade', (request, socket, head) => {
-	//     wss.handleUpgrade(request, socket , head, (ws) => {
-	//         wss.emit('connection', ws, request, {})
-	//     })
-	// })
-
-	// const oidc = new Provider(ISSUER, {
-	//     pkce: {
-	//         methods: ['S256'],
-	//         required: () => false
-	//     },
-	//     jwks,
-	//     clients: [
-	//         {
-	//         client_id: 'foo',
-	//         client_secret: 'bar',
-	//         redirect_uris: ['https://jwt.io'], // using jwt.io as redirect_uri to show the ID Token contents
-	//         response_types: ['id_token'],
-	//         grant_types: ['implicit'],
-	//         token_endpoint_auth_method: 'none',
-	//         },
-	//         {
-	//             client_id: 'matrix',
-	//             client_secret: 'matrix_secret',
-	//             redirect_uris: ['https://matrix.hexhive.io/_synapse/client/oidc/callback'],
-	//             response_types: ['id_token', 'code'],
-	//             scopes: ['email', 'openid', 'profile', 'id'],
-	//             grant_types: ['implicit', 'authorization_code', 'refresh_token'],
-	//             token_endpoint_auth_method: 'client_secret_post'
-	//         },
-	//         {
-	//             client_id: 'hexhive.io',
-	//             client_secret: 'hexhive_secret',
-	//             redirect_uris: ['https://next.hexhive.io/dashboard'],
-	//             response_types: [ 'code'],
-	//             scopes: ['email', 'openid', 'profile', 'id'],
-	//             grant_types: ['implicit', 'authorization_code', 'refresh_token'],
-	//             token_endpoint_auth_method: 'client_secret_post'
-	//         }
-	//     ],
-        
-	//     findAccount: Account.findAccount,
-	//     claims: {
-	//         openid: ['sub'],
-	//         email: ['email', 'userinfo', 'name', 'email_verified', 'login'],
-	//         name: ['name'],
-	//         address: ['address'],
-	//         phone: ['phone_number', 'phone_number_verified'],
-	//         profile: ['birthdate', 'family_name', 'gender', 'given_name', 'locale', 'middle_name', 'name',
-	//   'nickname', 'picture', 'preferred_username', 'profile', 'updated_at', 'website', 'zoneinfo'],
-	//         id: ['name', 'email', 'login'] 
-	//     },
-	//     interactions: {
-	//         url(ctx, interaction) {
-	//           return `${AUTH_SITE}?token=${interaction.uid}`;
-	//         },
-	//     },
-	//     features: {
-	//         // disable the packaged interactions
-	//         devInteractions: { enabled: false },
-	//         introspection: { enabled: true },
-	//         revocation: { enabled: true },
-	//         userinfo: { enabled: true },
-	//       jwtUserinfo: { enabled: false },
-
-	//     },
-	//     cookies: {
-	//         keys: (process.env.SECURE_KEY || 'test,old-test').split(','),
-	//     },
-	// });
 
 	app.set("trust proxy", true)
     
@@ -286,13 +188,6 @@ const setupWebsockets = (io: Server) => {
 
 	app.use(DefaultRouter(driver, taskRegistry)) 
 
-	// const ensureLoggedIn = (req: any, res: any, next: any) => {
-	// 	if(req.isAuthenticated()){
-	// 		return next();
-	// 	}
-
-	// 	// res.redirect('/login')
-	// }
 
 	app.use('/login', (req, res, next) => {
 		if(req.query.returnTo){
@@ -336,16 +231,34 @@ const setupWebsockets = (io: Server) => {
 		})
 	}
 
+	const graphqlServer = new GraphQLServer({})
 
-	hiveSchema(driver, mqChannel, pgClient,  taskRegistry).then((hive) => {
-		app.use("/graphql", graphqlHTTP({
-			schema: mergeSchemas({schemas: [printerSchema, hive, schema]}),
-			graphiql: true,
-		}))
-	})
- 
+	const reloadSchema = async () => {
+		console.log("Loading Schema")
+		subschemas = await SubSchema(REMOTE_SCHEMA)
+		schema = stitchSchemas({
+			subschemas: subschemas
+		})
+		hiveSchema(driver, mqChannel, pgClient,  taskRegistry).then((hive) => {
+			// app.stack.find((a) => a.ro)
+			graphqlServer.setSchema( mergeSchemas({schemas: [printerSchema, hive, schema]}))
+			// app.use("/graphql", graphqlHTTP({
+			// 	graphiql: true,
+			// }))
+		})
+	 
+	}
+	
+	const middleware = graphqlServer.http({})
+	await reloadSchema()
 
-	// app.use(oidc.callback())
+	if(middleware) app.use('/graphql', middleware)
+
+	//Reload remote schema every 5 minutes
+	setInterval(async () => {
+		await reloadSchema()
+	}, 5 * 60 * 1000)
+
 
 	if(process.env.NODE_ENV == "production"){
 		const httpsWorker = (glx: any)  => {

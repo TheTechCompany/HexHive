@@ -1,0 +1,24 @@
+{
+  "extends": "../../../tsconfig.json",
+  "exclude": ["integrationTests/ts/**/*"],
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "isolatedModules": true,
+    "lib": ["es2018", "dom"],
+    "module": "commonjs",
+    "target": "es2018",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "error",
+    "newLine": "LF",
+    "preserveConstEnums": true
+  }
+}
