@@ -4,7 +4,7 @@ This document serves to give a broad outline of the plumbing to create HexHive S
 
 ## Overview
 
-<img src="./../images/network-diagram.png" alt="Network diagram" width="100" height="100">
+<img src="./../images/network-diagram.png" alt="Network diagram" width="800" height="500">
 
 ## Core Components
 
