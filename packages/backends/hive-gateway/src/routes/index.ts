@@ -1,6 +1,5 @@
 import { Router } from "express"
 
-import { AuthRouter } from "./auth"
 import { UserRouter } from "./user"
 import FileRouter from "./files"
 import PipelineRouter from "./pipelines"
@@ -61,13 +60,6 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 		res.redirect('/login')
 	}
 
-	// router.use('/interaction', InteractionRouter())
-	router.use("/oauth", AuthRouter(neo_session))
-
-	// router.use(['/api/files'], passport.authenticate('oidc'));
-
-	// router.use(['/api/files'], passport.authenticate([ 'oidc','jwt']))
-
 	router.use((req, res, next) => {
 		if(req.user){
 			req.user = {
@@ -80,11 +72,6 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
 
 	router.use("/api/events", EventRouter(neo_session))
-
-	// router.get("/login", (req, res) => {
-	// 	res.oidc.login({ returnTo: req.query.returnTo?.toString() || process.env.UI_URL || "https://next.hexhive.io/dashboard" })
-	// })
-
 
 	router.get("/me", ensureLoggedIn, async (req: any, res) => {
 		

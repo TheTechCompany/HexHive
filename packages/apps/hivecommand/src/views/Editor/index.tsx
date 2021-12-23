@@ -4,18 +4,14 @@ import { Box, Text, Spinner, Button, Collapsible, List } from 'grommet';
 import { useQuery as useQLess} from '@hexhive/client';
 import qs from 'qs';
 import { matchPath, RouteComponentProps } from 'react-router-dom';
-import { IconNodeFactory, InfiniteCanvas, InfiniteCanvasNode, InfiniteCanvasPath, HyperTree } from '@hexhive/ui'
-import { useAutomergeDoc } from '@hexhive/collaboration-client'
-import { IFlowShardPaths } from '@hexhive/types/dist/interfaces';
+import { InfiniteCanvasNode, InfiniteCanvasPath, HyperTree } from '@hexhive/ui'
+
 //const Editor = lazy(() => import('@hive-flow/editor'));
-import { ZoomControls } from '../../components/zoom-controls';
-import { NodeDropdown } from '../../components/node-dropdown';
-import { nanoid } from 'nanoid';
+
 import { Action, Add, Trigger, Menu } from 'grommet-icons'
 import { useMutation } from '@hexhive/client';
-import { BallValve, Blower, Conductivity, DiaphragmValve, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank } from '../../assets/hmi-elements';
 import * as HMIIcons from '../../assets/hmi-elements'
-import { HMINodeFactory } from '../../components/hmi-node/HMINodeFactory';
+import { HMINodeFactory } from '../../components/HMINode/HMINodeFactory';
 import { ProgramCanvasModal } from '../../components/modals/program-canvas';
 
 import { Switch, Route } from 'react-router-dom';

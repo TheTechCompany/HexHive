@@ -7,30 +7,38 @@ const TsConfigPaths = require('tsconfig-paths-webpack-plugin')
 module.exports = (webpackConfigEnv, argv) => {
   // webpackConfigEnv.standalone = true;
 
-  const defaultConfig = singleSpaDefaults({
-    orgName: "HexHive",
-    projectName: "HiveCommand",
-    webpackConfigEnv,
-    argv,
-  });
+  // const defaultConfig = singleSpaDefaults({
+  //   orgName: "HexHive",
+  //   projectName: "HiveCommand",
+  //   webpackConfigEnv,
+  //   argv,
+  // });
 
-  defaultConfig.externals = [];
+  // defaultConfig.externals = [];
 
-  return merge(defaultConfig, {
+  return  {
     // modify the webpack config however you'd like to by adding to this object,
-    entry: './src/HexHive-HiveFlow.tsx',
+    entry: {
+      // main: './src/HexHive-HiveFlow.tsx',
+      remote: './src/App.tsx'
+    },
     externals: [],
     devServer: {
       hot: false
     },
 
     output: {
+      filename: '[name].js',
       publicPath: process.env.PUBLIC_PATH || 'http://localhost:8503/'
     },
     module: {
       rules: [{
            test: /\.m?js/, type: "javascript/auto",         
            exclude: /node_modules/
+          },
+          {
+            test: /\.tsx/,
+            use: 'ts-loader',
           },
             {
               test: /\.m?js/,
@@ -51,25 +59,25 @@ module.exports = (webpackConfigEnv, argv) => {
         ...process.env,
         PUBLIC_URL: '/dashboard/command'
       }), 
-        new ModuleFederationPlugin({
-        name: 'hexhive_hivecommand',
-        library: {type: 'var', name: 'hexhive_hivecommand'},
-        filename: './remoteEntry.js',
-        shared: {
-          'react': {version: '17.0.2', eager: true, singleton: true}, 
-          'react-dom': {version: '17.0.2'}, 
-          'styled-components': {version: '5.3.0', singleton: true},
-          'single-spa-react': {eager: true},
-          "grommet": {version: '2.17.4'},
+      //   new ModuleFederationPlugin({
+      //   name: 'hexhive_hivecommand',
+      //   library: {type: 'var', name: 'hexhive_hivecommand'},
+      //   filename: './remoteEntry.js',
+      //   shared: {
+      //     'react': {version: '17.0.2', eager: true, singleton: true}, 
+      //     'react-dom': {version: '17.0.2'}, 
+      //     'styled-components': {version: '5.3.0', singleton: true},
+      //     'single-spa-react': {eager: true},
+      //     "grommet": {version: '2.17.4'},
 
-        },
-        remotes: {
-          'hexhive_root': 'hexhive_root'
-        },
-        exposes: {
-          '.': './src/HexHive-HiveFlow'
-        },
-      })
+      //   },
+      //   remotes: {
+      //     'hexhive_root': 'hexhive_root'
+      //   },
+      //   exposes: {
+      //     '.': './src/HexHive-HiveFlow'
+      //   },
+      // })
     ]
-  });
+  }
 };

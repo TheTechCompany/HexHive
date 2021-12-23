@@ -3,7 +3,7 @@ import { Box, Button } from 'grommet';
 import { Node } from 'grommet-icons';
 import { nanoid } from 'nanoid';
 import React, {useState, useEffect} from 'react';
-import { HMINodeFactory } from '../../hmi-node';
+import { HMINodeFactory } from '../../HMINode';
 import { BaseModal } from '../base';
 import { HMIGroupMenu } from './Menu';
 import * as HMIIcons from '../../../assets/hmi-elements'

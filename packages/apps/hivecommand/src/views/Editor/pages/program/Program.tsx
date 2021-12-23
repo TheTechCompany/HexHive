@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, List, Text } from 'grommet';
 import { useMutation } from '@hexhive/client';
 import { IconNodeFactory, InfiniteCanvasNode, InfiniteCanvas, ZoomControls, InfiniteCanvasPath } from '@hexhive/ui';
-import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
+import { HMINodeFactory } from '../../../../components/HMINode/HMINodeFactory';
 import { nanoid } from 'nanoid';
 import { NodeDropdown } from '../../../../components/node-dropdown';
 import { Connect, Action, Trigger, PowerShutdown, Add, Clock, Cycle } from 'grommet-icons';
@@ -10,7 +10,6 @@ import { gql, useApolloClient, useQuery } from '@apollo/client';
 import { ProgramCanvas } from '../../../../components/program-canvas';
 
 import Settings from './Settings';
-import { client } from 'apps/hivecommand/src/gqless';
 import { ProgramEditorProvider } from './context';
 import { ProgramDrawer } from './Drawer';
 import { useEditor } from './store';

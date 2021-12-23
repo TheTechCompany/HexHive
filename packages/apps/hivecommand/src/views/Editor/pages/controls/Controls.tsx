@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Box, Text, List, Button, Collapsible, TextInput, Select, CheckBox } from 'grommet'
 import { InfiniteCanvas, ContextMenu, IconNodeFactory, InfiniteCanvasNode, ZoomControls, InfiniteCanvasPath, BumpInput } from '@hexhive/ui';
-import { HMINodeFactory } from '../../../../components/hmi-node/HMINodeFactory';
+import { HMINodeFactory } from '../../../../components/HMINode/HMINodeFactory';
 import { NodeDropdown  } from '../../../../components/node-dropdown';
 import { BallValve, Blower, Conductivity, Sump,  DiaphragmValve, UfMembrane, Filter, FlowSensor, PressureSensor, Pump, SpeedController, Tank, BlowerSparge, NfMembrane, DosingTank } from '../../../../assets/hmi-elements';
 import { gql, useApolloClient, useQuery } from '@apollo/client';

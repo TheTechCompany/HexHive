@@ -2,6 +2,7 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react",
+    "target": "ESNEXT",
     "composite": true,
     "declaration": true,
     "rootDir": "src/",
@@ -13,9 +14,7 @@
     {"path": "../../shared/hexhive-styles"},
     {"path": "../../core/hexhive-ui"},
     {"path": "../../shared/hexhive-types"},
-    {"path": "../../core/hive-command-editor"},
     {"path": "../../core/hexhive-client"},
-    {"path": "../../core/collaboration-client"},
     {"path": "../../shared/hexhive-icons"}
   ],
   "include": ["src/**/*", "node_modules/@types"],
