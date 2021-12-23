@@ -7,7 +7,7 @@ import { useMutation, useQuery } from '@hexhive/client'
 
 import MarkerIcon from 'leaflet/dist/images/marker-icon.png';
 import { useQuery as useApollo, gql, useApolloClient } from '@apollo/client'
-import { BusMap } from '../../components/bus-map/BusMap';
+import { BusMap } from '../../components/BusMap/BusMap';
 import { DeviceBusModal } from '../../components/modals/device-bus/DeviceBusModal';
 import { DeviceBusConnectionModal } from '../../components/modals/device-bus-connections';
 import { connection } from 'mongoose';

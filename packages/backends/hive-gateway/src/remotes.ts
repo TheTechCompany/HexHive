@@ -6,7 +6,9 @@ const COMMAND_URL = (!isDev ? process.env.COMMAND_SERVER : "http://localhost:700
 
 const SIGNAGE_URL = (!isDev ? process.env.SIGNAGE_SERVER : "http://localhost:9009/graphql") || ""
 
-export const REMOTE_SCHEMA : string[] = [
-	SIGNAGE_URL
-
+export const REMOTE_SCHEMA = [
+	{
+		key: 'GreenScreen',
+		url: SIGNAGE_URL
+	}
 ]

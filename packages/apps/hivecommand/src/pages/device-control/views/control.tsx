@@ -1,4 +1,4 @@
-import { HMICanvas } from '../../../components/hmi-canvas';
+import { HMICanvas } from '../../../components/HMICanvas';
 import React, {useContext, useEffect, useState} from 'react';
 import { Box, Text, TextInput, CheckBox, Button, Spinner } from 'grommet';
 import { Checkmark } from 'grommet-icons';
@@ -37,21 +37,21 @@ export default () => {
 
 	console.log({operatingMode, waitingForActions, actions})
 
-	const [ requestFlow, requestFlowInfo ] = useMutation((mutation, args: {
-		deviceId: string,
-		actionId: string
-	}) => {
-		const item = mutation.requestFlow({
-			deviceId: args.deviceId,
-			actionId: args.actionId
-		})
+	// const [ requestFlow, requestFlowInfo ] = useMutation((mutation, args: {
+	// 	deviceId: string,
+	// 	actionId: string
+	// }) => {
+	// 	const item = mutation.requestFlow({
+	// 		deviceId: args.deviceId,
+	// 		actionId: args.actionId
+	// 	})
 
-		return {
-			item: {
-				success: item.success
-			}
-		}
-	})
+	// 	return {
+	// 		item: {
+	// 			success: item.success
+	// 		}
+	// 	}
+	// })
 
     const getDeviceValue = (name?: string, units?: {key: string, units?: string}[]) => {
         //Find map between P&ID tag and bus-port
@@ -218,12 +218,12 @@ export default () => {
     }, [selected])
 
 	const controlAction = (action) => {
-		requestFlow({args: {
-			deviceId: controlId,
-			actionId: action.id
-		}}).then(() => {
+		// requestFlow({args: {
+		// 	deviceId: controlId,
+		// 	actionId: action.id
+		// }}).then(() => {
 			
-		})
+		// })
 	}
  
 	return (

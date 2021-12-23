@@ -2,14 +2,14 @@ import { IconNodeFactory } from '@hexhive/ui';
 import { Box, Button, CheckBox, Text, TextInput } from 'grommet';
 import { InfiniteCanvas } from '@hexhive/ui';
 import React, { useState, useMemo, useEffect } from 'react';
-import { HMINodeFactory } from '../../components/hmi-node/HMINodeFactory';
+import { HMINodeFactory } from '../../components/HMINode/HMINodeFactory';
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 import { matchPath, Route, RouteComponentProps, Switch } from 'react-router-dom';
 // import program from 'shared/hexhive-types/src/models/program';
 import * as HMINodes from '../../assets/hmi-elements'
 
 import { useMutation } from '@hexhive/client';
-import { HMICanvas } from '../../components/hmi-canvas/HMICanvas';
+import { HMICanvas } from '../../components/HMICanvas';
 import { Bubble } from '../../components/Bubble/Bubble';
 import { getDevicesForNode } from './utils';
 import { Play, Stop, Checkmark, Services, Cycle, Analytics, Info, Technology } from 'grommet-icons';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DeviceModal } from '../../components/modals/device';
 import { useMutation, CommandDevice, useQuery } from '@hexhive/client'
-import { DeploymentList, DeploymentInfo } from '../../components/deployment-list';
+import { DeploymentList, DeploymentInfo } from '../../components/DeploymentList';
 import { Box, TextInput, Button } from 'grommet';
 import * as Icons from 'grommet-icons';
 import { isEqual } from 'lodash';
