@@ -77,7 +77,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["src/"],
-  "exclude": ["dist/", "node_modules/"],
+  "exclude": ["dist/", "node_modules/", "*/**/*.spec.tsx"],
   "references": [
     {"path": "../../shared/hexhive-utils"},
     {"path": "../../shared/hexhive-styles"},

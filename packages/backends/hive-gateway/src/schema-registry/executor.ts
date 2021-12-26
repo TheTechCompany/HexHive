@@ -5,6 +5,7 @@ export const remoteExecutor = (url: string) => {
 	return async ({ document, variables, context }: any) => {
 		const query = print(document)
 
+		console.log("REMOTE")
 		const fetchResult = await fetch(url, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },

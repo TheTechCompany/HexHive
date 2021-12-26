@@ -6,6 +6,10 @@
   "files": [
     "dist/"
   ],
+  "publishConfig": {
+    "access": "public"
+  
+  },
   "scripts": {
     "build": "tsc -b",
     "storybook": "start-storybook -p 6006",

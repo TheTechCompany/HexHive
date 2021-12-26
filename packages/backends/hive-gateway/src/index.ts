@@ -14,6 +14,7 @@ import amqp from 'amqplib'
 import { Driver, Session } from "neo4j-driver"
 import { HiveRouter } from "./router"
 import { SchemaEndpoint, SchemaRegistry } from "./schema-registry"
+import hive from "./schema/hive"
 
 const {NODE_ENV} = process.env
 
@@ -25,7 +26,7 @@ export class HiveGateway {
 
 	private taskRegistry: TaskRegistry = new TaskRegistry();
 
-	private schemaRegistry: SchemaRegistry;
+	private schemaRegistry?: SchemaRegistry;
 
 	private pool?: Pool;
 	private neoDriver?: Driver;
@@ -35,27 +36,44 @@ export class HiveGateway {
 	private mq?: amqp.Connection;
 	private mqChannel?: amqp.Channel;
 
+	private options : {port: number, endpoints?: SchemaEndpoint[]};
+
+
 	constructor(opts: {port: number, endpoints?: SchemaEndpoint[]}){
 		this.router = new HiveRouter({port: opts.port})
-		this.schemaRegistry = new SchemaRegistry({
-			initialEndpoints: REMOTE_SCHEMA.concat(opts.endpoints || [])
-		});
+		this.options = opts;
+
+	
 	}
 
 	async init(){
 		this.initDB();
 		await this.initMQ();
-		await this.schemaRegistry.reload()
+		await this.initHive();
+		await this.initRouter()
+		await this.schemaRegistry?.reload()
 	}
 
 	async start(){
 		await this.router.start()
 	}
 
+	async initHive(){
+		if(!this.neoDriver) throw new Error("No Neo4j Driver")
+		if(!this.mqChannel) throw new Error("No RabbitMQ")
+		if(!this.pool) throw new Error("No Pool")
+
+		const schema = await hive(this.neoDriver, this.mqChannel, this.pool, this.taskRegistry)
+		this.schemaRegistry = new SchemaRegistry({
+			initialEndpoints: this.options.endpoints || [],
+			internalSchema: schema
+		});
+	}
+
 	initRouter(){
 		if(!this.neoDriver) return;
-		this.router.mount(DefaultRouter(this.neoDriver, this.taskRegistry)) 
-		this.router.mount('/graphql', this.schemaRegistry.middleware())
+		this.router.mount('/', DefaultRouter(this.neoDriver, this.taskRegistry)) 
+		this.router.mount('/graphql', this.schemaRegistry?.middleware())
 	}
 
 	initDB(){

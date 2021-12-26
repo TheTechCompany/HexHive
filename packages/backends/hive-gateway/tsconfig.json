@@ -76,6 +76,7 @@
     {"path": "../../core/hexhive-data"},
     {"path": "../../core/hexhive-mq"},
     {"path": "../../core/express-graphql"},
-    {"path": "../../core/hexhive-events"}
+    {"path": "../../core/hexhive-events"},
+    {"path": "../../core/hexhive-microfrontend"}
   ]
 }

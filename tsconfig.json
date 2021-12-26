@@ -14,6 +14,7 @@
      "graphql": ["../node_modules/graphql"],
      "@hexhive/data-core": ["./core/hexhive-data/src"],
      "@hexhive/express-graphql": ["./core/express-graphql/src"],
+     "@hexhive/microfrontend-server": ["./core/hexhive-microfrontend/src"],
      "@gqless/react": ["../node_modules/@gqless/react"],
      "styled-components": ["../node_modules/styled-components"],
      "@types/styled-components": ["../node_modules/@types/styled-components"],
