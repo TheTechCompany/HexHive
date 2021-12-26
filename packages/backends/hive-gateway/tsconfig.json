@@ -74,6 +74,5 @@
     {"path": "../../shared/hexhive-types"},
     {"path": "../../core/hexhive-mq"},
     {"path": "../../core/express-graphql"},
-    {"path": "../../core/hexhive-events"},
   ]
 }

@@ -3,7 +3,6 @@ import { HiveMQ } from "@hexhive/mq"
 import { Session } from "neo4j-driver"
 import { nanoid } from "nanoid"
 import { addStepResult, createPipelineRun, getPipelinesByTrigger, getPipelineTriggers } from "../../queries/pipeline"
-import { HiveTriggerEvent } from "core/hexhive-events/src/types"
 import { pipeline } from "stream"
 import jwt from 'jsonwebtoken'
 
@@ -48,7 +47,7 @@ export default (neo: Session) => {
 		//Routes
 		router.route("/:TOPIC")
 			.post(async (req, res) => {
-				let message_template : HiveTriggerEvent = {
+				let message_template  = {
 					appliance: (req as any).credentials.id,
 					routingKey: req.params.TOPIC, 
 					queuedAt: Date.now(),
