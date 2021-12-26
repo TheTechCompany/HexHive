@@ -8,7 +8,7 @@
 		"hive-gateway": "./dist/server"
 	},
 	"scripts": {
-		"build": "tsc -b",
+		"build": "tsc -b && cp package.json dist/",
 		"start": "ts-node -r tsconfig-paths/register src/server.ts",
 		"start:prod": "node dist/server.js --endpoints /tmp/endpoints.json"
 	},
