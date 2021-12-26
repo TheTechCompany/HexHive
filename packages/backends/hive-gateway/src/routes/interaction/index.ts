@@ -1,8 +1,3 @@
-import assert from "assert"
-import { Router } from "express"
-import { Provider } from "oidc-provider"
-import { Account } from "../../Account"
-import bodyParser from "body-parser"
 
 // export const InteractionRouter = () : Router => {
 //     const router = Router();

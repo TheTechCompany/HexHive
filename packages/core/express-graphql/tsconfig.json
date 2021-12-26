@@ -1,11 +1,13 @@
 {
   "extends": "../../../tsconfig.json",
-  "exclude": ["integrationTests/ts/**/*"],
+  "exclude": ["integrationTests/ts/**/*", "src/__tests__", "examples"],
   "compilerOptions": {
     "composite": true,
     "declaration": true,
     "isolatedModules": true,
     "lib": ["es2018", "dom"],
+    "rootDir": "src/",
+    "outDir": "dist/",
     "module": "commonjs",
     "target": "es2018",
     "strict": true,
@@ -20,5 +22,5 @@
     "importsNotUsedAsValues": "error",
     "newLine": "LF",
     "preserveConstEnums": true
-  }
+  },
 }

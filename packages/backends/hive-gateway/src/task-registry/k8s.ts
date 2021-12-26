@@ -1,5 +1,4 @@
 import {KubeConfig, CoreV1Api, loadYaml, loadAllYaml, KubernetesObject, KubernetesObjectApi} from "@kubernetes/client-node"
-import { any } from "async"
 import fs from "fs"
 import path from "path"
 
