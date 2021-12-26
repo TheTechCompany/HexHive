@@ -13,7 +13,7 @@ import { requiresAuth } from "express-openid-connect"
 import { FileManager } from "./files/util"
 import { Driver, session } from "neo4j-driver"
 import { TaskRegistry } from "../task-registry"
-import { HiveEvents } from "@hexhive/events-client"
+// import { HiveEvents } from "@hexhive/events-client"
 import passport from "passport"
 // import { InteractionRouter } from './interaction';
 
@@ -22,13 +22,13 @@ const whitelist = ["http://localhost:3001", 'http://localhost:8000', "https://ma
 export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Router => {
 	const neo_session = neo4j.session()
 
-	const eventClient = new HiveEvents({
-		url: process.env.HIVE_EVENT_URL || "http://localhost:7000",
-		keyPair: {
-			key: process.env.HIVE_EVENT_KEY || "123456789",
-			secret: process.env.HIVE_SECRET_KEY || "secret1"
-		}
-	})
+	// const eventClient = new HiveEvents({
+	// 	url: process.env.HIVE_EVENT_URL || "http://localhost:7000",
+	// 	keyPair: {
+	// 		key: process.env.HIVE_EVENT_KEY || "123456789",
+	// 		secret: process.env.HIVE_SECRET_KEY || "secret1"
+	// 	}
+	// })
 
 	const router = Router()
 	let fileManager
@@ -68,7 +68,7 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 		}
 		next()
 	})
-	if(fileManager) router.use("/api/files", FileRouter(fileManager, eventClient, neo_session))
+	if(fileManager) router.use("/api/files", FileRouter(fileManager, neo_session))
 	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
 
 	router.use("/api/events", EventRouter(neo_session))
