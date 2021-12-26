@@ -1,0 +1,31 @@
+.password-update{
+  margin-top: 8px;
+}
+
+.profile-uploads{
+  flex: 1;
+}
+
+.profile-page{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+} 
+
+.password-change{
+  flex: 1;
+}
+.profile-info{
+  flex: 1;
+  margin-right: 8px; 
+}
+
+.profile-top-half, .profile-bottom-half{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-top-half{
+  flex: 0.5;
+}

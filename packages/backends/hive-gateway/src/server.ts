@@ -2,10 +2,11 @@
 import { HiveGateway } from '.'
 import yargs from 'yargs/yargs'
 import { hideBin } from 'yargs/helpers'
+import { readFileSync } from 'fs';
 
 const argv = yargs(hideBin(process.argv)).options({
 	port: {type: 'number', default: 7000},
-	endpoints: {type: 'array', default: []},
+	endpoints: {type: 'string'},
 });
 
 (async () => {
@@ -14,9 +15,14 @@ const argv = yargs(hideBin(process.argv)).options({
 
 	console.log(`=> Starting Gateway on ${port}`)
 
+	let endpointInfo = [];
+	if(endpoints){
+		const endpointData = JSON.parse(readFileSync(endpoints, 'utf8'))
+		endpointInfo = endpointData.endpoints.map(({url, name, version}: any) => ({url, key: name, version}))
+	}
 	const gateway = new HiveGateway({
 		port: port, 
-		endpoints: endpoints?.map((endpoint, ix) => ({key: `${ix}`, url: endpoint}))
+		endpoints: endpointInfo
 	})
 	
 	console.log(`=> Initializing Gateway`)

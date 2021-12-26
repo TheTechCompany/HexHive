@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import { createServer, Server as HttpServer } from 'http';
 import passport from 'passport';
 import { Server } from 'socket.io';
+import cors from 'cors';
+import MongoStore from 'connect-mongo'
 
 const {NODE_ENV} = process.env
 
@@ -45,11 +47,13 @@ export class HiveRouter {
 
 		this.server = createServer(this.app)
 
-		this.initPassport()
 		this.initMiddleware()
+		this.initPassport()
+
 	}
 
 	mount(...args: any[]) {
+		console.log(args)
 		if(args.length == 1){
 			this.app.use(args[0])
 		}else if(args.length == 2){
@@ -121,13 +125,17 @@ export class HiveRouter {
 	initMiddleware() {
 		this.app.set("trust proxy", true)
 
+		// this.app.use(cors())
 		this.app.use(cookieParser())
 		this.app.use(helmet())
 
 		this.app.use(session({
-			secret: 'MyVoiceIsMyPassportVerifyMe',
+			secret: process.env.SESSION_KEY || 'MyVoiceIsMyPassportVerifyMe',
 			resave: false,
-			saveUninitialized: true
+			saveUninitialized: true,
+			store: MongoStore.create({
+				mongoUrl: process.env.MONGO_URL
+			})
 		}));
 
 		// app.use(auth(config))

@@ -2,13 +2,23 @@
 0 silly argv   _: [ 'add' ],
 0 silly argv   D: true,
 0 silly argv   dev: true,
-0 silly argv   scope: '@hexhive-backends/signage',
+0 silly argv   scope: '@hexhive/frontend-server',
 0 silly argv   globs: [],
 0 silly argv   lernaVersion: '4.0.0',
 0 silly argv   '$0': '/Users/the-kid/work/contract-work/hexhive-common/node_modules/.bin/lerna',
-0 silly argv   pkg: '@types/greenlock-express'
+0 silly argv   pkg: 'connect-mongo'
 0 silly argv }
 1 notice cli v4.0.0
 2 verbose rootPath /Users/the-kid/work/contract-work/hexhive-common
-3 error HttpErrorGeneral: 404 Not Found - GET https://registry.npmjs.org/@types%2fgreenlock-express - Not found
-3 error     at /Users/the-kid/work/contract-work/hexhive-common/node_modules/npm-registry-fetch/check-response.js:95:15
+3 error JSONError: Unexpected token "}" (0x7D) in JSON at position 770 while parsing near "...nnect\": \"^0.1.1\",\n  }\n}\n" in packages/backends/hive-frontend/package.json
+3 error
+3 error [0m [90m 26 |[39m     [32m"passport"[39m[33m:[39m [32m"^0.5.2"[39m[33m,[39m[0m
+3 error [0m [90m 27 |[39m     [32m"passport-openidconnect"[39m[33m:[39m [32m"^0.1.1"[39m[33m,[39m[0m
+3 error [0m[31m[1m>[22m[39m[90m 28 |[39m   }[0m
+3 error [0m [90m    |[39m   [31m[1m^[22m[39m[0m
+3 error [0m [90m 29 |[39m }[0m
+3 error [0m [90m 30 |[39m[0m
+3 error
+3 error     at parseJson (/Users/the-kid/work/contract-work/hexhive-common/node_modules/parse-json/index.js:29:21)
+3 error     at parse (/Users/the-kid/work/contract-work/hexhive-common/node_modules/load-json-file/index.js:15:9)
+3 error     at module.exports (/Users/the-kid/work/contract-work/hexhive-common/node_modules/load-json-file/index.js:18:47)

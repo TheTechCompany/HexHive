@@ -3,6 +3,7 @@ import { remoteExecutor } from "./executor";
 import { introspectSchema } from "@graphql-tools/wrap"
 import { GraphQLServer } from "@hexhive/express-graphql";
 import { stitchSchemas } from "@graphql-tools/stitch";
+import { mergeSchemas } from '@graphql-tools/merge'
 
 export interface SchemaEndpoint {
 	url: string;
@@ -12,17 +13,22 @@ export interface SchemaEndpoint {
 
 export interface SchemaRegistryOptions {
 	initialEndpoints?: SchemaEndpoint[];
+	internalSchema: GraphQLSchema;
 }
 export class SchemaRegistry {
 	
 	private endpoints : SchemaEndpoint[] = []
 	private schemas : {[key: string]: GraphQLSchema} = {}
 
+	private internalSchema : GraphQLSchema;
+
 	private server: GraphQLServer;
 
 	constructor(opts: SchemaRegistryOptions){
 		this.endpoints = opts.initialEndpoints || []
 		this.schemas = {};
+
+		this.internalSchema = opts.internalSchema;
 
 		this.server = new GraphQLServer({})
 	}
@@ -70,10 +76,14 @@ export class SchemaRegistry {
 
 	private updateSchema(){
 		const schema = stitchSchemas({
-			subschemas: Object.keys(this.schemas).map((x) => this.schemas[x]),
+			subschemas: Object.keys(this.schemas).map((x) => ({
+				schema: this.schemas[x], 
+				executor: remoteExecutor(this.endpoints.find((a) => a.key == x)?.url || '')
+			})),
+			
 		})
 
-		this.server.setSchema(schema)
+		this.server.setSchema(mergeSchemas({schemas: [schema, this.internalSchema]}))
 	}
 
 	middleware(){
