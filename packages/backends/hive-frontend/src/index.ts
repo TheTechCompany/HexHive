@@ -8,7 +8,7 @@ import passport from 'passport'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import { HiveMicrofrontendServer } from '@hexhive/microfrontend-server'
-
+import {frontendRouter} from './router'
 var OidcStrategy = require('passport-openidconnect').Strategy;
 
 const {NODE_ENV} = process.env
@@ -30,6 +30,8 @@ export class HiveFrontendServer {
 
 	private app : Express;
 
+	private start_app: () => void;
+
 	private neoDriver?: Driver
 	private neoSession?: Session;
 	private redisClient: any;
@@ -38,7 +40,10 @@ export class HiveFrontendServer {
 
 	constructor(){
 	
-		this.app = express()
+		const {app, start} = frontendRouter()
+		this.app = app;
+		this.start_app = start;
+
 		this.frontendRegistry = new HiveMicrofrontendServer({
 			get_views: async (req) => {
 
@@ -164,18 +169,6 @@ export class HiveFrontendServer {
 	initMiddleware() {
 		this.app.set("trust proxy", true)
 
-		this.app.use(cookieParser())
-		// this.app.use(helmet())
-
-		this.app.use(session({
-			secret: process.env.SESSION_KEY || 'MyVoiceIsMyPassportVerifyMe',
-			resave: false,
-			saveUninitialized: true,
-			store: MongoStore.create({ 
-				mongoUrl: process.env.MONGO_URL
-			 })
-		}));
-
 		// app.use(auth(config))
 
 		this.app.use(passport.initialize())
@@ -205,6 +198,7 @@ export class HiveFrontendServer {
 	}
 
 	start(){
-		this.app.listen(8000)
+		this.start_app()
+		// this.app.listen(8000)
 	}
 }
