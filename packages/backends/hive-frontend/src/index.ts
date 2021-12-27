@@ -66,7 +66,7 @@ export class HiveFrontendServer {
 					})).concat([
 						{
 							name: "@hexhive-core/dashboard",
-							config_url: `https://apps.hexhive.io/hive-dashboard/hexhive-core-dashboard.tsx`
+							config_url: `https://staging-apps.hexhive.io/hive-dashboard/hexhive-core-dashboard.tsx`
 						}
 					]),
 				// 	 [{
