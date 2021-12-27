@@ -18,7 +18,6 @@ import { Kanban, FileDialog, SharedFiles } from '@hexhive/ui';
 
 import { useMutation, useQuery, useRefetch } from '@hexhive/client';
 import { KanbanModal } from './KanbanModal';
-import { dateFromObjectID } from '@hexhive/utils';
 import { useApolloClient } from '@apollo/client'
 import { useParams } from 'react-router-dom';
 

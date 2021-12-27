@@ -6,29 +6,20 @@
    "declaration": true,
    "module": "commonjs",
    "paths": {
-     "@hexhive-api/signage": ["./api-clients/signage"],
      "react": ["../node_modules/react"],
      "react-dom": ["../node_modules/react-dom"],
      "grommet": ["../node_modules/grommet"],
-     "gqless": ["../node_modules/gqless"],
+     "gqty": ["../node_modules/gqty"],
      "graphql": ["../node_modules/graphql"],
-     "@hexhive/data-core": ["./core/hexhive-data/src"],
      "@hexhive/express-graphql": ["./core/express-graphql/src"],
      "@hexhive/microfrontend-server": ["./core/hexhive-microfrontend/src"],
-     "@gqless/react": ["../node_modules/@gqless/react"],
+     "@gqty/react": ["../node_modules/@gqty/react"],
      "styled-components": ["../node_modules/styled-components"],
      "@types/styled-components": ["../node_modules/@types/styled-components"],
-     "@hexhive-apps/3d": ["./apps/hive-3d/src"],
      "@hexhive/client": ["./core/hexhive-client/src/gqty"],
      "@hexhive/icons": ["./shared/hexhive-icons/src"],
-     "@hexhive/mq": ["./core/hexhive-mq/src"],
-     "@hexhive/events-client": ["./core/hexhive-events/src"],
-     "@hexhive/eslint-config": ["./core/eslint-config"],
-     "@hexhive/prettier-config": ["./core/prettier-config"],
-     "@hexhive/patch": ["./workers/patch/src"],
 
-     "@hexhive-apps/flow": ["./apps/hive-flow/src"],
-     "@hexhive-apps/command": ["./apps/hive-command/src"],
+     "@hexhive-apps/hive-flow": ["./apps/hive-flow/src"],
      "@types/react": ["../node_modules/@types/react"],
      "@types/react-router-dom": ["../node_modules/@types/react-router-dom"],
      "@types/react-dom": ["../node_modules/@types/react-dom"],
@@ -37,10 +28,7 @@
      "@hexhive/types": ["./shared/hexhive-types/src"],
      "@hexhive/utils": ["./shared/hexhive-utils/src"],
      "@hexhive/ui": ["./core/hexhive-ui/src"],
-     "@hexhive/shield": ["./shared/hexhive-shield/src"],
-
      "@hexhive/collaboration-client": ["./core/collaboration-client/src"],
-     "@hexhive/command-editor": ["./core/hive-command-editor/src"],
      "@hexhive/collaboration-server": ["./core/collaboration-server/src"]
    }
   }
