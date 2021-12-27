@@ -5,7 +5,7 @@ import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
 import { useQuery, gql } from '@apollo/client';
 import { AppModal } from '../app-modal';
-import { Files, Flow, Market, Command, Automate, Settings } from '../../assets/icons';
+import { Files, Flow, Market, Command, Automate, Settings, Signage } from '../../assets/icons';
 
 import Fonts from '../../assets/fonts';
 import { useAuth } from '@hexhive/auth-ui';
@@ -144,7 +144,8 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
             },
             {
                 id: '3_5JcF5u_XV4LDQErU6r9',
-                icon: <Monitor />,
+                icon: <Signage />,
+                title: "Signage",
                 top: 3,
                 left: 9,
                 path: '/signage'
