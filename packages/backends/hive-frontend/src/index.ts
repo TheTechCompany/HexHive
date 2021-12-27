@@ -63,7 +63,12 @@ export class HiveFrontendServer {
 					apps: apps?.map((app) => ({
 						name: app.name,
 						config_url: app.entrypoint
-					})),
+					})).concat([
+						{
+							name: "@hexhive-core/dashboard",
+							config_url: `https://apps.hexhive.io/hive-dashboard/hexhive-core-dashboard.tsx`
+						}
+					]),
 				// 	 [{
 				// 	name: '@hexhive/hive-flow',
 				// 	config_url: '//localhost:8500/hexhive-apps-hive-flow.js'
