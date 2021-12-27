@@ -64,7 +64,7 @@
     Learn more about why at https://single-spa.js.org/docs/ecosystem-angular/#zonejs
   -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/zone.js@0.11.3/dist/zone.min.js"></script> -->
-
+  <link href="<%= static_url %>/fonts/BebasNeue-Regular.ttf" type="font/ttf">
   <script src="https://cdn.jsdelivr.net/npm/import-map-overrides@2.2.0/dist/import-map-overrides.js"></script>
   <% if (isLocal) { %>
   <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/system.js"></script>
@@ -75,6 +75,16 @@
   <% } %>
 
   <style>
+
+  @font-face {
+    font-family: 'BebasNeue';
+    src: url(<%= static_url %>/fonts/BebasNeue-Regular.ttf) format('ttf');
+    font-weight: 300;
+    font-style: normal;
+  }
+  *{
+    font-family: 'BebasNeue', sans-serif;
+  }
     body{
       display: flex;
       margin: 0;
