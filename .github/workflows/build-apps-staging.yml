@@ -35,41 +35,11 @@ jobs:
           aws s3 sync packages/core-apps/hexhive-io/dist/ s3://${{ secrets[env.BUCKET_URL] }} --delete
 
 
-  build_header:
-    runs-on: ubuntu-latest   
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 15.x
-      - run: yarn
-      - run: lerna bootstrap --scope @hexhive/header --include-dependencies
-
-      - run: export REACT_APP_API="https://staging-api.hexhive.io"
-      - run: export REACT_APP_URL="https://next.hexhive.io"
-      - run: export PUBLIC_PATH="https://staging-apps.hexhive.io/header/"
-      
-      - name: Build web
-        run: (export REACT_APP_URL="https://next.hexhive.io" PUBLIC_PATH="https://staging-apps.hexhive.io/header/" REACT_APP_API="https://staging-api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive/header --include-dependencies)
-      
-      - name: Configure AWS Creds
-        uses: aws-actions/configure-aws-credentials@v1
-        with: 
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-2
-     
-      - name: Upload new web-build
-        run: |
-          aws s3 sync packages/core/hexhive-header/dist/ s3://${{ secrets.STAGING_APP_BUCKET }}/header --delete
-
-
   build_coreapps:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        apps: [hivedashboard, hiveautomate, hivesignage, hivefiles, hivebuild, hivemarket, hivesettings]
+        apps: [hiveautomate, hivesignage, hivefiles, hivebuild, hivemarket, hivesettings]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
