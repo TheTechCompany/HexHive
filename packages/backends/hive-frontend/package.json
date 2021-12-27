@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc -b && cp package.json dist/",
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "start:prod": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
