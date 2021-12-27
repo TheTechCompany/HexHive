@@ -42,6 +42,7 @@ export class HiveMicrofrontendServer {
 					title: 'Hello World', 
 					base: req.baseUrl,
 					config_url: `${req.baseUrl}/static/root-config.js`,
+					static_url: `${req.baseUrl}/static`,
 					routes: views || [{
 						path: '/app', 
 						name: '@hexhive/test-app'

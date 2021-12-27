@@ -66,11 +66,11 @@ export class HiveFrontendServer {
 					})).concat([
 						{
 							name: "@hexhive-core/dashboard",
-							config_url: `https://staging-apps.hexhive.io/dashboard/hexhive-core-dashboard.js`
+							config_url: `${process.env.NODE_ENV == 'production' ? 'https://staging-apps.hexhive.io/dashboard/' : 'http://localhost:8501/'}hexhive-core-dashboard.js`
 						},
 						{
 							name: "@hexhive-core/header",
-							config_url: `https://staging-apps.hexhive.io/header/hexhive-core-header.js`
+							config_url: `${process.env.NODE_ENV == 'production' ? 'https://staging-apps.hexhive.io/header/' : 'http://localhost:8502/'}hexhive-core-header.js`
 						}
 					]),
 				// 	 [{
