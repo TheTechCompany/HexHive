@@ -220,7 +220,7 @@ jobs:
       - run: export PUBLIC_PATH="https://staging-apps.hexhive.io/${{matrix.apps}}/"
       
       - name: Build web
-        run: (export REACT_APP_URL="https://next.hexhive.io" PUBLIC_PATH="https://staging-apps.hexhive.io/${{matrix.apps}}/" REACT_APP_API="https://staging-api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive-coreapps/${{ matrix.apps }} --include-dependencies)
+        run: (export REACT_APP_URL="https://next.hexhive.io" PUBLIC_PATH="https://staging-apps.hexhive.io/${{matrix.apps}}/" REACT_APP_API="https://staging-api.hexhive.io" NODE_ENV=production CI=false; lerna run build --scope @hexhive-core/${{ matrix.apps }} --include-dependencies)
       
       - name: Configure AWS Creds
         uses: aws-actions/configure-aws-credentials@v1
