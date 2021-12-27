@@ -67,6 +67,10 @@ export class HiveFrontendServer {
 						{
 							name: "@hexhive-core/dashboard",
 							config_url: `https://staging-apps.hexhive.io/dashboard/hexhive-core-dashboard.js`
+						},
+						{
+							name: "@hexhive-core/header",
+							config_url: `https://staging-apps.hexhive.io/header/hexhive-core-header.js`
 						}
 					]),
 				// 	 [{
