@@ -39,8 +39,10 @@
   },
   "dependencies": {
     "@gqless/react": "^2.0.15",
+    "@gqty/react": "^2.1.0",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
+    "gqty": "^2.1.0",
     "graphql": "15.4.0",
     "grommet": "^2.17.4",
     "nanoid": "^3.1.23",

@@ -54,7 +54,7 @@ export const Dashboard = (props: any) => {
   const views = () => {
     let login_type =  'email' //props.user.login_type;
     let views = []
-    if(login_type == 'email'){
+    // if(login_type == 'email'){
       views = [{
                   icon: <Schedule filter="invert(1)" />,
                   label: "Schedule",
@@ -93,36 +93,37 @@ export const Dashboard = (props: any) => {
                   component: <></>
                 }
       ]
-    }else{
-      views = [
-          {
-            icon: "schedule",
-            label: "Schedule",
-            path: "/schedule",
-            component: <></>,
-          },
-          {
-            icon: 'check_circle_outline',
-            label: "Projects",
-            path: "/projects",
-            component: <></>
-          },
-          {
-            icon: 'people',
-            label: "People",
-            path: "/people",
-            component: <></>
-          }, 
-          { 
-            icon: 'directions_car',
-            label: "Equipment",
-            alerts: alerts.length,
-            path: "/equipment",
-            component: <></>
-          }
+    
+    // else{
+    //   views = [
+    //       {
+    //         icon: "schedule",
+    //         label: "Schedule",
+    //         path: "schedule",
+    //         component: <></>,
+    //       },
+    //       {
+    //         icon: 'check_circle_outline',
+    //         label: "Projects",
+    //         path: "projects",
+    //         component: <></>
+    //       },
+    //       {
+    //         icon: 'people',
+    //         label: "People",
+    //         path: "people",
+    //         component: <></>
+    //       }, 
+    //       { 
+    //         icon: 'directions_car',
+    //         label: "Equipment",
+    //         alerts: alerts.length,
+    //         path: "equipment",
+    //         component: <></>
+    //       }
 
-      ]
-    }
+    //   ]
+    // }
     return views;
   }
 
@@ -157,9 +158,9 @@ export const Dashboard = (props: any) => {
                 active={views().map((x) => matchPath(active, x.path) != null ).indexOf(true)}
                 menu={views()} 
                 onSelect={(x: any) => {
-                  let path = generatePath(`/:path`, {path: x.path.toLowerCase()})
+                  // let path = generatePath(`/:path`, {path: x.path.toLowerCase()})
 
-                  navigate(path)
+                  navigate(`/${x.path.toLowerCase()}`)
                 }}/>
 
             <Box 
@@ -176,17 +177,17 @@ export const Dashboard = (props: any) => {
               </Box>
             )}>
               <Routes>
-                <Route path={`/schedule`} element={ScheduleView} />
-                <Route path={`/projects`} element={ProjectList} >
-                  <Route path={`/projects/:id`} element={ProjectSingle} />
+                <Route path={`schedule`} element={<ScheduleView/>} />
+                <Route path={`projects`} element={<ProjectList/>} >
+                  <Route path={`projects/:id`} element={<ProjectSingle/>} />
 
                 </Route>
-                <Route path={`/estimates`} element={Quotes} />
-                <Route path={`/people`} element={PeopleList}>
-                  <Route path={`/people/:id`} element={PeopleSingle} />
+                <Route path={`estimates`} element={<Quotes/>} />
+                <Route path={`people`} element={<PeopleList/>}>
+                  <Route path={`people/:id`} element={<PeopleSingle/>} />
                 </Route>
-                <Route path={`/equipment`} element={EquipmentList} />
-                <Route path={`/timeline`} element={Timeline} />
+                <Route path={`equipment`} element={<EquipmentList/>} />
+                <Route path={`timeline`} element={<Timeline/>} />
               </Routes>
             </React.Suspense>
             </Box>

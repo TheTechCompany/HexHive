@@ -15,14 +15,17 @@ export interface ViewConfig {
 }
 
 export class HiveMicrofrontendServer {
+
+	private name: string;
+
 	private router: Router;
 	private template: string;
 
 	private get_views?: (req: Request<any>) => Promise<{apps: MicrofrontendConfig[], views: ViewConfig[]}>
 
-	constructor(opts: { get_views?: (user: any) => Promise<{apps: MicrofrontendConfig[], views: ViewConfig[]}> }) {
+	constructor(opts: { name: string, get_views?: (user: any) => Promise<{apps: MicrofrontendConfig[], views: ViewConfig[]}> }) {
 		this.get_views = opts.get_views;
-
+		this.name = opts.name;
 		this.router = Router();
 		this.template = readFileSync(path.join(__dirname, './templates/index.ejs'), 'utf8');
 
@@ -32,14 +35,13 @@ export class HiveMicrofrontendServer {
 
 	setupViewEngine(){
 		this.router.get('/*', async (req, res) => {
-			console.log("Route View")
 			const viewResult = await this.get_views?.(req)
 			if(viewResult){
 				const { views, apps } = viewResult;
 
 				res.send(ejs.render(this.template, {
 					isLocal: true, 
-					title: 'Hello World', 
+					title: this.name || 'Hello World', 
 					base: req.baseUrl,
 					config_url: `${req.baseUrl}/static/root-config.js`,
 					static_url: `${req.baseUrl}/static`,
