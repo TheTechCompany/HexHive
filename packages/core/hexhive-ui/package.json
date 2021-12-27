@@ -46,8 +46,6 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "babel-loader": "^8.2.2",
     "enzyme": "^3.11.0",
-    "grommet": "^2.17.4",
-    "grommet-icons": "^4.6.0",
     "jest-fetch-mock": "^3.0.3",
     "postcss": "^8.3.6",
     "rollup": "^2.56.2",
