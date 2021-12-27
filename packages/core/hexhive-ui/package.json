@@ -11,7 +11,7 @@
   
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "webpack --mode=production",
     "storybook": "start-storybook -p 6006",
     "demo:install": "cd demo && yarn",
     "demo": "cd demo && yarn run dev",
