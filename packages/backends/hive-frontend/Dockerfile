@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . . 
 
-RUN npm install
+RUN yarn
 
 RUN npx lerna bootstrap --scope @hexhive/frontend-server --include-dependencies
 
