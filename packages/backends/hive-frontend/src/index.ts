@@ -65,6 +65,10 @@ export class HiveFrontendServer {
 						config_url: app.entrypoint
 					})).concat([
 						{
+							name: "Hive-Flow",
+							config_url: 'http://localhost:8503/hexhive-apps-hive-flow.js'
+						},
+						{
 							name: "@hexhive-core/dashboard",
 							config_url: `${process.env.NODE_ENV == 'production' ? 'https://staging-apps.hexhive.io/dashboard/' : 'http://localhost:8501/'}hexhive-core-dashboard.js`
 						},
@@ -87,6 +91,9 @@ export class HiveFrontendServer {
 					name: '@hexhive-core/dashboard',
 					path: '/',
 					default: true
+				}, {
+					name: 'Hive-Flow',
+					path: '/hive-flow'
 				}].concat(
 					(apps || []).map((app) => ({
 						name: app.name,

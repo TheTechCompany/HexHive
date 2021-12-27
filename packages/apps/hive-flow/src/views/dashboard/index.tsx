@@ -19,7 +19,7 @@ import {
   Hiveflow
 } from '../../assets'
 
-import { Box, Spinner, Text } from 'grommet';
+import { Box, Grommet, Spinner, Text } from 'grommet';
 import { ProjectList } from '../projects/list';
 import { ProjectSingle } from '../projects/single';
 import { PeopleList } from '../people/list';
@@ -27,6 +27,7 @@ import {Schedule as ScheduleView } from '../schedule';
 import {PeopleSingle} from '../people/single';
 import { EquipmentList } from '../equipment/list';
 import Quotes from '../quotes';
+import { BaseStyle } from '@hexhive/styles';
 
 const Timeline = React.lazy(() => import('../timeline/Timeline'))
 
@@ -47,7 +48,7 @@ export const Dashboard = (props: any) => {
   const active = window.location.pathname.replace(process.env.PUBLIC_URL, '')
 
   console.log(active)
-  
+
   const navigate = useNavigate()
 
   const views = () => {
@@ -142,6 +143,12 @@ export const Dashboard = (props: any) => {
       
 
       return (
+        <Grommet  
+          
+        style={{display: 'flex', width: '100%', height: '100%'}}
+        plain 
+        theme={BaseStyle}>  
+
          <Box 
           direction="row"
           flex 
@@ -189,6 +196,7 @@ export const Dashboard = (props: any) => {
 
  
          </Box>
+        </Grommet>
       );
   
 }

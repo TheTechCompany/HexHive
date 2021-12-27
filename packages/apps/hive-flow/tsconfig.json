@@ -1,6 +1,9 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
+    "paths": {
+     "grommet": ["../../../node_modules/grommet"],
+    },
     "jsx": "react-jsx",
     "outDir": "dist/",
     "rootDir": "src/",
@@ -8,7 +11,7 @@
     "esModuleInterop": true,
     "downlevelIteration": true
   },
-  "include": ["src/**/*", "node_modules/@types"],
+  "include": ["src/**/*"],
   "exclude": ["src/**/*.test*"],
   "references": [
     {"path": "../../shared/hexhive-auth-ui"},
