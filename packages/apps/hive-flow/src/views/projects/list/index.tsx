@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from './header';
 
 export interface ProjectListProps {
-  match: any;
 }
 
 export const ProjectList : React.FC<ProjectListProps> = (props) => {
@@ -37,7 +36,7 @@ export const ProjectList : React.FC<ProjectListProps> = (props) => {
   const history = useNavigate()
 
   const selectJob = (job : {JobID: string}) => {
-    history(`${props.match.url}/${job.JobID}`)
+    history(`${job.JobID}`)
   }
 
   const getJobs = () => {

@@ -20,7 +20,7 @@ console.log(BaseStyle)
 const { REACT_APP_API, PUBLIC_URL, REACT_APP_URL, NODE_ENV } = process.env;
 
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router basename={process.env.PUBLIC_URL || '/dashboard/flow'}>
 
     <Grommet  
           theme={BaseStyle}

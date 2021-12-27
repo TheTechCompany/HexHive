@@ -45,6 +45,7 @@ export class HiveFrontendServer {
 		this.start_app = start;
 
 		this.frontendRegistry = new HiveMicrofrontendServer({
+			name: "HexHive | Connected Data",
 			get_views: async (req) => {
 
 				if(!req.user.id) return [] as any;
@@ -67,6 +68,10 @@ export class HiveFrontendServer {
 						{
 							name: "Hive-Flow",
 							config_url: 'http://localhost:8503/hexhive-apps-hive-flow.js'
+						},
+						{
+							name: "Hive-Command",
+							config_url: 'http://localhost:8504/hivecommand-app-frontend.js'
 						},
 						{
 							name: "@hexhive-core/dashboard",
@@ -94,6 +99,11 @@ export class HiveFrontendServer {
 				}, {
 					name: 'Hive-Flow',
 					path: '/hive-flow'
+				}, {
+					
+						name: 'Hive-Command',
+						path: '/hive-command'
+					
 				}].concat(
 					(apps || []).map((app) => ({
 						name: app.name,
@@ -148,14 +158,12 @@ export class HiveFrontendServer {
 	
 					const returnTo = (req as any)?.session?.returnTo;
 					if((req as any).session) (req as any).session.returnTo = undefined;
-					console.log(req)
 					res.redirect(returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard");
 				}
 			);
 	
 			
 		passport.use('oidc', new OidcStrategy(config, (issuer: any, profile: any, done: any) => {
-			console.log('OIDC', profile)
 			return done(null, profile)
 		}))
 			//JWT Auth for CI Jobs
@@ -206,8 +214,7 @@ export class HiveFrontendServer {
 
 	mountFrontendServer(){
 		this.app.use('*', (req, res, next) => {
-			console.log({user: req.user})
-			console.log({session: req.session})
+	
 			next()
 		})
 		this.app.use('/dashboard', this.frontendRegistry.routes());
