@@ -11,6 +11,8 @@ export interface IconNodeProps{
         color?: string;
         icon?: any;
     },
+    isSelected?: boolean;
+
     width?: any;
     height?: any
     children?: (element: JSX.Element) => JSX.Element
@@ -28,7 +30,7 @@ export const BaseIconNode : React.FC<IconNodeProps> = (props) => {
             elevation={'small'}
             background={"light-2"}
             round="small"
-            border={{style: 'dotted', size: 'small', color: props.extras?.color || 'brand'}}
+            border={{style: props.isSelected ? 'solid' : 'dotted', size: 'small', color: props.isSelected ? 'accent-1' : (props.extras?.color || 'brand')}}
             className={props.className}>
             {props.children?.(<Icon size="medium" />)}
         </Box>
@@ -40,26 +42,22 @@ export const UnstyledIconNode = (props : IconNodeProps) => {
 
     return (
         <BaseIconNode
-            width={{min: props.extras?.label ? '96px' : '55px'}}
-            height={props.extras?.label ? '42px' : '55px'}
+            width={{min: props.extras?.label ? '72px' : '55px'}}
+            height={props.extras?.label ? '72px' : '55px'}
             {...props}>
             {(icon) => (
                 <Box 
                     pad="small"
                     flex
-                    justify={props.extras?.label ? 'between' : 'center'}
+                    justify={props.extras?.label ? 'center' : 'center'}
                     align={props.extras?.label ? 'center': 'center'}
-                    direction={props.extras?.label ? 'row': 'column'}>
+                    direction={/*props.extras?.label ? 'row':*/ 'column'}>
                     <PortWidget direction="center" type="in" id="in" />
                     {icon}
                     {props.extras?.label && (
-                        <Box
-                            margin={{left: 'small'}} 
-                            direction="row"
-                            justify="center"
-                            flex>
-                        <Text>{props.extras?.label}</Text>
-                        </Box>
+                    
+                        <Text size="small">{props.extras?.label}</Text>
+                   
                     )}
                     <PortWidget direction="center" type="out" id="out"    />
                 </Box>

@@ -4,7 +4,8 @@ import { InfiniteCanvasNode } from "../../../types/canvas";
 import { ActionNodeWidget } from "./widget";
 
 export class ActionNodeFactory extends AbstractWidgetFactory{
-   
+    
+   public static TAG = 'action-node';
 
     constructor(){
         super('action-node')

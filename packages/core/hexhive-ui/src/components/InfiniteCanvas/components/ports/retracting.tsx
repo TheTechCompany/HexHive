@@ -10,12 +10,19 @@ export interface RetractingPortProps {
     direction?: string;
     x?: number;
     y?: number;
+
+    width?: number;
+    height?: number;
+
+    scaleX?: number;
+    scaleY?: number;
+
     rotation?: number;
     className?: string;
 }
 
 export const BaseRetractingPort : React.FC<RetractingPortProps> = (props) => {
-    const { isPortDragging } = useContext(InfiniteCanvasContext)
+    const { isPortDragging, editable } = useContext(InfiniteCanvasContext)
 
     const { extraProps, dragPort } = usePort({id: props.id})
 
@@ -34,10 +41,10 @@ export const BaseRetractingPort : React.FC<RetractingPortProps> = (props) => {
 export const RetractingPort = styled(BaseRetractingPort)`
     position: absolute;
     left: -10px;
-    width: 20px;
+    width: ${p => p.height ? `${p.height * 20}px` : '20px'};
     top: ${p => p.y || 50}%;
     left: ${p => p.x || 0}%;
-    transform: rotate(${p => p.rotation || 0}deg);
+    transform: rotate(${p => p.rotation || 0}deg) ${p => p.scaleY ? `scaleY(${1 / p.scaleY})` : ''} ${p => p.scaleX ? `scaleX(${Math.abs(1 / p.scaleX)})`: ''} ;
     transition: left 250ms ease-out, width 250ms ease-out;
 
 
@@ -45,10 +52,10 @@ export const RetractingPort = styled(BaseRetractingPort)`
         position: absolute;
         left: -10px;
         top: 0px;
-        width: 12px;
-        height: 12px;
-        border-radius: 6px;
-        background-color: purple;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: lightblue;
     }
 
     .retractor{
@@ -56,6 +63,6 @@ export const RetractingPort = styled(BaseRetractingPort)`
         width: 100%;
         bottom: -6px;
         height: 2px;
-        background-color: gold;
+        background-color: gray;
     }
 `

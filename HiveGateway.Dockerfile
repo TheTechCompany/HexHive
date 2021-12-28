@@ -13,12 +13,12 @@ RUN npm install
 
 RUN cd packages/backends/ && npm i
 
-RUN npx lerna bootstrap --scope @hexhive-backends/gateway --include-dependencies
+RUN npx lerna bootstrap --scope @hexhive/gateway --include-dependencies
 
 ENV NODE_ENV="production"
 
-RUN npx lerna run build --scope @hexhive-backends/gateway --include-dependencies
+RUN npx lerna run build --scope @hexhive/gateway --include-dependencies
 
 WORKDIR /app/packages/backends/hive-gateway
 
-CMD ["./wait-for-it.sh", "staging-command:80", "--", "yarn", "run", "start:prod"]
+CMD ["yarn", "run", "start", "--endpoints", "/tmp/endpoints.json"]

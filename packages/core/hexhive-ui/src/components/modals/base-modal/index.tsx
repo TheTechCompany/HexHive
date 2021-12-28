@@ -5,6 +5,7 @@ export interface BaseModalProps {
     open: boolean;
     onClose?: () => void;
     onSubmit?: () => void;
+    onDelete?: () => void;
     title?: string;
     width?: string;
     height?: any;
@@ -43,6 +44,7 @@ export const BaseModal : React.FC<BaseModalProps> = (props) => {
                     justify="end"
                     direction="row"
                     gap='xsmall'>
+                    {props.onDelete && <Button color="red" onClick={props.onDelete} label="Delete" />}
                     <Button onClick={props.onClose} label="Cancel" />
                     <Button onClick={props.onSubmit} primary label="Save" />
                 </Box>

@@ -3,6 +3,9 @@
   "version": "0.0.6-alpha.0",
   "description": "",
   "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -b",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.3.5"
+  },
+  "dependencies": {
   }
 }

@@ -9,6 +9,8 @@ export interface InfiniteCanvasNode {
     id: string;
     type: string;
     
+    isSelected?: boolean;
+
     extras?: any;
 
     menu?: any;
@@ -51,6 +53,9 @@ export interface InfinitePort {
 export interface InfiniteCanvasPath {
     id: string;
     menu?: any;
+
+    extras?: any;
+    
     source: string;
     sourceHandle?: string;
     target?: string;

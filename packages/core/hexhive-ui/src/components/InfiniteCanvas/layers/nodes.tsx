@@ -32,7 +32,8 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
         nodes = [],
         nodeRefs,
         setNodeRefs,
-        openContextMenu
+        openContextMenu,
+        onRightClick
     } = useContext(InfiniteCanvasContext)
 
    console.log(offset)
@@ -52,11 +53,14 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
 
     const [ hoverNode, setHoverNode ] = useState<any>(null);
 
-    const renderAssetBundle = (key: string, node: InfiniteCanvasNode) => {
+    const renderAssetBundle = (key: string, node: InfiniteCanvasNode, selected?: boolean) => {
 
         let value = node.value ? status[node.value] : status[key];
 
         let factory = factories?.[node.type];
+     
+        node.isSelected = selected;
+        
         if(factory){
             return factory.generateWidget(node)
         }
@@ -106,40 +110,49 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
     }
 
     const mouseDown = (elem: string, evt: React.MouseEvent) => {
-        let doc = getHostForElement(evt.target as HTMLElement)
         evt.stopPropagation()
 
+        if(evt.button == 0){
+            let doc = getHostForElement(evt.target as HTMLElement)
 
-        let offsetRect : any = {
-            x: 0,
-            y: 0
-        }
-        let rect = itemRefs.current[elem]?.getBoundingClientRect()
-        if(rect){
-            offsetRect = {
-                x: rect.x - evt.clientX,
-                y: rect.y - evt.clientY
+
+            let offsetRect : any = {
+                x: 0,
+                y: 0
             }
-        }
-        //start dragging
+            let rect = itemRefs.current[elem]?.getBoundingClientRect()
+            if(rect){
+                offsetRect = {
+                    x: rect.x - evt.clientX,
+                    y: rect.y - evt.clientY
+                }
+            }
+            //start dragging
 
-        const mouseMove = (evt: MouseEvent) => {
-            evt.stopPropagation()
+            const mouseMove = (evt: MouseEvent) => {
+                evt.stopPropagation()
 
-            moveNode?.(elem, {
-                x: evt.clientX + offsetRect?.x, 
-                y: evt.clientY + offsetRect?.y
+                moveNode?.(elem, {
+                    x: evt.clientX + offsetRect?.x, 
+                    y: evt.clientY + offsetRect?.y
+                })
+            }
+
+            const mouseUp = (evt: MouseEvent) => {
+                evt.stopPropagation()
+                doc.removeEventListener('mousemove', mouseMove as EventListenerOrEventListenerObject)
+                doc.removeEventListener('mouseup', mouseUp as EventListenerOrEventListenerObject)
+            }
+
+            doc.addEventListener('mousemove', mouseMove as EventListenerOrEventListenerObject)
+            doc.addEventListener('mouseup', mouseUp as EventListenerOrEventListenerObject)
+        }else{
+            // alert("Right")
+            onRightClick?.(elem, {
+                x: evt.clientX,
+                y: evt.clientY
             })
         }
-
-        const mouseUp = (evt: MouseEvent) => {
-            evt.stopPropagation()
-            doc.removeEventListener('mousemove', mouseMove as EventListenerOrEventListenerObject)
-            doc.removeEventListener('mouseup', mouseUp as EventListenerOrEventListenerObject)
-        }
-
-        doc.addEventListener('mousemove', mouseMove as EventListenerOrEventListenerObject)
-        doc.addEventListener('mouseup', mouseUp as EventListenerOrEventListenerObject)
     }
 
     return (
@@ -176,6 +189,7 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                     onClick={(e) => {
                         selectNode?.(node.id)
                     }}
+
                     onMouseDown={(evt) => mouseDown(node.id, evt)}
                     onMouseEnter={(ev) => nodeHover(ev.currentTarget, node.id)}
                     onMouseLeave={() => nodeHoverEnd()}
@@ -183,7 +197,9 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                         pointerEvents: 'all',
                         left: node.x, 
                         top: node.y,
-                        transform: getDirection(node.direction)
+                        transform: `rotate(${node?.extras?.rotation}deg)
+                                    scaleX(${node?.extras?.scaleX || 1})
+                                    scaleY(${node?.extras?.scaleY || 1})`
                     }}>
                     {/* {selected?.type == 'node' && selected.id == node.id && node.menu && (
                         <Box 
@@ -201,6 +217,9 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                     )} */}
                     <NodeIdContext.Provider value={{
                         nodeId: node.id,
+                        rotation: node?.extras?.rotation || 0,
+                        scaleX: node?.extras?.scaleX || 1,
+                        scaleY: node?.extras?.scaleY || 1,
                         position: {
                             x: node.x,
                             y: node.y
@@ -210,7 +229,7 @@ export const BaseNodeLayer : React.FC<NodeLayerProps> = ({
                             height: node.height || 0
                         }
                     }}>
-                    {renderAssetBundle(node.id, node)}
+                    {renderAssetBundle(node.id, node, (selected?.find((a) => a.key == "node" && a?.id == node.id) != undefined))}
                     </NodeIdContext.Provider>
                 </div>
             ))}
@@ -254,9 +273,6 @@ export const NodeLayer = styled(BaseNodeLayer)`
         cursor: pointer;
     }
 
-    .node-container.selected{
-        border: 1px solid blue;
-    }
    
 
     .started path, .started circle{

@@ -63,7 +63,8 @@ export const GridLayer: React.FC<GridLayerProps> = (props) => {
     const offsetY = offset.y % scaledTile
 
     return (
-        <svg ref={svgRef} style={{flex: 1, backgroundColor: backgroundColor}}>
+        <svg 
+            ref={svgRef} style={{flex: 1, backgroundColor: backgroundColor}}>
             <defs>
                 <pattern patternUnits="userSpaceOnUse" width={grid?.width || "100"} height={grid?.height || "100"} viewBox="0 0 100 100" id="cells">
                     <rect x="0" y="0" width={grid?.width || "100"} height={grid?.height || "100"} fill="none" style={{strokeWidth: 2, stroke: lineColors}}></rect>

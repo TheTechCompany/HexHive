@@ -7,14 +7,13 @@ import { Header } from '../../components/ui/header'
 import {Map, Tools, Previous, Plug, GraphQl} from 'grommet-icons';
 import { EditorPage } from '../Editor';
 import { Sidebar } from '@hexhive/ui'
+import { DeviceDevices } from '../../pages/device-devices';
 const PluginEditor = React.lazy(() => import('../../pages/plugin-editor').then((r) => ({default: r.PluginEditorPage})))
 const DeviceControl = React.lazy(() => import('../../pages/device-control').then((r) => ({default: r.DeviceControl})))
 
 const Devices = React.lazy(() => import('../../pages/device-list').then((r) => ({ default: r.Devices })))
-const DeviceSingle = React.lazy(() => import('../../pages/device-single').then((r) => ({ default: r.DeviceSingle })))
 
 const ProgramList = React.lazy(() => import('../../pages/program-list').then((r) => ({ default: r.ProgramList })));
-const ProgramViewer = React.lazy(() => import('../../pages/program-viewer').then((r) => ({ default: r.ProgramViewer })))
 const PluginList = React.lazy(() => import('../../pages/plugin-list').then((r) => ({ default: r.PluginList })));
 const PluginSingle = React.lazy(() => import('../../pages/plugin-single').then((r) => ({ default: r.PluginSingle })));
 
@@ -118,8 +117,10 @@ const Dashboard : React.FC<RouteComponentProps & any> = (props) => {
                             {pages.map((x, ix) => (
                                 <Route exact path={[x.path].map((x) => `${x}`)} component={x.component} />
                             ))}
-                            <Route path={`/devices/:id/controls`} component={DeviceControl} />
-                            <Route path={`/devices/:id`} component={DeviceSingle} />
+                            <Route path={`/devices/:id`} component={DeviceControl} />
+                            {/* <Route path={`/devices/:id/graphs`} component={DeviceControlGraph} />
+                            <Route path={`/devices/:id/devices`} component={DeviceDevices} /> */}
+                            {/* <Route path={`/devices/:id`} component={DeviceSingle} /> */}
                             <Route path={`/programs/:id`} component={EditorPage} />
                             <Route path={`/plugins/:id/editor`} exact component={PluginEditor} />
                             <Route path={`/plugins/:id`} exact component={PluginSingle} />

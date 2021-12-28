@@ -6,6 +6,9 @@
   "homepage": "https://github.com/TheTechCompany/sudbuster#readme",
   "license": "ISC",
   "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "directories": {
     "dist": "dist",
     "test": "__tests__"
@@ -25,6 +28,7 @@
     "url": "https://github.com/TheTechCompany/sudbuster/issues"
   },
   "dependencies": {
+   
     "mongoose": "^5.13.2",
     "mongoose-fuzzy-searching": "^2.0.2",
     "moniker": "^0.1.2",

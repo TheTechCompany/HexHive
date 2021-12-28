@@ -1,0 +1,13 @@
+{
+	"endpoints": [
+		{
+			"name": "GreenScreen",
+			"url": "http://localhost:8080/GreenScreen/index.js"
+		},
+		{
+			"name": "HiveFlow",
+			"url": "http://localhost:8081/HiveFlow/index.js",
+			"version": "0.0.1"
+		}
+	]	
+}

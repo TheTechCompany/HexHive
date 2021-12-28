@@ -1,5 +1,15 @@
 export default `
 
+	type WorkInProgress @exclude {
+		quoted: Float
+		invoiced: Float
+		start: DateTime
+		end: DateTime
+	}
+	extend type Query {
+		flowWorkInProgress(startDate: DateTime, endDate: DateTime) : WorkInProgress 
+	}
+
 	type Project @auth(rules: [
 		{operations: [READ], where: {organisation: {id: "$jwt.organisation"}}},
 		{operations: [UPDATE], bind: {organisation: {id: "$jwt.organisation"}}}
@@ -16,6 +26,15 @@ export default `
 		endDate: DateTime
 		status: String
 
+	}
+
+	type ProjectResult @auth(rules: [
+		{operations: [READ], where: {organisation: {id: "jwt.organisation"}}},
+	]) {
+		id: ID! @id
+		quoted: Float
+		invoiced: Float
+		organisation: HiveOrganisation @relationship(type: "HAS_PROJECTRESULT", direction: IN)
 	}
 
 	type Estimate @auth(rules: [

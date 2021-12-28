@@ -1,0 +1,158 @@
+.job-body{
+  margin-right: 5px;
+}
+
+@media (max-width: 600px){
+  .job-body{
+    margin-right: 0;
+    margin-bottom: 5px;
+    flex: 0 !important;
+  }
+
+  .job-body > div{
+    flex: 1 !important;
+  }
+
+  .job-one-container{
+    flex-direction: column;
+  }  
+}
+
+.job-description{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+div {
+
+}
+
+.job-foc-assigned-employees {
+   display : flex;
+   flex-direction : column;
+   width : 450px;
+   flex: 0.6; 
+   background : #e6e6e6;
+   margin : 5px;
+background-clip: border-box;
+border: 1px solid rgba(0,0,0,.125);
+border-radius: .25rem;   
+}
+
+.job-foc-header {
+   height : 40px;
+   width : 100%;
+   display : flex;
+   padding : 5px;
+   font-size : 1.5em;
+}
+
+.job-foc-emp-list {
+    flex: 1; 
+   width : 100%;
+   display : flex;
+   flex-direction : column;
+   overflow-y : scroll;
+}
+
+.job-foc-emp-list > div {
+   display : flex;
+   align-items : center;
+   min-height : 35px;
+   background : #fff;
+   padding : 5px;
+   color : #000;
+   margin-bottom : 2px;
+}
+
+.job-foc-desc {
+   display : flex;
+   flex-direction : column;
+   width : 450px;
+    flex: 0.4;
+   background : #e6e6e6;
+   margin : 5px;
+background-clip: border-box;
+border: 1px solid rgba(0,0,0,.125);
+border-radius: .25rem;
+    }
+
+.job-foc-desc-header {
+   height : 40px;
+   width : 100%;
+   display : flex;
+   padding : 5px;
+   font-size : 1.5em;
+}
+
+.job-foc-desc > textarea {
+   resize : none;
+   display : flex;
+   flex : 1;
+   margin : 5px;
+   padding : 5px;
+   border : none;
+    background: none;
+   border-radius : 5px;
+}
+
+.job-foc-disc {
+   display : flex;
+   background : #e6e6e6;
+   margin : 5px;
+   flex : 1;
+   flex-direction : column;
+   padding : 5px;
+   height : 560px;
+background-clip: border-box;
+border: 1px solid rgba(0,0,0,.125);
+border-radius: .25rem;
+}
+
+.job-foc-disc-header {
+   height : 50px;
+   width : 100%;
+   display : flex;
+   font-size : 1.5em;
+}
+
+.job-foc-disc-submit {
+   display : flex;
+   align-items : center;
+   justify-content : center;
+   width : 100%;
+   height : 40px;
+   background : #1e1964;
+   border : 1px solid #1e1a64;
+   font-size : 1.2em;
+   border-radius : 5px;
+   color : #fff;
+   cursor : pointer;
+}
+
+.job-foc-disc-submit:active {
+   background : #e6e6e6;
+   color : #1e1a64;
+}
+
+
+.job-foc-desc-save-button {
+   height : 35px;
+   margin-right : 5px;
+   width : 70px;
+   border-radius : 5px;
+   border : 1px solid #1e1a64; 
+   background : #1e1a64;
+   display : flex;
+   justify-content : center;
+   color : #fff;
+   font-size : 1.2em;
+   align-items : center;
+   cursor : pointer;
+}
+
+.job-foc-desc-save-button:active {
+  background : #e6e6e6;
+  color : #1e1a64;
+}

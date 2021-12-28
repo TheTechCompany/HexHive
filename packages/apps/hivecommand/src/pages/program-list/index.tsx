@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { deviceActions, programActions } from '../../actions'
 import { ProgramModal } from '../../components/modals/program';
-import { useQuery, Program, CommandProgram, useMutation } from '@hexhive/client'
+import { useQuery, CommandProgram, useMutation } from '@hexhive/client'
 import { Box } from 'grommet';
 import { NestedList } from '../../components/ui/nested-list';
 import { RouteComponentProps } from 'react-router-dom'
@@ -58,7 +57,7 @@ export const ProgramList: React.FC<ProgramListProps> = (props) => {
                 setSelectedProgram(null)
                 openModal(false)
             }}
-            onSubmit={(program: Program) => {
+            onSubmit={(program: {name: string, item: any}) => {
                 if(program.name){
                     addProgram({args: {record: {
                         name: program.name,

@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.11",
+   
     "@hexhive/auth-ui": "^0.0.6-alpha.0",
     "@hexhive/client": "^0.0.6-alpha.0",
     "@hexhive/styles": "^0.0.6-alpha.0",

@@ -7,9 +7,16 @@ export interface BaseModalProps {
     open: boolean;
     width?: string;
     onClose?: () => void;
+    onDelete?: () => void;
     onSubmit?: () => Promise<boolean> | void;
 
     title?: string;
+
+    padding?: string;
+    gap?: string;
+
+    header?: any;
+    noClick?: boolean;
 }
 
 export interface BaseModalState {
@@ -44,23 +51,23 @@ export class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
             <Layer
         
                 background="transparent"
-                onClickOutside={this.onClose}
+                onClickOutside={!this.props.noClick && this.onClose}
                 onEsc={this.onClose} >
                 <Box
-                overflow="hidden"
+                    overflow="hidden"
                     round="small"
-
                     background="neutral-2"
                     width={this.props.width || "medium"}
-                    gap="small">
+                    gap={this.props.gap}>
                     <Box
                         background="accent-2"
-                        pad="small"
+                        pad={"small"}
                         border={{ side: 'bottom', size: 'small' }}>
                         {this.props.title}
                     </Box>
+                    {this.props.header && this.props.header}
                     <Box
-                        pad="small"
+                        pad={this.props.padding || "small"}
                         style={{ display: 'flex', flexDirection: 'column' }}>
                         <Box gap="small">
                             {this.props.children}
@@ -68,10 +75,13 @@ export class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
                     </Box>
                     <Box
                         pad="xsmall"
+                        gap="xsmall"
                         direction="row" justify="end">
-                        <Button margin={{ right: 'small' }} label="Cancel" plain onClick={this.onClose} />
+                        {this.props.onDelete && <Button hoverIndicator onClick={this.props.onDelete} label="Delete" color="red" />}
 
-                        <Button label="Save" primary onClick={this.onSubmit} />
+                        <Button hoverIndicator label="Cancel" plain onClick={this.onClose} />
+
+                        <Button hoverIndicator label="Save" primary onClick={this.onSubmit} />
 
                     </Box>
                 </Box>

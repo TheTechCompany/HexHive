@@ -46,6 +46,12 @@ const routes = constructRoutes(`
     <route path="automate">
       <application name="hexhive_hiveautomate"></application>
     </route>
+    <route path="report">
+    <application name="hexhive_hivereport"></application>
+  </route>
+  <route path="signage">
+    <application name="hexhive_hivesignage"></application>
+  </route>
   </div>
 </single-spa-router>`, {
   props: {
@@ -95,6 +101,14 @@ const applications = constructApplications({
       case 'hexhive_hivesettings':
           //@ts-ignore
           return import('hexhive_hivesettings')
+      case 'hexhive_hivereport':
+      //@ts-ignore
+      return import('hexhive_hivereport')
+
+      case 'hexhive_hivesignage':
+        //@ts-ignore
+        return import('hexhive_hivesignage')
+      
     }
   } //System.import(name),
 });
