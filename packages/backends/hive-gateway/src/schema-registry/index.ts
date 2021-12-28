@@ -75,6 +75,7 @@ export class SchemaRegistry {
 	}
 
 	private updateSchema(){
+		const keys = Object.keys(this.schemas)
 		console.log("Update", this.endpoints.find((a) => keys.indexOf(a.key) > -1))
 		const schema = stitchSchemas({
 			subschemas: Object.keys(this.schemas).filter((a) => this.schemas[a] !== undefined && a).map((x) => ({
