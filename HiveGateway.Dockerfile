@@ -21,4 +21,4 @@ RUN npx lerna run build --scope @hexhive/gateway --include-dependencies
 
 WORKDIR /app/packages/backends/hive-gateway
 
-CMD ["./wait-for-it.sh", "staging-command:80", "--", "yarn", "run", "start:prod"]
+CMD ["./wait-for-it.sh", "staging-command:80", "--", "yarn", "run", "start", "--endpoints", "/tmp/endpoints.json"]

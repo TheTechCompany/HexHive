@@ -1,9 +1,9 @@
 import { GraphQLSchema } from "graphql";
 import { remoteExecutor } from "./executor";
-import { introspectSchema } from "@graphql-tools/wrap"
 import { GraphQLServer } from "@hexhive/express-graphql";
 import { stitchSchemas } from "@graphql-tools/stitch";
 import { mergeSchemas } from '@graphql-tools/merge'
+import { introspectSchema } from "@graphql-tools/wrap";
 
 export interface SchemaEndpoint {
 	url: string;
@@ -78,14 +78,20 @@ export class SchemaRegistry {
 		const keys = Object.keys(this.schemas)
 		console.log("Update", this.endpoints.find((a) => keys.indexOf(a.key) > -1))
 		const schema = stitchSchemas({
-			subschemas: Object.keys(this.schemas).filter((a) => this.schemas[a] !== undefined && a).map((x) => ({
-				schema: this.schemas[x], 
-				executor: remoteExecutor(this.endpoints.find((a) => a.key == x)?.url || '')
-			})),
+			subschemas: Object.keys(this.schemas).filter((a) => this.schemas[a] !== undefined && a).map((x) => {
+				const url = this.endpoints.find((a) => a.key == x)?.url || ''
+				console.log(url, this.schemas[x] instanceof GraphQLSchema)
+				return {
+					schema: this.schemas[x], 
+					executor: remoteExecutor(url)
+				}
+			}),
 			
 		})
 
-		this.server.setSchema(mergeSchemas({schemas: [schema, this.internalSchema]}))
+		// const merged = mergeSchemas({schemas: [schema]})
+
+		this.server.setSchema(mergeSchemas({schemas: [schema]})) //mergeSchemas({schemas: [schema, this.internalSchema]}))
 	}
 
 	middleware(){

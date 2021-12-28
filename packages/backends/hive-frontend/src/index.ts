@@ -111,7 +111,7 @@ export class HiveFrontendServer {
 				}, {
 					
 					name: 'Hive-Signage',
-					path: '/hive-signage'
+					path: '/signage'
 				
 				}].concat(
 					(apps || []).map((app) => ({
