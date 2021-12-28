@@ -11,6 +11,8 @@
      "grommet": ["../node_modules/grommet"],
      "gqty": ["../node_modules/gqty"],
      "graphql": ["../node_modules/graphql"],
+     "graphql-tag": ["../node_modules/graphql-tag"],
+     "graphql-compose": ["../node_modules/graphql-compose"],
      "@hexhive/express-graphql": ["./core/express-graphql/src"],
      "@hexhive/microfrontend-server": ["./core/hexhive-microfrontend/src"],
      "@gqty/react": ["../node_modules/@gqty/react"],
