@@ -70,6 +70,7 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
+  "exclude": ["dist/"],
   "references": [
     {"path": "../../shared/hexhive-types"},
     {"path": "../../core/express-graphql"},

@@ -74,6 +74,10 @@ export class HiveFrontendServer {
 							config_url: 'http://localhost:8504/hivecommand-app-frontend.js'
 						},
 						{
+							name: "Hive-Signage",
+							config_url: 'http://localhost:8081/greenco-apps-signage-frontend.js'
+						},
+						{
 							name: "@hexhive-core/dashboard",
 							config_url: `${process.env.NODE_ENV == 'production' ? 'https://staging-apps.hexhive.io/dashboard/' : 'http://localhost:8501/'}hexhive-core-dashboard.js`
 						},
@@ -104,6 +108,11 @@ export class HiveFrontendServer {
 						name: 'Hive-Command',
 						path: '/hive-command'
 					
+				}, {
+					
+					name: 'Hive-Signage',
+					path: '/hive-signage'
+				
 				}].concat(
 					(apps || []).map((app) => ({
 						name: app.name,

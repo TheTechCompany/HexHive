@@ -94,5 +94,8 @@
 	},
 	"peerDependencies": {
 		"graphql": "^14.7.0 || ^15.3.0"
+	},
+	"resolutions": {
+		"graphql": "15.4.0"
 	}
 }
