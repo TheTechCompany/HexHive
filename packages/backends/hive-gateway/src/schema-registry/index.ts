@@ -38,7 +38,7 @@ export class SchemaRegistry {
 	}
 
 	public async getSchema(key: string){
-		if(this.schemas[key]){
+		if(this.schemas[key] !== undefined){
 			return this.schemas[key]
 		}
 		const schema = await this.loadSchema(key)
@@ -75,8 +75,9 @@ export class SchemaRegistry {
 	}
 
 	private updateSchema(){
+		console.log("Update", this.endpoints.find((a) => keys.indexOf(a.key) > -1))
 		const schema = stitchSchemas({
-			subschemas: Object.keys(this.schemas).filter((a) => this.schemas[a] !== undefined).map((x) => ({
+			subschemas: Object.keys(this.schemas).filter((a) => this.schemas[a] !== undefined && a).map((x) => ({
 				schema: this.schemas[x], 
 				executor: remoteExecutor(this.endpoints.find((a) => a.key == x)?.url || '')
 			})),
