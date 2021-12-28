@@ -53,13 +53,16 @@ export interface IInfiniteCanvasContext {
 
     moveNode?: (node: string, position: InfiniteCanvasPosition) => void;
     changeZoom?: (zoom: number) => void;
-
+    getRelativeCanvasPos?: (pos: {x: number, y: number}) => {x: number, y: number};
     io_status?: {
         [key: string]: string
     } 
     plant_status?: {
         [key: string]: string
     }
+
+    information?: any;
+    onRightClick?: (item: any, pos: InfiniteCanvasPosition) => void;
 }
 
 export const InfiniteCanvasContext = React.createContext<IInfiniteCanvasContext>({

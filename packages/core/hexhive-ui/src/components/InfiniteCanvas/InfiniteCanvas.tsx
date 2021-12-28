@@ -24,6 +24,8 @@ import { HMIPosition } from './assets/hmi-spec';
 import { ContextMenu } from './components/context-menu/ContextMenu';
 
 import * as Icons from 'grommet-icons'
+import { ProgressPlugin } from 'webpack';
+import { InformationLayer } from './layers/information';
 
 export * from './types'
 
@@ -54,6 +56,7 @@ export interface InfiniteCanvasProps {
 
     editable?: boolean;
 
+    onDelete?: () => void;
     onDrop?: (position: InfiniteCanvasPosition, data: any) => void;
 
     nodes?: InfiniteCanvasNode[],
@@ -68,6 +71,8 @@ export interface InfiniteCanvasProps {
     
     onNodesChanged?: (nodes: InfiniteCanvasNode[]) => void;
     onPathsChanged?: (paths: InfiniteCanvasPath[]) => void;
+    
+    onBackdropClick?: () => void;
 
     assets?: {
         [key: string]: JSX.Element
@@ -84,6 +89,7 @@ export interface InfiniteCanvasProps {
     }
 
     menu?: any;
+    information?: any;
 
     contextMenu?: {
         label?: any;
@@ -95,6 +101,8 @@ export interface InfiniteCanvasProps {
 
     selected?: {key: "node" | "path", id: string}[],
     onSelect?: (key: "node" | "path", id: string) => void
+
+    onRightClick?: (target: any, position: {x: number, y: number}) => void;
 
     onViewportChanged?: (viewport: {zoom: number, offset: {x: number, y: number}}) => void;
 }
@@ -125,8 +133,12 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     snapToGrid = false,
     grid = {width: 100, height: 100, divisions: 3},
     children,
+    onDelete,
+    onRightClick,
     contextMenu,
-    menu
+    menu,
+    information,
+    onBackdropClick
 }) => {
 
     const [ ports, _setPorts ] = useState<{[key: string]: {
@@ -183,12 +195,13 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     }
 
 
+    //TODO memoize
+
     useEffect(() => {
         if(Object.keys(_factories).length > 0){
             setNodes(nodes?.map((node) => {
                 let type = node.type;
                 let f : AbstractWidgetFactory = _factories[type]
-                console.log(type, f)
                 return f.parseModel(node)
             }) as any)
         }
@@ -236,6 +249,9 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
  
 
     const onMouseDown = (evt: React.MouseEvent) => {
+        
+        onBackdropClick?.();
+
         setMenuPos(undefined)
         if (evt.button == 0) {
             //Left
@@ -250,6 +266,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
             })
         } else if (evt.button == 2) {
             //Right
+            // alert("Right click")
         }
     }
 
@@ -466,7 +483,12 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         }
     }
 
-    // const onSelect = (key: "node" | "path", id: string) => {
+    const onKeyDown = (e: React.KeyboardEvent) => {
+        if(e.key == "Delete" || e.key == "Backspace"){
+            onDelete?.()
+        }
+    }
+   // const onSelect = (key: "node" | "path", id: string) => {
     //     setSelected({type: key, id: id})
     // }
 
@@ -515,6 +537,10 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
                 assets: assets,
                 nodeRefs,
 
+                getRelativeCanvasPos: (pos) => {
+                    return getRelativeCanvasPos(canvasRef, {offset: _offset, zoom: _zoom}, pos)
+                },
+
                 darkMode: true,
                 zoom: 100 / _zoom,
                 offset: _offset,
@@ -553,11 +579,18 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
                 selected,
                 selectNode: (node) => onSelect?.('node', node),
                 selectPath: (path) => onSelect?.('path', path),
-                changeZoom: (z) => setZoom(_zoom + (z))
+                changeZoom: (z) => setZoom(_zoom + (z)),
+                onRightClick: (item, pos) => {
+                   const position = getRelativeCanvasPos(canvasRef, {offset: _offset, zoom: _zoom}, pos)
+                   onRightClick?.(item, position)
+                },
+                information
             }}>
             <div
                 onContextMenu={onContextMenu}
                 ref={canvasRef}
+                tabIndex={0}
+                onKeyDown={onKeyDown}
                 onMouseDown={onMouseDown}
                 onTouchStart={onTouchStart}
                 onWheel={onWheel}
@@ -573,6 +606,7 @@ export const BaseInfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
                 <GridLayer />
                 <PathLayer />
                 <NodeLayer />
+                <InformationLayer />
                 {children}
             </div>
             {menu}

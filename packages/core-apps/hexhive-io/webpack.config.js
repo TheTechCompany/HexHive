@@ -43,11 +43,13 @@ module.exports = (webpackConfigEnv, argv) => {
           'hexhive_hivemind': 'hexhive_hivemind',
           'hexhive_hivefiles': 'hexhive_hivefiles',
           'hexhive_hivemarket': 'hexhive_hivemarket',
+          'hexhive_hivesignage': 'hexhive_hivesignage',
           'hexhive_hive3d': 'hexhive_hive3d',
           'hexhive_hivebuild': 'hexhive_hivebuild',
           'hexhive_hiveheader': 'hexhive_hiveheader',
           'hexhive_hiveautomate': 'hexhive_hiveautomate',
-          'hexhive_hivesettings': 'hexhive_hivesettings'
+          'hexhive_hivesettings': 'hexhive_hivesettings',
+          'hexhive_hivereport': 'hexhive_hivereport'
 
         },
         shared: {

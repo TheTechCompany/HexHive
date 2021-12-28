@@ -4,83 +4,13 @@ function SvgBallValve(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 63.85 35.96"
+      viewBox="0 0 76.25 76.82"
       {...props}
     >
-      <defs>
-        <linearGradient
-          id="BallValve_svg__a"
-          x1={244.12}
-          y1={240.3}
-          x2={307.97}
-          y2={240.3}
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset={0} stopColor="#f57f20" />
-          <stop offset={0.49} stopColor="#fdb714" />
-          <stop offset={1} stopColor="#f57f20" />
-        </linearGradient>
-        <linearGradient
-          id="BallValve_svg__b"
-          x1={262.04}
-          y1={240.2}
-          x2={289.69}
-          y2={240.2}
-          xlinkHref="#BallValve_svg__a"
-        />
-        <linearGradient
-          id="BallValve_svg__c"
-          x1={262.04}
-          y1={240.2}
-          x2={289.69}
-          y2={240.2}
-          xlinkHref="#BallValve_svg__a"
-        />
-        <linearGradient
-          id="BallValve_svg__d"
-          x1={247.69}
-          y1={240.2}
-          x2={295.51}
-          y2={240.2}
-          xlinkHref="#BallValve_svg__a"
-        />
-      </defs>
-      <path
-        d="M307 235.05v10.18a1.36 1.36 0 01-1.37 1.36h-14.31A1.36 1.36 0 00290 248v8a1.36 1.36 0 01-1.36 1.36H263a1.36 1.36 0 01-1.36-1.36v-8a1.36 1.36 0 00-1.36-1.36h-13.8a1.36 1.36 0 01-1.36-1.36v-10.23a1.36 1.36 0 011.36-1.37h13.81a1.36 1.36 0 001.36-1.36v-7.63a1.36 1.36 0 011.36-1.37h25.59a1.36 1.36 0 011.36 1.37v7.63a1.36 1.36 0 001.36 1.36h14.28a1.37 1.37 0 011.4 1.37z"
-        transform="translate(-244.12 -222.32)"
-        fill="none"
-        strokeMiterlimit={10}
-        strokeWidth={2}
-        stroke="url(#BallValve_svg__a)"
-      />
-      <path
-        d="M271.41 238.13l-8.41-3.94v12l8.45-3.94a4.82 4.82 0 010-4.15z"
-        transform="translate(-244.12 -222.32)"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.824}
-        stroke="url(#BallValve_svg__b)"
-      />
-      <path
-        d="M288.78 234.19l-8.46 3.94a4.82 4.82 0 010 4.15l8.46 3.94z"
-        transform="translate(-244.12 -222.32)"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.824}
-        stroke="url(#BallValve_svg__c)"
-      />
-      <path
-        d="M271.41 242.28a4.91 4.91 0 008.91 0 4.82 4.82 0 000-4.15 4.91 4.91 0 10-8.91 4.15z"
-        transform="translate(-244.12 -222.32)"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.824}
-        stroke="url(#BallValve_svg__d)"
-      />
+      <g fill="none" strokeMiterlimit={10} strokeWidth={3.087}>
+        <circle cx={38.18} cy={56.76} r={18.52} />
+        <path d="M19.66 56.76a18.55 18.55 0 011.92-8.22L5.35 40.42a2.63 2.63 0 00-3.82 2.35v28.1a2.63 2.63 0 003.81 2.35l16.28-8.14a18.39 18.39 0 01-1.96-8.32zM54.76 48.5a18.53 18.53 0 010 16.61l16.19 8.09a2.63 2.63 0 003.81-2.35V42.77a2.63 2.63 0 00-3.81-2.35zM56.7 20.06a18.52 18.52 0 10-37 0v.34h37v-.34zM38.13 20.41v17.83" />
+      </g>
     </svg>
   );
 }

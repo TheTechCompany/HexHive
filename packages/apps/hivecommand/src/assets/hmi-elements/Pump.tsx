@@ -1,94 +1,39 @@
 import * as React from "react";
 
-function SvgPump(props: React.SVGProps<SVGSVGElement>) {
+function SvgPump(props: {scaleX?: number, width: string, height: string, conf?: {minSpeed: number, maxSpeed: number}, options?: {on: boolean, speed: number}}) {
+
+  const getSpeed = () => {
+    if(!props.conf?.minSpeed && !props.conf?.maxSpeed){
+      return props.options?.speed;
+    }
+
+
+    let speed = (props.options?.speed - props.conf?.minSpeed) / ((props.conf?.maxSpeed - props.conf?.minSpeed) / 100)
+    return props.options.speed > 0 ? props.options.speed : 0
+    return speed > 0 ? speed : 0;
+  }
+
   return (
+    <>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 81.21 42.84"
+      viewBox="0 0 94.31 75.79"
       {...props}
     >
-      <defs>
-        <linearGradient
-          id="Pump_svg__a"
-          x1={1883.51}
-          y1={988.57}
-          x2={1964.71}
-          y2={988.57}
-          gradientTransform="matrix(-1 0 0 1 2564.78 -529.4)"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset={0} stopColor="#f57f20" />
-          <stop offset={0.49} stopColor="#fdb714" />
-          <stop offset={1} stopColor="#f57f20" />
-        </linearGradient>
-        <linearGradient
-          id="Pump_svg__b"
-          x1={1919.37}
-          y1={978.31}
-          x2={1928.54}
-          y2={978.31}
-          gradientTransform="matrix(-1 0 0 1 1964.71 -967.15)"
-          xlinkHref="#Pump_svg__a"
-        />
-        <linearGradient
-          id="Pump_svg__c"
-          x1={1905.53}
-          y1={978.31}
-          x2={1914.71}
-          y2={978.31}
-          gradientTransform="matrix(-1 0 0 1 1964.71 -967.15)"
-          xlinkHref="#Pump_svg__a"
-        />
-        <linearGradient
-          id="Pump_svg__d"
-          x1={1891.69}
-          y1={978.31}
-          x2={1900.87}
-          y2={978.31}
-          gradientTransform="matrix(-1 0 0 1 1964.71 -967.15)"
-          xlinkHref="#Pump_svg__a"
-        />
-        <linearGradient
-          id="Pump_svg__e"
-          x1={1936.16}
-          y1={987.7}
-          x2={1950.27}
-          y2={987.7}
-          xlinkHref="#Pump_svg__a"
-        />
-      </defs>
-      <g fill="none" strokeWidth={2}>
-        <path
-          d="M621.49 438.76h56.56c1.74 3 2.22 6.52 2.22 10.28a20.69 20.69 0 01-2.63 10.14h-35.73a20.42 20.42 0 11-20.42-20.42z"
-          transform="translate(-600.07 -437.76)"
-          strokeMiterlimit={10}
-          stroke="url(#Pump_svg__a)"
-        />
-        <path
-          strokeLinejoin="round"
-          stroke="url(#Pump_svg__b)"
-          d="M44.34 11.16l-7.17 3.71V7.45l7.17 3.71z"
-        />
-        <path
-          strokeLinejoin="round"
-          stroke="url(#Pump_svg__c)"
-          d="M58.18 11.16l-7.17 3.71V7.45l7.17 3.71z"
-        />
-        <path
-          strokeLinejoin="round"
-          stroke="url(#Pump_svg__d)"
-          d="M72.02 11.16l-7.17 3.71V7.45l7.17 3.71z"
-        />
-        <path
-          d="M616.34 459.14l5.23-10.77 5.23 10.77h0a6.06 6.06 0 11-11.29 3 5.92 5.92 0 01.83-3z"
-          transform="translate(-600.07 -437.76)"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          stroke="url(#Pump_svg__e)"
-        />
+      <g
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={3.087}
+      >
+        <path d="M42.01 28.33L37.9 17.84l-4.54 11.57c-1.48 3.78-3.28 7.42-5.07 11.06a10.63 10.63 0 00-1 6 10.71 10.71 0 0021.34-1.28 10.62 10.62 0 00-1.32-5.14 98 98 0 01-5.3-11.72z" />
+        <path d="M88.64 1.55H38.3c-20.1 0-36.68 16.13-36.75 36.22a36.35 36.35 0 1072.7.13v-1h14.4a4.13 4.13 0 004.13-4.14v-27a4.13 4.13 0 00-4.14-4.21z" />
       </g>
     </svg>
+    <div style={{position: 'absolute', width: '100%', border: '2px solid gray', borderRadius: 5, transform: `scaleX(${1 / props.scaleX})`, display: 'flex', justifyContent: 'center', alignItems: 'center', top: '-30px', left: '0', right: '0'}}>
+      <span style={{color: 'white', fontSize: 12}}>{getSpeed()}%</span>
+    </div>
+    </>
   );
 }
 

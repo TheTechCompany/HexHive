@@ -1,15 +1,17 @@
 import { Logout as ExitToApp, Add } from 'grommet-icons';
-import React, { useEffect, useState } from 'react';
-import { deviceActions, programActions } from '../../actions';
-import { Box, List, Text, Button, Select } from 'grommet';
+import React, { useContext, useEffect, useState } from 'react';
+import { Box, List, Text, Button, Select, Collapsible } from 'grommet';
 //import { Map } from '@thetechcompany/live-ui'
 import { Graph } from '../../components/ui/graph';
 import { useMutation, useQuery } from '@hexhive/client'
 
 import MarkerIcon from 'leaflet/dist/images/marker-icon.png';
 import { useQuery as useApollo, gql, useApolloClient } from '@apollo/client'
-import { BusMap } from '../../components/bus-map/BusMap';
+import { BusMap } from '../../components/BusMap/BusMap';
 import { DeviceBusModal } from '../../components/modals/device-bus/DeviceBusModal';
+import { DeviceBusConnectionModal } from '../../components/modals/device-bus-connections';
+import { connection } from 'mongoose';
+import { DeviceControlContext } from '../device-control/context';
 export interface DeviceSingleProps {
     match?: any;
     history?: any;
@@ -17,8 +19,13 @@ export interface DeviceSingleProps {
 
 export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
     
+    const { controlId } = useContext(DeviceControlContext)
+
     const client = useApolloClient()
 
+    const [ selected, setSelected ] = useState<any>()
+    const [ selectedPort, setSelectedPort ] = useState<{bus?: string, port?:string}>({})
+    const [ selectedMap, setSelectedMap ] = useState<any[]>([])
     // const [ selectedBus, setSelectedBus ] = useState<{id?: string, name: string}>({})
     const [ modalOpen, openModal ] = useState<boolean>(false);
     
@@ -39,11 +46,58 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
 
                     mappedDevices {
                         id
-                        name
+                        device {
+                            id
+                            name
+                            type {
+                                name
+                            }
+                        }
+                        key {
+                            key
+                        }
+                        value{
+                            key
+                        }
                     }
                     mappedDevicesConnection {
                         edges{
                             port
+
+                            node {
+                                id
+
+                                key {
+                                    
+                                    key
+                                }
+
+                                device {
+                                    id
+                                    name
+                                }
+
+                                value {
+                                    id
+                                    key
+                                }
+                            }
+                        }
+                    }
+
+                    connectedDevicesConnection {
+                        edges {
+                            port
+                            
+                            node {
+                                id
+                                name
+
+                                connections {
+                                    key
+                                    type
+                                }
+                            }
                         }
                     }
                 }
@@ -55,7 +109,13 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                         type {
                             id
                             name
+
+                            state {
+                                key
+                                type
+                            }
                         }
+
                     }
                 }
 
@@ -63,7 +123,7 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
         }
     `, {
         variables: {
-            id: props.match.params.id
+            id: controlId
         }
     })
 
@@ -77,28 +137,35 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
         id: string, 
         port: string, 
         peripheralId: string, 
-        deviceId: string
+
+        mapping: {id?: string, key: string, device: string, value: string}[],
+        deviceId: string[],
+
     }) => {
 
-        let mapUpdate = {};
 
-        if(!args.deviceId){
-            mapUpdate = {
-                disconnect: [{
-                    where: {edge: {port: args.port}}
-                }]
-            }
-        }else if(args.deviceId){
-            mapUpdate = {
-                // disconnect: [{
-                //     where: {edge: {port: args.port}, node: {id_NOT: args.deviceId}}
-                // }],
-                connect: [{
-                    where: {node: {id: args.deviceId}}, 
-                    edge: {port: args.port} 
-                }]
-            }
-        }
+        
+
+        // if(!args.deviceId){
+        //     mapUpdate = {
+        //         disconnect: [{
+        //             where: {edge: {port: args.port}}
+        //         }]
+        //     }
+        // }else if(args.deviceId){
+        //     mapUpdate = {
+        //         disconnect: [{
+        //             where: {
+        //                 edge: {port: args.port},
+        //                 node: {id_NOT_IN: args.deviceId}
+        //             }
+        //         }],
+        //         connect: [{
+        //             where: {node: {id_IN: args.deviceId}}, 
+        //             edge: {port: args.port} 
+        //         }]
+        //     }
+        // }
 
         const device = mutation.updateCommandDevices({
             where: {id: args.id},
@@ -112,8 +179,123 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
                     update: {
                         node: {
                             mappedDevices: [{
-                                ...mapUpdate
-                            }]
+                                create: args.mapping.filter((a) => !a.id).map((map) => {
+                                    let keyConnect = map.key ? {  
+                                        key: {
+                                            connect: {
+                                                where: {
+                                                    node: {
+                                                        key: map.key, 
+                                                        product: {peripheral: {id: args.peripheralId}, peripheralConnection: {edge: {port: args.port}}}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } : {};
+
+                                    let deviceConnect = map.device ? 
+                                    {
+                                        device: {
+                                            connect: {
+                                                where: {
+                                                    node: {
+                                                        id: map.device
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } : {}
+
+                                    let valueConnect = map.value ? {
+                                        value: {
+                                            connect: {
+                                                where: {
+                                                    node: {
+                                                        device: {
+                                                            usedIn: {
+                                                                id_IN: [map.device]
+                                                            }
+                                                        }, 
+                                                        key: map.value
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } : {}
+                                    return {
+                                        node: {
+                                            ...keyConnect,
+                                            ...deviceConnect,
+                                            ...valueConnect
+                                        },
+                                        edge: {
+                                            port: args.port
+                                        }
+                                    }
+                                }),
+                         
+                            }, ...(args.mapping || []).filter((a) => a.id).map((item) => {
+
+                                return {
+                                    where: {node: {id: item.id}},
+                                    update: {
+                                        node: {
+                                            key: {
+                                              
+                                                connect: {
+                                                    where: {
+                                                        node: {
+                                                            key: item.key, 
+                                                            product: {peripheral: {id: args.peripheralId}, peripheralConnection: {edge: {port: args.port}}}
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            device: {
+                                                disconnect: {
+                                                    where: {
+                                                        node: {
+                                                            id_NOT: item.device
+                                                        }
+                                                    }
+                                                },
+                                                connect: {
+                                                    where: {
+                                                        node: {
+                                                            id: item.device
+                                                        }
+                                                    }
+                                                }
+                                            },  
+                                            value: {
+                                                disconnect: {
+                                                    where: {
+                                                        node: {
+                                                            device: {
+                                                                id_NOT_IN: [item.device]
+                                                            },
+                                                            key_NOT: item.value
+                                                        }
+                                                    }
+                                                },
+                                                connect: {
+                                                    where: {
+                                                        node: {
+                                                            device: {
+                                                                usedIn: {
+                                                                    id_IN: [item.device]
+                                                                }
+                                                            }, 
+                                                            key: item.value
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                      
+                                    }
+                                }
+                            })]
                         }
                     }
                 }]
@@ -140,63 +322,91 @@ export const DeviceSingle : React.FC<DeviceSingleProps> = (props) => {
             overflow="hidden"
             background="neutral-2"
             style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
-            <Box 
-                direction="row"
-                align="center"
-                justify="between"
-                pad="xsmall"
-                background="accent-2">
-                <Text>
-                    {device?.name}
-                </Text>
-                <Button 
-                    onClick={() => {
-                        openModal(true);
-                    }}
-                    hoverIndicator 
-                    plain 
-                    style={{padding:6, borderRadius: 3}} 
-                    size="small" 
-                    icon={<Add size="small" />} />
-                {/* <Button icon={<ExitToApp />}
-                    onClick={() => goToControls()}
-                    label="Go to controls" /> */}
-            </Box>
 
-            <DeviceBusModal
+            <DeviceBusConnectionModal
+                connections={selected?.node?.connections.map((connection) => ({
+                    ...connection,
+                    subindex: connection.key.match(/(.+?)-(.+)/)?.[2] || 0
+                }))}
+                selected={selectedMap.map((x) => ({...x, ...x?.node}))}
+                devices={device?.activeProgram?.devices}
+                onClose={() => {
+                    openModal(false);
+                }}
+                onSubmit={(connections) => {
+                    mapPort({
+                        args: {
+                            id: props.match.params.id,
+                            peripheralId: selectedPort.bus,
+                            port: selectedPort.port,
+                            deviceId: device,
+                            mapping: connections
+                        }
+                    }).then(() => {
+                        refetch()
+                    })
+                    console.log(connections)
+                }}
+                open={modalOpen} />
+           
+
+            {/* <DeviceBusModal
                 open={modalOpen}
                 onClose={() => {
                     openModal(false)
                 }}
-                />
+                /> */}
             <Box 
+                style={{position: 'relative'}}
+                direction="row"
                 background="#dfdfdf"
                 flex>
-                    
-                <BusMap
-                    add
-                    onMapChanged={(bus, port, device) => {
-                            mapPort({
-                                args: {
-                                    id: props.match.params.id,
-                                    peripheralId: bus,
-                                    port: port,
-                                    deviceId: device
-                                }
-                            }).then(() => {
-                                refetch()
-                            })
-                        
-  
-                        console.log(bus, port, device)
-                    }}
-                    devices={device?.activeProgram?.devices}
-                    buses={(device?.peripherals || []).map((x) => ({
-                        id: x.id,
-                        name: x.name,
-                        mappedDevices: x.mappedDevices.map((dev, ix) => ({...dev, port: x.mappedDevicesConnection.edges[ix].port})),
-                        ports: x.type == "IO-LINK" ? 8 : {inputs: 14, outputs: 14} 
-                    }))}/>
+                <Box flex>
+                    <BusMap
+                        add
+                        onPortSelect={(bus, port) => {
+                            setSelectedPort({bus, port})
+                            let connected = device?.peripherals?.find((a) => a.id == bus)?.connectedDevicesConnection?.edges?.find((a) => a.port == port);
+                            
+                            let mapped = device?.peripherals?.find((a) => a.id == bus)?.mappedDevicesConnection?.edges?.filter((a) => a.port == port);
+                            
+                            setSelectedMap(mapped)
+
+                            // connected.peripheral = bus
+                            // connected.node.peripheral = bus;
+                            setSelected(connected);
+                            openModal(true)
+
+                            console.log(connected.node.connections)
+                        }}
+                        onMapChanged={(bus, port, device) => {
+                                // mapPort({
+                                //     args: {
+                                //         id: props.match.params.id,
+                                //         peripheralId: bus,
+                                //         port: port,
+                                //         deviceId: device
+                                //     }
+                                // }).then(() => {
+                                //     refetch()
+                                // })
+                            
+    
+                            console.log(bus, port, device)
+                        }}
+                        devices={device?.activeProgram?.devices}
+                        buses={(device?.peripherals || []).map((x) => {
+                            console.log(x.connectedDevicesConnection)
+                            return {
+                                id: x.id,
+                                name: x.name,
+                                connectedDevices: x.connectedDevicesConnection.edges.map((connection) => ({...connection.node, port: connection.port})),
+                                mappedDevices: x.mappedDevices.map((dev, ix) => ({...dev, port: x.mappedDevicesConnection.edges[ix].port})),
+                                ports: x.type == "IO-LINK" ? 8 : {inputs: 14, outputs: 14} 
+                            }
+                        })}/>
+                </Box>
+               
 {/* 
                 <Box 
                     background="neutral-1"

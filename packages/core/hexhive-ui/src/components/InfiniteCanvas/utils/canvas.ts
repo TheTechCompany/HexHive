@@ -66,13 +66,17 @@ export const getRelativeCanvasPos = (
 
 
 export const addPathSegment = (path : InfiniteCanvasPath, segment_ix: number, point: InfiniteCanvasPosition) => {
+    let points = [...(path.points || []).slice()] || [];
+    // if(!points) path.points = [];
 
     if(!path.target || segment_ix == 0){
-       path.points = [point, ...path.points]
+       points = [point, ...points]
     }else{
-        path.points.splice(segment_ix, 0, point)
+        points.splice(segment_ix, 0, point)
     }
     
+    path.points = points;
+
     return path;
 
 }
@@ -80,7 +84,7 @@ export const addPathSegment = (path : InfiniteCanvasPath, segment_ix: number, po
 export const updatePathSegment = (path: InfiniteCanvasPath, ix: number, point: InfiniteCanvasPosition) => {
     let p = Object.assign({}, path)
 
-    let points = p.points.slice();
+    let points = (p.points || []).slice();
 
    console.log(path, ix, point)
     points[ix] = point;

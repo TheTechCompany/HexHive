@@ -11,14 +11,14 @@ import { requiresAuth } from "express-openid-connect"
 import { Driver, Result, Session } from "neo4j-driver"
 import { result } from "lodash"
 import { nanoid } from "nanoid"
-import { HiveEvents } from "@hexhive/events-client"
+// import { HiveEvents } from "@hexhive/events-client"
 import { createFile } from "../../queries/file"
 import passport from 'passport'
 const upload = multer()
 
 const router = Router()
 
-export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session) => {
+export default (fileManager: FileManager, neo: Session) => {
 
 	const uploadFiles = async (files: Express.Multer.File[]) => {
 		return Promise.all(files.map(async (file) => {
@@ -154,7 +154,7 @@ export default (fileManager: FileManager, eventClient: HiveEvents, neo: Session)
 		})
 		if(!resp) res.send({error: "No response"}) 
 
-		eventClient.eventRequest("UPLOAD_FILE", {"Uploaded File": resp }, (req.user as any).organisation)
+		// eventClient.eventRequest("UPLOAD_FILE", {"Uploaded File": resp }, (req.user as any).organisation)
 	
 	
 		// mq.post('UPLOAD_FILE')

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { deviceActions } from '../../../actions';
 import { BaseModal } from '../base';
-import { CommandDevice, CommandProgram, Device, Program } from '@hexhive/client'
+import { CommandDevice, CommandProgram } from '@hexhive/client'
 import { TextInput, Text, Box, Select } from 'grommet';
 import { nanoid } from 'nanoid';
 
@@ -39,14 +38,6 @@ export const DeviceModal : React.FC<DeviceModalProps> = (props) => {
         if(device.name) props.onSubmit?.(device) 
     }
 
-    const generateName = () => {
-        deviceActions.generateDeviceName().then((obj) => {
-            setDevice({
-                ...device,
-                name: obj.name
-            })
-        })
-    }
 
     useEffect(() => {
         if(props.selected){

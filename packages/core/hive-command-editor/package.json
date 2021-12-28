@@ -28,6 +28,7 @@
     "grommet-icons": "^4.6.0"
   },
   "dependencies": {
+   
     "@hexhive/styles": "^0.0.6-alpha.0",
     "@hexhive/types": "^0.0.6-alpha.0",
     "@hexhive/ui": "^0.0.6-alpha.0",

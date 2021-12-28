@@ -52,9 +52,10 @@ type HiveFile  @auth(rules: [
     parent: HiveFile @relationship(type: "CONTAINS", direction: IN)
     children: [HiveFile] @relationship(type: "CONTAINS", direction: OUT)
 
-    conversions: [HivePipelineRun]  @relationship(type: "USES", direction: IN)
-    convertedBy: HiveFileProcess @relationship(type: "CONVERTED", direction: IN)
 
     convertedFrom: HiveFile @relationship(type: "HAS_VIEW", direction: IN)
     views: [HiveFile] @relationship(type: "HAS_VIEW", direction: OUT)
 }`
+
+//    conversions: [HivePipelineRun]  @relationship(type: "USES", direction: IN)
+//convertedBy: HiveFileProcess @relationship(type: "CONVERTED", direction: IN)

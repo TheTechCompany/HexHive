@@ -17,6 +17,7 @@
   "dependencies": {
     "@gqless/react": "^2.0.15",
     "@gqty/react": "^2.0.0",
+   
     "gqless": "^2.0.14",
     "gqty": "^2.0.1"
   },

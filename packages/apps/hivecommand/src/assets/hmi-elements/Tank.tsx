@@ -1,10 +1,33 @@
 import * as React from "react";
 
-function SvgTank(props: React.SVGProps<SVGSVGElement>) {
+function SvgTank(props: {device?: {setpoints?: {name: string, key: {key: string}, value: string, type: string}[]}, width: string, height: string, conf?: {level: {min: number, max: number}}, options?: {level: number}}) {
+  
+  const getLevel = (percent?: string) => {
+    let level = parseFloat(`${percent || props.options?.level || 0}`);
+
+    if(!props?.conf?.level?.min && !props?.conf?.level?.max){
+      return level
+    }
+
+
+    return level //(level - props?.conf?.level?.min) / ((props?.conf?.level?.max - props?.conf?.level?.min) / 100)
+  }
+
+  console.log(props?.device)
+
+  const renderSetpoint = () => {
+    return props?.device?.setpoints?.map((setpoint, index) => {
+      return (
+        <line key={index} y1={`${121.72 - (120 / 100 * getLevel(setpoint.value))}`} x1="0" x2={`100%`} y2={`${121.72 - (120 / 100 * getLevel(setpoint.value))}`} stroke="red" strokeWidth="1" />
+      )
+    })
+  }
+
   return (
+    <>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 94.74 123.72"
+      viewBox="0 0 123.72 123.72"
       {...props}
     >
       <defs>
@@ -51,28 +74,29 @@ function SvgTank(props: React.SVGProps<SVGSVGElement>) {
         }}
       >
         <rect
+
           x={1}
           y={1}
-          width={92.74}
+          width={121.72}
           height={121.72}
           rx={12.41}
           fill="none"
           strokeMiterlimit={10}
           strokeWidth={2}
-          stroke="url(#Tank_svg__a)"
         />
         <rect
-          x={10.28}
-          y={26.88}
-          width={74.18}
-          height={86.56}
+          x={2}
+          y={121.72 - ((120 / 100 * getLevel()) || 86.56)}
+          width={120}
+          height={120 / 100 * getLevel() || 86.56}
           rx={12.41}
           style={{
             mixBlendMode: "overlay",
           }}
-          fill="url(#Tank_svg__b)"
+          fill="#0064b1"
         />
-        <rect
+        {renderSetpoint()}
+        {/* <rect
           x={10.28}
           y={26.88}
           width={74.18}
@@ -82,9 +106,13 @@ function SvgTank(props: React.SVGProps<SVGSVGElement>) {
           strokeMiterlimit={10}
           strokeWidth={2}
           stroke="url(#Tank_svg__c)"
-        />
+        /> */}
       </g>
     </svg>
+    {/* <div style={{position: 'absolute', display: 'flex', alignItems: 'cetner', justifyContent: 'center', bottom: '0', right: '0', left: '0'}}>
+      <span style={{color: 'white', fontSize: 10}}>{getLevel()?.toFixed(2)}%</span>
+    </div> */}
+    </>
   );
 }
 
