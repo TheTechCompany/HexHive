@@ -163,7 +163,7 @@ export class HiveRouter {
 	
 			if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
 			greenlock.init({
-				packageRoot: __dirname + "/../",
+				packageRoot: __dirname + "/../../",
 				configDir: "./greenlock.d",
 		 
 				// contact for security and critical bug notices
