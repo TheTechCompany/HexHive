@@ -27,6 +27,7 @@ export class HiveGateway {
 	private taskRegistry: TaskRegistry = new TaskRegistry();
 
 	private schemaRegistry?: SchemaRegistry;
+	private schemaReloader?: NodeJS.Timer;
 
 	private pool?: Pool;
 	private neoDriver?: Driver;
@@ -52,6 +53,11 @@ export class HiveGateway {
 		await this.initHive();
 		await this.initRouter()
 		await this.schemaRegistry?.reload()
+
+		this.schemaReloader = setInterval(async () => {
+			console.log("Reloading Schema...")
+			await this.schemaRegistry?.reload()
+		}, 60 * 1000);
 	}
 
 	async start(){
