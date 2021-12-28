@@ -41,7 +41,7 @@
 		"accepts": "^1.3.7",
 		"content-type": "^1.0.4",
 		"get-stream": "^6.0.0",
-		"graphql": "^16.2.0",
+		"graphql": "15.x",
 		"http-errors": "1.8.0"
 	},
 	"devDependencies": {
