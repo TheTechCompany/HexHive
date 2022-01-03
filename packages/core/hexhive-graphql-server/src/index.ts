@@ -38,7 +38,7 @@ export class HiveGraph {
 		await this.getRootConfiguration()
 
 		if(this.schema){
-			this.router.use('/graphql', this.isAuthenticated)
+			this.router.use('/graphql', this.isAuthenticated.bind(this))
 			this.router.use('/graphql', graphqlHTTP({
 				schema: this.schema,
 				graphiql: true,

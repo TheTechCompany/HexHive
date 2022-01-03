@@ -1,17 +1,981 @@
 0 silly argv {
-0 silly argv   _: [ 'add' ],
-0 silly argv   scope: '@hexhive/gateway',
-0 silly argv   globs: [],
+0 silly argv   _: [ 'version' ],
 0 silly argv   lernaVersion: '4.0.0',
-0 silly argv   '$0': '/Users/the-kid/work/contract-work/hexhive-common/node_modules/.bin/lerna',
-0 silly argv   pkg: 'pem-jwk'
+0 silly argv   '$0': '/Users/the-kid/work/contract-work/hexhive-common/node_modules/.bin/lerna'
 0 silly argv }
 1 notice cli v4.0.0
 2 verbose rootPath /Users/the-kid/work/contract-work/hexhive-common
-3 error FetchError: request to https://registry.npmjs.org/pem-jwk failed, reason: read ECONNRESET
-3 error     at ClientRequest.<anonymous> (/Users/the-kid/work/contract-work/hexhive-common/node_modules/minipass-fetch/lib/index.js:110:14)
-3 error     at ClientRequest.emit (node:events:394:28)
-3 error     at TLSSocket.socketErrorListener (node:_http_client:447:9)
-3 error     at TLSSocket.emit (node:events:406:35)
-3 error     at emitErrorNT (node:internal/streams/destroy:193:8)
-3 error     at emitErrorCloseNT (node:internal/streams/destroy:158:3)
+3 info current version 0.0.6-alpha.0
+4 silly isAnythingCommitted
+5 verbose isAnythingCommitted 1
+6 silly getCurrentBranch
+7 verbose currentBranch staging
+8 silly remoteBranchExists
+9 silly isBehindUpstream
+10 silly isBehindUpstream staging is behind origin/staging by 0 commit(s) and ahead by 4
+11 silly hasTags
+12 verbose hasTags true
+13 silly git-describe.sync "v0.0.6-alpha.1-128-gee6165a" => {"lastTagName":"v0.0.6-alpha.1","lastVersion":"v0.0.6-alpha.1","refCount":"128","sha":"ee6165a","isDirty":false}
+14 info Looking for changed packages since v0.0.6-alpha.1
+15 silly checking diff packages/apps/hive3d
+16 silly no diff found in @hexhive-apps/hive3d
+17 silly checking diff packages/apps/hivereport
+18 silly found diff in packages/apps/hivereport/.eslintrc
+18 silly found diff in packages/apps/hivereport/.gitignore
+18 silly found diff in packages/apps/hivereport/.prettierignore
+18 silly found diff in packages/apps/hivereport/babel.config.json
+18 silly found diff in packages/apps/hivereport/jest.config.js
+18 silly found diff in packages/apps/hivereport/package.json
+18 silly found diff in packages/apps/hivereport/src/HexHive-HiveReport.tsx
+18 silly found diff in packages/apps/hivereport/src/declarations.d.ts
+18 silly found diff in packages/apps/hivereport/src/root.component.test.tsx
+18 silly found diff in packages/apps/hivereport/src/root.component.tsx
+18 silly found diff in packages/apps/hivereport/src/views/dashboard/index.tsx
+18 silly found diff in packages/apps/hivereport/tsconfig.json
+18 silly found diff in packages/apps/hivereport/webpack.config.js
+18 silly found diff in packages/apps/hivereport/yarn.lock
+19 verbose filtered diff [
+19 verbose filtered diff   'packages/apps/hivereport/.eslintrc',
+19 verbose filtered diff   'packages/apps/hivereport/.gitignore',
+19 verbose filtered diff   'packages/apps/hivereport/.prettierignore',
+19 verbose filtered diff   'packages/apps/hivereport/babel.config.json',
+19 verbose filtered diff   'packages/apps/hivereport/jest.config.js',
+19 verbose filtered diff   'packages/apps/hivereport/package.json',
+19 verbose filtered diff   'packages/apps/hivereport/src/HexHive-HiveReport.tsx',
+19 verbose filtered diff   'packages/apps/hivereport/src/declarations.d.ts',
+19 verbose filtered diff   'packages/apps/hivereport/src/root.component.test.tsx',
+19 verbose filtered diff   'packages/apps/hivereport/src/root.component.tsx',
+19 verbose filtered diff   'packages/apps/hivereport/src/views/dashboard/index.tsx',
+19 verbose filtered diff   'packages/apps/hivereport/tsconfig.json',
+19 verbose filtered diff   'packages/apps/hivereport/webpack.config.js',
+19 verbose filtered diff   'packages/apps/hivereport/yarn.lock'
+19 verbose filtered diff ]
+20 silly checking diff packages/backends/hive-admin
+21 silly no diff found in @hexhive-backends/admin
+22 silly checking diff packages/backends/hive-auth-provider
+23 silly no diff found in @hexhive/auth-provider
+24 silly checking diff packages/backends/hive-auth
+25 silly no diff found in hive-auth
+26 silly checking diff packages/backends/hive-files
+27 silly found diff in packages/backends/hive-files/package.json
+28 verbose filtered diff [ 'packages/backends/hive-files/package.json' ]
+29 silly checking diff packages/backends/hive-frontend
+30 silly found diff in packages/backends/hive-frontend/Dockerfile
+30 silly found diff in packages/backends/hive-frontend/package.json
+30 silly found diff in packages/backends/hive-frontend/src/index.ts
+30 silly found diff in packages/backends/hive-frontend/src/router.ts
+30 silly found diff in packages/backends/hive-frontend/src/server.ts
+30 silly found diff in packages/backends/hive-frontend/tsconfig.json
+30 silly found diff in packages/backends/hive-frontend/yarn.lock
+31 verbose filtered diff [
+31 verbose filtered diff   'packages/backends/hive-frontend/Dockerfile',
+31 verbose filtered diff   'packages/backends/hive-frontend/package.json',
+31 verbose filtered diff   'packages/backends/hive-frontend/src/index.ts',
+31 verbose filtered diff   'packages/backends/hive-frontend/src/router.ts',
+31 verbose filtered diff   'packages/backends/hive-frontend/src/server.ts',
+31 verbose filtered diff   'packages/backends/hive-frontend/tsconfig.json',
+31 verbose filtered diff   'packages/backends/hive-frontend/yarn.lock'
+31 verbose filtered diff ]
+32 silly checking diff packages/backends/hive-gateway-local
+33 silly found diff in packages/backends/hive-gateway-local/package.json
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/.gitignore
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/index.html
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/src/App.css
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/src/App.tsx
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/src/favicon.svg
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/src/index.css
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/src/logo.svg
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/src/main.tsx
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/src/vite-env.d.ts
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/tsconfig.json
+33 silly found diff in packages/backends/hive-gateway-local/src/dev-view/vite.config.ts
+33 silly found diff in packages/backends/hive-gateway-local/src/index.ts
+33 silly found diff in packages/backends/hive-gateway-local/src/routes/dev/index.ts
+33 silly found diff in packages/backends/hive-gateway-local/src/routes/index.ts
+33 silly found diff in packages/backends/hive-gateway-local/tsconfig.json
+33 silly found diff in packages/backends/hive-gateway-local/yarn-error.log
+33 silly found diff in packages/backends/hive-gateway-local/yarn.lock
+34 verbose filtered diff [
+34 verbose filtered diff   'packages/backends/hive-gateway-local/package.json',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/.gitignore',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/index.html',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/src/App.css',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/src/App.tsx',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/src/favicon.svg',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/src/index.css',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/src/logo.svg',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/src/main.tsx',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/src/vite-env.d.ts',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/tsconfig.json',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/dev-view/vite.config.ts',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/index.ts',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/routes/dev/index.ts',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/src/routes/index.ts',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/tsconfig.json',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/yarn-error.log',
+34 verbose filtered diff   'packages/backends/hive-gateway-local/yarn.lock'
+34 verbose filtered diff ]
+35 silly checking diff packages/backends/hive-gateway
+36 silly found diff in packages/backends/hive-gateway/README.md
+36 silly found diff in packages/backends/hive-gateway/example-endpoints.json
+36 silly found diff in packages/backends/hive-gateway/example-env
+36 silly found diff in packages/backends/hive-gateway/package.json
+36 silly found diff in packages/backends/hive-gateway/src/Account.ts
+36 silly found diff in packages/backends/hive-gateway/src/collaboration/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/data/command/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/generateKeys.ts
+36 silly found diff in packages/backends/hive-gateway/src/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/keys/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/remotes.ts
+36 silly found diff in packages/backends/hive-gateway/src/router/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/routes/auth/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/routes/events/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/routes/files/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/routes/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/routes/interaction/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/schema-registry/executor.ts
+36 silly found diff in packages/backends/hive-gateway/src/schema-registry/index.ts
+36 silly found diff in packages/backends/hive-gateway/src/schema/hive.ts
+36 silly found diff in packages/backends/hive-gateway/src/schema/subschema/acl.ts
+36 silly found diff in packages/backends/hive-gateway/src/schema/subschema/apps.ts
+36 silly found diff in packages/backends/hive-gateway/src/schema/subschema/command.ts
+36 silly found diff in packages/backends/hive-gateway/src/schema/subschema/files.ts
+36 silly found diff in packages/backends/hive-gateway/src/schema/subschema/flow.ts
+36 silly found diff in packages/backends/hive-gateway/src/server.ts
+36 silly found diff in packages/backends/hive-gateway/src/task-registry/k8s.ts
+36 silly found diff in packages/backends/hive-gateway/tsconfig.json
+36 silly found diff in packages/backends/hive-gateway/yarn.lock
+37 verbose filtered diff [
+37 verbose filtered diff   'packages/backends/hive-gateway/README.md',
+37 verbose filtered diff   'packages/backends/hive-gateway/example-endpoints.json',
+37 verbose filtered diff   'packages/backends/hive-gateway/example-env',
+37 verbose filtered diff   'packages/backends/hive-gateway/package.json',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/Account.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/collaboration/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/data/command/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/generateKeys.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/keys/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/remotes.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/router/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/routes/auth/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/routes/events/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/routes/files/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/routes/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/routes/interaction/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/schema-registry/executor.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/schema-registry/index.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/schema/hive.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/schema/subschema/acl.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/schema/subschema/apps.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/schema/subschema/command.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/schema/subschema/files.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/schema/subschema/flow.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/server.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/src/task-registry/k8s.ts',
+37 verbose filtered diff   'packages/backends/hive-gateway/tsconfig.json',
+37 verbose filtered diff   'packages/backends/hive-gateway/yarn.lock'
+37 verbose filtered diff ]
+38 silly checking diff packages/clients/desktop-root
+39 silly found diff in packages/clients/desktop-root/package.json
+40 verbose filtered diff [ 'packages/clients/desktop-root/package.json' ]
+41 silly checking diff packages/core-apps/hexhive-admin
+42 silly found diff in packages/core-apps/hexhive-admin/package.json
+43 verbose filtered diff [ 'packages/core-apps/hexhive-admin/package.json' ]
+44 silly checking diff packages/core-apps/hexhive-docs
+45 silly found diff in packages/core-apps/hexhive-docs/package.json
+46 verbose filtered diff [ 'packages/core-apps/hexhive-docs/package.json' ]
+47 silly checking diff packages/core-apps/hive-dashboard
+48 silly found diff in packages/core-apps/hive-dashboard/.eslintrc
+48 silly found diff in packages/core-apps/hive-dashboard/.gitignore
+48 silly found diff in packages/core-apps/hive-dashboard/.husky/.gitignore
+48 silly found diff in packages/core-apps/hive-dashboard/.husky/pre-commit
+48 silly found diff in packages/core-apps/hive-dashboard/.prettierignore
+48 silly found diff in packages/core-apps/hive-dashboard/babel.config.json
+48 silly found diff in packages/core-apps/hive-dashboard/jest.config.js
+48 silly found diff in packages/core-apps/hive-dashboard/package.json
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/3D.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/3D.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hexhive1.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hexhive1.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hexhive2.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hexhive2.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hivecommand.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hivecommand.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hivefiles.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hivefiles.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hiveflow.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hiveflow.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hivelogo.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hivemind.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Hivemind.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/MatrixLogo.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Nodewires.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Nodewires.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/Profile.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/SETTINGS.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/fonts/BebasNeue-Regular.ttf
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/fonts/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/hivelogo.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/AUTOMATE.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Automate.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/COMMAND.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Command.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/FILES.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/FLOW.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Files.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Flow.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/MARKET.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/MESSAGE.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Market.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Message.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/SETTINGS.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Settings.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Signage.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/Signage.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/icons/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/matrix-logo.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/assets/profile.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/app-modal/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/footer/Tendril.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/footer/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/header/hivelogo.svg
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/header/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-box-background/HexBox.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-box-background/HexBoxBackground.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-box-background/HexButton.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-box-background/HexCell.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-box-background/Hexagon.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-box-background/HexagonBorder.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-box-background/HexagonBox.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-box-background/HexagonImage.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/hex-hive/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/iframe-appliance/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/user-dropdown/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/components/user-row/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/dashboard/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/declarations.d.ts
+48 silly found diff in packages/core-apps/hive-dashboard/src/hexhive-core-dashboard.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/root.component.test.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/root.component.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/views/home/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/views/organisation/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/views/organisation/modals/invite.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/views/organisation/modals/update.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/src/views/settings/index.tsx
+48 silly found diff in packages/core-apps/hive-dashboard/tsconfig.json
+48 silly found diff in packages/core-apps/hive-dashboard/webpack.config.js
+48 silly found diff in packages/core-apps/hive-dashboard/yarn.lock
+49 verbose filtered diff [
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/.eslintrc',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/.gitignore',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/.husky/.gitignore',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/.husky/pre-commit',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/.prettierignore',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/babel.config.json',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/jest.config.js',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/package.json',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/3D.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/3D.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hexhive1.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hexhive1.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hexhive2.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hexhive2.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hivecommand.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hivecommand.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hivefiles.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hivefiles.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hiveflow.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hiveflow.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hivelogo.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hivemind.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Hivemind.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/MatrixLogo.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Nodewires.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Nodewires.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/Profile.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/SETTINGS.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/fonts/BebasNeue-Regular.ttf',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/fonts/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/hivelogo.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/AUTOMATE.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Automate.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/COMMAND.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Command.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/FILES.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/FLOW.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Files.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Flow.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/MARKET.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/MESSAGE.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Market.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Message.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/SETTINGS.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Settings.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Signage.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/Signage.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/icons/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/matrix-logo.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/assets/profile.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/app-modal/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/footer/Tendril.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/footer/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/header/hivelogo.svg',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/header/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-box-background/HexBox.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-box-background/HexBoxBackground.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-box-background/HexButton.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-box-background/HexCell.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-box-background/Hexagon.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-box-background/HexagonBorder.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-box-background/HexagonBox.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-box-background/HexagonImage.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/hex-hive/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/iframe-appliance/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/user-dropdown/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/components/user-row/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/dashboard/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/declarations.d.ts',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/hexhive-core-dashboard.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/root.component.test.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/root.component.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/views/home/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/views/organisation/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/views/organisation/modals/invite.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/views/organisation/modals/update.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/src/views/settings/index.tsx',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/tsconfig.json',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/webpack.config.js',
+49 verbose filtered diff   'packages/core-apps/hive-dashboard/yarn.lock'
+49 verbose filtered diff ]
+50 silly checking diff packages/core-apps/hive-header
+51 silly found diff in packages/core-apps/hive-header/.eslintrc
+51 silly found diff in packages/core-apps/hive-header/.gitignore
+51 silly found diff in packages/core-apps/hive-header/.husky/.gitignore
+51 silly found diff in packages/core-apps/hive-header/.husky/pre-commit
+51 silly found diff in packages/core-apps/hive-header/.prettierignore
+51 silly found diff in packages/core-apps/hive-header/babel.config.json
+51 silly found diff in packages/core-apps/hive-header/jest.config.js
+51 silly found diff in packages/core-apps/hive-header/package.json
+51 silly found diff in packages/core-apps/hive-header/src/components/Header/hivelogo.svg
+51 silly found diff in packages/core-apps/hive-header/src/components/Header/index.tsx
+51 silly found diff in packages/core-apps/hive-header/src/components/SearchDropdown/index.tsx
+51 silly found diff in packages/core-apps/hive-header/src/components/ServiceDropdown/index.tsx
+51 silly found diff in packages/core-apps/hive-header/src/components/UserDropdown/index.tsx
+51 silly found diff in packages/core-apps/hive-header/src/declarations.d.ts
+51 silly found diff in packages/core-apps/hive-header/src/hexhive-core-header.tsx
+51 silly found diff in packages/core-apps/hive-header/src/root.component.test.tsx
+51 silly found diff in packages/core-apps/hive-header/src/root.component.tsx
+51 silly found diff in packages/core-apps/hive-header/tsconfig.json
+51 silly found diff in packages/core-apps/hive-header/webpack.config.js
+51 silly found diff in packages/core-apps/hive-header/yarn.lock
+52 verbose filtered diff [
+52 verbose filtered diff   'packages/core-apps/hive-header/.eslintrc',
+52 verbose filtered diff   'packages/core-apps/hive-header/.gitignore',
+52 verbose filtered diff   'packages/core-apps/hive-header/.husky/.gitignore',
+52 verbose filtered diff   'packages/core-apps/hive-header/.husky/pre-commit',
+52 verbose filtered diff   'packages/core-apps/hive-header/.prettierignore',
+52 verbose filtered diff   'packages/core-apps/hive-header/babel.config.json',
+52 verbose filtered diff   'packages/core-apps/hive-header/jest.config.js',
+52 verbose filtered diff   'packages/core-apps/hive-header/package.json',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/components/Header/hivelogo.svg',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/components/Header/index.tsx',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/components/SearchDropdown/index.tsx',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/components/ServiceDropdown/index.tsx',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/components/UserDropdown/index.tsx',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/declarations.d.ts',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/hexhive-core-header.tsx',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/root.component.test.tsx',
+52 verbose filtered diff   'packages/core-apps/hive-header/src/root.component.tsx',
+52 verbose filtered diff   'packages/core-apps/hive-header/tsconfig.json',
+52 verbose filtered diff   'packages/core-apps/hive-header/webpack.config.js',
+52 verbose filtered diff   'packages/core-apps/hive-header/yarn.lock'
+52 verbose filtered diff ]
+53 silly checking diff packages/core-apps/hiveautomate
+54 silly found diff in packages/core-apps/hiveautomate/package.json
+55 verbose filtered diff [ 'packages/core-apps/hiveautomate/package.json' ]
+56 silly checking diff packages/core-apps/hivebuild
+57 silly found diff in packages/core-apps/hivebuild/package.json
+58 verbose filtered diff [ 'packages/core-apps/hivebuild/package.json' ]
+59 silly checking diff packages/core-apps/hivefiles
+60 silly found diff in packages/core-apps/hivefiles/package.json
+61 verbose filtered diff [ 'packages/core-apps/hivefiles/package.json' ]
+62 silly checking diff packages/core-apps/hivemarket
+63 silly found diff in packages/core-apps/hivemarket/package.json
+64 verbose filtered diff [ 'packages/core-apps/hivemarket/package.json' ]
+65 silly checking diff packages/core-apps/hivesettings
+66 silly found diff in packages/core-apps/hivesettings/package.json
+66 silly found diff in packages/core-apps/hivesettings/src/App.tsx
+66 silly found diff in packages/core-apps/hivesettings/src/components/modals/MappingModal/MappingModal.tsx
+66 silly found diff in packages/core-apps/hivesettings/src/components/modals/MappingModal/index.tsx
+66 silly found diff in packages/core-apps/hivesettings/src/views/app-single/AppSingle.tsx
+66 silly found diff in packages/core-apps/hivesettings/src/views/integration-editor/IntegrationEditor.tsx
+66 silly found diff in packages/core-apps/hivesettings/src/views/integration-editor/index.tsx
+66 silly found diff in packages/core-apps/hivesettings/src/views/integration-single/IntegrationSingle.tsx
+67 verbose filtered diff [
+67 verbose filtered diff   'packages/core-apps/hivesettings/package.json',
+67 verbose filtered diff   'packages/core-apps/hivesettings/src/App.tsx',
+67 verbose filtered diff   'packages/core-apps/hivesettings/src/components/modals/MappingModal/MappingModal.tsx',
+67 verbose filtered diff   'packages/core-apps/hivesettings/src/components/modals/MappingModal/index.tsx',
+67 verbose filtered diff   'packages/core-apps/hivesettings/src/views/app-single/AppSingle.tsx',
+67 verbose filtered diff   'packages/core-apps/hivesettings/src/views/integration-editor/IntegrationEditor.tsx',
+67 verbose filtered diff   'packages/core-apps/hivesettings/src/views/integration-editor/index.tsx',
+67 verbose filtered diff   'packages/core-apps/hivesettings/src/views/integration-single/IntegrationSingle.tsx'
+67 verbose filtered diff ]
+68 silly checking diff packages/core/collaboration-client
+69 silly no diff found in @hexhive/collaboration-client
+70 silly checking diff packages/core/collaboration-server
+71 silly found diff in packages/core/collaboration-server/package.json
+72 verbose filtered diff [ 'packages/core/collaboration-server/package.json' ]
+73 silly checking diff packages/core/express-graphql
+74 silly found diff in packages/core/express-graphql/.eslintignore
+74 silly found diff in packages/core/express-graphql/.eslintrc.yml
+74 silly found diff in packages/core/express-graphql/.github/workflows/ci.yml
+74 silly found diff in packages/core/express-graphql/.gitignore
+74 silly found diff in packages/core/express-graphql/.mocharc.yml
+74 silly found diff in packages/core/express-graphql/.nycrc.yml
+74 silly found diff in packages/core/express-graphql/.prettierignore
+74 silly found diff in packages/core/express-graphql/.prettierrc
+74 silly found diff in packages/core/express-graphql/LICENSE
+74 silly found diff in packages/core/express-graphql/README.md
+74 silly found diff in packages/core/express-graphql/codecov.yml
+74 silly found diff in packages/core/express-graphql/cspell.json
+74 silly found diff in packages/core/express-graphql/examples/index.ts
+74 silly found diff in packages/core/express-graphql/examples/index_subscription.ts
+74 silly found diff in packages/core/express-graphql/examples/index_subscription_legacy.ts
+74 silly found diff in packages/core/express-graphql/examples/schema.ts
+74 silly found diff in packages/core/express-graphql/integrationTests/README.md
+74 silly found diff in packages/core/express-graphql/integrationTests/integration-test.js
+74 silly found diff in packages/core/express-graphql/integrationTests/node/index.js
+74 silly found diff in packages/core/express-graphql/integrationTests/node/package.json
+74 silly found diff in packages/core/express-graphql/integrationTests/node/test.js
+74 silly found diff in packages/core/express-graphql/integrationTests/ts/index.ts
+74 silly found diff in packages/core/express-graphql/integrationTests/ts/package.json
+74 silly found diff in packages/core/express-graphql/integrationTests/ts/test.js
+74 silly found diff in packages/core/express-graphql/integrationTests/ts/tsconfig.json
+74 silly found diff in packages/core/express-graphql/package-lock.json
+74 silly found diff in packages/core/express-graphql/package.json
+74 silly found diff in packages/core/express-graphql/resources/build-npm.js
+74 silly found diff in packages/core/express-graphql/resources/checkgit.sh
+74 silly found diff in packages/core/express-graphql/resources/eslint-internal-rules/README.md
+74 silly found diff in packages/core/express-graphql/resources/eslint-internal-rules/index.js
+74 silly found diff in packages/core/express-graphql/resources/eslint-internal-rules/no-dir-import.js
+74 silly found diff in packages/core/express-graphql/resources/eslint-internal-rules/package.json
+74 silly found diff in packages/core/express-graphql/resources/gen-changelog.js
+74 silly found diff in packages/core/express-graphql/resources/load-statically-from-npm.js
+74 silly found diff in packages/core/express-graphql/resources/register.js
+74 silly found diff in packages/core/express-graphql/resources/utils.js
+74 silly found diff in packages/core/express-graphql/src/__tests__/http-test.ts
+74 silly found diff in packages/core/express-graphql/src/__tests__/usage-test.ts
+74 silly found diff in packages/core/express-graphql/src/index.ts
+74 silly found diff in packages/core/express-graphql/src/parseBody.ts
+74 silly found diff in packages/core/express-graphql/src/renderGraphiQL.ts
+74 silly found diff in packages/core/express-graphql/tsconfig.json
+74 silly found diff in packages/core/express-graphql/yarn.lock
+75 verbose filtered diff [
+75 verbose filtered diff   'packages/core/express-graphql/.eslintignore',
+75 verbose filtered diff   'packages/core/express-graphql/.eslintrc.yml',
+75 verbose filtered diff   'packages/core/express-graphql/.github/workflows/ci.yml',
+75 verbose filtered diff   'packages/core/express-graphql/.gitignore',
+75 verbose filtered diff   'packages/core/express-graphql/.mocharc.yml',
+75 verbose filtered diff   'packages/core/express-graphql/.nycrc.yml',
+75 verbose filtered diff   'packages/core/express-graphql/.prettierignore',
+75 verbose filtered diff   'packages/core/express-graphql/.prettierrc',
+75 verbose filtered diff   'packages/core/express-graphql/LICENSE',
+75 verbose filtered diff   'packages/core/express-graphql/README.md',
+75 verbose filtered diff   'packages/core/express-graphql/codecov.yml',
+75 verbose filtered diff   'packages/core/express-graphql/cspell.json',
+75 verbose filtered diff   'packages/core/express-graphql/examples/index.ts',
+75 verbose filtered diff   'packages/core/express-graphql/examples/index_subscription.ts',
+75 verbose filtered diff   'packages/core/express-graphql/examples/index_subscription_legacy.ts',
+75 verbose filtered diff   'packages/core/express-graphql/examples/schema.ts',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/README.md',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/integration-test.js',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/node/index.js',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/node/package.json',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/node/test.js',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/ts/index.ts',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/ts/package.json',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/ts/test.js',
+75 verbose filtered diff   'packages/core/express-graphql/integrationTests/ts/tsconfig.json',
+75 verbose filtered diff   'packages/core/express-graphql/package-lock.json',
+75 verbose filtered diff   'packages/core/express-graphql/package.json',
+75 verbose filtered diff   'packages/core/express-graphql/resources/build-npm.js',
+75 verbose filtered diff   'packages/core/express-graphql/resources/checkgit.sh',
+75 verbose filtered diff   'packages/core/express-graphql/resources/eslint-internal-rules/README.md',
+75 verbose filtered diff   'packages/core/express-graphql/resources/eslint-internal-rules/index.js',
+75 verbose filtered diff   'packages/core/express-graphql/resources/eslint-internal-rules/no-dir-import.js',
+75 verbose filtered diff   'packages/core/express-graphql/resources/eslint-internal-rules/package.json',
+75 verbose filtered diff   'packages/core/express-graphql/resources/gen-changelog.js',
+75 verbose filtered diff   'packages/core/express-graphql/resources/load-statically-from-npm.js',
+75 verbose filtered diff   'packages/core/express-graphql/resources/register.js',
+75 verbose filtered diff   'packages/core/express-graphql/resources/utils.js',
+75 verbose filtered diff   'packages/core/express-graphql/src/__tests__/http-test.ts',
+75 verbose filtered diff   'packages/core/express-graphql/src/__tests__/usage-test.ts',
+75 verbose filtered diff   'packages/core/express-graphql/src/index.ts',
+75 verbose filtered diff   'packages/core/express-graphql/src/parseBody.ts',
+75 verbose filtered diff   'packages/core/express-graphql/src/renderGraphiQL.ts',
+75 verbose filtered diff   'packages/core/express-graphql/tsconfig.json',
+75 verbose filtered diff   'packages/core/express-graphql/yarn.lock'
+75 verbose filtered diff ]
+76 silly checking diff packages/core/hexhive-client
+77 silly found diff in packages/core/hexhive-client/package.json
+77 silly found diff in packages/core/hexhive-client/src/gqty/schema.generated.ts
+78 verbose filtered diff [
+78 verbose filtered diff   'packages/core/hexhive-client/package.json',
+78 verbose filtered diff   'packages/core/hexhive-client/src/gqty/schema.generated.ts'
+78 verbose filtered diff ]
+79 silly checking diff packages/core/hexhive-data
+80 silly found diff in packages/core/hexhive-data/package.json
+80 silly found diff in packages/core/hexhive-data/tsconfig.json
+81 verbose filtered diff [
+81 verbose filtered diff   'packages/core/hexhive-data/package.json',
+81 verbose filtered diff   'packages/core/hexhive-data/tsconfig.json'
+81 verbose filtered diff ]
+82 silly checking diff packages/core/hexhive-events
+83 silly found diff in packages/core/hexhive-events/package.json
+83 silly found diff in packages/core/hexhive-events/tsconfig.json
+84 verbose filtered diff [
+84 verbose filtered diff   'packages/core/hexhive-events/package.json',
+84 verbose filtered diff   'packages/core/hexhive-events/tsconfig.json'
+84 verbose filtered diff ]
+85 silly checking diff packages/core/hexhive-graphql-server
+86 silly found diff in packages/core/hexhive-graphql-server/README.md
+86 silly found diff in packages/core/hexhive-graphql-server/package.json
+86 silly found diff in packages/core/hexhive-graphql-server/src/index.ts
+86 silly found diff in packages/core/hexhive-graphql-server/tsconfig.json
+86 silly found diff in packages/core/hexhive-graphql-server/yarn.lock
+87 verbose filtered diff [
+87 verbose filtered diff   'packages/core/hexhive-graphql-server/README.md',
+87 verbose filtered diff   'packages/core/hexhive-graphql-server/package.json',
+87 verbose filtered diff   'packages/core/hexhive-graphql-server/src/index.ts',
+87 verbose filtered diff   'packages/core/hexhive-graphql-server/tsconfig.json',
+87 verbose filtered diff   'packages/core/hexhive-graphql-server/yarn.lock'
+87 verbose filtered diff ]
+88 silly checking diff packages/core/hexhive-microfrontend
+89 silly found diff in packages/core/hexhive-microfrontend/package.json
+89 silly found diff in packages/core/hexhive-microfrontend/src/index.ts
+89 silly found diff in packages/core/hexhive-microfrontend/src/static/fonts/BebasNeue-Regular.ttf
+89 silly found diff in packages/core/hexhive-microfrontend/src/static/root-config-backup.js
+89 silly found diff in packages/core/hexhive-microfrontend/src/static/root-config.js
+89 silly found diff in packages/core/hexhive-microfrontend/src/templates/index.ejs
+89 silly found diff in packages/core/hexhive-microfrontend/tsconfig.json
+89 silly found diff in packages/core/hexhive-microfrontend/yarn.lock
+90 verbose filtered diff [
+90 verbose filtered diff   'packages/core/hexhive-microfrontend/package.json',
+90 verbose filtered diff   'packages/core/hexhive-microfrontend/src/index.ts',
+90 verbose filtered diff   'packages/core/hexhive-microfrontend/src/static/fonts/BebasNeue-Regular.ttf',
+90 verbose filtered diff   'packages/core/hexhive-microfrontend/src/static/root-config-backup.js',
+90 verbose filtered diff   'packages/core/hexhive-microfrontend/src/static/root-config.js',
+90 verbose filtered diff   'packages/core/hexhive-microfrontend/src/templates/index.ejs',
+90 verbose filtered diff   'packages/core/hexhive-microfrontend/tsconfig.json',
+90 verbose filtered diff   'packages/core/hexhive-microfrontend/yarn.lock'
+90 verbose filtered diff ]
+91 silly checking diff packages/core/hexhive-mq
+92 silly found diff in packages/core/hexhive-mq/package.json
+92 silly found diff in packages/core/hexhive-mq/tsconfig.json
+93 verbose filtered diff [
+93 verbose filtered diff   'packages/core/hexhive-mq/package.json',
+93 verbose filtered diff   'packages/core/hexhive-mq/tsconfig.json'
+93 verbose filtered diff ]
+94 silly checking diff packages/core/hexhive-ui
+95 silly found diff in packages/core/hexhive-ui/README.md
+95 silly found diff in packages/core/hexhive-ui/package.json
+95 silly found diff in packages/core/hexhive-ui/src/components/BumpInput/BumpInput.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/BumpInput/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/CodeEditor/CodeEditor.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/CodeEditor/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/ContextMenu/ContextMenu.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/ContextMenu/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/FormControl/FormControl.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/FormControl/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/FormInput/FormInput.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/FormInput/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/GridList/GridList.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/GridList/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/InfiniteCanvas.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/block-tray/tray-item.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/context-menu/ContextMenu.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/context-menu/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/index.ts
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/nodes/action-node/factory.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/nodes/icon-node/IconNode.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/nodes/icon-node/IconNodeFactory.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/ports/base.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/ports/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/components/ports/retracting.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/context/context.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/context/nodeid.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/defaults/path/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/defaults/path/segment.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/layers/grid.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/layers/information.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/layers/nodes.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/types/canvas.ts
+95 silly found diff in packages/core/hexhive-ui/src/components/InfiniteCanvas/utils/canvas.ts
+95 silly found diff in packages/core/hexhive-ui/src/components/LineGraph/LineGraph.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/LineGraph/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/TreeView/HyperTree.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/TreeView/HyperTreeNode.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/TreeView/TreeNode.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/TreeView/TreeView.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/TreeView/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/modals/base-modal/index.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/timeline-gantt/TimeLine.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/timeline-gantt/components/taskList/TaskList.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/timeline-gantt/components/taskList/TaskRow.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/timeline-gantt/components/viewport/DataViewPort.tsx
+95 silly found diff in packages/core/hexhive-ui/src/components/timeline-gantt/controller/DataController.ts
+95 silly found diff in packages/core/hexhive-ui/tsconfig.json
+95 silly found diff in packages/core/hexhive-ui/yarn.lock
+96 verbose filtered diff [
+96 verbose filtered diff   'packages/core/hexhive-ui/README.md',
+96 verbose filtered diff   'packages/core/hexhive-ui/package.json',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/BumpInput/BumpInput.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/BumpInput/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/CodeEditor/CodeEditor.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/CodeEditor/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/ContextMenu/ContextMenu.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/ContextMenu/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/FormControl/FormControl.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/FormControl/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/FormInput/FormInput.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/FormInput/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/GridList/GridList.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/GridList/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/InfiniteCanvas.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/block-tray/tray-item.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/context-menu/ContextMenu.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/context-menu/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/index.ts',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/nodes/action-node/factory.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/nodes/icon-node/IconNode.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/nodes/icon-node/IconNodeFactory.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/ports/base.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/ports/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/components/ports/retracting.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/context/context.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/context/nodeid.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/defaults/path/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/defaults/path/segment.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/layers/grid.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/layers/information.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/layers/nodes.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/types/canvas.ts',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/InfiniteCanvas/utils/canvas.ts',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/LineGraph/LineGraph.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/LineGraph/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/TreeView/HyperTree.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/TreeView/HyperTreeNode.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/TreeView/TreeNode.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/TreeView/TreeView.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/TreeView/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/modals/base-modal/index.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/timeline-gantt/TimeLine.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/timeline-gantt/components/taskList/TaskList.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/timeline-gantt/components/taskList/TaskRow.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/timeline-gantt/components/viewport/DataViewPort.tsx',
+96 verbose filtered diff   'packages/core/hexhive-ui/src/components/timeline-gantt/controller/DataController.ts',
+96 verbose filtered diff   'packages/core/hexhive-ui/tsconfig.json',
+96 verbose filtered diff   'packages/core/hexhive-ui/yarn.lock'
+96 verbose filtered diff ]
+97 silly checking diff packages/core/hive-command-editor
+98 silly found diff in packages/core/hive-command-editor/package.json
+98 silly found diff in packages/core/hive-command-editor/src/views/program-editor/nodes/action-node/factory.tsx
+99 verbose filtered diff [
+99 verbose filtered diff   'packages/core/hive-command-editor/package.json',
+99 verbose filtered diff   'packages/core/hive-command-editor/src/views/program-editor/nodes/action-node/factory.tsx'
+99 verbose filtered diff ]
+100 silly checking diff packages/images/alpine-consumer
+101 silly found diff in packages/images/alpine-consumer/package.json
+102 verbose filtered diff [ 'packages/images/alpine-consumer/package.json' ]
+103 silly checking diff packages/images/data-consumer
+104 silly found diff in packages/images/data-consumer/Dockerfile
+104 silly found diff in packages/images/data-consumer/package.json
+104 silly found diff in packages/images/data-consumer/src/index.ts
+105 verbose filtered diff [
+105 verbose filtered diff   'packages/images/data-consumer/Dockerfile',
+105 verbose filtered diff   'packages/images/data-consumer/package.json',
+105 verbose filtered diff   'packages/images/data-consumer/src/index.ts'
+105 verbose filtered diff ]
+106 silly checking diff packages/images/data-producer
+107 silly found diff in packages/images/data-producer/Dockerfile
+107 silly found diff in packages/images/data-producer/package.json
+107 silly found diff in packages/images/data-producer/src/index.ts
+107 silly found diff in packages/images/data-producer/task copy.json
+107 silly found diff in packages/images/data-producer/task.json
+107 silly found diff in packages/images/data-producer/tsconfig.json
+108 verbose filtered diff [
+108 verbose filtered diff   'packages/images/data-producer/Dockerfile',
+108 verbose filtered diff   'packages/images/data-producer/package.json',
+108 verbose filtered diff   'packages/images/data-producer/src/index.ts',
+108 verbose filtered diff   'packages/images/data-producer/task copy.json',
+108 verbose filtered diff   'packages/images/data-producer/task.json',
+108 verbose filtered diff   'packages/images/data-producer/tsconfig.json'
+108 verbose filtered diff ]
+109 silly checking diff packages/images/kluster-manager
+110 silly found diff in packages/images/kluster-manager/package.json
+111 verbose filtered diff [ 'packages/images/kluster-manager/package.json' ]
+112 silly checking diff packages/shared/eslint-config
+113 silly found diff in packages/shared/eslint-config/package.json
+114 verbose filtered diff [ 'packages/shared/eslint-config/package.json' ]
+115 silly checking diff packages/shared/hexhive-auth-ui
+116 silly found diff in packages/shared/hexhive-auth-ui/package.json
+117 verbose filtered diff [ 'packages/shared/hexhive-auth-ui/package.json' ]
+118 silly checking diff packages/shared/hexhive-icons
+119 silly found diff in packages/shared/hexhive-icons/package.json
+120 verbose filtered diff [ 'packages/shared/hexhive-icons/package.json' ]
+121 silly checking diff packages/shared/hexhive-styles
+122 silly found diff in packages/shared/hexhive-styles/package.json
+123 verbose filtered diff [ 'packages/shared/hexhive-styles/package.json' ]
+124 silly checking diff packages/shared/hexhive-types
+125 silly found diff in packages/shared/hexhive-types/package.json
+125 silly found diff in packages/shared/hexhive-types/src/models/device-value.ts
+125 silly found diff in packages/shared/hexhive-types/src/models/index.ts
+126 verbose filtered diff [
+126 verbose filtered diff   'packages/shared/hexhive-types/package.json',
+126 verbose filtered diff   'packages/shared/hexhive-types/src/models/device-value.ts',
+126 verbose filtered diff   'packages/shared/hexhive-types/src/models/index.ts'
+126 verbose filtered diff ]
+127 silly checking diff packages/shared/hexhive-utils
+128 silly found diff in packages/shared/hexhive-utils/package.json
+128 silly found diff in packages/shared/hexhive-utils/yarn.lock
+129 verbose filtered diff [
+129 verbose filtered diff   'packages/shared/hexhive-utils/package.json',
+129 verbose filtered diff   'packages/shared/hexhive-utils/yarn.lock'
+129 verbose filtered diff ]
+130 silly checking diff packages/shared/prettier-config
+131 silly found diff in packages/shared/prettier-config/package.json
+132 verbose filtered diff [ 'packages/shared/prettier-config/package.json' ]
+133 silly checking diff packages/tools/hexhive-create
+134 silly found diff in packages/tools/hexhive-create/package.json
+135 verbose filtered diff [ 'packages/tools/hexhive-create/package.json' ]
+136 silly checking diff packages/tools/lambda-runtask
+137 silly found diff in packages/tools/lambda-runtask/package.json
+138 verbose filtered diff [ 'packages/tools/lambda-runtask/package.json' ]
+139 silly checking diff packages/workers/mongodb-worker
+140 silly found diff in packages/workers/mongodb-worker/package.json
+141 verbose filtered diff [ 'packages/workers/mongodb-worker/package.json' ]
+142 silly checking diff packages/workers/mssql-worker
+143 silly found diff in packages/workers/mssql-worker/package.json
+143 silly found diff in packages/workers/mssql-worker/src/index.ts
+144 verbose filtered diff [
+144 verbose filtered diff   'packages/workers/mssql-worker/package.json',
+144 verbose filtered diff   'packages/workers/mssql-worker/src/index.ts'
+144 verbose filtered diff ]
+145 silly checking diff packages/workers/patch
+146 silly found diff in packages/workers/patch/package.json
+147 verbose filtered diff [ 'packages/workers/patch/package.json' ]
+148 verbose updated @hexhive-apps/hive3d
+149 verbose updated @hexhive-apps/hivereport
+150 verbose updated @hexhive-backends/admin
+151 verbose updated @hexhive/auth-provider
+152 verbose updated hive-auth
+153 verbose updated @hexhive-backends/hive-files
+154 verbose updated @hexhive/frontend-server
+155 verbose updated @hexhive/local-gateway
+156 verbose updated @hexhive/gateway
+157 verbose updated @hexhive-clients/desktop
+158 verbose updated hexhive-admin
+159 verbose updated @hexhive/docs
+160 verbose updated @hexhive-core/dashboard
+161 verbose updated @hexhive-core/header
+162 verbose updated @hexhive-coreapps/hiveautomate
+163 verbose updated @hexhive-coreapps/hivebuild
+164 verbose updated @hexhive-coreapps/hivefiles
+165 verbose updated @hexhive-coreapps/hivemarket
+166 verbose updated @hexhive-coreapps/hivesettings
+167 verbose updated @hexhive/collaboration-server
+168 verbose updated @hexhive/express-graphql
+169 verbose updated @hexhive/client
+170 verbose updated @hexhive/data-core
+171 verbose updated @hexhive/events-client
+172 verbose updated @hexhive/graphql-server
+173 verbose updated @hexhive/microfrontend-server
+174 verbose updated @hexhive/mq
+175 verbose updated @hexhive/ui
+176 verbose updated @hexhive/command-editor
+177 verbose updated @hexhive/consumer
+178 verbose updated @hexhive/data-consumer
+179 verbose updated @hexhive/data-producer
+180 verbose updated @hexhive/kluster-manager
+181 verbose updated @hexhive/eslint-config
+182 verbose updated @hexhive/auth-ui
+183 verbose updated @hexhive/icons
+184 verbose updated @hexhive/styles
+185 verbose updated @hexhive/types
+186 verbose updated @hexhive/utils
+187 verbose updated @hexhive/prettier-config
+188 verbose updated @hexhive/cli
+189 verbose updated @hexhive/lambda-runtask
+190 verbose updated mongodb-worker
+191 verbose updated @hexhive/mssql-worker
+192 verbose updated @hexhive/patch
+193 verbose git-describe undefined => "v0.0.6-alpha.1-128-gee6165a"
+194 silly git-describe parsed => {"lastTagName":"v0.0.6-alpha.1","lastVersion":"v0.0.6-alpha.1","refCount":"128","sha":"ee6165a","isDirty":false}
+195 info execute Skipping releases
+196 silly lifecycle No script for "preversion" in "@hexhive/common", continuing
+197 silly lifecycle No script for "preversion" in "@hexhive-clients/desktop", continuing
+198 silly lifecycle No script for "preversion" in "hexhive-admin", continuing
+199 silly lifecycle No script for "preversion" in "@hexhive/docs", continuing
+200 silly lifecycle No script for "preversion" in "@hexhive/collaboration-server", continuing
+201 silly lifecycle No script for "preversion" in "@hexhive/express-graphql", continuing
+202 silly lifecycle No script for "preversion" in "@hexhive/client", continuing
+203 silly lifecycle No script for "preversion" in "@hexhive/data-core", continuing
+204 silly lifecycle No script for "preversion" in "@hexhive/events-client", continuing
+205 silly lifecycle No script for "version" in "@hexhive-clients/desktop", continuing
+206 silly lifecycle No script for "preversion" in "@hexhive/graphql-server", continuing
+207 silly lifecycle No script for "version" in "@hexhive/client", continuing
+208 silly lifecycle No script for "preversion" in "@hexhive/microfrontend-server", continuing
+209 silly lifecycle No script for "version" in "@hexhive/events-client", continuing
+210 silly lifecycle No script for "preversion" in "@hexhive/consumer", continuing
+211 silly lifecycle No script for "version" in "@hexhive/docs", continuing
+212 silly lifecycle No script for "preversion" in "@hexhive/data-consumer", continuing
+213 silly lifecycle No script for "version" in "@hexhive/data-core", continuing
+214 silly lifecycle No script for "preversion" in "@hexhive/kluster-manager", continuing
+215 silly lifecycle No script for "version" in "@hexhive/collaboration-server", continuing
+216 silly lifecycle No script for "preversion" in "@hexhive/eslint-config", continuing
+217 silly lifecycle No script for "version" in "hexhive-admin", continuing
+218 silly lifecycle No script for "preversion" in "@hexhive/auth-ui", continuing
+219 silly lifecycle No script for "version" in "@hexhive/express-graphql", continuing
+220 silly lifecycle No script for "preversion" in "@hexhive/icons", continuing
+221 silly lifecycle No script for "version" in "@hexhive/graphql-server", continuing
+222 silly lifecycle No script for "preversion" in "@hexhive/styles", continuing
+223 silly lifecycle No script for "version" in "@hexhive/consumer", continuing
+224 silly lifecycle No script for "preversion" in "@hexhive/types", continuing
+225 silly lifecycle No script for "version" in "@hexhive/microfrontend-server", continuing
+226 silly lifecycle No script for "preversion" in "@hexhive/utils", continuing
+227 silly lifecycle No script for "version" in "@hexhive/data-consumer", continuing
+228 silly lifecycle No script for "preversion" in "@hexhive/prettier-config", continuing
+229 silly lifecycle No script for "version" in "@hexhive/kluster-manager", continuing
+230 silly lifecycle No script for "preversion" in "@hexhive/cli", continuing
+231 silly lifecycle No script for "version" in "@hexhive/eslint-config", continuing
+232 silly lifecycle No script for "preversion" in "@hexhive/lambda-runtask", continuing
+233 silly lifecycle No script for "version" in "@hexhive/auth-ui", continuing
+234 silly lifecycle No script for "preversion" in "@hexhive/patch", continuing
+235 silly lifecycle No script for "version" in "@hexhive/icons", continuing
+236 silly lifecycle No script for "preversion" in "@hexhive/mq", continuing
+237 silly lifecycle No script for "version" in "@hexhive/types", continuing
+238 silly lifecycle No script for "preversion" in "@hexhive/frontend-server", continuing
+239 silly lifecycle No script for "version" in "@hexhive/utils", continuing
+240 silly lifecycle No script for "preversion" in "@hexhive-backends/admin", continuing
+241 silly lifecycle No script for "version" in "@hexhive/styles", continuing
+242 silly lifecycle No script for "preversion" in "@hexhive/auth-provider", continuing
+243 silly lifecycle No script for "version" in "@hexhive/prettier-config", continuing
+244 silly lifecycle No script for "preversion" in "hive-auth", continuing
+245 silly lifecycle No script for "version" in "@hexhive/cli", continuing
+246 silly lifecycle No script for "preversion" in "@hexhive-backends/hive-files", continuing
+247 silly lifecycle No script for "version" in "@hexhive/mq", continuing
+248 silly lifecycle No script for "preversion" in "@hexhive/gateway", continuing
+249 silly lifecycle No script for "version" in "@hexhive/patch", continuing
+250 silly lifecycle No script for "preversion" in "mongodb-worker", continuing
+251 silly lifecycle No script for "version" in "@hexhive/frontend-server", continuing
+252 silly lifecycle No script for "preversion" in "@hexhive-apps/hive3d", continuing
+253 silly lifecycle No script for "version" in "@hexhive/lambda-runtask", continuing
+254 silly lifecycle No script for "preversion" in "@hexhive-apps/hivereport", continuing
+255 silly lifecycle No script for "version" in "@hexhive-backends/admin", continuing
+256 silly lifecycle No script for "preversion" in "@hexhive-core/header", continuing
+257 silly lifecycle No script for "version" in "@hexhive/auth-provider", continuing
+258 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivemarket", continuing
+259 silly lifecycle No script for "version" in "hive-auth", continuing
+260 silly lifecycle No script for "preversion" in "@hexhive/ui", continuing
+261 silly lifecycle No script for "version" in "@hexhive-backends/hive-files", continuing
+262 silly lifecycle No script for "preversion" in "@hexhive/mssql-worker", continuing
+263 silly lifecycle No script for "version" in "mongodb-worker", continuing
+264 silly lifecycle No script for "version" in "@hexhive/gateway", continuing
+265 silly lifecycle No script for "preversion" in "@hexhive/local-gateway", continuing
+266 silly lifecycle No script for "version" in "@hexhive-apps/hivereport", continuing
+267 silly lifecycle No script for "version" in "@hexhive-core/header", continuing
+268 silly lifecycle No script for "version" in "@hexhive-apps/hive3d", continuing
+269 silly lifecycle No script for "version" in "@hexhive-coreapps/hivemarket", continuing
+270 silly lifecycle No script for "version" in "@hexhive/ui", continuing
+271 silly lifecycle No script for "preversion" in "@hexhive-core/dashboard", continuing
+272 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hiveautomate", continuing
+273 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivebuild", continuing
+274 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivefiles", continuing
+275 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivesettings", continuing
+276 silly lifecycle No script for "preversion" in "@hexhive/command-editor", continuing
+277 silly lifecycle No script for "version" in "@hexhive/mssql-worker", continuing
+278 silly lifecycle No script for "preversion" in "@hexhive/data-producer", continuing
+279 silly lifecycle No script for "version" in "@hexhive-coreapps/hivesettings", continuing
+280 silly lifecycle No script for "version" in "@hexhive-core/dashboard", continuing
+281 silly lifecycle No script for "version" in "@hexhive/local-gateway", continuing
+282 silly lifecycle No script for "version" in "@hexhive-coreapps/hivebuild", continuing
+283 silly lifecycle No script for "version" in "@hexhive/command-editor", continuing
+284 silly lifecycle No script for "version" in "@hexhive-coreapps/hiveautomate", continuing
+285 silly lifecycle No script for "version" in "@hexhive-coreapps/hivefiles", continuing
+286 silly lifecycle No script for "version" in "@hexhive/data-producer", continuing
+287 silly lifecycle No script for "version" in "@hexhive/common", continuing
+288 silly gitAdd [
+288 silly gitAdd   'packages/clients/desktop-root/package.json',
+288 silly gitAdd   'packages/core/hexhive-client/package.json',
+288 silly gitAdd   'packages/core/hexhive-events/package.json',
+288 silly gitAdd   'packages/core-apps/hexhive-docs/package.json',
+288 silly gitAdd   'packages/core/hexhive-data/package.json',
+288 silly gitAdd   'packages/core/collaboration-server/package.json',
+288 silly gitAdd   'packages/core/collaboration-server/package-lock.json',
+288 silly gitAdd   'packages/core-apps/hexhive-admin/package.json',
+288 silly gitAdd   'packages/core-apps/hexhive-admin/package-lock.json',
+288 silly gitAdd   'packages/core/express-graphql/package.json',
+288 silly gitAdd   'packages/core/express-graphql/package-lock.json',
+288 silly gitAdd   'packages/core/hexhive-graphql-server/package.json',
+288 silly gitAdd   'packages/images/alpine-consumer/package.json',
+288 silly gitAdd   'packages/core/hexhive-microfrontend/package.json',
+288 silly gitAdd   'packages/images/data-consumer/package.json',
+288 silly gitAdd   'packages/images/kluster-manager/package.json',
+288 silly gitAdd   'packages/shared/eslint-config/package.json',
+288 silly gitAdd   'packages/shared/eslint-config/package-lock.json',
+288 silly gitAdd   'packages/shared/hexhive-auth-ui/package.json',
+288 silly gitAdd   'packages/shared/hexhive-auth-ui/package-lock.json',
+288 silly gitAdd   'packages/shared/hexhive-icons/package.json',
+288 silly gitAdd   'packages/shared/hexhive-icons/package-lock.json',
+288 silly gitAdd   'packages/shared/hexhive-types/package.json',
+288 silly gitAdd   'packages/shared/hexhive-types/package-lock.json',
+288 silly gitAdd   'packages/shared/hexhive-utils/package.json',
+288 silly gitAdd   'packages/shared/hexhive-utils/package-lock.json',
+288 silly gitAdd   'packages/shared/hexhive-styles/package.json',
+288 silly gitAdd   'packages/shared/hexhive-styles/package-lock.json',
+288 silly gitAdd   'packages/shared/prettier-config/package.json',
+288 silly gitAdd   'packages/tools/hexhive-create/package.json',
+288 silly gitAdd   'packages/tools/hexhive-create/package-lock.json',
+288 silly gitAdd   'packages/core/hexhive-mq/package.json',
+288 silly gitAdd   'packages/workers/patch/package.json',
+288 silly gitAdd   'packages/backends/hive-frontend/package.json',
+288 silly gitAdd   'packages/tools/lambda-runtask/package.json',
+288 silly gitAdd   'packages/tools/lambda-runtask/package-lock.json',
+288 silly gitAdd   'packages/backends/hive-admin/package.json',
+288 silly gitAdd   'packages/backends/hive-auth-provider/package.json',
+288 silly gitAdd   'packages/backends/hive-auth/package.json',
+288 silly gitAdd   'packages/backends/hive-files/package.json',
+288 silly gitAdd   'packages/workers/mongodb-worker/package.json',
+288 silly gitAdd   'packages/backends/hive-gateway/package.json',
+288 silly gitAdd   'packages/apps/hivereport/package.json',
+288 silly gitAdd   'packages/core-apps/hive-header/package.json',
+288 silly gitAdd   'packages/apps/hive3d/package.json',
+288 silly gitAdd   'packages/core-apps/hivemarket/package.json',
+288 silly gitAdd   'packages/core/hexhive-ui/package.json',
+288 silly gitAdd   'packages/workers/mssql-worker/package.json',
+288 silly gitAdd   'packages/core-apps/hivesettings/package.json',
+288 silly gitAdd   'packages/core-apps/hive-dashboard/package.json',
+288 silly gitAdd   'packages/backends/hive-gateway-local/package.json',
+288 silly gitAdd   'packages/core-apps/hivebuild/package.json',
+288 silly gitAdd   'packages/core/hive-command-editor/package.json',
+288 silly gitAdd   'packages/core-apps/hiveautomate/package.json',
+288 silly gitAdd   'packages/core-apps/hivefiles/package.json',
+288 silly gitAdd   'packages/images/data-producer/package.json',
+288 silly gitAdd   'lerna.json'
+288 silly gitAdd ]
+289 silly gitCommit v0.0.6-alpha.1
+290 verbose git [ 'commit', '-m', 'v0.0.6-alpha.1' ]
+291 silly gitTag v0.0.6-alpha.1
+292 verbose git [ 'tag', 'v0.0.6-alpha.1', '-m', 'v0.0.6-alpha.1' ]
+293 error Error: Command failed with exit code 128: git tag v0.0.6-alpha.1 -m v0.0.6-alpha.1
+293 error fatal: tag 'v0.0.6-alpha.1' already exists
+293 error     at makeError (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/lib/error.js:60:11)
+293 error     at handlePromise (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/index.js:118:26)
+293 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+293 error     at async Promise.all (index 0)
