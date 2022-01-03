@@ -21,7 +21,6 @@
      "@hexhive/client": ["./core/hexhive-client/src/gqty"],
      "@hexhive/icons": ["./shared/hexhive-icons/src"],
 
-     "@hexhive-apps/hive-flow": ["./apps/hive-flow/src"],
      "@types/react": ["../node_modules/@types/react"],
      "@types/react-router-dom": ["../node_modules/@types/react-router-dom"],
      "@types/react-dom": ["../node_modules/@types/react-dom"],
