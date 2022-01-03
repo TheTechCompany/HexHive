@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:gateway": "npx lerna run start --scope @hexhive/gateway",
     "build:hivecommand": "npx lerna run build --scope @hexhive-apps/hivecommand --include-dependencies",
     "build:hiveflow": "npx lerna run build --scope @hexhive-apps/hiveflow --include-dependencies",
     "start:flow-backend": "cd packages/backends/hive-flow && yarn start",
