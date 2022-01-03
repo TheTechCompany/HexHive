@@ -1,8 +1,0 @@
-export { default as Calendar } from './Calendar'
-export { default as Calender } from './Calender'
-export { default as Equipment } from './Equipment'
-export { default as Estimates } from './Estimates'
-export { default as Hiveflow } from './Hiveflow'
-export { default as People } from './People'
-export { default as Projects } from './Projects'
-export { default as Timeline } from './Timeline'
