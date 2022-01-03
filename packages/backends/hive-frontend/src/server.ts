@@ -1,11 +1,12 @@
 import { HiveFrontendServer } from ".";
 import { createServer } from 'http'
 import express from 'express';
-const greenlock = require("greenlock-express")
+
+const greenlock = require("greenlock-express");
 
 (async (port: number = 8000) => {
 	const app = express()
-	
+
 	const frontendServer = new HiveFrontendServer()
 
 	app.use(frontendServer.connect)
