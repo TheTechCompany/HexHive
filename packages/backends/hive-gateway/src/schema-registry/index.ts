@@ -4,6 +4,7 @@ import { GraphQLServer } from "@hexhive/express-graphql";
 import { stitchSchemas } from "@graphql-tools/stitch";
 import { mergeSchemas } from '@graphql-tools/merge'
 import { introspectSchema } from "@graphql-tools/wrap";
+import { KeyManager } from "../keys";
 
 export interface SchemaEndpoint {
 	url: string;
@@ -14,6 +15,7 @@ export interface SchemaEndpoint {
 export interface SchemaRegistryOptions {
 	initialEndpoints?: SchemaEndpoint[];
 	internalSchema: GraphQLSchema;
+	keyManager: (payload: any) => any;
 }
 export class SchemaRegistry {
 	
@@ -22,11 +24,15 @@ export class SchemaRegistry {
 
 	private internalSchema : GraphQLSchema;
 
+	private keyManager: (payload: any) => any;
+
 	private server: GraphQLServer;
 
 	constructor(opts: SchemaRegistryOptions){
 		this.endpoints = opts.initialEndpoints || []
 		this.schemas = {};
+
+		this.keyManager = opts.keyManager
 
 		this.internalSchema = opts.internalSchema;
 
@@ -71,7 +77,7 @@ export class SchemaRegistry {
 	private async loadSchemaFromEndpoint(key: string){
 		let endpoint = this.endpoints.find((a) => a.key == key)
 		if(!endpoint) return;
-		return await introspectSchema(remoteExecutor(endpoint?.url))
+		return await introspectSchema(remoteExecutor(endpoint?.url, this.keyManager))
 	}
 
 	private updateSchema(){
@@ -83,7 +89,7 @@ export class SchemaRegistry {
 				console.log(url, this.schemas[x] instanceof GraphQLSchema)
 				return {
 					schema: this.schemas[x], 
-					executor: remoteExecutor(url)
+					executor: remoteExecutor(url, this.keyManager)
 				}
 			}),
 			

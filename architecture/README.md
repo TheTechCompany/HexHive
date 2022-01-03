@@ -13,6 +13,8 @@ This document serves to give a broad outline of the plumbing to create HexHive S
 The gateway serves federated appliances with a microfrontend approach to allow building networked systems.
 The gateway provides a consistent auth source and delegates routing to federated modules
 
+Each request to a federated module is passed a X-Hive-JWT header which can be verified with the public key available at /.well-known/jwks.json
+
 ### `Appliance`
 
 An external frontend that exposes a bootstrap, mount method and a remoteEntrypoint
