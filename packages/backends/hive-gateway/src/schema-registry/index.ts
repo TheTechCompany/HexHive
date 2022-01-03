@@ -39,6 +39,10 @@ export class SchemaRegistry {
 		this.server = new GraphQLServer({})
 	}
 
+	get graphEndpoints(){
+		return this.endpoints
+	}
+
 	public addEndpoint(url: string, key: string){
 		this.endpoints.push({url, key})
 	}

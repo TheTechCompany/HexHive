@@ -2,7 +2,6 @@ import cookieParser from 'cookie-parser';
 import express, { Express, Router } from 'express';
 import session from 'express-session';
 import helmet from 'helmet';
-import { createServer, Server as HttpServer } from 'http';
 import passport from 'passport';
 import { Server } from 'socket.io';
 import cors from 'cors';
@@ -10,7 +9,6 @@ import MongoStore from 'connect-mongo'
 
 const {NODE_ENV} = process.env
 
-const greenlock = require("greenlock-express")
 
 var OidcStrategy = require('passport-openidconnect').Strategy;
 var JwtStrategy = require('passport-jwt').Strategy,
@@ -29,23 +27,20 @@ var JwtStrategy = require('passport-jwt').Strategy,
 	};
 
 export interface HiveRouterOptions {
-	port?: number;
 
 }
 
 export class HiveRouter {
-	private port: number;
 
-	private app: Express;
-	private server: HttpServer;
+	private app: Router;
+	// private server: HttpServer;
 
 
 	constructor(options: HiveRouterOptions) {
-		this.port = options.port || 8080;
 
-		this.app = express()
+		this.app = Router()
 
-		this.server = createServer(this.app)
+		// this.server = createServer(this.app)
 
 		this.initMiddleware()
 		this.initPassport()
@@ -123,7 +118,7 @@ export class HiveRouter {
 	}
 
 	initMiddleware() {
-		this.app.set("trust proxy", true)
+		// this.app.set("trust proxy", true)
 
 		// this.app.use(cors())
 		this.app.use(cookieParser())
@@ -145,42 +140,11 @@ export class HiveRouter {
 
 	}
 
+	get connect(){
+		return this.app
+	}
+
 	start(){
-		if(process.env.NODE_ENV == "production"){
-			const httpsWorker = (glx: any)  => {
-				const server = glx.httpsServer()
-				
-				const io = new Server(server)
-				// var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
-				// ws.on("connection", function(ws: WebSocket, req: any) {
-				//     // inspect req.headers.authorization (or cookies) for session info
-				//     collaborationServer.handleConnection(ws)
-				// });
-			
-				// servers a node app that proxies requests to a localhost
-				glx.serveApp(this.app)
-			}
-	
-			if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
-			greenlock.init({
-				packageRoot: __dirname + "/../../",
-				configDir: "./greenlock.d",
-		 
-				// contact for security and critical bug notices
-				maintainerEmail: process.env.MAINTAINER_EMAIL,
-		 
-				// whether or not to run at cloudscale
-				cluster: false
-			}).ready(httpsWorker)
-		}else{
-	
-			const io = new Server(this.server)
-	
-			// setupWebsockets(io);
-	
-			this.server.listen(this.port, () => {
-				console.log(`🚀 Server ready at :${this.port}`)
-			})
-		}
+		
 	}
 }
