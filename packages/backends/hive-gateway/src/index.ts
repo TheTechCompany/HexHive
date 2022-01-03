@@ -40,15 +40,18 @@ export class HiveGateway {
 	private mq?: amqp.Connection;
 	private mqChannel?: amqp.Channel;
 
-	private options : {port: number, endpoints?: SchemaEndpoint[]};
+	private options : { dev: boolean, endpoints?: SchemaEndpoint[]};
 
 
-	constructor(opts: {port: number, endpoints?: SchemaEndpoint[]}){
-		this.router = new HiveRouter({port: opts.port})
+	constructor(opts: {dev: boolean, endpoints?: SchemaEndpoint[]}){
+		this.router = new HiveRouter({})
 		this.keyManager = new KeyManager();
 		this.options = opts;
-
 	
+	}
+
+	get isDev(){
+		return this.options.dev
 	}
 
 	async init(){
@@ -66,10 +69,13 @@ export class HiveGateway {
 		}, 60 * 1000);
 	}
 
-	async start(){
-		await this.router.start()
+	get connect(){
+		return this.router.connect
 	}
 
+	get endpoints(){
+		return this.schemaRegistry?.graphEndpoints || []
+	}
 	
 	async initHive(){
 		if(!this.neoDriver) throw new Error("No Neo4j Driver")
@@ -91,6 +97,7 @@ export class HiveGateway {
 			res.send(this.keyManager.jwks)
 		})
 		this.router.mount('/graphql', this.schemaRegistry?.middleware())
+
 	}
 
 	initDB(){

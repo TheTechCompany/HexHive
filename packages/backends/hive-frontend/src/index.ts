@@ -2,7 +2,7 @@ import { config as dotenv } from 'dotenv'
 dotenv()
 
 import neo4j, { Driver, Session } from 'neo4j-driver'
-import express, {Express} from 'express'
+import express, {Express, Router} from 'express'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import session from 'express-session'
@@ -28,9 +28,8 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io"
 
 export class HiveFrontendServer {
 
-	private app : Express;
+	private app : Router;
 
-	private start_app: () => void;
 
 	private neoDriver?: Driver
 	private neoSession?: Session;
@@ -39,94 +38,112 @@ export class HiveFrontendServer {
 
 
 	constructor(){
+		this.app = Router()
+
+		this.app.use(frontendRouter())
 	
-		const {app, start} = frontendRouter()
-		this.app = app;
-		this.start_app = start;
 
 		this.frontendRegistry = new HiveMicrofrontendServer({
 			name: "HexHive | Connected Data",
-			get_views: async (req) => {
-
-				if(!req.user.id) return [] as any;
-
-				const result = await this.neoSession?.run(`
-					MATCH (user:HiveUser {id: $id})-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-					WHERE apps.entrypoint IS NOT NULL
-					RETURN distinct(apps{.*})
-				`, {
-					id: req.user.id
-				})
-
-				const apps = result?.records.map((x) => x.get(0)) || []
-
-				return {
-					apps: apps?.map((app) => ({
-						name: app.name,
-						config_url: app.entrypoint
-					})).concat([
-						{
-							name: "Hive-Flow",
-							config_url: 'http://localhost:8503/hexhive-apps-hive-flow.js'
-						},
-						{
-							name: "Hive-Command",
-							config_url: 'http://localhost:8504/hivecommand-app-frontend.js'
-						},
-						{
-							name: "Hive-Signage",
-							config_url: 'http://localhost:8081/greenco-apps-signage-frontend.js'
-						},
-						{
-							name: "@hexhive-core/dashboard",
-							config_url: `${process.env.NODE_ENV == 'production' ? 'https://staging-apps.hexhive.io/dashboard/' : 'http://localhost:8501/'}hexhive-core-dashboard.js`
-						},
-						{
-							name: "@hexhive-core/header",
-							config_url: `${process.env.NODE_ENV == 'production' ? 'https://staging-apps.hexhive.io/header/' : 'http://localhost:8502/'}hexhive-core-header.js`
-						}
-					]),
-				// 	 [{
-				// 	name: '@hexhive/hive-flow',
-				// 	config_url: '//localhost:8500/hexhive-apps-hive-flow.js'
-				// }, {
-				// 	name: '@hexhive-core/dashboard',
-				// 	config_url: '//localhost:8501/hexhive-core-dashboard.js'
-				// }, {
-				// 	name: '@greenco/signage-frontend',
-				// 	config_url: '//localhost:8081/greenco-apps-signage-frontend.js'
-				// }],
-				views: [{
-					name: '@hexhive-core/dashboard',
-					path: '/',
-					default: true
-				}, {
-					name: 'Hive-Flow',
-					path: '/hive-flow'
-				}, {
-					
-						name: 'Hive-Command',
-						path: '/hive-command'
-					
-				}, {
-					name: 'Hive-Signage',
-					path: '/hive-signage'
-				}].concat(
-					(apps || []).map((app) => ({
-						name: app.name,
-						path: app.slug,
-						default: false
-					})))
-				}
-			}
-		})
+			get_views: this.getViews.bind(this)
+		});
 
 		this.init()
 
 		this.mountFrontendServer()
 	}
 
-	init(){
+	get connect(){
+		return this.app
+	}
+
+	async publicSites(){
+		return await this.getViews()
+	}
+
+	async getViews(req?: any){
+		const default_views = [{
+			name: '@hexhive-core/dashboard',
+			path: '/',
+			default: true
+		}, {
+			name: 'Hive-Flow',
+			path: '/hive-flow'
+		}, {
+			
+				name: 'Hive-Command',
+				path: '/hive-command'
+			
+		}, {
+			name: 'Hive-Signage',
+			path: '/hive-signage'
+		}]
+
+		const default_apps = [
+			{
+				name: "Hive-Flow",
+				config_url: 'http://localhost:8503/hexhive-apps-hive-flow.js'
+			},
+			{
+				name: "Hive-Command",
+				config_url: 'http://localhost:8504/hivecommand-app-frontend.js'
+			},
+			{
+				name: "Hive-Signage",
+				config_url: 'http://localhost:8081/greenco-apps-signage-frontend.js'
+			},
+			{
+				name: "@hexhive-core/dashboard",
+				config_url: `${process.env.NODE_ENV == 'production' ? 'https://staging-apps.hexhive.io/dashboard/' : 'http://localhost:8501/'}hexhive-core-dashboard.js`
+			},
+			{
+				name: "@hexhive-core/header",
+				config_url: `${process.env.NODE_ENV == 'production' ? 'https://staging-apps.hexhive.io/header/' : 'http://localhost:8502/'}hexhive-core-header.js`
+			}
+		]
+
+		let apps = [];
+		let views = [];
+
+		if(!req || !req.user.id) {
+
+			const result = await this.neoSession?.run(`
+				MATCH (apps:HiveAppliance)
+				WHERE apps.entrypoint IS NOT NULL
+				RETURN distinct(apps{.*})
+			`)
+
+			apps = result?.records.map((x) => x.get(0)) || []
+
+		}else{
+
+			const result = await this.neoSession?.run(`
+				MATCH (user:HiveUser {id: $id})-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+				WHERE apps.entrypoint IS NOT NULL
+				RETURN distinct(apps{.*})
+			`, {
+				id: req.user.id
+			})
+
+			apps = result?.records.map((x) => x.get(0)) || []
+		}
+			return {
+				apps: apps?.map((app) => ({
+					name: app.name,
+					config_url: app.entrypoint
+				})).concat(default_apps),
+			
+			views: default_views.concat(
+				(apps || []).map((app) => ({
+					name: app.name,
+					path: app.slug,
+					default: false
+				})))
+			}
+		
+	}
+
+	private init(){
 		this.setupDBConnection()
 		this.initMiddleware()
 		this.initPassport()
@@ -198,7 +215,7 @@ export class HiveFrontendServer {
 	}
 
 	initMiddleware() {
-		this.app.set("trust proxy", true)
+		// this.app.set("trust proxy", true)
 
 		// app.use(auth(config))
 
@@ -227,8 +244,5 @@ export class HiveFrontendServer {
 		this.app.use('/dashboard', this.frontendRegistry.routes());
 	}
 
-	start(){
-		this.start_app()
-		// this.app.listen(8000)
-	}
+
 }

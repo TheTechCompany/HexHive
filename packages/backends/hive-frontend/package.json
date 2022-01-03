@@ -2,7 +2,10 @@
   "name": "@hexhive/frontend-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "tsc -b && cp package.json dist/",
     "start": "ts-node -r tsconfig-paths/register src/server.ts",

@@ -2,7 +2,10 @@
 	"name": "@hexhive/gateway",
 	"version": "0.0.6-alpha.0",
 	"description": "",
-	"main": "index.js",
+	"main": "dist/index.js",
+	"files": [
+		"dist/"
+	],
 	"prettier": "@hexhive/prettier-config",
 	"bin": {
 		"hive-gateway": "./dist/server"
