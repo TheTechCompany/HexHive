@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-clients/desktop",
-  "version": "0.0.6-alpha.0",
+  "version": "0.0.6-alpha.1",
   "scripts": {
     "tauri": "tauri",
     "start": "webpack serve --port 9000 --env isLocal",
@@ -40,7 +40,6 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-   
     "@tauri-apps/api": "^1.0.0-beta.8",
     "@types/jest": "^26.0.23",
     "@types/systemjs": "^6.1.0",

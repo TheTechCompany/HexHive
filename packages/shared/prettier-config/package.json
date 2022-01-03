@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/prettier-config",
-  "version": "0.0.6-alpha.0",
+  "version": "0.0.6-alpha.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,5 @@
   "license": "ISC",
   "devDependencies": {
     "prettier": "^2.4.1"
-  },
-  "dependencies": {
   }
 }
