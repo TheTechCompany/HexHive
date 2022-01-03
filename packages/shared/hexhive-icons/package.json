@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/icons",
-  "version": "0.0.6-alpha.0",
+  "version": "0.0.6-alpha.1",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -14,7 +14,5 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.4.2"
-  },
-  "dependencies": {
   }
 }
