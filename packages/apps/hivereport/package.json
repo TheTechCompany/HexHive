@@ -1,5 +1,6 @@
 {
   "name": "@hexhive-apps/hivereport",
+  "version": "0.0.0",
   "scripts": {
     "start": "webpack serve --port 8500",
     "start:standalone": "webpack serve --env standalone",
