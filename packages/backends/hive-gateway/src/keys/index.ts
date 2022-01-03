@@ -1,16 +1,26 @@
 import crypto from 'crypto'
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import jwt from 'jsonwebtoken'
+import { pem2jwk, RSA_JWK } from 'pem-jwk';
 
 export class KeyManager {
 
 	private privateKey?: string;
 	private publicKey?: string;
 
+	private _jwks: RSA_JWK[] = [];
+
 	private keyLocation: string;
 
 	constructor(){
 		this.keyLocation = '/tmp/hive-gateway-key.json'
+	}
+
+	get jwks(){
+		if(!this.publicKey) return {keys: []}
+		return {
+			keys: this._jwks
+		}
 	}
 
 	async init(){
@@ -32,6 +42,9 @@ export class KeyManager {
 				privateKey,
 				publicKey
 			}), 'utf8')
+		}
+		if(this.publicKey){
+			this._jwks = [pem2jwk(this.publicKey)]
 		}
 	}
 
