@@ -1,36 +1,24 @@
 
 import { Neo4jGraphQL } from "@neo4j/graphql"
-import neo4j, { Driver } from "neo4j-driver"
+import { Driver } from "neo4j-driver"
 import gql from "graphql-tag"
 import {OGM} from "@neo4j/graphql-ogm"
 import { nanoid } from "nanoid"
 import apps from "./subschema/apps"
 import automate from "./subschema/automate"
-import command from "./subschema/command"
-import flow from "./subschema/flow"
 
 import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
-import { CoreV1Api, KubeConfig, KubernetesObjectApi } from "@kubernetes/client-node"
-import path from "path"
-import { apply } from "../task-registry/k8s"
 
 import { Kafka } from "kafkajs"
-import { createTask, createWorkflow } from "../task-registry/yml-templater"
-import { getPortEnv } from "../routes/pipelines/util"
+
 import acl from "./subschema/acl"
 import { createHash } from "crypto"
 import { sendInvite } from "../email"
 
-import { DeviceValue } from '@hexhive/types'
-
 import amqp from 'amqplib'
 
-import { text } from "stream/consumers"
-import { Client, Pool } from "pg"
-import { x } from "tar"
-import { getDeviceActions } from "../data/command"
-import { v4 } from "uuid"
+import { Pool } from "pg"
 
 require("dotenv").config()
 
@@ -91,9 +79,6 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 	${files}
 	${automate}
 	${acl}
-	${flow}
-
-	${command}
  
 	`
 	// MATCH path = (root:File)-[:HAS_CHILD]->(m:File)
@@ -144,132 +129,7 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			// }
 		},
 		Query: {
-			commandDeviceTimeseriesTotal: async (root: any, args: {
-				deviceId: string, //device in quest
-				device: string, //deviceId in quest
-				valueKey?: string,
-				startDate?: string,
-			}) => {
-				const client = await pgClient.connect()
-
-				const { deviceId, device, valueKey, startDate } = args
-
-				console.log({deviceId}, {device}, {valueKey})
-				const query = `
-				SELECT 
-					sum(SUB.total) as total
-				FROM 
-					(
-						SELECT (try_cast(value, 0) / 60) * EXTRACT(EPOCH from (LEAD(timestamp) over (order by timestamp) - timestamp)) as total
-						FROM
-							command_device_values
-						WHERE
-							device = $1
-							AND deviceId = $2
-							AND valueKey = $3
-							AND timestamp >= NOW() - (7 * INTERVAL '1 day') 
-						GROUP by deviceId, device, valueKey, timestamp, value
-					) as SUB
-				`//startDate
-				const result = await client.query(query, [deviceId, device, valueKey ])
-				await client.release()
-				console.log(result)
-				return result.rows?.[0]
-			},
-			commandDeviceTimeseries: async (root: any, args: {
-				deviceId: string, //device in quest
-				device: string, //deviceId in quest
-				valueKey?: string,
-				startDate?: string,
-			}) => {
-				const client = await pgClient.connect()
-
-				let query = `SELECT * FROM command_device_values WHERE deviceId=$1 AND device=$2`;
-				let params = [args.device, args.deviceId]
-
-				if(args.startDate){
-					params.push(new Date(args.startDate).toISOString())
-					query += ` AND timestamp >= $${params.length}`
-				}
-				if(args.valueKey) {
-					params.push(args.valueKey)
-
-					query += ` AND valueKey=$${params.length}`
-				}
-
-				console.log(query, params)
-
-				const result = await client.query(
-					query,
-					params
-				)
-
-				console.log(result)
-
-				await client.release()
-				return result.rows;
-			},
-			commandDeviceValue: async (root: any, args: {
-				bus: string,
-				device: string,
-				port: string
-			}) => {
-
-				const values = await DeviceValue.find({device: args.device});
-
-				// const client = await pgClient.connect()
-
-				// let where = ``;
-				// let whereClause : string[] = []
-				// let whereArgs : {key: string, value: string}[] = []
-
-				// if(args.bus) {
-				// 	// whereClause.push(`bus=$1`)
-				// 	whereArgs.push({value: args.bus, key: 'bus'})
-				// }
-
-				// if(args.device){
-				// 	whereArgs.push({value: args.device, key: 'device'})
-				// 	// whereClause.push(`device=$2`)
-				// }
-
-				// if(args.port){
-				// 	whereArgs.push({value: args.port, key: 'bus'})
-				// }
-
-				// if(whereClause.length > 0){
-				// 	where += `WHERE ${whereArgs.map((x, ix) => `${x.key}=$${ix + 1}`).join(' AND ')}`
-				// }
-
-
-				// const values = await client.query(
-				// 	`SELECT * FROM commandDeviceValues ${where} LATEST BY device,deviceId,valueKey`,
-				// 	[whereArgs.map((x) => x.value)]
-				// )
-
-				// await client.release()
-				
-				return values;
-			},
-			flowWorkInProgress: async (root: any, args: {startDate: Date, endDate: Date}, context: any) => {
-				return await session.readTransaction(async (tx) => {
-					let q = args.startDate ? 'WHERE p.startDate > datetime($startDate)' : ''
-					if(args.startDate && args.endDate) q += ` AND p.endDate < datetime($endDate)`
-					const r = await tx.run(`
-						MATCH (p:Project {status: "Job Open"})
-						${q}
-						MATCH (r:ProjectResult {id: p.id})
-						RETURN {
-							invoiced: sum(r.invoiced), 
-							quoted: sum(r.quoted)
-						}
-					`, {
-						startDate: args.startDate,
-						endDate: args.endDate
-					})
-					return r.records?.[0]?.get(0)
-				})
-			},
+			
 			resolveFS: async (root: any, args: {appId: string, mountPath: string}, context: any) => {
 				
 				let parts = args.mountPath.split('/')
@@ -372,206 +232,7 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 			}
 		},
 		Mutation: {
-			requestFlow: async (root: any, args: any, context: any) => {
-				console.log(args)
-				const waitingId = nanoid()
-				const device = await session.writeTransaction(async (tx) => {
-
-					const res = await tx.run(`
-						MATCH (device:CommandDevice {id: $id})
-						OPTIONAL MATCH (action:CommandProgramAction {id: $actionId})-->(flow:CommandProgramFlow)
-						RETURN device{.*, action: flow{.*}}
-					`, {
-						id: args.deviceId,
-						actionId: args.actionId
-					})
-
-					await tx.run(`
-						MATCH (device:CommandDevice {id: $id})
-						MERGE (device)-[:WAITING_FOR {id: $waitingId, start: datetime($date)}]->(action:CommandProgramAction {id: $actionId})
-					`, {
-						id: args.deviceId,
-						actionId: args.actionId,
-						waitingId: waitingId,
-						date: new Date().toISOString()
-					})
-					return res.records?.[0]?.get(0)
-					// return await getDeviceActions(tx, args.deviceId, args.deviceName)
-				
-				})
-
-				let action = device.action
-
-				console.log(device, action)
-				if(action){
-					let actionRequest = {
-						waitingId: waitingId,
-						address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
-						deviceId: args.deviceId,
-						flow: action.id
-					}
-					return await channel.sendToQueue(`COMMAND:FLOW:PRIORITIZE`, Buffer.from(JSON.stringify(actionRequest)))
-				}
-				// 	return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(actionRequest)))
-				// }
-
-				// console.log("DEVICE ACTION", device, args.action, action)
-
-				// let stateChange = {
-				// 	device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
-				// 	busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
-				// 	value: args.value == '0' ? false : true //false
-				// }
-
-				// console.log("Sending state change", stateChange)
-			
-				// return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(stateChange)))
-			},
-			performDeviceAction: async (root: any, args: any, context: any) => {
-				console.log(args)
-				const device = await session.readTransaction(async (tx) => {
-
-					return await getDeviceActions(tx, args.deviceId, args.deviceName)
-					
-					// const result = await tx.run(`
-					// 	MATCH (hostDevice:CommandDevice)-->(peripheral:CommandDevicePeripheral)-[reality:PROVIDES_REALITY]->(device:CommandDevicePlaceholder {name: $name})
-					// 	MATCH (map:CommandDevicePeripheralMap)-[:USES_DEVICE]->(device)
-					// 	MATCH (map)-[:USES_STATE]->(state:CommandProgramDeviceState {key: $key})
-					// 	MATCH (map)-[:USES_VARIABLE]->(variable)
-					// 	RETURN device {
-					// 		network_name: hostDevice.network_name,
-					// 		type: peripheral.type,
-					// 		id: peripheral.id,
-					// 		valueKey: 
-					// 	}
-					// 	(device:CommandDevice {id: $id})-[:HAS_PERIPHERAL]->(bus:CommandDevicePeripheral {id: $peripheral})
-					// 	RETURN device{
-					// 		network_name: device.network_name,
-					// 		type: bus.type,
-					// 		id: bus.id
-					// 	}
-					// `, {
-					// 	name: args.device,
-					// 	key: args.key
-					// })
-					// return result?.records?.[0]?.get(0)
-				})
-
-				let action = device.actions?.find((a: any) => a.key == args.action)
-
-				if(action){
-					let actionRequest = {
-						address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
-						deviceId: args.deviceId,
-						deviceName: args.deviceName,
-						action: action.key
-					}
-
-					// channel.
-					return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(actionRequest)))
-				}
-				// console.log("DEVICE ACTION", device, args.action, action)
-
-				// let stateChange = {
-				// 	device: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
-				// 	busPath: `/Objects/1:Devices/1:${device.type.toUpperCase()}|${device.id}|${args.port}/1:value`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
-				// 	value: args.value == '0' ? false : true //false
-				// }
-
-				// console.log("Sending state change", stateChange)
-			
-				// return await channel.sendToQueue(`COMMAND:DEVICE:CONTROL`, Buffer.from(JSON.stringify(stateChange)))
-			},
-			changeMode: async (root: any, args: {
-				deviceId: string,
-				mode: string
-			}, context: any) => {
-
-				const device = await session.readTransaction(async (tx) => {
-
-					const res = await tx.run(`
-						MATCH (device:CommandDevice {id: $id})
-						RETURN device{.*}
-					`, {
-						id: args.deviceId
-					})
-					return res.records?.[0]?.get(0)
-					// return await getDeviceActions(tx, args.deviceId, args.deviceName)
-				
-				})
-
-				let actionRequest = {
-					address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
-					deviceId: args.deviceId,
-					mode: args.mode
-				}
-
-				await session.writeTransaction(async (tx) => {
-					await tx.run(`
-						MATCH (device:CommandDevice {id: $id})
-						SET device.operatingMode = $mode
-						RETURN device
-					`, {
-						id: args.deviceId,
-						mode: args.mode
-					})
-				})
-
-				return await channel.sendToQueue(`COMMAND:MODE`, Buffer.from(JSON.stringify(actionRequest)))
-			},
-			changeDeviceMode: async (root: any, args: {
-				deviceId: string,
-				deviceName: string,
-				mode: string
-			}, context: any) => {
-				const device = await session.readTransaction(async (tx) => {
-
-					return await getDeviceActions(tx, args.deviceId, args.deviceName)
-				
-				})
-
-				let actionRequest = {
-					address: `opc.tcp://${device.network_name}.hexhive.io:8440`,
-					deviceId: args.deviceId,
-					deviceName: args.deviceName,
-					mode: args.mode
-				}
-
-				return await channel.sendToQueue(`COMMAND:DEVICE:MODE`, Buffer.from(JSON.stringify(actionRequest)))
-			},
-			changeDeviceValue: async (root: any, args: {
-				deviceId: string, 
-				deviceName: string, 
-				key: string, 
-				value: string
-			}, context: any) => {
-				
-				
-				const device = await session.readTransaction(async (tx) => {
-
-					const result = await tx.run(`
-						MATCH (device:CommandDevice {id: $id})
-						RETURN device{
-							.*
-						}
-					`, {
-						id: args.deviceId,
-					})
-					return result?.records?.[0]?.get(0)
-				})
-
-				console.log(args.value)
-
-				let stateChange = {
-					address: `opc.tcp://${device.network_name}.hexhive.io:8440`, //opc.tcp://${network_name}.hexhive.io:8440
-					busPath: `/Objects/1:Devices/1:${args.deviceName}/1:${args.key}`, ///1:Objects/1:Devices/${TYPE|SERIAL|PORT}/${key}
-					value: args.value
-				}
-
-				console.log("Sending state change", stateChange)
-			
-				return await channel.sendToQueue(`COMMAND:DEVICE:VALUE`, Buffer.from(JSON.stringify(stateChange)))
-			},
+		
 			updateHiveIntegrationInstanceState: async (root: any, args: any, context: any) => {
 				let org = context.user.organisation;
 

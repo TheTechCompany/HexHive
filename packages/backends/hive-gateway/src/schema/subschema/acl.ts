@@ -17,14 +17,6 @@ export default `
 		appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
 		integrations: [HiveIntegrationInstance] @relationship(type: "USES_INTEGRATION", direction: OUT)
 
-		schedule: [ScheduleItem] @relationship(type: "SCHEDULE", direction: OUT)
-		timeline: [TimelineItem] @relationship(type: "PLANNING", direction: OUT)
-
-		filesystems: [FileSystem] @relationship(type: "HAS_FS", direction: OUT)
-
-		devices: [CommandDevice] @relationship(type: "HAS_DEVICE", direction: OUT)
-		programs: [CommandProgram] @relationship(type: "HAS_PROGRAM", direction: OUT)
-		plugins: [CommandPlugin] @relationship(type: "HAS_PLUGIN", direction: OUT)
 	}
 
 	type HiveUser @auth(rules: [

@@ -15,6 +15,7 @@ import { Driver, Session } from "neo4j-driver"
 import { HiveRouter } from "./router"
 import { SchemaEndpoint, SchemaRegistry } from "./schema-registry"
 import hive from "./schema/hive"
+import { KeyManager } from "./keys"
 
 const {NODE_ENV} = process.env
 
@@ -25,6 +26,8 @@ export class HiveGateway {
 	private router: HiveRouter;
 
 	private taskRegistry: TaskRegistry = new TaskRegistry();
+
+	private keyManager: KeyManager;
 
 	private schemaRegistry?: SchemaRegistry;
 	private schemaReloader?: NodeJS.Timer;
@@ -42,6 +45,7 @@ export class HiveGateway {
 
 	constructor(opts: {port: number, endpoints?: SchemaEndpoint[]}){
 		this.router = new HiveRouter({port: opts.port})
+		this.keyManager = new KeyManager();
 		this.options = opts;
 
 	
@@ -49,6 +53,8 @@ export class HiveGateway {
 
 	async init(){
 		this.initDB();
+		await this.keyManager.init()
+
 		await this.initMQ();
 		await this.initHive();
 		await this.initRouter()
@@ -64,6 +70,7 @@ export class HiveGateway {
 		await this.router.start()
 	}
 
+	
 	async initHive(){
 		if(!this.neoDriver) throw new Error("No Neo4j Driver")
 		if(!this.mqChannel) throw new Error("No RabbitMQ")
@@ -72,13 +79,17 @@ export class HiveGateway {
 		const schema = await hive(this.neoDriver, this.mqChannel, this.pool, this.taskRegistry)
 		this.schemaRegistry = new SchemaRegistry({
 			initialEndpoints: this.options.endpoints || [],
-			internalSchema: schema
+			internalSchema: schema,
+			keyManager: (payload: any) => this.keyManager.sign(payload),
 		});
 	}
 
 	initRouter(){
 		if(!this.neoDriver) return;
 		this.router.mount('/', DefaultRouter(this.neoDriver, this.taskRegistry)) 
+		this.router.mount('/.well-known/jwks.json', (req: any, res: any) => {
+			res.send(this.keyManager.jwks)
+		})
 		this.router.mount('/graphql', this.schemaRegistry?.middleware())
 	}
 
