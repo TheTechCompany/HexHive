@@ -54,7 +54,7 @@ const argv = yargs(hideBin(process.argv)).options({
 				// });
 			
 				// servers a node app that proxies requests to a localhost
-				glx.serveApp(gateway.connect)
+				glx.serveApp(app)
 			}
 	
 			if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
