@@ -1,36 +1,24 @@
 
 import { Neo4jGraphQL } from "@neo4j/graphql"
-import neo4j, { Driver } from "neo4j-driver"
+import { Driver } from "neo4j-driver"
 import gql from "graphql-tag"
 import {OGM} from "@neo4j/graphql-ogm"
 import { nanoid } from "nanoid"
 import apps from "./subschema/apps"
 import automate from "./subschema/automate"
-import command from "./subschema/command"
-import flow from "./subschema/flow"
 
 import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
-import { CoreV1Api, KubeConfig, KubernetesObjectApi } from "@kubernetes/client-node"
-import path from "path"
-import { apply } from "../task-registry/k8s"
 
 import { Kafka } from "kafkajs"
-import { createTask, createWorkflow } from "../task-registry/yml-templater"
-import { getPortEnv } from "../routes/pipelines/util"
+
 import acl from "./subschema/acl"
 import { createHash } from "crypto"
 import { sendInvite } from "../email"
 
-import { DeviceValue } from '@hexhive/types'
-
 import amqp from 'amqplib'
 
-import { text } from "stream/consumers"
-import { Client, Pool } from "pg"
-import { x } from "tar"
-import { getDeviceActions } from "../data/command"
-import { v4 } from "uuid"
+import { Pool } from "pg"
 
 require("dotenv").config()
 
@@ -91,9 +79,6 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 	${files}
 	${automate}
 	${acl}
-	${flow}
-
-	${command}
  
 	`
 	// MATCH path = (root:File)-[:HAS_CHILD]->(m:File)
@@ -145,25 +130,6 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 		},
 		Query: {
 			
-			flowWorkInProgress: async (root: any, args: {startDate: Date, endDate: Date}, context: any) => {
-				return await session.readTransaction(async (tx) => {
-					let q = args.startDate ? 'WHERE p.startDate > datetime($startDate)' : ''
-					if(args.startDate && args.endDate) q += ` AND p.endDate < datetime($endDate)`
-					const r = await tx.run(`
-						MATCH (p:Project {status: "Job Open"})
-						${q}
-						MATCH (r:ProjectResult {id: p.id})
-						RETURN {
-							invoiced: sum(r.invoiced), 
-							quoted: sum(r.quoted)
-						}
-					`, {
-						startDate: args.startDate,
-						endDate: args.endDate
-					})
-					return r.records?.[0]?.get(0)
-				})
-			},
 			resolveFS: async (root: any, args: {appId: string, mountPath: string}, context: any) => {
 				
 				let parts = args.mountPath.split('/')
