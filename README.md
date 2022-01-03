@@ -36,9 +36,9 @@
 <h3 align="center">HexHive</h3>
 
   <p align="center">
-    project_description
+    Business integrations for the 21st century
     <br />
-    <a href="https://github.com/TheTechCompany/HexHive"><strong>Explore the docs »</strong></a>
+    <a href="https://docs.hexhive.io"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/TheTechCompany/HexHive">View Demo</a>
@@ -138,9 +138,25 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### GraphQL modules
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```
+import { HiveGraph } from '@hexhive/graphql-server';
+
+const graph = new HiveGraph({
+  rootServer: `gateway server`
+})
+
+graph.start($PORT)
+```
+
+### Microfrontend
+
+```
+npx create-single-spa ./app
+```
+
+_For more examples, please refer to the [Documentation](https://docs.hexhive.io)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -149,10 +165,13 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Feature 1
-- [] Feature 2
-- [] Feature 3
-    - [] Nested Feature
+- [] Local development gateway
+    - [] Local registry
+    - [] Local frontend server
+    - [] Local auth/db
+- [] Federated data
+- [] Realtime collaboration
+- [] Shared file system
 
 See the [open issues](https://github.com/TheTechCompany/HexHive/issues) for a full list of proposed features (and known issues).
 
