@@ -3,14 +3,22 @@ import { Router } from 'express';
 import {verify} from 'jsonwebtoken';
 import { GraphQLSchema } from 'graphql'
 import { graphqlHTTP } from 'express-graphql'
+import { Driver } from 'neo4j-driver';
+import { Neo4jGraphQL } from '@neo4j/graphql'
+import { mergeTypeDefs } from '@graphql-tools/merge'
+import gql from 'graphql-tag';
+import schema from './schema';
 
 export interface HiveGraphOptions {
 	rootServer: string;
-	schema: GraphQLSchema;
+	schema: GraphQLSchema | {typeDefs: any, resolvers: any, driver: Driver};
+	dev?: boolean;
 }
 
 export class HiveGraph {
 	
+	private dev: boolean;
+
 	private router: Router;
 
 	private rootServer?: string;
@@ -23,8 +31,25 @@ export class HiveGraph {
 
 	constructor(options: HiveGraphOptions){
 		this.rootServer = options.rootServer;
+		this.dev = options.dev || false
 
-		this.schema = options.schema;
+		if(options.schema instanceof GraphQLSchema){
+			this.schema = options.schema;
+
+		}else{
+			const { typeDefs, resolvers, driver } = options.schema;
+
+			const neo = new Neo4jGraphQL({
+				resolvers,
+				driver,
+				typeDefs: mergeTypeDefs([
+					schema,
+					typeDefs
+				])
+			})
+
+			this.schema = neo.schema
+		}
 
 		this.jwksClient = new JwksClient({
 			jwksUri: `${this.rootServer}/.well-known/jwks.json`
@@ -34,11 +59,15 @@ export class HiveGraph {
 
 	}
 
+	get isDev(){
+		return process.env.NODE_ENV === 'development' || this.dev
+	}
+
 	async init(){
 		await this.getRootConfiguration()
 
 		if(this.schema){
-			this.router.use('/graphql', this.isAuthenticated.bind(this))
+			if(!this.isDev) this.router.use('/graphql', this.isAuthenticated.bind(this))
 			this.router.use('/graphql', graphqlHTTP({
 				schema: this.schema,
 				graphiql: true,

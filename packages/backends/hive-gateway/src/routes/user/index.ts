@@ -1,6 +1,4 @@
 import { Router } from "express"
-import { CentralAuthServer } from "@hexhive/auth"
-import { Provider } from "oidc-provider"
 
 export const UserRouter  = () : Router => {
 	const router = Router()

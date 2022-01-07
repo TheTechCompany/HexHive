@@ -20,10 +20,10 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
                 if(user.sub){
                     setActiveUser(user)
                 }else{
-                    signIn();
+                    // signIn();
                 }
             }).catch((err) => {
-                signIn();
+                // signIn();
             })
         }else{
             console.log("Has user")
@@ -38,16 +38,16 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
         }).then((r) => r.json())
     }   
 
-    const signIn = () => {
-        let currentURL = `${window.location.href}${window.location.search}`; //?returnTo=${props.returnTo}
-        let url = `${props.authorizationServer}/login`
-        // alert(`RETURN TO ${props.returnTo} ${currentURL}`)
-        if(props.returnTo){
-            console.log("RETURN")
-            url += `?returnTo=${currentURL || props.returnTo}`
-        }
-        window.location.href = url;
-    }
+    // const signIn = () => {
+    //     let currentURL = `${window.location.href}${window.location.search}`; //?returnTo=${props.returnTo}
+    //     let url = `${props.authorizationServer}/login`
+    //     // alert(`RETURN TO ${props.returnTo} ${currentURL}`)
+    //     if(props.returnTo){
+    //         console.log("RETURN")
+    //         url += `?returnTo=${currentURL || props.returnTo}`
+    //     }
+    //     window.location.href = url;
+    // }
 
 
     return (
