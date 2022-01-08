@@ -5,192 +5,175 @@
 0 silly argv }
 1 notice cli v4.0.0
 2 verbose rootPath /Users/the-kid/work/contract-work/hexhive-common
-3 info current version 0.0.6-alpha.5
+3 info current version 0.0.6-alpha.6
 4 silly isAnythingCommitted
 5 verbose isAnythingCommitted 1
 6 silly getCurrentBranch
 7 verbose currentBranch staging
 8 silly remoteBranchExists
 9 silly isBehindUpstream
-10 silly isBehindUpstream staging is behind origin/staging by 0 commit(s) and ahead by 13
+10 silly isBehindUpstream staging is behind origin/staging by 0 commit(s) and ahead by 17
 11 silly hasTags
 12 verbose hasTags true
-13 silly git-describe.sync "v0.0.6-alpha.6-9-g367ae6a" => {"lastTagName":"v0.0.6-alpha.6","lastVersion":"v0.0.6-alpha.6","refCount":"9","sha":"367ae6a","isDirty":false}
-14 info Looking for changed packages since v0.0.6-alpha.6
+13 silly git-describe.sync "v0.0.6-alpha.7-2-g3954817" => {"lastTagName":"v0.0.6-alpha.7","lastVersion":"v0.0.6-alpha.7","refCount":"2","sha":"3954817","isDirty":false}
+14 info Looking for changed packages since v0.0.6-alpha.7
 15 silly checking diff packages/apps/hive3d
 16 silly no diff found in @hexhive-apps/hive3d
 17 silly checking diff packages/apps/hivereport
-18 silly found diff in packages/apps/hivereport/package.json
-19 verbose filtered diff [ 'packages/apps/hivereport/package.json' ]
-20 silly checking diff packages/backends/hive-admin
-21 silly no diff found in @hexhive-backends/admin
-22 silly checking diff packages/backends/hive-auth-provider
-23 silly no diff found in @hexhive/auth-provider
-24 silly checking diff packages/backends/hive-auth
-25 silly no diff found in hive-auth
-26 silly checking diff packages/backends/hive-files
-27 silly no diff found in @hexhive-backends/hive-files
-28 silly checking diff packages/backends/hive-frontend
-29 silly no diff found in @hexhive/frontend-server
-30 silly checking diff packages/backends/hive-gateway-local
-31 silly found diff in packages/backends/hive-gateway-local/package.json
-32 verbose filtered diff [ 'packages/backends/hive-gateway-local/package.json' ]
-33 silly checking diff packages/backends/hive-gateway
-34 silly found diff in packages/backends/hive-gateway/package.json
-34 silly found diff in packages/backends/hive-gateway/src/routes/user/index.ts
-35 verbose filtered diff [
-35 verbose filtered diff   'packages/backends/hive-gateway/package.json',
-35 verbose filtered diff   'packages/backends/hive-gateway/src/routes/user/index.ts'
-35 verbose filtered diff ]
-36 silly checking diff packages/clients/desktop-root
-37 silly no diff found in @hexhive-clients/desktop
-38 silly checking diff packages/core-apps/hexhive-admin
-39 silly no diff found in hexhive-admin
-40 silly checking diff packages/core-apps/hexhive-docs
-41 silly no diff found in @hexhive/docs
-42 silly checking diff packages/core-apps/hive-dashboard
-43 silly found diff in packages/core-apps/hive-dashboard/package.json
-44 verbose filtered diff [ 'packages/core-apps/hive-dashboard/package.json' ]
-45 silly checking diff packages/core-apps/hive-header
-46 silly found diff in packages/core-apps/hive-header/package.json
-47 verbose filtered diff [ 'packages/core-apps/hive-header/package.json' ]
-48 silly checking diff packages/core-apps/hiveautomate
-49 silly found diff in packages/core-apps/hiveautomate/package.json
-50 verbose filtered diff [ 'packages/core-apps/hiveautomate/package.json' ]
-51 silly checking diff packages/core-apps/hivebuild
-52 silly no diff found in @hexhive-coreapps/hivebuild
-53 silly checking diff packages/core-apps/hivefiles
-54 silly found diff in packages/core-apps/hivefiles/package.json
-55 verbose filtered diff [ 'packages/core-apps/hivefiles/package.json' ]
-56 silly checking diff packages/core-apps/hivemarket
-57 silly no diff found in @hexhive-coreapps/hivemarket
-58 silly checking diff packages/core-apps/hivesettings
-59 silly found diff in packages/core-apps/hivesettings/package.json
-60 verbose filtered diff [ 'packages/core-apps/hivesettings/package.json' ]
-61 silly checking diff packages/core/collaboration-client
-62 silly no diff found in @hexhive/collaboration-client
-63 silly checking diff packages/core/collaboration-server
-64 silly no diff found in @hexhive/collaboration-server
-65 silly checking diff packages/core/express-graphql
-66 silly no diff found in @hexhive/express-graphql
-67 silly checking diff packages/core/hexhive-client
-68 silly no diff found in @hexhive/client
-69 silly checking diff packages/core/hexhive-data
-70 silly no diff found in @hexhive/data-core
-71 silly checking diff packages/core/hexhive-events
-72 silly no diff found in @hexhive/events-client
-73 silly checking diff packages/core/hexhive-graphql-server
-74 silly found diff in packages/core/hexhive-graphql-server/package.json
-74 silly found diff in packages/core/hexhive-graphql-server/src/index.ts
-74 silly found diff in packages/core/hexhive-graphql-server/yarn.lock
-75 verbose filtered diff [
-75 verbose filtered diff   'packages/core/hexhive-graphql-server/package.json',
-75 verbose filtered diff   'packages/core/hexhive-graphql-server/src/index.ts',
-75 verbose filtered diff   'packages/core/hexhive-graphql-server/yarn.lock'
-75 verbose filtered diff ]
-76 silly checking diff packages/core/hexhive-microfrontend
-77 silly no diff found in @hexhive/microfrontend-server
-78 silly checking diff packages/core/hexhive-mq
-79 silly no diff found in @hexhive/mq
-80 silly checking diff packages/core/hexhive-ui
-81 silly no diff found in @hexhive/ui
-82 silly checking diff packages/core/hive-command-editor
-83 silly no diff found in @hexhive/command-editor
-84 silly checking diff packages/images/alpine-consumer
-85 silly no diff found in @hexhive/consumer
-86 silly checking diff packages/images/data-consumer
-87 silly no diff found in @hexhive/data-consumer
-88 silly checking diff packages/images/data-producer
-89 silly no diff found in @hexhive/data-producer
-90 silly checking diff packages/images/kluster-manager
-91 silly no diff found in @hexhive/kluster-manager
-92 silly checking diff packages/shared/eslint-config
-93 silly no diff found in @hexhive/eslint-config
-94 silly checking diff packages/shared/hexhive-auth-ui
-95 silly found diff in packages/shared/hexhive-auth-ui/package-lock.json
-95 silly found diff in packages/shared/hexhive-auth-ui/package.json
-95 silly found diff in packages/shared/hexhive-auth-ui/src/AuthProvider/index.tsx
-96 verbose filtered diff [
-96 verbose filtered diff   'packages/shared/hexhive-auth-ui/package-lock.json',
-96 verbose filtered diff   'packages/shared/hexhive-auth-ui/package.json',
-96 verbose filtered diff   'packages/shared/hexhive-auth-ui/src/AuthProvider/index.tsx'
-96 verbose filtered diff ]
-97 silly checking diff packages/shared/hexhive-icons
-98 silly no diff found in @hexhive/icons
-99 silly checking diff packages/shared/hexhive-styles
-100 silly no diff found in @hexhive/styles
-101 silly checking diff packages/shared/hexhive-types
-102 silly no diff found in @hexhive/types
-103 silly checking diff packages/shared/hexhive-utils
-104 silly no diff found in @hexhive/utils
-105 silly checking diff packages/shared/prettier-config
-106 silly no diff found in @hexhive/prettier-config
-107 silly checking diff packages/tools/hexhive-create
-108 silly no diff found in @hexhive/cli
-109 silly checking diff packages/tools/lambda-runtask
-110 silly no diff found in @hexhive/lambda-runtask
-111 silly checking diff packages/workers/mongodb-worker
-112 silly no diff found in mongodb-worker
-113 silly checking diff packages/workers/mssql-worker
-114 silly no diff found in @hexhive/mssql-worker
-115 silly checking diff packages/workers/patch
-116 silly no diff found in @hexhive/patch
-117 verbose updated @hexhive-apps/hivereport
-118 verbose updated @hexhive/local-gateway
-119 verbose updated @hexhive/gateway
-120 verbose updated @hexhive-core/dashboard
-121 verbose updated @hexhive-core/header
-122 verbose updated @hexhive-coreapps/hiveautomate
-123 verbose updated @hexhive-coreapps/hivefiles
-124 verbose updated @hexhive-coreapps/hivesettings
-125 verbose updated @hexhive/graphql-server
-126 verbose updated @hexhive/auth-ui
-127 verbose git-describe undefined => "v0.0.6-alpha.6-9-g367ae6a"
-128 silly git-describe parsed => {"lastTagName":"v0.0.6-alpha.6","lastVersion":"v0.0.6-alpha.6","refCount":"9","sha":"367ae6a","isDirty":false}
-129 info execute Skipping releases
-130 silly lifecycle No script for "preversion" in "@hexhive/common", continuing
-131 silly lifecycle No script for "preversion" in "@hexhive/gateway", continuing
-132 silly lifecycle No script for "preversion" in "@hexhive/graphql-server", continuing
-133 silly lifecycle No script for "preversion" in "@hexhive/auth-ui", continuing
-134 silly lifecycle No script for "version" in "@hexhive/graphql-server", continuing
-135 silly lifecycle No script for "version" in "@hexhive/gateway", continuing
-136 silly lifecycle No script for "preversion" in "@hexhive/local-gateway", continuing
-137 silly lifecycle No script for "version" in "@hexhive/auth-ui", continuing
-138 silly lifecycle No script for "preversion" in "@hexhive-apps/hivereport", continuing
-139 silly lifecycle No script for "preversion" in "@hexhive-core/dashboard", continuing
-140 silly lifecycle No script for "preversion" in "@hexhive-core/header", continuing
-141 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hiveautomate", continuing
-142 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivefiles", continuing
-143 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivesettings", continuing
-144 silly lifecycle No script for "version" in "@hexhive/local-gateway", continuing
-145 silly lifecycle No script for "version" in "@hexhive-coreapps/hiveautomate", continuing
-146 silly lifecycle No script for "version" in "@hexhive-apps/hivereport", continuing
-147 silly lifecycle No script for "version" in "@hexhive-core/dashboard", continuing
-148 silly lifecycle No script for "version" in "@hexhive-coreapps/hivesettings", continuing
-149 silly lifecycle No script for "version" in "@hexhive-core/header", continuing
-150 silly lifecycle No script for "version" in "@hexhive-coreapps/hivefiles", continuing
-151 silly lifecycle No script for "version" in "@hexhive/common", continuing
-152 silly gitAdd [
-152 silly gitAdd   'packages/core/hexhive-graphql-server/package.json',
-152 silly gitAdd   'packages/backends/hive-gateway/package.json',
-152 silly gitAdd   'packages/shared/hexhive-auth-ui/package.json',
-152 silly gitAdd   'packages/shared/hexhive-auth-ui/package-lock.json',
-152 silly gitAdd   'packages/backends/hive-gateway-local/package.json',
-152 silly gitAdd   'packages/core-apps/hiveautomate/package.json',
-152 silly gitAdd   'packages/apps/hivereport/package.json',
-152 silly gitAdd   'packages/core-apps/hive-dashboard/package.json',
-152 silly gitAdd   'packages/core-apps/hivesettings/package.json',
-152 silly gitAdd   'packages/core-apps/hive-header/package.json',
-152 silly gitAdd   'packages/core-apps/hivefiles/package.json',
-152 silly gitAdd   'lerna.json'
-152 silly gitAdd ]
-153 silly gitCommit v0.0.6-alpha.6
-154 verbose git [ 'commit', '-m', 'v0.0.6-alpha.6' ]
-155 silly gitTag v0.0.6-alpha.6
-156 verbose git [ 'tag', 'v0.0.6-alpha.6', '-m', 'v0.0.6-alpha.6' ]
-157 error Error: Command failed with exit code 128: git tag v0.0.6-alpha.6 -m v0.0.6-alpha.6
-157 error fatal: tag 'v0.0.6-alpha.6' already exists
-157 error     at makeError (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/lib/error.js:60:11)
-157 error     at handlePromise (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/index.js:118:26)
-157 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
-157 error     at async Promise.all (index 0)
+18 silly no diff found in @hexhive-apps/hivereport
+19 silly checking diff packages/backends/hive-admin
+20 silly no diff found in @hexhive-backends/admin
+21 silly checking diff packages/backends/hive-auth-provider
+22 silly no diff found in @hexhive/auth-provider
+23 silly checking diff packages/backends/hive-auth
+24 silly no diff found in hive-auth
+25 silly checking diff packages/backends/hive-files
+26 silly no diff found in @hexhive-backends/hive-files
+27 silly checking diff packages/backends/hive-frontend
+28 silly no diff found in @hexhive/frontend-server
+29 silly checking diff packages/backends/hive-gateway-local
+30 silly no diff found in @hexhive/local-gateway
+31 silly checking diff packages/backends/hive-gateway
+32 silly found diff in packages/backends/hive-gateway/src/routes/index.ts
+33 verbose filtered diff [ 'packages/backends/hive-gateway/src/routes/index.ts' ]
+34 silly checking diff packages/clients/desktop-root
+35 silly no diff found in @hexhive-clients/desktop
+36 silly checking diff packages/core-apps/hexhive-admin
+37 silly no diff found in hexhive-admin
+38 silly checking diff packages/core-apps/hexhive-docs
+39 silly no diff found in @hexhive/docs
+40 silly checking diff packages/core-apps/hive-dashboard
+41 silly no diff found in @hexhive-core/dashboard
+42 silly checking diff packages/core-apps/hive-header
+43 silly no diff found in @hexhive-core/header
+44 silly checking diff packages/core-apps/hiveautomate
+45 silly no diff found in @hexhive-coreapps/hiveautomate
+46 silly checking diff packages/core-apps/hivebuild
+47 silly no diff found in @hexhive-coreapps/hivebuild
+48 silly checking diff packages/core-apps/hivefiles
+49 silly no diff found in @hexhive-coreapps/hivefiles
+50 silly checking diff packages/core-apps/hivemarket
+51 silly no diff found in @hexhive-coreapps/hivemarket
+52 silly checking diff packages/core-apps/hivesettings
+53 silly no diff found in @hexhive-coreapps/hivesettings
+54 silly checking diff packages/core/collaboration-client
+55 silly no diff found in @hexhive/collaboration-client
+56 silly checking diff packages/core/collaboration-server
+57 silly no diff found in @hexhive/collaboration-server
+58 silly checking diff packages/core/express-graphql
+59 silly no diff found in @hexhive/express-graphql
+60 silly checking diff packages/core/hexhive-client
+61 silly no diff found in @hexhive/client
+62 silly checking diff packages/core/hexhive-data
+63 silly no diff found in @hexhive/data-core
+64 silly checking diff packages/core/hexhive-events
+65 silly no diff found in @hexhive/events-client
+66 silly checking diff packages/core/hexhive-graphql-server
+67 silly found diff in packages/core/hexhive-graphql-server/package.json
+67 silly found diff in packages/core/hexhive-graphql-server/src/index.ts
+67 silly found diff in packages/core/hexhive-graphql-server/yarn.lock
+68 verbose filtered diff [
+68 verbose filtered diff   'packages/core/hexhive-graphql-server/package.json',
+68 verbose filtered diff   'packages/core/hexhive-graphql-server/src/index.ts',
+68 verbose filtered diff   'packages/core/hexhive-graphql-server/yarn.lock'
+68 verbose filtered diff ]
+69 silly checking diff packages/core/hexhive-microfrontend
+70 silly no diff found in @hexhive/microfrontend-server
+71 silly checking diff packages/core/hexhive-mq
+72 silly no diff found in @hexhive/mq
+73 silly checking diff packages/core/hexhive-ui
+74 silly no diff found in @hexhive/ui
+75 silly checking diff packages/core/hive-command-editor
+76 silly no diff found in @hexhive/command-editor
+77 silly checking diff packages/images/alpine-consumer
+78 silly no diff found in @hexhive/consumer
+79 silly checking diff packages/images/data-consumer
+80 silly no diff found in @hexhive/data-consumer
+81 silly checking diff packages/images/data-producer
+82 silly no diff found in @hexhive/data-producer
+83 silly checking diff packages/images/kluster-manager
+84 silly no diff found in @hexhive/kluster-manager
+85 silly checking diff packages/shared/eslint-config
+86 silly no diff found in @hexhive/eslint-config
+87 silly checking diff packages/shared/hexhive-auth-ui
+88 silly found diff in packages/shared/hexhive-auth-ui/src/AuthProvider/index.tsx
+89 verbose filtered diff [ 'packages/shared/hexhive-auth-ui/src/AuthProvider/index.tsx' ]
+90 silly checking diff packages/shared/hexhive-icons
+91 silly no diff found in @hexhive/icons
+92 silly checking diff packages/shared/hexhive-styles
+93 silly no diff found in @hexhive/styles
+94 silly checking diff packages/shared/hexhive-types
+95 silly no diff found in @hexhive/types
+96 silly checking diff packages/shared/hexhive-utils
+97 silly no diff found in @hexhive/utils
+98 silly checking diff packages/shared/prettier-config
+99 silly no diff found in @hexhive/prettier-config
+100 silly checking diff packages/tools/hexhive-create
+101 silly no diff found in @hexhive/cli
+102 silly checking diff packages/tools/lambda-runtask
+103 silly no diff found in @hexhive/lambda-runtask
+104 silly checking diff packages/workers/mongodb-worker
+105 silly no diff found in mongodb-worker
+106 silly checking diff packages/workers/mssql-worker
+107 silly no diff found in @hexhive/mssql-worker
+108 silly checking diff packages/workers/patch
+109 silly no diff found in @hexhive/patch
+110 verbose updated @hexhive-apps/hivereport
+111 verbose updated @hexhive/local-gateway
+112 verbose updated @hexhive/gateway
+113 verbose updated @hexhive-core/dashboard
+114 verbose updated @hexhive-core/header
+115 verbose updated @hexhive-coreapps/hiveautomate
+116 verbose updated @hexhive-coreapps/hivefiles
+117 verbose updated @hexhive-coreapps/hivesettings
+118 verbose updated @hexhive/graphql-server
+119 verbose updated @hexhive/auth-ui
+120 verbose git-describe undefined => "v0.0.6-alpha.7-2-g3954817"
+121 silly git-describe parsed => {"lastTagName":"v0.0.6-alpha.7","lastVersion":"v0.0.6-alpha.7","refCount":"2","sha":"3954817","isDirty":false}
+122 info execute Skipping releases
+123 silly lifecycle No script for "preversion" in "@hexhive/common", continuing
+124 silly lifecycle No script for "preversion" in "@hexhive/gateway", continuing
+125 silly lifecycle No script for "preversion" in "@hexhive/graphql-server", continuing
+126 silly lifecycle No script for "preversion" in "@hexhive/auth-ui", continuing
+127 silly lifecycle No script for "version" in "@hexhive/graphql-server", continuing
+128 silly lifecycle No script for "version" in "@hexhive/gateway", continuing
+129 silly lifecycle No script for "preversion" in "@hexhive/local-gateway", continuing
+130 silly lifecycle No script for "version" in "@hexhive/auth-ui", continuing
+131 silly lifecycle No script for "preversion" in "@hexhive-apps/hivereport", continuing
+132 silly lifecycle No script for "preversion" in "@hexhive-core/dashboard", continuing
+133 silly lifecycle No script for "preversion" in "@hexhive-core/header", continuing
+134 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hiveautomate", continuing
+135 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivefiles", continuing
+136 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivesettings", continuing
+137 silly lifecycle No script for "version" in "@hexhive-core/dashboard", continuing
+138 silly lifecycle No script for "version" in "@hexhive/local-gateway", continuing
+139 silly lifecycle No script for "version" in "@hexhive-coreapps/hiveautomate", continuing
+140 silly lifecycle No script for "version" in "@hexhive-core/header", continuing
+141 silly lifecycle No script for "version" in "@hexhive-coreapps/hivesettings", continuing
+142 silly lifecycle No script for "version" in "@hexhive-coreapps/hivefiles", continuing
+143 silly lifecycle No script for "version" in "@hexhive-apps/hivereport", continuing
+144 silly lifecycle No script for "version" in "@hexhive/common", continuing
+145 silly gitAdd [
+145 silly gitAdd   'packages/core/hexhive-graphql-server/package.json',
+145 silly gitAdd   'packages/backends/hive-gateway/package.json',
+145 silly gitAdd   'packages/shared/hexhive-auth-ui/package.json',
+145 silly gitAdd   'packages/shared/hexhive-auth-ui/package-lock.json',
+145 silly gitAdd   'packages/core-apps/hive-dashboard/package.json',
+145 silly gitAdd   'packages/backends/hive-gateway-local/package.json',
+145 silly gitAdd   'packages/core-apps/hiveautomate/package.json',
+145 silly gitAdd   'packages/core-apps/hive-header/package.json',
+145 silly gitAdd   'packages/core-apps/hivesettings/package.json',
+145 silly gitAdd   'packages/core-apps/hivefiles/package.json',
+145 silly gitAdd   'packages/apps/hivereport/package.json',
+145 silly gitAdd   'lerna.json'
+145 silly gitAdd ]
+146 silly gitCommit v0.0.6-alpha.7
+147 verbose git [ 'commit', '-m', 'v0.0.6-alpha.7' ]
+148 silly gitTag v0.0.6-alpha.7
+149 verbose git [ 'tag', 'v0.0.6-alpha.7', '-m', 'v0.0.6-alpha.7' ]
+150 error Error: Command failed with exit code 128: git tag v0.0.6-alpha.7 -m v0.0.6-alpha.7
+150 error fatal: tag 'v0.0.6-alpha.7' already exists
+150 error     at makeError (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/lib/error.js:60:11)
+150 error     at handlePromise (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/index.js:118:26)
+150 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+150 error     at async Promise.all (index 0)
