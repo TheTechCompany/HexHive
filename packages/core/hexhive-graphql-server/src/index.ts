@@ -28,7 +28,7 @@ export class HiveGraph {
 
 	private rootServer?: string;
 
-	private schema?: GraphQLSchema;
+	private schema: GraphQLSchema;
 
 	private jwksClient?: JwksClient;
 
@@ -72,12 +72,20 @@ export class HiveGraph {
 	async init(){
 		await this.getRootConfiguration()
 
+		// if(!this.schema) return;
 		if(this.schema){
 			if(!this.isDev) this.router.use('/graphql', this.isAuthenticated.bind(this))
-			this.router.use('/graphql', graphqlHTTP({
-				schema: this.schema,
-				graphiql: true,
-			}))
+			this.router.use(
+				'/graphql', 
+				graphqlHTTP(async (req, res, graphqlParams) => ({
+					schema: this.schema,
+					graphiql: true,
+					context: {
+						...req,
+						ogm: this.ogm
+					}
+				}))
+			)
 		}
 	}
 
