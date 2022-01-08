@@ -6,6 +6,9 @@ import { graphqlHTTP } from 'express-graphql'
 import { Driver } from 'neo4j-driver';
 import { Neo4jGraphQL } from '@neo4j/graphql'
 import { mergeTypeDefs } from '@graphql-tools/merge'
+
+import {OGM} from '@neo4j/graphql-ogm'
+
 import gql from 'graphql-tag';
 import schema from './schema';
 
@@ -16,6 +19,8 @@ export interface HiveGraphOptions {
 }
 
 export class HiveGraph {
+
+	private ogm?: OGM;
 	
 	private dev: boolean;
 
@@ -35,19 +40,20 @@ export class HiveGraph {
 
 		if(options.schema instanceof GraphQLSchema){
 			this.schema = options.schema;
-
 		}else{
 			const { typeDefs, resolvers, driver } = options.schema;
 
+			const mergedTypeDefs = mergeTypeDefs([
+				schema,
+				typeDefs
+			])
 			const neo = new Neo4jGraphQL({
 				resolvers,
 				driver,
-				typeDefs: mergeTypeDefs([
-					schema,
-					typeDefs
-				])
+				typeDefs: mergedTypeDefs
 			})
 
+			this.ogm = new OGM({ typeDefs: mergedTypeDefs, driver })
 			this.schema = neo.schema
 		}
 
@@ -105,6 +111,10 @@ export class HiveGraph {
 
 	get middleware(){
 		return this.router
+	}
+
+	get graphManager(){
+		return this.ogm
 	}
 	
 }

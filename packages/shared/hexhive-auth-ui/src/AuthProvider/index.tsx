@@ -5,7 +5,7 @@ export const AuthContext = createContext<{activeUser?: {id?: string, sub?: strin
 
 export interface AuthProviderProps {
     authorizationServer: string; //baseurl for /login
-    returnTo: string; //return to section in app
+    // returnTo: string; //return to section in app
 }
 
 export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
