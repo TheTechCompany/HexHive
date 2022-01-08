@@ -5,17 +5,17 @@
 0 silly argv }
 1 notice cli v4.0.0
 2 verbose rootPath /Users/the-kid/work/contract-work/hexhive-common
-3 info current version 0.0.6-alpha.4
+3 info current version 0.0.6-alpha.5
 4 silly isAnythingCommitted
 5 verbose isAnythingCommitted 1
 6 silly getCurrentBranch
 7 verbose currentBranch staging
 8 silly remoteBranchExists
 9 silly isBehindUpstream
-10 silly isBehindUpstream staging is behind origin/staging by 0 commit(s) and ahead by 11
+10 silly isBehindUpstream staging is behind origin/staging by 0 commit(s) and ahead by 13
 11 silly hasTags
 12 verbose hasTags true
-13 silly git-describe.sync "v0.0.6-alpha.6-7-ga5c3b80" => {"lastTagName":"v0.0.6-alpha.6","lastVersion":"v0.0.6-alpha.6","refCount":"7","sha":"a5c3b80","isDirty":false}
+13 silly git-describe.sync "v0.0.6-alpha.6-9-g367ae6a" => {"lastTagName":"v0.0.6-alpha.6","lastVersion":"v0.0.6-alpha.6","refCount":"9","sha":"367ae6a","isDirty":false}
 14 info Looking for changed packages since v0.0.6-alpha.6
 15 silly checking diff packages/apps/hive3d
 16 silly no diff found in @hexhive-apps/hive3d
@@ -145,8 +145,8 @@
 124 verbose updated @hexhive-coreapps/hivesettings
 125 verbose updated @hexhive/graphql-server
 126 verbose updated @hexhive/auth-ui
-127 verbose git-describe undefined => "v0.0.6-alpha.6-7-ga5c3b80"
-128 silly git-describe parsed => {"lastTagName":"v0.0.6-alpha.6","lastVersion":"v0.0.6-alpha.6","refCount":"7","sha":"a5c3b80","isDirty":false}
+127 verbose git-describe undefined => "v0.0.6-alpha.6-9-g367ae6a"
+128 silly git-describe parsed => {"lastTagName":"v0.0.6-alpha.6","lastVersion":"v0.0.6-alpha.6","refCount":"9","sha":"367ae6a","isDirty":false}
 129 info execute Skipping releases
 130 silly lifecycle No script for "preversion" in "@hexhive/common", continuing
 131 silly lifecycle No script for "preversion" in "@hexhive/gateway", continuing
@@ -162,12 +162,12 @@
 141 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hiveautomate", continuing
 142 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivefiles", continuing
 143 silly lifecycle No script for "preversion" in "@hexhive-coreapps/hivesettings", continuing
-144 silly lifecycle No script for "version" in "@hexhive-core/dashboard", continuing
+144 silly lifecycle No script for "version" in "@hexhive/local-gateway", continuing
 145 silly lifecycle No script for "version" in "@hexhive-coreapps/hiveautomate", continuing
-146 silly lifecycle No script for "version" in "@hexhive/local-gateway", continuing
-147 silly lifecycle No script for "version" in "@hexhive-core/header", continuing
+146 silly lifecycle No script for "version" in "@hexhive-apps/hivereport", continuing
+147 silly lifecycle No script for "version" in "@hexhive-core/dashboard", continuing
 148 silly lifecycle No script for "version" in "@hexhive-coreapps/hivesettings", continuing
-149 silly lifecycle No script for "version" in "@hexhive-apps/hivereport", continuing
+149 silly lifecycle No script for "version" in "@hexhive-core/header", continuing
 150 silly lifecycle No script for "version" in "@hexhive-coreapps/hivefiles", continuing
 151 silly lifecycle No script for "version" in "@hexhive/common", continuing
 152 silly gitAdd [
@@ -175,21 +175,21 @@
 152 silly gitAdd   'packages/backends/hive-gateway/package.json',
 152 silly gitAdd   'packages/shared/hexhive-auth-ui/package.json',
 152 silly gitAdd   'packages/shared/hexhive-auth-ui/package-lock.json',
-152 silly gitAdd   'packages/core-apps/hive-dashboard/package.json',
-152 silly gitAdd   'packages/core-apps/hiveautomate/package.json',
 152 silly gitAdd   'packages/backends/hive-gateway-local/package.json',
-152 silly gitAdd   'packages/core-apps/hive-header/package.json',
-152 silly gitAdd   'packages/core-apps/hivesettings/package.json',
+152 silly gitAdd   'packages/core-apps/hiveautomate/package.json',
 152 silly gitAdd   'packages/apps/hivereport/package.json',
+152 silly gitAdd   'packages/core-apps/hive-dashboard/package.json',
+152 silly gitAdd   'packages/core-apps/hivesettings/package.json',
+152 silly gitAdd   'packages/core-apps/hive-header/package.json',
 152 silly gitAdd   'packages/core-apps/hivefiles/package.json',
 152 silly gitAdd   'lerna.json'
 152 silly gitAdd ]
-153 silly gitCommit v0.0.6-alpha.5
-154 verbose git [ 'commit', '-m', 'v0.0.6-alpha.5' ]
-155 silly gitTag v0.0.6-alpha.5
-156 verbose git [ 'tag', 'v0.0.6-alpha.5', '-m', 'v0.0.6-alpha.5' ]
-157 error Error: Command failed with exit code 128: git tag v0.0.6-alpha.5 -m v0.0.6-alpha.5
-157 error fatal: tag 'v0.0.6-alpha.5' already exists
+153 silly gitCommit v0.0.6-alpha.6
+154 verbose git [ 'commit', '-m', 'v0.0.6-alpha.6' ]
+155 silly gitTag v0.0.6-alpha.6
+156 verbose git [ 'tag', 'v0.0.6-alpha.6', '-m', 'v0.0.6-alpha.6' ]
+157 error Error: Command failed with exit code 128: git tag v0.0.6-alpha.6 -m v0.0.6-alpha.6
+157 error fatal: tag 'v0.0.6-alpha.6' already exists
 157 error     at makeError (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/lib/error.js:60:11)
 157 error     at handlePromise (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/index.js:118:26)
 157 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
