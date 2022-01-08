@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-coreapps/hivesettings",
-  "version": "0.0.6-alpha.7",
+  "version": "0.0.6-alpha.8",
   "scripts": {
     "start": "webpack serve --port 8519",
     "start:standalone": "webpack serve --env standalone",
@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.15",
-    "@hexhive/auth-ui": "^0.0.6-alpha.7",
+    "@hexhive/auth-ui": "^0.0.6-alpha.8",
     "@hexhive/client": "^0.0.6-alpha.1",
     "@hexhive/styles": "^0.0.6-alpha.1",
     "@hexhive/ui": "^0.0.6-alpha.1",

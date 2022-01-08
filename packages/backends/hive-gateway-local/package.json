@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/local-gateway",
-  "version": "0.0.6-alpha.7",
+  "version": "0.0.6-alpha.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@hexhive/frontend-server": "^0.0.6-alpha.1",
-    "@hexhive/gateway": "^0.0.6-alpha.7",
+    "@hexhive/gateway": "^0.0.6-alpha.8",
     "express": "^4.17.2",
     "yargs": "^17.3.1"
   }
