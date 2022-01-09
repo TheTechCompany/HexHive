@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/command-editor",
-  "version": "0.0.6-alpha.11",
+  "version": "0.0.6-alpha.12",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -30,7 +30,7 @@
   "dependencies": {
     "@hexhive/styles": "^0.0.6-alpha.1",
     "@hexhive/types": "^0.0.6-alpha.1",
-    "@hexhive/ui": "^0.0.6-alpha.11",
+    "@hexhive/ui": "^0.0.6-alpha.12",
     "@hexhive/utils": "^0.0.6-alpha.1",
     "@monaco-editor/react": "^4.2.1",
     "automerge": "^1.0.1-preview.3",
