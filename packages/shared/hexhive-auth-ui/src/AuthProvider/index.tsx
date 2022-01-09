@@ -10,14 +10,14 @@ export interface AuthProviderProps {
 
 export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
     
-    const [ activeUser, setActiveUser ] = useState<{sub?: string, name?: string, email?: string, organisation?: string}>()
+    const [ activeUser, setActiveUser ] = useState<{id?: string, name?: string, email?: string, organisation?: string}>()
 
     const [ token, setToken ] = useToken()
 
     useEffect(() => {
-        if(!activeUser?.sub){
+        if(!activeUser?.id){
             getUser().then((user) => {
-                if(user.sub){
+                if(user.id){
                     setActiveUser(user)
                 }else{
                     // signIn();

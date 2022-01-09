@@ -20,8 +20,8 @@ var JwtStrategy = require('passport-jwt').Strategy,
 		authorizationURL: `https://${url}/auth`,
 		tokenURL: `https://${url}/token`,
 		userInfoURL: `https://${url}/me`,
-		 clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
-		 clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
+		clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
+		clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
 		callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
 		scope: process.env.SCOPE || "openid email name groups"
 	};
@@ -91,6 +91,7 @@ export class HiveRouter {
 	
 			
 		passport.use('oidc', new OidcStrategy(config, (issuer: any, sub: any, profile: any, accessToken: any, refreshToken: any, done: any) => {
+			console.log({profile})
 			return done(null, profile)
 		}))
 			//JWT Auth for CI Jobs
