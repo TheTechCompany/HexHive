@@ -9,7 +9,6 @@ import moment from 'moment';
 
 import { Button, Text, Select, Heading,  Box, Layer, TextInput} from 'grommet'
 // import './file-dialog.css';
-import { IFile as HexFile } from '@hexhive/types'
 import { dateFromObjectID } from '@hexhive/utils'
 import { FileViewer } from '../../file-viewer';
 import { FileContent } from './FileContent';
@@ -19,10 +18,10 @@ import { isEqual } from 'lodash';
 export interface FileDialogProps {
   open: boolean;
   onClose?: any;
-  onSubmit?: (files: HexFile[]) => void;
+  onSubmit?: (files: any[]) => void;
 
   job?: any;
-  files?: HexFile[];
+  files?: any[];
 
   token?: string;
 
@@ -32,7 +31,7 @@ export const FileDialog : React.FC<FileDialogProps> = (props) =>{
 
   const [ expanded, setExpanded ] = useState<boolean>(true);
 
-  const [ files, setFiles ] = useState<HexFile[]>([])
+  const [ files, setFiles ] = useState<any[]>([])
 
   useEffect(() => {
     console.log(props.files)
