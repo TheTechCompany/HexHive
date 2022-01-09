@@ -5,13 +5,12 @@ import React, {
 // import { connect } from 'react-redux';
 // import { File } from '../../../gqless';
 // import { StoreState } from '../../../reducers';
-import { IFile } from '@hexhive/types'
 import { FileViewer } from '../file-viewer';
 
 
 export interface FileCardProps {
   token?: string;
-  file?: IFile;
+  file?: any;
   jobId?: string;
 }
 
