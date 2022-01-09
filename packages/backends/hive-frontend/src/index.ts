@@ -27,7 +27,7 @@ const config = {
     process.env.CLIENT_SECRET ||
     `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
   callbackURL: `${process.env.BASE_URL || "http://localhost:8000"}/callback`,
-  scope: process.env.SCOPE || "openid email name groups",
+  scope: process.env.SCOPE || "openid email name groups organisations",
 };
 
 export class HiveFrontendServer {
@@ -179,11 +179,32 @@ export class HiveFrontendServer {
 
   initPassport() {
     passport.serializeUser((user, next) => {
+      console.log("serializeUser", user);
       next(null, user);
     });
 
     passport.deserializeUser((obj: any, next) => {
-      next(null, obj);
+      const session = this.neoDriver?.session();
+      session?.run(`
+        MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+        RETURN user{
+          id: user.id,
+          name: user.name,
+          organisation: org.id
+        }
+      `, {
+        
+          id: obj.id,
+        
+      }).then((data) => {
+        
+        const user = data.records?.[0].get(0);
+        console.log("deserializeUser", user);
+        session.close()
+        next(null, user);
+      })
+      // 
+      // next(null, obj);
     });
 
     this.app.use(
@@ -216,7 +237,11 @@ export class HiveFrontendServer {
 
     passport.use(
       "oidc",
-      new OidcStrategy(config, (issuer: any, profile: any, done: any) => {
+      new OidcStrategy({
+        ...config,
+        skipUserProfile: false,
+      }, (issuer: any, profile: any, done: any) => {
+        console.log({profile})
         return done(null, profile);
       })
     );

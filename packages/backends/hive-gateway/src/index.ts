@@ -23,7 +23,7 @@ const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next
 
 export class HiveGateway {
 
-	private router: HiveRouter;
+	private router?: HiveRouter;
 
 	private taskRegistry: TaskRegistry = new TaskRegistry();
 
@@ -44,7 +44,7 @@ export class HiveGateway {
 
 
 	constructor(opts: {dev: boolean, endpoints?: SchemaEndpoint[]}){
-		this.router = new HiveRouter({})
+		
 		this.keyManager = new KeyManager();
 		this.options = opts;
 	
@@ -58,6 +58,10 @@ export class HiveGateway {
 		this.initDB();
 		await this.keyManager.init()
 
+		this.router = new HiveRouter({
+			neoDriver: this.neoDriver
+		})
+
 		await this.initMQ();
 		await this.initHive();
 		await this.initRouter()
@@ -70,7 +74,7 @@ export class HiveGateway {
 	}
 
 	get connect(){
-		return this.router.connect
+		return this.router?.connect
 	}
 
 	get endpoints(){
@@ -92,11 +96,17 @@ export class HiveGateway {
 
 	initRouter(){
 		if(!this.neoDriver) return;
-		this.router.mount(DefaultRouter(this.neoDriver, this.taskRegistry)) 
-		this.router.mount('/.well-known/jwks.json', (req: any, res: any) => {
+		this.router?.mount(DefaultRouter(this.neoDriver, this.taskRegistry)) 
+
+		this.router?.mount('*', (req: any, res: any, next: any) => {
+			console.log({user: req.user});
+
+			next()
+		})
+		this.router?.mount('/.well-known/jwks.json', (req: any, res: any) => {
 			res.send(this.keyManager.jwks)
 		})
-		this.router.mount('/graphql', this.schemaRegistry?.middleware())
+		this.router?.mount('/graphql', this.schemaRegistry?.middleware())
 
 	}
 

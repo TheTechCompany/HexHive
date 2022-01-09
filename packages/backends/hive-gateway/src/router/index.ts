@@ -6,6 +6,7 @@ import passport from 'passport';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import MongoStore from 'connect-mongo'
+import { Driver } from 'neo4j-driver'
 
 const {NODE_ENV} = process.env
 
@@ -27,7 +28,7 @@ var JwtStrategy = require('passport-jwt').Strategy,
 	};
 
 export interface HiveRouterOptions {
-
+	neoDriver?: Driver;
 }
 
 export class HiveRouter {
@@ -35,10 +36,13 @@ export class HiveRouter {
 	private app: Router;
 	// private server: HttpServer;
 
+	private options: HiveRouterOptions;
 
 	constructor(options: HiveRouterOptions) {
 
 		this.app = Router()
+
+		this.options = options
 
 		// this.server = createServer(this.app)
 
@@ -59,11 +63,34 @@ export class HiveRouter {
 
 	initPassport(){
 		passport.serializeUser((user, next) => {
+			console.log("serializeUser", user)
 			next(null, user);
 		});
 		  
 		passport.deserializeUser((obj: any, next) => {
-			next(null, obj);
+			console.log("deserializeUser", obj);
+			
+			const session = this.options.neoDriver?.session();
+			session?.run(`
+			  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+			  RETURN user{
+				id: user.id,
+				name: user.name,
+				organisation: org.id
+			  }
+			`, {
+			  
+				id: obj.id,
+			  
+			}).then((data) => {
+			  
+			  const user = data.records?.[0].get(0);
+			  console.log("deserializeUser", user);
+			  session.close()
+			  next(null, user);
+			})
+
+			// next(null, {...obj, name: "Test"});
 		});
 
 		this.app.use('/login', (req, res, next) => {
@@ -90,7 +117,10 @@ export class HiveRouter {
 			);
 	
 			
-		passport.use('oidc', new OidcStrategy(config, (issuer: any, sub: any, profile: any, accessToken: any, refreshToken: any, done: any) => {
+		passport.use('oidc', new OidcStrategy({
+			...config,
+			skipUserProfile: false
+		}, (issuer: any, sub: any, profile: any, accessToken: any, refreshToken: any, done: any) => {
 			console.log({profile})
 			return done(null, profile)
 		}))
