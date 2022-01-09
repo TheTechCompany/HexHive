@@ -10,7 +10,7 @@ import automate from "./subschema/automate"
 import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
 
-import { Kafka } from "kafkajs"
+// import { Kafka } from "kafkajs"
 
 import acl from "./subschema/acl"
 import { createHash } from "crypto"
@@ -24,13 +24,13 @@ require("dotenv").config()
 
 const TOPIC = "the-topic"
 
-const kafka = new Kafka({
-	clientId: "my-app",
-	brokers: [process.env.KAFKA_URL || ""]
-})
+// const kafka = new Kafka({
+// 	clientId: "my-app",
+// 	brokers: [process.env.KAFKA_URL || ""]
+// })
 
 
-const event_producer = kafka.producer()
+// const event_producer = kafka.producer()
 
 
 
@@ -61,7 +61,7 @@ const event_producer = kafka.producer()
 
 */
 export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, taskRegistry: TaskRegistry) => {
-	await event_producer.connect()
+	// await event_producer.connect()
 
 	const typeDefs = gql`
 
@@ -77,7 +77,6 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 
 	${apps}
 	${files}
-	${automate}
 	${acl}
  
 	`
@@ -95,8 +94,8 @@ export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, ta
 
 	// const HiveFileProcess = ogm.model("HiveFileProcess")
 
-	const HivePipeline = ogm.model("HivePipeline")
-	const HiveProcess = ogm.model("HiveProcess")
+	// const HivePipeline = ogm.model("HivePipeline")
+	// const HiveProcess = ogm.model("HiveProcess")
 
 	// HiveFileProcess.setSelectionSet(`
 	// 	{

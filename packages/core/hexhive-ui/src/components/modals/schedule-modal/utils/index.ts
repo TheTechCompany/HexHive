@@ -1,4 +1,3 @@
-import { IUser } from "@hexhive/types"
 import { ISchedule } from ".."
 
 export const getManagers = (owner?: string, managers?: Array<string| undefined | null>, add?: string[], remove?: string[]) => {
@@ -17,7 +16,7 @@ export const getManagers = (owner?: string, managers?: Array<string| undefined |
       return output.filter((a) => a && !((remove || []).indexOf(a) > -1))
   }
 
-  export const isJoined = (me: IUser, jobData: ISchedule | null, newList: string[], removeList: string[]) => {
+  export const isJoined = (me: any, jobData: ISchedule | null, newList: string[], removeList: string[]) => {
       if(!jobData) return;
     let isManager = jobData && jobData.managers && jobData.managers.map((x) => x.id).indexOf(me.id) > -1;
     let isTemp = newList.indexOf(me.id) > -1

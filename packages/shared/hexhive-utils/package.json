@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/utils",
-  "version": "0.0.6-alpha.0",
+  "version": "0.0.6-alpha.1",
   "description": "",
   "main": "dist/index.js",
   "publishConfig": {
@@ -18,6 +18,5 @@
   "devDependencies": {
     "@babel/runtime": "^7.15.3",
     "typescript": "^4.5.4"
-  },
-  "dependencies": {}
+  }
 }

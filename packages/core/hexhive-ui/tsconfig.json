@@ -83,7 +83,6 @@
   "exclude": ["dist/", "node_modules/", "*/**/*.spec.tsx"],
   "references": [
     {"path": "../../shared/hexhive-utils"},
-    {"path": "../../shared/hexhive-styles"},
-    {"path": "../../shared/hexhive-types"}
+    {"path": "../../shared/hexhive-styles"}
   ]
 }
