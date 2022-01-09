@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-coreapps/hivefiles",
-  "version": "0.0.6-alpha.10",
+  "version": "0.0.6-alpha.11",
   "scripts": {
     "start": "webpack serve --port 8509",
     "start:standalone": "webpack serve --env standalone",
@@ -56,7 +56,7 @@
     "@hexhive/auth-ui": "^0.0.6-alpha.10",
     "@hexhive/client": "^0.0.6-alpha.1",
     "@hexhive/styles": "^0.0.6-alpha.1",
-    "@hexhive/ui": "^0.0.6-alpha.1",
+    "@hexhive/ui": "^0.0.6-alpha.11",
     "@monaco-editor/react": "^4.2.2",
     "@sentry/react": "^6.13.2",
     "@sentry/tracing": "^6.13.2",
