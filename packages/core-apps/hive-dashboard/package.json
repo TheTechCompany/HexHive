@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-core/dashboard",
-  "version": "0.0.6-alpha.11",
+  "version": "0.0.6-alpha.12",
   "scripts": {
     "start": "webpack serve --port 8501",
     "start:standalone": "webpack serve --env standalone",
@@ -53,7 +53,7 @@
     "@hexhive/auth-ui": "^0.0.6-alpha.10",
     "@hexhive/client": "^0.0.6-alpha.1",
     "@hexhive/styles": "^0.0.6-alpha.1",
-    "@hexhive/ui": "^0.0.6-alpha.11",
+    "@hexhive/ui": "^0.0.6-alpha.12",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
