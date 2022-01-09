@@ -40,7 +40,7 @@ const argv = yargs(hideBin(process.argv)).options({
 
 	console.log(`=> Starting Gateway`)
 
-	app.use(gateway.connect)
+	if(gateway.connect) app.use(gateway.connect)
 
 	if(process.env.NODE_ENV == "production"){
 			const httpsWorker = (glx: any)  => {

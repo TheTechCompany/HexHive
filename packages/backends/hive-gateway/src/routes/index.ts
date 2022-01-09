@@ -60,15 +60,15 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 		res.redirect('/login')
 	}
 
-	router.use('/graphql', (req, res, next) => {
-		if(req.user){
-			console.log(req.user, (req.user as any)._raw)
-			req.user = {
-				...JSON.parse((req.user as any)._raw)
-			}
-		}
-		next()
-	})
+	// router.use('/graphql', (req, res, next) => {
+	// 	if(req.user){
+	// 		console.log(req.user, (req.user as any)._raw)
+	// 		req.user = {
+	// 			...JSON.parse((req.user as any)._raw)
+	// 		}
+	// 	}
+	// 	next()
+	// })
 
 	if(fileManager) router.use("/api/files", FileRouter(fileManager, neo_session))
 	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
