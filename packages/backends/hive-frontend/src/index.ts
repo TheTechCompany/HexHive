@@ -26,7 +26,7 @@ const config = {
   clientSecret:
     process.env.CLIENT_SECRET ||
     `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
-  callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
+  callbackURL: `${process.env.BASE_URL || "http://localhost:8000"}/callback`,
   scope: process.env.SCOPE || "openid email name groups",
 };
 
@@ -50,7 +50,6 @@ export class HiveFrontendServer {
 
     this.init();
 
-    this.mountFrontendServer();
   }
 
   get connect() {
@@ -254,6 +253,9 @@ export class HiveFrontendServer {
     this.app.use(passport.session());
 
     this.protectRoutes();
+
+    this.mountFrontendServer();
+
   }
 
   protectRoutes() {
