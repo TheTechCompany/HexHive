@@ -92,7 +92,7 @@ export class HiveGateway {
 
 	initRouter(){
 		if(!this.neoDriver) return;
-		this.router.mount('/', DefaultRouter(this.neoDriver, this.taskRegistry)) 
+		this.router.mount(DefaultRouter(this.neoDriver, this.taskRegistry)) 
 		this.router.mount('/.well-known/jwks.json', (req: any, res: any) => {
 			res.send(this.keyManager.jwks)
 		})
