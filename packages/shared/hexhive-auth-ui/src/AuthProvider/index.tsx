@@ -5,25 +5,25 @@ export const AuthContext = createContext<{activeUser?: {id?: string, sub?: strin
 
 export interface AuthProviderProps {
     authorizationServer: string; //baseurl for /login
-    returnTo: string; //return to section in app
+    // returnTo: string; //return to section in app
 }
 
 export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
     
-    const [ activeUser, setActiveUser ] = useState<{sub?: string, name?: string, email?: string, organisation?: string}>()
+    const [ activeUser, setActiveUser ] = useState<{id?: string, name?: string, email?: string, organisation?: string}>()
 
     const [ token, setToken ] = useToken()
 
     useEffect(() => {
-        if(!activeUser?.sub){
+        if(!activeUser?.id){
             getUser().then((user) => {
-                if(user.sub){
+                if(user.id){
                     setActiveUser(user)
                 }else{
-                    signIn();
+                    // signIn();
                 }
             }).catch((err) => {
-                signIn();
+                // signIn();
             })
         }else{
             console.log("Has user")
@@ -38,16 +38,16 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
         }).then((r) => r.json())
     }   
 
-    const signIn = () => {
-        let currentURL = `${window.location.href}${window.location.search}`; //?returnTo=${props.returnTo}
-        let url = `${props.authorizationServer}/login`
-        // alert(`RETURN TO ${props.returnTo} ${currentURL}`)
-        if(props.returnTo){
-            console.log("RETURN")
-            url += `?returnTo=${currentURL || props.returnTo}`
-        }
-        window.location.href = url;
-    }
+    // const signIn = () => {
+    //     let currentURL = `${window.location.href}${window.location.search}`; //?returnTo=${props.returnTo}
+    //     let url = `${props.authorizationServer}/login`
+    //     // alert(`RETURN TO ${props.returnTo} ${currentURL}`)
+    //     if(props.returnTo){
+    //         console.log("RETURN")
+    //         url += `?returnTo=${currentURL || props.returnTo}`
+    //     }
+    //     window.location.href = url;
+    // }
 
 
     return (

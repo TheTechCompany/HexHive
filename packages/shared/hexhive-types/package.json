@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/types",
-  "version": "0.0.6-alpha.0",
+  "version": "0.0.6-alpha.1",
   "description": "> TODO: description",
   "author": "Ross Leitch <professional.balbatross@gmail.com>",
   "homepage": "https://github.com/TheTechCompany/sudbuster#readme",
@@ -28,7 +28,6 @@
     "url": "https://github.com/TheTechCompany/sudbuster/issues"
   },
   "dependencies": {
-   
     "mongoose": "^5.13.2",
     "mongoose-fuzzy-searching": "^2.0.2",
     "moniker": "^0.1.2",

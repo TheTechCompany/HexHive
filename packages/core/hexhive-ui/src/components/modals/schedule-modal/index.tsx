@@ -305,7 +305,7 @@ console.log(output)
     setMode('create')
   }
 
-  const joined = isJoined({id: props.user?.sub}, item || null, managerList?.add || [], managerList?.remove || [])
+  const joined = isJoined({id: props.user?.id}, item || null, managerList?.add || [], managerList?.remove || [])
 
   
   
@@ -336,11 +336,11 @@ console.log(output)
           
           </Box>
           <Box direction="row" align="center">
-            {stateMode == 'Edit' && item?.owner?.id !== props.user?.sub && renderMemberButton() }
+            {stateMode == 'Edit' && item?.owner?.id !== props.user?.id && renderMemberButton() }
 
             <ManagerList 
               users={props.users}
-              managers={getManagers(item?.owner?.id || props.user?.sub || '', item?.managers?.map((x) => x.id) || [], managerList.add, managerList.remove)}/>
+              managers={getManagers(item?.owner?.id || props.user?.id || '', item?.managers?.map((x) => x.id) || [], managerList.add, managerList.remove)}/>
           </Box>
         </Box>
 

@@ -1,8 +1,11 @@
 {
 	"name": "@hexhive/gateway",
-	"version": "0.0.6-alpha.0",
+	"version": "0.0.6-alpha.10",
 	"description": "",
-	"main": "index.js",
+	"main": "dist/index.js",
+	"files": [
+		"dist/"
+	],
 	"prettier": "@hexhive/prettier-config",
 	"bin": {
 		"hive-gateway": "./dist/server"
@@ -17,9 +20,8 @@
 	"dependencies": {
 		"@graphql-tools/stitch": "^8.0.8",
 		"@graphql-tools/wrap": "^8.3.2",
-		"@hexhive/auth": "^0.0.5-alpha.0",
-		"@hexhive/express-graphql": "^0.12.0",
-		"@hexhive/types": "^0.0.6-alpha.0",
+		"@hexhive/express-graphql": "^0.0.6-alpha.1",
+		"@hexhive/types": "^0.0.6-alpha.1",
 		"@kubernetes/client-node": "^0.15.1",
 		"@neo4j/graphql": "^2.1.0",
 		"@neo4j/graphql-ogm": "^2.1.0",
