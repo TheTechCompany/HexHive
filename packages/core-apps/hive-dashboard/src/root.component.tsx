@@ -5,7 +5,7 @@ import { AuthProvider } from "@hexhive/auth-ui";
 const { NODE_ENV, REACT_APP_API, REACT_APP_URL } = process.env;
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_API ?  `${process.env.REACT_APP_API}/graphql` : 'http://localhost:7000/graphql',
+  uri: REACT_APP_API ?  `${REACT_APP_API}/graphql` : 'http://localhost:7000/graphql',
   cache: new InMemoryCache(),
   credentials: 'include'
 })
