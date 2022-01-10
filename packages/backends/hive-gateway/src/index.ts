@@ -99,8 +99,8 @@ export class HiveGateway {
 		this.router?.mount(DefaultRouter(this.neoDriver, this.taskRegistry)) 
 
 		this.router?.mount('*', (req: any, res: any, next: any) => {
-			console.log({user: req.user});
-
+			// console.log({user: req.user, jwt: (req as any).jwt});
+			req.jwt = req.user;
 			next()
 		})
 		this.router?.mount('/.well-known/jwks.json', (req: any, res: any) => {

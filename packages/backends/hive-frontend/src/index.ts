@@ -79,6 +79,10 @@ export class HiveFrontendServer {
         name: "Hive-Signage",
         path: "/hive-signage",
       },
+      {
+        name: '@hexhive-core/settings',
+        path: '/settings',
+      }
     ];
 
     const default_apps = [
@@ -93,6 +97,14 @@ export class HiveFrontendServer {
       {
         name: "Hive-Signage",
         config_url: "http://localhost:8081/greenco-apps-signage-frontend.js",
+      },
+      {
+        name: '@hexhive-core/settings',
+        config_url: `${
+          process.env.NODE_ENV == "production" 
+            ? "https://staging-apps.hexhive.io/settings/"
+            : "http://localhost:8888/"
+        }hexhive-core-settings.js`
       },
       {
         name: "@hexhive-core/dashboard",
@@ -114,7 +126,9 @@ export class HiveFrontendServer {
 
     let views = [];
 
-    const apps = await this.neoSession?.readTransaction(async (tx) => {
+    const session = this.neoDriver?.session()
+
+    const apps = await session?.readTransaction(async (tx) => {
       let apps: any[] = [];
 
       if (!req || !req.user.id) {
@@ -142,6 +156,8 @@ export class HiveFrontendServer {
       return apps || [];
     }) || [];
 	
+    session?.close()
+
     return {
       apps: apps
         ?.map((app) => ({

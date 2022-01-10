@@ -101,7 +101,7 @@ export class SchemaRegistry {
 
 		// const merged = mergeSchemas({schemas: [schema]})
 
-		this.server.setSchema(mergeSchemas({schemas: [schema]})) //mergeSchemas({schemas: [schema, this.internalSchema]}))
+		this.server.setSchema(mergeSchemas({schemas: [schema, this.internalSchema]})) //mergeSchemas({schemas: [schema, this.internalSchema]}))
 	}
 
 	middleware(){
