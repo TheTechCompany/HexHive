@@ -59,6 +59,8 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
     onClick
 }) => {
 
+    console.log({actions})
+    
     const [ resizeListener, sizes ] = useResizeAware();
 
 
@@ -161,7 +163,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                     const y = o;
                     
                     let action = actions.find((a) => a.top == o && a.left == i)
-                    console.log("ACTION", actions)
+                    // console.log("ACTION", actions)
 
                     if(action) {
                         elems.push(
