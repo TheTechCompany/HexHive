@@ -173,7 +173,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        apps: [dashboard, header]
+        apps: [dashboard, header, settings]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js

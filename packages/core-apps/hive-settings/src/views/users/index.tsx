@@ -9,14 +9,14 @@ import { useAuth } from "@hexhive/auth-ui";
 export const Users = () => {
 	const client = useApolloClient()
 
-	const {activeUser} = useAuth()
+	const { activeUser } = useAuth()
+
 	const [ selected, setSelected ] = useState<any>(undefined)
 	const [ modalOpen, openModal ] = useState<boolean>(false)
 	const query = useQuery({suspense: false, staleWhileRevalidate: true})
 
 	const { data } = useApollo(gql`
 		query Q{
-			hiveOrganisations(where: {members: {id:}}) {
 			hiveUsers {
 				id
 				name
@@ -33,17 +33,20 @@ export const Users = () => {
 		}
 	`)
 
-	const users = query.hiveUsers({where: {organisation: {members: {id: activeUser.id}}}}) || []
-	const roles = query.roles({where: {organisation: {id: activeUser.id}}}) || []
-
 	const refetch = () => {
 		client.refetchQueries({include: ['Q']})
 	}
 
-	// const users = data?.hiveUsers || [];
-	// const roles = data?.roles || [];
+	const organisation = query.hiveOrganisations({where: {members: {id: activeUser.id}}})?.[0]
 
-	console.log(data)
+	// const users = organisation.members() || []
+	// const users = query.hiveUsers({where: {organisation: {members: {id: activeUser?.id}}}})
+	// const roles = organisation.roles()  || [] // query.roles({where: {organisation: {id: activeUser?.id}}})
+
+	const users = data?.hiveUsers || [];
+	const roles = data?.roles || [];
+
+	// console.log(data)
 
 	// const users = query.hiveUsers({}).map((x) => ({...x, roles: x.roles()?.map((y) => ({...y}))}))
 	// const roles = query.roles({})
