@@ -73,10 +73,16 @@ export class HiveRouter {
 			const session = this.options.neoDriver?.session();
 			session?.run(`
 			  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+			  CALL {
+				  WITH user
+				MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+				RETURN distinct(apps{.*}) as apps
+			  }
 			  RETURN user{
 				id: user.id,
 				name: user.name,
-				organisation: org.id
+				organisation: org.id,
+				applications: collect(apps{.*})
 			  }
 			`, {
 			  
