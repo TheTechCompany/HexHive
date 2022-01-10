@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Home } from '../views/home';
 import { BaseHeader } from '../components/header';
 import { Box, Grommet, Spinner } from 'grommet';
@@ -15,28 +15,29 @@ const NoToken = () => (<div>No token</div>)
 export const Dashboard = (props: any) => {
 
   return (
-    <React.Suspense fallback={() => <Spinner />} >
-    <Grommet theme={BaseStyle} plain full>
+    <Router basename='/dashboard'>
+      <Grommet theme={BaseStyle} plain full>
 
-        <Box 
-          style={{height: '100vh', width: '100vw', overflow: 'hidden'}}
-          overflow="hidden"
-          background="neutral-1"
-          fill 
-          flex
-          direction="column"
-          className="App">
-            <Box flex direction="column">
-              
-            <Home />
+          <Box 
+            style={{height: '100vh', width: '100vw', overflow: 'hidden'}}
+            overflow="hidden"
+            background="neutral-1"
+            fill 
+            flex
+            direction="column"
+            className="App">
+              <Box flex direction="column">
+              <Routes>
+                <Route path="*" element={<Home />} />
+              </Routes>
 
-            {/* <Route path={`${props.match.url}/matrix`} component={IFrameAppliance} />
-            <Route path={`${props.match.url}/organisation`} component={Organisation} />
-            <Route path={`${props.match.url}/settings`} component={Settigns} /> */}
+              {/* <Route path={`${props.match.url}/matrix`} component={IFrameAppliance} />
+              <Route path={`${props.match.url}/organisation`} component={Organisation} />
+              <Route path={`${props.match.url}/settings`} component={Settigns} /> */}
+            </Box>
           </Box>
-        </Box>
-    </Grommet>
-    </React.Suspense>
+      </Grommet>
+    </Router>
   );
 }
 

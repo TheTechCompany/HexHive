@@ -12,6 +12,7 @@ import {BaseStyle} from '@hexhive/styles'
 export const Home : React.FC<any> = (props) => {
     const [ drawer, setDrawer ] = useState<boolean>(false);
     const [ editing, setEditing ] = useState<boolean>(false)
+    
     return (
         <Box style={{height: '100%', overflow: 'hidden'}}>
         

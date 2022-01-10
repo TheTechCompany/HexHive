@@ -15,7 +15,7 @@ export default function Root(props) {
   return <ApolloProvider client={client}>
         <AuthProvider
       authorizationServer={NODE_ENV == 'production' ? (REACT_APP_API || "https://staging-api.hexhive.io") : 'http://localhost:7000'}
-      returnTo={NODE_ENV == 'production' ? (`${REACT_APP_URL}/dashboard`) : 'http://localhost:3000/dashboard'}>
+      >
         <Dashboard />
       </AuthProvider>
     </ApolloProvider>
