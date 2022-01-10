@@ -13,8 +13,8 @@ module.exports = (webpackConfigEnv, argv) => {
   return merge(defaultConfig, {
     // modify the webpack config however you'd like to by adding to this object,
     resolve: {
-      alias: {
-        process: 'process/browser'
+      fallback: {
+        process: require.resolve('process/browser')
       }
     },
     module: {
@@ -29,11 +29,11 @@ module.exports = (webpackConfigEnv, argv) => {
       ]
     },
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env': JSON.stringify(process.env)
+      }),
       new webpack.ProvidePlugin({
         process: 'process/browser',
-      }),
-      new webpack.EnvironmentPlugin({
-        ...process.env
       })
     ]
   });
