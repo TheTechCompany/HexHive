@@ -12,12 +12,13 @@ module.exports = (webpackConfigEnv, argv) => {
 
   return merge(defaultConfig, {
     // modify the webpack config however you'd like to by adding to this object,
+    resolve: {
+      alias: {
+        process: 'process/browser'
+      }
+    },
     module: {
-      resolve: {
-        alias: {
-          process: 'process/browser'
-        }
-      },
+
       rules: [
         {
           test: /\.m?js/,
