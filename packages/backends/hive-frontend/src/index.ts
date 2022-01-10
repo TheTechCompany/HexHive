@@ -102,7 +102,7 @@ export class HiveFrontendServer {
         name: '@hexhive-core/settings',
         config_url: `${
           process.env.NODE_ENV == "production" 
-            ? "https://staging-apps.hexhive.io/settings/"
+            ? "https://apps.hexhive.io/settings/"
             : "http://localhost:8888/"
         }hexhive-core-settings.js`
       },
@@ -110,7 +110,7 @@ export class HiveFrontendServer {
         name: "@hexhive-core/dashboard",
         config_url: `${
           process.env.NODE_ENV == "production"
-            ? "https://staging-apps.hexhive.io/dashboard/"
+            ? "https://apps.hexhive.io/dashboard/"
             : "http://localhost:8501/"
         }hexhive-core-dashboard.js`,
       },
@@ -118,7 +118,7 @@ export class HiveFrontendServer {
         name: "@hexhive-core/header",
         config_url: `${
           process.env.NODE_ENV == "production"
-            ? "https://staging-apps.hexhive.io/header/"
+            ? "https://apps.hexhive.io/header/"
             : "http://localhost:8502/"
         }hexhive-core-header.js`,
       },
