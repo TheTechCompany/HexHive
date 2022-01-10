@@ -9,6 +9,7 @@ import { Files, Flow, Market, Command, Automate, Settings, Signage } from '../..
 
 import Fonts from '../../assets/fonts';
 import { useAuth } from '@hexhive/auth-ui';
+import { useNavigate } from 'react-router-dom';
 
 export interface HexHiveProps {
     edit?: boolean;
@@ -17,6 +18,8 @@ export interface HexHiveProps {
 
 export const HexHive : React.FC<HexHiveProps> = (props) => {
 
+
+    const navigate = useNavigate()
 
     const { data } = useQuery(gql`
         query Q {
@@ -100,7 +103,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 title: "Market",
                 top: 3,
                 left: 3,
-                path: '/market'
+                path: 'market'
             },
             {
                 id: '0a8eedf3-6802-4ae9-9304-94129d08ee14',
@@ -108,7 +111,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 title: "Files",
                 top: 3,
                 left: 4,
-                path: '/files'
+                path: 'files'
             },
             {
                 id: '35dec0fc-b2ab-4074-8060-f2216260d360',
@@ -116,7 +119,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 top: 3,
                 title: "Flow",
                 left: 5,
-                path: '/flow'
+                path: 'flow'
             },
             {
                 id: '808e383f-9c2b-4ccb-9900-7562b8b344a4',
@@ -124,7 +127,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 top: 3,
                 title: "Command",
                 left: 6,
-                path: '/command'
+                path: 'command'
             },
             {
                 id: 'ZJ5pksG7fbU3ThLG3_nA3',
@@ -132,7 +135,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 top: 3,
                 title: "Automate",
                 left: 7,
-                path: '/automate'
+                path: 'automate'
             },
             {
                 id: 'hCnbZc6H0F4ehaqQlENqc',
@@ -140,7 +143,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 top: 3,
                 title: "Settings",
                 left: 8,
-                path: '/settings'
+                path: 'settings'
             },
             {
                 id: '3_5JcF5u_XV4LDQErU6r9',
@@ -148,7 +151,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 title: "Signage",
                 top: 3,
                 left: 9,
-                path: '/signage'
+                path: 'signage'
             }
         ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
     }
@@ -201,7 +204,8 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                         if(action){
 
                             // navigate(action.path)
-                            window.location.href = `${window.location.href}${action.path}`
+                            navigate(action.path)
+                            // window.location.href = `${window.location.href}${action.path}`
                         }
                     }
                 }}
