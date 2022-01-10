@@ -26,6 +26,9 @@ module.exports = (webpackConfigEnv, argv) => {
       new webpack.ProvidePlugin({
         process: 'process/browser',
       }),
+      new webpack.EnvironmentPlugin({
+        ...process.env
+      })
     ]
   });
 };
