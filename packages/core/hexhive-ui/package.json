@@ -106,5 +106,6 @@
   "peerDependencies": {
     "grommet-icons": "^4.6.0",
     "styled-components": "^5.3.0"
-  }
+  },
+  "gitHead": "dd1e799cb0db282155d869633303d6caa9eccaa8"
 }
