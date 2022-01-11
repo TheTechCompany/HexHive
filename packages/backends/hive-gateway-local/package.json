@@ -3,6 +3,9 @@
   "version": "0.0.6-alpha.15",
   "description": "",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "cd src/dev-view && vite",
@@ -29,5 +32,6 @@
     "@hexhive/gateway": "^0.0.6-alpha.15",
     "express": "^4.17.2",
     "yargs": "^17.3.1"
-  }
+  },
+  "gitHead": "dd1e799cb0db282155d869633303d6caa9eccaa8"
 }

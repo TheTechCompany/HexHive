@@ -47,5 +47,6 @@
     "react-window": "^1.8.6",
     "styled-components": "^5.3.0",
     "uuid": "^8.3.2"
-  }
+  },
+  "gitHead": "dd1e799cb0db282155d869633303d6caa9eccaa8"
 }
