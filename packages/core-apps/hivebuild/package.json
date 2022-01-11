@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-coreapps/hivebuild",
-  "version": "0.0.6-alpha.13",
+  "version": "0.0.6-alpha.14",
   "scripts": {
     "start": "webpack serve --port 8513",
     "start:standalone": "webpack serve --env standalone",
@@ -49,7 +49,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@hexhive/client": "^0.0.6-alpha.13",
+    "@hexhive/client": "^0.0.6-alpha.14",
     "@hexhive/icons": "^0.0.6-alpha.13",
     "@hexhive/styles": "^0.0.6-alpha.13",
     "@hexhive/ui": "^0.0.6-alpha.13",
