@@ -1,10 +1,13 @@
 import { GraphQLSchema } from "graphql";
 import { remoteExecutor } from "./executor";
 import { GraphQLServer } from "@hexhive/express-graphql";
-import { stitchSchemas } from "@graphql-tools/stitch";
+import { stitchSchemas, ValidationLevel } from "@graphql-tools/stitch";
 import { mergeSchemas } from '@graphql-tools/merge'
 import { introspectSchema } from "@graphql-tools/wrap";
+import { Router } from 'express'
+import { getGraphQLParameters, processRequest, renderGraphiQL, sendResult, shouldRenderGraphiQL } from 'graphql-helix'
 import { KeyManager } from "../keys";
+import { DefaultContext, envelop, Maybe, useLazyLoadedSchema, useTiming } from '@envelop/core'
 
 export interface SchemaEndpoint {
 	url: string;
@@ -26,7 +29,9 @@ export class SchemaRegistry {
 
 	private keyManager: (payload: any) => any;
 
-	private server: GraphQLServer;
+	private server: Router;
+
+	private getEnveloped: Function;
 
 	constructor(opts: SchemaRegistryOptions){
 		this.endpoints = opts.initialEndpoints || []
@@ -36,7 +41,59 @@ export class SchemaRegistry {
 
 		this.internalSchema = opts.internalSchema;
 
-		this.server = new GraphQLServer({})
+		this.server = Router()
+
+		this.getEnveloped = envelop({
+			plugins: [
+				useLazyLoadedSchema(this.getLazySchema.bind(this)),
+				useTiming()
+			],
+			
+		})
+
+		this.initRouter()
+	}
+
+	initRouter(){
+		this.server.use('/', async (req, res) => {
+
+			const { parse, validate, contextFactory, execute, schema } = this.getEnveloped({req})
+
+
+			const request = {
+				body: req.body,
+				headers: req.headers,
+				method: req.method,
+				query: req.query
+			}
+
+			if(shouldRenderGraphiQL(request)){
+				res.send(renderGraphiQL())
+			}else{
+				const { operationName, query, variables } = getGraphQLParameters(request)
+
+				const result = await processRequest({
+					operationName,
+					query,
+					variables,
+					request,
+					schema,
+					parse,
+					validate,
+					contextFactory: async (executionContext) => {
+						const context = await contextFactory(executionContext)
+						return {
+							context,
+							user: req.user,
+							jwt: (req as any).jwt
+						}
+					},
+					execute
+				})
+
+				sendResult(result, res)
+			}
+		})
 	}
 
 	get graphEndpoints(){
@@ -84,29 +141,77 @@ export class SchemaRegistry {
 		return await introspectSchema(remoteExecutor(endpoint?.url, this.keyManager))
 	}
 
+	getLazySchema(context: any): GraphQLSchema{
+		// console.log({schemas: this.schemas})
+
+		let { query } = context.req
+		
+		if(query.appliance){
+			const url = this.endpoints.find((a) => a.key == query.appliance)?.url || ''
+			const schema = stitchSchemas({
+				subschemas: [
+					{
+						schema: this.schemas[query.appliance],
+						executor: remoteExecutor(url, this.keyManager)
+					}
+				]
+			})
+			return schema
+		}
+
+		return this.internalSchema
+	}
+
 	private updateSchema(){
-		const keys = Object.keys(this.schemas)
-		console.log("Update", this.endpoints.find((a) => keys.indexOf(a.key) > -1))
-		const schema = stitchSchemas({
-			subschemas: Object.keys(this.schemas).filter((a) => this.schemas[a] !== undefined && a).map((x) => {
-				const url = this.endpoints.find((a) => a.key == x)?.url || ''
-				console.log(url, this.schemas[x] instanceof GraphQLSchema)
-				return {
-					schema: this.schemas[x], 
-					executor: remoteExecutor(url, this.keyManager)
-				}
-			}),
+
+		// const getEnveloped = 
+
+
+		// const keys = Object.keys(this.schemas)
+
+		// const remoteSchemas = Object.keys(this.schemas).filter((a) => this.schemas[a] !== undefined && a).map((x) => {
+		// 	const url = this.endpoints.find((a) => a.key == x)?.url || ''
+		// 	console.log(url, this.schemas[x] instanceof GraphQLSchema)
+		// 	return {
+		// 		schema: this.schemas[x], 
+		// 		executor: remoteExecutor(url, this.keyManager),
+				
+		// 	}
+		// })
+
+		// console.log("Update", this.endpoints.find((a) => keys.indexOf(a.key) > -1))
+		// const schema = stitchSchemas({
+		// 	subschemas: [ {
+		// 		schema: this.internalSchema, 
+				
+		// 	}, ...remoteSchemas],
+		// 	typeMergingOptions: {
+		// 		// validationSettings: {
+		// 		// 	validationLevel: ValidationLevel.Off
+		// 		// }
+
+		// 		// inputFieldConfigMerger: (candidates) => {
+		// 		// 	console.log(candidates.map((a) => a.inputFieldConfig))
+		// 		// 	return candidates[candidates.length - 1].inputFieldConfig
+		// 		// }
+		// 	}
+		// 	// typeMergingOptions: {
+		// 	// 	validationSettings: {
+		// 	// 		validationLevel: ValidationLevel.Off,
+		// 	// 	}
 			
-		})
+		// 	// }
+		// })
 
-		// const merged = mergeSchemas({schemas: [schema]})
+		// // const merged = mergeSchemas({schemas: [schema]})
 
-		//this.internalSchema,
+		// //this.internalSchema,
 
-		this.server.setSchema(mergeSchemas({schemas: [ schema]})) //mergeSchemas({schemas: [schema, this.internalSchema]}))
+		// const {schema} = getEnveloped()
+		// this.server.setSchema(schema) //mergeSchemas({schemas: [schema, this.internalSchema]}))
 	}
 
 	middleware(){
-		return this.server.http({})
+		return this.server
 	}
 }
