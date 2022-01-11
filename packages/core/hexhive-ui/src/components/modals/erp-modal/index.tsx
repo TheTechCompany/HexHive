@@ -41,8 +41,8 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
 
     const [plan, setPlan] = useState<{
         project?: string,
-        startDate?: Date,
-        endDate?: Date,
+        startDate?: string,
+        endDate?: string,
         notes?: string,
         items?: {
             [key: string]: any;
@@ -57,7 +57,9 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
         console.log(props.selected)
         setPlan(props.selected ? {
             ...Object.assign({}, props.selected),
-            project: props.selected?.project?.id
+            project: props.selected?.project?.id,
+            startDate: props.selected?.startDate?.toISOString(),
+            endDate: props.selected?.endDate?.toISOString(),
         } : {items: []})
     }, [props.selected])
 
@@ -186,21 +188,47 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                             <Box flex>
                                 <Text alignSelf="start" size="small">Start Date</Text>
                                 <DateInput
+                                    
+                                    inline={false}
                                     calendarProps={{
                                         daysOfWeek: true
                                     }}
-                                    value={plan.startDate instanceof Date ? plan.startDate.toISOString() : plan.startDate || ''}
-                                    onChange={({ value }) => setPlan({ ...plan, startDate: value instanceof Date ? value : new Date(value as string) })}
+                                    value={plan.startDate} 
+                             
+                                    onChange={({ value }) => {
+                                        try{
+                                            setPlan({ ...plan, startDate: value.toString() })
+                                        }catch(e){
+
+                                        }
+                                    }}
                                     format="dd/mm/yyyy" />
                             </Box>
+
+                            {/*
+                                   // (plan.startDate && !isNaN(+plan.startDate))? 
+                                    //     (plan.startDate instanceof Date) ? plan.startDate?.toISOString() : plan.startDate || '' 
+                                    //     : new Date().toISOString()
+                                    // }
+
+                                     value instanceof Date ? value : new Date(value as string)
+                            */}
                             <Box flex>
                                 <Text alignSelf="start" size="small">End Date</Text>
                                 <DateInput
+                                    inline={false}
                                     calendarProps={{
                                         daysOfWeek: true
                                     }}
-                                    value={plan.endDate instanceof Date ? plan.endDate.toISOString() : plan.endDate || ''}
-                                    onChange={({ value }) => setPlan({ ...plan, endDate: value instanceof Date ? value : new Date(value as string) })}
+                                    value={plan.endDate}
+                                     
+                                    onChange={({ value }) => {
+                                        try{    
+                                            setPlan({ ...plan, endDate: value.toString() })
+                                        }catch(e){
+                                            
+                                        }
+                                    }}
                                     format="dd/mm/yyyy" />
                             </Box>
                         </Box>

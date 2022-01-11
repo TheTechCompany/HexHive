@@ -1,6 +1,7 @@
 {
   "name": "@hexhive-coreapps/hiveautomate",
   "version": "0.0.6-alpha.14",
+  "private": true,
   "scripts": {
     "start": "webpack serve --port 8514",
     "start:standalone": "webpack serve --env standalone",

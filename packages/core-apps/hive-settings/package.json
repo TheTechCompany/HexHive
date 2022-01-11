@@ -1,6 +1,7 @@
 {
   "name": "@hexhive-core/settings",
   "version": "0.0.6-alpha.14",
+  "private": true,
   "scripts": {
     "start": "webpack serve --port 8888",
     "start:standalone": "webpack serve --env standalone",
