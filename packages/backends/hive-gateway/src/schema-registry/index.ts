@@ -148,10 +148,13 @@ export class SchemaRegistry {
 		
 		if(query.appliance){
 			const url = this.endpoints.find((a) => a.key == query.appliance)?.url || ''
+			const preSchema = this.schemas[query.appliance]
+
+			if(!preSchema) return this.internalSchema;
 			const schema = stitchSchemas({
 				subschemas: [
 					{
-						schema: this.schemas[query.appliance],
+						schema: preSchema,
 						executor: remoteExecutor(url, this.keyManager)
 					}
 				]
