@@ -2,9 +2,14 @@ import React, {
   Component
 } from 'react';
 
-export class ColorDot extends Component<any, any> {
-  render(){
-    const { size, color } = this.props;
+
+export interface ColorDotProps {
+  size: number,
+  color: string,
+}
+
+export const ColorDot : React.FC<ColorDotProps> = ({size, color}) => {
+
     return (
       <div style={{
         marginRight: 8,
@@ -14,5 +19,5 @@ export class ColorDot extends Component<any, any> {
         width: size
       }}/>
     );
-  }
+  
 }
