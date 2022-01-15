@@ -70,32 +70,7 @@ export class HiveRouter {
 		passport.deserializeUser((obj: any, next) => {
 			console.log("deserializeUser", obj);
 			
-			const session = this.options.neoDriver?.session();
-			session?.run(`
-			  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
-			  CALL {
-				  WITH user
-				MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-				RETURN distinct(apps{.*}) as apps
-			  }
-			  RETURN user{
-				id: user.id,
-				name: user.name,
-				organisation: org.id,
-				applications: collect(apps{.*})
-			  }
-			`, {
-			  
-				id: obj.id,
-			  
-			}).then((data) => {
-			  
-			  const user = data.records?.[0].get(0);
-			  console.log("deserializeUser", user);
-			  session.close()
-			  next(null, user);
-			})
-
+			next(null, obj)
 			// next(null, {...obj, name: "Test"});
 		});
 
@@ -126,9 +101,33 @@ export class HiveRouter {
 		passport.use('oidc', new OidcStrategy({
 			...config,
 			skipUserProfile: false
-		}, (issuer: any, sub: any, profile: any, accessToken: any, refreshToken: any, done: any) => {
+		}, (issuer: any, profile: any, done: any) => {
 			console.log({profile})
-			return done(null, profile)
+			const session = this.options.neoDriver?.session();
+			session?.run(`
+			  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+			  CALL {
+				  WITH user
+				MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+				RETURN distinct(apps{.*}) as apps
+			  }
+			  RETURN user{
+				id: user.id,
+				name: user.name,
+				organisation: org.id,
+				applications: collect(apps{.*})
+			  }
+			`, {
+			  
+				id: profile.id,
+			  
+			}).then((data) => {
+			  
+			  const user = data.records?.[0].get(0);
+			  console.log("deserializeUser", user);
+			  session.close()
+			  done(null, user);
+			})
 		}))
 			//JWT Auth for CI Jobs
 	// passport.use('jwt', new JwtStrategy(opts,  (jwt_payload: any, done: any) => {
