@@ -1,10 +1,9 @@
 import { File, User, Project } from "@hexhive/types"
 import axios from "axios"
-import { IPFS } from "ipfs-core-types"
-import {create} from "ipfs-http-client"
+import {create, IPFSHTTPClient} from "ipfs-http-client"
 
 export class FileManager {
-	private ipfs : IPFS;
+	private ipfs : IPFSHTTPClient;
 
 	private opts: {gateway?: string, url: string}
 	constructor(opts: {gateway?: string, url: string}){
