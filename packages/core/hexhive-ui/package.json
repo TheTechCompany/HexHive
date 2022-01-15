@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/ui",
-  "version": "0.0.6-alpha.13",
+  "version": "0.0.6-alpha.17",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -106,5 +106,6 @@
   "peerDependencies": {
     "grommet-icons": "^4.6.0",
     "styled-components": "^5.3.0"
-  }
+  },
+  "gitHead": "2126449f7d1c5329e4a2325df89bed2da5902d25"
 }
