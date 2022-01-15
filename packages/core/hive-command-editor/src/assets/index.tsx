@@ -1,8 +1,0 @@
-export { default as Icon1 } from './Icon1'
-export { default as Icon2 } from './Icon2'
-export { default as Icon3 } from './Icon3'
-export { default as Publish } from './Publish'
-export { default as Undo } from './Undo'
-export { default as Upload } from './Upload'
-export { default as Zoomin } from './Zoomin'
-export { default as Zoomout } from './Zoomout'

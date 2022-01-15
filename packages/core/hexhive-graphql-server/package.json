@@ -30,6 +30,7 @@
     "typescript": "^4.5.4"
   },
   "peerDependencies": {
+    "graphql": "15.x",
     "neo4j-driver": "^4.4.1"
   }
 }

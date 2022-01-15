@@ -27,7 +27,7 @@ const config = {
     process.env.CLIENT_SECRET ||
     `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
   callbackURL: `${process.env.BASE_URL || "http://localhost:8000"}/callback`,
-  scope: process.env.SCOPE || "openid email name groups organisations",
+  scope: process.env.SCOPE || "openid email name groups",
 };
 
 export class HiveFrontendServer {
@@ -200,25 +200,9 @@ export class HiveFrontendServer {
     });
 
     passport.deserializeUser((obj: any, next) => {
-      const session = this.neoDriver?.session();
-      session?.run(`
-        MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
-        RETURN user{
-          id: user.id,
-          name: user.name,
-          organisation: org.id
-        }
-      `, {
-        
-          id: obj.id,
-        
-      }).then((data) => {
-        
-        const user = data.records?.[0].get(0);
-        console.log("deserializeUser", user);
-        session.close()
-        next(null, user);
-      })
+      console.log("deserializeUser", obj);
+
+      next(null, obj)
       // 
       // next(null, obj);
     });
@@ -258,7 +242,31 @@ export class HiveFrontendServer {
         skipUserProfile: false,
       }, (issuer: any, profile: any, done: any) => {
         console.log({profile})
-        return done(null, profile);
+        const session = this.neoDriver?.session();
+        session?.run(`
+          MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+          CALL {
+            WITH user
+            MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+            RETURN distinct(apps{.*}) as apps
+          }
+          RETURN user{
+            id: user.id,
+            name: user.name,
+            organisation: org.id,
+            applications: collect(apps{.*})
+          }
+        `, {
+          
+            id: profile.id,
+          
+        }).then((data) => {
+          
+          const user = data.records?.[0].get(0);
+          console.log("deserializeUser", user);
+          session.close()
+          done(null, user);
+        })
       })
     );
     //JWT Auth for CI Jobs
