@@ -1,8 +1,11 @@
 {
   "name": "@hexhive/local-gateway",
-  "version": "0.0.6-alpha.13",
+  "version": "0.0.6-alpha.17",
   "description": "",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "cd src/dev-view && vite",
@@ -25,9 +28,10 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@hexhive/frontend-server": "^0.0.6-alpha.13",
-    "@hexhive/gateway": "^0.0.6-alpha.13",
+    "@hexhive/frontend-server": "^0.0.6-alpha.14",
+    "@hexhive/gateway": "^0.0.6-alpha.17",
     "express": "^4.17.2",
     "yargs": "^17.3.1"
-  }
+  },
+  "gitHead": "2126449f7d1c5329e4a2325df89bed2da5902d25"
 }

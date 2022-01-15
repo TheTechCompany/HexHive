@@ -11,6 +11,7 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 			"Content-Type": "application/json",
 		}
 
+		console.log({user: context?.user})
 		if(context?.user){
 
 			const { sub, email, name, organisation } = context.user

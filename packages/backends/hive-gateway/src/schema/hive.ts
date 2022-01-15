@@ -60,7 +60,7 @@ const TOPIC = "the-topic"
 
 
 */
-export default  async (driver: Driver, channel: amqp.Channel, pgClient: Pool, taskRegistry: TaskRegistry) => {
+export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	// await event_producer.connect()
 
 	const typeDefs = gql`

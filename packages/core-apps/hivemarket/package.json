@@ -1,6 +1,7 @@
 {
   "name": "@hexhive-coreapps/hivemarket",
-  "version": "0.0.6-alpha.13",
+  "version": "0.0.6-alpha.15",
+  "private": true,
   "scripts": {
     "start": "webpack serve --port 8511",
     "start:standalone": "webpack serve --env standalone",
@@ -50,7 +51,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@hexhive/client": "^0.0.6-alpha.13",
+    "@hexhive/client": "^0.0.6-alpha.14",
     "@hexhive/icons": "^0.0.6-alpha.13",
     "@hexhive/styles": "^0.0.6-alpha.13",
     "@sentry/react": "^6.13.2",
