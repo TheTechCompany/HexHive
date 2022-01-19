@@ -58,8 +58,8 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
         setPlan(props.selected ? {
             ...Object.assign({}, props.selected),
             project: props.selected?.project?.id,
-            startDate: props.selected?.startDate?.toISOString(),
-            endDate: props.selected?.endDate?.toISOString(),
+            startDate: new Date(props.selected?.startDate)?.toISOString(),
+            endDate: new Date(props.selected?.endDate)?.toISOString(),
         } : {items: []})
     }, [props.selected])
 
