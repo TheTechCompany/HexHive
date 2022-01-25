@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import jwt from 'jsonwebtoken'
 import { pem2jwk, RSA_JWK } from 'pem-jwk';
+import os from 'os';
 
 export class KeyManager {
 
@@ -13,7 +14,8 @@ export class KeyManager {
 	private keyLocation: string;
 
 	constructor(){
-		this.keyLocation = '/tmp/hive-gateway-key.json'
+		//TODO Don't store JWKS in temp
+		this.keyLocation = os.platform() == 'win32' ? '%AppData%\Local\Temp\hive-gateway-key.json' : '/tmp/hive-gateway-key.json'
 	}
 
 	get jwks(){
