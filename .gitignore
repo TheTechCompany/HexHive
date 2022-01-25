@@ -22,3 +22,5 @@ patch-*.json
 last_dump-*.json
 
 endpoints.json
+
+*hive-gateway-key.json
