@@ -15,7 +15,6 @@ const Template: ComponentStory<typeof ColorDot> = (args) => <ColorDot {...args} 
 
 export const Primary = Template.bind({});
 Primary.args = {
-  primary: true,
   color: 'green',
-  size: '10px',
+  size: 10,
 };

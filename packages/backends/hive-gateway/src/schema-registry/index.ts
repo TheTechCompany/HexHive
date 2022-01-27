@@ -46,7 +46,7 @@ export class SchemaRegistry {
 		this.getEnveloped = envelop({
 			plugins: [
 				useLazyLoadedSchema(this.getLazySchema.bind(this)),
-				useTiming()
+				// useTiming()
 			],
 			
 		})
@@ -119,7 +119,14 @@ export class SchemaRegistry {
 		await Promise.all(this.endpoints.map(async (endpoint, ix) => {
 			try{
 				const schema = await this.loadSchema(endpoint.key)
-				if(schema) this.schemas[endpoint.key] = schema;
+				if(schema) this.schemas[endpoint.key] = stitchSchemas({
+					subschemas: [
+						{
+							schema: schema,
+							executor: remoteExecutor(endpoint.url, this.keyManager)
+						}
+					]
+				}) //schema;
 				this.endpoints[ix].status = 'available'
 				return schema;
 			}catch(e){
@@ -151,15 +158,15 @@ export class SchemaRegistry {
 			const preSchema = this.schemas[query.appliance]
 
 			if(!preSchema) return this.internalSchema;
-			const schema = stitchSchemas({
-				subschemas: [
-					{
-						schema: preSchema,
-						executor: remoteExecutor(url, this.keyManager)
-					}
-				]
-			})
-			return schema
+			// const schema = stitchSchemas({
+			// 	subschemas: [
+			// 		{
+			// 			schema: preSchema,
+			// 			executor: remoteExecutor(url, this.keyManager)
+			// 		}
+			// 	]
+			// })
+			return preSchema
 		}
 
 		return this.internalSchema
