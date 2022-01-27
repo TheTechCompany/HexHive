@@ -1,6 +1,7 @@
 {
   "name": "@hexhive-apps/hivereport",
-  "version": "0.0.6-alpha.14",
+  "version": "0.0.6-alpha.18",
+  "private": true,
   "scripts": {
     "start": "webpack serve --port 8500",
     "start:standalone": "webpack serve --env standalone",
@@ -52,7 +53,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.16",
     "@hexhive/auth-ui": "^0.0.6-alpha.13",
-    "@hexhive/client": "^0.0.6-alpha.14",
+    "@hexhive/client": "^0.0.6-alpha.18",
     "@hexhive/styles": "^0.0.6-alpha.13",
     "@types/jest": "^27.0.1",
     "@types/react": "^17.0.19",
