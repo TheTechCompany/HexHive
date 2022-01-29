@@ -23,8 +23,8 @@ export interface GridLayout {
 
 export interface GridLayoutItem {
 	id: string;
-	label: string;
-	total: string;
+	label?: string;
+	total?: string;
 	x: number;
 	y: number;
 	w: number;
@@ -36,6 +36,7 @@ export interface GraphGridProps {
   layout: GridLayoutItem[]
   children: (item: GridLayoutItem) => React.ReactNode;
   noWrap?: boolean;
+  rowHeight?: number;
 }
 
 export const GraphGrid: React.FC<GraphGridProps> = (props) => {
@@ -63,6 +64,7 @@ export const GraphGrid: React.FC<GraphGridProps> = (props) => {
         onLayoutChange={props.onLayoutChange}
         cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
 		breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+		rowHeight={props.rowHeight || 30}
         className="rgl"
       >
         {props.layout.map((item) => (

@@ -4,8 +4,8 @@ import { Close } from "grommet-icons";
 
 export interface GraphContainerProps {
   dataKey: string;
-  label: string;
-  total: string;
+  label?: string;
+  total?: string;
   onRemove: () => void;
 }
 
