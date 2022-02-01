@@ -9,6 +9,7 @@ import { GraphContainer } from "./GraphContainer";
 
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
+import { propertyOf } from "lodash";
 
 // const ReactGridLayout = WidthProvider(RGL);
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -33,6 +34,7 @@ export interface GridLayoutItem {
 
 export interface GraphGridProps {
   onLayoutChange: (layout: GridLayout[]) => void;
+  onRemoveItem?: (item: GridLayoutItem) => void;
   layout: GridLayoutItem[]
   children: (item: GridLayoutItem) => React.ReactNode;
   noWrap?: boolean;
@@ -70,7 +72,7 @@ export const GraphGrid: React.FC<GraphGridProps> = (props) => {
         {props.layout.map((item) => (
 			<div style={{display: 'flex'}} key={item.id}>
 				{props.noWrap ? props.children(item) : (
-				<GraphContainer dataKey={item.id} label={item.label} total={item.total} onRemove={() => {}}>
+				<GraphContainer dataKey={item.id} label={item.label} total={item.total} onRemove={() => props.onRemoveItem?.(item)}>
 					{props.children?.(item)}
 				</GraphContainer>
 				)}
