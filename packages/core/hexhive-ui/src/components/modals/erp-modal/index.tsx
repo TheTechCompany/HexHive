@@ -196,12 +196,12 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                                     value={plan.startDate} 
                              
                                     onChange={({ value }) => {
-                                        let d = new Date(value.toString())
-                                        d.setHours(12)
-                                        try{
-                                            setPlan({ ...plan, startDate: d.toString() })
+                                        // let startDate = new Date(value.toLocaleString());
+                                        // let v = moment(value).format('dd/mm/yyyy').toString()
+                                        try{    
+                                            setPlan({ ...plan, startDate: value.toLocaleString() })
                                         }catch(e){
-
+                                            
                                         }
                                     }}
                                     format="dd/mm/yyyy" />
@@ -225,10 +225,9 @@ export const ERPModal: React.FC<ERPModalProps> = (props) => {
                                     value={plan.endDate}
                                      
                                     onChange={({ value }) => {
-                                        let d = new Date(value.toString())
-                                        d.setHours(12)
+                                        // let v = moment(value).format('dd/mm/yyyy')
                                         try{    
-                                            setPlan({ ...plan, endDate: d.toString() })
+                                            setPlan({ ...plan, endDate: value.toLocaleString() })
                                         }catch(e){
                                             
                                         }
