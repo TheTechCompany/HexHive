@@ -178,8 +178,8 @@ export class HiveFrontendServer {
 
   private init() {
     this.setupDBConnection();
-    this.initMiddleware();
     this.initPassport();
+    this.initMiddleware();
   }
 
   setupDBConnection() {
@@ -315,12 +315,23 @@ export class HiveFrontendServer {
         res.redirect("/login");
       }
     });
+
+    this.app.get('/*', (req, res, next) => {
+      console.log(req.path)
+      if(req.path.indexOf('/dashboard') < 0) {
+        res.redirect('/dashboard')
+      }else{
+        next()
+      }
+    })
   }
 
   mountFrontendServer() {
-    this.app.use("*", (req, res, next) => {
-      next();
-    });
+
     this.app.use("/dashboard", this.frontendRegistry.routes());
+
+    this.app.get('*', (req, res) => {
+      res.status(404).send({error: "404 Page not found"})
+    })
   }
 }
