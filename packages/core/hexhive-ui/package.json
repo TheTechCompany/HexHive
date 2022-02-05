@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/ui",
-  "version": "0.0.6-alpha.18",
+  "version": "0.0.6-alpha.23",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -106,6 +106,7 @@
     "use-prosemirror": "^1.2.1"
   },
   "peerDependencies": {
+    "grommet": "2.20.1",
     "grommet-icons": "^4.6.0",
     "styled-components": "^5.3.0"
   },
