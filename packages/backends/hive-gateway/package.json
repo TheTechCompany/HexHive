@@ -1,6 +1,6 @@
 {
 	"name": "@hexhive/gateway",
-	"version": "0.0.6-alpha.22",
+	"version": "0.0.6-alpha.30",
 	"description": "",
 	"main": "dist/index.js",
 	"files": [
@@ -25,7 +25,7 @@
 		"@graphql-tools/stitch": "^8.0.8",
 		"@graphql-tools/wrap": "^8.3.2",
 		"@hexhive/express-graphql": "^0.0.6-alpha.13",
-		"@hexhive/types": "^0.0.6-alpha.13",
+		"@hexhive/types": "^0.0.6-alpha.30",
 		"@kubernetes/client-node": "^0.15.1",
 		"@neo4j/graphql": "^2.1.0",
 		"@neo4j/graphql-ogm": "^2.1.0",
@@ -88,5 +88,5 @@
 		"ts-node": "^10.2.0",
 		"typescript": "^4.3.5"
 	},
-	"gitHead": "2126449f7d1c5329e4a2325df89bed2da5902d25"
+	"gitHead": "f3b53ccb52ff641f182234f12c298ec1a9ead46f"
 }
