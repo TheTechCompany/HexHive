@@ -1,7 +1,7 @@
 import { config as dotenv } from "dotenv";
 dotenv();
 
-import neo4j, { Driver, Session } from "neo4j-driver";
+import neo4j, { Driver, int, Session } from "neo4j-driver";
 import express, { Express, Router } from "express";
 import MongoStore from "connect-mongo";
 import passport from "passport";
@@ -30,6 +30,16 @@ const config = {
   scope: process.env.SCOPE || "openid email name groups",
 };
 
+export interface HiveFrontendRoute {
+  route: string;
+  url: string;
+  key: string
+}
+
+export interface HiveFrontendOptions {
+  routes: HiveFrontendRoute[]
+}
+
 export class HiveFrontendServer {
   private app: Router;
 
@@ -38,8 +48,12 @@ export class HiveFrontendServer {
   private redisClient: any;
   private frontendRegistry: HiveMicrofrontendServer;
 
-  constructor() {
+  private routes: HiveFrontendRoute[]
+
+  constructor(opts: HiveFrontendOptions) {
     this.app = Router();
+
+    this.routes = opts.routes;
 
     this.app.use(frontendRouter());
 
@@ -83,7 +97,11 @@ export class HiveFrontendServer {
         name: '@hexhive-core/settings',
         path: '/settings',
       }
-    ];
+    ].concat(
+      this.routes.map(route => {
+        return { name: route.key, path: route.route }
+      })
+    );
 
     const default_apps = [
       {
@@ -109,20 +127,27 @@ export class HiveFrontendServer {
       {
         name: "@hexhive-core/dashboard",
         config_url: `${
-          process.env.NODE_ENV == "production"
-            ? "https://apps.hexhive.io/dashboard/"
-            : "http://localhost:8501/"
+          // process.env.NODE_ENV == "production"
+            "https://apps.hexhive.io/dashboard/"
+            // : "http://localhost:8501/"
         }hexhive-core-dashboard.js`,
       },
       {
         name: "@hexhive-core/header",
         config_url: `${
-          process.env.NODE_ENV == "production"
-            ? "https://apps.hexhive.io/header/"
-            : "http://localhost:8502/"
+          // process.env.NODE_ENV == "production"
+            "https://apps.hexhive.io/header/"
+            // : "http://localhost:8502/"
         }hexhive-core-header.js`,
       },
-    ];
+    ].concat(
+      this.routes.map((route) => {
+        return {
+          name: route.key,
+          config_url: route.url
+        } 
+      })
+    );
 
     let views = [];
 
