@@ -12,5 +12,5 @@
     "@hexhive/types": "^0.0.6-alpha.26",
     "@kubernetes/client-node": "^0.15.1"
   },
-  "gitHead": "29199d684de18cfb242cce21548a9dfb47d0640d"
+  "gitHead": "5127d2bfe9a97101f0b25df87c76a1083f2c6c35"
 }
