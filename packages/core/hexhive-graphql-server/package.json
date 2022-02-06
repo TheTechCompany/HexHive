@@ -33,5 +33,5 @@
     "graphql": "15.x",
     "neo4j-driver": "^4.4.1"
   },
-  "gitHead": "be581afd8ea9dea3721e5bea2aef2be794cb64a5"
+  "gitHead": "32d15d0d5737cb2f26fb9c30a96e4abbe8ca5926"
 }
