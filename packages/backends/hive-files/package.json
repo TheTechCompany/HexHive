@@ -1,13 +1,13 @@
 {
     "name": "@hexhive-backends/hive-files",
-    "version": "0.0.6-alpha.29",
+    "version": "0.0.6-alpha.30",
     "private": true,
     "scripts": {
         "start": "ts-node -r tsconfig-paths/register src/index.ts",
         "build": "tsc -b"
     },
     "dependencies": {
-        "@hexhive/types": "^0.0.6-alpha.29",
+        "@hexhive/types": "^0.0.6-alpha.30",
         "aws-sdk": "^2.970.0",
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
