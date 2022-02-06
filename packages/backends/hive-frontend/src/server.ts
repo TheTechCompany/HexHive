@@ -7,7 +7,7 @@ const greenlock = require("greenlock-express");
 (async (port: number = 8000) => {
 	const app = express()
 
-	const frontendServer = new HiveFrontendServer()
+	const frontendServer = new HiveFrontendServer({routes: []})
 
 	app.use(frontendServer.connect)
 	const server = createServer(app)
