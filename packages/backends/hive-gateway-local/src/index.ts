@@ -3,59 +3,143 @@ import { config } from 'dotenv'
 config()
 import { HiveGateway } from '@hexhive/gateway'
 import { HiveFrontendServer } from '@hexhive/frontend-server'
-import yargs from 'yargs/yargs'
-import { hideBin } from 'yargs/helpers'
 import { readFileSync } from 'fs';
-import express from 'express';
+import express, {Express} from 'express';
 import { Routes } from './routes'
 
-const argv = yargs(hideBin(process.argv)).options({
-	port: {type: 'number', default: 7000},
-	dev: {type: 'boolean', default: false},
-	endpoints: {type: 'string'},
-});
+export interface LocalGatewayApp {
+	name: string;
+	graph?: string;
+	route?: string;
+	app?: string;
+}
 
-(async () => {
-	const app = express()
+export interface LocalGatewayOptions {
+	applications: LocalGatewayApp[];
+	port: number
+}
 
-	const { port, endpoints, dev } = await argv.argv;
+export class LocalGateway {
+	private app: Express;
 
-	console.log(`=> Starting Gateway on ${port}`)
+	private gateway: HiveGateway;
+	private frontendServer: HiveFrontendServer;
 
-	let endpointInfo = [];
-	if(endpoints){
-		const endpointData = JSON.parse(readFileSync(endpoints, 'utf8'))
-		endpointInfo = endpointData.endpoints.map(({url, name, version}: any) => ({url, key: name, version}))
+	private port = 7000;
+
+	constructor(options: LocalGatewayOptions){
+		this.app = express()
+
+		this.port = options.port || 7000;
+
+		const endpointInfo = (options.applications || []).filter((a) => a.graph).map((app) => {
+			return {
+				url: app.graph || '',
+				key: app.name || '',
+				version: app.route,
+			}
+		})
+
+		const routeInfo = (options.applications || []).filter((a) => a.app && a.route).map((app) => {
+			return {
+				url: app.app || '',
+				key: app.name || '',
+				route: app.route || ''
+			}
+		})
+
+		this.gateway = new HiveGateway({
+			dev: true,
+			endpoints: endpointInfo
+		})
+
+		this.frontendServer = new HiveFrontendServer({
+			routes: routeInfo,
+			getUser: async (profile) => {
+				return {
+					id: 'dev-user',
+					name: 'Dev User'
+				}
+			},
+			getViews: async (req) => {
+				return {
+					views: [],
+					apps: []
+				}
+			}
+		})
+
+
 	}
 
-	const frontend = new HiveFrontendServer()
+	async init(){
 
-	const gateway = new HiveGateway({
-		dev: true,
-		endpoints: endpointInfo
-	})
+		this.app.use(Routes(this.gateway, this.frontendServer))
+
+		console.log(`=> Mounting dev server`)
+		this.app.get('/', (req, res) => {
+			res.sendFile(__dirname + '/dev-view/dist/index.html')
+		})
+		this.app.use('/', express.static(__dirname + `/dev-view/dist`))
+		
+		console.log(`=> Initializing Gateway`)
+		await this.gateway.init()
 	
-	app.use(Routes(gateway, frontend))
-
-	console.log(`=> Mounting dev server`)
-	app.get('/', (req, res) => {
-		res.sendFile(__dirname + '/dev-view/dist/index.html')
-	})
-	app.use('/', express.static(__dirname + `/dev-view/dist`))
+		console.log(`=> Start Frontend`)
+		this.app.use(this.frontendServer.connect)
 	
-	console.log(`=> Initializing Gateway`)
-	await gateway.init()
+		console.log(`=> Starting Gateway`)
+		if(this.gateway.connect) this.app.use(`/`, this.gateway.connect)
+	
+	}
+	
+	start(){
+		this.app.listen(this.port)
+		console.log(`=> Gateway Online on ${this.port}`)
+	}
+}
 
-	console.log(`=> Start Frontend`)
-	app.use(frontend.connect)
+// (async () => {
+// 	const app = express()
 
-	console.log(`=> Starting Gateway`)
-	app.use(`/`, gateway.connect)
+// 	const { port, endpoints, dev } = await argv.argv;
+
+// 	console.log(`=> Starting Gateway on ${port}`)
+
+// 	let endpointInfo = [];
+// 	if(endpoints){
+// 		const endpointData = JSON.parse(readFileSync(endpoints, 'utf8'))
+// 		endpointInfo = endpointData.endpoints.map(({url, name, version}: any) => ({url, key: name, version}))
+// 	}
+
+// 	const frontend = new HiveFrontendServer()
+
+// 	const gateway = new HiveGateway({
+// 		dev: true,
+// 		endpoints: endpointInfo
+// 	})
+	
+// 	app.use(Routes(gateway, frontend))
+
+// 	console.log(`=> Mounting dev server`)
+// 	app.get('/', (req, res) => {
+// 		res.sendFile(__dirname + '/dev-view/dist/index.html')
+// 	})
+// 	app.use('/', express.static(__dirname + `/dev-view/dist`))
+	
+// 	console.log(`=> Initializing Gateway`)
+// 	await gateway.init()
+
+// 	console.log(`=> Start Frontend`)
+// 	app.use(frontend.connect)
+
+// 	console.log(`=> Starting Gateway`)
+// 	if(gateway.connect) app.use(`/`, gateway.connect)
 
 
 
 
-	console.log(`=> Gateway Online on ${port}`)
+// 	console.log(`=> Gateway Online on ${port}`)
 
-	app.listen(port)
-})()
+// 	app.listen(port)
+// })()

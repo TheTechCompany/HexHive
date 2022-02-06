@@ -1,6 +1,7 @@
 {
   "name": "@hexhive-backends/admin",
-  "version": "0.0.6-alpha.13",
+  "version": "0.0.6-alpha.30",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hexhive/types": "^0.0.6-alpha.13",
+    "@hexhive/types": "^0.0.6-alpha.30",
     "@kubernetes/client-node": "^0.15.1"
-  }
+  },
+  "gitHead": "f3b53ccb52ff641f182234f12c298ec1a9ead46f"
 }

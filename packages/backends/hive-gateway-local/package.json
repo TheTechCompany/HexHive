@@ -1,14 +1,22 @@
 {
-  "name": "@hexhive/local-gateway",
-  "version": "0.0.6-alpha.22",
+  "name": "@hexhive/dev-server",
+  "version": "0.0.6-alpha.31",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "publishConfig": {
     "access": "public"
   },
+  "bin": {
+    "hex-dev": "dist/cli.js"
+  },
   "scripts": {
+    "start:cli": "npx ts-node -r tsconfig-paths/register src/cli.ts",
     "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "cd src/dev-view && vite",
+    "build": "tsc -b && rm -rf dist/dev-view/* && cp -r src/dev-view/dist dist/dev-view/dist",
     "build:app": "cd src/dev-view && tsc && vite build",
     "preview": "cd src/dev-view && vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,10 +36,10 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@hexhive/frontend-server": "^0.0.6-alpha.18",
-    "@hexhive/gateway": "^0.0.6-alpha.22",
+    "@hexhive/frontend-server": "^0.0.6-alpha.31",
+    "@hexhive/gateway": "^0.0.6-alpha.30",
     "express": "^4.17.2",
     "yargs": "^17.3.1"
   },
-  "gitHead": "2126449f7d1c5329e4a2325df89bed2da5902d25"
+  "gitHead": "f3b53ccb52ff641f182234f12c298ec1a9ead46f"
 }

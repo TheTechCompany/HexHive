@@ -33,7 +33,7 @@
 <h3 align="center">HexHive</h3>
 
   <p align="center">
-    Business integrations for the 21st century
+    The SaaS platform for the Hexagon Protocol.
     <br />
     <a href="https://docs.hexhive.io"><strong>Explore the docs »</strong></a>
     <br />
@@ -78,7 +78,9 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `TheTechCompany`, `HexHive`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description`
+Skip the boiletplate, deploy your solution to the world.
+
+HexHive is built on the Hexagon Protocol, a protocol that allows developers to build decentralized applications sooner and keeps users in control of where and how they want to use their data.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -95,40 +97,19 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
 - npm
-  ```sh
-  npm install @hexhive/gateway -g
-  ```
+- node
 
 You will needs connection details to both a Neo4j instance and a MongoDB instance.
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/TheTechCompany/HexHive.git
-   ```
-2. Install NPM packages
-   ```sh
-   yarn
-   ```
-3. Bootstrap monorepo
-   ```sh
-   npx lerna bootstrap
-   ```
-4. Set up environment (see instruction below)
+```sh
+  npm install @hexhive/dev-server -g
+```
 
-5. Start gateway
-   ```sh
-   yarn start:gateway
-   ```
    <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Environment Preperation
@@ -168,6 +149,29 @@ You will needs connection details to both a Neo4j instance and a MongoDB instanc
 
 ## Usage
 
+### Dev Server
+```sh
+
+hex-dev --config ./applications.json
+```
+
+applications.json
+```
+{
+  applications: [
+    {
+      name: "MyApp",
+      route: "/app",
+      app: "/entry.js",
+      graph: "/graphql"
+    }
+  ]  
+}
+```
+
+Admin will be available at http://localhost:7000/
+Visit http://localhost:7000/dashboard/app to see your app.
+
 ### GraphQL modules
 
 ```
@@ -194,13 +198,13 @@ _For more examples, please refer to the [Documentation](https://docs.hexhive.io)
 
 ## Roadmap
 
-- [] Local development gateway
-  - [] Local registry
-  - [] Local frontend server
-  - [] Local auth/db
-- [] Federated data
-- [] Realtime collaboration
-- [] Shared file system
+- Local development gateway
+  - Local registry
+  - Local frontend server
+  - Local auth/db
+- Federated data
+- Realtime collaboration
+- Shared file system
 
 See the [open issues](https://github.com/TheTechCompany/HexHive/issues) for a full list of proposed features (and known issues).
 
@@ -228,26 +232,6 @@ Don't forget to give the project a star! Thanks again!
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- CONTACT -->
-
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/TheTechCompany/HexHive](https://github.com/TheTechCompany/HexHive)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-- []()
-- []()
-- []()
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
