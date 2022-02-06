@@ -11,5 +11,6 @@
   "dependencies": {
     "@hexhive/types": "^0.0.6-alpha.24",
     "@kubernetes/client-node": "^0.15.1"
-  }
+  },
+  "gitHead": "f5988e369bd13db2ad5e7dd40d45a83bfb975214"
 }

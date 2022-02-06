@@ -29,5 +29,6 @@
     "mongodb": "^4.1.0",
     "neo4j-driver": "^4.3.3",
     "oidc-provider": "7.8.0"
-  }
+  },
+  "gitHead": "f5988e369bd13db2ad5e7dd40d45a83bfb975214"
 }
