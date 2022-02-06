@@ -34,5 +34,5 @@
     "@types/ws": "^7.4.7",
     "mongoose": "^5.13.3"
   },
-  "gitHead": "5127d2bfe9a97101f0b25df87c76a1083f2c6c35"
+  "gitHead": "be581afd8ea9dea3721e5bea2aef2be794cb64a5"
 }
