@@ -1,12 +1,16 @@
 {
-  "name": "@hexhive/local-gateway",
+  "name": "@hexhive/dev-server",
   "version": "0.0.6-alpha.22",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
+  "bin": {
+    "hex-dev": "dist/cli.js"
+  },
   "scripts": {
+    "start:cli": "npx ts-node -r tsconfig-paths/register src/cli.ts",
     "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "cd src/dev-view && vite",
     "build:app": "cd src/dev-view && tsc && vite build",
