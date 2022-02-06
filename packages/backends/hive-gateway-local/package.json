@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/dev-server",
-  "version": "0.0.6-alpha.27",
+  "version": "0.0.6-alpha.28",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -36,8 +36,8 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@hexhive/frontend-server": "^0.0.6-alpha.27",
-    "@hexhive/gateway": "^0.0.6-alpha.27",
+    "@hexhive/frontend-server": "^0.0.6-alpha.28",
+    "@hexhive/gateway": "^0.0.6-alpha.28",
     "express": "^4.17.2",
     "yargs": "^17.3.1"
   },
