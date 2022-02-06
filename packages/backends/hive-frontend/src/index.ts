@@ -37,7 +37,9 @@ export interface HiveFrontendRoute {
 }
 
 export interface HiveFrontendOptions {
-  routes: HiveFrontendRoute[]
+  routes: HiveFrontendRoute[],
+  getViews: ((req: any) => Promise<{views: {name: string, path: string, default?: boolean}[], apps: {name: string, config_url: string}[]}>)
+  getUser: (profile: {id: string}) => Promise<{id: string} & any>
 }
 
 export class HiveFrontendServer {
@@ -50,8 +52,14 @@ export class HiveFrontendServer {
 
   private routes: HiveFrontendRoute[]
 
+  private getExternalViews?: (req: any) => Promise<{views: {name: string, path: string, default?: boolean}[], apps: {name: string, config_url: string}[]}>;
+  private getUser?: (profile: {id: string}) => Promise<{id: string} & any>
+
   constructor(opts: HiveFrontendOptions) {
     this.app = Router();
+
+    this.getExternalViews = opts.getViews;
+    this.getUser = opts.getUser
 
     this.routes = opts.routes;
 
@@ -75,23 +83,14 @@ export class HiveFrontendServer {
   }
 
   async getViews(req?: any) {
+
+    const { views: externalViews, apps: externalApps } = await this.getExternalViews?.(req) || {};
+
     const default_views = [
       {
         name: "@hexhive-core/dashboard",
         path: "/",
         default: true,
-      },
-      {
-        name: "Hive-Flow",
-        path: "/hive-flow",
-      },
-      {
-        name: "Hive-Command",
-        path: "/hive-command",
-      },
-      {
-        name: "Hive-Signage",
-        path: "/hive-signage",
       },
       {
         name: '@hexhive-core/settings',
@@ -101,21 +100,12 @@ export class HiveFrontendServer {
       this.routes.map(route => {
         return { name: route.key, path: route.route }
       })
+    ).concat(
+      externalViews || []
     );
 
     const default_apps = [
-      {
-        name: "Hive-Flow",
-        config_url: "http://localhost:8503/hexhive-apps-hive-flow.js",
-      },
-      {
-        name: "Hive-Command",
-        config_url: "http://localhost:8504/hivecommand-app-frontend.js",
-      },
-      {
-        name: "Hive-Signage",
-        config_url: "http://localhost:8081/greenco-apps-signage-frontend.js",
-      },
+
       {
         name: '@hexhive-core/settings',
         config_url: `${
@@ -147,75 +137,22 @@ export class HiveFrontendServer {
           config_url: route.url
         } 
       })
+    ).concat(
+      externalApps || []
     );
 
     let views = [];
 
-    const session = this.neoDriver?.session()
-
-    const apps = await session?.readTransaction(async (tx) => {
-      let apps: any[] = [];
-
-      if (!req || !req.user.id) {
-        const result = await tx?.run(`
-				MATCH (apps:HiveAppliance)
-				WHERE apps.entrypoint IS NOT NULL
-				RETURN distinct(apps{.*})
-			`);
-
-        apps = result?.records.map((x) => x.get(0)) || [];
-      } else {
-        const result = await tx?.run(
-          `
-				MATCH (user:HiveUser {id: $id})-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-				WHERE apps.entrypoint IS NOT NULL
-				RETURN distinct(apps{.*})
-			`,
-          {
-            id: req.user.id,
-          }
-        );
-
-        apps = result?.records.map((x) => x.get(0)) || [];
-      }
-      return apps || [];
-    }) || [];
-	
-    session?.close()
-
     return {
-      apps: apps
-        ?.map((app) => ({
-          name: app.name,
-          config_url: app.entrypoint,
-        }))
-        .concat(default_apps),
-
-      views: default_views.concat(
-        (apps || []).map((app) => ({
-          name: app.name,
-          path: app.slug,
-          default: false,
-        }))
-      ),
+      apps: default_apps,
+      views: default_views
     };
   }
 
   private init() {
-    this.setupDBConnection();
+    // this.setupDBConnection();
     this.initPassport();
     this.initMiddleware();
-  }
-
-  setupDBConnection() {
-    this.neoDriver = neo4j.driver(
-      process.env.NEO4J_URI || "neo4j://localhost",
-      neo4j.auth.basic(
-        process.env.NEO4J_USER || "neo4j",
-        process.env.NEO4J_PASSWORD || "test"
-      )
-    );
-    this.neoSession = this.neoDriver.session();
   }
 
   initPassport() {
@@ -265,57 +202,12 @@ export class HiveFrontendServer {
       new OidcStrategy({
         ...config,
         skipUserProfile: false,
-      }, (issuer: any, profile: any, done: any) => {
-        console.log({profile})
-        const session = this.neoDriver?.session();
-        session?.run(`
-          MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
-          CALL {
-            WITH user
-            MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-            RETURN distinct(apps{.*}) as apps
-          }
-          RETURN user{
-            id: user.id,
-            name: user.name,
-            organisation: org.id,
-            applications: collect(apps{.*})
-          }
-        `, {
-          
-            id: profile.id,
-          
-        }).then((data) => {
-          
-          const user = data.records?.[0].get(0);
-          console.log("deserializeUser", user);
-          session.close()
-          done(null, user);
-        })
+      }, async (issuer: any, profile: any, done: any) => {
+        const user = await this.getUser?.(profile)
+        done(null, user)
       })
     );
-    //JWT Auth for CI Jobs
-    // passport.use('jwt', new JwtStrategy(opts,  (jwt_payload: any, done: any) => {
-    // 	neoSession.readTransaction(async (tx) => {
-    // 		const result = await tx.run(`
-    // 			MATCH (run:HivePipelineRun {id: $id})
-    // 			RETURN run
-    // 		`, {
-    // 			id: jwt_payload.sub
-    // 		})
-    // 		return result.records?.[0]?.get(0).properties;
-    // 	}).then((user) => {
-    // 		if(user){
-    // 			return done(null, {
-    // 				...user,
-    // 				organisation: jwt_payload.organisation
-    // 			})
-    // 		}else{
-    // 			return done("Couldn't validate accessToken", false)
-    // 		}
-    // 		return done(null, false)
-    // 	})
-    // }));
+
   }
 
   initMiddleware() {

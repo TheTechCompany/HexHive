@@ -54,7 +54,19 @@ export class LocalGateway {
 		})
 
 		this.frontendServer = new HiveFrontendServer({
-			routes: routeInfo
+			routes: routeInfo,
+			getUser: async (profile) => {
+				return {
+					id: 'dev-user',
+					name: 'Dev User'
+				}
+			},
+			getViews: async (req) => {
+				return {
+					views: [],
+					apps: []
+				}
+			}
 		})
 
 
