@@ -3,6 +3,9 @@
   "version": "0.0.6-alpha.22",
   "description": "",
   "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -13,6 +16,7 @@
     "start:cli": "npx ts-node -r tsconfig-paths/register src/cli.ts",
     "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "cd src/dev-view && vite",
+    "build": "tsc -b && rm -rf dist/dev-view/* && cp -r src/dev-view/dist dist/dev-view/dist",
     "build:app": "cd src/dev-view && tsc && vite build",
     "preview": "cd src/dev-view && vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
