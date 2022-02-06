@@ -1,6 +1,6 @@
 {
   "name": "mongodb-worker",
-  "version": "0.0.6-alpha.24",
+  "version": "0.0.6-alpha.25",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hexhive/types": "^0.0.6-alpha.24",
+    "@hexhive/types": "^0.0.6-alpha.25",
     "mongodb": "^4.1.2",
     "nanoid": "^3.1.28",
     "neo4j-driver": "^4.3.3"
