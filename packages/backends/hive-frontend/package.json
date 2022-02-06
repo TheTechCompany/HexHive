@@ -34,5 +34,6 @@
     "neo4j-driver": "^4.4.1",
     "passport": "^0.5.2",
     "passport-openidconnect": "0.1.1"
-  }
+  },
+  "gitHead": "f5988e369bd13db2ad5e7dd40d45a83bfb975214"
 }
