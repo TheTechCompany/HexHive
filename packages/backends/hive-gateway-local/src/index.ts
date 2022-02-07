@@ -98,8 +98,7 @@ export class LocalGateway {
 			secret: process.env.SESSION_KEY || 'MyVoiceIsMyPassportVerifyMe',
 			resave: false,
 			saveUninitialized: true,
-			...cookieParams,
-		
+			...cookieParams
 		}));
 		
 		this.app.use((req, res, next) => {

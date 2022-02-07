@@ -109,9 +109,9 @@ export class HiveFrontendServer {
       {
         name: "@hexhive-core/header",
         config_url: `${
-          process.env.NODE_ENV == "production" ?
+          // process.env.NODE_ENV == "production" ?
             "https://apps.hexhive.io/header/"
-            : "http://localhost:8502/"
+            // : "http://localhost:8502/"
         }hexhive-core-header.js`,
       },
     ].concat(
