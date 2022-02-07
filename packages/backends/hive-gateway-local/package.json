@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/dev-server",
-  "version": "0.0.6-alpha.37",
+  "version": "0.0.6-alpha.38",
   "description": "",
   "main": "dist/index.js",
   "files": [
