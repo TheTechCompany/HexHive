@@ -93,17 +93,17 @@ export class HiveFrontendServer {
       {
         name: '@hexhive-core/settings',
         config_url: `${
-          process.env.NODE_ENV == "production" 
-            ? "https://apps.hexhive.io/settings/"
-            : "http://localhost:8888/"
+          // process.env.NODE_ENV == "production" 
+            "https://apps.hexhive.io/settings/"
+            // : "http://localhost:8888/"
         }hexhive-core-settings.js`
       },
       {
         name: "@hexhive-core/dashboard",
         config_url: `${
-          process.env.NODE_ENV == "production" ?
+          // process.env.NODE_ENV == "production" ?
             "https://apps.hexhive.io/dashboard/"
-            : "http://localhost:8501/"
+            // : "http://localhost:8501/"
         }hexhive-core-dashboard.js`,
       },
       {
