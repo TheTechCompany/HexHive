@@ -2,52 +2,131 @@ import { HiveFrontendServer } from ".";
 import { createServer } from 'http'
 import express from 'express';
 import { driver, auth } from 'neo4j-driver'
+import passport from "passport";
 const greenlock = require("greenlock-express");
+
+var OidcStrategy = require("passport-openidconnect").Strategy;
+
+const { NODE_ENV } = process.env;
+
+const url = process.env.AUTH_SERVER || "auth.hexhive.io";
+const config = {
+  issuer: `https://${url}`,
+  authorizationURL: `https://${url}/auth`,
+  tokenURL: `https://${url}/token`,
+  userInfoURL: `https://${url}/me`,
+  clientID:
+    process.env.CLIENT_ID ||
+    "test" ||
+    `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
+  clientSecret:
+    process.env.CLIENT_SECRET ||
+    `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
+  callbackURL: `${process.env.BASE_URL || "http://localhost:8000"}/callback`,
+  scope: process.env.SCOPE || "openid email name groups",
+};
 
 (async (port: number = 8000) => {
 	const app = express()
 
 
 	const neoDriver = driver(
-		  process.env.NEO4J_URI || "neo4j://localhost",
-		  auth.basic(
-			process.env.NEO4J_USER || "neo4j",
-			process.env.NEO4J_PASSWORD || "test"
-		  )
-		);
-	const neoSession = neoDriver.session();
-	
+		process.env.NEO4J_URI || "neo4j://localhost",
+		auth.basic(
+		  process.env.NEO4J_USER || "neo4j",
+		  process.env.NEO4J_PASSWORD || "test"
+		)
+	  );
+  const neoSession = neoDriver.session();
+  
+
+  const getUser = async (profile: {id: string}) => {
+	  const session = neoDriver?.session();
+	  const data = await session?.run(`
+		MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+		CALL {
+		  WITH user
+		  MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+		  RETURN distinct(apps{.*}) as apps
+		}
+		RETURN user{
+		  id: user.id,
+		  name: user.name,
+		  organisation: org.id,
+		  applications: collect(apps{.*})
+		}
+	  `, {
+		
+		  id: profile.id,
+		
+	  })
+		
+	  const user = data.records?.[0].get(0);
+	  console.log("deserializeUser", user);
+	  session.close()
+	  return user; 			
+  }
+  
+	app.use(passport.initialize());
+    app.use(passport.session());
+
+	passport.serializeUser((user, next) => {
+		console.log("serializeUser", user);
+		next(null, user);
+	  });
+  
+	  passport.deserializeUser((obj: any, next) => {
+		console.log("deserializeUser", obj);
+  
+		next(null, obj)
+		// 
+		// next(null, obj);
+	  });
+  
+	  app.use(
+		"/login",
+		(req, res, next) => {
+		  if (req.query.returnTo) {
+			(req as any).session.returnTo = req.query.returnTo;
+		  }
+		  next();
+		},
+		passport.authenticate("oidc")
+	  );
+  
+	  app.get("/logout", function (req, res) {
+		console.log(req)
+		req.logout();
+		res.redirect("/");
+	  });
+  
+	  app.use(
+		"/callback",
+		passport.authenticate("oidc", { failureRedirect: "/error" }),
+		(req, res) => {
+		  const returnTo = (req as any)?.session?.returnTo;
+		  if ((req as any).session) (req as any).session.returnTo = undefined;
+		  res.redirect(
+			returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard"
+		  );
+		}
+	  );
+  
+	  passport.use(
+		"oidc",
+		new OidcStrategy({
+		  ...config,
+		  skipUserProfile: false,
+		}, async (issuer: any, profile: any, done: any) => {
+		  const user = await getUser?.(profile)
+		  done(null, user)
+		})
+	  );
 
 	  
 	const frontendServer = new HiveFrontendServer({
+		apiUrl: process.env.API_URL || "http://localhost:7000",
 		routes: [],
-		getUser: async (profile: { id: string }) => {
-
-			const session = neoDriver?.session();
-			const data = await session?.run(`
-			  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
-			  CALL {
-				WITH user
-				MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-				RETURN distinct(apps{.*}) as apps
-			  }
-			  RETURN user{
-				id: user.id,
-				name: user.name,
-				organisation: org.id,
-				applications: collect(apps{.*})
-			  }
-			`, {
-			  
-				id: profile.id,
-			  
-			})
-			  
-			const user = data.records?.[0].get(0);
-			console.log("deserializeUser", user);
-			session.close()
-			return user; 			
-		},
 		getViews: async (req) => {
 
 			const session = neoDriver?.session()
@@ -93,7 +172,7 @@ const greenlock = require("greenlock-express");
 			  config_url: app.entrypoint,
 			}))
 
-			return { views, apps: appliances }
+			return { views: views, apps: appliances }
 
 		
 		}

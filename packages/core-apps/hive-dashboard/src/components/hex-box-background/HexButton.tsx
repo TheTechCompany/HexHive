@@ -1,5 +1,7 @@
 import { BaseStyle } from '@hexhive/styles';
 import { Box, Text } from 'grommet';
+import { Code } from 'grommet-icons';
+
 import React from 'react';
 import { Hexagon } from './Hexagon';
 import { HexagonBorder } from './HexagonBorder';
@@ -16,6 +18,7 @@ export interface HexButtonProps {
     logo: any;
     text?: string;
     color?: string;
+    dev?: boolean;
 }
 
 export const HexButton : React.FC<HexButtonProps> = (props) => {
@@ -34,6 +37,7 @@ export const HexButton : React.FC<HexButtonProps> = (props) => {
             left={-0.8 + (props.left * WIDTH_MULTIPLIER + (props.top % 2 == 0 ? ROW_OFFSET : 0))} 
             color={BaseStyle.global.colors['accent-1']}>
             {/* <Text weight="bold" color="neutral-4">{props.text}</Text> */}
+            {props.dev && <div style={{position: 'absolute', right: -10, top: -10, zIndex: 9, background: 'rgb(101, 105, 92)', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 24}}><Code color='white' /></div>}
             <Box
                 height="100%"
                 width="100%"

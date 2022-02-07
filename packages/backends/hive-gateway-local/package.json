@@ -25,6 +25,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
+    "@types/passport": "^1.0.7",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/yargs": "^17.0.8",
@@ -39,6 +41,9 @@
     "@hexhive/frontend-server": "^0.0.6-alpha.31",
     "@hexhive/gateway": "^0.0.6-alpha.30",
     "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "passport": "^0.5.2",
+    "passport-openidconnect": "^0.1.1",
     "yargs": "^17.3.1"
   },
   "gitHead": "f3b53ccb52ff641f182234f12c298ec1a9ead46f"
