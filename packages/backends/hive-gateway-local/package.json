@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/dev-server",
-  "version": "0.0.6-alpha.31",
+  "version": "0.0.6-alpha.34",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -38,13 +38,13 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@hexhive/frontend-server": "^0.0.6-alpha.31",
-    "@hexhive/gateway": "^0.0.6-alpha.30",
+    "@hexhive/frontend-server": "^0.0.6-alpha.34",
+    "@hexhive/gateway": "^0.0.6-alpha.33",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "passport": "^0.5.2",
     "passport-openidconnect": "^0.1.1",
     "yargs": "^17.3.1"
   },
-  "gitHead": "f3b53ccb52ff641f182234f12c298ec1a9ead46f"
+  "gitHead": "5a81742952fdf6a2f655931f248ec6f77513f4da"
 }
