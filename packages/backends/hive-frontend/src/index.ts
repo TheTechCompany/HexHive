@@ -4,31 +4,13 @@ dotenv();
 import neo4j, { Driver, int, Session } from "neo4j-driver";
 import express, { Express, Router } from "express";
 import MongoStore from "connect-mongo";
-import passport from "passport";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import { HiveMicrofrontendServer } from "@hexhive/microfrontend-server";
 import { frontendRouter } from "./router";
-var OidcStrategy = require("passport-openidconnect").Strategy;
 
-const { NODE_ENV } = process.env;
 
-const url = process.env.AUTH_SERVER || "auth.hexhive.io";
-const config = {
-  issuer: `https://${url}`,
-  authorizationURL: `https://${url}/auth`,
-  tokenURL: `https://${url}/token`,
-  userInfoURL: `https://${url}/me`,
-  clientID:
-    process.env.CLIENT_ID ||
-    "test" ||
-    `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
-  clientSecret:
-    process.env.CLIENT_SECRET ||
-    `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
-  callbackURL: `${process.env.BASE_URL || "http://localhost:8000"}/callback`,
-  scope: process.env.SCOPE || "openid email name groups",
-};
+
 
 export interface HiveFrontendRoute {
   route: string;
@@ -39,7 +21,8 @@ export interface HiveFrontendRoute {
 export interface HiveFrontendOptions {
   routes: HiveFrontendRoute[],
   getViews: ((req: any) => Promise<{views: {name: string, path: string, default?: boolean}[], apps: {name: string, config_url: string}[]}>)
-  getUser: (profile: {id: string}) => Promise<{id: string} & any>
+  // getUser: (profile: {id: string}) => Promise<{id: string} & any>,
+  apiUrl: string;
 }
 
 export class HiveFrontendServer {
@@ -59,13 +42,14 @@ export class HiveFrontendServer {
     this.app = Router();
 
     this.getExternalViews = opts.getViews;
-    this.getUser = opts.getUser
+    // this.getUser = opts.getUser
 
     this.routes = opts.routes;
 
     this.app.use(frontendRouter());
 
     this.frontendRegistry = new HiveMicrofrontendServer({
+      apiUrl: opts.apiUrl,
       name: "HexHive | Connected Data",
       get_views: this.getViews.bind(this),
     });
@@ -117,17 +101,17 @@ export class HiveFrontendServer {
       {
         name: "@hexhive-core/dashboard",
         config_url: `${
-          // process.env.NODE_ENV == "production"
+          process.env.NODE_ENV == "production" ?
             "https://apps.hexhive.io/dashboard/"
-            // : "http://localhost:8501/"
+            : "http://localhost:8501/"
         }hexhive-core-dashboard.js`,
       },
       {
         name: "@hexhive-core/header",
         config_url: `${
-          // process.env.NODE_ENV == "production"
+          process.env.NODE_ENV == "production" ?
             "https://apps.hexhive.io/header/"
-            // : "http://localhost:8502/"
+            : "http://localhost:8502/"
         }hexhive-core-header.js`,
       },
     ].concat(
@@ -151,72 +135,12 @@ export class HiveFrontendServer {
 
   private init() {
     // this.setupDBConnection();
-    this.initPassport();
     this.initMiddleware();
   }
 
-  initPassport() {
-    passport.serializeUser((user, next) => {
-      console.log("serializeUser", user);
-      next(null, user);
-    });
 
-    passport.deserializeUser((obj: any, next) => {
-      console.log("deserializeUser", obj);
-
-      next(null, obj)
-      // 
-      // next(null, obj);
-    });
-
-    this.app.use(
-      "/login",
-      (req, res, next) => {
-        if (req.query.returnTo) {
-          (req as any).session.returnTo = req.query.returnTo;
-        }
-        next();
-      },
-      passport.authenticate("oidc")
-    );
-
-    this.app.get("/logout", function (req, res) {
-      req.logout();
-      res.redirect("/");
-    });
-
-    this.app.use(
-      "/callback",
-      passport.authenticate("oidc", { failureRedirect: "/error" }),
-      (req, res) => {
-        const returnTo = (req as any)?.session?.returnTo;
-        if ((req as any).session) (req as any).session.returnTo = undefined;
-        res.redirect(
-          returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard"
-        );
-      }
-    );
-
-    passport.use(
-      "oidc",
-      new OidcStrategy({
-        ...config,
-        skipUserProfile: false,
-      }, async (issuer: any, profile: any, done: any) => {
-        const user = await this.getUser?.(profile)
-        done(null, user)
-      })
-    );
-
-  }
 
   initMiddleware() {
-    // this.app.set("trust proxy", true)
-
-    // app.use(auth(config))
-
-    this.app.use(passport.initialize());
-    this.app.use(passport.session());
 
     this.protectRoutes();
 
@@ -235,7 +159,7 @@ export class HiveFrontendServer {
 
     this.app.get('/*', (req, res, next) => {
       console.log(req.path)
-      if(req.path.indexOf('/dashboard') < 0) {
+      if(req.path.indexOf('/dashboard') < 0 && req.path.indexOf('/me') < 0 && req.path.indexOf('/login') < 0 && req.path.indexOf('/logout') < 0 && req.path.indexOf('/error') < 0) {
         res.redirect('/dashboard')
       }else{
         next()
@@ -247,8 +171,12 @@ export class HiveFrontendServer {
 
     this.app.use("/dashboard", this.frontendRegistry.routes());
 
-    this.app.get('*', (req, res) => {
+    this.app.get('*', (req, res, next) => {
+      if(req.path.indexOf('/me') < 0 && req.path.indexOf('/login') < 0 && req.path.indexOf('/logout') < 0 && req.path.indexOf('/error') < 0){
       res.status(404).send({error: "404 Page not found"})
+      }else{
+        next()
+      }
     })
   }
 }
