@@ -3,6 +3,8 @@ import { createServer } from 'http'
 import express from 'express';
 import { driver, auth } from 'neo4j-driver'
 import passport from "passport";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 const greenlock = require("greenlock-express");
 
 var OidcStrategy = require("passport-openidconnect").Strategy;
@@ -64,6 +66,18 @@ const config = {
 	  session.close()
 	  return user; 			
   }
+
+  let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
+
+  app.use(session({
+	  secret: process.env.SESSION_KEY || 'MyVoiceIsMyPassportVerifyMe',
+	  resave: false,
+	  saveUninitialized: true,
+	  ...cookieParams,
+	  store: MongoStore.create({
+		mongoUrl: process.env.MONGO_URL
+	})
+  }));
 
 	app.use(passport.initialize());
     app.use(passport.session());
