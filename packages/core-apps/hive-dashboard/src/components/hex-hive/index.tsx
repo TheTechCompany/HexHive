@@ -96,7 +96,9 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
     console.log({apps: apps.map((x) => ({...x}))})
     
     const refreshApplications = () => {
-        setActions([
+        setActions(
+   
+            [
             {
                 id: '',
                 icon: <Market  width="50" height="50"/>,
@@ -153,7 +155,19 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 left: 9,
                 path: 'signage'
             }
-        ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
+        ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1).concat(
+            (user?.activeUser?.applications || []).filter((a: any) => {
+                return a && a?.dev == true;
+            }).map((x: any, ix) => ({
+                id: x.route,
+                icon: <div></div>,
+                title: x.name,
+                path: x.route,
+                top: 2,
+                left: ix,
+                dev: x.dev
+            }))
+        ))
     }
 
     useEffect(() => {
@@ -199,7 +213,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                         setSelectedPos(pos)
                         openModal(true)
                     }else{
-                        let action = actions.find((a) => a.top == pos.y && a.left == pos.x)
+                        let action = actions.find((a) => a?.top == pos.y && a?.left == pos.x)
 
                         if(action){
 
