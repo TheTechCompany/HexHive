@@ -11,6 +11,6 @@
     "packages/clients/*",
     "packages/images/*"
   ],
-  "version": "0.0.6-alpha.31",
+  "version": "0.0.6-alpha.32",
   "npmClient": "yarn"
 }
