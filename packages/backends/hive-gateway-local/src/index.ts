@@ -10,21 +10,21 @@ import session from 'express-session';
 import passport from 'passport';
 var OidcStrategy = require('passport-openidconnect').Strategy;
 
-const {NODE_ENV} = process.env
+// const {NODE_ENV} = process.env
 
-console.log(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
+// console.log(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
 
-const url = process.env.AUTH_SERVER || "auth.hexhive.io"
-const openIdConfig = {
-	issuer: `https://${url}`,
-	authorizationURL: `https://${url}/auth`,
-	tokenURL: `https://${url}/token`,
-	userInfoURL: `https://${url}/me`,
-	clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
-	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
-	callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
-	scope: process.env.SCOPE || "openid email name groups"
-};
+// const url = process.env.AUTH_SERVER || "auth.hexhive.io"
+// const openIdConfig = {
+// 	issuer: `https://${url}`,
+// 	authorizationURL: `https://${url}/auth`,
+// 	tokenURL: `https://${url}/token`,
+// 	userInfoURL: `https://${url}/me`,
+// 	clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
+// 	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
+// 	callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
+// 	scope: process.env.SCOPE || "openid email name groups"
+// };
 
 export interface LocalGatewayApp {
 	name: string;
@@ -101,89 +101,105 @@ export class LocalGateway {
 			...cookieParams,
 		
 		}));
-
-		this.app.use(passport.initialize())
-		this.app.use(passport.session())
-
-		passport.serializeUser((user, next) => {
-			console.log("serializeUser", user)
-			next(null, user);
-		});
 		
-		passport.deserializeUser((obj: any, next) => {
-			console.log("deserializeUser", obj);
-			
-			next(null, obj)
-			// next(null, {...obj, name: "Test"});
-		});
-
-		this.app.use('/login', (req, res, next) => {
-			if(req.query.returnTo){
-				(req as any).session.returnTo = req.query.returnTo
-			}
-			next();
-		}, passport.authenticate('oidc'))
-
-		this.app.get('/logout', function(req, res){
-			req.logout();
-			res.redirect('/');
-		});
-
-		this.app.use('/callback',
-			passport.authenticate('oidc', { failureRedirect: '/error' }),
-				(req, res) => {
-					console.log("callback", req)
-					const returnTo = (req as any).session.returnTo;
-					(req as any).session.returnTo = undefined;
-					console.log(req)
-					res.redirect(returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard");
+		this.app.use((req, res, next) => {
+			if(!req.isAuthenticated) req.isAuthenticated = () => true;
+			if(!req.user){
+				req.user = {
+					id: '0v9EW7tP8Ys35JY4sypqw',
+					name: 'Developer',
+					organisation: 'BvU0TJhV1v23u1DR9d-S0',
+					applications: this.applications.map((app) => ({
+									...app,
+									dev: true
+								}))
 				}
-		);
+			}
+			next()
+		})
+
+		// this.app.use(passport.initialize())
+		// this.app.use(passport.session())
+
+		// passport.serializeUser((user, next) => {
+		// 	console.log("serializeUser", user)
+		// 	next(null, user);
+		// });
+		
+		// passport.deserializeUser((obj: any, next) => {
+		// 	console.log("deserializeUser", obj);
+			
+		// 	next(null, obj)
+		// 	// next(null, {...obj, name: "Test"});
+		// });
+
+		// this.app.use('/login', (req, res, next) => {
+		// 	if(req.query.returnTo){
+		// 		(req as any).session.returnTo = req.query.returnTo
+		// 	}
+		// 	next();
+		// }, passport.authenticate('oidc'))
+
+		// this.app.get('/logout', function(req, res){
+		// 	req.logout();
+		// 	res.redirect('/');
+		// });
+
+		// this.app.use('/callback',
+		// 	passport.authenticate('oidc', { failureRedirect: '/error' }),
+		// 		(req, res) => {
+		// 			console.log("callback", req)
+		// 			const returnTo = (req as any).session.returnTo;
+		// 			(req as any).session.returnTo = undefined;
+		// 			console.log(req)
+		// 			res.redirect(returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard");
+		// 		}
+		// );
 
 		
-		passport.use('oidc', new OidcStrategy({
-			...openIdConfig,
-			skipUserProfile: true
-		}, (issuer: any, profile: any, done: any) => {
+		// passport.use('oidc', new OidcStrategy({
+		// 	...openIdConfig,
+		// 	skipUserProfile: true
+		// }, (issuer: any, profile: any, done: any) => {
 
-			console.log("profile", profile)
+		// 	console.log("profile", profile)
 
-			done(null, {
-				id: profile.id,
-				name: "Dev Account",
-				organisation: "Developers",
-				applications: this.applications.map((app) => ({
-					...app,
-					dev: true
-				}))
-			})
-			// console.log({profile})
-			// const session = neoDriver?.session();
-			// session?.run(`
-			// MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
-			// CALL {
-			// 	WITH user
-			// 	MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-			// 	RETURN distinct(apps{.*}) as apps
-			// }
-			// RETURN user{
-			// 	id: user.id,
-			// 	name: user.name,
-			// 	organisation: org.id,
-			// 	applications: collect(apps{.*})
-			// }
-			// `, {
+		// 	done(null, {
+		// 		id: profile.id,
+		// 		name: "Dev Account",
+		// 		organisation: "Developers",
+		// 		applications: this.applications.map((app) => ({
+		// 			...app,
+		// 			dev: true
+		// 		}))
+		// 	})
+		// 	// console.log({profile})
+		// 	// const session = neoDriver?.session();
+		// 	// session?.run(`
+		// 	// MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+		// 	// CALL {
+		// 	// 	WITH user
+		// 	// 	MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+		// 	// 	RETURN distinct(apps{.*}) as apps
+		// 	// }
+		// 	// RETURN user{
+		// 	// 	id: user.id,
+		// 	// 	name: user.name,
+		// 	// 	organisation: org.id,
+		// 	// 	applications: collect(apps{.*})
+		// 	// }
+		// 	// `, {
 			
-			// 	id: profile.id,
+		// 	// 	id: profile.id,
 			
-			// }).then((data) => {
+		// 	// }).then((data) => {
 			
-			// const user = data.records?.[0].get(0);
-			// console.log("deserializeUser", user);
-			// session.close()
-			// done(null, user);
-			// })
-		}))
+		// 	// const user = data.records?.[0].get(0);
+		// 	// console.log("deserializeUser", user);
+		// 	// session.close()
+		// 	// done(null, user);
+		// 	// })
+		// }))
 	}
 
 	async init(){
