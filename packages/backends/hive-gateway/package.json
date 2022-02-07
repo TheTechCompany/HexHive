@@ -11,7 +11,7 @@
 	},
 	"prettier": "@hexhive/prettier-config",
 	"bin": {
-		"hive-gateway": "./dist/server"
+		"hive-gateway": "./dist/server.js"
 	},
 	"scripts": {
 		"build": "tsc -b && cp package.json dist/",
