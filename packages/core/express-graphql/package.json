@@ -5,6 +5,9 @@
 	"license": "MIT",
 	"private": false,
 	"main": "dist/index.js",
+	"publishConfig": {
+		"access": "public"
+	},
 	"files": [
 		"dist/"
 	],
@@ -94,5 +97,6 @@
 	},
 	"peerDependencies": {
 		"graphql": "^14.7.0 || ^15.3.0"
-	}
+	},
+	"gitHead": "cc664e9a645e2428f04e5b41055935e57b3006ff"
 }
