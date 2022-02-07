@@ -36,9 +36,7 @@ const config = {
 		  process.env.NEO4J_USER || "neo4j",
 		  process.env.NEO4J_PASSWORD || "test"
 		)
-	  );
-  const neoSession = neoDriver.session();
-  
+	  );  
 
   const getUser = async (profile: {id: string}) => {
 	  const session = neoDriver?.session();
@@ -66,7 +64,7 @@ const config = {
 	  session.close()
 	  return user; 			
   }
-  
+
 	app.use(passport.initialize());
     app.use(passport.session());
 
