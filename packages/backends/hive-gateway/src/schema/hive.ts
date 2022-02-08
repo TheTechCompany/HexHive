@@ -5,7 +5,6 @@ import gql from "graphql-tag"
 import {OGM} from "@neo4j/graphql-ogm"
 import { nanoid } from "nanoid"
 import apps from "./subschema/apps"
-import automate from "./subschema/automate"
 
 import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
@@ -15,24 +14,6 @@ import { TaskRegistry } from "../task-registry"
 import acl from "./subschema/acl"
 import { createHash } from "crypto"
 import { sendInvite } from "../email"
-
-import amqp from 'amqplib'
-
-import { Pool } from "pg"
-
-require("dotenv").config()
-
-const TOPIC = "the-topic"
-
-// const kafka = new Kafka({
-// 	clientId: "my-app",
-// 	brokers: [process.env.KAFKA_URL || ""]
-// })
-
-
-// const event_producer = kafka.producer()
-
-
 
 // const kc = new KubeConfig();
 // kc.loadFromFile(path.join(__dirname, './config'))

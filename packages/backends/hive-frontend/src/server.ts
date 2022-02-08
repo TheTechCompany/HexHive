@@ -138,7 +138,21 @@ const config = {
 	  
 	const frontendServer = new HiveFrontendServer({
 		apiUrl: process.env.API_URL || "http://localhost:7000",
-		routes: [],
+		routes:  [{
+			key: "Hive-Flow",
+			"route": "/hive-flow",
+			"url": "http://localhost:8503/hexhive-apps-hive-flow.js"
+		  },
+		  {
+			key: "Hive-Command",
+			"route": "/hive-command",
+			"url": "http://localhost:8504/hivecommand-app-frontend.js"
+		  },
+		  {
+			  key: "Hive-Signage",
+			"route": "/hive-signage",
+			"url": "http://localhost:8081/greenco-apps-signage-frontend.js"
+		  }],
 		getViews: async (req) => {
 
 			const session = neoDriver?.session()

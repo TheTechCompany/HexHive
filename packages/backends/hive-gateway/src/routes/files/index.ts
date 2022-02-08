@@ -7,7 +7,6 @@ import multer, { Multer } from "multer"
 import { addFileToJob } from "./util"
 import jwt from "jsonwebtoken"
 import { FileManager } from "./util"
-import { requiresAuth } from "express-openid-connect"
 import { Driver, Result, Session } from "neo4j-driver"
 import { result } from "lodash"
 import { nanoid } from "nanoid"
@@ -173,7 +172,8 @@ export default (fileManager: FileManager, neo: Session) => {
 	})
 
 	//Upload file to hexhive store
-	router.post("/", requiresAuth(), upload.array("files"), async (req, res) => {
+	//TODO auth - used to be requiresAuth from express-openid-connect
+	router.post("/", upload.array("files"), async (req, res) => {
 		const user: any = (req as any).user
 		console.log(user)
 		const uploader = {
