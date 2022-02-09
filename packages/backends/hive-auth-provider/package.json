@@ -31,7 +31,7 @@
     "lodash": "^4.17.21",
     "mongodb": "^4.1.0",
     "neo4j-driver": "^4.3.3",
-    "oidc-provider": "7.8.0"
+    "oidc-provider": "7.10.6"
   },
   "gitHead": "f3b53ccb52ff641f182234f12c298ec1a9ead46f"
 }
