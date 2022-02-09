@@ -24,3 +24,5 @@ last_dump-*.json
 endpoints.json
 
 *hive-gateway-key.json
+
+.dev/neo4j-runtime

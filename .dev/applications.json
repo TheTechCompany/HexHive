@@ -1,0 +1,10 @@
+{
+    "applications": [
+        {
+            "name": "HiveFlow",
+            "graph": "http://localhost:9011/graphql",
+            "route": "/hive-flow",
+            "app": "http://localhost:8503"
+        }
+    ]
+}

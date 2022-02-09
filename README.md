@@ -99,10 +99,10 @@ HexHive is built on the Hexagon Protocol, a protocol that allows developers to b
 
 ### Prerequisites
 
-- npm
-- node
-
-You will needs connection details to both a Neo4j instance and a MongoDB instance.
+- NPM : ^8.3.1
+- Node.js : ^16.13.0
+- Docker : [Install](https://docs.docker.com/get-docker/)
+- Docker Compose : [Install](https://docs.docker.com/compose/install/)
 
 ### Installation
 
@@ -110,40 +110,7 @@ You will needs connection details to both a Neo4j instance and a MongoDB instanc
   npm install @hexhive/dev-server -g
 ```
 
-   <p align="right">(<a href="#top">back to top</a>)</p>
-
-## Environment Preperation
-
-1. Create a new file called .env in packages/backends/hive-frontend
-   This is to be filled out with connection details from your Neo4j and MongoDB instances in the followiong template:
-
-```MONGO_URL=<YOUR MONGO URL HERE (REMEBER TO REPLACE THE <password> appropriately)>
-
-  NEO4J_URI= <YOUR NEO4J URL HERE>
-  NEO4J_USERNAME=<YOUR NEO4J URL HERE>
-  NEO4J_PASSWORD=<YOUR NEO4J URL HERE>
-
-  CLIENT_ID=<YOUR HEXHIVE AUTH CLIENT ID>
-  CLIENT_SECRET=<YOUR HEXHIVE AUTH PASSWORD>
-
-  BASE_DOMAIN=<DOMIAN FOR SESSION COOKIE>
-  UI_URL=<HIVE FRONTEND ADDRESS>
-```
-
-2. Create a new file called .env in packages/backends/hive-gateway
-
-```MONGO_URL=<YOUR MONGO URL HERE (REMEBER TO REPLACE THE <password> appropriately)>
-
-  NEO4J_URI= <YOUR NEO4J URL HERE>
-  NEO4J_USERNAME=<YOUR NEO4J URL HERE>
-  NEO4J_PASSWORD=<YOUR NEO4J URL HERE>
-
-  CLIENT_ID=<YOUR HEXHIVE AUTH CLIENT ID>
-  CLIENT_SECRET=<YOUR HEXHIVE AUTH PASSWORD>
-```
-
-3. Create a new file called endpoints.json at packages/backends/hive-gateway
-   Copy the example at example-endpoints.json and point in at the GraphQL servers you would like to use.
+ <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 
@@ -151,6 +118,11 @@ You will needs connection details to both a Neo4j instance and a MongoDB instanc
 
 ### Dev Server
 ```sh
+git clone https://github.com/TheTechCompany/HexHive
+
+cd HexHive/.dev
+
+docker-compose up -d
 
 hex-dev --config ./applications.json
 ```
