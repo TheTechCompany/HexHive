@@ -226,6 +226,7 @@ export class LocalGateway {
 	start(){
 		this.app.listen(this.port)
 		console.log(`=> Gateway Online on ${this.port}`)
+		console.log(`=> View at http://localhost:${this.port}`)
 	}
 }
 
