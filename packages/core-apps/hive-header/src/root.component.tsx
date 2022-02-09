@@ -3,12 +3,16 @@ import React from "react";
 import { BaseStyle } from "@hexhive/styles";
 import { Header } from "./components/Header";
 import { AuthProvider } from "@hexhive/auth-ui";
+
+const API_URL = localStorage.getItem('HEXHIVE_API');
+
+
 export default function Root(props) {
   return (
     <AuthProvider
       authorizationServer={
         process.env.NODE_ENV == "production"
-          ? process.env.REACT_APP_API || "https://staging-api.hexhive.io"
+          ? API_URL || "https://staging-api.hexhive.io"
           : "http://localhost:7000"
       }
     >

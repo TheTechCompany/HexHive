@@ -21,9 +21,18 @@ export class HiveMicrofrontendServer {
 	private router: Router;
 	private template: string;
 
+	private apiUrl: string;
+
 	private get_views?: (req: Request<any>) => Promise<{apps: MicrofrontendConfig[], views: ViewConfig[]}>
 
-	constructor(opts: { name: string, get_views?: (user: any) => Promise<{apps: MicrofrontendConfig[], views: ViewConfig[]}> }) {
+	constructor(opts: { 
+		name: string, 
+		get_views?: (user: any) => Promise<{apps: MicrofrontendConfig[], views: ViewConfig[]}>,
+		apiUrl: string
+	}) {
+
+		this.apiUrl = opts.apiUrl;
+
 		this.get_views = opts.get_views;
 		this.name = opts.name;
 		this.router = Router();
@@ -43,6 +52,7 @@ export class HiveMicrofrontendServer {
 					isLocal: true, 
 					title: this.name || 'Hello World', 
 					base: req.baseUrl,
+					apiUrl: this.apiUrl,
 					config_url: `${req.baseUrl}/static/root-config.js`,
 					static_url: `${req.baseUrl}/static`,
 					routes: views || [{

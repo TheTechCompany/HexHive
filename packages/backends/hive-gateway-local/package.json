@@ -1,14 +1,22 @@
 {
-  "name": "@hexhive/local-gateway",
-  "version": "0.0.6-alpha.22",
+  "name": "@hexhive/dev-server",
+  "version": "0.0.6-alpha.34",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "publishConfig": {
     "access": "public"
   },
+  "bin": {
+    "hex-dev": "dist/cli.js"
+  },
   "scripts": {
+    "start:cli": "npx ts-node -r tsconfig-paths/register src/cli.ts",
     "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "cd src/dev-view && vite",
+    "build": "tsc -b && rm -rf dist/dev-view/* && cp -r src/dev-view/dist dist/dev-view/dist",
     "build:app": "cd src/dev-view && tsc && vite build",
     "preview": "cd src/dev-view && vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +25,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
+    "@types/passport": "^1.0.7",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/yargs": "^17.0.8",
@@ -28,10 +38,13 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@hexhive/frontend-server": "^0.0.6-alpha.18",
-    "@hexhive/gateway": "^0.0.6-alpha.22",
+    "@hexhive/frontend-server": "^0.0.6-alpha.34",
+    "@hexhive/gateway": "^0.0.6-alpha.33",
     "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "passport": "^0.5.2",
+    "passport-openidconnect": "^0.1.1",
     "yargs": "^17.3.1"
   },
-  "gitHead": "2126449f7d1c5329e4a2325df89bed2da5902d25"
+  "gitHead": "5a81742952fdf6a2f655931f248ec6f77513f4da"
 }

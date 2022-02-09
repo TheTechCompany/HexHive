@@ -17,7 +17,7 @@ export const BaseHexagon = forwardRef<HTMLDivElement, any>((props, ref) => {
 export const HexagonBox = styled(BaseHexagon)`
 
     .hexagon-container{
-        position: absolute;
+        position: relative;
         width: 100%;
         height: 100%;
     }
