@@ -99,8 +99,8 @@ HexHive is built on the Hexagon Protocol, a protocol that allows developers to b
 
 ### Prerequisites
 
-- npm
-- node
+- npm : ^16.13.0
+- node : ^8.1.0 
 
 You will needs connection details to both a Neo4j instance and a MongoDB instance.
 
