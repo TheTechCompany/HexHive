@@ -30,6 +30,7 @@ export interface BoxAction {
     path?: string, 
     icon?: any, 
     title?: string
+    dev?: boolean
 }
 export interface BoxBackgroundProps {
     apps?: any[];
@@ -144,6 +145,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
             const item = actions[(action_length / 2) + i]
             action_elements.push(
                 <HexButton 
+                    dev={item.dev}
                     onClick={() => onAction(item)}
                     top={item.top}
                     logo={item.icon}
@@ -168,6 +170,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                     if(action) {
                         elems.push(
                         <HexButton 
+                            dev={action.dev}
                             onClick={() => onClick({x, y})}
                             top={action?.top}
                             left={action?.left}

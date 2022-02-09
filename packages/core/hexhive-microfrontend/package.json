@@ -1,11 +1,14 @@
 {
   "name": "@hexhive/microfrontend-server",
-  "version": "0.0.6-alpha.13",
+  "version": "0.0.6-alpha.33",
   "main": "dist/index.js",
   "files": [
     "dist/"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -b . && yarn copy-files",
     "copy-files": "cp -r ./src/templates/ ./dist/templates/"
@@ -19,5 +22,6 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.2"
-  }
+  },
+  "gitHead": "5a81742952fdf6a2f655931f248ec6f77513f4da"
 }

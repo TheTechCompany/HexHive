@@ -5,6 +5,9 @@ import { withTheme } from "styled-components";
 import { Logout } from "grommet-icons";
 import { Profile, Settings } from "@hexhive/icons";
 
+const API_URL = localStorage.getItem('HEXHIVE_API');
+
+
 export const UserDropdown = () => {
   const { activeUser } = useAuth();
   const [open, setOpen] = useState<boolean>(false);
@@ -21,7 +24,7 @@ export const UserDropdown = () => {
       onClick: () => {
         window.location.href = `${
           process.env.NODE_ENV == "production"
-            ? process.env.REACT_APP_API || "https://staging-api.hexhive.io"
+            ? API_URL || "https://staging-api.hexhive.io"
             : "http://localhost:7000"
         }/logout`;
       },

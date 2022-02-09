@@ -1,8 +1,11 @@
 {
   "name": "@hexhive/auth-provider",
-  "version": "0.0.6-alpha.13",
+  "version": "0.0.6-alpha.30",
   "description": "",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "build": "tsc -b",
@@ -19,7 +22,7 @@
   },
   "dependencies": {
     "@hexhive/data-core": "^0.0.6-alpha.13",
-    "@hexhive/types": "^0.0.6-alpha.13",
+    "@hexhive/types": "^0.0.6-alpha.30",
     "aws-sdk": "^2.999.0",
     "cookie-parser": "^1.4.5",
     "greenlock-express": "^4.0.3",
@@ -28,6 +31,7 @@
     "lodash": "^4.17.21",
     "mongodb": "^4.1.0",
     "neo4j-driver": "^4.3.3",
-    "oidc-provider": "7.8.0"
-  }
+    "oidc-provider": "7.10.6"
+  },
+  "gitHead": "f3b53ccb52ff641f182234f12c298ec1a9ead46f"
 }
