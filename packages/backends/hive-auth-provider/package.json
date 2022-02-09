@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/auth-provider",
-  "version": "0.0.6-alpha.30",
+  "version": "0.0.6-alpha.42",
   "description": "",
   "main": "index.js",
   "publishConfig": {
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@hexhive/data-core": "^0.0.6-alpha.13",
-    "@hexhive/types": "^0.0.6-alpha.30",
+    "@hexhive/types": "^0.0.6-alpha.42",
     "aws-sdk": "^2.999.0",
     "cookie-parser": "^1.4.5",
     "greenlock-express": "^4.0.3",
