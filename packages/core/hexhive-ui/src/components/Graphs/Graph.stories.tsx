@@ -37,6 +37,9 @@ AreaChart.args = {
 export const PieChart = TemplatePie.bind({});
 PieChart.args = {
 
+  dataKey: "value",
+  nameKey: "name",
+
   data: [
     {
       "name": "Group A",

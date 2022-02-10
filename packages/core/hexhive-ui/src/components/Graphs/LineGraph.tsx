@@ -29,7 +29,7 @@ export const LineGraph: React.FC<LineGraphProps> = (props) => {
         data={props.data}
         width={12}
       >
-        <XAxis dataKey={props.xKey} angle={-45} tickMargin={40} height={85} />
+        <XAxis dataKey={props.xKey} />
         <YAxis dataKey={props.yKey} />
         <Tooltip />
         <CartesianGrid stroke="#f5f5f5" />
