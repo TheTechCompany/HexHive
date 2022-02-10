@@ -23,10 +23,11 @@ export interface LineGraphProps {
 
 export const LineGraph: React.FC<LineGraphProps> = (props) => {
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer width="100%" height="100%">
       <LineChart
         margin={{ left: 0, top: 8, bottom: 8, right: 8 }}
         data={props.data}
+        width={12}
       >
         <XAxis dataKey={props.xKey} angle={-45} tickMargin={40} height={85} />
         <YAxis dataKey={props.yKey} />

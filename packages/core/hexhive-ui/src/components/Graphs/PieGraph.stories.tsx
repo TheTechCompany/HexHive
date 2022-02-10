@@ -1,15 +1,15 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { LineGraph } from './LineGraph';
+import { PieGraph } from './PieGraph';
 import { Box } from 'grommet';
 
 export default {
-  title: 'Example/LineGraph',
-  component: LineGraph,
-} as ComponentMeta<typeof LineGraph>;
+  title: 'Example/PieGraph',
+  component: PieGraph,
+} as ComponentMeta<typeof PieGraph>;
 
-const Template: ComponentStory<typeof LineGraph> = (args) => <LineGraph {...args} />;
+const Template: ComponentStory<typeof PieGraph> = (args) => <PieGraph {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
