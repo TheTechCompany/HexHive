@@ -3,7 +3,6 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { LineGraph } from './LineGraph';
 import { PieGraph } from './PieGraph';
-import { AreaGraph } from './AreaGraph';
 import { Box } from 'grommet';
 
 export default {
@@ -13,7 +12,6 @@ export default {
 
 const Template: ComponentStory<typeof LineGraph> = (args) => <LineGraph {...args} />;
 const TemplatePie: ComponentStory<typeof PieGraph> = (args) => <PieGraph {...args} />;
-const TemplateArea: ComponentStory<typeof AreaGraph> = (args) => <PieGraph {...args} />;
 
 
 
@@ -24,15 +22,6 @@ Primary.args = {
   xKey: "x",
   yKey: "y",
 };
-
-export const AreaChart = TemplateArea.bind({});
-AreaChart.args = {
-
-  data: [{x: "Monday",y: 1}, {x: "Tuesday",y: 3}, {x: "Wednesday",y: 5},{x: "Thursday",y: 3},],
-  xKey: "x",
-  yKey: "y",
-};
-
 
 export const PieChart = TemplatePie.bind({});
 PieChart.args = {
