@@ -22,7 +22,7 @@ export interface PieGraph {
 export const PieGraph: React.FC<PieGraph> = (props) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <PieChart width={730} height={250}>
+      <PieChart>
         <Pie data={props.data} dataKey={"value"} nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />
       </PieChart>
     </ResponsiveContainer>
