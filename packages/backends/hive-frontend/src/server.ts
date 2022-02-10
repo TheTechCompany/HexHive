@@ -138,7 +138,13 @@ const config = {
 	  
 	const frontendServer = new HiveFrontendServer({
 		apiUrl: process.env.API_URL || "http://localhost:7000",
-		routes: [],
+		routes: process.env.NODE_ENV == "development" ? [
+			{
+				key: 'Hive-Command',
+				route: '/hive-command',
+				url: 'http://localhost:8504/hivecommand-app-frontend.js',
+			}
+		] : [],
 		getViews: async (req) => {
 
 			const session = neoDriver?.session()

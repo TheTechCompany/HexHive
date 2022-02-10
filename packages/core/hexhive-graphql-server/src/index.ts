@@ -92,16 +92,13 @@ export class HiveGraph {
 	isAuthenticated(req: any, res: any, next: any){
 		const hiveJwt = req.headers["x-hive-jwt"]?.toString();
 
-		console.log(req.headers);
 		if (hiveJwt) {
 		  const verified = verify(
 			hiveJwt,
 			this.keys?.[0] || '',
 			{ algorithms: ["RS256"] }
 		  );
-	
-		  console.log(verified);
-	
+		
 		  (req as any).jwt = {
 			  ...(verified as any || {}),
 			id: (verified as any)?.sub,
