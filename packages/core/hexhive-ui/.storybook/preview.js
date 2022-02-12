@@ -12,7 +12,7 @@ export const parameters = {
 }
 export const decorators = [
   (Story) => (
-    <Grommet theme={BaseStyle}>
+    <Grommet style={{flex: 1}} theme={BaseStyle}>
       <Story />
     </Grommet>
   ),
