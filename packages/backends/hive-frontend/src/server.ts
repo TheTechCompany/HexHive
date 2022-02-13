@@ -56,9 +56,7 @@ const config = {
 		  applications: collect(apps{.*})
 		}
 	  `, {
-		
 		  id: profile.id,
-		
 	  })
 		
 	  const user = data.records?.[0].get(0);
