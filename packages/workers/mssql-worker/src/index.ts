@@ -46,6 +46,10 @@ export class MSSQLWorker extends EventEmitter {
 		this.task.forEach((task) => {
 			setInterval(this.poll.bind(this, task), 60 * 1000)
 		})
+
+		// await Promise.all(this.task.map(async (task) => {
+		// 	await this.poll(task)
+		// }))
 	}
 
 	getQuery(task: WorkerTask){

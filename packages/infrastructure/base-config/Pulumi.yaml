@@ -1,0 +1,3 @@
+name: hexhive-infra
+runtime: nodejs
+description: Base infrastructure for hexhive
