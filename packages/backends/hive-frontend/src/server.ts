@@ -101,7 +101,27 @@ const config = {
 		  }
 		  next();
 		},
-		passport.authenticate("oidc")
+		(req, res, next) => {
+			passport.authenticate("oidc", (err, user, info) => {
+				if(err){
+					console.error(err);
+					return next(err);
+				}
+
+				if(!user){
+					console.log(`User not found: ${info.message}`);
+					res.send({success: false, message: 'authentication failed'})
+				}
+
+				req.login(user, loginErr => {
+					if (loginErr) {
+					console.warn(loginErr);
+					  return next(loginErr);
+					}
+					return res.send({ success : true, message : 'authentication succeeded' });
+				});    
+			})(req, res, next);
+		}
 	  );
   
 	  app.get("/logout", function (req, res) {
