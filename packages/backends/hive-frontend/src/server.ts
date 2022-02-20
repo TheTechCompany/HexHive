@@ -107,6 +107,9 @@ const config = {
 		},
 		(req, res, next) => {
 			passport.authenticate("oidc", (err, user, info) => {
+				
+				console.log("authenticate", {err, user, info});
+
 				if(err){
 					console.error(err);
 					return next(err);
@@ -119,7 +122,7 @@ const config = {
 
 				req.login(user, loginErr => {
 					if (loginErr) {
-					console.warn(loginErr);
+						console.warn(loginErr);
 					  return next(loginErr);
 					}
 					return res.send({ success : true, message : 'authentication succeeded' });
@@ -136,7 +139,9 @@ const config = {
   
 	  app.use(
 		"/callback",
-		passport.authenticate("oidc", { failureRedirect: "/error" }),
+		passport.authenticate("oidc", { failureRedirect: "/error" }, (err, user, info) => {
+			console.log({err, user, info})
+		}),
 		(req, res) => {
 		  const returnTo = (req as any)?.session?.returnTo;
 		  if ((req as any).session) (req as any).session.returnTo = undefined;

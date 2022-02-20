@@ -76,6 +76,8 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
                             { name: 'NODE_ENV', value: 'development' },
                             { name: 'UI_URL',  value: 'https://dev.hexhive.io/dashboard' },
                             { name: 'BASE_URL',  value: 'https://dev.hexhive.io' },
+                            { name: 'BASE_DOMAIN', value: 'hexhive.io' },
+                            { name: 'API_URL', value: 'https://api.hexhive.io'},
                             { name: "NEO4J_URI", value: `neo4j://3.26.93.103` /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                         ]
