@@ -6,6 +6,7 @@ import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 const greenlock = require("greenlock-express");
+const pkg = require('../package.json');
 
 var OidcStrategy = require("passport-openidconnect").Strategy;
 
@@ -29,6 +30,9 @@ const config = {
 };
 
 (async (port: number = 8000) => {
+
+	console.log(pkg.version)
+
 	const app = express()
 
 

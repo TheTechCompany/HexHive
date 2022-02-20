@@ -63,8 +63,9 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
                 metadata: { labels: appLabels },
                 spec: {
                     containers: [{
+                        imagePullPolicy: "Always",
                         name: appName,
-                        image: "thetechcompany/hexhive-frontend-server:latest",
+                        image: "thetechcompany/hexhive-frontend-server:latest-next",
                         ports: [
                             { name: "http", containerPort: 8000 }, 
                             // {name: "https", containerPort: 443}
