@@ -142,9 +142,7 @@ const config = {
   
 	  app.use(
 		"/callback",
-		passport.authenticate("oidc", { failureRedirect: "/error" }, (err, user, info) => {
-			console.log({err, user, info})
-		}),
+		passport.authenticate("oidc", { failureRedirect: "/error" }),
 		(req, res) => {
 		  const returnTo = (req as any)?.session?.returnTo;
 		  if ((req as any).session) (req as any).session.returnTo = undefined;
