@@ -105,30 +105,33 @@ const config = {
 		  }
 		  next();
 		},
-		(req, res, next) => {
-			passport.authenticate("oidc", (err, user, info) => {
+		passport.authenticate('oidc', (err, user, info) => {
+			console.log({err, user, info})
+		})
+		// (req, res, next) => {
+		// 	passport.authenticate("oidc", (err, user, info) => {
 				
-				console.log("authenticate", {err, user, info});
+		// 		console.log("authenticate", {err, user, info});
 
-				if(err){
-					console.error(err);
-					return next(err);
-				}
+		// 		if(err){
+		// 			console.error(err);
+		// 			return next(err);
+		// 		}
 
-				if(!user){
-					console.log(`User not found: ${info.message}`);
-					res.send({success: false, message: 'authentication failed'})
-				}
+		// 		if(!user){
+		// 			console.log(`User not found: ${info.message}`);
+		// 			res.send({success: false, message: 'authentication failed'})
+		// 		}
 
-				req.login(user, loginErr => {
-					if (loginErr) {
-						console.warn(loginErr);
-					  return next(loginErr);
-					}
-					return res.send({ success : true, message : 'authentication succeeded' });
-				});    
-			})(req, res, next);
-		}
+		// 		req.login(user, loginErr => {
+		// 			if (loginErr) {
+		// 				console.warn(loginErr);
+		// 			  return next(loginErr);
+		// 			}
+		// 			return res.send({ success : true, message : 'authentication succeeded' });
+		// 		});    
+		// 	})(req, res, next);
+		// }
 	  );
   
 	  app.get("/logout", function (req, res) {
