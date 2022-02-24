@@ -1,6 +1,7 @@
 {
   "name": "@hexhive/data-producer",
   "version": "0.0.6-alpha.44",
+  "private": true,
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -27,5 +28,6 @@
     "kafkajs": "^1.15.0",
     "nanoid": "^3.1.25",
     "neo4j-driver": "^4.3.3"
-  }
+  },
+  "gitHead": "92dbd6f35a180402f000705602518556ca13d7d6"
 }
