@@ -23,8 +23,9 @@ export interface GridLayout {
 
 export interface GridLayoutItem {
 	id: string;
-	label: string;
-	total: string;
+	label?: string;
+	total?: string;
+  extras?: any;
 	x: number;
 	y: number;
 	w: number;
