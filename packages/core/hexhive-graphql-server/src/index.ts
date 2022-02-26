@@ -11,7 +11,7 @@ import {OGM} from '@neo4j/graphql-ogm'
 
 import gql from 'graphql-tag';
 import schema from './schema';
-import { HashDirective, HashType } from './directives/hash';
+import { HashType } from './directives/hash';
 
 export interface HiveGraphOptions {
 	rootServer: string;

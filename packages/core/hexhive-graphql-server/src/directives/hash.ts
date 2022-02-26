@@ -1,4 +1,3 @@
-import { SchemaDirectiveVisitor, VisitableSchemaType } from "@graphql-tools/utils";
 import { GraphQLSchema, GraphQLScalarType, GraphQLObjectType, GraphQLField, GraphQLInterfaceType, GraphQLArgument, GraphQLUnionType, GraphQLEnumType, GraphQLEnumValue, GraphQLInputObjectType, GraphQLInputField, Kind } from "graphql";
 import crypto from 'crypto'
 
@@ -49,58 +48,60 @@ export const HashType = new GraphQLScalarType<string, string>({
 //         })
 //     }
 // }
-export class HashDirective extends SchemaDirectiveVisitor {
+
+
+// export class HashDirective extends SchemaDirectiveVisitor {
    
     
-    // visitSchema(_schema: GraphQLSchema): void {
-    //     throw new Error("Method not implemented.");
-    // }
-    // visitScalar(_scalar: GraphQLScalarType<unknown, unknown>): void | GraphQLScalarType<unknown, unknown> | null {
-    //     throw new Error("Method not implemented.");
-    // }
-    // visitObject(_object: GraphQLObjectType<any, any>): void | GraphQLObjectType<any, any> | null {
-    //     throw new Error("Method not implemented.");
-    // }
-    visitFieldDefinition(field: GraphQLField<any, any, any>, _details: { objectType: GraphQLInterfaceType | GraphQLObjectType<any, any>; }): void | GraphQLField<any, any, any> | null {
-        // console.log({_field, _details})
-        // field.type = new HashType(field.type);
+//     // visitSchema(_schema: GraphQLSchema): void {
+//     //     throw new Error("Method not implemented.");
+//     // }
+//     // visitScalar(_scalar: GraphQLScalarType<unknown, unknown>): void | GraphQLScalarType<unknown, unknown> | null {
+//     //     throw new Error("Method not implemented.");
+//     // }
+//     // visitObject(_object: GraphQLObjectType<any, any>): void | GraphQLObjectType<any, any> | null {
+//     //     throw new Error("Method not implemented.");
+//     // }
+//     visitFieldDefinition(field: GraphQLField<any, any, any>, _details: { objectType: GraphQLInterfaceType | GraphQLObjectType<any, any>; }): void | GraphQLField<any, any, any> | null {
+//         // console.log({_field, _details})
+//         // field.type = new HashType(field.type);
         
-        // const { resolve: defaultFieldResolver } = field;
+//         // const { resolve: defaultFieldResolver } = field;
 
-        // field.resolve = async (source, args, context, info) => {
-        //     console.log({source, args, context, info})
-        //     const digest = crypto.createHash('sha256') //.update(JSON.stringify(args)).digest('hex');
-        //     // source.name = digest.update(source.name).digest('hex') //'hash';
+//         // field.resolve = async (source, args, context, info) => {
+//         //     console.log({source, args, context, info})
+//         //     const digest = crypto.createHash('sha256') //.update(JSON.stringify(args)).digest('hex');
+//         //     // source.name = digest.update(source.name).digest('hex') //'hash';
 
-        //     return defaultFieldResolver?.(source, args, context, info);
-        // }
+//         //     return defaultFieldResolver?.(source, args, context, info);
+//         // }
 
 
-        // _field.
-        // throw new Error("Method not implemented.");
-    }
-    // visitArgumentDefinition(_argument: GraphQLArgument, _details: { field: GraphQLField<any, any, any>; objectType: GraphQLInterfaceType | GraphQLObjectType<any, any>; }): void | GraphQLArgument | null {
-    //     throw new Error("Method not implemented.");
-    // }
-    // visitInterface(_iface: GraphQLInterfaceType): void | GraphQLInterfaceType | null {
-    //     throw new Error("Method not implemented.");
-    // }
-    // visitUnion(_union: GraphQLUnionType): void | GraphQLUnionType | null {
-    //     throw new Error("Method not implemented.");
-    // }
-    // visitEnum(_type: GraphQLEnumType): void | GraphQLEnumType | null {
-    //     throw new Error("Method not implemented.");
-    // }
-    // visitEnumValue(_value: GraphQLEnumValue, _details: { enumType: GraphQLEnumType; }): void | GraphQLEnumValue | null {
-    //     throw new Error("Method not implemented.");
-    // }
-    visitInputObject(_object: GraphQLInputObjectType): void | GraphQLInputObjectType | null {
-        throw new Error("Method not implemented.");
-    }
-    visitInputFieldDefinition(_field: GraphQLInputField, _details: { objectType: GraphQLInputObjectType; }): void | GraphQLInputField | null {
-       console.log("Input Field")
-        // _field.type = new HashType(_field.type)
-        // throw new Error("Method not implemented.");
-    }   
+//         // _field.
+//         // throw new Error("Method not implemented.");
+//     }
+//     // visitArgumentDefinition(_argument: GraphQLArgument, _details: { field: GraphQLField<any, any, any>; objectType: GraphQLInterfaceType | GraphQLObjectType<any, any>; }): void | GraphQLArgument | null {
+//     //     throw new Error("Method not implemented.");
+//     // }
+//     // visitInterface(_iface: GraphQLInterfaceType): void | GraphQLInterfaceType | null {
+//     //     throw new Error("Method not implemented.");
+//     // }
+//     // visitUnion(_union: GraphQLUnionType): void | GraphQLUnionType | null {
+//     //     throw new Error("Method not implemented.");
+//     // }
+//     // visitEnum(_type: GraphQLEnumType): void | GraphQLEnumType | null {
+//     //     throw new Error("Method not implemented.");
+//     // }
+//     // visitEnumValue(_value: GraphQLEnumValue, _details: { enumType: GraphQLEnumType; }): void | GraphQLEnumValue | null {
+//     //     throw new Error("Method not implemented.");
+//     // }
+//     visitInputObject(_object: GraphQLInputObjectType): void | GraphQLInputObjectType | null {
+//         throw new Error("Method not implemented.");
+//     }
+//     visitInputFieldDefinition(_field: GraphQLInputField, _details: { objectType: GraphQLInputObjectType; }): void | GraphQLInputField | null {
+//        console.log("Input Field")
+//         // _field.type = new HashType(_field.type)
+//         // throw new Error("Method not implemented.");
+//     }   
 
-}
+// }
