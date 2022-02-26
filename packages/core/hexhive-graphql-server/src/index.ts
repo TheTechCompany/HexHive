@@ -11,6 +11,7 @@ import {OGM} from '@neo4j/graphql-ogm'
 
 import gql from 'graphql-tag';
 import schema from './schema';
+import { HashDirective, HashType } from './directives/hash';
 
 export interface HiveGraphOptions {
 	rootServer: string;
@@ -48,8 +49,15 @@ export class HiveGraph {
 				typeDefs
 			])
 			const neo = new Neo4jGraphQL({
-				resolvers,
+				resolvers: {
+					...resolvers,
+					Hash: HashType
+				},
 				driver,
+				// schemaDirectives: {
+				// 	hash: HashDirective
+				// },
+				
 				typeDefs: mergedTypeDefs
 			})
 

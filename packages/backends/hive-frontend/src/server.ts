@@ -171,6 +171,11 @@ const config = {
 				key: 'Hive-Command',
 				route: '/hive-command',
 				url: 'http://localhost:8504/hivecommand-app-frontend.js',
+			},
+			{
+				key: 'Hive-Signage',
+				route: '/hive-signage',
+				url: 'http://localhost:8081/greenco-apps-signage-frontend.js',
 			}
 		] : [],
 		getViews: async (req) => {
