@@ -11,7 +11,8 @@ import neo4j from 'neo4j-driver'
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
-var OidcStrategy = require('passport-openidconnect').Strategy;
+const OidcStrategy = require('passport-openidconnect').Strategy;
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
 const greenlock = require("greenlock-express")
 
 
@@ -29,6 +30,13 @@ const config = {
 	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
 	callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
 	scope: process.env.SCOPE || "openid email name groups"
+};
+
+const jwtConfig = {
+	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+	secretOrKey: process.env.JWT_SECRET || "test",
+	// issuer: url,
+	// audience: url
 };
 
 const argv = yargs(hideBin(process.argv)).options({
@@ -97,6 +105,27 @@ const argv = yargs(hideBin(process.argv)).options({
 			}
 		);
 
+	passport.use( new JwtStrategy(jwtConfig, (payload: any, done: (err: any, user: any) => void) => {
+		console.log({payload})
+		const session = neoDriver?.session();
+		session?.run(`
+			MATCH (org:HiveOrganisation)-[:HAS_KEY]->(:HiveKey {key: $key})-[:HAS_PERMISSION]->(apps:HiveAppliance)
+
+			RETURN {
+				organisation: org.id,
+				applications: collect(apps{.*})
+			}
+		`, {
+			key: payload.key
+		}).then((data) => {
+			const user = data?.records?.[0]?.get(0);
+
+			session.close()
+			done(null, {type: 'api-key', ...user})
+		})
+
+
+	}))
 		
 	passport.use('oidc', new OidcStrategy({
 		...config,

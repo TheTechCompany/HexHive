@@ -37,6 +37,14 @@ export interface GraphGridProps {
   layout: GridLayoutItem[]
   children: (item: GridLayoutItem) => React.ReactNode;
   noWrap?: boolean;
+
+  rowHeight?: number;
+  cols?: {
+    [key: string]: number;
+  };
+  breakpoints?: {
+    [key: string]: number;
+  };
 }
 
 export const GraphGrid: React.FC<GraphGridProps> = (props) => {
@@ -59,22 +67,22 @@ export const GraphGrid: React.FC<GraphGridProps> = (props) => {
     <Box flex>
       {/* {props.children} */}
       <ResponsiveGridLayout
-	  
+        rowHeight={props.rowHeight || 30}
         layouts={{lg: props.layout.map((x) => ({...x, i: x.id}))}}
         onLayoutChange={props.onLayoutChange}
-        cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
-		breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+        cols={props.cols || {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
+		    breakpoints={props.breakpoints || { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         className="rgl"
       >
-        {props.layout.map((item) => (
-			<div style={{display: 'flex'}} key={item.id}>
-				{props.noWrap ? props.children(item) : (
-				<GraphContainer dataKey={item.id} label={item.label} total={item.total} onRemove={() => {}}>
-					{props.children?.(item)}
-				</GraphContainer>
-				)}
-			</div>
-		))}
+      {props.layout.map((item) => (
+        <div style={{display: 'flex'}} key={item.id}>
+          {props.noWrap ? props.children(item) : (
+          <GraphContainer dataKey={item.id} label={item.label} total={item.total} onRemove={() => {}}>
+            {props.children?.(item)}
+          </GraphContainer>
+          )}
+        </div>
+		  ))}
       </ResponsiveGridLayout>
     </Box>
   ); //<div>{props.children}</div>;
