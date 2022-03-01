@@ -20,8 +20,17 @@ export const GatewayCluster = (cluster: eks.Cluster) => {
                 spec: {
                     containers: [{
                         name: appName,
-                        image: "nginx",
-                        ports: [{ name: "http", containerPort: 80 }]
+                        image: "thetechcompany/hexhive-gateway:latest",
+                        ports: [{ name: "http", containerPort: 7000 }],
+                        env: [
+                            { name: "NODE_ENV", value: "development" },
+                            { name: "MONGO_URL", value: ''},
+                            { name: 'NEO4J_URI', value: process.env.NEO4J_URI || "localhost" },
+                            { name: 'NEO4J_PASSWORD', value: process.env.NEO4J_PASSWORD || "test" },
+                            { name: 'CLIENT_ID', value: process.env.CLIENT_ID || "test" },
+                            { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || "secret" },
+                            { name: 'JWT_SECRET', value: process.env.JWT_SECRET || "test" }
+                        ]
                     }],
                 }
             }
