@@ -167,7 +167,9 @@ const config = {
 		  ...config,
 		  skipUserProfile: false,
 		}, async (issuer: any, profile: any, done: any) => {
-		  const user = await getUser?.(profile)
+			console.log("OidcStrategy", {issuer, profile})
+		  	const user = await getUser?.(profile)
+		  	console.log("OidcStrategy", {user})
 		  done(null, user)
 		})
 	  );
