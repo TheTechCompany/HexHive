@@ -30,3 +30,5 @@ endpoints.json
 lerna-debug.log
 
 kubeconfig.yml
+
+stack_output

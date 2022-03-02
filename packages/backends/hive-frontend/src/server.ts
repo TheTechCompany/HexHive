@@ -105,9 +105,18 @@ const config = {
 		  }
 		  next();
 		},
-		passport.authenticate('oidc', (err, user, info) => {
-			console.log({err, user, info})
-		})
+		(req, res, next) => {
+			passport.authenticate('oidc', (err, user, info) => {
+				console.log("Authenticate")
+				console.log({err, user, info})
+				if(err) return res.send({err})
+				req.logIn(user, (err) => {
+					console.log({err})
+					if(err) return res.send({err});
+					next();
+				})
+			})(req, res, next);
+		}
 		// (req, res, next) => {
 		// 	passport.authenticate("oidc", (err, user, info) => {
 				
