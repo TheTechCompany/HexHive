@@ -4,3 +4,4 @@ config:
   hexhive-infra:gateway-url: staging-api.hexhive.io
   hexhive-infra:suffix: staging
   hexhive-infra:image-tag: latest-next
+  hexhive-infra:greenco-api: staging-api.greenco.co.nz

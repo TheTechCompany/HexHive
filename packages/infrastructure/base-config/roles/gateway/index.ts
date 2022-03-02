@@ -104,7 +104,7 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                 "endpoints": [
                     {
                         "name": "GreenScreen",
-                        "url": "https://api.greenco.co.nz/graphql"
+                        "url": "https://${config.require('greenco-api')}/graphql"
                     },
                     {
                         "name": "HiveFlow",
@@ -144,7 +144,7 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                         env: [
                             { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test'},
                             { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
-                            { name: 'NODE_ENV', value: 'development' },
+                            { name: 'NODE_ENV', value: 'production' },
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI || 'localhost' },

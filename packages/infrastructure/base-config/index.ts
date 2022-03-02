@@ -24,7 +24,7 @@ const main = (async () => {
 
 
     const zone = await aws.route53.getZone({name: "hexhive.io"})
-
+    const greencoZone = await aws.route53.getZone({name: 'greenco.co.nz'});
    
     const { cluster, vpc } = await EKSCluster(deployment)
 
@@ -37,7 +37,7 @@ const main = (async () => {
 
     // const hiveFlow = await HiveFlow(cluster)
     // const hiveCommand = await HiveCommand(cluster)
-    // const greenScreen = await GreenScreen(cluster, vpc)
+    const greenScreen = await gatewayUrl.apply(async (url) => await GreenScreen(cluster, vpc, config.require('greenco-api'), greencoZone, url))
 
 
     // // const { url: neo4Url } = Neo4jCluster(cluster)
@@ -47,13 +47,13 @@ const main = (async () => {
     // const { url : frontend } = await MicrofrontendCluster(cluster, zone, 'next.hexhive.io', mongoUrl);
 
     return {
-        // gatewayUrl,
-        // frontendUrl,
-        // mongoUrl,
+        gatewayUrl,
+        frontendUrl,
+        mongoUrl,
 
         // hiveFlow,
         // hiveCommand,
-        // greenScreen,
+        greenScreen,
         kubeconfig: cluster.kubeconfig
     }
 
@@ -61,8 +61,8 @@ const main = (async () => {
 
 export const kubeconfig = main.then(result => result.kubeconfig)
 
-// export const gatewayUrl = main.then(result => result.gatewayUrl)
-// export const frontendUrl = main.then(result => result.frontendUrl)
-// export const mongoUrl = main.then(result => result.mongoUrl)
+export const gatewayUrl = main.then(result => result.gatewayUrl)
+export const frontendUrl = main.then(result => result.frontendUrl)
+export const mongoUrl = main.then(result => result.mongoUrl)
 
-// export const greenScreenUrl = main.then((result) => result.greenScreen?.service.status.loadBalancer.ingress)
+export const greenScreenUrl = main.then((result) => result.greenScreen?.service.status.loadBalancer.ingress)

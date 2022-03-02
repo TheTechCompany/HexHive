@@ -183,6 +183,8 @@ const argv = yargs(hideBin(process.argv)).options({
 
 	if(process.env.NODE_ENV == "production"){
 
+		app.set('trust proxy', true) // trust first proxy
+		
 			app.use((req, res, next) => {
 				req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
 			})

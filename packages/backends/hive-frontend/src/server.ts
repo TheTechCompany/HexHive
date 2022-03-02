@@ -244,7 +244,7 @@ const config = {
 	const server = createServer(app)
 
 	if(process.env.NODE_ENV == "production"){
-
+		app.set('trust proxy', true)
 		app.use((req, res, next) => {
 			req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
 		})
