@@ -27,7 +27,8 @@ const whitelist = [
 	"https://hexhive.io",
 	"https://next.hexhive.io", 
 	"https://staging.hexhive.io",
-	"https://go.hexhive.io"]
+	"https://go.hexhive.io"
+]
 
 export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Router => {
 	const neo_session = neo4j.session()
