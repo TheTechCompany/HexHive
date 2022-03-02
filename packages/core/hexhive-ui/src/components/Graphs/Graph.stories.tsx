@@ -4,6 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { LineGraph } from './LineGraph';
 import { PieGraph } from './PieGraph';
 import { Box } from 'grommet';
+import { BarGraph } from './BarGraph';
 
 export default {
   title: 'Example/Graph',
@@ -12,6 +13,7 @@ export default {
 
 const Template: ComponentStory<typeof LineGraph> = (args) => <LineGraph {...args} />;
 const TemplatePie: ComponentStory<typeof PieGraph> = (args) => <PieGraph {...args} />;
+const TemplateBar: ComponentStory<typeof BarGraph> = (args) => <BarGraph {...args} />;
 
 
 
@@ -56,3 +58,20 @@ PieChart.args = {
     }
   ]
 };
+
+export const BarChart = TemplateBar.bind({})
+BarChart.args = {
+  data: [
+    {
+      value: "12",
+      date: new Date()
+    },
+    {
+      value: "15",
+      date: new Date()
+    }
+  ],
+  yKey: "value",
+  xKey: "date",
+  color: 'green'
+}

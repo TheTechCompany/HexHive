@@ -138,7 +138,7 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                         image: `thetechcompany/hexhive-gateway:${imageTag}`,
                         ports: [{ name: "http", containerPort: 7000 }],
                         volumeMounts: [
-                            { name: "keystore", mountPath: '/app/packages/backends/hive-gateway/dist/jwks/' },
+                            { name: "keystore", mountPath: '/data/jwks/' },
                             { name: 'endpoints-config', mountPath: '/tmp/endpoints.json', subPath: 'endpoints.json' }
                         ],
                         env: [
@@ -148,7 +148,7 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI || 'localhost' },
-                            { name: 'VERSION_SHIM', value: '1.0.2' },
+                            { name: 'VERSION_SHIM', value: '1.0.3' },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' }
                         ],
