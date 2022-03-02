@@ -9,7 +9,7 @@ export const MongoCluster = (cluster: eks.Cluster) => {
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
         metadata: { labels: appLabels },
         spec: {
-            replicas: 2,
+            replicas: 1,
             strategy: {type: "RollingUpdate"},
             selector: { matchLabels: appLabels },
             template: {

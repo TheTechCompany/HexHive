@@ -17,7 +17,17 @@ import { TaskRegistry } from "../task-registry"
 import passport from "passport"
 // import { InteractionRouter } from './interaction';
 
-const whitelist = ["http://localhost:3001", 'http://localhost:7000', 'http://localhost:8000', "https://matrix.hexhive.io", "http://localhost:3002", "http://localhost:3000", "https://hexhive.io", "https://next.hexhive.io", "https://go.hexhive.io"]
+const whitelist = [
+	"http://localhost:3001", 
+	'http://localhost:7000', 
+	'http://localhost:8000', 
+	"https://matrix.hexhive.io", 
+	"http://localhost:3002", 
+	"http://localhost:3000", 
+	"https://hexhive.io",
+	"https://next.hexhive.io", 
+	"https://staging.hexhive.io",
+	"https://go.hexhive.io"]
 
 export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Router => {
 	const neo_session = neo4j.session()
