@@ -182,31 +182,40 @@ const argv = yargs(hideBin(process.argv)).options({
 	if(gateway.connect) app.use(gateway.connect)
 
 	if(process.env.NODE_ENV == "production"){
-			const httpsWorker = (glx: any)  => {
-				const server = glx.httpsServer()
-				
-				const io = new Server(server)
-				// var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
-				// ws.on("connection", function(ws: WebSocket, req: any) {
-				//     // inspect req.headers.authorization (or cookies) for session info
-				//     collaborationServer.handleConnection(ws)
-				// });
+
+			app.use((req, res, next) => {
+				req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
+			})
+
+			server.listen(port, () => {
+				console.log(`🚀 Server ready at :${port}`)
+			})
 			
-				// servers a node app that proxies requests to a localhost
-				glx.serveApp(app)
-			}
+			// const httpsWorker = (glx: any)  => {
+			// 	const server = glx.httpsServer()
+				
+			// 	const io = new Server(server)
+			// 	// var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
+			// 	// ws.on("connection", function(ws: WebSocket, req: any) {
+			// 	//     // inspect req.headers.authorization (or cookies) for session info
+			// 	//     collaborationServer.handleConnection(ws)
+			// 	// });
+			
+			// 	// servers a node app that proxies requests to a localhost
+			// 	glx.serveApp(app)
+			// }
 	
-			if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
-			greenlock.init({
-				packageRoot: __dirname + "/../",
-				configDir: "./greenlock.d",
+			// if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
+			// greenlock.init({
+			// 	packageRoot: __dirname + "/../",
+			// 	configDir: "./greenlock.d",
 		 
-				// contact for security and critical bug notices
-				maintainerEmail: process.env.MAINTAINER_EMAIL,
+			// 	// contact for security and critical bug notices
+			// 	maintainerEmail: process.env.MAINTAINER_EMAIL,
 		 
-				// whether or not to run at cloudscale
-				cluster: false
-			}).ready(httpsWorker)
+			// 	// whether or not to run at cloudscale
+			// 	cluster: false
+			// }).ready(httpsWorker)
 		}else{
 	
 			const io = new Server(server)

@@ -148,6 +148,7 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI || 'localhost' },
+                            { name: 'VERSION_SHIM', value: '1.0.2' },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' }
                         ],
