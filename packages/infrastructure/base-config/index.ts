@@ -35,8 +35,8 @@ const main = (async () => {
     const { url: gatewayUrl } = await GatewayCluster(cluster, vpc, zone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl);
     const { url: frontendUrl } = await MicrofrontendCluster(cluster, zone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl);
 
-    // const hiveFlow = await HiveFlow(cluster)
-    // const hiveCommand = await HiveCommand(cluster)
+    const hiveFlow = await gatewayUrl.apply(async (url) => await HiveFlow(cluster, url));
+    const hiveCommand = await gatewayUrl.apply(async (url) => await HiveCommand(cluster, url))
     const greenScreen = await gatewayUrl.apply(async (url) => await GreenScreen(cluster, vpc, config.require('greenco-api'), greencoZone, url))
 
 
@@ -51,7 +51,7 @@ const main = (async () => {
         frontendUrl,
         mongoUrl,
 
-        // hiveFlow,
+        hiveFlow,
         // hiveCommand,
         greenScreen,
         kubeconfig: cluster.kubeconfig
@@ -65,4 +65,6 @@ export const gatewayUrl = main.then(result => result.gatewayUrl)
 export const frontendUrl = main.then(result => result.frontendUrl)
 export const mongoUrl = main.then(result => result.mongoUrl)
 
+
+export const hiveFlowUrl = main.then((result) => result.hiveFlow.service.status.loadBalancer.ingress);
 export const greenScreenUrl = main.then((result) => result.greenScreen?.service.status.loadBalancer.ingress)

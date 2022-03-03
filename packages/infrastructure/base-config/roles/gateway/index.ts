@@ -108,12 +108,12 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                     },
                     {
                         "name": "HiveFlow",
-                        "url": "http://localhost:9011/graphql",
+                        "url": "http://hive-flow-${suffix}-svc.default.svc.cluster.local/graphql",
                         "version": "0.0.1"
                     },
                     {
                         "name": "HiveCommand",
-                        "url": "http://localhost:9010/graphql",
+                        "url": "http://hive-command-${suffix}-svc.default.svc.cluster.local/graphql",
                         "version": "0.0.1"
                     }
                 ]	

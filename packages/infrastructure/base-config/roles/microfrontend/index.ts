@@ -61,6 +61,7 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
                             { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test' },
                             { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
                             { name: 'NODE_ENV', value: 'production' },
+                            { name: 'DEPLOYMENT_LEVEL', value: suffix },
                             { name: 'UI_URL', value: `https://${domainName}/dashboard` },
                             { name: 'BASE_URL', value: `https://${domainName}` },
                             { name: 'BASE_DOMAIN', value: 'hexhive.io' },

@@ -31,6 +31,8 @@ const config = {
 
 (async (port: number = 8000) => {
 
+	const deploymentLevel = process.env.DEPLOYMENT_LEVEL || "dev";
+
 	console.log(pkg.version)
 
 	const app = express()
@@ -186,7 +188,7 @@ const config = {
 			{
 				key: 'Hive-Signage',
 				route: '/hive-signage',
-				url: 'http://localhost:8081/greenco-apps-signage-frontend.js',
+				url: 'http://localhost:8080/greenco-apps-signage-frontend.js',
 			}
 		] : [],
 		getViews: async (req) => {
@@ -231,7 +233,7 @@ const config = {
 
 			const appliances = apps?.map((app) => ({
 			  name: app.name,
-			  config_url: app.entrypoint,
+			  config_url: deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint,
 			}))
 
 			return { views: views, apps: appliances }
