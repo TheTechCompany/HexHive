@@ -1,6 +1,0 @@
-158 error Error: Command failed with exit code 128: git tag v0.0.6-alpha.20 -m v0.0.6-alpha.20
-158 error fatal: tag 'v0.0.6-alpha.20' already exists
-158 error     at makeError (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/lib/error.js:60:11)
-158 error     at handlePromise (/Users/the-kid/work/contract-work/hexhive-common/node_modules/execa/index.js:118:26)
-158 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
-158 error     at async Promise.all (index 0)

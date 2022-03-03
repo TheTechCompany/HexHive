@@ -2,6 +2,8 @@ import gql from "graphql-tag";
 
 export default gql`
 
+scalar Hash
+
 type HiveOrganisation @auth(rules: [
 	{operations: [READ, UPDATE], where: {id: "$jwt.organisation"}},
 	{operations: [UPDATE, DELETE], bind: {id: "$jwt.organisation"}}

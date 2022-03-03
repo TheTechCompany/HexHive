@@ -6,6 +6,7 @@ import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 const greenlock = require("greenlock-express");
+const pkg = require('../package.json');
 
 var OidcStrategy = require("passport-openidconnect").Strategy;
 
@@ -29,6 +30,11 @@ const config = {
 };
 
 (async (port: number = 8000) => {
+
+	const deploymentLevel = process.env.DEPLOYMENT_LEVEL || "dev";
+
+	console.log(pkg.version)
+
 	const app = express()
 
 
@@ -56,9 +62,7 @@ const config = {
 		  applications: collect(apps{.*})
 		}
 	  `, {
-		
 		  id: profile.id,
-		
 	  })
 		
 	  const user = data.records?.[0].get(0);
@@ -103,7 +107,42 @@ const config = {
 		  }
 		  next();
 		},
-		passport.authenticate("oidc")
+		(req, res, next) => {
+			passport.authenticate('oidc', (err, user, info) => {
+				console.log("Authenticate")
+				console.log({err, user, info})
+				if(err) return res.send({err})
+				req.logIn(user, (err) => {
+					console.log({err})
+					if(err) return res.send({err});
+					next();
+				})
+			})(req, res, next);
+		}
+		// (req, res, next) => {
+		// 	passport.authenticate("oidc", (err, user, info) => {
+				
+		// 		console.log("authenticate", {err, user, info});
+
+		// 		if(err){
+		// 			console.error(err);
+		// 			return next(err);
+		// 		}
+
+		// 		if(!user){
+		// 			console.log(`User not found: ${info.message}`);
+		// 			res.send({success: false, message: 'authentication failed'})
+		// 		}
+
+		// 		req.login(user, loginErr => {
+		// 			if (loginErr) {
+		// 				console.warn(loginErr);
+		// 			  return next(loginErr);
+		// 			}
+		// 			return res.send({ success : true, message : 'authentication succeeded' });
+		// 		});    
+		// 	})(req, res, next);
+		// }
 	  );
   
 	  app.get("/logout", function (req, res) {
@@ -130,7 +169,9 @@ const config = {
 		  ...config,
 		  skipUserProfile: false,
 		}, async (issuer: any, profile: any, done: any) => {
-		  const user = await getUser?.(profile)
+			console.log("OidcStrategy", {issuer, profile})
+		  	const user = await getUser?.(profile)
+		  	console.log("OidcStrategy", {user})
 		  done(null, user)
 		})
 	  );
@@ -138,7 +179,18 @@ const config = {
 	  
 	const frontendServer = new HiveFrontendServer({
 		apiUrl: process.env.API_URL || "http://localhost:7000",
-		routes: [],
+		routes: process.env.NODE_ENV == "development" ? [
+			{
+				key: 'Hive-Command',
+				route: '/hive-command',
+				url: 'http://localhost:8504/hivecommand-app-frontend.js',
+			},
+			{
+				key: 'Hive-Signage',
+				route: '/hive-signage',
+				url: 'http://localhost:8080/greenco-apps-signage-frontend.js',
+			}
+		] : [],
 		getViews: async (req) => {
 
 			const session = neoDriver?.session()
@@ -181,7 +233,7 @@ const config = {
 
 			const appliances = apps?.map((app) => ({
 			  name: app.name,
-			  config_url: app.entrypoint,
+			  config_url: deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint,
 			}))
 
 			return { views: views, apps: appliances }
@@ -194,31 +246,40 @@ const config = {
 	const server = createServer(app)
 
 	if(process.env.NODE_ENV == "production"){
-		const httpsWorker = (glx: any)  => {
-			const server = glx.httpsServer()
-			
-			// const io = new Server(server)
-			// var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
-			// ws.on("connection", function(ws: WebSocket, req: any) {
-			//     // inspect req.headers.authorization (or cookies) for session info
-			//     collaborationServer.handleConnection(ws)
-			// });
+		app.set('trust proxy', true)
+		app.use((req, res, next) => {
+			req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
+		})
 		
-			// servers a node app that proxies requests to a localhost
-			glx.serveApp(app)
-		}
+		server.listen(port, () => {
+			console.log(`🚀 Server ready at :${port}`)
+		})
 
-		if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
-		greenlock.init({
-			packageRoot: __dirname + "/../",
-			configDir: "./greenlock.d",
+		// const httpsWorker = (glx: any)  => {
+		// 	const server = glx.httpsServer()
+			
+		// 	// const io = new Server(server)
+		// 	// var ws = new WebSocketServer({ server: server, perMessageDeflate: false});
+		// 	// ws.on("connection", function(ws: WebSocket, req: any) {
+		// 	//     // inspect req.headers.authorization (or cookies) for session info
+		// 	//     collaborationServer.handleConnection(ws)
+		// 	// });
+		
+		// 	// servers a node app that proxies requests to a localhost
+		// 	glx.serveApp(app)
+		// }
+
+		// if(!process.env.MAINTAINER_EMAIL) throw new Error("Provide a maintainer email through MAINTAINER_EMAIL environment variable")
+		// greenlock.init({
+		// 	packageRoot: __dirname + "/../",
+		// 	configDir: "./greenlock.d",
 	
-			// contact for security and critical bug notices
-			maintainerEmail: process.env.MAINTAINER_EMAIL,
+		// 	// contact for security and critical bug notices
+		// 	maintainerEmail: process.env.MAINTAINER_EMAIL,
 	
-			// whether or not to run at cloudscale
-			cluster: false
-		}).ready(httpsWorker)
+		// 	// whether or not to run at cloudscale
+		// 	cluster: false
+		// }).ready(httpsWorker)
 	}else{
 
 		// const io = new Server(this.server)

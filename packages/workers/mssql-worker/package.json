@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/mssql-worker",
-  "version": "0.0.6-alpha.13",
+  "version": "0.0.6-alpha.45",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -26,5 +26,6 @@
     "jsondiffpatch": "^0.4.1",
     "mssql": "^7.2.1",
     "yargs": "^17.2.1"
-  }
+  },
+  "gitHead": "92dbd6f35a180402f000705602518556ca13d7d6"
 }

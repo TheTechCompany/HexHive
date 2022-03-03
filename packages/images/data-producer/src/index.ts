@@ -1,27 +1,11 @@
 import { config } from 'dotenv'
 config()
-import { Kafka } from 'kafkajs';
 import { nanoid } from 'nanoid';
 import axios from 'axios'
 import neo4j, {Session} from 'neo4j-driver'
-import {MSSQLWorker} from '@hexhive/mssql-worker'
+import {MSSQLWorker, WorkerTask} from '@hexhive/mssql-worker'
 import { readFileSync } from 'fs';
-import { WorkerTask } from '@hexhive/mssql-worker';
-const {  KAFKA_URL } = process.env;
-
-if(!KAFKA_URL) throw new Error("No KAFKA_URL env specified")
-
-const driver = neo4j.driver(
-    process.env.NEO4J_URI || 'localhost',
-    neo4j.auth.basic(process.env.NEO4J_USER || 'neo4j', process.env.NEO4J_PASSWORD || 'test')
-);
-
-const session = driver.session()
-
-const kafka = new Kafka({
-    clientId: 'my-app',
-    brokers: [KAFKA_URL]
-})
+import { updateRecord } from './sync';
 
 const TOPIC = 'LOADER-STREAM';
 
@@ -34,20 +18,25 @@ interface HiveEvent {
 }
 
 
+
 const main = async () => {
+    const driver = neo4j.driver(
+        process.env.NEO4J_URI || 'localhost',
+        neo4j.auth.basic(process.env.NEO4J_USER || 'neo4j', process.env.NEO4J_PASSWORD || 'test')
+    );
+    
+    const session = driver.session()
+
     console.log('=> Data Collector starting...')
 
-    const producer = kafka.producer()
-
     const task = JSON.parse(readFileSync('./task.json', 'utf8'))
-
-    await producer.connect()
 
     console.log('=> Fetching initial state')
     const initialState = await session.readTransaction(async (tx) => {
         const r = await Promise.all<any[]>(task.map(async (t: WorkerTask) => {
+            console.log(`Fetch => ${t.type}`)
             const r = await tx.run(`
-                MATCH (org:HiveOrganisation {id: $orgId})-[*]->(item:${t.type})
+                MATCH (org:HiveOrganisation {id: $orgId})-->(item:${t.type})
                 RETURN item
             `, {
                 orgId: process.env.ORG_ID
@@ -55,7 +44,7 @@ const main = async () => {
             return {[t.family.cluster]: r.records.map((x) => {
                 let props = x.get(0).properties
 
-                t.collect.forEach((val) => {
+                t.collect.forEach((val: any) => {
                     switch (val.type){
                         case 'Date':
                             props[val.to] = props[val.to].toString()
@@ -65,6 +54,7 @@ const main = async () => {
                 return props;
             })}
         }))
+        console.log(`Fetched ${r.length} records`)
         return r.reduce<any>((prev, curr) => ({...prev, ...curr}), {})
     })
 
@@ -95,19 +85,12 @@ const main = async () => {
             }
         })
 
-        await producer.send({
-            topic: TOPIC,
-            messages: [
-                {
-                    value: JSON.stringify({
-                        action: 'CREATE',
-                        data: createObject,
-                        primaryKey: new_task?.family.species,
-                        id: event.value[new_task?.family.species],
-                        type: new_task?.type
-                    })
-                }
-            ]
+        await updateRecord({
+            action: 'CREATE',
+            data: createObject,
+            primaryKey: new_task?.family.species,
+            id: event.value[new_task?.family.species],
+            type: new_task?.type
         })
 
 
@@ -128,19 +111,14 @@ const main = async () => {
             }
         })
 
-        await producer.send({
-            topic: TOPIC,
-            messages: [
-                {
-                    value: JSON.stringify({
-                        action: 'UPDATE',
-                        id: event.valueId,
-                        data: updateObject,
-                        type: task.find((a: any) => a.family.cluster == event.id)?.type
-                    })
-                }
-            ]
+        await updateRecord({
+            action: 'UPDATE',
+            id: event.valueId,
+            data: updateObject,
+            primaryKey: t?.family.sepcies,
+            type: task.find((a: any) => a.family.cluster == event.id)?.type
         })
+
     })
 }
 

@@ -26,3 +26,9 @@ endpoints.json
 *hive-gateway-key.json
 
 .dev/neo4j-runtime
+
+lerna-debug.log
+
+kubeconfig.yml
+
+stack_output

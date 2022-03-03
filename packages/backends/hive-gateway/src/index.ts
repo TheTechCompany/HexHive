@@ -13,6 +13,7 @@ import { HiveRouter } from "./router"
 import { SchemaEndpoint, SchemaRegistry } from "./schema-registry"
 import hive from "./schema/hive"
 import { KeyManager } from "./keys"
+import passport from "passport"
 
 const {NODE_ENV} = process.env
 
@@ -95,6 +96,13 @@ export class HiveGateway {
 		})
 		this.router?.mount('/.well-known/jwks.json', (req: any, res: any) => {
 			res.send(this.keyManager.jwks)
+		})
+		this.router?.mount('/graphql',  (req: any, res: any, next: any) => {
+			if(req.user){
+				next();
+			}else{
+				passport.authenticate('jwt', {session: false})(req, res, next)
+			}
 		})
 		this.router?.mount('/graphql', this.schemaRegistry?.middleware())
 
