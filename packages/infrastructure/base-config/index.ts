@@ -24,7 +24,6 @@ const main = (async () => {
 
 
     const zone = await aws.route53.getZone({name: "hexhive.io"})
-    const greencoZone = await aws.route53.getZone({name: 'greenco.co.nz'});
    
     const { cluster, vpc } = await EKSCluster(deployment)
 
@@ -54,12 +53,14 @@ const main = (async () => {
         hiveFlow,
         // hiveCommand,
         greenScreen,
+        vpc,
         kubeconfig: cluster.kubeconfig
     }
 
 })()
 
 export const kubeconfig = main.then(result => result.kubeconfig)
+export const vpcId = main.then(result => result.vpc.id);
 
 export const gatewayUrl = main.then(result => result.gatewayUrl)
 export const frontendUrl = main.then(result => result.frontendUrl)

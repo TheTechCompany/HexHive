@@ -1,15 +1,15 @@
 import * as k8s from '@pulumi/kubernetes'
-import * as eks from '@pulumi/eks'
 import { efs } from '@pulumi/aws'
 import { ec2 } from '@pulumi/awsx';
-import { Config } from '@pulumi/pulumi';
+import { Config, Output } from '@pulumi/pulumi';
 import * as aws from '@pulumi/aws'
 
-export const GreenScreen = async (cluster: eks.Cluster, vpc: ec2.Vpc, domainName: string,  zone: aws.route53.GetZoneResult,  rootServer: string) => {
+export const GreenScreen = async (provider: k8s.Provider, vpcId: Output<string>, domainName: string,  zone: aws.route53.GetZoneResult,  rootServer: string) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
     let imageTag = config.require('image-tag');
+    let redundancy = config.require('redundancy');
 
     const appName = `green-screen-${suffix}`;
     const appLabels = { appClass: appName };
@@ -38,20 +38,39 @@ export const GreenScreen = async (cluster: eks.Cluster, vpc: ec2.Vpc, domainName
     })
 
 
-    const efsVolume = cluster.eksCluster.name.apply(name => new efs.FileSystem(`greenscreen-storage-${suffix}`))
+    const efsVolume = new efs.FileSystem(`greenscreen-storage-${suffix}`)
     
-    const subnetIds = await vpc.publicSubnetIds;
+    const subnets = await vpcId.apply(async (id) => await aws.ec2.getSubnets({
+        filters: [
+            {
+                name: 'vpc-id',
+                values: [id]
+            },
+            {
+                name: 'tag:type',
+                values: ['public']
+            }
+        ]
+    }))
+
+    const defaultSecurityGroup = await vpcId.apply(async (id) => aws.ec2.getSecurityGroup({
+        vpcId: id,
+        name: 'default'
+    }))
+    // const subnetIds = await vpc.publicSubnetIds;
 
     const targets = [];
 
-    for(let i = 0; i < subnetIds.length; i++){
-        targets.push(new efs.MountTarget(`fs-mount-${i}-${suffix}`, {
-            fileSystemId: efsVolume.id,
-            subnetId: subnetIds[i],
-            securityGroups: [vpc.vpc.defaultSecurityGroupId]
-        }))
-    }
+    subnets.ids.apply((ids) => {
+        for(let i = 0; i < ids.length; i++){
+            targets.push(new efs.MountTarget(`fs-mount-${i}-${suffix}`, {
+                fileSystemId: efsVolume.id,
+                subnetId: subnets.ids[i],
+                securityGroups: [defaultSecurityGroup.id]
+            }))
+        }
 
+    })
     const efsAp = new efs.AccessPoint(`greenscreen-ap-${suffix}`, {
         fileSystemId: efsVolume.id,
         posixUser: {uid: 1000, gid: 1000},
@@ -130,7 +149,7 @@ export const GreenScreen = async (cluster: eks.Cluster, vpc: ec2.Vpc, domainName
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
         metadata: { labels: appLabels },
         spec: {
-            replicas: 2,
+            replicas: redundancy ? parseInt(redundancy) : 2,
             strategy: { type: "RollingUpdate" },
             selector: { matchLabels: appLabels },
             template: {
@@ -156,13 +175,18 @@ export const GreenScreen = async (cluster: eks.Cluster, vpc: ec2.Vpc, domainName
                             {name: "NEO4J_URI",  value: process.env.NEO4J_URI},
                             { name: "ROOT_SERVER",  value: `http://${rootServer}` },
                             {name: "RABBIT_URL",  value: process.env.RABBIT_URL},
-                            {name: "VERSION_SHIM", value: '1.0.3'}
+                            {name: "VERSION_SHIM", value: '1.0.5'}
                             // {name: "IPFS_URL",  value: process.env.IPFS_URL},
                             // { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                         ],
+                        resources: {
+                            requests: {
+                                cpu: '0.5',
+                                memory: '1Gi'
+                            }
+                        },
                         readinessProbe: {
-                            httpGet: {
-                                path: '/graphql',
+                            tcpSocket: {
                                 port: 'http'
                             }
                         },
@@ -195,7 +219,7 @@ export const GreenScreen = async (cluster: eks.Cluster, vpc: ec2.Vpc, domainName
                 }
             }
         },
-    }, { provider: cluster.provider });
+    }, { provider: provider });
 
     // const service = new k8s.core.v1.Service(`${appName}-svc`, {
     //     metadata: { 
@@ -239,7 +263,7 @@ export const GreenScreen = async (cluster: eks.Cluster, vpc: ec2.Vpc, domainName
             ports: [{ port: 80, targetPort: "http", name: 'http' }, { port: 443, targetPort: "http", name: 'https'}],
             selector: appLabels,
         },
-    }, { provider: cluster.provider });
+    }, { provider: provider });
 
     const url = service.status.loadBalancer.ingress[0].hostname;
 
@@ -257,6 +281,7 @@ export const GreenScreen = async (cluster: eks.Cluster, vpc: ec2.Vpc, domainName
     
     return {
         deployment,
-        service
+        service,
+        efsVolume
     }
 }

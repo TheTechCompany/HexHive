@@ -1,0 +1,3 @@
+name: base-infrastructure
+runtime: nodejs
+description: Base infrastructure for Ultraviolet

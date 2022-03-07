@@ -1,20 +1,19 @@
 import * as k8s from '@pulumi/kubernetes'
-import * as eks from '@pulumi/eks'
 import { Config } from '@pulumi/pulumi';
 
-export const HiveFlow = (cluster: eks.Cluster, rootServer: string) => {
+export const HiveFlowIntegration = (provider: k8s.Provider, rootServer: string) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
     let imageTag = config.require('image-tag');
 
-    const appName = `hive-flow-${suffix}`;
+    const appName = `hive-flow-integration-${suffix}`;
     const appLabels = { appClass: appName };
     
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
         metadata: { labels: appLabels },
         spec: {
-            replicas: 2,
+            replicas: 1,
             strategy: { type: "RollingUpdate" },
             selector: { matchLabels: appLabels },
             
@@ -25,27 +24,22 @@ export const HiveFlow = (cluster: eks.Cluster, rootServer: string) => {
                     containers: [{
                         imagePullPolicy: "Always",
                         name: appName,
-                        image: `thetechcompany/hiveflow-backend:${imageTag}`,
-                        ports: [{ name: "http", containerPort: 9011 }],
+                        image: `thetechcompany/hive-flow-data-collector:${imageTag}`,
                         volumeMounts: [
                         ],
                         env: [
-                            { name: 'CLIENT_ID', value: 'test'},
-                            { name: 'CLIENT_SECRET', value: 'hexhive_secret' },
+                            { name: 'SQL_SERVER', value: process.env.FLOW_SQL_SERVER },
+                            { name: 'SQL_TRUST_CERT', value: process.env.FLOW_SQL_TRUST_CERT },
+                            { name: 'SQL_USER', value: process.env.FLOW_SQL_USER },
+                            { name: 'SQL_PASSWORD', value: process.env.FLOW_SQL_PASSWORD },
                             { name: 'NODE_ENV', value: 'production' },
-                            { name: 'ROOT_SERVER', value: `http://${rootServer}` },
-                            { name: 'VERSION_SHIM', value: '1.0.3' },
+                            { name: 'VERSION_SHIM', value: '1.0.4' },
                             // { name: 'UI_URL',  value: `https://${domainName}/dashboard` },
                             // { name: 'BASE_URL',  value: `https://${domainName}`},
-                            { name: "NEO4J_URI", value: `neo4j://3.26.93.103` /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
+                            { name: 'ORG_ID', value: process.env.FLOW_ORG_ID },
+                            { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             // { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
-                        ],
-                        readinessProbe: {
-                            httpGet: {
-                                path: '/graphql',
-                                port: 'http'
-                            }
-                        },
+                        ]
                         // livenessProbe: {
                         //     httpGet: {
                         //         path: '/graphql',
@@ -66,29 +60,29 @@ export const HiveFlow = (cluster: eks.Cluster, rootServer: string) => {
                 }
             }
         },
-    }, { provider: cluster.provider });
+    }, { provider: provider });
 
 
 
-    const service = new k8s.core.v1.Service(`${appName}-svc`, {
-        metadata: { 
-            labels: appLabels,
-            name: `${appName}-svc`,
-            annotations: {
-                // 'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslCert.arn,
-                // 'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
-                // 'service.beta.kubernetes.io/aws-load-balancer-backend-protocol': 'http',
-                // 'service.beta.kubernetes.io/aws-load-balancer-type': 'internal',
-                // 'service.beta.kubernetes.io/aws-load-balancer-nlb-target-type': 'ip',
-                // 'service.beta.kubernetes.io/aws-load-balancer-scheme': 'internet-facing',
-            }
-        },
-        spec: {
-            type: "ClusterIP",
-            ports: [{ name: "http", port: 80, targetPort: "http" }],
-            selector: appLabels,
-        },
-    }, { provider: cluster.provider });
+    // const service = new k8s.core.v1.Service(`${appName}-svc`, {
+    //     metadata: { 
+    //         labels: appLabels,
+    //         name: `${appName}-svc`,
+    //         annotations: {
+    //             // 'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslCert.arn,
+    //             // 'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
+    //             // 'service.beta.kubernetes.io/aws-load-balancer-backend-protocol': 'http',
+    //             // 'service.beta.kubernetes.io/aws-load-balancer-type': 'internal',
+    //             // 'service.beta.kubernetes.io/aws-load-balancer-nlb-target-type': 'ip',
+    //             // 'service.beta.kubernetes.io/aws-load-balancer-scheme': 'internet-facing',
+    //         }
+    //     },
+    //     spec: {
+    //         type: "ClusterIP",
+    //         ports: [{ name: "http", port: 80, targetPort: "http" }],
+    //         selector: appLabels,
+    //     },
+    // }, { provider: provider });
 
     // const service = new k8s.core.v1.Service(`${appName}-svc`, {
     //     metadata: { 
@@ -116,6 +110,6 @@ export const HiveFlow = (cluster: eks.Cluster, rootServer: string) => {
 
     return {
         deployment,
-        service
+        // service
     }
 }

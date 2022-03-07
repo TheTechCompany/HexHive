@@ -3,7 +3,7 @@ import * as k8s from "@pulumi/kubernetes";
 import * as aws from '@pulumi/aws'
 import { Config, output, Output } from "@pulumi/pulumi";
 
-export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route53.GetZoneResult, domainName: string, backendUrl: string, mongoUrl: Output<string>) => {
+export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.route53.GetZoneResult, domainName: string, backendUrl: string, mongoUrl: Output<string>) => {
     // Create an EKS cluster with the default configuration.
     // const cluster = new eks.Cluster("my-cluster");
 
@@ -11,6 +11,7 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
 
     let suffix = config.require('suffix');
     let imageTag = config.require('image-tag');
+    let redundancy = config.require('redundancy');
 
     // Deploy a small canary service (NGINX), to test that the cluster is working.
     const appName = `hexhive-frontend-${suffix}`;
@@ -43,7 +44,7 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
         metadata: { labels: appLabels },
         spec: {
-            replicas: 2,
+            replicas: redundancy ? parseInt(redundancy) : 2,
             strategy: { type: "RollingUpdate" },
             selector: { matchLabels: appLabels },
             template: {
@@ -66,13 +67,12 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
                             { name: 'BASE_URL', value: `https://${domainName}` },
                             { name: 'BASE_DOMAIN', value: 'hexhive.io' },
                             { name: 'API_URL', value: `https://${backendUrl}` },
-                            { name: 'VERSION_SHIM', value: '1.0.3' },
+                            { name: 'VERSION_SHIM', value: '1.0.4' },
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                         ],
                         readinessProbe: {
-                            httpGet: {
-                                path: '/',
+                            tcpSocket: {
                                 port: 'http'
                             }
                         },
@@ -86,7 +86,7 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
                 }
             },
         },
-    }, { provider: cluster.provider });
+    }, { provider: provider });
 
     const service = new k8s.core.v1.Service(`${appName}-svc`, {
         metadata: {
@@ -111,7 +111,7 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
             ports: [{ name: "http", port: 80, targetPort: "http" }, { name: "https", port: 443, targetPort: 'http' }],
             selector: appLabels,
         },
-    }, { provider: cluster.provider });
+    }, { provider: provider });
 
     // Export the URL for the load balanced service.
     const url = service.status.loadBalancer.ingress[0].hostname;

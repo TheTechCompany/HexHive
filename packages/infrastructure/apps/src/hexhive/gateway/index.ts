@@ -5,7 +5,7 @@ import { Config, Output } from "@pulumi/pulumi";
 import { env } from "process";
 import { ec2 } from '@pulumi/awsx'
 
-export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>) => {
+export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<string>, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>) => {
     // Create an EKS cluster with the default configuration.
     // const cluster = new eks.Cluster("my-cluster");
 
@@ -15,25 +15,46 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
 
     let suffix = config.require('suffix');
     let imageTag = config.require('image-tag');
+    let redundancy = config.require('redundancy');
 
     const appName = `hexhive-gateway-${suffix}`;
     const appLabels = { appClass: appName };
 
     let efsRoot = `gateway-config-${suffix}`;
 
-    const efsVolume = cluster.eksCluster.name.apply(name => new aws.efs.FileSystem(efsRoot))
+    const efsVolume =  new aws.efs.FileSystem(efsRoot)
     
-    const subnetIds = await vpc.publicSubnetIds;
+    // const subnetIds = await vpc.publicSubnetIds;
 
     const targets = [];
 
-    for(let i = 0; i < subnetIds.length; i++){
-        targets.push(new aws.efs.MountTarget(`${efsRoot}-fs-mount-${i}`, {
-            fileSystemId: efsVolume.id,
-            subnetId: subnetIds[i],
-            securityGroups: [vpc.vpc.defaultSecurityGroupId]
-        }))
-    }
+    const subnets = await vpcId.apply(async (id) => await aws.ec2.getSubnets({
+        filters: [
+            {
+                name: 'vpc-id',
+                values: [id]
+            },
+            {
+                name: 'tag:type',
+                values: ['public']
+            }
+        ]
+    }))
+
+    const defaultSecurityGroup = await vpcId.apply(async (id) => aws.ec2.getSecurityGroup({
+        vpcId: id,
+        name: 'default'
+    }))
+
+    subnets.ids.apply((ids) => {
+        for(let i = 0; i < ids.length; i++){
+            targets.push(new aws.efs.MountTarget(`${efsRoot}-fs-mount-${i}`, {
+                fileSystemId: efsVolume.id,
+                subnetId: ids[i],
+                securityGroups: [defaultSecurityGroup.id]
+            }))
+        }
+    })
 
     const efsAp = new aws.efs.AccessPoint(`${efsRoot}-ap`, {
         fileSystemId: efsVolume.id,
@@ -120,13 +141,13 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
             }`
         }   
     }, {
-        provider: cluster.provider,
+        provider: provider,
     })
 
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
         metadata: { labels: appLabels },
         spec: {
-            replicas: 2,
+            replicas: redundancy ? parseInt(redundancy) : 2,
             strategy: { type: "RollingUpdate" },
             selector: { matchLabels: appLabels },
             template: {
@@ -148,24 +169,19 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI || 'localhost' },
-                            { name: 'VERSION_SHIM', value: '1.0.3' },
+                            { name: 'VERSION_SHIM', value: '1.0.4' },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' }
                         ],
                         resources: {
                             requests: {
-                                cpu: "0.5",
-                                memory: '1Gi'
-                            },
-                            limits: {
                                 cpu: "1",
-                                memory: "2Gi"
+                                memory: '2Gi'
                             }
                         },
                         readinessProbe: {
-                            httpGet: {
-                                path: '/graphql',
-                                port: 'http'
+                            tcpSocket: {
+                                port: 'http',
                             }
                         },
                         // livenessProbe: {
@@ -194,7 +210,7 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                 }
             }
         },
-    }, { provider: cluster.provider });
+    }, { provider: provider });
 
     const service = new k8s.core.v1.Service(`${appName}-svc`, {
         metadata: { 
@@ -217,7 +233,7 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
             ports: [{ port: 80, targetPort: "http", name: 'http' }, { port: 443, targetPort: "http", name: 'https'}],
             selector: appLabels,
         },
-    }, { provider: cluster.provider });
+    }, { provider: provider });
 
 
     // Export the URL for the load balanced service.

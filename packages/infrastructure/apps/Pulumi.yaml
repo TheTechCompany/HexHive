@@ -1,0 +1,3 @@
+name: apps
+runtime: nodejs
+description: App deployments for HexHive Services
