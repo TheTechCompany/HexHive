@@ -64,7 +64,7 @@ const main = async () => {
 		user: process.env.SQL_USER,
 		password: process.env.SQL_PASSWORD,
 		database: process.env.SQL_DB,
-        stream: true,
+        // stream: true,
 		options: {
 			trustServerCertificate: process.env.SQL_TRUST_CERT ? true : false
 		}
