@@ -34,12 +34,6 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
 
-      - name: Bootstrap
-        run: npx lerna bootstrap
-
-      - name: Build collector
-        run: npx lerna run build --scope @hexhive/data-producer
-
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
       
