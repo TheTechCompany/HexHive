@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes'
 import { Config } from '@pulumi/pulumi';
 
-export const HiveFlowIntegration = (provider: k8s.Provider, rootServer: string) => {
+export const HiveFlowIntegration = (provider: k8s.Provider) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
@@ -24,7 +24,7 @@ export const HiveFlowIntegration = (provider: k8s.Provider, rootServer: string) 
                     containers: [{
                         imagePullPolicy: "Always",
                         name: appName,
-                        image: `thetechcompany/hive-flow-data-collector:${imageTag}`,
+                        image: `thetechcompany/hive-flow-data-collector:staging`,
                         volumeMounts: [
                         ],
                         env: [

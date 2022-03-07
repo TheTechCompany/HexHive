@@ -15,6 +15,8 @@ import { GreenScreen } from './src/green-screen'
 import { GatewayCluster } from './src/hexhive/gateway'
 import { MicrofrontendCluster } from './src/hexhive/frontend'
 
+import { HiveFlowIntegration } from './src/integration-clients'
+
 const main = (async () => {
     const config = new Config();
 
@@ -42,6 +44,8 @@ const main = (async () => {
     const greenScreen = await gatewayUrl.apply(async (url) => await GreenScreen(provider, vpc.id, config.require('greenco-api'), greencoZone, url));
     const hiveCommand = await gatewayUrl.apply(async (url) => await HiveCommand(provider, url));
     const hiveFlow = await gatewayUrl.apply(async (url) => await HiveFlow(provider, url));
+
+    // const hiveFlowIntegration = await HiveFlowIntegration(provider);
 
     return {
         gatewayUrl,

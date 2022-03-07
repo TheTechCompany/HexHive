@@ -9,6 +9,8 @@ RUN yarn
 
 COPY ./src ./src
 
+RUN yarn build
+
 ADD task.json .
 
-CMD [ "yarn", "start"]
+CMD [ "node", "dist/index.js" ]
