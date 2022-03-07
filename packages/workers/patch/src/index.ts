@@ -1,8 +1,6 @@
 import fs, { writeFileSync } from 'fs';
 import path from 'path';
 import {diff, create, DiffPatcher, Delta, PatchContext, dateReviver} from 'jsondiffpatch'
-// console.log(patch)
-
 
 export default class Patch {
 	
