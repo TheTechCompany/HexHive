@@ -2,8 +2,8 @@ FROM node:alpine
 
 WORKDIR /runner
 
-ADD package.json .
-ADD tsconfig.json .
+COPY package.json .
+COPY tsconfig.json .
 
 RUN yarn
 
