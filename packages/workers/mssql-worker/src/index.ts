@@ -104,9 +104,10 @@ export class MSSQLWorker extends EventEmitter {
 	async poll(task: WorkerTask){
 		let q = this.getQuery(task)
 
-		const result_q = await mssql.query(q)
+		const result_q = await this.pool?.query(q)
+		console.log({result_q: result_q?.recordset})
 		// console.log("FIND", result_q)
-		let result : any[] = result_q.recordset.map((item) => {
+		let result: any[] = (result_q?.recordset || []).map((item) => {
 			return task.collect.map((collect) => {
 				if(typeof(collect) == "object"){
 					switch(collect.type){
