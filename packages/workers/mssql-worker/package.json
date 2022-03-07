@@ -24,7 +24,7 @@
     "@hexhive/patch": "^0.0.6-alpha.51",
     "dotenv": "^10.0.0",
     "jsondiffpatch": "^0.4.1",
-    "mssql": "^7.2.1",
+    "mssql": "^8.0.2",
     "yargs": "^17.2.1"
   },
   "gitHead": "92dbd6f35a180402f000705602518556ca13d7d6"
