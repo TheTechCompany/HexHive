@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/mssql-worker",
-  "version": "0.0.6-alpha.45",
+  "version": "0.0.6-alpha.51",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -21,7 +21,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "@hexhive/patch": "^0.0.6-alpha.13",
+    "@hexhive/patch": "^0.0.6-alpha.51",
     "dotenv": "^10.0.0",
     "jsondiffpatch": "^0.4.1",
     "mssql": "^7.2.1",
