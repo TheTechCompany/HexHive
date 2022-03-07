@@ -2,15 +2,11 @@ FROM node:alpine
 
 WORKDIR /runner
 
-COPY package.json .
-COPY tsconfig.json .
+COPY . .
 
 RUN yarn
+RUN npx lerna bootstrap --scope @hexhive/data-producer
 
-COPY ./src ./src
+WORKDIR /runner/packages/images/data-producer
 
-RUN yarn build
-
-ADD task.json .
-
-CMD [ "node", "dist/index.js" ]
+CMD [ "yarn", "start" ]

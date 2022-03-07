@@ -34,6 +34,12 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
 
+      - name: Bootstrap
+        run: npx lerna bootstrap
+
+      - name: Build collector
+        run: npx lerna run build --scope @hexhive/data-producer
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
       
@@ -50,7 +56,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with: 
-          context: ./packages/images/data-producer
+          context: ./
           file: ./packages/images/data-producer/Dockerfile
           push:  ${{ github.event_name != 'pull_request' }}
           tags:  ${{ steps.meta.outputs.tags }}
