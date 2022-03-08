@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "tsc -b",
+    "build:webpack": "webpack",
     "storybook": "start-storybook -p 6006",
     "demo:install": "cd demo && yarn",
     "demo": "cd demo && yarn run dev",
@@ -47,6 +48,7 @@
     "@types/styled-components": "^5.1.11",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0",
     "enzyme": "^3.11.0",
     "jest-fetch-mock": "^3.0.3",
     "postcss": "^8.3.6",
