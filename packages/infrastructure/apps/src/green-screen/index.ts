@@ -175,7 +175,7 @@ export const GreenScreen = async (provider: k8s.Provider, vpcId: Output<string>,
                             {name: "NEO4J_URI",  value: process.env.NEO4J_URI},
                             { name: "ROOT_SERVER",  value: `http://${rootServer}` },
                             {name: "RABBIT_URL",  value: process.env.RABBIT_URL},
-                            {name: "VERSION_SHIM", value: '1.0.5'}
+                            {name: "VERSION_SHIM", value: '1.0.6'}
                             // {name: "IPFS_URL",  value: process.env.IPFS_URL},
                             // { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                         ],
