@@ -17,9 +17,11 @@ export const HiveFlow = (cluster: eks.Cluster, rootServer: string) => {
             replicas: 2,
             strategy: { type: "RollingUpdate" },
             selector: { matchLabels: appLabels },
+            
             template: {
                 metadata: { labels: appLabels },
                 spec: {
+                    
                     containers: [{
                         imagePullPolicy: "Always",
                         name: appName,
@@ -30,13 +32,26 @@ export const HiveFlow = (cluster: eks.Cluster, rootServer: string) => {
                         env: [
                             { name: 'CLIENT_ID', value: 'test'},
                             { name: 'CLIENT_SECRET', value: 'hexhive_secret' },
-                            { name: 'NODE_ENV', value: 'development' },
+                            { name: 'NODE_ENV', value: 'production' },
                             { name: 'ROOT_SERVER', value: `http://${rootServer}` },
+                            { name: 'VERSION_SHIM', value: '1.0.3' },
                             // { name: 'UI_URL',  value: `https://${domainName}/dashboard` },
                             // { name: 'BASE_URL',  value: `https://${domainName}`},
                             { name: "NEO4J_URI", value: `neo4j://3.26.93.103` /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             // { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
-                        ]
+                        ],
+                        readinessProbe: {
+                            httpGet: {
+                                path: '/graphql',
+                                port: 'http'
+                            }
+                        },
+                        // livenessProbe: {
+                        //     httpGet: {
+                        //         path: '/graphql',
+                        //         port: 'http'
+                        //     }
+                        // }
                     }],
                     // volumes: [{
                     //     name: `endpoints-config`,

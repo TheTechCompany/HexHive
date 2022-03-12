@@ -1,13 +1,10 @@
 const path = require('path')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: './src/index.tsx',
-  optimization: {
-         splitChunks: {
-           chunks: 'all',
-         },
-     },
+  plugins: [new CleanWebpackPlugin()],
   module: {
     rules: [
       {
@@ -33,8 +30,8 @@ module.exports = {
       new TsconfigPathsPlugin()
     ]
   },
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-  },
+  // output: {
+  //   filename: '[name].js',
+  //   path: path.resolve(__dirname, 'dist'),
+  // },
 };

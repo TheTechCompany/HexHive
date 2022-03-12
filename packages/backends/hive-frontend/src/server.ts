@@ -189,6 +189,11 @@ const config = {
 				key: 'Hive-Signage',
 				route: '/hive-signage',
 				url: 'http://localhost:8080/greenco-apps-signage-frontend.js',
+			},
+			{
+				key: 'Hive-Flow',
+				route: '/hive-flow',
+				url: 'http://localhost:8503/hexhive-apps-hive-flow.js',
 			}
 		] : [],
 		getViews: async (req) => {

@@ -159,7 +159,19 @@ export const GreenScreen = async (cluster: eks.Cluster, vpc: ec2.Vpc, domainName
                             {name: "VERSION_SHIM", value: '1.0.3'}
                             // {name: "IPFS_URL",  value: process.env.IPFS_URL},
                             // { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
-                        ]
+                        ],
+                        readinessProbe: {
+                            httpGet: {
+                                path: '/graphql',
+                                port: 'http'
+                            }
+                        },
+                        // livenessProbe: {
+                        //     httpGet: {
+                        //         path: '/graphql',
+                        //         port: 'http'
+                        //     }
+                        // }
                     }],
                     volumes: [
                         {

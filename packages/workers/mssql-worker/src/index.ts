@@ -42,10 +42,15 @@ export class MSSQLWorker extends EventEmitter {
 
 	async start(){
 		this.pool = await mssql.connect(this.config)
+		console.log({pool: this.pool})
 		// await this.discover();
+		
 		this.task.forEach((task) => {
+			this.poll(task);
+
 			setInterval(this.poll.bind(this, task), 60 * 1000)
 		})
+
 
 		// await Promise.all(this.task.map(async (task) => {
 		// 	await this.poll(task)
@@ -104,9 +109,13 @@ export class MSSQLWorker extends EventEmitter {
 	async poll(task: WorkerTask){
 		let q = this.getQuery(task)
 
-		const result_q = await mssql.query(q)
+		// const res = await mssql.query(q);
+		// console.log({res});
+
+		const result_q = await this.pool?.query(q)
+		// console.log({result_q: result_q?.recordset})
 		// console.log("FIND", result_q)
-		let result : any[] = result_q.recordset.map((item) => {
+		let result: any[] = (result_q?.recordset || []).map((item) => {
 			return task.collect.map((collect) => {
 				if(typeof(collect) == "object"){
 					switch(collect.type){

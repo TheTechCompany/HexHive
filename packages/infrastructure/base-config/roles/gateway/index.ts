@@ -161,7 +161,19 @@ export const GatewayCluster = async (cluster: eks.Cluster, vpc: ec2.Vpc, zone: a
                                 cpu: "1",
                                 memory: "2Gi"
                             }
-                        }
+                        },
+                        readinessProbe: {
+                            httpGet: {
+                                path: '/graphql',
+                                port: 'http'
+                            }
+                        },
+                        // livenessProbe: {
+                        //     httpGet: {
+                        //         path: '/graphql',
+                        //         port: 'http'
+                        //     }
+                        // }
                     }],
                     volumes: [{
                         name: `endpoints-config`,

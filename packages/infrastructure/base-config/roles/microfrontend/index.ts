@@ -69,7 +69,19 @@ export const MicrofrontendCluster = async (cluster: eks.Cluster, zone: aws.route
                             { name: 'VERSION_SHIM', value: '1.0.3' },
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
-                        ]
+                        ],
+                        readinessProbe: {
+                            httpGet: {
+                                path: '/',
+                                port: 'http'
+                            }
+                        },
+                        // livenessProbe: {
+                        //     httpGet: {
+                        //         path: '/',
+                        //         port: 'http'
+                        //     }
+                        // }
                     }]
                 }
             },

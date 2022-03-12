@@ -1,42 +1,16 @@
 name: Build Dashboard
 
 on:
-  push: 
+  push:
     branches:
       - staging
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  build_collector_in:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
-      
-      - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v1
-      
-      - name: Login to dockerhub
-        uses: docker/login-action@v1
-        with: 
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and push 
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with: 
-          context: ./packages/images/data-consumer
-          file: ./packages/images/data-consumer/Dockerfile
-          push: true
-          tags: thetechcompany/data-consumer:latest
-          build-args: |
-            BUILD_ENV=github
-  
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
 
   build_collectors:
     runs-on: ubuntu-latest
@@ -44,6 +18,22 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            thetechcompany/hive-flow-data-collector
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
       
@@ -60,10 +50,11 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with: 
-          context: ./packages/images/data-producer
+          context: ./
           file: ./packages/images/data-producer/Dockerfile
-          push: true
-          tags: thetechcompany/data-collector:latest
+          push:  ${{ github.event_name != 'pull_request' }}
+          tags:  ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             BUILD_ENV=github
   

@@ -1,8 +1,14 @@
 import * as k8s from '@pulumi/kubernetes'
 import * as eks from '@pulumi/eks'
+import { Config } from '@pulumi/pulumi';
 
 export const HiveCommand = (cluster: eks.Cluster, rootServer: string) => {
-    const appName = "hive-command";
+    const config = new Config();
+
+    let suffix = config.require('suffix');
+    let imageTag = config.require('image-tag');
+
+    const appName = `hive-command-${suffix}`;
     const appLabels = { appClass: appName };
     
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
@@ -17,20 +23,19 @@ export const HiveCommand = (cluster: eks.Cluster, rootServer: string) => {
                     containers: [{
                         imagePullPolicy: "Always",
                         name: appName,
-                        image: "thetechcompany/hivecommand-backend:latest-next",
+                        image: `thetechcompany/hivecommand-backend:${imageTag}`,
                         ports: [{ name: "http", containerPort: 9010 }],
                         volumeMounts: [
                         ],
                         env: [
                             { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test'},
                             { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
-                            { name: 'NODE_ENV', value: 'development' },
+                            { name: 'NODE_ENV', value: 'production' },
                             { name: 'ROOT_SERVER', value: `http://${rootServer}` },
                             {name: "RABBIT_URL",  value: process.env.RABBIT_URL},
-                            {name: "VERSION_SHIM", value: '1.0.3'},
+                            {name: "VERSION_SHIM", value: '1.0.4'},
                             {name: "TIMESERIES_HOST", value: process.env.TIMESERIES_HOST},
                             {name: "TIMESERIES_PASSWORD",  value: process.env.TIMESERIES_PASSWORD},
-
                             {name: "MONGO_URL", value: process.env.COMMAND_MONGO_URL},
                             {name: "MONGO_DB", value: process.env.COMMAND_MONGO_DB},
                             {name: "MONGO_USER", value: process.env.COMMAND_MONGO_USER},
@@ -40,7 +45,19 @@ export const HiveCommand = (cluster: eks.Cluster, rootServer: string) => {
                             // { name: 'BASE_URL',  value: `https://${domainName}`},
                             { name: "NEO4J_URI", value: `neo4j://3.26.93.103` /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             // { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
-                        ]
+                        ],
+                        readinessProbe: {
+                            httpGet: {
+                                path: '/graphql',
+                                port: 'http'
+                            }
+                        },
+                        // livenessProbe: {
+                        //     httpGet: {
+                        //         path: '/graphql',
+                        //         port: 'http'
+                        //     }
+                        // }
                     }],
                     // volumes: [{
                     //     name: `endpoints-config`,

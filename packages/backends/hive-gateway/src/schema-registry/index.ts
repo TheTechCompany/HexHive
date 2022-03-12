@@ -2,7 +2,6 @@ import { GraphQLSchema } from "graphql";
 import { remoteExecutor } from "./executor";
 import { GraphQLServer } from "@hexhive/express-graphql";
 import { stitchSchemas, ValidationLevel } from "@graphql-tools/stitch";
-import { mergeSchemas } from '@graphql-tools/merge'
 import { introspectSchema } from "@graphql-tools/wrap";
 import { Router } from 'express'
 import { getGraphQLParameters, processRequest, renderGraphiQL, sendResult, shouldRenderGraphiQL } from 'graphql-helix'

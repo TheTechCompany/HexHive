@@ -1,0 +1,22 @@
+{
+	"resources": [
+        {
+
+        },
+        {
+			"type": "aws:ec2/vpc:Vpc",
+			"name": "hexhive-vpc",
+			"id": "vpc-0ad77710973388316"
+		},
+		{
+			"type": "aws:ec2/subnet:Subnet",
+			"name": "public-1",
+			"id": "subnet-0fb5fdff92b9e5a3b"
+		},
+		{
+			"type": "aws:ec2/subnet:Subnet",
+			"name": "private-1",
+			"id": "subnet-0a39d25dd9f7b7808"
+		}
+	]
+}

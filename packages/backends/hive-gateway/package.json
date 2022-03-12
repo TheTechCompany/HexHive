@@ -1,6 +1,6 @@
 {
 	"name": "@hexhive/gateway",
-	"version": "0.0.6-alpha.50",
+	"version": "0.0.6-alpha.51",
 	"description": "",
 	"main": "dist/index.js",
 	"files": [
@@ -22,12 +22,13 @@
 	"license": "ISC",
 	"dependencies": {
 		"@envelop/core": "^1.7.1",
+		"@graphql-tools/merge": "^8.2.3",
 		"@graphql-tools/stitch": "^8.0.8",
 		"@graphql-tools/wrap": "^8.3.2",
 		"@hexhive/express-graphql": "^0.0.6-alpha.13",
 		"@hexhive/types": "^0.0.6-alpha.42",
 		"@kubernetes/client-node": "^0.15.1",
-		"@neo4j/graphql": "^2.1.0",
+		"@neo4j/graphql": "^3.0.1",
 		"@neo4j/graphql-ogm": "^2.1.0",
 		"api-key-auth": "^0.2.3",
 		"assert": "^2.0.0",
@@ -42,7 +43,6 @@
 		"express-session": "^1.17.2",
 		"glob": "^7.1.7",
 		"got": "^11.8.2",
-		"graphql": "15.x",
 		"graphql-helix": "^1.11.0",
 		"greenlock-express": "^4.0.3",
 		"helmet": "^4.6.0",

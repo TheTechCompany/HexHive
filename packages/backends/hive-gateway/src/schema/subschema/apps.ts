@@ -13,9 +13,9 @@ type HiveService {
 type HiveType {
     id: ID! @id
     name: String
-    fields: [HiveTypeField] @relationship(type: "HAS_FIELD", direction: OUT)
+    fields: [HiveTypeField!]! @relationship(type: "HAS_FIELD", direction: OUT)
 
-    usedIn: [HiveAppliance] @relationship(type: "USES_TYPE", direction: IN)
+    usedIn: [HiveAppliance!]! @relationship(type: "USES_TYPE", direction: IN)
     
 }
 
@@ -31,11 +31,10 @@ type HiveAppliance {
     label: String
     description: String
 
-    types: [HiveType] @relationship(type: "USES_TYPE", direction: OUT)
+    types: [HiveType!]! @relationship(type: "USES_TYPE", direction: OUT)
     
-    permissions: [Permission] @relationship(type: "PROVIDES", direction: OUT)
-    services: [HiveService] @relationship(type: "USES", direction: OUT)
-    brand_image: HiveFile @relationship(type: "BRANDING", direction: OUT)
+    permissions: [Permission!]! @relationship(type: "PROVIDES", direction: OUT)
+    services: [HiveService!]! @relationship(type: "USES", direction: OUT)
 
 }
 
@@ -64,9 +63,9 @@ type HiveIntegrationInstance {
 
     isRunning: Boolean @readonly
 
-    connections: [HiveIntegrationPath] @relationship(type: "USES_CONNECTION", direction: OUT)
+    connections: [HiveIntegrationPath!]! @relationship(type: "USES_CONNECTION", direction: OUT)
     integration: HiveIntegration @relationship(type: "USES_INTEGRATION", direction: OUT)
-    appliances: [HiveAppliance] @relationship(type: "USES_APPLIANCE", direction: OUT)
+    appliances: [HiveAppliance!]! @relationship(type: "USES_APPLIANCE", direction: OUT)
     config: String
     organisation: HiveOrganisation @relationship(type: "USES_INTEGRATION", direction: IN)
 }

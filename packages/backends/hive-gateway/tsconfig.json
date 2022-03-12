@@ -73,6 +73,6 @@
   "exclude": ["dist/", "utils/"],
   "references": [
     {"path": "../../shared/hexhive-types"},
-    {"path": "../../core/express-graphql"},
+    {"path": "../../core/express-graphql"}
   ]
 }

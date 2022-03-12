@@ -15,7 +15,7 @@ export class KeyManager {
 
 	constructor(){
 		//TODO Don't store JWKS in temp
-		this.keyLocation = os.platform() == 'win32' ? '.\hive-gateway-key.json' : '/data/jwks/hive-gateway-key.json'
+		this.keyLocation = os.platform() == 'win32' ? '.\hive-gateway-key.json' : process.env.NODE_ENV != 'production' ? '/tmp/hive-gateway-key.json' : '/data/jwks/hive-gateway-key.json'
 	}
 
 	get jwks(){
