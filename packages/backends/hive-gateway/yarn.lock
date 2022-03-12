@@ -632,6 +632,14 @@
     "@graphql-tools/utils" "^8.5.1"
     tslib "~2.3.0"
 
+"@graphql-tools/merge@^8.2.3":
+  version "8.2.3"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/merge/-/merge-8.2.3.tgz#a2861fec230ee7be9dc42d72fed2ac075c31669f"
+  integrity sha512-XCSmL6/Xg8259OTWNp69B57CPWiVL69kB7pposFrufG/zaAlI9BS68dgzrxmmSqZV5ZHU4r/6Tbf6fwnEJGiSw==
+  dependencies:
+    "@graphql-tools/utils" "^8.6.2"
+    tslib "~2.3.0"
+
 "@graphql-tools/optimize@^1.0.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@graphql-tools/optimize/-/optimize-1.1.1.tgz#dcd59ba1ee34431e5e9b086b57fe0bdb1a176669"
@@ -646,6 +654,16 @@
   dependencies:
     "@graphql-tools/utils" "^8.5.1"
     relay-compiler "12.0.0"
+    tslib "~2.3.0"
+
+"@graphql-tools/resolvers-composition@^6.4.1":
+  version "6.4.2"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/resolvers-composition/-/resolvers-composition-6.4.2.tgz#43a8d7fe921ff1b7c3e5ec15a907145c8fb33e92"
+  integrity sha512-1HZnT0nZTBOsxMvDld0rs4JDL1MY+OQscoaPl+DhHIzGjhC+aHA1DxfJE7rRkhes5ER7p1tGVfqM7ilxY1yIEA==
+  dependencies:
+    "@graphql-tools/utils" "^8.6.2"
+    lodash "4.17.21"
+    micromatch "^4.0.4"
     tslib "~2.3.0"
 
 "@graphql-tools/schema@^7.0.0", "@graphql-tools/schema@^7.1.5":
@@ -700,6 +718,13 @@
   version "8.6.1"
   resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-8.6.1.tgz#52c7eb108f2ca2fd01bdba8eef85077ead1bf882"
   integrity sha512-uxcfHCocp4ENoIiovPxUWZEHOnbXqj3ekWc0rm7fUhW93a1xheARNHcNKhwMTR+UKXVJbTFQdGI1Rl5XdyvDBg==
+  dependencies:
+    tslib "~2.3.0"
+
+"@graphql-tools/utils@^8.6.0", "@graphql-tools/utils@^8.6.2":
+  version "8.6.2"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-8.6.2.tgz#095408135f091aac68fe18a0a21b708e685500da"
+  integrity sha512-x1DG0cJgpJtImUlNE780B/dfp8pxvVxOD6UeykFH5rHes26S4kGokbgU8F1IgrJ1vAPm/OVBHtd2kicTsPfwdA==
   dependencies:
     tslib "~2.3.0"
 
@@ -822,7 +847,7 @@
     pluralize "^8.0.0"
     prettier "2.3.2"
 
-"@neo4j/graphql@^2.1.0", "@neo4j/graphql@^2.5.7":
+"@neo4j/graphql@^2.5.7":
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/@neo4j/graphql/-/graphql-2.5.7.tgz#01bb63c8e5a74d34a172810c8e6301f1b70a4138"
   integrity sha512-a2cox48ljSc3JBiEqw9ac/3ourphn2JGurErsVku2xJTRJNaeKoKm7S3X7T7vhgOttbhWAf8YggwALBKTUdioQ==
@@ -839,6 +864,25 @@
     graphql-relay "^0.8.0"
     jsonwebtoken "^8.5.1"
     jwks-rsa "^2.0.5"
+    pluralize "^8.0.0"
+    semver "^7.3.5"
+
+"@neo4j/graphql@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@neo4j/graphql/-/graphql-3.0.1.tgz#d4ae3137f3a7507798344f4cdbd3cac0c94081cd"
+  integrity sha512-bKW+YCJZEu5Az4oLxVH1KWzF2eEi00y/DojS0KTRv4/gI+7cq5fQgoJIrJEWj6T08xdD5N6o9f70BVRd2VGO2w==
+  dependencies:
+    "@graphql-tools/merge" "^8.2.1"
+    "@graphql-tools/resolvers-composition" "^6.4.1"
+    "@graphql-tools/schema" "^8.3.1"
+    "@graphql-tools/utils" "^8.6.0"
+    camelcase "^6.2.0"
+    debug "^4.3.2"
+    deep-equal "^2.0.5"
+    dot-prop "^6.0.1"
+    graphql-compose "^9.0.6"
+    graphql-parse-resolve-info "^4.12.0"
+    graphql-relay "^0.10.0"
     pluralize "^8.0.0"
     semver "^7.3.5"
 
@@ -3210,6 +3254,13 @@ graphql-compose@9.0.4:
     graphql-type-json "0.3.2"
     object-path "0.11.8"
 
+graphql-compose@^9.0.6:
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/graphql-compose/-/graphql-compose-9.0.7.tgz#f9a2161d89691506466258ef54f279cbdd7ffeec"
+  integrity sha512-1EreO/vtdF/vaXYtPGW/RIlJbAAe8bWJ0mlvIa3s4YytsydbqiIFv80QUNlD9Bdl9iezLze70a6quC+3BAMzjw==
+  dependencies:
+    graphql-type-json "0.3.2"
+
 graphql-helix@^1.11.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/graphql-helix/-/graphql-helix-1.11.0.tgz#bd8c3e9e208f853215fff7b6b45e4e46b909d0b6"
@@ -3222,6 +3273,11 @@ graphql-parse-resolve-info@^4.12.0:
   dependencies:
     debug "^4.1.1"
     tslib "^2.0.1"
+
+graphql-relay@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/graphql-relay/-/graphql-relay-0.10.0.tgz#3b661432edf1cb414cd4a132cf595350e524db2b"
+  integrity sha512-44yBuw2/DLNEiMypbNZBt1yMDbBmyVPVesPywnteGGALiBmdyy1JP8jSg8ClLePg8ZZxk0O4BLhd1a6U/1jDOQ==
 
 graphql-relay@^0.8.0:
   version "0.8.0"
@@ -3239,11 +3295,6 @@ graphql-type-json@0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/graphql-type-json/-/graphql-type-json-0.3.2.tgz#f53a851dbfe07bd1c8157d24150064baab41e115"
   integrity sha512-J+vjof74oMlCWXSvt0DOf2APEdZOCdubEvGDUAlqH//VBYcOYsGgRW7Xzorr44LvkjiuvecWc8fChxuZZbChtg==
-
-graphql@15.x:
-  version "15.8.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
-  integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
 
 greenlock-express@^4.0.3:
   version "4.0.3"
@@ -4160,7 +4211,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
 
-lodash@~4.17.0:
+lodash@4.17.21, lodash@~4.17.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==

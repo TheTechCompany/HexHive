@@ -7,7 +7,7 @@ import { nanoid } from "nanoid"
 import apps from "./subschema/apps"
 import automate from "./subschema/automate"
 
-import files from "./subschema/files"
+// import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
 
 // import { Kafka } from "kafkajs"
@@ -76,7 +76,6 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 
 
 	${apps}
-	${files}
 	${acl}
  
 	`
@@ -119,116 +118,116 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 				console.log(source, args, context)
 			}
 		},
-		HiveFile: {
-			// path: (source: any, args: any, context: any) => {
-			//     console.log(source, args, context)
-			//     let prefix = '';
-			//     if(source.parent?.name ) prefix += source.parent.name 
-			//     return prefix + '/' + source.name
-			// }
-		},
+		// HiveFile: {
+		// 	// path: (source: any, args: any, context: any) => {
+		// 	//     console.log(source, args, context)
+		// 	//     let prefix = '';
+		// 	//     if(source.parent?.name ) prefix += source.parent.name 
+		// 	//     return prefix + '/' + source.name
+		// 	// }
+		// },
 		Query: {
 			
-			resolveFS: async (root: any, args: {appId: string, mountPath: string}, context: any) => {
+			// resolveFS: async (root: any, args: {appId: string, mountPath: string}, context: any) => {
 				
-				let parts = args.mountPath.split('/')
+			// 	let parts = args.mountPath.split('/')
 
-				console.log(args, parts)
+			// 	console.log(args, parts)
 
-				const appFolder = await session.readTransaction(async (tx) => {
-					const result = await tx.run(`
-						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
-						RETURN appFolder	
-					`, {
-						org: context.user.organisation
-					})
-					return result.records?.[0]?.get(0).properties
-				})
+			// 	const appFolder = await session.readTransaction(async (tx) => {
+			// 		const result = await tx.run(`
+			// 			MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+			// 			RETURN appFolder	
+			// 		`, {
+			// 			org: context.user.organisation
+			// 		})
+			// 		return result.records?.[0]?.get(0).properties
+			// 	})
 
-				if(!appFolder){
-					await session.writeTransaction(async (tx) => {
-						await tx.run(`
-							MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)
-							CREATE (appFolder:HiveFile {id: $id, name: "Applications", isFolder: true})
-							CREATE (fs)-[:HAS_FILE]->(appFolder)
-							RETURN appFolder
-						`, {
-							org: context.user.organisation,
-							id: nanoid()
-						})
-					})
-				}
+			// 	if(!appFolder){
+			// 		await session.writeTransaction(async (tx) => {
+			// 			await tx.run(`
+			// 				MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)
+			// 				CREATE (appFolder:HiveFile {id: $id, name: "Applications", isFolder: true})
+			// 				CREATE (fs)-[:HAS_FILE]->(appFolder)
+			// 				RETURN appFolder
+			// 			`, {
+			// 				org: context.user.organisation,
+			// 				id: nanoid()
+			// 			})
+			// 		})
+			// 	}
 
-				const result =  await session.readTransaction(async (tx) => {
-					const result = await tx.run(`
-						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
-						MATCH (appFolder)-[:CONTAINS]->(parentFolder:HiveFile {name: $parentPath})
-						RETURN parentFolder
-					`, {
-						org: context.user.organisation,
-						parentPath: parts[1],
-						childPath: parts[2]
-					})
-					return result.records.map((x) => x.get(0).properties)
-				})
+			// 	const result =  await session.readTransaction(async (tx) => {
+			// 		const result = await tx.run(`
+			// 			MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+			// 			MATCH (appFolder)-[:CONTAINS]->(parentFolder:HiveFile {name: $parentPath})
+			// 			RETURN parentFolder
+			// 		`, {
+			// 			org: context.user.organisation,
+			// 			parentPath: parts[1],
+			// 			childPath: parts[2]
+			// 		})
+			// 		return result.records.map((x) => x.get(0).properties)
+			// 	})
 
-				if(result.length == 0){
-					await session.writeTransaction(async (tx) => {
-						await tx.run(`
-						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
-						CREATE (parentFolder:HiveFile {id: $id, name: $parentPath, isFolder: true})
-						CREATE (appFolder)-[:CONTAINS]->(parentFolder)
-						CREATE (fs)-[:HAS_FILE]->(parentFolder)
-						`, {
-							org: context.user.organisation,
-							id: nanoid(),
-							parentPath: parts[1],
-						})
-					})
-				}
+			// 	if(result.length == 0){
+			// 		await session.writeTransaction(async (tx) => {
+			// 			await tx.run(`
+			// 			MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+			// 			CREATE (parentFolder:HiveFile {id: $id, name: $parentPath, isFolder: true})
+			// 			CREATE (appFolder)-[:CONTAINS]->(parentFolder)
+			// 			CREATE (fs)-[:HAS_FILE]->(parentFolder)
+			// 			`, {
+			// 				org: context.user.organisation,
+			// 				id: nanoid(),
+			// 				parentPath: parts[1],
+			// 			})
+			// 		})
+			// 	}
 
-				let child;
+			// 	let child;
 
-				const endPath =  await session.readTransaction(async (tx) => {
-					const r = await tx.run(`
-						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
-						MATCH (appFolder)-[:CONTAINS]->(:HiveFile {name: $parentPath})-[:CONTAINS]->(endPath:HiveFile {name: $childPath})
-						RETURN endPath
-					`, {
-						org: context.user.organisation,
-						parentPath: parts[1],
-						childPath: parts[2]
-					})
-					return r.records?.map((x) => x.get(0).properties)
-				})
+			// 	const endPath =  await session.readTransaction(async (tx) => {
+			// 		const r = await tx.run(`
+			// 			MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+			// 			MATCH (appFolder)-[:CONTAINS]->(:HiveFile {name: $parentPath})-[:CONTAINS]->(endPath:HiveFile {name: $childPath})
+			// 			RETURN endPath
+			// 		`, {
+			// 			org: context.user.organisation,
+			// 			parentPath: parts[1],
+			// 			childPath: parts[2]
+			// 		})
+			// 		return r.records?.map((x) => x.get(0).properties)
+			// 	})
 
-				if(endPath.length == 0){
-					const r = await session.writeTransaction(async (tx) => {
-						const result = await tx.run(`
-						MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
-						MATCH (appFolder)-[:CONTAINS]->(parentFolder:HiveFile {name: $parentPath})
-						CREATE (childFolder:HiveFile {id: $id, name: $childPath, isFolder: true})
-						CREATE (parentFolder)-[:CONTAINS]->(childFolder)
-						CREATE (fs)-[:HAS_FILE]->(childFolder)
-						RETURN childFolder
-						`, {
-							org: context.user.organisation,
-							id: nanoid(),
-							parentPath: parts[1],
-							childPath: parts[2]
-						})
-						return result.records?.map((x) => x.get(0).properties)
-					})
-					console.log(r)
-					child = r[0]
-				}else{
-					console.log(endPath)
-					child = endPath[0]
-				}
-				console.log("RESOLVE FS", child)
-				return child;
+			// 	if(endPath.length == 0){
+			// 		const r = await session.writeTransaction(async (tx) => {
+			// 			const result = await tx.run(`
+			// 			MATCH (org:HiveOrganisation {id: $org})-[:HAS_FS]->(fs:FileSystem)-[:HAS_FILE]->(appFolder:HiveFile {name: "Applications"})
+			// 			MATCH (appFolder)-[:CONTAINS]->(parentFolder:HiveFile {name: $parentPath})
+			// 			CREATE (childFolder:HiveFile {id: $id, name: $childPath, isFolder: true})
+			// 			CREATE (parentFolder)-[:CONTAINS]->(childFolder)
+			// 			CREATE (fs)-[:HAS_FILE]->(childFolder)
+			// 			RETURN childFolder
+			// 			`, {
+			// 				org: context.user.organisation,
+			// 				id: nanoid(),
+			// 				parentPath: parts[1],
+			// 				childPath: parts[2]
+			// 			})
+			// 			return result.records?.map((x) => x.get(0).properties)
+			// 		})
+			// 		console.log(r)
+			// 		child = r[0]
+			// 	}else{
+			// 		console.log(endPath)
+			// 		child = endPath[0]
+			// 	}
+			// 	console.log("RESOLVE FS", child)
+			// 	return child;
 
-			}
+			// }
 		},
 		Mutation: {
 		
@@ -553,5 +552,5 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	}
 	const neoSchema : Neo4jGraphQL = new Neo4jGraphQL({ typeDefs, resolvers,    driver })
 
-	return neoSchema.schema
+	return await neoSchema.getSchema()
 }

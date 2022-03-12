@@ -17,6 +17,36 @@ type HiveOrganisation @auth(rules: [
 	appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
 	integrations: [HiveIntegrationInstance] @relationship(type: "USES_INTEGRATION", direction: OUT)
 
+    subscriptions: [HiveApplianceConfiguration] @relationship(type: "HAS_APP_CONFIG", direction: OUT)
+}
+
+type HiveApplianceConfiguration @auth(rules: [
+    {operations: [READ, UPDATE], where: {organisation: {id: "$jwt.organisation"}}},
+	{operations: [UPDATE, DELETE], bind: {organisation: {id: "$jwt.organisation"}}}
+]) {
+    id: ID! @id
+    key: String
+
+    permissions: [HiveTypePermission] @relationship(type: "HAS_TYPE_PERMISSION", direction: OUT)
+
+    appliance: HiveAppliance @relationship(type: "HAS_APP", direction: OUT)
+
+    organisation: HiveOrganisation @relationship(type: "HAS_APP_CONFIG", direction: IN)
+}
+
+type HiveTypePermission @auth(rules: [
+	{operations: [READ, UPDATE], where: {configuration: { organisation: {id: "$jwt.organisation" }}} },
+	{operations: [UPDATE, DELETE], bind: {configuration: { organisation: {id: "$jwt.organisation" }}} }
+]) {
+    id: ID! @id
+    type: String
+
+    create: Boolean
+    read: Boolean
+    update: Boolean
+    delete: Boolean
+
+    configuration: HiveApplianceConfiguration @relationship(type: "HAS_TYPE_PERMISSION", direction: IN)
 }
 
 type HiveUser @auth(rules: [
