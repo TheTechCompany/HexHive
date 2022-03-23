@@ -194,6 +194,11 @@ const config = {
 				key: 'Hive-Flow',
 				route: '/hive-flow',
 				url: 'http://localhost:8503/hexhive-apps-hive-flow.js',
+			},
+			{
+				key: 'Hive-CRM',
+				route: '/hive-crm',
+				url: 'http://localhost:8513/hivecrm-app-frontend.js'
 			}
 		] : [],
 		getViews: async (req) => {
