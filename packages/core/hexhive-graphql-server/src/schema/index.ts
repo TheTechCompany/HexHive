@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 export default gql`
 
 scalar Hash
+scalar Upload
 
 type HiveOrganisation @auth(rules: [
 	{operations: [READ, UPDATE], where: {id: "$jwt.organisation"}},

@@ -6,6 +6,7 @@ import { graphqlHTTP } from 'express-graphql'
 import { Driver } from 'neo4j-driver';
 import { Neo4jGraphQL } from '@neo4j/graphql'
 import { mergeTypeDefs } from '@graphql-tools/merge'
+import { GraphQLUpload, graphqlUploadExpress } from 'graphql-upload'
 
 import {OGM} from '@neo4j/graphql-ogm'
 
@@ -51,7 +52,8 @@ export class HiveGraph {
 			const neo = new Neo4jGraphQL({
 				resolvers: {
 					...resolvers,
-					Hash: HashType
+					Hash: HashType,
+					Upload: GraphQLUpload
 				},
 				driver,
 				// schemaDirectives: {
@@ -85,6 +87,7 @@ export class HiveGraph {
 			if(!this.isDev) this.router.use('/graphql', this.isAuthenticated.bind(this))
 			this.router.use(
 				'/graphql', 
+				graphqlUploadExpress({maxFileSize: 10 * 1024 * 1024, maxFiles: 20}),
 				graphqlHTTP(async (req, res, graphqlParams) => ({
 					schema: this.schema,
 					graphiql: true,
