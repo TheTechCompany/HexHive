@@ -87,7 +87,9 @@ export class HiveGraph {
 
 			this.ogm = new OGM({ typeDefs: mergedTypeDefs, driver })
 
-			this.schema = neo.schema // stitchSchemas({subschemas: [this.scalarSchema, neo.schema]}); /*getSchema().then((schema) => {
+			neo.getSchema().then((schema) => {
+				this.schema = schema;
+			}) // stitchSchemas({subschemas: [this.scalarSchema, neo.schema]}); /*getSchema().then((schema) => {
 			// 	this.schema = schema;
 			// })*/
 		}
