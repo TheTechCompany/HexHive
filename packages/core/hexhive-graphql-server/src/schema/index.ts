@@ -1,8 +1,12 @@
 import gql from "graphql-tag";
 
-export default gql`
+export default (options: {uploads: boolean}) => gql`
 scalar Hash
-scalar Upload
+${options.uploads ? 'scalar Upload' : ''}
+
+type Query {
+    hash(input: String!): Hash
+}
 
 type HiveOrganisation @auth(rules: [
 	{operations: [READ, UPDATE], where: {id: "$jwt.organisation"}},

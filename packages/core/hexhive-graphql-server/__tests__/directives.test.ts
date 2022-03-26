@@ -22,7 +22,6 @@ beforeAll(async () => {
             typeDefs: `
                 type Test {
                     id: ID! @id
-                    name: Hash
                 }
 
                 type Mutation {

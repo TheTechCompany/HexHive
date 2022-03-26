@@ -19,6 +19,7 @@ export interface HiveGraphOptions {
 	rootServer: string;
 	schema: GraphQLSchema | {typeDefs: any, resolvers: any, driver: Driver};
 	dev?: boolean;
+	uploads?: boolean;
 }
 
 const graphqlHTTP = (schema: GraphQLSchema) => {
@@ -97,17 +98,12 @@ export class HiveGraph {
 			const { typeDefs, resolvers = {}, driver } = options.schema;
 
 			const mergedTypeDefs = mergeTypeDefs([
-				schema,
+				schema({uploads: options.uploads || false}),
 				typeDefs
 			])
 
-			// const neoSchema = makeExecutableSchema({
-			// 	typeDefs: mergedTypeDefs,
-			// 	resolvers: {
-			// 		...resolvers,
-			// 		Hash: HashType
-			// 	}
-			// })
+			let ScalarTypes : any = {}
+			if(options.uploads) ScalarTypes['Upload'] = GraphQLUpload;
 
 			const neo = new Neo4jGraphQL({
 				typeDefs: mergedTypeDefs,
@@ -115,7 +111,7 @@ export class HiveGraph {
 				resolvers: {
 					...resolvers,
 					Hash: HashType,
-					Upload: GraphQLUpload
+					...ScalarTypes
 				},
 				driver,
 				// typeDefs: mergedTypeDefs
@@ -125,9 +121,7 @@ export class HiveGraph {
 
 			neo.getSchema().then((schema) => {
 				this.schema = schema;
-			}) // stitchSchemas({subschemas: [this.scalarSchema, neo.schema]}); /*getSchema().then((schema) => {
-			// 	this.schema = schema;
-			// })*/
+			}) 
 		}
 
 		this.jwksClient = new JwksClient({
