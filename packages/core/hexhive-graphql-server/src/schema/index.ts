@@ -1,7 +1,6 @@
 import gql from "graphql-tag";
 
 export default gql`
-
 scalar Hash
 scalar Upload
 
@@ -12,13 +11,13 @@ type HiveOrganisation @auth(rules: [
 	id: ID! @id
 	name: String
 
-	roles: [Role] @relationship(type: "USES_ROLE", direction: OUT)
-	members: [HiveUser] @relationship(type: "TRUSTS", direction: OUT)
+	roles: [Role!]! @relationship(type: "USES_ROLE", direction: OUT)
+	members: [HiveUser!]! @relationship(type: "TRUSTS", direction: OUT)
 
-	appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
-	integrations: [HiveIntegrationInstance] @relationship(type: "USES_INTEGRATION", direction: OUT)
+	appliances: [HiveAppliance!]! @relationship(type: "USES_APP", direction: OUT)
+	integrations: [HiveIntegrationInstance!]! @relationship(type: "USES_INTEGRATION", direction: OUT)
 
-    subscriptions: [HiveApplianceConfiguration] @relationship(type: "HAS_APP_CONFIG", direction: OUT)
+    subscriptions: [HiveApplianceConfiguration!]! @relationship(type: "HAS_APP_CONFIG", direction: OUT)
 }
 
 type HiveApplianceConfiguration @auth(rules: [
@@ -28,7 +27,7 @@ type HiveApplianceConfiguration @auth(rules: [
     id: ID! @id
     key: String
 
-    permissions: [HiveTypePermission] @relationship(type: "HAS_TYPE_PERMISSION", direction: OUT)
+    permissions: [HiveTypePermission!]! @relationship(type: "HAS_TYPE_PERMISSION", direction: OUT)
 
     appliance: HiveAppliance @relationship(type: "HAS_APP", direction: OUT)
 
@@ -58,7 +57,7 @@ type HiveUser @auth(rules: [
 	name: String
 	username: String
 	password: String
-	roles: [Role] @relationship(type: "HAS_ROLE", direction: OUT)
+	roles: [Role!]! @relationship(type: "HAS_ROLE", direction: OUT)
 	organisation: HiveOrganisation @relationship(type: "TRUSTS", direction: IN)
 }
 
@@ -69,8 +68,8 @@ type Role  @auth(rules: [
 	id: ID! @id
 	name: String
 
-	appliances: [HiveAppliance] @relationship(type: "USES_APP", direction: OUT)
-	permissions: [Permission] @relationship(type: "USES_PERMISSION", direction: OUT)
+	appliances: [HiveAppliance!]! @relationship(type: "USES_APP", direction: OUT)
+	permissions: [Permission!]! @relationship(type: "USES_PERMISSION", direction: OUT)
 	organisation: HiveOrganisation @relationship(type: "USES_ROLE", direction: IN)
 }
 				
@@ -81,7 +80,7 @@ type Permission {
 	action: String
 	scope: String
 
-	roles: [Role] @relationship(type: "USES_PERMISSION", direction: IN)
+	roles: [Role!]! @relationship(type: "USES_PERMISSION", direction: IN)
 }
 
 
@@ -94,9 +93,9 @@ type HiveService {
 type HiveType {
     id: ID! @id
     name: String
-    fields: [HiveTypeField] @relationship(type: "HAS_FIELD", direction: OUT)
+    fields: [HiveTypeField!]! @relationship(type: "HAS_FIELD", direction: OUT)
 
-    usedIn: [HiveAppliance] @relationship(type: "USES_TYPE", direction: IN)
+    usedIn: [HiveAppliance!]! @relationship(type: "USES_TYPE", direction: IN)
     
 }
 
@@ -112,10 +111,10 @@ type HiveAppliance {
     label: String
     description: String
 
-    types: [HiveType] @relationship(type: "USES_TYPE", direction: OUT)
+    types: [HiveType!]! @relationship(type: "USES_TYPE", direction: OUT)
     
-    permissions: [Permission] @relationship(type: "PROVIDES", direction: OUT)
-    services: [HiveService] @relationship(type: "USES", direction: OUT)
+    permissions: [Permission!]! @relationship(type: "PROVIDES", direction: OUT)
+    services: [HiveService!]! @relationship(type: "USES", direction: OUT)
 }
 
 type HiveIntegrationPathCollection {
@@ -143,9 +142,9 @@ type HiveIntegrationInstance {
 
     isRunning: Boolean @readonly
 
-    connections: [HiveIntegrationPath] @relationship(type: "USES_CONNECTION", direction: OUT)
+    connections: [HiveIntegrationPath!]! @relationship(type: "USES_CONNECTION", direction: OUT)
     integration: HiveIntegration @relationship(type: "USES_INTEGRATION", direction: OUT)
-    appliances: [HiveAppliance] @relationship(type: "USES_APPLIANCE", direction: OUT)
+    appliances: [HiveAppliance!]! @relationship(type: "USES_APPLIANCE", direction: OUT)
     config: String
     organisation: HiveOrganisation @relationship(type: "USES_INTEGRATION", direction: IN)
 }

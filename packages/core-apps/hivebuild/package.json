@@ -50,7 +50,6 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@hexhive/client": "^0.0.6-alpha.42",
     "@hexhive/icons": "^0.0.6-alpha.13",
     "@hexhive/styles": "^0.0.6-alpha.13",
     "@hexhive/ui": "^0.0.6-alpha.54",

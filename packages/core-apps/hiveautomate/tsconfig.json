@@ -6,8 +6,7 @@
   },
   "references": [
     {"path": "../../core/hexhive-ui"},
-    {"path": "../../shared/hexhive-auth-ui"},
-    {"path": "../../core/hexhive-client"},
+    {"path": "../../shared/hexhive-auth-ui"}
   ],
   "include": ["src/**/*", "node_modules/@types"],
   "exclude": ["src/**/*.test*"],

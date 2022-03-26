@@ -7,12 +7,13 @@ import { Driver } from 'neo4j-driver';
 import { Neo4jGraphQL } from '@neo4j/graphql'
 import { mergeTypeDefs } from '@graphql-tools/merge'
 import { GraphQLUpload, graphqlUploadExpress } from 'graphql-upload'
+import { makeExecutableSchema } from '@graphql-tools/schema'
+import { stitchSchemas } from '@graphql-tools/stitch'
 
 import {OGM} from '@neo4j/graphql-ogm'
-
+import { HashType } from './directives/hash'
 import gql from 'graphql-tag';
 import schema from './schema';
-import { HashType } from './directives/hash';
 
 export interface HiveGraphOptions {
 	rootServer: string;
@@ -30,6 +31,8 @@ export class HiveGraph {
 
 	private rootServer?: string;
 
+	private scalarSchema: GraphQLSchema;
+
 	private schema: GraphQLSchema;
 
 	private jwksClient?: JwksClient;
@@ -40,31 +43,53 @@ export class HiveGraph {
 		this.rootServer = options.rootServer;
 		this.dev = options.dev || false
 
+		this.schema = new GraphQLSchema({})
+
+
+		this.scalarSchema = makeExecutableSchema({
+			typeDefs: gql`
+				scalar Upload
+			`,
+			resolvers: {
+				Upload: GraphQLUpload
+			}
+		})
+
 		if(options.schema instanceof GraphQLSchema){
-			this.schema = options.schema;
+			this.schema = stitchSchemas({subschemas: [options.schema, this.scalarSchema]});
 		}else{
-			const { typeDefs, resolvers, driver } = options.schema;
+			const { typeDefs, resolvers = {}, driver } = options.schema;
 
 			const mergedTypeDefs = mergeTypeDefs([
 				schema,
 				typeDefs
 			])
+
+			// const neoSchema = makeExecutableSchema({
+			// 	typeDefs: mergedTypeDefs,
+			// 	resolvers: {
+			// 		...resolvers,
+			// 		Hash: HashType
+			// 	}
+			// })
+
 			const neo = new Neo4jGraphQL({
+				typeDefs: mergedTypeDefs,
+				// schema: stitchSchemas({subschemas: [this.scalarSchema, neoSchema]}),
 				resolvers: {
 					...resolvers,
 					Hash: HashType,
 					Upload: GraphQLUpload
 				},
 				driver,
-				// schemaDirectives: {
-				// 	hash: HashDirective
-				// },
-				
-				typeDefs: mergedTypeDefs
+				// typeDefs: mergedTypeDefs
 			})
 
 			this.ogm = new OGM({ typeDefs: mergedTypeDefs, driver })
-			this.schema = neo.schema
+
+			this.schema = neo.schema // stitchSchemas({subschemas: [this.scalarSchema, neo.schema]}); /*getSchema().then((schema) => {
+			// 	this.schema = schema;
+			// })*/
 		}
 
 		this.jwksClient = new JwksClient({
