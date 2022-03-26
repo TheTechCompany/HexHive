@@ -199,6 +199,11 @@ const config = {
 				key: 'Hive-CRM',
 				route: '/hive-connect',
 				url: 'http://localhost:8513/hiveconnect-app-frontend.js'
+			},
+			{
+				key: "Hive-Files",
+				route: '/hive-files',
+				url: 'http://localhost:8514/hivefiles-app-frontend.js'
 			}
 		] : [],
 		getViews: async (req) => {
