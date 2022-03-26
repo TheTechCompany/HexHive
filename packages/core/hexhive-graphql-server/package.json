@@ -21,7 +21,7 @@
     "@graphql-tools/stitch": "^8.6.2",
     "@neo4j/graphql": "3.x",
     "@neo4j/graphql-ogm": "3.x",
-    "express-graphql": "^0.12.0",
+    "graphql-helix": "^1.12.0",
     "graphql-upload": "^13.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.5"
@@ -31,7 +31,7 @@
     "@types/jest": "^27.4.1",
     "@types/jsonwebtoken": "^8.5.6",
     "express": "^4.17.3",
-    "graphql": "15.x",
+    "graphql": "16.x",
     "graphql-request": "^4.0.0",
     "jest": "^27.5.1",
     "neo4j-driver": "^4.4.1",
@@ -39,7 +39,7 @@
     "typescript": "^4.5.4"
   },
   "peerDependencies": {
-    "graphql": "15.x",
+    "graphql": "16.x",
     "neo4j-driver": "^4.4.1"
   },
   "gitHead": "92dbd6f35a180402f000705602518556ca13d7d6"
