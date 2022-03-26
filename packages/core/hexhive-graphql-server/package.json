@@ -39,7 +39,7 @@
     "typescript": "^4.5.4"
   },
   "peerDependencies": {
-    "graphql": "15.x",
+    "graphql": "16.x",
     "neo4j-driver": "^4.4.1"
   },
   "gitHead": "92dbd6f35a180402f000705602518556ca13d7d6"
