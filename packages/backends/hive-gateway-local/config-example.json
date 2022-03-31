@@ -1,0 +1,10 @@
+{
+    "applications": [
+        {
+            "name": "Application name (used for labelling and graph server endpoint)",
+            "graph": "GraphQL Endpoint for gateway routing",
+            "route": "Routing for frontend",
+            "app": "Microfrontend bundle location"
+        }
+    ]
+}
