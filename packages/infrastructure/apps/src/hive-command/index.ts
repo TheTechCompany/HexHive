@@ -33,7 +33,7 @@ export const HiveCommand = (provider: k8s.Provider, rootServer: string) => {
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'ROOT_SERVER', value: `http://${rootServer}` },
                             {name: "RABBIT_URL",  value: process.env.RABBIT_URL},
-                            {name: "VERSION_SHIM", value: '1.0.6'},
+                            {name: "VERSION_SHIM", value: '1.0.8'},
                             {name: "TIMESERIES_HOST", value: process.env.TIMESERIES_HOST},
                             {name: "TIMESERIES_PASSWORD",  value: process.env.TIMESERIES_PASSWORD},
                             {name: "MONGO_URL", value: process.env.COMMAND_MONGO_URL},

@@ -45,6 +45,10 @@ const graphqlHTTP = (schema: GraphQLSchema) => {
 				variables,
 				request,
 				schema,
+				contextFactory: (context) => ({
+					...context,
+					...req
+				})
 			});
 		
 			// processRequest returns one of three types of results depending on how the server should respond

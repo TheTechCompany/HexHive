@@ -15,6 +15,7 @@ import hive from "./schema/hive"
 import { KeyManager } from "./keys"
 import passport from "passport"
 
+import { graphqlUploadExpress } from 'graphql-upload'
 const {NODE_ENV} = process.env
 
 const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next.hexhive.io", ISSUER = `http://localhost:${PORT}` } = process.env
@@ -104,6 +105,7 @@ export class HiveGateway {
 				passport.authenticate('jwt', {session: false})(req, res, next)
 			}
 		})
+		this.router?.mount('/graphql', graphqlUploadExpress({maxFileSize: 100 * 1024 * 1024, maxFiles: 30}));
 		this.router?.mount('/graphql', this.schemaRegistry?.middleware())
 
 	}
