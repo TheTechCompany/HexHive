@@ -1,21 +1,9 @@
-AUTH_SERVER=
+MONGO_URL=mongodb://localhost/sessions
+
+NEO4J_URI=neo4j://localhost
+NEO4J_PASSWORD=test
 
 CLIENT_ID=
 CLIENT_SECRET=
 
-IPFS_URL=http://localhost:5001
-IPFS_GATEWAY=http://127.0.0.1:8080
-
-UI_URL=http://localhost:3000/dashboard
-BASE_URL=http://localhost:7000
-
-REDIRECT_URI=http://localhost:7000/callback
-
-NEO4J_USER=
-NEO4J_PASSWORD=
-NEO4J_URI=
-
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-
-KAFKA_URL=
+JWT_SECRET=
