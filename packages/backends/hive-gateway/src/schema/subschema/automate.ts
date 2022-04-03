@@ -14,6 +14,10 @@ HiveProcessPort: Ports for task
 
 export default `
 
+`
+
+/*
+
 type HivePipeline {
     id: ID! @id
     name: String
@@ -114,4 +118,4 @@ type HiveProcessResult {
     process: HiveFileProcess @relationship(type: "RESULT_OF", direction: OUT)
     results: String
 }
-`
+*/

@@ -2,7 +2,7 @@ import { GraphQLSchema } from "graphql";
 import { remoteExecutor } from "./executor";
 import { GraphQLServer } from "@hexhive/express-graphql";
 import { stitchSchemas, ValidationLevel } from "@graphql-tools/stitch";
-import { introspectSchema } from "@graphql-tools/wrap";
+import { introspectSchema, wrapSchema } from "@graphql-tools/wrap";
 import { Router } from 'express'
 import { getGraphQLParameters, processRequest, renderGraphiQL, sendResult, shouldRenderGraphiQL } from 'graphql-helix'
 import { KeyManager } from "../keys";
@@ -23,6 +23,8 @@ export class SchemaRegistry {
 	
 	private endpoints : SchemaEndpoint[] = []
 	private schemas : {[key: string]: GraphQLSchema} = {}
+
+	private mergedSchema?: GraphQLSchema;
 
 	private internalSchema : GraphQLSchema;
 
@@ -168,11 +170,36 @@ export class SchemaRegistry {
 			return preSchema
 		}
 
-		return this.internalSchema
+		return this.mergedSchema || this.internalSchema
 	}
 
 	private updateSchema(){
 
+		// wrapSchema({
+		// 	schema: this.internalSchema,
+		// 	transforms: [transformSchema()]
+		// })
+
+		const remoteSchemas = Object.keys(this.schemas).filter((a) => this.schemas[a] !== undefined && a).map((schema) => {
+			const url = this.endpoints.find((a) => a.key == schema)?.url || '';
+			return {
+				schema: this.schemas[schema],
+				executor: remoteExecutor(url, this.keyManager)
+			}
+		})
+
+		const schema = stitchSchemas({
+			subschemas: [
+				{
+					
+					schema: this.internalSchema,
+				},
+				...remoteSchemas
+			]
+		})
+
+		this.mergedSchema = schema;
+		// this.server.setS
 		// const getEnveloped = 
 
 

@@ -8,6 +8,17 @@ type Query {
     hash(input: String!): Hash
 }
 
+type HiveUser @exclude {
+    id: ID!
+}
+
+type HiveOrganisation @exclude {
+    id: ID!
+}
+`
+
+/*
+
 type HiveOrganisation @auth(rules: [
 	{operations: [READ, UPDATE], where: {id: "$jwt.organisation"}},
 	{operations: [UPDATE, DELETE], bind: {id: "$jwt.organisation"}}
@@ -152,4 +163,4 @@ type HiveIntegrationInstance {
     config: String
     organisation: HiveOrganisation @relationship(type: "USES_INTEGRATION", direction: IN)
 }
-`
+*/

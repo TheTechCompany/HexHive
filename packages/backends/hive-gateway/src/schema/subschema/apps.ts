@@ -1,5 +1,9 @@
 export default `
 
+
+`
+
+/*
 extend type Mutation {
     updateHiveIntegrationInstanceState(id: ID, state: Boolean): Boolean
 }
@@ -69,4 +73,4 @@ type HiveIntegrationInstance {
     config: String
     organisation: HiveOrganisation @relationship(type: "USES_INTEGRATION", direction: IN)
 }
-`
+ */

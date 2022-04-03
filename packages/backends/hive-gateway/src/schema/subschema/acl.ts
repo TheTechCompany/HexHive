@@ -1,6 +1,10 @@
 export default `
 
-	extend type Mutation {
+	
+`
+
+/*
+extend type Mutation {
 		inviteHiveUser(name: String, email: String): String
 	}
 
@@ -86,4 +90,4 @@ export default `
 
 		roles: [Role!]! @relationship(type: "USES_PERMISSION", direction: IN)
 	}
-`
+*/

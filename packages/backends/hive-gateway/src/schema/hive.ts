@@ -5,7 +5,6 @@ import gql from "graphql-tag"
 import {OGM} from "@neo4j/graphql-ogm"
 import { nanoid } from "nanoid"
 import apps from "./subschema/apps"
-import automate from "./subschema/automate"
 
 // import files from "./subschema/files"
 import { TaskRegistry } from "../task-registry"
@@ -88,8 +87,8 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	const session = driver.session()
 
 	const ogm = new OGM({typeDefs, driver})
-	const HiveOrganisation = ogm.model("HiveOrganisation")
-	const HiveUser = ogm.model("HiveUser")
+	// const HiveOrganisation = ogm.model("HiveOrganisation")
+	// const HiveUser = ogm.model("HiveUser")
 
 	// const HiveFileProcess = ogm.model("HiveFileProcess")
 
@@ -112,12 +111,12 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 	// 	}
 	// `)
 	const resolvers = {
-		HiveIntegrationPath: {
-			collections: (source: any, args: any, context: any) => {
-				return [{name: "vw_Jsis_Jobs"}]
-				console.log(source, args, context)
-			}
-		},
+		// HiveIntegrationPath: {
+		// 	collections: (source: any, args: any, context: any) => {
+		// 		return [{name: "vw_Jsis_Jobs"}]
+		// 		console.log(source, args, context)
+		// 	}
+		// },
 		// HiveFile: {
 		// 	// path: (source: any, args: any, context: any) => {
 		// 	//     console.log(source, args, context)
@@ -231,73 +230,73 @@ export default  async (driver: Driver, taskRegistry: TaskRegistry) => {
 		},
 		Mutation: {
 		
-			updateHiveIntegrationInstanceState: async (root: any, args: any, context: any) => {
-				let org = context.user.organisation;
+			// updateHiveIntegrationInstanceState: async (root: any, args: any, context: any) => {
+			// 	let org = context.user.organisation;
 
-				const result = await session.writeTransaction(async (tx) => {
-					const r = await tx.run(`
-						MATCH (org:HiveOrganisation {id: $org})-[:USES_INTEGRATION]->(inst:HiveIntegrationInstance {id: $id})\
-						SET inst.isRunning = $state
-						RETURN inst
-					`, {
-						org,
-						id: args.id,
-						state: args.state
-					})
-					return r.records.map((x) => x.get(0).properties)
-				})
-				return result !== undefined
-			},
-			inviteHiveUser: async (root: any, args: {name: string, email: string}, context: any) => {
-				const users = await HiveUser.find({where: {username: args.email}, selectionSet: `
-					{
-						id
-						name
-						username
-					}
-				`})
+			// 	const result = await session.writeTransaction(async (tx) => {
+			// 		const r = await tx.run(`
+			// 			MATCH (org:HiveOrganisation {id: $org})-[:USES_INTEGRATION]->(inst:HiveIntegrationInstance {id: $id})\
+			// 			SET inst.isRunning = $state
+			// 			RETURN inst
+			// 		`, {
+			// 			org,
+			// 			id: args.id,
+			// 			state: args.state
+			// 		})
+			// 		return r.records.map((x) => x.get(0).properties)
+			// 	})
+			// 	return result !== undefined
+			// },
+			// inviteHiveUser: async (root: any, args: {name: string, email: string}, context: any) => {
+			// 	const users = await HiveUser.find({where: {username: args.email}, selectionSet: `
+			// 		{
+			// 			id
+			// 			name
+			// 			username
+			// 		}
+			// 	`})
 
-				let user = users[0]
-				let q = {};
+			// 	let user = users[0]
+			// 	let q = {};
 				
-				const pwd = nanoid()
+			// 	const pwd = nanoid()
 
-				const pwdHash = createHash('sha256').update(pwd).digest("hex")
-				if(user){
-					q = {connect: {where: {node: {id: user.id}}}}
-				}else{
-					q = {create: {node: { name: args.name, username: args.email, password: pwdHash}}}
-				}
-				const update = await HiveOrganisation.update({
-					update: {
-						members: [q]
-					}
-				})
+			// 	const pwdHash = createHash('sha256').update(pwd).digest("hex")
+			// 	if(user){
+			// 		q = {connect: {where: {node: {id: user.id}}}}
+			// 	}else{
+			// 		q = {create: {node: { name: args.name, username: args.email, password: pwdHash}}}
+			// 	}
+			// 	const update = await HiveOrganisation.update({
+			// 		update: {
+			// 			members: [q]
+			// 		}
+			// 	})
 
-				await sendInvite({
-					to: args.email, 
-					sender: context.user.name, 
-					receiver: args.name, 
-					link: `https://auth.hexhive.io/signup`
-				})
-				return "Invited"
-			},
-			updateHiveOrganisations: async (root: any, args: any, context: any) => {
-				if(!args.where) args.where = {}
-				if(args.where && !args.where.id){
-					args.where.id = context.user.organisation;
-				}
-				return await HiveOrganisation.update({
-					where: args.where, 
-					update: args.update, 
-					connect: args.connect, 
-					disconnect: args.disconnect, 
-					create: args.create, 
-					rootValue: root, 
-					args: args, 
-					context: context
-				})
-			},
+			// 	await sendInvite({
+			// 		to: args.email, 
+			// 		sender: context.user.name, 
+			// 		receiver: args.name, 
+			// 		link: `https://auth.hexhive.io/signup`
+			// 	})
+			// 	return "Invited"
+			// },
+			// updateHiveOrganisations: async (root: any, args: any, context: any) => {
+			// 	if(!args.where) args.where = {}
+			// 	if(args.where && !args.where.id){
+			// 		args.where.id = context.user.organisation;
+			// 	}
+			// 	return await HiveOrganisation.update({
+			// 		where: args.where, 
+			// 		update: args.update, 
+			// 		connect: args.connect, 
+			// 		disconnect: args.disconnect, 
+			// 		create: args.create, 
+			// 		rootValue: root, 
+			// 		args: args, 
+			// 		context: context
+			// 	})
+			// },
 			// publishHiveTask: async (root: any, args: any) => {
 			// 	const pipeline = await HiveProcess.find({where: {
 			// 		id: args.id,
