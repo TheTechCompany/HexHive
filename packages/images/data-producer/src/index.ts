@@ -98,7 +98,7 @@ const main = async () => {
     })
 
     worker.on('UPDATE', async (event: any) => {
-        // console.log("UPDATE", event)
+        console.log("UPDATE", event)
     
         let t = task.find((a: any) => a.family.cluster == event.id)
 
