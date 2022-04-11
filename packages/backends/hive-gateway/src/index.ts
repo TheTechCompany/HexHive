@@ -95,9 +95,11 @@ export class HiveGateway {
 			req.jwt = req.user;
 			next()
 		})
+		
 		this.router?.mount('/.well-known/jwks.json', (req: any, res: any) => {
 			res.send(this.keyManager.jwks)
 		})
+
 		this.router?.mount('/graphql',  (req: any, res: any, next: any) => {
 			if(req.user){
 				next();

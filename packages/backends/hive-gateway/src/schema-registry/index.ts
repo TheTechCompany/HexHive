@@ -11,6 +11,7 @@ import { DefaultContext, envelop, Maybe, useLazyLoadedSchema, useTiming } from '
 export interface SchemaEndpoint {
 	url: string;
 	key: string;
+	provides?: string[];
 	status?: 'available' | 'unavailable' | 'error';
 }
 

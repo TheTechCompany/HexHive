@@ -47,6 +47,7 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 
 		let headers : any = { 
 			// "Content-Type": multipart ? 'multipart/form-data' : "application/json",
+			'X-Hive-Gateway': process.env.GATEWAY_URL || 'http://localhost:7000/graphql'
 		}
 
 		if(!multipart){

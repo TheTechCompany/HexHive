@@ -166,6 +166,8 @@ export class HiveGraph {
 	isAuthenticated(req: any, res: any, next: any){
 		const hiveJwt = req.headers["x-hive-jwt"]?.toString();
 
+		const gatewayUrl = req.headers['x-hive-gateway']?.toString();
+
 		if (hiveJwt) {
 		  const verified = verify(
 			hiveJwt,
@@ -174,7 +176,9 @@ export class HiveGraph {
 		  );
 
 		  (req as any).token  = hiveJwt;
-		
+			
+		  (req as any).gatewayUrl = gatewayUrl;
+		  
 		  (req as any).jwt = {
 			  ...(verified as any || {}),
 			id: (verified as any)?.sub,
