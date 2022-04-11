@@ -49,6 +49,10 @@ export class HiveGateway {
 		return this.options.dev
 	}
 
+	get jwtSecret(){
+		return this.keyManager.publicKey
+	}
+
 	async init(){
 		this.initDB();
 		await this.keyManager.init()
