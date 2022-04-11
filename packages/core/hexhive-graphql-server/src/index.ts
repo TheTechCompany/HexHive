@@ -172,11 +172,14 @@ export class HiveGraph {
 			this.keys?.[0] || '',
 			{ algorithms: ["RS256"] }
 		  );
+
+		  (req as any).token  = hiveJwt;
 		
 		  (req as any).jwt = {
 			  ...(verified as any || {}),
 			id: (verified as any)?.sub,
 		  };
+
 		  next();
 		} else {
 		  res.send({ error: "No JWT" });
