@@ -41,6 +41,11 @@ jobs:
     name: Deploy DB Migration
     runs-on: ubuntu-latest
     env:
+      COMMAND_MONGO_URL: ${{ secrets.COMMAND_MONGO_URL }}
+      COMMAND_MONGO_DB: ${{ secrets.COMMAND_MONGO_DB }}
+      COMMAND_MONGO_USER: ${{ secrets.COMMAND_MONGO_USER }}
+      COMMAND_MONGO_PASS: ${{ secrets.COMMAND_MONGO_PASS }}
+      COMMAND_MONGO_AUTH_DB: ${{ secrets.COMMAND_MONGO_AUTH_DB }}
       PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}  
     steps: 
       - uses: actions/checkout@v2
