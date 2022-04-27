@@ -51,7 +51,9 @@ jobs:
       - run: pulumi stack select ultraviolet/staging
         working-directory: ./packages/infrastructure/apps
 
-      - run: echo "::set-output name=kubeconfig::$(pulumi stack output kubeconfig)" 
+      - run: mkdir .kube/
+
+      - run: echo $(pulumi stack output kubeconfig) > .kube/config.json
         working-directory: ./packages/infrastructure/apps
         id: kube_config
 
@@ -69,12 +71,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-region: ap-southeast-2
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        
-      - uses: actions-hub/kubectl@master
-        env: 
-          KUBE_CONFIG: ${{ steps.kube_config.outputs.kubeconfig }}
-        with:
-          args: port-forward ${{ steps.postgres_url.outputs.postgres }} 5432:5432
+      
+      - uses: azure/setup-kubectl@v2.0
+
+      - run: kubectl --kubeconfig ~/.kube/config.json port-forward ${{ steps.postgres_url.outputs.postgres }} 5432:5432
 
       - run: npx prisma migrate status
         env:
