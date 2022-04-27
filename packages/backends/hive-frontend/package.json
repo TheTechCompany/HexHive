@@ -11,8 +11,8 @@
   },
   "scripts": {
     "build": "tsc -b && cp package.json dist/",
-    "start": "ts-node -r tsconfig-paths/register src/server.ts",
-    "start:prod": "node dist/server.js",
+    "start": "ts-node -r tsconfig-paths/register src/server.tsx",
+    "start:prod": "node dist/server.jsx",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,21 +22,29 @@
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
     "@types/passport": "^1.0.7",
+    "@types/passport-local": "^1.0.34",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.4"
   },
   "dependencies": {
+    "@hexhive-core/login": "^1.0.0",
+    "@hexhive-core/login-v2": "^0.1.0",
+    "@hexhive/data": "^0.0.6-alpha.13",
     "@hexhive/microfrontend-server": "^0.0.6-alpha.42",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "greenlock-express": "^4.0.3",
     "mongodb": "^4.2.2",
     "neo4j-driver": "^4.4.1",
     "passport": "^0.5.2",
-    "passport-openidconnect": "0.1.1"
+    "passport-local": "^1.0.0",
+    "passport-openidconnect": "0.1.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "gitHead": "92dbd6f35a180402f000705602518556ca13d7d6"
 }

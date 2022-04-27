@@ -15,8 +15,8 @@ export const Roles = () => {
 
 	const { data } = useApollo(gql`
 		query Q {
-			hiveOrganisations {
-				appliances {
+			organisation {
+				applications {
 					id
 					name
 				}
@@ -24,10 +24,6 @@ export const Roles = () => {
 			roles {
 				id
 				name
-				appliances {
-					id
-					name
-				}
 			}
 		}
 	`)
@@ -36,17 +32,27 @@ export const Roles = () => {
 	}
 
 	const roles = data?.roles || [];
-	const apps = data?.hiveOrganisations?.[0]?.appliances || [];
+	const apps = data?.organisation?.applications || [];
 
 	const [ createRole, createInfo ] = useMutation((mutation, args: {name: string, email: string, add_apps?: string[]}) => {
-		const user = mutation.updateHiveOrganisations({update: {
-			roles: [{create: [{node: {name: args.name, appliances: {connect: [{where: {node: { id_IN: args.add_apps}}}]} } } ]}]
-		}})
+		const item = mutation.createRole({
+			input: {
+				name: args.name
+			}
+		})
+		// const user = mutation.updateHiveOrganisations({update: {
+		// 	roles: [{create: [{node: {name: args.name, appliances: {connect: [{where: {node: { id_IN: args.add_apps}}}]} } } ]}]
+		// }})
+		// return {
+		// 	item : {
+		// 		...user.hiveOrganisations[0]
+		// 	},
+		// 	err: null
+		// }
 		return {
-			item : {
-				...user.hiveOrganisations[0]
-			},
-			err: null
+			item: {
+				...item
+			}
 		}
 	}, {
 		refetchQueries: [],
@@ -55,14 +61,25 @@ export const Roles = () => {
 
 	const [ updateRole, updateInfo ] = useMutation((mutation, args: {id: string, name: string, add_apps?: string[], remove_apps?: string[]}) => {
 		if(!args.id) return {err: "No ID"}
-		const user = mutation.updateHiveOrganisations({update: {
-			roles: [{update: {node: {name: args.name, appliances:[ {connect: [{where: {node: {id_IN: args.add_apps}}}], disconnect: [{where: {node: {id_IN: args.remove_apps}}}]}] }}, where: {node: {id: args.id}}}]
-		}})
+		const item = mutation.updateRole({
+			id: args.id,
+			input: {
+				name: args.name
+			}
+		})
+		// const user = mutation.updateHiveOrganisations({update: {
+		// 	roles: [{update: {node: {name: args.name, appliances:[ {connect: [{where: {node: {id_IN: args.add_apps}}}], disconnect: [{where: {node: {id_IN: args.remove_apps}}}]}] }}, where: {node: {id: args.id}}}]
+		// }})
+		// return {
+		// 	item : {
+		// 		...user.hiveOrganisations[0]
+		// 	},
+		// 	err: null
+		// }
 		return {
-			item : {
-				...user.hiveOrganisations[0]
-			},
-			err: null
+			item: {
+				...item
+			}
 		}
 	}, {
 		refetchQueries: [],

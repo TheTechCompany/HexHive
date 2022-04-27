@@ -33,7 +33,7 @@ const main = (async () => {
 
     const hexhiveZone = await aws.route53.getZone({name: "hexhive.io"})
 
-    const greencoZone = await aws.route53.getZone({name: 'greenco.co.nz'});
+    // const greencoZone = await aws.route53.getZone({name: 'greenco.co.nz'});
 
     const vpc = await vpcId.apply(async (id) => await aws.ec2.getVpc({ id: id }));
 
@@ -41,7 +41,7 @@ const main = (async () => {
     const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`));
 
 
-    const greenScreen = await gatewayUrl.apply(async (url) => await GreenScreen(provider, vpc.id, config.require('greenco-api'), greencoZone, url));
+    // const greenScreen = await gatewayUrl.apply(async (url) => await GreenScreen(provider, vpc.id, config.require('greenco-api'), greencoZone, url));
     const hiveCommand = await gatewayUrl.apply(async (url) => await HiveCommand(provider, url));
     const hiveFlow = await gatewayUrl.apply(async (url) => await HiveFlow(provider, url));
 
@@ -50,7 +50,7 @@ const main = (async () => {
     return {
         gatewayUrl,
         frontendUrl,
-        greenScreen,
+        // greenScreen,
         hiveCommand,
         hiveFlow
     }
@@ -58,7 +58,7 @@ const main = (async () => {
 
 export const gatewayUrl = main.then(result => result.gatewayUrl)
 export const frontendUrl = main.then(result => result.frontendUrl)
-export const greenScreen = main.then(result => result.greenScreen.service.status.loadBalancer)
-export const greenScreenFs = main.then(result => result.greenScreen.efsVolume.id)
+// export const greenScreen = main.then(result => result.greenScreen.service.status.loadBalancer)
+// export const greenScreenFs = main.then(result => result.greenScreen.efsVolume.id)
 export const hiveCommand = main.then(result => result.hiveCommand.service.status.loadBalancer)
 export const hiveFlow = main.then(result => result.hiveFlow.service.status.loadBalancer)

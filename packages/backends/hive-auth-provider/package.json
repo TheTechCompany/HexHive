@@ -23,7 +23,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@hexhive/data-core": "^0.0.6-alpha.13",
+    "@hexhive/data": "^0.0.6-alpha.13",
     "@hexhive/types": "^0.0.6-alpha.42",
     "aws-sdk": "^2.999.0",
     "cookie-parser": "^1.4.5",

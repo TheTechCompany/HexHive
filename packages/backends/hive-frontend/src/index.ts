@@ -93,9 +93,9 @@ export class HiveFrontendServer {
       {
         name: '@hexhive-core/settings',
         config_url: `${
-          // process.env.NODE_ENV == "production" 
+          process.env.NODE_ENV == "production"  ?
             "https://apps.hexhive.io/settings/"
-            // : "http://localhost:8888/"
+            : "http://localhost:8888/"
         }hexhive-core-settings.js`
       },
       {
@@ -158,7 +158,6 @@ export class HiveFrontendServer {
     });
 
     this.app.get('/*', (req, res, next) => {
-      console.log(req.path)
       if(req.path.indexOf('/dashboard') < 0 && req.path.indexOf('/me') < 0 && req.path.indexOf('/login') < 0 && req.path.indexOf('/logout') < 0 && req.path.indexOf('/error') < 0) {
         res.redirect('/dashboard')
       }else{

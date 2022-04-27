@@ -17,19 +17,13 @@ export const Users = () => {
 
 	const { data } = useApollo(gql`
 		query Q{
-			hiveUsers {
+			users {
 				id
 				name
-				username
-				roles {
-					id
-					name
-				}
+				email
+
 			}
-			roles{
-				id
-				name
-			}
+		
 		}
 	`)
 
@@ -37,28 +31,28 @@ export const Users = () => {
 		client.refetchQueries({include: ['Q']})
 	}
 
-	const organisation = query.hiveOrganisations({where: {members: {id: activeUser.id}}})?.[0]
 
 	// const users = organisation.members() || []
 	// const users = query.hiveUsers({where: {organisation: {members: {id: activeUser?.id}}}})
 	// const roles = organisation.roles()  || [] // query.roles({where: {organisation: {id: activeUser?.id}}})
 
-	const users = data?.hiveUsers || [];
+	const users = data?.users || [];
 	const roles = data?.roles || [];
 
+	console.log({users})
 	// console.log(data)
 
 	// const users = query.hiveUsers({}).map((x) => ({...x, roles: x.roles()?.map((y) => ({...y}))}))
 	// const roles = query.roles({})
 
 	const [ createUser, createInfo ] = useMutation((mutation, args: {name: string, email: string}) => {
-		const user = mutation.inviteHiveUser({name: args.name, email: args.email})
-		return {
-			item : {
-				result: user
-			},
-			err: null
-		}
+		// const user = mutation.inviteHiveUser({name: args.name, email: args.email})
+		// return {
+		// 	item : {
+		// 		result: user
+		// 	},
+		// 	err: null
+		// }
 	}, {
 		refetchQueries: [],
 		awaitRefetchQueries: true
@@ -67,33 +61,33 @@ export const Users = () => {
 
 	const [ updateUser, updateInfo ] = useMutation((mutation, args: {id: string, name: string, email: string, add_roles: string[], remove_roles: string[]}) => {
 		if(!args.id) return {err: "No ID"}
-		const user = mutation.updateHiveOrganisations({update: {
-			members: [{
-				update: {
-					node: {
-						name: args.name, 
-						username: args.email, 
-						roles: [
-							{
-								connect: [
-									{where: {node: {id_IN: args.add_roles}}}
-								], 
-								disconnect: [
-									{where: {node: {id_IN: args.remove_roles}}}
-								]
-							}
-						]
-					}
-				}, 
-				where: {node: {id: args.id}}
-			}]
-		}})
-		return {
-			item : {
-				...user.hiveOrganisations[0]
-			},
-			err: null
-		}
+		// const user = mutation.updateHiveOrganisations({update: {
+		// 	members: [{
+		// 		update: {
+		// 			node: {
+		// 				name: args.name, 
+		// 				username: args.email, 
+		// 				roles: [
+		// 					{
+		// 						connect: [
+		// 							{where: {node: {id_IN: args.add_roles}}}
+		// 						], 
+		// 						disconnect: [
+		// 							{where: {node: {id_IN: args.remove_roles}}}
+		// 						]
+		// 					}
+		// 				]
+		// 			}
+		// 		}, 
+		// 		where: {node: {id: args.id}}
+		// 	}]
+		// }})
+		// return {
+		// 	item : {
+		// 		...user.hiveOrganisations[0]
+		// 	},
+		// 	err: null
+		// }
 	}, {
 		refetchQueries: [],
 		awaitRefetchQueries: true

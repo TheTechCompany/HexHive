@@ -51,6 +51,7 @@
   "dependencies": {
     "@apollo/client": "^3.5.6",
     "@hexhive/auth-ui": "^0.0.6-alpha.42",
+    "@hexhive/client": "^1.0.0",
     "@hexhive/styles": "^0.0.6-alpha.13",
     "@hexhive/ui": "^0.0.6-alpha.54",
     "@types/jest": "^26.0.23",

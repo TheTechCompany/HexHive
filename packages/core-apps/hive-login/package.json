@@ -1,0 +1,22 @@
+{
+  "name": "@hexhive-core/login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/App.tsx",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "grommet": "^2.22.0",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
+}

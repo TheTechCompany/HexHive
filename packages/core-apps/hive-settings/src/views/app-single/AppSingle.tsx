@@ -46,20 +46,20 @@ export const AppSingle = (props) => {
 				integration: {connect: {where: {node: {id: args.item.integration}}}},
 			}
 		}
-		const integration = mutation.updateHiveOrganisations({
-			update: {
-				integrations: [{create: [{node: {
-					...update,
-					name: args.item.name,
-					appliances: {connect: [{where: {node: {id: props.match.params.id}}}]}
-				}}]}]
-			}
-		})
-		return {
-			item: {
-				...integration.hiveOrganisations[0]
-			}
-		}
+		// const integration = mutation.updateHiveOrganisations({
+		// 	update: {
+		// 		integrations: [{create: [{node: {
+		// 			...update,
+		// 			name: args.item.name,
+		// 			appliances: {connect: [{where: {node: {id: props.match.params.id}}}]}
+		// 		}}]}]
+		// 	}
+		// })
+		// return {
+		// 	item: {
+		// 		...integration.hiveOrganisations[0]
+		// 	}
+		// }
 	})
 
 	const integrations = data?.hiveIntegrations || []
