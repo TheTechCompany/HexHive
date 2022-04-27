@@ -27,7 +27,7 @@ jobs:
       - run: yarn
         working-directory: ./packages/infrastructure/apps
 
-      - name: preview infra
+      - name: Update infrastructure
         uses: pulumi/actions@v3
         with:
           command: up
