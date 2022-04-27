@@ -71,6 +71,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-region: ap-southeast-2
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - run: aws eks get-token --cluster-name hexhive-cluster-eksCluster-506b63f
       
       - uses: azure/setup-kubectl@v2.0
 
