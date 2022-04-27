@@ -7,6 +7,7 @@ on:
 
 jobs:
   push_infra:
+    name: Update Pulumi Infra
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -23,7 +24,7 @@ jobs:
           aws-region: ap-southeast-2
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - run: npm i
+      - run: yarn
         working-directory: ./packages/infrastructure/apps
 
       - name: preview infra
