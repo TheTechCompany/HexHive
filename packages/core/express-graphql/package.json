@@ -8,6 +8,9 @@
 	"files": [
 		"dist/"
 	],
+	"scripts": {
+		"build": "tsc -b"
+	},
 	"types": "index.d.ts",
 	"typesVersions": {
 		"<3.8": {
