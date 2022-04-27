@@ -9,7 +9,6 @@
   "include": ["src/**/*", "node_modules/@types"],
   "exclude": ["src/**/*.test*"],
   "references": [
-    {"path": "../../core/hexhive-ui"},
     {"path": "../../shared/hexhive-auth-ui"},
     {"path": "../../shared/hexhive-styles"},
     {"path": "../../core/hexhive-client"}

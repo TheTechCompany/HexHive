@@ -101,7 +101,6 @@
   },
   "references": [
     {"path": "../../core/hexhive-microfrontend"},
-    {"path": "../../core-apps/hive-login-v2"},
     {"path": "../../core/hexhive-data"}
   ]
 }
