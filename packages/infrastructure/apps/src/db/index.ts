@@ -1,8 +1,13 @@
 import * as k8s from '@pulumi/kubernetes'
+import { Config } from '@pulumi/pulumi';
 
 export const ApplicationDB = (provider: k8s.Provider) => {
 
-    const depName = 'pgdb'
+    const config = new Config();
+
+    let suffix = config.require('suffix');
+    
+    const depName = `pgdb-${suffix}`
 
     const appLabels = {appClass: depName}
 
