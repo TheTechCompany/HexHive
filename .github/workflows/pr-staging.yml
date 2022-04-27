@@ -21,7 +21,7 @@ jobs:
           aws-region: ap-southeast-2
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
-      - run: npm i
+      - run: yarn
         working-directory: ./packages/infrastructure/apps
 
       - uses: pulumi/actions@v3
@@ -37,6 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
 
       - name: Install Pulumi CLI
         uses: pulumi/setup-pulumi@v2
