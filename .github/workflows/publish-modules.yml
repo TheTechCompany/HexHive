@@ -33,8 +33,6 @@ jobs:
       run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
 
     - name: "Version and publish" # Interesting step
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor}}@users.noreply.github.com"
@@ -45,4 +43,4 @@ jobs:
           npx lerna version --conventional-commits --conventional-graduate --yes
         fi
 
-        npx lerna publish from-git --yes
+        npx lerna publish from-git --yes --no-verify-access
