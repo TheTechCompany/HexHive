@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/frontend-server",
-  "version": "0.0.6-alpha.63",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -28,9 +28,9 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@hexhive-core/login-v2": "^0.1.0",
-    "@hexhive/data": "^0.0.6-alpha.13",
-    "@hexhive/microfrontend-server": "^0.0.6-alpha.42",
+    "@hexhive-core/login-v2": "^1.0.1",
+    "@hexhive/data": "^1.0.1",
+    "@hexhive/microfrontend-server": "^1.0.1",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.6",

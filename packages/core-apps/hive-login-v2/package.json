@@ -1,10 +1,10 @@
 {
   "name": "@hexhive-core/login-v2",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "private": true,
   "homepage": "login",
   "dependencies": {
-    "@hexhive/styles": "^0.0.6-alpha.13",
+    "@hexhive/styles": "^1.0.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
