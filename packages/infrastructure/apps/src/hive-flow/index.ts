@@ -31,8 +31,8 @@ export const HiveFlow = (provider: k8s.Provider, rootServer: string, dbUrl: Outp
                         volumeMounts: [
                         ],
                         env: [
-                            { name: 'CLIENT_ID', value: process.env.CLIENT_ID },
-                            { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET },
+                            // { name: 'CLIENT_ID', value: process.env.CLIENT_ID },
+                            // { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET },
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'ROOT_SERVER', value: `http://${rootServer}` },
                             { name: 'VERSION_SHIM', value: '1.0.5' },
@@ -40,7 +40,7 @@ export const HiveFlow = (provider: k8s.Provider, rootServer: string, dbUrl: Outp
 
                             // { name: 'UI_URL',  value: `https://${domainName}/dashboard` },
                             // { name: 'BASE_URL',  value: `https://${domainName}`},
-                            { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
+                            // { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             // { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                         ],
                         readinessProbe: {

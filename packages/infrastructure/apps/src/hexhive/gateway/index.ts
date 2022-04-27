@@ -163,8 +163,8 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                             { name: 'endpoints-config', mountPath: '/tmp/endpoints.json', subPath: 'endpoints.json' }
                         ],
                         env: [
-                            { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test'},
-                            { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
+                            // { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test'},
+                            // { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
