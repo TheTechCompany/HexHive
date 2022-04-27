@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes'
-import { Config } from '@pulumi/pulumi';
+import { Config, Output } from '@pulumi/pulumi';
 
-export const HiveCommand = (provider: k8s.Provider, rootServer: string) => {
+export const HiveCommand = (provider: k8s.Provider, rootServer: string, dbUrl: Output<string>) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
@@ -33,7 +33,7 @@ export const HiveCommand = (provider: k8s.Provider, rootServer: string) => {
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'ROOT_SERVER', value: `http://${rootServer}` },
                             {name: "RABBIT_URL",  value: process.env.RABBIT_URL},
-                            {name: "VERSION_SHIM", value: '1.0.8'},
+                            {name: "VERSION_SHIM", value: '1.0.10'},
                             {name: "TIMESERIES_HOST", value: process.env.TIMESERIES_HOST},
                             {name: "TIMESERIES_PASSWORD",  value: process.env.TIMESERIES_PASSWORD},
                             {name: "MONGO_URL", value: process.env.COMMAND_MONGO_URL},
@@ -41,6 +41,9 @@ export const HiveCommand = (provider: k8s.Provider, rootServer: string) => {
                             {name: "MONGO_USER", value: process.env.COMMAND_MONGO_USER},
                             {name: "MONGO_PASS", value: process.env.COMMAND_MONGO_PASS},
                             {name: "MONGO_AUTH_DB", value: process.env.COMMAND_MONGO_AUTH_DB},
+
+                            { name: "DATABASE_URL", value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/hivecommand`) },
+
                             // { name: 'UI_URL',  value: `https://${domainName}/dashboard` },
                             // { name: 'BASE_URL',  value: `https://${domainName}`},
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },

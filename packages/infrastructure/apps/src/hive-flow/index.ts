@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes'
-import { Config } from '@pulumi/pulumi';
+import { Config, Output } from '@pulumi/pulumi';
 
-export const HiveFlow = (provider: k8s.Provider, rootServer: string) => {
+export const HiveFlow = (provider: k8s.Provider, rootServer: string, dbUrl: Output<string>) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
@@ -36,6 +36,8 @@ export const HiveFlow = (provider: k8s.Provider, rootServer: string) => {
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'ROOT_SERVER', value: `http://${rootServer}` },
                             { name: 'VERSION_SHIM', value: '1.0.5' },
+                            { name: "DATABASE_URL", value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/hiveflow`) },
+
                             // { name: 'UI_URL',  value: `https://${domainName}/dashboard` },
                             // { name: 'BASE_URL',  value: `https://${domainName}`},
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },

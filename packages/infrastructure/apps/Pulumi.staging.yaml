@@ -4,7 +4,7 @@ config:
   apps:frontend-url: staging.hexhive.io
   apps:gateway-url: staging-api.hexhive.io
   apps:suffix: staging
-  apps:image-tag: latest-next
+  apps:image-tag: staging
   apps:org: ultraviolet
   apps:redundancy: 1
   apps:postgres-password: test

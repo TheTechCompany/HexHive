@@ -6,4 +6,6 @@ config:
   apps:suffix: production
   apps:image-tag: latest
   apps:org: ultraviolet
-  apps:redundancy: 2
+  apps:redundancy: 1
+  apps:postgres-password: test
+
