@@ -51,9 +51,9 @@ jobs:
       - run: pulumi stack select ultraviolet/staging
         working-directory: ./packages/infrastructure/apps
 
-      - run: mkdir .kube/
+      - run: mkdir ~/.kube/
 
-      - run: echo $(pulumi stack output kubeconfig) > .kube/config.json
+      - run: echo $(pulumi stack output kubeconfig) > ~/.kube/config.json
         working-directory: ./packages/infrastructure/apps
         id: kube_config
 
