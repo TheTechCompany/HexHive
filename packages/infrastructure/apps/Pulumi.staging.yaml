@@ -7,3 +7,4 @@ config:
   apps:image-tag: latest-next
   apps:org: ultraviolet
   apps:redundancy: 1
+  apps:postgres-password: test

@@ -40,8 +40,8 @@ const main = (async () => {
 
     const { service } = await ApplicationDB(provider);
 
-    const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`));
-    const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`));
+    const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`), service.metadata.name);
+    const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`), service.metadata.name);
 
 
     // const greenScreen = await gatewayUrl.apply(async (url) => await GreenScreen(provider, vpc.id, config.require('greenco-api'), greencoZone, url));

@@ -5,7 +5,7 @@ import { Config, Output } from "@pulumi/pulumi";
 import { env } from "process";
 import { ec2 } from '@pulumi/awsx'
 
-export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<string>, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>) => {
+export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<string>, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>, dbUrl: Output<string>) => {
     // Create an EKS cluster with the default configuration.
     // const cluster = new eks.Cluster("my-cluster");
 
@@ -171,7 +171,9 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI || 'localhost' },
                             { name: 'VERSION_SHIM', value: '1.0.5' },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
-                            { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' }
+                            { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
+                            { name: 'DATABASE_URL', value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/postgres`) },
+
                         ],
                         resources: {
                             requests: {

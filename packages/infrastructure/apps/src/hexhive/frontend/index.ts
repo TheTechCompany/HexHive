@@ -3,7 +3,7 @@ import * as k8s from "@pulumi/kubernetes";
 import * as aws from '@pulumi/aws'
 import { Config, output, Output } from "@pulumi/pulumi";
 
-export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.route53.GetZoneResult, domainName: string, backendUrl: string, mongoUrl: Output<string>) => {
+export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.route53.GetZoneResult, domainName: string, backendUrl: string, mongoUrl: Output<string>, dbUrl: Output<string>) => {
     // Create an EKS cluster with the default configuration.
     // const cluster = new eks.Cluster("my-cluster");
 
@@ -70,6 +70,7 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
                             { name: 'VERSION_SHIM', value: '1.0.4' },
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
+                            { name: "DATABASE_URL", value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/postgres`) },
                         ],
                         readinessProbe: {
                             tcpSocket: {

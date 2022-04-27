@@ -25,8 +25,15 @@ export const ApplicationDB = (provider: k8s.Provider) => {
                     containers: [{
                         name: depName,
                         image: 'postgres:latest',
-                        ports: [{name: 'postgres', containerPort: 5432}]
-                    }]
+                        ports: [{name: 'postgres', containerPort: 5432}],
+                        env: [
+                            {
+                                name: 'POSTGRES_PASSWORD',
+                                value: config.require('postgres-password')
+                            }
+                        ]
+                    }],
+                    
                 }
             }
         }
