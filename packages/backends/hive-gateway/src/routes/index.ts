@@ -30,8 +30,8 @@ const whitelist = [
 	"https://go.hexhive.io"
 ]
 
-export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Router => {
-	const neo_session = neo4j.session()
+export const DefaultRouter = (taskRegistry: TaskRegistry) : Router => {
+	// const neo_session = neo4j.session()
 
 	// const eventClient = new HiveEvents({
 	// 	url: process.env.HIVE_EVENT_URL || "http://localhost:7000",
@@ -81,10 +81,10 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 	// 	next()
 	// })
 
-	if(fileManager) router.use("/api/files", FileRouter(fileManager, neo_session))
-	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
+	// if(fileManager) router.use("/api/files", FileRouter(fileManager, neo_session))
+	// if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
 
-	router.use("/api/events", EventRouter(neo_session))
+	// router.use("/api/events", EventRouter(neo_session))
 
 	router.get("/me", ensureLoggedIn, async (req: any, res) => {
 		

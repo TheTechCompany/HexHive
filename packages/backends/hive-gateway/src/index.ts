@@ -35,7 +35,7 @@ export class HiveGateway {
 	private schemaRegistry?: SchemaRegistry;
 	private schemaReloader?: NodeJS.Timer;
 
-	private neoDriver?: Driver;
+	// private neoDriver?: Driver;
 
 	private pool?: Pool;
 
@@ -73,9 +73,7 @@ export class HiveGateway {
 		console.log({token});
 		
 
-		this.router = new HiveRouter({
-			neoDriver: this.neoDriver
-		})
+		this.router = new HiveRouter({})
 
 		await this.initHive();
 		await this.initRouter()
@@ -108,8 +106,8 @@ export class HiveGateway {
 	}
 
 	initRouter(){
-		if(!this.neoDriver) return;
-		this.router?.mount(DefaultRouter(this.neoDriver, this.taskRegistry)) 
+		// if(!this.neoDriver) return;
+		this.router?.mount(DefaultRouter(this.taskRegistry)) 
 
 		this.router?.mount('*', (req: any, res: any, next: any) => {
 			// console.log({user: req.user, jwt: (req as any).jwt});
@@ -142,12 +140,12 @@ export class HiveGateway {
 			password: process.env.DB_PASSWORD || "test",
 		})
 
-		this.neoDriver = neo4j.driver(
-			process.env.NEO4J_URI || "localhost",
-			neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
-		)
+		// this.neoDriver = neo4j.driver(
+		// 	process.env.NEO4J_URI || "localhost",
+		// 	neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
+		// )
 
-		this.neoSession = this.neoDriver.session();
+		// this.neoSession = this.neoDriver.session();
 	}
 
 }
