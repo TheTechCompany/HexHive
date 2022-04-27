@@ -114,7 +114,6 @@ export class HiveGraph {
 	async init(){
 		await this.getRootConfiguration()
 
-		// if(!this.schema) return;
 		if(this.schema){
 			this.router.use(bodyParser.json());
 			if(!this.isDev) this.router.use('/graphql', this.isAuthenticated.bind(this))
