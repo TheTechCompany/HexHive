@@ -9,7 +9,6 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"prettier": "@hexhive/prettier-config",
 	"bin": {
 		"hive-gateway": "./dist/server"
 	},
