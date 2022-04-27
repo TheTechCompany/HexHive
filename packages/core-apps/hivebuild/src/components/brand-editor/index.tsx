@@ -1,6 +1,6 @@
 import { Box, Text, Image, TextArea, TextInput, Button } from 'grommet';
 import { Upload } from 'grommet-icons';
-import { HexImage } from '@hexhive/ui'
+// import { HexImage } from '@hexhive/ui'
 import React from 'react';
 
 export interface BrandEditorProps {
@@ -19,10 +19,10 @@ export const BrandEditor : React.FC<BrandEditorProps> = (props) => {
                 elevation="small" direction="row">
                 <Box pad="small">
 
-            <HexImage 
+            {/* <HexImage 
                 height={200}
                 width={200}
-                src={"https://via.placeholder.com/150"} />
+                src={"https://via.placeholder.com/150"} /> */}
                 <Button primary icon={<Upload />} label="Upload" />
                 </Box>
             <Box

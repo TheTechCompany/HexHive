@@ -3,31 +3,31 @@ import { Add } from 'grommet-icons'
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { AppModal } from '../../modals/app-modal';
-import {  useMutation, useQuery  } from '@hexhive/client';
+// import {  useMutation, useQuery  } from '@hexhive/client';
 export interface AppListProps extends RouteComponentProps {
     
 }
 export const AppList : React.FC<AppListProps> = (props) => {
     const [ modalOpen, openModal ] = useState<boolean>(false)
 
-    const query = useQuery({suspense: false, staleWhileRevalidate: true})
+    // const query = useQuery({suspense: false, staleWhileRevalidate: true})
 
-    const [ createAppliance, createInfo ] = useMutation((mutation, args: {name: string}) => {
-       const item = mutation.createHiveAppliances({input: [{
-            name: args.name
-        }]})
-        return {
-            item: {
-                ...item.hiveAppliances[0]
-            },
-            err: null
-        }
-    }, {
-        suspense: false,
-        awaitRefetchQueries: true,
-        refetchQueries: [query.hiveAppliances()]
-    })
-    const apps = query.hiveAppliances()
+    // const [ createAppliance, createInfo ] = useMutation((mutation, args: {name: string}) => {
+    //    const item = mutation.createHiveAppliances({input: [{
+    //         name: args.name
+    //     }]})
+    //     return {
+    //         item: {
+    //             ...item.hiveAppliances[0]
+    //         },
+    //         err: null
+    //     }
+    // }, {
+    //     suspense: false,
+    //     awaitRefetchQueries: true,
+    //     refetchQueries: [query.hiveAppliances()]
+    // })
+    // const apps = query.hiveAppliances()
 
     return (
         <Box 
@@ -35,12 +35,12 @@ export const AppList : React.FC<AppListProps> = (props) => {
             <AppModal
                 open={modalOpen}
                 onSubmit={(app) => {
-                    createAppliance({args: {
-                        name: app.name
-                    }}).then(() => {
-                        openModal(false)
+                    // createAppliance({args: {
+                    //     name: app.name
+                    // }}).then(() => {
+                    //     openModal(false)
 
-                    })
+                    // })
                 }}
                 onClose={() => openModal(false)} />
             <Box  
@@ -66,11 +66,11 @@ export const AppList : React.FC<AppListProps> = (props) => {
                             hoverIndicator 
                             style={{borderRadius: 8}} />
                     </Box>
-                <List
+                {/* <List
                     primaryKey={"name"} 
                     onClickItem={({item}) => props.history.push(`/${item.id}`)}
                     data={apps}
-                    />
+                    /> */}
             </Box>
         </Box>
     )

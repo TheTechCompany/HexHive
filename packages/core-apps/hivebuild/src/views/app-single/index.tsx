@@ -1,4 +1,4 @@
-import { useQuery } from '@hexhive/client';
+// import { useQuery } from '@hexhive/client';
 import { Box, Button, List, Text } from 'grommet';
 import React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
@@ -11,9 +11,9 @@ export interface AppSingleProps extends RouteComponentProps<{id: string}>{
     
 }
 export const AppSingle : React.FC<AppSingleProps> = (props) => {
-    const query = useQuery({suspense: false, staleWhileRevalidate: true})
+    // const query = useQuery({suspense: false, staleWhileRevalidate: true})
 
-    const app = query.hiveAppliances({where: {id: props.match.params.id}})?.[0]
+    // const app = query.hiveAppliances({where: {id: props.match.params.id}})?.[0]
     const menu = [
         {
             path: '/brand',
@@ -38,7 +38,7 @@ export const AppSingle : React.FC<AppSingleProps> = (props) => {
                         background="accent-1"
                         pad="xsmall"
                         direction="row">
-                        <Text>{app.name}</Text>
+                        {/* <Text>{app.name}</Text> */}
                     </Box>
                     <Box flex>
                     <List 
@@ -51,9 +51,9 @@ export const AppSingle : React.FC<AppSingleProps> = (props) => {
                 </Box>
                 <Box flex elevation="small">
                     <Switch>
-                        <Route path={`${props.match.url}/brand`} render={(props) => <BrandEditor app={app} {...props} />} />
-                        <Route path={`${props.match.url}/services`} render={(props) => <ServiceEditor {...props} app={app} />}/>
-                        <Route path={`${props.match.url}/permissions`} render={(props) => <ScopeEditor {...props} app={app} />} />
+                        {/* <Route path={`${props.match.url}/brand`} render={(props) => <BrandEditor app={app} {...props} />} /> */}
+                        {/* <Route path={`${props.match.url}/services`} render={(props) => <ServiceEditor {...props} app={app} />}/> */}
+                        {/* <Route path={`${props.match.url}/permissions`} render={(props) => <ScopeEditor {...props} app={app} />} /> */}
                         <Route path={`${props.match.url}/builder`} component={AppBuilder} />
                     </Switch>
                 </Box>
