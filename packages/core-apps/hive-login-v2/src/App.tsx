@@ -3,7 +3,7 @@ import { BaseStyle } from '@hexhive/styles'
 import { Box, Button, Grommet, Text, TextInput } from 'grommet'
 import { useState } from 'react'
 
-export default (props: {authURL?: string}) => {
+const App = (props: {authURL?: string}) => {
 
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -48,7 +48,7 @@ export default (props: {authURL?: string}) => {
                       <Text size="small">Password</Text>
                       <TextInput 
                         onKeyDown={(e) => {
-                          if(e.key == "Enter"){
+                          if(e.key === "Enter"){
                             login();
                           }
                         }}
@@ -75,3 +75,5 @@ export default (props: {authURL?: string}) => {
       </Grommet>
     )
 }
+
+export default App;
