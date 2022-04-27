@@ -8,6 +8,7 @@ import { Config } from "@pulumi/pulumi";
 import * as aws from '@pulumi/aws'
 import * as awsx from '@pulumi/awsx'
 
+import { ApplicationDB } from './src/db'
 import { HiveFlow } from './src/hive-flow'
 import { HiveCommand } from './src/hive-command'
 import { GreenScreen } from './src/green-screen'
@@ -36,6 +37,8 @@ const main = (async () => {
     // const greencoZone = await aws.route53.getZone({name: 'greenco.co.nz'});
 
     const vpc = await vpcId.apply(async (id) => await aws.ec2.getVpc({ id: id }));
+
+    const { service } = await ApplicationDB(provider);
 
     const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`));
     const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`));
