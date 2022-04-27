@@ -74,7 +74,7 @@ jobs:
       
       - uses: azure/setup-kubectl@v2.0
 
-      - run: kubectl --kubeconfig ~/.kube/config.json port-forward ${{ steps.postgres_url.outputs.postgres }} 5432:5432
+      - run: kubectl --kubeconfig ~/.kube/config.json port-forward deployment/${{ steps.postgres_url.outputs.postgres }} 5432:5432
 
       - run: npx prisma migrate status
         env:
