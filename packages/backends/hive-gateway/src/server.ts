@@ -50,10 +50,10 @@ const argv = yargs(hideBin(process.argv)).options({
 	const app = express()
 	const server = createServer(app)
 
-	const neoDriver = neo4j.driver(
-		process.env.NEO4J_URI || "localhost",
-		neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
-	)
+	// const neoDriver = neo4j.driver(
+	// 	process.env.NEO4J_URI || "localhost",
+	// 	neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
+	// )
 	
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
 
@@ -130,59 +130,59 @@ const argv = yargs(hideBin(process.argv)).options({
 		console.log("JWT", {payload})
 		
 		if(payload.key){
-			const session = neoDriver?.session();
-			session?.run(`
-				MATCH (org:HiveOrganisation)-[:HAS_KEY]->(:HiveKey {key: $key})-[:HAS_PERMISSION]->(apps:HiveAppliance)
+			// const session = neoDriver?.session();
+			// session?.run(`
+			// 	MATCH (org:HiveOrganisation)-[:HAS_KEY]->(:HiveKey {key: $key})-[:HAS_PERMISSION]->(apps:HiveAppliance)
 
-				RETURN {
-					organisation: org.id,
-					applications: collect(apps{.*})
-				}
-			`, {
-				key: payload.key
-			}).then((data) => {
-				const user = data?.records?.[0]?.get(0);
+			// 	RETURN {
+			// 		organisation: org.id,
+			// 		applications: collect(apps{.*})
+			// 	}
+			// `, {
+			// 	key: payload.key
+			// }).then((data) => {
+			// 	const user = data?.records?.[0]?.get(0);
 
-				session.close()
-				done(null, {type: 'api-key', ...user})
-			})
+			// 	session.close()
+			// 	done(null, {type: 'api-key', ...user})
+			// })
 		}else{
 			done(null, {type: 'app-2-app', ...payload})
 		}
 
 	}))
 		
-	passport.use('oidc', new OidcStrategy({
-		...config,
-		skipUserProfile: false
-	}, (issuer: any, profile: any, done: any) => {
-		console.log({profile})
-		const session = neoDriver?.session();
-		session?.run(`
-		  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
-		  CALL {
-			  WITH user
-			MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-			RETURN distinct(apps{.*}) as apps
-		  }
-		  RETURN user{
-			id: user.id,
-			name: user.name,
-			organisation: org.id,
-			applications: collect(apps{.*})
-		  }
-		`, {
+	// passport.use('oidc', new OidcStrategy({
+	// 	...config,
+	// 	skipUserProfile: false
+	// }, (issuer: any, profile: any, done: any) => {
+	// 	console.log({profile})
+	// 	const session = neoDriver?.session();
+	// 	session?.run(`
+	// 	  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+	// 	  CALL {
+	// 		  WITH user
+	// 		MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+	// 		RETURN distinct(apps{.*}) as apps
+	// 	  }
+	// 	  RETURN user{
+	// 		id: user.id,
+	// 		name: user.name,
+	// 		organisation: org.id,
+	// 		applications: collect(apps{.*})
+	// 	  }
+	// 	`, {
 		  
-			id: profile.id,
+	// 		id: profile.id,
 		  
-		}).then((data) => {
+	// 	}).then((data) => {
 		  
-		  const user = data.records?.[0].get(0);
+	// 	  const user = data.records?.[0].get(0);
 		  
-		  session.close()
-		  done(null, user);
-		})
-	}))
+	// 	  session.close()
+	// 	  done(null, user);
+	// 	})
+	// }))
 
 
 	console.log(`=> Starting Gateway`)

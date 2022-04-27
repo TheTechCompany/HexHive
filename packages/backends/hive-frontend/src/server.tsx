@@ -55,13 +55,13 @@ const config = {
 	app.set('view engine', 'ejs');
 	app.set('views', path.resolve(__dirname, './views'));
 
-	const neoDriver = driver(
-		process.env.NEO4J_URI || "neo4j://localhost",
-		auth.basic(
-			process.env.NEO4J_USER || "neo4j",
-			process.env.NEO4J_PASSWORD || "test"
-		)
-	);
+	// const neoDriver = driver(
+	// 	process.env.NEO4J_URI || "neo4j://localhost",
+	// 	auth.basic(
+	// 		process.env.NEO4J_USER || "neo4j",
+	// 		process.env.NEO4J_PASSWORD || "test"
+	// 	)
+	// );
 
 
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : { cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' } }
@@ -200,48 +200,51 @@ const config = {
 		] : [],
 		getViews: async (req) => {
 
-			const session = neoDriver?.session()
+			// const session = neoDriver?.session()
 
-			const apps = await session?.readTransaction(async (tx) => {
-				let apps: any[] = [];
+			// const apps = await session?.readTransaction(async (tx) => {
+			// 	let apps: any[] = [];
 
-				if (!req || !req.user.id) {
-					const result = await tx?.run(`
-						MATCH (apps:HiveAppliance)
-						WHERE apps.entrypoint IS NOT NULL
-						RETURN distinct(apps{.*})
-					`);
+			// 	if (!req || !req.user.id) {
+			// 		const result = await tx?.run(`
+			// 			MATCH (apps:HiveAppliance)
+			// 			WHERE apps.entrypoint IS NOT NULL
+			// 			RETURN distinct(apps{.*})
+			// 		`);
 
-					apps = result?.records.map((x) => x.get(0)) || [];
-				} else {
-					const result = await tx?.run(
-						`
-						MATCH (user:HiveUser {id: $id})-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-						WHERE apps.entrypoint IS NOT NULL
-						RETURN distinct(apps{.*})
-					`,
-						{
-							id: req.user.id,
-						}
-					);
+			// 		apps = result?.records.map((x) => x.get(0)) || [];
+			// 	} else {
+			// 		const result = await tx?.run(
+			// 			`
+			// 			MATCH (user:HiveUser {id: $id})-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+			// 			WHERE apps.entrypoint IS NOT NULL
+			// 			RETURN distinct(apps{.*})
+			// 		`,
+			// 			{
+			// 				id: req.user.id,
+			// 			}
+			// 		);
 
-					apps = result?.records.map((x) => x.get(0)) || [];
-				}
-				return apps || [];
-			}) || [];
+			// 		apps = result?.records.map((x) => x.get(0)) || [];
+			// 	}
+			// 	return apps || [];
+			// }) || [];
 
-			session?.close()
+			// session?.close()
 
-			const views = (apps || []).map((app) => ({
-				name: app.name,
-				path: app.slug,
-				default: false,
-			}))
+			// const views = (apps || []).map((app) => ({
+			// 	name: app.name,
+			// 	path: app.slug,
+			// 	default: false,
+			// }))
 
-			const appliances = apps?.map((app) => ({
-				name: app.name,
-				config_url: deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint,
-			}))
+			// const appliances = apps?.map((app) => ({
+			// 	name: app.name,
+			// 	config_url: deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint,
+			// }))
+
+			const views : any[] = [];
+			const appliances : any[] = [];
 
 			return { views: views, apps: appliances }
 
