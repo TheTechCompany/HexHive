@@ -28,7 +28,6 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@hexhive-core/login": "^1.0.0",
     "@hexhive-core/login-v2": "^0.1.0",
     "@hexhive/data": "^0.0.6-alpha.13",
     "@hexhive/microfrontend-server": "^0.0.6-alpha.42",
