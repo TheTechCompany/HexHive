@@ -15,6 +15,9 @@ jobs:
       COMMAND_MONGO_USER: ${{ secrets.COMMAND_MONGO_USER }}
       COMMAND_MONGO_PASS: ${{ secrets.COMMAND_MONGO_PASS }}
       COMMAND_MONGO_AUTH_DB: ${{ secrets.COMMAND_MONGO_AUTH_DB }}
+      RABBIT_URL: ${{ secrets.RABBIT_URL }}
+      TIMESERIES_HOST: ${{ secrets.TIMESERIES_HOST }}
+      TIMESERIES_PASSWORD: ${{ secrets.TIMESERIES_PASSWORD }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
