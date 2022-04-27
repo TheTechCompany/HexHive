@@ -7,8 +7,7 @@ jobs:
   preview-infra:
     name: Preview Infra changes
     runs-on: ubuntu-latest
-    env:
-      PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}  
+   
     steps:
       - uses: actions/checkout@v2
 
@@ -37,6 +36,8 @@ jobs:
   preview-db:
     name: Preview DB Migration
     runs-on: ubuntu-latest
+    env:
+      PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}  
     steps: 
       - uses: actions/checkout@v2
 
