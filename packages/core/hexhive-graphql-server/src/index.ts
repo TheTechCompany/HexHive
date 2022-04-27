@@ -88,7 +88,6 @@ export class HiveGraph {
 				}
 			])
 
-
 			console.log('=> HiveGraph: Merged TypeDefs')
 
 			this.schema = makeExecutableSchema({
@@ -104,7 +103,6 @@ export class HiveGraph {
 		})
 		
 		this.router = Router()
-
 	}
 
 	get isDev(){
