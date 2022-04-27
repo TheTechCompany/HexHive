@@ -1,0 +1,84 @@
+name: Staging Infrastructure
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  push_infra:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ap-southeast-2
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - run: npm i
+        working-directory: ./packages/infrastructure/apps
+
+      - name: preview infra
+        uses: pulumi/actions@v3
+        with:
+          command: up
+          stack-name: ultraviolet/staging
+          work-dir: ./packages/infrastructure/apps
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+  preview-db:
+    name: Deploy DB Migration
+    runs-on: ubuntu-latest
+    env:
+      PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}  
+    steps: 
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install Pulumi CLI
+        uses: pulumi/setup-pulumi@v2
+
+      - run: pulumi stack select ultraviolet/staging
+        working-directory: ./packages/infrastructure/apps
+
+      - run: mkdir ~/.kube/
+
+      - run: echo $(pulumi stack output kubeconfig) > ~/.kube/config.json
+        working-directory: ./packages/infrastructure/apps
+        id: kube_config
+
+      - run: echo "::set-output name=postgres::$(pulumi stack output postgres_name )" 
+        working-directory: ./packages/infrastructure/apps
+        id: postgres_url
+      
+      - run: echo "::set-output name=pass::$(pulumi stack output postgres_pass )" 
+        working-directory: ./packages/infrastructure/apps
+        id: postgres_pass
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ap-southeast-2
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
+      - uses: azure/setup-kubectl@v2.0
+
+      - run: kubectl --kubeconfig ~/.kube/config.json port-forward deployment/${{ steps.postgres_url.outputs.postgres }} 5432:5432 &
+
+      - run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:${{ steps.postgres_pass.outputs.pass }}@localhost:5432/postgres
+        working-directory: ./packages/core/hexhive-data/

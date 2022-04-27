@@ -38,15 +38,15 @@ const main = (async () => {
 
     const vpc = await vpcId.apply(async (id) => await aws.ec2.getVpc({ id: id }));
 
-    const { service } = await ApplicationDB(provider);
+    const { service: dbService, deployment: dbDeployment } = await ApplicationDB(provider);
 
-    const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`), service.metadata.name);
-    const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`), service.metadata.name);
+    const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`), dbService.metadata.name);
+    const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`), dbService.metadata.name);
 
 
     // const greenScreen = await gatewayUrl.apply(async (url) => await GreenScreen(provider, vpc.id, config.require('greenco-api'), greencoZone, url));
-    const hiveCommand = await gatewayUrl.apply(async (url) => await HiveCommand(provider, url));
-    const hiveFlow = await gatewayUrl.apply(async (url) => await HiveFlow(provider, url));
+    const hiveCommand = await gatewayUrl.apply(async (url) => await HiveCommand(provider, url, dbService.metadata.name));
+    const hiveFlow = await gatewayUrl.apply(async (url) => await HiveFlow(provider, url, dbService.metadata.name));
 
     // const hiveFlowIntegration = await HiveFlowIntegration(provider);
 
@@ -54,8 +54,12 @@ const main = (async () => {
         gatewayUrl,
         frontendUrl,
         // greenScreen,
+        dbService,
+        dbDeployment,
+        dbPass: config.require('postgres-password'),
         hiveCommand,
-        hiveFlow
+        hiveFlow,
+        kubeconfig
     }
 })()
 
@@ -65,3 +69,8 @@ export const frontendUrl = main.then(result => result.frontendUrl)
 // export const greenScreenFs = main.then(result => result.greenScreen.efsVolume.id)
 export const hiveCommand = main.then(result => result.hiveCommand.service.status.loadBalancer)
 export const hiveFlow = main.then(result => result.hiveFlow.service.status.loadBalancer)
+
+export const kubeconfig = main.then(result => result.kubeconfig)
+
+export const postgres_name = main.then((result) => result.dbDeployment.metadata.name)
+export const posgres_pass = main.then((result) => result.dbPass)
