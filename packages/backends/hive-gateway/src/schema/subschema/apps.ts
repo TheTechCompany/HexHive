@@ -1,7 +1,92 @@
-export default `
+import { PrismaClient } from "@prisma/client"
+
+export default (prisma: PrismaClient) => {
+    const typeDefs = `
+
+        type Query {
+            hiveAppliances: [HiveAppliance!]!
+        }
+
+        type HiveAppliance {
+            id: ID! 
+            name: String!
+            label: String
+            description: String
+
+            types: [HiveType!]! 
+            
+            permissions: [Permission!]! 
+            services: [HiveService!]!
+
+        }
 
 
-`
+        type HiveType {
+            id: ID! 
+            name: String
+            fields: [HiveTypeField!]! 
+
+            usedIn: [HiveAppliance!]! 
+            
+        }
+
+        type HiveTypeField {
+            id: ID! 
+            name: String
+            type: String
+        }
+
+        type HiveService {
+            id: ID!
+            name: String
+        }
+
+
+        type HiveIntegration {
+            id: ID! 
+            name: String
+            description: String
+        }
+
+        type HiveIntegrationInstance {
+            id: ID! 
+            name: String
+        
+            isRunning: Boolean 
+        
+            connections: [HiveIntegrationPath!]!
+            integration: HiveIntegration 
+            appliances: [HiveAppliance!]! 
+            config: String
+            organisation: HiveOrganisation 
+        }
+
+        type HiveIntegrationPathCollection {
+            name: String
+        }
+        
+        type HiveIntegrationPath {
+            id: ID! 
+            name: String
+            type: String
+            collections: [HiveIntegrationPathCollection]
+            connectionBlob: String
+            instance: HiveIntegrationInstance 
+        }
+    `
+
+    const resolvers = {
+        Query: {
+            hiveAppliances: async () => {
+                const appliances = await prisma.application.findMany()
+
+                return appliances
+            }
+        }
+    }
+
+    return {typeDefs, resolvers}
+}
 
 /*
 extend type Mutation {
@@ -15,7 +100,7 @@ type HiveService {
 
 
 type HiveType {
-    id: ID! @id
+    id: ID! 
     name: String
     fields: [HiveTypeField!]! @relationship(type: "HAS_FIELD", direction: OUT)
 
@@ -24,13 +109,13 @@ type HiveType {
 }
 
 type HiveTypeField {
-    id: ID! @id
+    id: ID! 
     name: String
     type: String
 }
 
 type HiveAppliance {
-    id: ID! @id
+    id: ID! 
     name: String!
     label: String
     description: String
@@ -47,7 +132,7 @@ type HiveIntegrationPathCollection {
 }
 
 type HiveIntegrationPath {
-    id: ID! @id
+    id: ID! 
     name: String
     type: String
     collections: [HiveIntegrationPathCollection]
@@ -56,13 +141,13 @@ type HiveIntegrationPath {
 }
 
 type HiveIntegration {
-    id: ID! @id
+    id: ID! 
     name: String
     description: String
 }
 
 type HiveIntegrationInstance {
-    id: ID! @id
+    id: ID! 
     name: String
 
     isRunning: Boolean @readonly

@@ -51,33 +51,33 @@ export const IntegrationSingle = (props) => {
 
 
 	const [ updateState, updateInfo ] = useMutation((mutation, args: {id: string, state :boolean}) => {
-		const res = mutation.updateHiveIntegrationInstanceState({
-			id: args.id,
-			state: args.state
-		})
-		return {
-			item: res,
-			err: null
-		}
+		// const res = mutation.updateHiveIntegrationInstanceState({
+		// 	id: args.id,
+		// 	state: args.state
+		// })
+		// return {
+		// 	item: res,
+		// 	err: null
+		// }
 	})
 
 
 	const [ createConnection, info ] = useMutation((mutation, args: {id: string, item :any}) => {
-		const res = mutation.updateHiveIntegrationInstances({
-			where: {id: args.id},
-			update: {
-				connections: [{create: [{node: {
-					name: args.item.name,
+		// const res = mutation.updateHiveIntegrationInstances({
+		// 	where: {id: args.id},
+		// 	update: {
+		// 		connections: [{create: [{node: {
+		// 			name: args.item.name,
 
-				}}]}]
-			}
-		})
-		return {
-			item: {
-				...res.hiveIntegrationInstances[0]
-			},
-			err: null
-		}
+		// 		}}]}]
+		// 	}
+		// })
+		// return {
+		// 	item: {
+		// 		...res.hiveIntegrationInstances[0]
+		// 	},
+		// 	err: null
+		// }
 	})
 
 	const addConnection = (item: any) => {

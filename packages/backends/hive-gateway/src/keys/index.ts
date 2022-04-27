@@ -7,7 +7,7 @@ import os from 'os';
 export class KeyManager {
 
 	private privateKey?: string;
-	private publicKey?: string;
+	public publicKey?: string;
 
 	private _jwks: RSA_JWK[] = [];
 

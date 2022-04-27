@@ -16,9 +16,13 @@ import { KeyManager } from "./keys"
 import passport from "passport"
 
 import { graphqlUploadExpress } from 'graphql-upload'
+import { Pool } from "pg"
+import { PrismaClient } from "@prisma/client"
 const {NODE_ENV} = process.env
 
 const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next.hexhive.io", ISSUER = `http://localhost:${PORT}` } = process.env
+
+const prisma = new PrismaClient()
 
 export class HiveGateway {
 
@@ -33,6 +37,8 @@ export class HiveGateway {
 
 	private neoDriver?: Driver;
 
+	private pool?: Pool;
+
 	private neoSession?: Session;
 
 	private options : { dev: boolean, endpoints?: SchemaEndpoint[]};
@@ -41,6 +47,8 @@ export class HiveGateway {
 	constructor(opts: {dev: boolean, endpoints?: SchemaEndpoint[]}){
 		
 		this.keyManager = new KeyManager();
+
+	
 		this.options = opts;
 	
 	}
@@ -49,9 +57,21 @@ export class HiveGateway {
 		return this.options.dev
 	}
 
+	get jwtSecret(){
+		return this.keyManager.publicKey
+	}
+
 	async init(){
 		this.initDB();
 		await this.keyManager.init()
+
+		const token = this.keyManager.sign({
+			sub: '1234',
+			organisation: '1234'
+		})
+
+		console.log({token});
+		
 
 		this.router = new HiveRouter({
 			neoDriver: this.neoDriver
@@ -76,9 +96,10 @@ export class HiveGateway {
 	}
 	
 	async initHive(){
-		if(!this.neoDriver) throw new Error("No Neo4j Driver")
+		if(!this.pool) throw new Error("No PSQL Driver")
 
-		const schema = await hive(this.neoDriver, this.taskRegistry)
+		const schema = await hive(this.pool, prisma, this.taskRegistry)
+
 		this.schemaRegistry = new SchemaRegistry({
 			initialEndpoints: this.options.endpoints || [],
 			internalSchema: schema,
@@ -95,22 +116,31 @@ export class HiveGateway {
 			req.jwt = req.user;
 			next()
 		})
+		
 		this.router?.mount('/.well-known/jwks.json', (req: any, res: any) => {
 			res.send(this.keyManager.jwks)
 		})
-		this.router?.mount('/graphql',  (req: any, res: any, next: any) => {
-			if(req.user){
-				next();
-			}else{
-				passport.authenticate('jwt', {session: false})(req, res, next)
-			}
-		})
+
+		if(!this.isDev){
+			this.router?.mount('/graphql',  (req: any, res: any, next: any) => {
+				if(req.user){
+					next();
+				}else{
+					passport.authenticate('jwt', {session: false})(req, res, next)
+				}
+			})
+		}
 		this.router?.mount('/graphql', graphqlUploadExpress({maxFileSize: 100 * 1024 * 1024, maxFiles: 30}));
 		this.router?.mount('/graphql', this.schemaRegistry?.middleware())
 
 	}
 
 	initDB(){
+		this.pool = new Pool({
+			host: process.env.DB_HOST || "localhost",
+			user: process.env.DB_USER || "postgres",
+			password: process.env.DB_PASSWORD || "test",
+		})
 
 		this.neoDriver = neo4j.driver(
 			process.env.NEO4J_URI || "localhost",

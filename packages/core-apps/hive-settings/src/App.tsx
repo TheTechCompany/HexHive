@@ -42,7 +42,13 @@ export const App = (props)=> {
 					onClickItem={onNavigate}
 					border={false}
 					primaryKey="label"
-					data={menu} />
+					data={menu}>
+					{(datum) => (
+						<Box direction="row" align="center">
+							<Text>{datum.label}</Text>
+						</Box>
+					)}
+				</List>
 			</Box>
 			<Box background="neutral-2" pad="xsmall" flex>
 				<Routes>

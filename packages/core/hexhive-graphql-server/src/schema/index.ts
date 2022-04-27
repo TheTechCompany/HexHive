@@ -1,18 +1,27 @@
 import gql from "graphql-tag";
+import { stitchingDirectives } from '@graphql-tools/stitching-directives'
+import { DateTimeTypeDefinition, DateTypeDefinition } from 'graphql-scalars'
+const { allStitchingDirectivesTypeDefs } = stitchingDirectives();
 
-export default (options: {uploads: boolean}) => gql`
+export default (options: {uploads: boolean}) => `
+
+${allStitchingDirectivesTypeDefs}
+
+${DateTimeTypeDefinition}
+${DateTypeDefinition}
 scalar Hash
 ${options.uploads ? 'scalar Upload' : ''}
 
 type Query {
     hash(input: String!): Hash
+    _sdl: String!
 }
 
-type HiveUser @exclude {
+type HiveUser {
     id: ID!
 }
 
-type HiveOrganisation @exclude {
+type HiveOrganisation {
     id: ID!
 }
 `

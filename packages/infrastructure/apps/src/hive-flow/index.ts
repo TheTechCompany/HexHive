@@ -35,7 +35,7 @@ export const HiveFlow = (provider: k8s.Provider, rootServer: string) => {
                             { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET },
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'ROOT_SERVER', value: `http://${rootServer}` },
-                            { name: 'VERSION_SHIM', value: '1.0.4' },
+                            { name: 'VERSION_SHIM', value: '1.0.5' },
                             // { name: 'UI_URL',  value: `https://${domainName}/dashboard` },
                             // { name: 'BASE_URL',  value: `https://${domainName}`},
                             { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },

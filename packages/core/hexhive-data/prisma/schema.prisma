@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id String @id
+
+  name String
+  
+  email String @unique
+  password String 
+
+  organisations UserTrust[] @relation(name: "trusts")
+}
+
+model UserTrust {
+  id String @id
+
+  trust User @relation(name: "trusts", fields: [trustId], references: [id], onDelete: Cascade)
+  trustId String
+
+  roles Role[] @relation(name: "hasRole")
+
+  issuer Organisation @relation(name: "issuedTrust", fields: [issuerId], references: [id], onDelete: Cascade)
+  issuerId String
+}
+
+model Organisation {
+  id String @id
+  name String
+
+  trustsUsers UserTrust[] @relation(name: "issuedTrust")
+
+  roles Role[]
+  applications Application[]
+}
+
+model Application {
+  id String @id
+  name String
+
+  users Organisation[]
+  usedInRoles Role[]
+}
+
+model Role {
+  id String @id
+  name String
+
+  applications Application[]
+  permissions Permission[]
+
+  usedBy UserTrust[] @relation(name: "hasRole")
+
+  organisationId String
+  organisation Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+}
+
+model Permission {
+	id String @id 
+	name String
+
+	action String
+	scope String
+
+  roles Role[]
+}

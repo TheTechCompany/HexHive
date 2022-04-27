@@ -1,6 +1,6 @@
 {
 	"name": "@hexhive/gateway",
-	"version": "0.0.6-alpha.62",
+	"version": "0.0.6-alpha.64",
 	"description": "",
 	"main": "dist/index.js",
 	"files": [
@@ -16,20 +16,24 @@
 	"scripts": {
 		"build": "tsc -b && cp package.json dist/",
 		"start": "ts-node -r tsconfig-paths/register src/server.ts",
-		"start:prod": "ts-node -r tsconfig-paths/register src/server.ts --endpoints /tmp/endpoints.json"
+		"start:prod": "ts-node -r tsconfig-paths/register src/server.ts --endpoints /tmp/endpoints.json",
+		"db:migrate": "prisma migrate dev --name init",
+		"db:generate": "prisma generate"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"@envelop/core": "^1.7.1",
 		"@graphql-tools/merge": "^8.2.3",
-		"@graphql-tools/stitch": "^8.0.8",
+		"@graphql-tools/stitch": "8.6.4",
+		"@graphql-tools/stitching-directives": "^2.2.9",
 		"@graphql-tools/wrap": "^8.3.2",
 		"@hexhive/express-graphql": "^0.0.6-alpha.13",
 		"@hexhive/types": "^0.0.6-alpha.42",
 		"@kubernetes/client-node": "^0.15.1",
 		"@neo4j/graphql": "^3.0.1",
 		"@neo4j/graphql-ogm": "^2.1.0",
+		"@prisma/client": "^3.12.0",
 		"api-key-auth": "^0.2.3",
 		"assert": "^2.0.0",
 		"aws-sdk": "^2.987.0",
@@ -59,6 +63,7 @@
 		"passport-jwt": "^4.0.0",
 		"passport-openidconnect": "0.1.1",
 		"pem-jwk": "^2.0.0",
+		"pg": "^8.7.3",
 		"socket.io": "^4.3.1",
 		"tar": "^6.1.11",
 		"ws": "^8.1.0",
@@ -88,6 +93,7 @@
 		"eslint": "^7.32.0",
 		"eslint-plugin-react": "^7.26.0",
 		"prettier": "^2.4.1",
+		"prisma": "^3.12.0",
 		"ts-node": "^10.2.0",
 		"typescript": "^4.3.5"
 	},

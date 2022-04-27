@@ -6,11 +6,12 @@ import { extractFiles, isMultipart } from "./multipart/utils";
 
 export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) => {
 	return async ({ document, variables, context }: any) => {
-		const query = print(document)
+		const query = typeof document === 'string' ? document : print(document)
 
 		const multipart = isMultipart(variables);
 
 		let headers : any = { 
+			'X-Hive-Gateway': process.env.GATEWAY_URL || 'http://localhost:7000/graphql'
 		}
 
 		if(!multipart){

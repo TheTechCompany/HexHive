@@ -44,14 +44,19 @@ const main = async () => {
             return {[t.family.cluster]: r.records.map((x) => {
                 let props = x.get(0).properties
 
+                let ret : any = {};
+
                 t.collect.forEach((val: any) => {
+                    ret[val.to] = props[val.to];
+                    
                     switch (val.type){
                         case 'Date':
-                            props[val.to] = props[val.to].toString()
+                            ret[val.to] = props[val.to].toString()
                             break;
                     }
                 })
-                return props;
+
+                return ret;
             })}
         }))
         console.log(`Fetched ${r.length} records`)
@@ -98,7 +103,7 @@ const main = async () => {
     })
 
     worker.on('UPDATE', async (event: any) => {
-        // console.log("UPDATE", event)
+        console.log("UPDATE", event)
     
         let t = task.find((a: any) => a.family.cluster == event.id)
 

@@ -105,25 +105,50 @@ const argv = yargs(hideBin(process.argv)).options({
 			}
 		);
 
-	passport.use( new JwtStrategy(jwtConfig, (payload: any, done: (err: any, user: any) => void) => {
-		console.log({payload})
-		const session = neoDriver?.session();
-		session?.run(`
-			MATCH (org:HiveOrganisation)-[:HAS_KEY]->(:HiveKey {key: $key})-[:HAS_PERMISSION]->(apps:HiveAppliance)
+	const { port, endpoints, dev } = await argv.argv;
 
-			RETURN {
-				organisation: org.id,
-				applications: collect(apps{.*})
-			}
-		`, {
-			key: payload.key
-		}).then((data) => {
-			const user = data?.records?.[0]?.get(0);
+	console.log(`=> Starting Gateway on ${port}`)
+	
+	let endpointInfo = [];
 
-			session.close()
-			done(null, {type: 'api-key', ...user})
-		})
+	if(endpoints){
+		const endpointData = JSON.parse(readFileSync(endpoints, 'utf8'))
+		endpointInfo = endpointData.endpoints.map(({url, name, version}: any) => ({url, key: name, version}))
+	}
+	
+	const gateway = new HiveGateway({
+		dev: dev,
+		endpoints: endpointInfo
+	})
+		
+	console.log(`=> Initializing Gateway`)
+	await gateway.init()
 
+	if(gateway.jwtSecret) jwtConfig.secretOrKey = gateway.jwtSecret
+
+	passport.use(new JwtStrategy(jwtConfig, (payload: any, done: (err: any, user: any) => void) => {
+		console.log("JWT", {payload})
+		
+		if(payload.key){
+			const session = neoDriver?.session();
+			session?.run(`
+				MATCH (org:HiveOrganisation)-[:HAS_KEY]->(:HiveKey {key: $key})-[:HAS_PERMISSION]->(apps:HiveAppliance)
+
+				RETURN {
+					organisation: org.id,
+					applications: collect(apps{.*})
+				}
+			`, {
+				key: payload.key
+			}).then((data) => {
+				const user = data?.records?.[0]?.get(0);
+
+				session.close()
+				done(null, {type: 'api-key', ...user})
+			})
+		}else{
+			done(null, {type: 'app-2-app', ...payload})
+		}
 
 	}))
 		
@@ -153,29 +178,12 @@ const argv = yargs(hideBin(process.argv)).options({
 		}).then((data) => {
 		  
 		  const user = data.records?.[0].get(0);
-		  console.log("deserializeUser", user);
+		  
 		  session.close()
 		  done(null, user);
 		})
 	}))
 
-	const { port, endpoints, dev } = await argv.argv;
-
-	console.log(`=> Starting Gateway on ${port}`)
-
-	let endpointInfo = [];
-	if(endpoints){
-		const endpointData = JSON.parse(readFileSync(endpoints, 'utf8'))
-		endpointInfo = endpointData.endpoints.map(({url, name, version}: any) => ({url, key: name, version}))
-	}
-
-	const gateway = new HiveGateway({
-		dev: dev,
-		endpoints: endpointInfo
-	})
-	
-	console.log(`=> Initializing Gateway`)
-	await gateway.init()
 
 	console.log(`=> Starting Gateway`)
 

@@ -17,7 +17,7 @@ import { MongoAdapter } from './adapters/mongodb';
 
 import generateKeys from './generateKeys';
 import path from 'path';
-import { getGraphDriver, getGraphSession } from '@hexhive/data-core';
+import { getGraphDriver, getGraphSession } from '@hexhive/data';
 const greenlock = require('greenlock-express')
 
 const app = express();

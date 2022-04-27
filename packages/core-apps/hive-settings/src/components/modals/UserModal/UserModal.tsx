@@ -6,7 +6,7 @@ import { FormInput } from '../../FormInput/FormInput';
 export const UserModal = (props) => {
 
 	const [ search, setSearch ] = useState<string>('')
-	const [ user, setUser ] = useState<{id?: string, name?: string, username?: string, roles?: {id?: string}[]}>({})
+	const [ user, setUser ] = useState<{id?: string, name?: string, email?: string, roles?: {id?: string}[]}>({})
 
 	const [ selectedRoles, setSelectedRoles ] = useState<any[]>([])
 	const [ removeRoles, setRemoveRoles ] = useState<any[]>([])
@@ -48,8 +48,8 @@ const toggleSelected = (item: any) => {
 				onChange={(e) => setUser({...user, name: e.target.value})}
 				label="Name" />
 			<FormInput
-				value={user?.username}
-				onChange={(e) => setUser({...user, username: e.target.value})}	
+				value={user?.email}
+				onChange={(e) => setUser({...user, email: e.target.value})}	
 				label="Email"
 				 />
 				
