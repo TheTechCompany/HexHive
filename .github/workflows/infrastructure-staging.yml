@@ -6,6 +6,7 @@ on:
       - staging
 
 jobs:
+
   push_infra:
     name: Update Pulumi Infra
     runs-on: ubuntu-latest
