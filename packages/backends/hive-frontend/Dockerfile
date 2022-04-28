@@ -16,4 +16,4 @@ RUN npx lerna run build --scope @hexhive/frontend-server --include-dependencies
 
 WORKDIR /app/packages/backends/hive-frontend
 
-CMD ["yarn", "run", "start:prod"]
+CMD ["yarn", "run", "start"]
