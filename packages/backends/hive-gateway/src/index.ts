@@ -1,14 +1,9 @@
 require("dotenv").config()
 
-
-import neo4j from "neo4j-driver"
-
-import { REMOTE_SCHEMA } from "./remotes"
 import { DefaultRouter } from "./routes"
 
 import { TaskRegistry } from "./task-registry"
 
-import { Driver, Session } from "neo4j-driver"
 import { HiveRouter } from "./router"
 import { SchemaEndpoint, SchemaRegistry } from "./schema-registry"
 import hive from "./schema/hive"
@@ -39,7 +34,6 @@ export class HiveGateway {
 
 	private pool?: Pool;
 
-	private neoSession?: Session;
 
 	private options : { dev: boolean, endpoints?: SchemaEndpoint[]};
 

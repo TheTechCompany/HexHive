@@ -61,6 +61,7 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
                         env: [
                             // { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test' },
                             // { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
+                            { name: 'DEPLOYMENT', value: config.require('deployment-level') },
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'DEPLOYMENT_LEVEL', value: suffix },
                             { name: 'UI_URL', value: `https://${domainName}/dashboard` },

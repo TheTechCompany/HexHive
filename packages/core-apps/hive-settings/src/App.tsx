@@ -12,12 +12,14 @@ import { IntegrationList } from './views/integration-list';
 import { IntegrationSingle } from './views/integration-single';
 import { IntegrationEditor } from './views/integration-editor';
 
+const API_URL = localStorage.getItem('HEXHIVE_API') || process.env.REACT_APP_API;
 
 const client = new ApolloClient({
-	uri: process.env.REACT_APP_API ?  `${process.env.REACT_APP_API}/graphql` : 'http://localhost:7000/graphql',
+	uri: API_URL ? `${API_URL}/graphql` : 'http://localhost:7000/graphql',
 	cache: new InMemoryCache(),
 	credentials: 'include'
-  })
+})
+
 export const App = (props)=> {
 
 	const navigate = useNavigate()

@@ -8,3 +8,4 @@ config:
   apps:org: ultraviolet
   apps:redundancy: 1
   apps:postgres-password: test
+  apps:deployment-level: staging-apps
