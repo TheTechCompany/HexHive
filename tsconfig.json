@@ -38,7 +38,6 @@
      "@hexhive/styles": ["./shared/hexhive-styles/src"],
      "@hexhive/auth-ui": ["./shared/hexhive-auth-ui/src"],
      "@hexhive/types": ["./shared/hexhive-types/src"],
-     "@hexhive/utils": ["./shared/hexhive-utils/src"],
      "@hexhive/ui": ["./core/hexhive-ui/src"],
      "@hexhive/collaboration-client": ["./core/collaboration-client/src"],
      "@hexhive/collaboration-server": ["./core/collaboration-server/src"]

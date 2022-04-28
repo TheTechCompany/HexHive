@@ -54,7 +54,7 @@
     "@apollo/client": "^3.5.6",
     "@hexhive/auth-ui": "^1.0.2-beta.0",
     "@hexhive/styles": "^1.0.2-beta.0",
-    "@hexhive/ui": "^0.0.6-alpha.54",
+    "@hexhive/ui": "^0.0.11",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
