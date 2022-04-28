@@ -1,16 +1,12 @@
 import { Router } from "express"
 
 import { UserRouter } from "./user"
-import FileRouter from "./files"
-import PipelineRouter from "./pipelines"
-import EventRouter from "./events"
 
 import bodyParser from "body-parser"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import { Provider } from "oidc-provider"
 import { requiresAuth } from "express-openid-connect"
-import { FileManager } from "./files/util"
 import { Driver, session } from "neo4j-driver"
 import { TaskRegistry } from "../task-registry"
 // import { HiveEvents } from "@hexhive/events-client"
@@ -43,7 +39,8 @@ export const DefaultRouter = (taskRegistry: TaskRegistry) : Router => {
 
 	const router = Router()
 	let fileManager
-	if(process.env.IPFS_URL) fileManager = new FileManager({url: process.env.IPFS_URL || "", gateway: process.env.IPFS_GATEWAY})
+	
+	// if(process.env.IPFS_URL) fileManager = new FileManager({url: process.env.IPFS_URL || "", gateway: process.env.IPFS_GATEWAY})
     
 	const corsOptions = {
 		origin: (origin : any, callback: (error: any, result?: any) => void) => {
