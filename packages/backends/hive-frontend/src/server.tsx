@@ -200,6 +200,33 @@ const config = {
 		] : [],
 		getViews: async (req) => {
 
+			// prisma.role.findMany()
+			const applications = await prisma.application.findMany({
+				where: {
+					usedInRoles: {
+						some: {
+							usedBy: {
+								some: {
+									trust: {id: req.user.id}
+								}
+							}
+						}
+					}
+				}
+			})
+
+			const views = (applications || []).map((app) => ({
+				name: app.name,
+				path: app.slug || '/404',
+				default: false,
+			}))
+
+			const appliances = (applications || []).map((app) => ({
+				name: app.name,
+				config_url: (deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint) || '/',
+			}))
+
+
 			// const session = neoDriver?.session()
 
 			// const apps = await session?.readTransaction(async (tx) => {
@@ -242,9 +269,6 @@ const config = {
 			// 	name: app.name,
 			// 	config_url: deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint,
 			// }))
-
-			const views : any[] = [];
-			const appliances : any[] = [];
 
 			return { views: views, apps: appliances }
 

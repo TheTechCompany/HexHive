@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { nanoid } from "nanoid";
 
 import crypto from 'crypto';
+import apps from "./apps";
 
 const prisma = new PrismaClient();
 
@@ -11,6 +12,8 @@ const prisma = new PrismaClient();
     await prisma.user.deleteMany();
     await prisma.userTrust.deleteMany();
     await prisma.organisation.deleteMany();
+
+    await apps(prisma);
 
     const application = await prisma.application.create({
         data: {

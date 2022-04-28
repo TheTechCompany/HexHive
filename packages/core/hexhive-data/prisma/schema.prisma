@@ -48,6 +48,11 @@ model Application {
   id String @id
   name String
 
+  slug String?
+
+  entrypoint String?
+  staging_entrypoint String?
+
   users Organisation[]
   usedInRoles Role[]
 }
