@@ -1,6 +1,6 @@
 {
 	"name": "@hexhive/gateway",
-	"version": "1.0.2-beta.14",
+	"version": "1.0.2-beta.15",
 	"description": "",
 	"main": "dist/index.js",
 	"files": [
@@ -27,7 +27,7 @@
 		"@graphql-tools/stitch": "8.6.4",
 		"@graphql-tools/stitching-directives": "^2.2.9",
 		"@graphql-tools/wrap": "^8.3.2",
-		"@hexhive/data": "^1.0.2-beta.12",
+		"@hexhive/data": "^1.0.2-beta.15",
 		"@hexhive/express-graphql": "^1.0.2-beta.0",
 		"@hexhive/types": "^1.0.2-beta.0",
 		"@kubernetes/client-node": "^0.15.1",
