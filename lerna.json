@@ -10,6 +10,6 @@
     "packages/tools/*",
     "packages/clients/*"
   ],
-  "version": "1.0.2-beta.20",
+  "version": "1.0.2-beta.21",
   "npmClient": "yarn"
 }
