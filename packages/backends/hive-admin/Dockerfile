@@ -20,18 +20,6 @@ RUN yarn
 
 RUN yarn build
 
-FROM node:alpine
+WORKDIR /app/packages/backends/hive-admin
 
-WORKDIR /app
-
-COPY --from=build /app/packages/backends/hive-admin/dist/* .
-
-RUN mkdir node_modules
-
-COPY --from=build /app/packages/backends/hive-admin/node_modules/ node_modules/
-
-RUN mkdir web-ui
-
-COPY --from=build /app/packages/backends/hive-admin/src/web-ui/build web-ui/build
-
-CMD ["node", "index.js"]
+CMD ["yarn", "run", "start"]
