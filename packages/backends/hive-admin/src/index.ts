@@ -16,6 +16,10 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, '/web-ui/build/')));
 app.use('/api', routes(prisma))
 
+app.use('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/web-ui/build/index.html'));
+})
+
 app.listen(9999, () => {
     console.log("HexHive Admin on Port 9999")
 })
