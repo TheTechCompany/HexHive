@@ -32,6 +32,8 @@ model UserTrust {
 
   issuer Organisation @relation(name: "issuedTrust", fields: [issuerId], references: [id], onDelete: Cascade)
   issuerId String
+
+  @@unique([trustId, issuerId])
 }
 
 model Organisation {

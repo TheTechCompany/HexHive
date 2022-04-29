@@ -9,6 +9,8 @@ import * as aws from '@pulumi/aws'
 import * as awsx from '@pulumi/awsx'
 
 import { ApplicationDB } from './src/db'
+import { AdminPane } from './src/admin'
+
 import { HiveFlow } from './src/hive-flow'
 import { HiveCommand } from './src/hive-command'
 import { GreenScreen } from './src/green-screen'
@@ -38,7 +40,9 @@ const main = (async () => {
 
     const vpc = await vpcId.apply(async (id) => await aws.ec2.getVpc({ id: id }));
 
-    const { service: dbService, deployment: dbDeployment } = await ApplicationDB(provider);
+    const { service: dbService, deployment: dbDeployment } = await ApplicationDB(provider, vpcId);
+
+    const { deployment: adminDeployment } = AdminPane(provider, dbService.metadata.name)
 
     const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`), dbService.metadata.name);
     const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`), dbService.metadata.name);
@@ -57,6 +61,7 @@ const main = (async () => {
         dbService,
         dbDeployment,
         dbPass: config.require('postgres-password'),
+        adminDeployment,
         hiveCommand,
         hiveFlow,
         kubeconfig
@@ -74,3 +79,5 @@ export const kubeconfig = main.then(result => result.kubeconfig)
 
 export const postgres_name = main.then((result) => result.dbDeployment.metadata.name)
 export const posgres_pass = main.then((result) => result.dbPass)
+
+export const adminDeployment = main.then((result) => result.adminDeployment.metadata.name);
