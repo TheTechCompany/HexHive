@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@hexhive/data"
 
 export default (prisma: PrismaClient) => {
     const typeDefs = `
@@ -10,6 +10,9 @@ export default (prisma: PrismaClient) => {
         type HiveAppliance {
             id: ID! 
             name: String!
+
+            slug: String
+
             label: String
             description: String
 

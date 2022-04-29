@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@hexhive/data";
 import { nanoid } from 'nanoid'
 
 export default (prisma: PrismaClient) => {
@@ -98,6 +98,18 @@ export default (prisma: PrismaClient) => {
 
 				const members = await prisma.user.findMany()
 				return members;
+			},
+			applications: async (root: any) => {
+				//Add route for checking rbac
+				const applications = await prisma.application.findMany({
+					where: {
+						users: {
+							some: {id: root.id}
+						}
+					}
+				})
+				console.log(JSON.stringify({applications}))
+				return applications;
 			}
 		},
 		Query: {

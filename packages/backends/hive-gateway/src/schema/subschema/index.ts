@@ -1,5 +1,5 @@
 import { mergeResolvers } from '@graphql-tools/merge'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@hexhive/data'
 
 import acl from './acl'
 import apps from './apps'

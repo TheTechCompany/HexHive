@@ -6,7 +6,7 @@ import { TaskRegistry } from "../task-registry"
 import { stitchingDirectives } from '@graphql-tools/stitching-directives'
 
 import { Pool } from "pg"
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@hexhive/data'
 
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeResolvers } from "@graphql-tools/merge"
