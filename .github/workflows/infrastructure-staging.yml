@@ -216,9 +216,9 @@ jobs:
         with:
           node-version: 16.x
 
-      - run: echo "FRONTEND_IMAGE=sha-$(echo $GITHUB_SHA | cut1-7)" >> $GITHUB_ENV
+      - run: echo "FRONTEND_IMAGE=sha-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
 
-      - run: echo "GATEWAY_IMAGE=sha-$(echo $GITHUB_SHA | cut1-7)" >> $GITHUB_ENV
+      - run: echo "GATEWAY_IMAGE=sha-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
       
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
