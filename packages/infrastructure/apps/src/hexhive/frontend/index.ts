@@ -59,8 +59,6 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
                             // {name: "https", containerPort: 443}
                         ],
                         env: [
-                            // { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test' },
-                            // { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
                             { name: 'DEPLOYMENT', value: config.require('deployment-level') },
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'DEPLOYMENT_LEVEL', value: suffix },
@@ -69,7 +67,6 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
                             { name: 'BASE_DOMAIN', value: 'hexhive.io' },
                             { name: 'API_URL', value: `https://${backendUrl}` },
                             { name: 'VERSION_SHIM', value: '1.0.7' },
-                            // { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "DATABASE_URL", value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/postgres`) },
                         ],
@@ -77,13 +74,7 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
                             tcpSocket: {
                                 port: 'http'
                             }
-                        },
-                        // livenessProbe: {
-                        //     httpGet: {
-                        //         path: '/',
-                        //         port: 'http'
-                        //     }
-                        // }
+                        }
                     }]
                 }
             },
