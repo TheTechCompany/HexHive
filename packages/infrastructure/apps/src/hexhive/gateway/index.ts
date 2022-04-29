@@ -14,7 +14,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
     const config = new Config();
 
     let suffix = config.require('suffix');
-    let imageTag = config.require('image-tag');
+    let imageTag = process.env.GATEWAY_IMAGE //config.require('image-tag');
     let redundancy = config.require('redundancy');
 
     const appName = `hexhive-gateway-${suffix}`;
@@ -169,7 +169,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
                             // { name: "NEO4J_URI", value: process.env.NEO4J_URI || 'localhost' },
-                            { name: 'VERSION_SHIM', value: '1.0.5' },
+                            { name: 'VERSION_SHIM', value: '1.0.6' },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
                             { name: 'DATABASE_URL', value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/postgres`) },
