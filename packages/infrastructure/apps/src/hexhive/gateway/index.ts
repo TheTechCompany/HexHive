@@ -163,12 +163,9 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                             { name: 'endpoints-config', mountPath: '/tmp/endpoints.json', subPath: 'endpoints.json' }
                         ],
                         env: [
-                            // { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test'},
-                            // { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
-                            // { name: "NEO4J_URI", value: process.env.NEO4J_URI || 'localhost' },
                             { name: 'VERSION_SHIM', value: '1.0.6' },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
@@ -177,8 +174,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                         ],
                         resources: {
                             requests: {
-                                cpu: "1",
-                                memory: '2Gi'
+                                cpu: "0.25"
                             }
                         },
                         readinessProbe: {
