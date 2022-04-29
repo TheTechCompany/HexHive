@@ -31,7 +31,7 @@ export const AdminPane = async (provider: k8s.Provider, dbUrl: Output<string>) =
                         ],
                         env: [
                             { name: 'NODE_ENV', value: 'production' },
-                            { name: 'VERSION_SHIM', value: '1.0.5' },
+                            { name: 'VERSION_SHIM', value: '1.0.6' },
                             { name: "DATABASE_URL", value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/public`) },
                         ],
                         resources: {
