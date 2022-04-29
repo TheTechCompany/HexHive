@@ -21,9 +21,28 @@ export const UserList = () => {
         })
     }, [])
 
+    const createUser = (user: {name: string, email: string, password: string}) => {
+        return fetch(`${baseUrl}/api/users`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: user.name,
+                email: user.email,
+                password: user.password
+            })
+        })
+    }
+ 
     return (
         <Box flex>
             <UserModal 
+                onSubmit={(user) => {
+                    createUser(user).then(() => {
+                        openModal(false);
+                    })
+                }}
                 onClose={() => openModal(false)}
                 open={modalOpen} />
             <HeaderBar 
