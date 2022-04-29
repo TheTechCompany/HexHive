@@ -200,8 +200,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build_coreapps, build_gateway, build_admin, build_frontend-server]
     env:
-      FRONTEND_IMAGE: sha-$(echo ${{ github.sha }} | cut -c1-7)
-      GATEWAY_IMAGE: sha-$(echo ${{ github.sha }} | cut -c1-7)
       COMMAND_MONGO_URL: ${{ secrets.COMMAND_MONGO_URL }}
       COMMAND_MONGO_DB: ${{ secrets.COMMAND_MONGO_DB }}
       COMMAND_MONGO_USER: ${{ secrets.COMMAND_MONGO_USER }}
@@ -217,6 +215,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16.x
+
+      - run: echo "FRONTEND_IMAGE=sha-$(echo ${{ github.sha }} | cut1-7)" >> $GITHUB_ENV
+
+      - run: echo "GATEWAY_IMAGE=sha-$(echo ${{ github.sha }} | cut1-7)" >> $GITHUB_ENV
       
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
