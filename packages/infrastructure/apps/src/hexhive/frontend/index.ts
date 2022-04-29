@@ -68,7 +68,7 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
                             { name: 'BASE_URL', value: `https://${domainName}` },
                             { name: 'BASE_DOMAIN', value: 'hexhive.io' },
                             { name: 'API_URL', value: `https://${backendUrl}` },
-                            { name: 'VERSION_SHIM', value: '1.0.5' },
+                            { name: 'VERSION_SHIM', value: '1.0.6' },
                             // { name: "NEO4J_URI", value: process.env.NEO4J_URI /*neo4Url.apply((url) => `neo4j://${url}.default.svc.cluster.local`)*/ },
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "DATABASE_URL", value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/postgres`) },
