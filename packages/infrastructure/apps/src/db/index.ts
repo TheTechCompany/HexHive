@@ -47,7 +47,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>) 
         }
 
     })
-    const efsAp = new efs.AccessPoint(`greenscreen-ap-${suffix}`, {
+    const efsAp = new efs.AccessPoint(`postgres-ap-${suffix}`, {
         fileSystemId: efsVolume.id,
         posixUser: {uid: 1000, gid: 1000},
         rootDirectory: { path: "/" },

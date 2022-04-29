@@ -8,7 +8,6 @@ import { PrismaClient } from '@hexhive/data'
 export default (prisma: PrismaClient) => {
     const router = Router();
 
-    router.use(express.static(path.join(__dirname, '/../web-ui/build/')))
 
     router.use('/organisations', organisationRouter(prisma));
     router.use('/users', userRouter(prisma));

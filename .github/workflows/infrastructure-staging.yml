@@ -6,6 +6,8 @@ on:
       - staging
     paths: ["packages/infrastructure/**", "packages/core/**", "packages/core-apps/**", "packages/backends/**"]
 
+concurrency: infra-${{ github.ref }}
+
 jobs:
 
   build_admin:
