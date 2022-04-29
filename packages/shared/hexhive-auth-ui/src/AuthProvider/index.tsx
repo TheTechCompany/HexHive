@@ -1,7 +1,15 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import { useToken } from "../hooks/useToken";
 
-export const AuthContext = createContext<{activeUser?: {id?: string, sub?: string, name?: string, email?: string, applications?: {id: string, name: string}[]}, token?: string}>({})
+export const AuthContext = createContext<{
+    activeUser?: {
+        id?: string, 
+        sub?: string, 
+        name?: string, 
+        email?: string, 
+        applications?: {id: string, name: string, slug: string}[]
+    }, 
+    token?: string}>({})
 
 export interface AuthProviderProps {
     authorizationServer: string; //baseurl for /login

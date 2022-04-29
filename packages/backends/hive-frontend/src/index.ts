@@ -99,9 +99,9 @@ export class HiveFrontendServer {
       {
         name: "@hexhive-core/dashboard",
         config_url: `${
-          // process.env.NODE_ENV == "production" ?
+          process.env.NODE_ENV == "production" ?
             `https://${process.env.DEPLOYMENT || 'apps'}.hexhive.io/dashboard/`
-            // : "http://localhost:8501/"
+            : "http://localhost:8501/"
         }hexhive-core-dashboard.js`,
       },
       {

@@ -87,7 +87,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
             left: 8,
             path: '/settings'
         }
-    ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
+    ].filter((a) => user?.activeUser?.applications?.map((x) => x.slug).indexOf(a.path) > -1))
 
     // const query = useQuery({suspense: false, staleWhileRevalidate: true})
     
@@ -100,7 +100,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
    
             [
             {
-                id: '',
                 icon: <Market  width="50" height="50"/>,
                 title: "Market",
                 top: 3,
@@ -108,7 +107,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'market'
             },
             {
-                id: '0a8eedf3-6802-4ae9-9304-94129d08ee14',
                 icon: <Files  width="50" height="50"/>,
                 title: "Files",
                 top: 3,
@@ -116,7 +114,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'files'
             },
             {
-                id: '35dec0fc-b2ab-4074-8060-f2216260d360',
                 icon: <Flow  width="50" height="50" />,
                 top: 3,
                 title: "Flow",
@@ -124,7 +121,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'flow'
             },
             {
-                id: '808e383f-9c2b-4ccb-9900-7562b8b344a4',
                 icon: <Command  width="50" height="50"/>,
                 top: 3,
                 title: "Command",
@@ -132,7 +128,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'command'
             },
             {
-                id: 'ZJ5pksG7fbU3ThLG3_nA3',
                 icon: <Automate width="50" height="50"/>,
                 top: 3,
                 title: "Automate",
@@ -140,7 +135,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'automate'
             },
             {
-                id: 'hCnbZc6H0F4ehaqQlENqc',
                 icon: <Settings />,
                 top: 3,
                 title: "Settings",
@@ -148,14 +142,13 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'settings'
             },
             {
-                id: '3_5JcF5u_XV4LDQErU6r9',
                 icon: <Signage />,
                 title: "Signage",
                 top: 3,
                 left: 9,
                 path: 'signage'
             }
-        ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1).concat(
+        ].filter((a) => user?.activeUser?.applications?.map((x) => x.slug).indexOf(a.path) > -1).concat(
             (user?.activeUser?.applications || []).filter((a: any) => {
                 return a && a?.dev == true;
             }).map((x: any, ix) => ({
