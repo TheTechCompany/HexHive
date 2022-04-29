@@ -42,7 +42,7 @@ const main = (async () => {
 
     const { service: dbService, deployment: dbDeployment } = await ApplicationDB(provider, vpcId);
 
-    const { deployment: adminDeployment } = AdminPane(provider, dbService.metadata.name)
+    const { deployment: adminDeployment } = await AdminPane(provider, dbService.metadata.name)
 
     const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`), dbService.metadata.name);
     const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`), dbService.metadata.name);

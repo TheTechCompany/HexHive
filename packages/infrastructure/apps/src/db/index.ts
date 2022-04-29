@@ -70,7 +70,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>) 
                 volumeHandle: efsVolume.id
             }
         }
-    })
+    }, {provider})
 
     const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`postgres-pvc-${suffix}`, {
         metadata: {
@@ -86,7 +86,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>) 
                 }
             }
         }   
-    })
+    }, {provider})
 
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
