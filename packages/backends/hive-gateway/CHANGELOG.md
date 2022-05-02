@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2-beta.29](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.28...v1.0.2-beta.29) (2022-05-02)
+
+**Note:** Version bump only for package @hexhive/gateway
+
+
+
+
+
 ## [1.0.2-beta.28](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.27...v1.0.2-beta.28) (2022-05-02)
 
 **Note:** Version bump only for package @hexhive/gateway
