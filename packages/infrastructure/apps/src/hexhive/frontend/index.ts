@@ -1,7 +1,6 @@
-import * as eks from "@pulumi/eks";
 import * as k8s from "@pulumi/kubernetes";
 import * as aws from '@pulumi/aws'
-import { Config, output, Output } from "@pulumi/pulumi";
+import { Config, Output } from "@pulumi/pulumi";
 
 export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.route53.GetZoneResult, domainName: string, backendUrl: string, mongoUrl: Output<string>, dbUrl: Output<string>) => {
     // Create an EKS cluster with the default configuration.

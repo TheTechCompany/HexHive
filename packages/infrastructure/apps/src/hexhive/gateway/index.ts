@@ -1,9 +1,6 @@
-import * as eks from "@pulumi/eks";
 import * as k8s from "@pulumi/kubernetes";
 import * as aws from '@pulumi/aws';
 import { Config, Output } from "@pulumi/pulumi";
-import { env } from "process";
-import { ec2 } from '@pulumi/awsx'
 
 export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<string>, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>, dbUrl: Output<string>) => {
     // Create an EKS cluster with the default configuration.
