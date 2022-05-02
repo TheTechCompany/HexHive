@@ -207,7 +207,7 @@ jobs:
   preview-db:
     name: Deploy DB Migration
     runs-on: ubuntu-latest
-    needs: [build_coreapps, build_gateway, build_frontend-server]
+    needs: [build_gateway, build_frontend-server]
     env:
       PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}  
     steps: 
