@@ -124,10 +124,6 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
             {
                 "endpoints": [
                     {
-                        "name": "GreenScreen",
-                        "url": "https://${config.require('greenco-api')}/graphql"
-                    },
-                    {
                         "name": "HiveFlow",
                         "url": "http://hive-flow-${suffix}-svc.default.svc.cluster.local/graphql",
                         "version": "0.0.1"
