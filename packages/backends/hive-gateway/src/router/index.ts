@@ -3,7 +3,6 @@ import express, { Express, Router } from 'express';
 import session from 'express-session';
 import helmet from 'helmet';
 import passport from 'passport';
-import { Server } from 'socket.io';
 import cors from 'cors';
 import MongoStore from 'connect-mongo'
 

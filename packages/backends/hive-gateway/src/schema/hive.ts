@@ -2,7 +2,6 @@
 import gql from "graphql-tag"
 import subschema from "./subschema"
 
-import { TaskRegistry } from "../task-registry"
 import { stitchingDirectives } from '@graphql-tools/stitching-directives'
 
 import { Pool } from "pg"
@@ -16,7 +15,7 @@ require("dotenv").config()
 const { allStitchingDirectivesTypeDefs } = stitchingDirectives();
 
 
-export default  async (pool: Pool, prisma: PrismaClient, taskRegistry: TaskRegistry) => {
+export default  async (pool: Pool, prisma: PrismaClient) => {
 
 	const {typeDefs: subschemaTypeDefs, resolvers: subschemaResolvers} = subschema(prisma);
 

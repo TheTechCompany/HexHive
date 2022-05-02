@@ -2,8 +2,6 @@ require("dotenv").config()
 
 import { DefaultRouter } from "./routes"
 
-import { TaskRegistry } from "./task-registry"
-
 import { HiveRouter } from "./router"
 import { SchemaEndpoint, SchemaRegistry } from "./schema-registry"
 import hive from "./schema/hive"
@@ -23,7 +21,6 @@ export class HiveGateway {
 
 	private router?: HiveRouter;
 
-	private taskRegistry: TaskRegistry = new TaskRegistry();
 
 	private keyManager: KeyManager;
 
@@ -90,7 +87,7 @@ export class HiveGateway {
 	async initHive(){
 		if(!this.pool) throw new Error("No PSQL Driver")
 
-		const schema = await hive(this.pool, prisma, this.taskRegistry)
+		const schema = await hive(this.pool, prisma)
 
 		this.schemaRegistry = new SchemaRegistry({
 			initialEndpoints: this.options.endpoints || [],
@@ -101,7 +98,7 @@ export class HiveGateway {
 
 	initRouter(){
 		// if(!this.neoDriver) return;
-		this.router?.mount(DefaultRouter(this.taskRegistry)) 
+		this.router?.mount(DefaultRouter()) 
 
 		this.router?.mount('*', (req: any, res: any, next: any) => {
 			// console.log({user: req.user, jwt: (req as any).jwt});
