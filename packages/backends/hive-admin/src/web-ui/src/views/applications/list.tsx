@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { HeaderBar } from '../../components/header-bar';
 import { ApplicationModal } from '../../modals/application-modal';
 
+
+
 const baseUrl = process.env.NODE_ENV == 'production' ? '' : 'http://localhost:9999';
 
 export const ApplicationList = () => {
