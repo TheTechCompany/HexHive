@@ -248,18 +248,9 @@ jobs:
 
       - run: kubectl --kubeconfig ~/.kube/config.json port-forward deployment/${{ steps.postgres_url.outputs.postgres }} 5432:5432 &
       
-      - name: Wait for PostgreSQL db
-        uses: MaximeGoyette/wait-for-it-action@master
-        with:
-          host: 127.0.0.1
-          port: 5432
+      - run: sleep 30s
 
       - run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: postgresql://postgres:${{ steps.postgres_pass.outputs.pass }}@localhost:5432/postgres
-        working-directory: ./packages/core/hexhive-data/
-
-      - run: npx prisma db seed
         env:
           DATABASE_URL: postgresql://postgres:${{ steps.postgres_pass.outputs.pass }}@localhost:5432/postgres
         working-directory: ./packages/core/hexhive-data/

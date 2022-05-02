@@ -60,6 +60,6 @@ export const frontendUrl = main.then(result => result.frontendUrl)
 export const kubeconfig = main.then(result => result.kubeconfig)
 
 export const postgres_name = main.then((result) => result.dbService.metadata.name)
-export const posgres_pass = main.then((result) => result.dbPass)
+export const postgres_pass = main.then((result) => result.dbPass)
 
 export const adminDeployment = main.then((result) => result.adminDeployment.metadata.name);
