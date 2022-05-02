@@ -4,17 +4,12 @@ import yargs from 'yargs/yargs'
 import { hideBin } from 'yargs/helpers'
 import { readFileSync } from 'fs';
 import { createServer, Server as HttpServer } from 'http';
-import { Server } from 'socket.io';
 import express from 'express';
 import passport from 'passport';
-import neo4j from 'neo4j-driver'
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
-const OidcStrategy = require('passport-openidconnect').Strategy;
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
-const greenlock = require("greenlock-express")
-
 
 const {NODE_ENV} = process.env
 
@@ -228,7 +223,7 @@ const argv = yargs(hideBin(process.argv)).options({
 			// }).ready(httpsWorker)
 		}else{
 	
-			const io = new Server(server)
+			// const io = new Server(server)
 	
 			// setupWebsockets(io);
 	

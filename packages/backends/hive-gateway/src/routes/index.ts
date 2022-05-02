@@ -5,10 +5,6 @@ import { UserRouter } from "./user"
 import bodyParser from "body-parser"
 import cors from "cors"
 import cookieParser from "cookie-parser"
-import { Provider } from "oidc-provider"
-import { requiresAuth } from "express-openid-connect"
-import { Driver, session } from "neo4j-driver"
-import { TaskRegistry } from "../task-registry"
 // import { HiveEvents } from "@hexhive/events-client"
 import passport from "passport"
 // import { InteractionRouter } from './interaction';
@@ -26,7 +22,7 @@ const whitelist = [
 	"https://go.hexhive.io"
 ]
 
-export const DefaultRouter = (taskRegistry: TaskRegistry) : Router => {
+export const DefaultRouter = () : Router => {
 	// const neo_session = neo4j.session()
 
 	// const eventClient = new HiveEvents({

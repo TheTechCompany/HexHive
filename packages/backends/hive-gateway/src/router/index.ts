@@ -6,11 +6,10 @@ import passport from 'passport';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import MongoStore from 'connect-mongo'
-import { Driver } from 'neo4j-driver'
 
 
 export interface HiveRouterOptions {
-	neoDriver?: Driver;
+
 }
 
 export class HiveRouter {
