@@ -44,7 +44,7 @@ export class HiveRouter {
 
 		// this.app.use(cors())
 		this.app.use(cookieParser())
-		this.app.use(helmet())
+		// this.app.use(helxmet())
 
 		let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
 

@@ -160,7 +160,7 @@ const config = {
 					organisation: organisation?.issuer?.id,
 					applications: [...new Set(organisation?.roles?.map((x) => x.applications)?.reduce((prev, curr) => prev.concat(curr), []))]
 				}
-				console.log({ user: users?.[0] })
+				console.log({ user: user })
 				return done(null, user)
 			}
 			if (!users?.[0]) return done(null, null, { message: "No user found with those credentials" })
@@ -191,6 +191,11 @@ const config = {
 				key: 'Hive-CRM',
 				route: '/hive-connect',
 				url: 'http://localhost:8513/hiveconnect-app-frontend.js'
+			},
+			{
+				key: 'Hive-Automate',
+				route: '/hive-automate',
+				url: 'http://localhost:8080/hiveautomate-app-frontend.js'
 			},
 			{
 				key: "Hive-Files",

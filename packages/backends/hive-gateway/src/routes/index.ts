@@ -51,8 +51,9 @@ export const DefaultRouter = () : Router => {
 	}
    
 	router.use(cookieParser())
-	router.use(bodyParser.json())
-	router.use(bodyParser.urlencoded({extended: false}))
+
+	router.use(bodyParser.json({limit: '500mb'}))
+	router.use(bodyParser.urlencoded({extended: false, limit: '500mb'}))
 
 	router.use(cors(corsOptions))
 

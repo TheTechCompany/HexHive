@@ -99,7 +99,7 @@ const main = async () => {
         })
 
 
-        console.log("NEW", event)
+        // console.log("NEW", event)
     })
 
     worker.on('UPDATE', async (event: any) => {
