@@ -201,6 +201,11 @@ const config = {
 				key: "Hive-Files",
 				route: '/hive-files',
 				url: 'http://localhost:8514/hivefiles-app-frontend.js'
+			},
+			{
+				key: "Hive-Report",
+				route: '/hive-report',
+				url: 'http://localhost:8193/hivereport-app-frontend.js'
 			}
 		] : [],
 		getViews: async (req) => {

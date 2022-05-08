@@ -245,7 +245,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
       - uses: azure/setup-kubectl@v2.0
-
+        with:
+          version: "v1.23.5"
+          
       - run: kubectl --kubeconfig ~/.kube/config.json port-forward service/${{ steps.postgres_url.outputs.postgres }} 5432:5432 &
       
       - run: sleep 30s

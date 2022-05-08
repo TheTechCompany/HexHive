@@ -139,6 +139,11 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                         "name": "HiveFiles",
                         "url": "http://hive-files-${suffix}-svc.default.svc.cluster.local/graphql",
                         "version": "0.0.1"
+                    },
+                    {
+                        "name": "HiveReport",
+                        "url": "http://hive-report-${suffix}-svc.default.svc.cluster.local/graphql",
+                        "version": "0.0.1"
                     }
                 ]	
             }`
