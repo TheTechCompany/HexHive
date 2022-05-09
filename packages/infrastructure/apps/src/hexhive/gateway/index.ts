@@ -174,6 +174,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
+                            { name: 'GATEWAY_URL', value: `http://hexhive-gateway-${suffix}-svc.default.svc.cluster.local/graphql`},
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
                             { name: 'DATABASE_URL', value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/postgres`) },
