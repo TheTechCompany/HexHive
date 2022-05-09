@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-core/dashboard",
-  "version": "1.0.2-beta.25",
+  "version": "1.0.2-beta.32",
   "private": true,
   "scripts": {
     "start": "webpack serve --port 8501",
