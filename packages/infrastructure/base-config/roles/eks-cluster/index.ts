@@ -98,11 +98,41 @@ export default async (deployment: string) => {
         provider: cluster.provider
     })
 
+    // IAM roles for the node group.
+    const role = new aws.iam.Role(`${cluster}-ng-role`, {
+        assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({
+            Service: "ec2.amazonaws.com",
+        }),
+    });
+    let counter = 0;
+    for (const policyArn of [
+        "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+        "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+        "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    ]) {
+        new aws.iam.RolePolicyAttachment(`${cluster}-ng-role-policy-${counter++}`,
+            { policyArn, role },
+        );
+    }
+    const instanceProfile = new aws.iam.InstanceProfile(`${cluster}-ng-ip`, { role });
 
-    const nodeGroup = new eks.ManagedNodeGroup(`${clusterName}-bare-metal`, {
+
+
+    const managedGroup = new eks.ManagedNodeGroup(`${cluster}-mng`, {
         cluster: cluster,
-        nodeGroupNamePrefix: `hexhive-`
+        nodeRole: role,
+        instanceTypes: ["t2.small"],
+        nodeGroupNamePrefix: `mng-`
     })
+    
+    // cluster.createNodeGroup(`${cluster}-ng`, {
+    //     instanceType: "t2.small",
+    //     desiredCapacity: 1,
+    //     minSize: 1,
+    //     maxSize: 2,
+    //     instanceProfile
+    // })
+
     // const efsController = EFSCSI(cluster, account)
 
 //     const clusterInfo = await cluster.eksCluster.name.apply(name => {
