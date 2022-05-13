@@ -26,8 +26,36 @@ export default (prisma: PrismaClient) => {
     
     router.route('/:id')
         .get(async (req, res) => {
-            const user = await prisma.application.findFirst({where: {id: req.params.id}})
+            const user = await prisma.application.findFirst({where: {id: req.params.id}, include: {serviceAccounts: true}})
             res.send({result: user})
+        })
+
+    router.route('/:id/serviceaccounts')
+        .get(async (req, res) => {
+            const serviceAccounts = await prisma.applicationServiceAccount.findMany({where: {application: {id: req.params.id}}})
+            res.send({result: serviceAccounts})
+        })
+        .post(async (req, res) => {
+            const account = await prisma.applicationServiceAccount.create({
+                data: {
+                    id: nanoid(),
+                    name: req.body.name,
+                    apiKey: nanoid(),
+                    application: {
+                        connect: {id: req.params.id}
+                    }
+                }
+            })
+            res.send({result: account})
+        })
+        .put(async (req, res) => {
+            const account = await prisma.applicationServiceAccount.update({
+                where: {id: req.body.id},
+                data: {
+                    name: req.body.name
+                }
+            })
+            res.send({result: account})
         })
 
     return router;

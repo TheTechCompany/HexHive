@@ -9,6 +9,11 @@ import passport from 'passport';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
+import { PrismaClient } from '@hexhive/data'
+
+import ApiKeyStrategy from 'passport-headerapikey'
+// const { Strategy: ApiKeyStrategy } = require('passport-headerapikey')
+
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
 
 const {NODE_ENV} = process.env
@@ -41,6 +46,8 @@ const argv = yargs(hideBin(process.argv)).options({
 });
 
 (async () => {
+
+	const prisma = new PrismaClient();
 
 	const app = express()
 	const server = createServer(app)
@@ -76,6 +83,16 @@ const argv = yargs(hideBin(process.argv)).options({
 		next(null, obj)
 		// next(null, {...obj, name: "Test"});
 	});
+
+	// app.post('/auth', (req, res, next) => {
+	// 	console.log('Auth');
+	// 	next()
+	// }, (req, res, next) => {
+	// 	const resp = passport.authenticate('headerapikey')(req, res, next)
+	// }, (req, res) => {
+	// 	console.log("AUTH")
+	// 	res.send({user: req.user})
+	// })
 
 	app.use('/login', (req, res, next) => {
 		if(req.query.returnTo){
@@ -120,6 +137,34 @@ const argv = yargs(hideBin(process.argv)).options({
 	await gateway.init()
 
 	if(gateway.jwtSecret) jwtConfig.secretOrKey = gateway.jwtSecret
+
+	passport.use(new ApiKeyStrategy({
+		header: 'Authorization',
+		prefix: 'API-Key '
+	}, false, (apiKey: string, done: (err: any, user: any) => void) => {
+		console.log("API Key", {apiKey})
+
+		prisma.applicationServiceAccount?.findFirst({
+			where: {
+				apiKey: apiKey
+			},
+			include: {
+				application: true
+			}
+		}).then((serviceAccount) => {
+			if(serviceAccount){
+				done(null, {
+					type: 'appServiceAccount',
+					id: serviceAccount.id,
+					application: serviceAccount?.application?.id
+				})
+			}else{
+				done("No ServiceAccount found for API-Key", null)
+			}
+		})
+
+		// done(null, {apiKey})
+	}))
 
 	passport.use(new JwtStrategy(jwtConfig, (payload: any, done: (err: any, user: any) => void) => {
 		console.log("JWT", {payload})

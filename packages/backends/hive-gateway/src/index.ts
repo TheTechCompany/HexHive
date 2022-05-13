@@ -115,7 +115,7 @@ export class HiveGateway {
 				if(req.user){
 					next();
 				}else{
-					passport.authenticate('jwt', {session: false})(req, res, next)
+					passport.authenticate(['jwt', 'headerapikey'], {session: false})(req, res, next)
 				}
 			})
 		}

@@ -1,10 +1,17 @@
 import { PrismaClient } from "@hexhive/data"
+import { nanoid } from "nanoid"
 
 export default (prisma: PrismaClient) => {
     const typeDefs = `
 
         type Query {
             hiveAppliances: [HiveAppliance!]!
+        }
+
+        type Mutation {
+            createAppServiceAccount(app: ID, input: ServiceAccountInput): ServiceAccount
+            updateAppServiceAccount(app: ID, id: ID, input: ServiceAccountInput): ServiceAccount
+            deleteAppServiceAccount(app: ID, id: ID): ServiceAccount
         }
 
         type HiveAppliance {
@@ -21,8 +28,18 @@ export default (prisma: PrismaClient) => {
             permissions: [Permission!]! 
             services: [HiveService!]!
 
+            serviceAccounts: [ServiceAccount]
         }
 
+        input ServiceAccountInput {
+            name: String
+        }
+
+        type ServiceAccount {
+            id: ID!
+            name: String
+            apiKey: String
+        }
 
         type HiveType {
             id: ID! 
@@ -84,6 +101,31 @@ export default (prisma: PrismaClient) => {
                 const appliances = await prisma.application.findMany()
 
                 return appliances
+            }
+        },
+        Mutation: {
+            createAppServiceAccount: async (root: any, args: any, context: any) => {
+                return await prisma.applicationServiceAccount.create({
+                    data: {
+                        id: nanoid(),
+                        name: args.input.name,
+                        apiKey: nanoid(),
+                        application: {
+                            connect: {id: args.app}
+                        }
+                    }
+                })
+            },
+            updateAppServiceAccount: async (root: any, args: any, context: any) => {
+                return await prisma.applicationServiceAccount.update({
+                    where: {id: args.id},
+                    data: {
+                        name: args.input.name
+                    }
+                })
+            },
+            deleteAppServiceAccount: async (root: any, args: any, context: any) => {
+                return await prisma.applicationServiceAccount.delete({where: {id: args.id}})   
             }
         }
     }

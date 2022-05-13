@@ -99,6 +99,10 @@ export default async (deployment: string) => {
     })
 
 
+    const nodeGroup = new eks.ManagedNodeGroup(`${clusterName}-bare-metal`, {
+        cluster: cluster,
+        nodeGroupNamePrefix: `hexhive-`
+    })
     // const efsController = EFSCSI(cluster, account)
 
 //     const clusterInfo = await cluster.eksCluster.name.apply(name => {

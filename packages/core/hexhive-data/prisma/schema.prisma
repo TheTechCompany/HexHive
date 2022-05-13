@@ -57,6 +57,17 @@ model Application {
 
   users Organisation[]
   usedInRoles Role[]
+
+  serviceAccounts ApplicationServiceAccount[] @relation(name: "hasServiceAccount")
+}
+
+model ApplicationServiceAccount {
+  id String @id
+  name String
+  apiKey String
+
+  application Application @relation(name: "hasServiceAccount", references: [id], fields: [applicationId])
+  applicationId String
 }
 
 model Role {

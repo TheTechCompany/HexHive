@@ -73,7 +73,7 @@ export class SchemaRegistry {
 			}
 
 			if(shouldRenderGraphiQL(request)){
-				res.send(renderGraphiQL())
+				return res.send(renderGraphiQL())
 			}else{
 				const { operationName, query, variables } = getGraphQLParameters(request)
 
