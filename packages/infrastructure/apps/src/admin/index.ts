@@ -5,7 +5,7 @@ export const AdminPane = async (provider: k8s.Provider, dbUrl: Output<string>) =
     const config = new Config();
 
     let suffix = config.require('suffix');
-    let imageTag = config.require('image-tag');
+    let imageTag = process.env.FRONTEND_IMAGE //config.require('image-tag');
 
     let redundancy = config.require('redundancy');
 

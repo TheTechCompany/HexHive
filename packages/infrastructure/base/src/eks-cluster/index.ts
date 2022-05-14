@@ -74,11 +74,29 @@ export default async (deployment: string) => {
 
     const clusterName = `${deployment}-cluster`;
 
+      // IAM roles for the node group.
+      const role = new aws.iam.Role(`${deployment}-ng-role`, {
+        assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({
+            Service: "ec2.amazonaws.com",
+        }),
+    });
+    let counter = 0;
+    for (const policyArn of [
+        "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+        "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+        "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    ]) {
+        new aws.iam.RolePolicyAttachment(`${deployment}-ng-role-policy-${counter++}`,
+            { policyArn, role },
+        );
+    }
+
     const cluster = new eks.Cluster(clusterName, {
         fargate: true,
         vpcId: vpc.id,
         privateSubnetIds: vpc.privateSubnetIds,
-        createOidcProvider: true
+        createOidcProvider: true,
+        // instanceRoles: [role]
     })
 
 
@@ -98,6 +116,26 @@ export default async (deployment: string) => {
         provider: cluster.provider
     })
 
+  
+    const instanceProfile = new aws.iam.InstanceProfile(`${deployment}-ng-ip`, { role });
+
+
+
+    const managedGroup = new eks.ManagedNodeGroup(`${deployment}-mng`, {
+        cluster: cluster,
+        nodeRole: cluster.instanceRoles?.[0],
+        instanceTypes: ["t2.small"],
+        nodeGroupName: `managed-nodes`,
+        labels: {
+            type: 'managed-node-group'
+        },
+        scalingConfig: {
+            minSize: 1,
+            maxSize: 2,
+            desiredSize: 1
+        }
+    })
+    
 
     // const efsController = EFSCSI(cluster, account)
 
