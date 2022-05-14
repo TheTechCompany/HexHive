@@ -36,4 +36,4 @@ COPY --from=build /app/_node_modules ./node_modules/
 
 COPY --from=build /app/packages/backends/hive-admin/src/web-ui/build/ ./web-ui/build/
 
-CMD ["yarn", "run", "start"]
+CMD ["yarn", "run", "start:prod"]
