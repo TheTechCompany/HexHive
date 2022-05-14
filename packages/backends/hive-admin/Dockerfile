@@ -20,6 +20,8 @@ RUN yarn
 
 RUN yarn build
 
+WORKDIR /app
+
 RUN cp -Lr /app/packages/backends/hive-admin/node_modules/ _node_modules/
 
 WORKDIR /app/packages/backends/hive-admin
