@@ -129,12 +129,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         metadata: { 
             labels: appLabels,
             annotations: {
-                // 'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslCert.arn,
-                // 'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
-                // 'service.beta.kubernetes.io/aws-load-balancer-backend-protocol': 'http',
-                // 'service.beta.kubernetes.io/aws-load-balancer-type': 'internal',
-                // 'service.beta.kubernetes.io/aws-load-balancer-nlb-target-type': 'ip',
-                // 'service.beta.kubernetes.io/aws-load-balancer-scheme': 'internet-facing',
+            
             }
         },
         spec: {
