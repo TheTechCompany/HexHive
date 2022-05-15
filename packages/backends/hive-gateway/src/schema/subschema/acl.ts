@@ -99,12 +99,19 @@ export default (prisma: PrismaClient) => {
 				const members = await prisma.user.findMany()
 				return members;
 			},
-			applications: async (root: any) => {
+			applications: async (root: any, args: any, context: any) => {
 				//Add route for checking rbac
 				const applications = await prisma.application.findMany({
 					where: {
 						users: {
 							some: {id: root.id}
+						},
+						usedInRoles: {
+							some: {
+								usedBy: {
+									some: {trustId: context?.jwt?.id}
+								}
+							}
 						}
 					}
 				})

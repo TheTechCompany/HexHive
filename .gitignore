@@ -3,6 +3,8 @@ dist/
 build/
 out/
 
+migration/
+
 *yarn-error.log
 
 *.tsbuildinfo
