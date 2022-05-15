@@ -6,7 +6,6 @@ import { HexButton } from '../hex-box-background/HexButton';
 import { useQuery, gql } from '@apollo/client';
 import { AppModal } from '../app-modal';
 import { Files, Flow, Market, Command, Automate, Settings, Signage } from '../../assets/icons';
-import { Assessment } from '@mui/icons-material'
 import Fonts from '../../assets/fonts';
 import { useAuth } from '@hexhive/auth-ui';
 import { useNavigate } from 'react-router-dom';
@@ -85,7 +84,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'automate'
             },
             {
-                icon: <Assessment />,
+                icon: <Market width="50" height="50" />,
                 top: 3, 
                 title: "Reports",
                 left: 8,
