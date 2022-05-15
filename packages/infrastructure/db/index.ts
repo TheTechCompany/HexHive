@@ -1,5 +1,3 @@
-import { config } from 'dotenv'
-config();
 import { Provider } from "@pulumi/kubernetes";
 import * as pulumi from '@pulumi/pulumi'
 import { Config } from "@pulumi/pulumi";
