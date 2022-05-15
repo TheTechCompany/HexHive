@@ -1,9 +1,11 @@
-name: Staging Infrastructure
+name: Infrastructure
 
 on:
   push:
     branches:
       - staging
+      - next
+      - master
     paths: ["packages/infrastructure/apps/**", "packages/core/**", "packages/backends/**"]
 
 concurrency: infra-${{ github.ref }}
@@ -235,6 +237,22 @@ jobs:
       - name: Install Pulumi CLI
         uses: pulumi/setup-pulumi@v2
 
+      - name: Setup DB stack
+        run: |
+          echo "DB_NAME=ultraviolet/db-staging" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/staging' }}
+
+      - name: Setup stack
+        run: |
+          echo "DB_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/next' }}
+
+      - name: Setup stack
+        run: |
+          echo "DB_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/master' }}
+        
+
       - run: pulumi stack select ultraviolet/staging
         working-directory: ./packages/infrastructure/apps
 
@@ -244,6 +262,9 @@ jobs:
         working-directory: ./packages/infrastructure/apps
         id: kube_config
 
+      - run: pulumi stack select ${{ env.DB_NAME }}
+        working_directory: ./packages/infrastructure/db
+        
       - run: echo "::set-output name=postgres::$(pulumi stack output postgres_name )" 
         working-directory: ./packages/infrastructure/db
         id: postgres_url

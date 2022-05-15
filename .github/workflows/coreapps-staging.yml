@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - staging
+      - next
+      - master
     paths: ["packages/core-apps/**"]
 
 jobs:
