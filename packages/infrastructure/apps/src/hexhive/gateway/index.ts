@@ -226,9 +226,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
         metadata: { 
             labels: appLabels,
             annotations: {
-            //     'kubernetes.io/ingress.class': 'alb',
-            //     'alb.ingress.kubernetes.io/scheme': 'internet-facing',
-            //     'alb.ingress.kubernetes.io/target-type': 'ip',
+        
                 'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslValidation.certificateArn,
                 'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
                 'service.beta.kubernetes.io/aws-load-balancer-backend-protocol': 'http',
