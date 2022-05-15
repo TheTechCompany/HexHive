@@ -263,7 +263,7 @@ jobs:
         id: kube_config
 
       - run: pulumi stack select ${{ env.DB_NAME }}
-        working_directory: ./packages/infrastructure/db
+        working-directory: ./packages/infrastructure/db
         
       - run: echo "::set-output name=postgres::$(pulumi stack output postgres_name )" 
         working-directory: ./packages/infrastructure/db
