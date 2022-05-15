@@ -33,7 +33,6 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         vpcId: id,
         name: 'default'
     }))
-    // const subnetIds = await vpc.publicSubnetIds;
 
     const targets = [];
 
