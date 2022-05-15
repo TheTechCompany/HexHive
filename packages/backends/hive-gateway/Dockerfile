@@ -28,7 +28,7 @@ WORKDIR /app
 
 COPY --from=build /app/packages/backends/hive-gateway/dist .
 COPY --from=build /app/packages/backends/hive-gateway/package.json .
-COPY --from=build /app/packages/backends/hive-gateway/_nde_modules ./node_modules/
+COPY --from=build /app/packages/backends/hive-gateway/_node_modules ./node_modules/
 
 
 CMD ["yarn", "run", "start:prod"]
