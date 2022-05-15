@@ -21,7 +21,6 @@ const main = (async () => {
     if(!process.env.POSTGRES_PASSWORD) throw new Error("no POSTGRES_PASSWORD env set");
 
     const { service: dbService } = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
-
     return {
         dbService,
         dbPass: process.env.POSTGRES_PASSWORD
