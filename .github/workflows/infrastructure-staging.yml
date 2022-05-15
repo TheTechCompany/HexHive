@@ -148,7 +148,7 @@ jobs:
         uses: docker/build-push-action@v2
         with: 
           context: .
-          file: ./HiveGateway.Dockerfile
+          file: ./packages/backends/hive-gateway/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
