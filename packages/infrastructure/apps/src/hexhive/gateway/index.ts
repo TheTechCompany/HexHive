@@ -224,6 +224,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
 
     const service = new k8s.core.v1.Service(`${appName}-svc`, {
         metadata: { 
+            name: `${appName}-svc`,
             labels: appLabels,
             annotations: {
         

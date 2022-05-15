@@ -81,6 +81,7 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
 
     const service = new k8s.core.v1.Service(`${appName}-svc`, {
         metadata: {
+            name: `${appName}-svc`,
             labels: appLabels,
             annotations: {
                'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslValidation.certificateArn,
