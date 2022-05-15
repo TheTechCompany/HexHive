@@ -1,15 +1,12 @@
 name: Publish
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - development
-      - master
+      - staging
 
 jobs:
   publish:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -32,17 +29,18 @@ jobs:
     - name: Build # Build all packages
       run: npx lerna exec npm run build
 
+    - name: Setup NPM Token
+      run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+
     - name: "Version and publish" # Interesting step
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor}}@users.noreply.github.com"
 
-        if [ ${{ github.base_ref }} = development ]; then
+        if [ ${{ github.ref_name }} = staging ]; then
           npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes
         else
           npx lerna version --conventional-commits --conventional-graduate --yes
         fi
 
-        npx lerna publish from-git --yes
+        npx lerna publish from-git --yes --no-verify-access

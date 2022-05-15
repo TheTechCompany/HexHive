@@ -1,23 +1,29 @@
 import {JwksClient} from 'jwks-rsa'
 import { Router } from 'express';
 import {verify} from 'jsonwebtoken';
-import { GraphQLSchema } from 'graphql'
-import { graphqlHTTP } from 'express-graphql'
+import { GraphQLSchema, print } from 'graphql'
+import { getGraphQLParameters, processRequest, renderGraphiQL, shouldRenderGraphiQL, sendResult } from "graphql-helix";
 import { Driver } from 'neo4j-driver';
 import { Neo4jGraphQL } from '@neo4j/graphql'
-import { mergeTypeDefs } from '@graphql-tools/merge'
-
+import { mergeResolvers, mergeTypeDefs } from '@graphql-tools/merge'
+import { GraphQLUpload, graphqlUploadExpress } from 'graphql-upload'
+import { makeExecutableSchema } from '@graphql-tools/schema'
+import { stitchSchemas } from '@graphql-tools/stitch'
+import bodyParser from 'body-parser'
 import {OGM} from '@neo4j/graphql-ogm'
-
+import { HashType } from './directives/hash'
 import gql from 'graphql-tag';
 import schema from './schema';
-import { HashType } from './directives/hash';
+import { graphqlHTTP } from './handler';
+import { DateResolver, DateTimeResolver } from 'graphql-scalars';
 
 export interface HiveGraphOptions {
 	rootServer: string;
-	schema: GraphQLSchema | {typeDefs: any, resolvers: any, driver: Driver};
+	schema: GraphQLSchema | {typeDefs: any, resolvers: any};
 	dev?: boolean;
+	uploads?: boolean;
 }
+
 
 export class HiveGraph {
 
@@ -29,6 +35,8 @@ export class HiveGraph {
 
 	private rootServer?: string;
 
+	private scalarSchema: GraphQLSchema;
+
 	private schema: GraphQLSchema;
 
 	private jwksClient?: JwksClient;
@@ -39,30 +47,55 @@ export class HiveGraph {
 		this.rootServer = options.rootServer;
 		this.dev = options.dev || false
 
+		this.schema = new GraphQLSchema({})
+
+		this.scalarSchema = makeExecutableSchema({
+			typeDefs: gql`
+				scalar Upload
+			`,
+			resolvers: {
+				Upload: GraphQLUpload
+			}
+		})
+
 		if(options.schema instanceof GraphQLSchema){
-			this.schema = options.schema;
+			this.schema = stitchSchemas({subschemas: [options.schema, this.scalarSchema]});
 		}else{
-			const { typeDefs, resolvers, driver } = options.schema;
+			const { typeDefs, resolvers = {} } = options.schema;
+
+			console.log('=> HiveGraph: Setting up schema')
+
+			let ScalarTypes : any = {}
+			if(options.uploads) ScalarTypes['Upload'] = GraphQLUpload;
 
 			const mergedTypeDefs = mergeTypeDefs([
-				schema,
+				schema({uploads: options.uploads || false}),
 				typeDefs
 			])
-			const neo = new Neo4jGraphQL({
-				resolvers: {
-					...resolvers,
-					Hash: HashType
+
+			const mergedResolvers = mergeResolvers([
+				resolvers,
+				{
+					Hash: HashType,
+					DateTime: DateTimeResolver,
+					Date: DateResolver,
+					...ScalarTypes
 				},
-				driver,
-				// schemaDirectives: {
-				// 	hash: HashDirective
-				// },
-				
-				typeDefs: mergedTypeDefs
+				{
+					Query: {
+						_sdl: () => print(mergedTypeDefs)
+					}
+				}
+			])
+
+			console.log('=> HiveGraph: Merged TypeDefs')
+
+			this.schema = makeExecutableSchema({
+				typeDefs: mergedTypeDefs,
+				resolvers: mergedResolvers
 			})
 
-			this.ogm = new OGM({ typeDefs: mergedTypeDefs, driver })
-			this.schema = neo.schema
+			console.log(`=> HiveGraph : Schema setup`)
 		}
 
 		this.jwksClient = new JwksClient({
@@ -70,7 +103,6 @@ export class HiveGraph {
 		})
 		
 		this.router = Router()
-
 	}
 
 	get isDev(){
@@ -80,19 +112,13 @@ export class HiveGraph {
 	async init(){
 		await this.getRootConfiguration()
 
-		// if(!this.schema) return;
 		if(this.schema){
+			this.router.use(bodyParser.json());
 			if(!this.isDev) this.router.use('/graphql', this.isAuthenticated.bind(this))
 			this.router.use(
 				'/graphql', 
-				graphqlHTTP(async (req, res, graphqlParams) => ({
-					schema: this.schema,
-					graphiql: true,
-					context: {
-						...req,
-						ogm: this.ogm
-					}
-				}))
+				graphqlUploadExpress({maxFileSize: 10 * 1024 * 1024, maxFiles: 20}),
+				graphqlHTTP(this.schema)
 			)
 		}
 	}
@@ -100,17 +126,24 @@ export class HiveGraph {
 	isAuthenticated(req: any, res: any, next: any){
 		const hiveJwt = req.headers["x-hive-jwt"]?.toString();
 
+		const gatewayUrl = req.headers['x-hive-gateway']?.toString();
+
 		if (hiveJwt) {
 		  const verified = verify(
 			hiveJwt,
 			this.keys?.[0] || '',
 			{ algorithms: ["RS256"] }
 		  );
-		
+
+		  (req as any).token  = hiveJwt;
+			
+		  (req as any).gatewayUrl = gatewayUrl;
+		  
 		  (req as any).jwt = {
 			  ...(verified as any || {}),
 			id: (verified as any)?.sub,
 		  };
+
 		  next();
 		} else {
 		  res.send({ error: "No JWT" });

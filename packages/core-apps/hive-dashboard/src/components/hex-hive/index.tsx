@@ -1,12 +1,12 @@
 import { Box } from 'grommet';
 import { Add, Shop, Spa, Robot, Document, Folder, Monitor } from 'grommet-icons'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
 import { useQuery, gql } from '@apollo/client';
 import { AppModal } from '../app-modal';
 import { Files, Flow, Market, Command, Automate, Settings, Signage } from '../../assets/icons';
-
+import { Assessment } from '@mui/icons-material'
 import Fonts from '../../assets/fonts';
 import { useAuth } from '@hexhive/auth-ui';
 import { useNavigate } from 'react-router-dom';
@@ -23,12 +23,15 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
 
     const { data } = useQuery(gql`
         query Q {
-            hiveAppliances {
-                id
-                name
-                label
-         
+
+            organisation {
+                applications {
+                    id
+                    name
+                    slug
+                }
             }
+       
         }
     `)
 
@@ -37,70 +40,16 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
     const [ selectedPos, setSelectedPos ] = useState<{x?: number, y?: number}>({})
     const [ modalOpen, openModal ] = useState<boolean>(false);
 
-    console.log(user)
-    const [ actions, setActions ] = useState<any[]>([
-        {
-            id: '',
-            icon: <Market  width="50" height="50"/>,
-            title: "Market",
-            top: 3,
-            left: 3,
-            path: '/market'
-        },
-        {
-            id: '0a8eedf3-6802-4ae9-9304-94129d08ee14',
-            icon: <Files  width="50" height="50"/>,
-            title: "Files",
-            top: 3,
-            left: 4,
-            path: '/files'
-        },
-        {
-            id: '35dec0fc-b2ab-4074-8060-f2216260d360',
-            icon: <Flow  width="50" height="50" />,
-            top: 3,
-            title: "Flow",
-            left: 5,
-            path: '/flow'
-        },
-        {
-            id: '808e383f-9c2b-4ccb-9900-7562b8b344a4',
-            icon: <Command  width="50" height="50"/>,
-            top: 3,
-            title: "Command",
-            left: 6,
-            path: '/command'
-        },
-        {
-            id: '',
-            icon: <Automate width="50" height="50"/>,
-            top: 3,
-            title: "Automate",
-            left: 7,
-            path: '/automate'
-        },
-        {
-            id: '',
-            icon: <Settings color="black" height="50" width="50" />,
-            top: 3,
-            title: "Settings",
-            left: 8,
-            path: '/settings'
-        }
-    ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1))
+    const activeApps = data?.organisation?.applications || [];
 
-    // const query = useQuery({suspense: false, staleWhileRevalidate: true})
     
-    const apps = data?.hiveAppliances || []
+    // const refreshApplications = () => {
 
-    console.log({apps: apps.map((x) => ({...x}))})
-    
-    const refreshApplications = () => {
-        setActions(
+    const actions = useMemo(() => {
+        //Checks org apps against hard list until we have a better solution for svg icons
    
-            [
+            return [
             {
-                id: '',
                 icon: <Market  width="50" height="50"/>,
                 title: "Market",
                 top: 3,
@@ -108,7 +57,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'market'
             },
             {
-                id: '0a8eedf3-6802-4ae9-9304-94129d08ee14',
                 icon: <Files  width="50" height="50"/>,
                 title: "Files",
                 top: 3,
@@ -116,7 +64,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'files'
             },
             {
-                id: '35dec0fc-b2ab-4074-8060-f2216260d360',
                 icon: <Flow  width="50" height="50" />,
                 top: 3,
                 title: "Flow",
@@ -124,7 +71,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'flow'
             },
             {
-                id: '808e383f-9c2b-4ccb-9900-7562b8b344a4',
                 icon: <Command  width="50" height="50"/>,
                 top: 3,
                 title: "Command",
@@ -132,7 +78,6 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'command'
             },
             {
-                id: 'ZJ5pksG7fbU3ThLG3_nA3',
                 icon: <Automate width="50" height="50"/>,
                 top: 3,
                 title: "Automate",
@@ -140,46 +85,47 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'automate'
             },
             {
-                id: 'hCnbZc6H0F4ehaqQlENqc',
+                icon: <Assessment />,
+                top: 3, 
+                title: "Reports",
+                left: 8,
+                path: 'report'
+            },
+            {
                 icon: <Settings />,
                 top: 3,
                 title: "Settings",
-                left: 8,
-                path: 'settings'
-            },
-            {
-                id: '3_5JcF5u_XV4LDQErU6r9',
-                icon: <Signage />,
-                title: "Signage",
-                top: 3,
                 left: 9,
-                path: 'signage'
+                path: 'settings'
             }
-        ].filter((a) => user?.activeUser?.applications?.map((x) => x.id).indexOf(a.id) > -1).concat(
-            (user?.activeUser?.applications || []).filter((a: any) => {
-                return a && a?.dev == true;
-            }).map((x: any, ix) => ({
-                id: x.route,
-                icon: <div></div>,
-                title: x.name,
-                path: x.route,
-                top: 2,
-                left: ix,
-                dev: x.dev
-            }))
-        ))
-    }
+        ].filter((a) => activeApps?.map((x) => x.slug).indexOf(a.path) > -1)
+        
+        // .concat(
+        //     (user?.activeUser?.applications || []).filter((a: any) => {
+        //         return a && a?.dev == true;
+        //     }).map((x: any, ix) => ({
+        //         id: x.route,
+        //         icon: <div></div>,
+        //         title: x.name,
+        //         path: x.route,
+        //         top: 2,
+        //         left: ix,
+        //         dev: x.dev
+        //     }))
+        // ))
+    }, [activeApps])
 
-    useEffect(() => {
-        refreshApplications()
-    }, [user?.activeUser])
+    // useEffect(() => {
+    //     refreshApplications()
+    // }, [activeApps])
+
     return (
         <Box overflow="hidden">
             <AppModal   
                 open={modalOpen} 
                 onSubmit={(app: {name: string, path: string}) => {
                     console.log(app)
-                    let a = actions.slice()
+                    let a : any[] = actions.slice()
                     
                     let ix = a.map((x) => `${x.top},${x.left}`).indexOf(`${selectedPos.y},${selectedPos.x}`)
                     
@@ -198,14 +144,14 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                             path: app.path
                         })
                     }
-                    setActions(a)
+                    // setActions(a)
                     openModal(false)
                 }}
                 onClose={() => openModal(false)} />
            
             <HexBoxBackground
                 onActionsChanged={(actions) => {
-                    setActions(actions)
+                    // setActions(actions)
                     console.log(actions)
                 }}
                 onClick={(pos) => {
@@ -225,7 +171,7 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 }}
                 noBackground
                 edit={props.edit}
-                apps={apps}
+                apps={activeApps}
                 actions={actions}
                 size={{background: 3, actions: 6}}>
           

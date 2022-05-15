@@ -20,11 +20,13 @@ export const CRUDList : React.FC<CRUDListProps> = (props) => {
 			overflow="hidden"
 			background="neutral-1" 
 			round="xsmall">
-			<Box background="accent-2" direction="row" justify="end" align="center">
+			<Box background="accent-2" pad="xsmall" direction="row" justify="end" align="center">
 				<Button 	
+					plain
+					style={{padding: 6, borderRadius: 3}}
 					onClick={props.onCreate}
 					hoverIndicator 
-					icon={<Add />} />
+					icon={<Add size='small' />} />
 			</Box>
 			<Box
 				overflow="scroll"

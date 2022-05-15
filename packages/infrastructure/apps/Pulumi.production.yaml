@@ -1,9 +1,12 @@
 config:
   aws:region: ap-southeast-2
-  apps:greenco-api: api.greenco.co.nz
   apps:frontend-url: go.hexhive.io
   apps:gateway-url: api.hexhive.io
-  apps:suffix: production
-  apps:image-tag: latest
+  apps:suffix: prod
+
   apps:org: ultraviolet
-  apps:redundancy: 2
+  apps:redundancy: 1
+
+  apps:deployment-level: apps
+
+

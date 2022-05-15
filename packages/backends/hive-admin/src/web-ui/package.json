@@ -1,0 +1,57 @@
+{
+  "name": "web-ui-traditional",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@hexhive/styles": "^0.0.6-alpha.13",
+    "@hexhive/ui": "^0.0.12-alpha.11",
+    "@hexhive/utils": "^0.0.6-alpha.13",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.6.3",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^16.11.31",
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.0",
+    "grommet": "^2.22.0",
+    "polished": "^4.2.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "styled-components": "^5.3.5",
+    "typescript": "4.5.3",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.25"
+  },
+  "resolutions": {
+    "@types/react-dom": "17.0.0"
+  }
+}

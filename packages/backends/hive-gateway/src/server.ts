@@ -4,17 +4,17 @@ import yargs from 'yargs/yargs'
 import { hideBin } from 'yargs/helpers'
 import { readFileSync } from 'fs';
 import { createServer, Server as HttpServer } from 'http';
-import { Server } from 'socket.io';
 import express from 'express';
 import passport from 'passport';
-import neo4j from 'neo4j-driver'
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
-const OidcStrategy = require('passport-openidconnect').Strategy;
-const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
-const greenlock = require("greenlock-express")
+import { PrismaClient } from '@hexhive/data'
 
+import ApiKeyStrategy from 'passport-headerapikey'
+// const { Strategy: ApiKeyStrategy } = require('passport-headerapikey')
+
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
 
 const {NODE_ENV} = process.env
 
@@ -47,13 +47,15 @@ const argv = yargs(hideBin(process.argv)).options({
 
 (async () => {
 
+	const prisma = new PrismaClient();
+
 	const app = express()
 	const server = createServer(app)
 
-	const neoDriver = neo4j.driver(
-		process.env.NEO4J_URI || "localhost",
-		neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
-	)
+	// const neoDriver = neo4j.driver(
+	// 	process.env.NEO4J_URI || "localhost",
+	// 	neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
+	// )
 	
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
 
@@ -82,6 +84,16 @@ const argv = yargs(hideBin(process.argv)).options({
 		// next(null, {...obj, name: "Test"});
 	});
 
+	// app.post('/auth', (req, res, next) => {
+	// 	console.log('Auth');
+	// 	next()
+	// }, (req, res, next) => {
+	// 	const resp = passport.authenticate('headerapikey')(req, res, next)
+	// }, (req, res) => {
+	// 	console.log("AUTH")
+	// 	res.send({user: req.user})
+	// })
+
 	app.use('/login', (req, res, next) => {
 		if(req.query.returnTo){
 			(req.session as any).returnTo = req.query.returnTo
@@ -105,77 +117,113 @@ const argv = yargs(hideBin(process.argv)).options({
 			}
 		);
 
-	passport.use( new JwtStrategy(jwtConfig, (payload: any, done: (err: any, user: any) => void) => {
-		console.log({payload})
-		const session = neoDriver?.session();
-		session?.run(`
-			MATCH (org:HiveOrganisation)-[:HAS_KEY]->(:HiveKey {key: $key})-[:HAS_PERMISSION]->(apps:HiveAppliance)
-
-			RETURN {
-				organisation: org.id,
-				applications: collect(apps{.*})
-			}
-		`, {
-			key: payload.key
-		}).then((data) => {
-			const user = data?.records?.[0]?.get(0);
-
-			session.close()
-			done(null, {type: 'api-key', ...user})
-		})
-
-
-	}))
-		
-	passport.use('oidc', new OidcStrategy({
-		...config,
-		skipUserProfile: false
-	}, (issuer: any, profile: any, done: any) => {
-		console.log({profile})
-		const session = neoDriver?.session();
-		session?.run(`
-		  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
-		  CALL {
-			  WITH user
-			MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-			RETURN distinct(apps{.*}) as apps
-		  }
-		  RETURN user{
-			id: user.id,
-			name: user.name,
-			organisation: org.id,
-			applications: collect(apps{.*})
-		  }
-		`, {
-		  
-			id: profile.id,
-		  
-		}).then((data) => {
-		  
-		  const user = data.records?.[0].get(0);
-		  console.log("deserializeUser", user);
-		  session.close()
-		  done(null, user);
-		})
-	}))
-
 	const { port, endpoints, dev } = await argv.argv;
 
 	console.log(`=> Starting Gateway on ${port}`)
-
+	
 	let endpointInfo = [];
+
 	if(endpoints){
 		const endpointData = JSON.parse(readFileSync(endpoints, 'utf8'))
 		endpointInfo = endpointData.endpoints.map(({url, name, version}: any) => ({url, key: name, version}))
 	}
-
+	
 	const gateway = new HiveGateway({
 		dev: dev,
 		endpoints: endpointInfo
 	})
-	
+		
 	console.log(`=> Initializing Gateway`)
 	await gateway.init()
+
+	if(gateway.jwtSecret) jwtConfig.secretOrKey = gateway.jwtSecret
+
+	passport.use(new ApiKeyStrategy({
+		header: 'Authorization',
+		prefix: 'API-Key '
+	}, false, (apiKey: string, done: (err: any, user: any) => void) => {
+		console.log("API Key", {apiKey})
+
+		prisma.applicationServiceAccount?.findFirst({
+			where: {
+				apiKey: apiKey
+			},
+			include: {
+				application: true
+			}
+		}).then((serviceAccount) => {
+			if(serviceAccount){
+				done(null, {
+					type: 'appServiceAccount',
+					id: serviceAccount.id,
+					application: serviceAccount?.application?.id
+				})
+			}else{
+				done("No ServiceAccount found for API-Key", null)
+			}
+		})
+
+		// done(null, {apiKey})
+	}))
+
+	passport.use(new JwtStrategy(jwtConfig, (payload: any, done: (err: any, user: any) => void) => {
+		console.log("JWT", {payload})
+		
+		if(payload.key){
+			// const session = neoDriver?.session();
+			// session?.run(`
+			// 	MATCH (org:HiveOrganisation)-[:HAS_KEY]->(:HiveKey {key: $key})-[:HAS_PERMISSION]->(apps:HiveAppliance)
+
+			// 	RETURN {
+			// 		organisation: org.id,
+			// 		applications: collect(apps{.*})
+			// 	}
+			// `, {
+			// 	key: payload.key
+			// }).then((data) => {
+			// 	const user = data?.records?.[0]?.get(0);
+
+			// 	session.close()
+			// 	done(null, {type: 'api-key', ...user})
+			// })
+		}else{
+			done(null, {type: 'app-2-app', ...payload})
+		}
+
+	}))
+		
+	// passport.use('oidc', new OidcStrategy({
+	// 	...config,
+	// 	skipUserProfile: false
+	// }, (issuer: any, profile: any, done: any) => {
+	// 	console.log({profile})
+	// 	const session = neoDriver?.session();
+	// 	session?.run(`
+	// 	  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
+	// 	  CALL {
+	// 		  WITH user
+	// 		MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
+	// 		RETURN distinct(apps{.*}) as apps
+	// 	  }
+	// 	  RETURN user{
+	// 		id: user.id,
+	// 		name: user.name,
+	// 		organisation: org.id,
+	// 		applications: collect(apps{.*})
+	// 	  }
+	// 	`, {
+		  
+	// 		id: profile.id,
+		  
+	// 	}).then((data) => {
+		  
+	// 	  const user = data.records?.[0].get(0);
+		  
+	// 	  session.close()
+	// 	  done(null, user);
+	// 	})
+	// }))
+
 
 	console.log(`=> Starting Gateway`)
 
@@ -220,7 +268,7 @@ const argv = yargs(hideBin(process.argv)).options({
 			// }).ready(httpsWorker)
 		}else{
 	
-			const io = new Server(server)
+			// const io = new Server(server)
 	
 			// setupWebsockets(io);
 	

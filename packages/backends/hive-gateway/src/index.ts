@@ -1,38 +1,36 @@
 require("dotenv").config()
 
-
-import neo4j from "neo4j-driver"
-
-import { REMOTE_SCHEMA } from "./remotes"
 import { DefaultRouter } from "./routes"
 
-import { TaskRegistry } from "./task-registry"
-
-import { Driver, Session } from "neo4j-driver"
 import { HiveRouter } from "./router"
 import { SchemaEndpoint, SchemaRegistry } from "./schema-registry"
 import hive from "./schema/hive"
 import { KeyManager } from "./keys"
 import passport from "passport"
 
+import { graphqlUploadExpress } from 'graphql-upload'
+import { Pool } from "pg"
+import { PrismaClient } from "@hexhive/data"
 const {NODE_ENV} = process.env
 
 const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next.hexhive.io", ISSUER = `http://localhost:${PORT}` } = process.env
+
+const prisma = new PrismaClient()
 
 export class HiveGateway {
 
 	private router?: HiveRouter;
 
-	private taskRegistry: TaskRegistry = new TaskRegistry();
 
 	private keyManager: KeyManager;
 
 	private schemaRegistry?: SchemaRegistry;
 	private schemaReloader?: NodeJS.Timer;
 
-	private neoDriver?: Driver;
+	// private neoDriver?: Driver;
 
-	private neoSession?: Session;
+	private pool?: Pool;
+
 
 	private options : { dev: boolean, endpoints?: SchemaEndpoint[]};
 
@@ -40,6 +38,8 @@ export class HiveGateway {
 	constructor(opts: {dev: boolean, endpoints?: SchemaEndpoint[]}){
 		
 		this.keyManager = new KeyManager();
+
+	
 		this.options = opts;
 	
 	}
@@ -48,13 +48,23 @@ export class HiveGateway {
 		return this.options.dev
 	}
 
+	get jwtSecret(){
+		return this.keyManager.publicKey
+	}
+
 	async init(){
 		this.initDB();
 		await this.keyManager.init()
 
-		this.router = new HiveRouter({
-			neoDriver: this.neoDriver
+		const token = this.keyManager.sign({
+			sub: '1234',
+			organisation: '1234'
 		})
+
+		console.log({token});
+		
+
+		this.router = new HiveRouter({})
 
 		await this.initHive();
 		await this.initRouter()
@@ -75,9 +85,10 @@ export class HiveGateway {
 	}
 	
 	async initHive(){
-		if(!this.neoDriver) throw new Error("No Neo4j Driver")
+		if(!this.pool) throw new Error("No PSQL Driver")
 
-		const schema = await hive(this.neoDriver, this.taskRegistry)
+		const schema = await hive(this.pool, prisma)
+
 		this.schemaRegistry = new SchemaRegistry({
 			initialEndpoints: this.options.endpoints || [],
 			internalSchema: schema,
@@ -86,36 +97,46 @@ export class HiveGateway {
 	}
 
 	initRouter(){
-		if(!this.neoDriver) return;
-		this.router?.mount(DefaultRouter(this.neoDriver, this.taskRegistry)) 
+		// if(!this.neoDriver) return;
+		this.router?.mount(DefaultRouter()) 
 
 		this.router?.mount('*', (req: any, res: any, next: any) => {
 			// console.log({user: req.user, jwt: (req as any).jwt});
 			req.jwt = req.user;
 			next()
 		})
+		
 		this.router?.mount('/.well-known/jwks.json', (req: any, res: any) => {
 			res.send(this.keyManager.jwks)
 		})
-		this.router?.mount('/graphql',  (req: any, res: any, next: any) => {
-			if(req.user){
-				next();
-			}else{
-				passport.authenticate('jwt', {session: false})(req, res, next)
-			}
-		})
+
+		if(!this.isDev){
+			this.router?.mount('/graphql',  (req: any, res: any, next: any) => {
+				if(req.user){
+					next();
+				}else{
+					passport.authenticate(['jwt', 'headerapikey'], {session: false})(req, res, next)
+				}
+			})
+		}
+		this.router?.mount('/graphql', graphqlUploadExpress({maxFileSize: 100 * 1024 * 1024, maxFiles: 30}));
 		this.router?.mount('/graphql', this.schemaRegistry?.middleware())
 
 	}
 
 	initDB(){
+		this.pool = new Pool({
+			host: process.env.DB_HOST || "localhost",
+			user: process.env.DB_USER || "postgres",
+			password: process.env.DB_PASSWORD || "test",
+		})
 
-		this.neoDriver = neo4j.driver(
-			process.env.NEO4J_URI || "localhost",
-			neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
-		)
+		// this.neoDriver = neo4j.driver(
+		// 	process.env.NEO4J_URI || "localhost",
+		// 	neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
+		// )
 
-		this.neoSession = this.neoDriver.session();
+		// this.neoSession = this.neoDriver.session();
 	}
 
 }

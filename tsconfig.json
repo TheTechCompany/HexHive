@@ -13,8 +13,14 @@
      "graphql": ["../node_modules/graphql"],
      "graphql-tag": ["../node_modules/graphql-tag"],
      "graphql-compose": ["../node_modules/graphql-compose"],
+
+     "@hexhive/data": ["./core/hexhive-data/src"],
+
      "@hexhive/gateway": ["./backends/hive-gateway/src"],
      "@hexhive/frontend-server": ["./backends/hive-frontend/src"],
+     "@hexhive-core/login": ["./core-apps/hive-login/src"],
+     "@hexhive-core/login-v2": ["./core-apps/hive-login-v2/src"],
+
      "@hexhive/express-graphql": ["./core/express-graphql/src"],
      "@hexhive/microfrontend-server": ["./core/hexhive-microfrontend/src"],
      "@gqty/react": ["../node_modules/@gqty/react"],
@@ -32,7 +38,6 @@
      "@hexhive/styles": ["./shared/hexhive-styles/src"],
      "@hexhive/auth-ui": ["./shared/hexhive-auth-ui/src"],
      "@hexhive/types": ["./shared/hexhive-types/src"],
-     "@hexhive/utils": ["./shared/hexhive-utils/src"],
      "@hexhive/ui": ["./core/hexhive-ui/src"],
      "@hexhive/collaboration-client": ["./core/collaboration-client/src"],
      "@hexhive/collaboration-server": ["./core/collaboration-server/src"]

@@ -1,7 +1,0 @@
-config:
-  aws:region: ap-southeast-2
-  hexhive-infra:frontend-url: staging.hexhive.io
-  hexhive-infra:gateway-url: staging-api.hexhive.io
-  hexhive-infra:suffix: staging
-  hexhive-infra:image-tag: latest-next
-  hexhive-infra:greenco-api: staging-api.greenco.co.nz

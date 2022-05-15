@@ -10,8 +10,6 @@ import { HiveMicrofrontendServer } from "@hexhive/microfrontend-server";
 import { frontendRouter } from "./router";
 
 
-
-
 export interface HiveFrontendRoute {
   route: string;
   url: string;
@@ -93,24 +91,24 @@ export class HiveFrontendServer {
       {
         name: '@hexhive-core/settings',
         config_url: `${
-          // process.env.NODE_ENV == "production" 
-            "https://apps.hexhive.io/settings/"
-            // : "http://localhost:8888/"
+          process.env.NODE_ENV == "production"  ?
+            `https://${process.env.DEPLOYMENT || 'apps'}.hexhive.io/settings/`
+            : "http://localhost:8888/"
         }hexhive-core-settings.js`
       },
       {
         name: "@hexhive-core/dashboard",
         config_url: `${
-          // process.env.NODE_ENV == "production" ?
-            "https://apps.hexhive.io/dashboard/"
-            // : "http://localhost:8501/"
+          process.env.NODE_ENV == "production" ?
+            `https://${process.env.DEPLOYMENT || 'apps'}.hexhive.io/dashboard/`
+            : "http://localhost:8501/"
         }hexhive-core-dashboard.js`,
       },
       {
         name: "@hexhive-core/header",
         config_url: `${
           // process.env.NODE_ENV == "production" ?
-            "https://apps.hexhive.io/header/"
+            `https://${process.env.DEPLOYMENT || 'apps'}.hexhive.io/header/`
             // : "http://localhost:8502/"
         }hexhive-core-header.js`,
       },
@@ -158,7 +156,6 @@ export class HiveFrontendServer {
     });
 
     this.app.get('/*', (req, res, next) => {
-      console.log(req.path)
       if(req.path.indexOf('/dashboard') < 0 && req.path.indexOf('/me') < 0 && req.path.indexOf('/login') < 0 && req.path.indexOf('/logout') < 0 && req.path.indexOf('/error') < 0) {
         res.redirect('/dashboard')
       }else{

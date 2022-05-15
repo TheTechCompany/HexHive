@@ -3,14 +3,12 @@ import express, { Express, Router } from 'express';
 import session from 'express-session';
 import helmet from 'helmet';
 import passport from 'passport';
-import { Server } from 'socket.io';
 import cors from 'cors';
 import MongoStore from 'connect-mongo'
-import { Driver } from 'neo4j-driver'
 
 
 export interface HiveRouterOptions {
-	neoDriver?: Driver;
+
 }
 
 export class HiveRouter {
@@ -46,7 +44,7 @@ export class HiveRouter {
 
 		// this.app.use(cors())
 		this.app.use(cookieParser())
-		this.app.use(helmet())
+		// this.app.use(helxmet())
 
 		let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
 

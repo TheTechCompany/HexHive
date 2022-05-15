@@ -38,7 +38,7 @@ interface HiveEvent {
 // }
 
 const stringToDate = (date: any) => {
-    console.log(date)
+    // console.log(date)
     if (!date) return undefined;
     if (date instanceof Date) {
         return date.toISOString();
@@ -72,10 +72,10 @@ export const updateRecord = async (json: { action: string, id: string, primaryKe
                 }
             })
 
-            console.log(json)
+            // console.log(json)
             let firstSet = Object.keys(json.data || {}).filter((a) => {
                 if (json.data[a].type == "Date" || json.data[a].type == "Function") {
-                    console.log(json.data[a])
+                    // console.log(json.data[a])
                     return json.data[a]?.value && (json.data[a]?.value?.toString()?.indexOf('NaN') < 0)
                 }
                 return json.data[a].value
@@ -84,7 +84,7 @@ export const updateRecord = async (json: { action: string, id: string, primaryKe
             }).join('\n')
 
             let keyField = { [json.primaryKey]: json.data[json.primaryKey] }
-            console.log(keyField)
+            // console.log(keyField)
 
             const items = await session.run(`
                             MATCH (org:HiveOrganisation {id: $orgId})
@@ -137,14 +137,20 @@ export const updateRecord = async (json: { action: string, id: string, primaryKe
 
             let set = Object.keys(json.data || {}).filter((a) => {
                 if (json.data[a].type == "Date" || json.data[a].type == "Function") {
-                    return json.data[a].value && json.data[a].value.indexOf('NaN') < 0
+                    try{
+                        return json.data[a].value && json.data[a].value?.indexOf('NaN') < 0
+                    }catch(e){
+                        console.error({data: json.data, e})
+
+                        return false;
+                    }
                 }
                 return json.data[a].value
             }).map((key) => {
                 return `SET item.${key} = ${json.data[key]?.type == "Date" || json.data[key]?.type == "Function" ? `datetime($${key})` : `$${key}`}`;
             }).join('\n')
 
-            console.log("Update Set", set)
+            // console.log("Update Set", set)
             if (set && set.length > 0) {
                 await session.run(`
                             MATCH (org:HiveOrganisation {id: $orgId})

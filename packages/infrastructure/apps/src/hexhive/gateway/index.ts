@@ -1,11 +1,8 @@
-import * as eks from "@pulumi/eks";
 import * as k8s from "@pulumi/kubernetes";
 import * as aws from '@pulumi/aws';
-import { Config, Output } from "@pulumi/pulumi";
-import { env } from "process";
-import { ec2 } from '@pulumi/awsx'
+import { all, Config, Output } from "@pulumi/pulumi";
 
-export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<string>, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>) => {
+export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<string>, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>, dbUrl: Output<any>, postgresPass: Output<any>) => {
     // Create an EKS cluster with the default configuration.
     // const cluster = new eks.Cluster("my-cluster");
 
@@ -14,7 +11,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
     const config = new Config();
 
     let suffix = config.require('suffix');
-    let imageTag = config.require('image-tag');
+    let imageTag = process.env.GATEWAY_IMAGE //config.require('image-tag');
     let redundancy = config.require('redundancy');
 
     const appName = `hexhive-gateway-${suffix}`;
@@ -124,10 +121,6 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
             {
                 "endpoints": [
                     {
-                        "name": "GreenScreen",
-                        "url": "https://${config.require('greenco-api')}/graphql"
-                    },
-                    {
                         "name": "HiveFlow",
                         "url": "http://hive-flow-${suffix}-svc.default.svc.cluster.local/graphql",
                         "version": "0.0.1"
@@ -135,6 +128,21 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                     {
                         "name": "HiveCommand",
                         "url": "http://hive-command-${suffix}-svc.default.svc.cluster.local/graphql",
+                        "version": "0.0.1"
+                    },
+                    {
+                        "name": "HiveAutomate",
+                        "url": "http://hive-automate-${suffix}-svc.default.svc.cluster.local/graphql",
+                        "version": "0.0.1"
+                    },
+                    {
+                        "name": "HiveFiles",
+                        "url": "http://hive-files-${suffix}-svc.default.svc.cluster.local/graphql",
+                        "version": "0.0.1"
+                    },
+                    {
+                        "name": "HiveReport",
+                        "url": "http://hive-report-${suffix}-svc.default.svc.cluster.local/graphql",
                         "version": "0.0.1"
                     }
                 ]	
@@ -163,20 +171,18 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                             { name: 'endpoints-config', mountPath: '/tmp/endpoints.json', subPath: 'endpoints.json' }
                         ],
                         env: [
-                            { name: 'CLIENT_ID', value: process.env.CLIENT_ID || 'test'},
-                            { name: 'CLIENT_SECRET', value: process.env.CLIENT_SECRET || 'secret' },
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
-                            { name: "NEO4J_URI", value: process.env.NEO4J_URI || 'localhost' },
-                            { name: 'VERSION_SHIM', value: '1.0.4' },
+                            { name: 'GATEWAY_URL', value: `http://hexhive-gateway-${suffix}-svc.default.svc.cluster.local/graphql`},
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
-                            { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' }
+                            { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
+                            { name: 'DATABASE_URL', value: all([dbUrl, postgresPass]).apply(([url, pass]) => `postgresql://postgres:${pass}@${url}.default.svc.cluster.local:5432/postgres`) },
+
                         ],
                         resources: {
                             requests: {
-                                cpu: "1",
-                                memory: '2Gi'
+                                cpu: "0.25"
                             }
                         },
                         readinessProbe: {

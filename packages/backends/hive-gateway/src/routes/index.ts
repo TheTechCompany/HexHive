@@ -1,18 +1,10 @@
 import { Router } from "express"
 
 import { UserRouter } from "./user"
-import FileRouter from "./files"
-import PipelineRouter from "./pipelines"
-import EventRouter from "./events"
 
 import bodyParser from "body-parser"
 import cors from "cors"
 import cookieParser from "cookie-parser"
-import { Provider } from "oidc-provider"
-import { requiresAuth } from "express-openid-connect"
-import { FileManager } from "./files/util"
-import { Driver, session } from "neo4j-driver"
-import { TaskRegistry } from "../task-registry"
 // import { HiveEvents } from "@hexhive/events-client"
 import passport from "passport"
 // import { InteractionRouter } from './interaction';
@@ -30,8 +22,8 @@ const whitelist = [
 	"https://go.hexhive.io"
 ]
 
-export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Router => {
-	const neo_session = neo4j.session()
+export const DefaultRouter = () : Router => {
+	// const neo_session = neo4j.session()
 
 	// const eventClient = new HiveEvents({
 	// 	url: process.env.HIVE_EVENT_URL || "http://localhost:7000",
@@ -43,7 +35,8 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 
 	const router = Router()
 	let fileManager
-	if(process.env.IPFS_URL) fileManager = new FileManager({url: process.env.IPFS_URL || "", gateway: process.env.IPFS_GATEWAY})
+	
+	// if(process.env.IPFS_URL) fileManager = new FileManager({url: process.env.IPFS_URL || "", gateway: process.env.IPFS_GATEWAY})
     
 	const corsOptions = {
 		origin: (origin : any, callback: (error: any, result?: any) => void) => {
@@ -58,8 +51,9 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 	}
    
 	router.use(cookieParser())
-	router.use(bodyParser.json())
-	router.use(bodyParser.urlencoded({extended: false}))
+
+	router.use(bodyParser.json({limit: '500mb'}))
+	router.use(bodyParser.urlencoded({extended: false, limit: '500mb'}))
 
 	router.use(cors(corsOptions))
 
@@ -81,10 +75,10 @@ export const DefaultRouter = (neo4j : Driver, taskRegistry: TaskRegistry) : Rout
 	// 	next()
 	// })
 
-	if(fileManager) router.use("/api/files", FileRouter(fileManager, neo_session))
-	if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
+	// if(fileManager) router.use("/api/files", FileRouter(fileManager, neo_session))
+	// if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
 
-	router.use("/api/events", EventRouter(neo_session))
+	// router.use("/api/events", EventRouter(neo_session))
 
 	router.get("/me", ensureLoggedIn, async (req: any, res) => {
 		

@@ -22,11 +22,18 @@ beforeAll(async () => {
             typeDefs: `
                 type Test {
                     id: ID! @id
-                    name: Hash
+                }
+
+                type Mutation {
+                    uploadSingle(file: Upload): Test
                 }
             `,
             resolvers: {
-    
+                Mutation: {
+                    uploadSingle: (parent: any, args: any) => {
+                        console.log("Upload single")
+                    }
+                }
             },
             driver: neoDriver
         },
@@ -50,6 +57,10 @@ describe('Directives', () => {
                     tests {
                         name
                     }
+                }
+
+                uploadSingle(file: "test") {
+                    id
                 }
             }
         `
