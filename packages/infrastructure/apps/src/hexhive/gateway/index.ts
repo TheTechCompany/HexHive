@@ -77,6 +77,8 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                 volumeHandle: efsVolume.id
             }
         }
+    }, {
+        provider
     })
 
     const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`${efsRoot}-pvc`, {
@@ -93,6 +95,8 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                 }
             }
         }   
+    }, {
+        provider
     })
     
     const sslCert = new aws.acm.Certificate(`${appName}-ssl-certif`, {
