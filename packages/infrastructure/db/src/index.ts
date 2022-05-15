@@ -13,7 +13,6 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
 
     const appLabels = {appClass: depName}
 
-
     const efsVolume = new efs.FileSystem(`postgres-storage-${suffix}`)
     
     const subnets = await vpcId.apply(async (id) => await aws.ec2.getSubnets({
