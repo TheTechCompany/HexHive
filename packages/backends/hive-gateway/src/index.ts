@@ -101,7 +101,6 @@ export class HiveGateway {
 		this.router?.mount(DefaultRouter()) 
 
 		this.router?.mount('*', (req: any, res: any, next: any) => {
-			// console.log({user: req.user, jwt: (req as any).jwt});
 			req.jwt = req.user;
 			next()
 		})
