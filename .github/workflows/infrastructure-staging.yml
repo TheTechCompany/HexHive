@@ -194,11 +194,26 @@ jobs:
       - run: yarn
         working-directory: ./packages/infrastructure/apps
 
+      - name: Setup stack
+        run: |
+          echo "STACK_NAME=ultraviolet/staging" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/staging' }}
+      
+      - name: Setup stack
+        run: |
+          echo "STACK_NAME=ultraviolet/next" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/next' }}
+
+      - name: Setup stack
+        run: |
+          echo "STACK_NAME=ultraviolet/production" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/master' }}
+        
       - name: Update infrastructure
         uses: pulumi/actions@v3
         with:
           command: up
-          stack-name: ultraviolet/staging
+          stack-name: ${{ env.STACK_NAME }}
           work-dir: ./packages/infrastructure/apps
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
@@ -230,11 +245,11 @@ jobs:
         id: kube_config
 
       - run: echo "::set-output name=postgres::$(pulumi stack output postgres_name )" 
-        working-directory: ./packages/infrastructure/apps
+        working-directory: ./packages/infrastructure/db
         id: postgres_url
       
       - run: echo "::set-output name=pass::$(pulumi stack output postgres_pass )" 
-        working-directory: ./packages/infrastructure/apps
+        working-directory: ./packages/infrastructure/db
         id: postgres_pass
 
       - name: Configure AWS Credentials
