@@ -54,7 +54,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
 
     const storagePv = new k8s.core.v1.PersistentVolume(`postgres-pv-${suffix}`, {
         metadata: {
-            name: `greenscreen-pv-${suffix}`,
+            name: `postgres-pv-${suffix}`,
         },
         spec: {
             capacity: {

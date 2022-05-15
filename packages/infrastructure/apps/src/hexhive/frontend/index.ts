@@ -83,19 +83,13 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
         metadata: {
             labels: appLabels,
             annotations: {
-                // 'kubernetes.io/ingress.class': 'alb',
-                //     'alb.ingress.kubernetes.io/scheme': 'internet-facing',
-                //     'alb.ingress.kubernetes.io/target-type': 'ip',
-                'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslValidation.certificateArn,
+               'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslValidation.certificateArn,
                 'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
                 'service.beta.kubernetes.io/aws-load-balancer-backend-protocol': 'http',
                 'service.beta.kubernetes.io/aws-load-balancer-type': 'external',
                 'service.beta.kubernetes.io/aws-load-balancer-nlb-target-type': 'ip',
                 'service.beta.kubernetes.io/aws-load-balancer-scheme': 'internet-facing',
-                // 'alb.ingress.kubernetes.io/certificate-arn': sslCert.arn,
-                // 'alb.ingress.kubernetes.io/listen-ports': '[{"HTTP": 80}, {"HTTPS":443}]',
-                // 'alb.ingress.kubernetes.io/actions.ssl-redirect': '443'
-            }
+             }
         },
         spec: {
             type: "LoadBalancer",
