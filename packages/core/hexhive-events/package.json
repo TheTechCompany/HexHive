@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/events-client",
-  "version": "1.0.2-beta.0",
+  "version": "1.0.2-beta.39",
   "description": "",
   "main": "dist/index.js",
   "files": [
