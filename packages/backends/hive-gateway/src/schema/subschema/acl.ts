@@ -7,7 +7,7 @@ export default (prisma: PrismaClient) => {
 		extend type Query {
 			organisation: HiveOrganisation @merge(keyField: "id", keyArg: "ids")
 
-			users(ids: [ID]): [HiveUser] @merge(keyField: "id", keyArg: "ids")
+			users(ids: [ID], active: Boolean): [HiveUser] @merge(keyField: "id", keyArg: "ids")
 
 			roles(ids: [ID]): [Role] @merge(keyField: "id", keyArg:"ids")
 		}
@@ -161,6 +161,8 @@ export default (prisma: PrismaClient) => {
 				if(args.ids){
 					query.id = {in: args.ids}
 				}
+				if(args.active) query.inactive = false;
+				
 				const users = await prisma.user.findMany({
 					where: {
 						organisations: {
