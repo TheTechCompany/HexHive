@@ -46,6 +46,7 @@
 		"glob": "^7.1.7",
 		"got": "^11.8.2",
 		"graphql-helix": "^1.11.0",
+		"graphql-tag": "^2.12.6",
 		"graphql-upload": "^13.0.0",
 		"helmet": "^4.6.0",
 		"jose": "2",
