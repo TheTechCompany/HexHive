@@ -3,7 +3,7 @@ import { Config, Output } from '@pulumi/pulumi';
 import {efs} from '@pulumi/aws'
 import * as aws from '@pulumi/aws'
 
-export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>) => {
+export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, pgPassword: string) => {
 
     const config = new Config();
 
@@ -109,7 +109,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>) 
                         env: [
                             {
                                 name: 'POSTGRES_PASSWORD',
-                                value: config.require('postgres-password')
+                                value: pgPassword
                             }
                         ]
                     }],

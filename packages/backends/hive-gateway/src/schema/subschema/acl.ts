@@ -147,8 +147,22 @@ export default (prisma: PrismaClient) => {
 				// 	members: x.users.map((y: any) => ({id: y}))
 				// }))
 			},
-			users: async () => {
-				const users = await prisma.user.findMany()
+			users: async (root: any, args: any, context: any) => {
+				let query : any = {};
+				if(args.ids){
+					query.id = {in: args.ids}
+				}
+				const users = await prisma.user.findMany({
+					where: {
+						organisations: {
+							some: {issuerId: context?.jwt?.organisation}, 
+						},
+						...query
+					},
+					include: {
+						organisations: true
+					}
+				})
 		
 				return users;
 			}

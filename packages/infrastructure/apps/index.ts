@@ -5,7 +5,6 @@ import * as pulumi from '@pulumi/pulumi'
 import { Config } from "@pulumi/pulumi";
 import * as aws from '@pulumi/aws'
 
-import { ApplicationDB } from './src/db'
 import { AdminPane } from './src/admin'
 
 
@@ -16,13 +15,25 @@ const main = (async () => {
     const config = new Config();
 
     const org = config.require('org');
+    const suffix = config.require('suffix');
 
     const stackRef = new pulumi.StackReference(`${org}/base-infrastructure/prod`)
+
+    let deploymentLevel = 'db-staging';
+
+    if(suffix == "prod" || suffix == "next"){
+        deploymentLevel = 'db-prod';
+    }
+
+    const dbRef = new pulumi.StackReference(`${org}/hexhive-db/${deploymentLevel}`)
 
     const kubeconfig = stackRef.getOutput('kubeconfig');
     const vpcId = stackRef.getOutput('vpcId');
     
     const mongoUrl = stackRef.getOutput('mongoUrl');
+
+    const postgresUrl = dbRef.getOutput('postgres_name')
+    const postgresPass = dbRef.getOutput('postgres_pass')
 
     const provider = new Provider('eks', { kubeconfig });
 
@@ -32,20 +43,15 @@ const main = (async () => {
 
     const vpc = await vpcId.apply(async (id) => await aws.ec2.getVpc({ id: id }));
 
-    const { service: dbService, deployment: dbDeployment } = await ApplicationDB(provider, vpcId);
+    const { deployment: adminDeployment } = await AdminPane(provider, postgresUrl, postgresPass)
 
-    const { deployment: adminDeployment } = await AdminPane(provider, dbService.metadata.name)
-
-    const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`), dbService.metadata.name);
-    const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`), dbService.metadata.name);
+    const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`), postgresUrl, postgresPass);
+    const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`), postgresUrl, postgresPass);
 
     return {
         gatewayUrl,
         frontendUrl,
 
-        dbService,
-        dbDeployment,
-        dbPass: config.require('postgres-password'),
         adminDeployment,
         kubeconfig
     }
@@ -58,8 +64,5 @@ export const frontendUrl = main.then(result => result.frontendUrl)
 // export const hiveFlow = main.then(result => result.hiveFlow.service.status.loadBalancer)
 
 export const kubeconfig = main.then(result => result.kubeconfig)
-
-export const postgres_name = main.then((result) => result.dbService.metadata.name)
-export const postgres_pass = main.then((result) => result.dbPass)
 
 export const adminDeployment = main.then((result) => result.adminDeployment.metadata.name);

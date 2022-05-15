@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes'
-import { Config, Output } from '@pulumi/pulumi';
+import { all, Config, Output } from '@pulumi/pulumi';
 
-export const AdminPane = async (provider: k8s.Provider, dbUrl: Output<string>) => {
+export const AdminPane = async (provider: k8s.Provider, dbUrl: Output<any>, dbPass: Output<any>) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
@@ -32,7 +32,7 @@ export const AdminPane = async (provider: k8s.Provider, dbUrl: Output<string>) =
                         env: [
                             { name: 'NODE_ENV', value: 'production' },
                             { name: 'VERSION_SHIM', value: '1.0.7' },
-                            { name: "DATABASE_URL", value: dbUrl.apply((url) => `postgresql://postgres:${config.require('postgres-password')}@${url}.default.svc.cluster.local:5432/postgres`) },
+                            { name: "DATABASE_URL", value: all([dbUrl, dbPass]).apply(([url, pass]) => `postgresql://postgres:${pass}@${url}.default.svc.cluster.local:5432/postgres`) },
                         ],
                         resources: {
                             limits: {

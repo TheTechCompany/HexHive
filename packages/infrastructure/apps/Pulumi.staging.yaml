@@ -1,11 +1,10 @@
 config:
   aws:region: ap-southeast-2
-  apps:greenco-api: staging-api.greenco.co.nz
   apps:frontend-url: staging.hexhive.io
   apps:gateway-url: staging-api.hexhive.io
   apps:suffix: staging
-  apps:image-tag: staging
+
   apps:org: ultraviolet
   apps:redundancy: 1
-  apps:postgres-password: test
+  
   apps:deployment-level: staging-apps
