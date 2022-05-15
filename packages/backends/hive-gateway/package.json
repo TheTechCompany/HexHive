@@ -15,7 +15,7 @@
 	"scripts": {
 		"build": "tsc -b && cp package.json dist/",
 		"start": "ts-node -r tsconfig-paths/register src/server.ts",
-		"start:prod": "ts-node -r tsconfig-paths/register src/server.ts --endpoints /tmp/endpoints.json",
+		"start:prod": "node ./server.js --endpoints /tmp/endpoints.json",
 		"db:migrate": "prisma migrate dev --name init",
 		"db:generate": "prisma generate"
 	},
