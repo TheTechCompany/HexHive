@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-core/dashboard",
-  "version": "1.0.2-beta.40",
+  "version": "1.0.2-beta.41",
   "private": true,
   "scripts": {
     "start": "webpack serve --port 8501",
@@ -54,8 +54,8 @@
     "@apollo/client": "^3.5.6",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@hexhive/auth-ui": "^1.0.2-beta.40",
-    "@hexhive/styles": "^1.0.2-beta.40",
+    "@hexhive/auth-ui": "^1.0.2-beta.41",
+    "@hexhive/styles": "^1.0.2-beta.41",
     "@hexhive/ui": "^0.0.11",
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.4",

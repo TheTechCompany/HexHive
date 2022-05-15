@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/docs",
-  "version": "1.0.2-beta.40",
+  "version": "1.0.2-beta.41",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
