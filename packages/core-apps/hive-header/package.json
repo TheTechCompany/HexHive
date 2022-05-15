@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-core/header",
-  "version": "1.0.2-beta.41",
+  "version": "1.0.2-beta.42",
   "private": true,
   "scripts": {
     "start": "webpack serve --port 8502",
@@ -49,9 +49,9 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@hexhive/auth-ui": "^1.0.2-beta.41",
-    "@hexhive/icons": "^1.0.2-beta.41",
-    "@hexhive/styles": "^1.0.2-beta.41",
+    "@hexhive/auth-ui": "^1.0.2-beta.42",
+    "@hexhive/icons": "^1.0.2-beta.42",
+    "@hexhive/styles": "^1.0.2-beta.42",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",

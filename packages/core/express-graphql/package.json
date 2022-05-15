@@ -1,6 +1,6 @@
 {
 	"name": "@hexhive/express-graphql",
-	"version": "1.0.2-beta.41",
+	"version": "1.0.2-beta.42",
 	"description": "Production ready GraphQL HTTP middleware.",
 	"license": "MIT",
 	"private": true,

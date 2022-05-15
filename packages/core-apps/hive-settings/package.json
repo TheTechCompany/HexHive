@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-core/settings",
-  "version": "1.0.2-beta.41",
+  "version": "1.0.2-beta.42",
   "private": true,
   "scripts": {
     "start": "webpack serve --port 8888",
@@ -50,9 +50,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.6",
-    "@hexhive/auth-ui": "^1.0.2-beta.41",
-    "@hexhive/client": "^1.0.2-beta.41",
-    "@hexhive/styles": "^1.0.2-beta.41",
+    "@hexhive/auth-ui": "^1.0.2-beta.42",
+    "@hexhive/client": "^1.0.2-beta.42",
+    "@hexhive/styles": "^1.0.2-beta.42",
     "@hexhive/ui": "^0.0.11",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
