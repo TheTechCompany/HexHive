@@ -247,7 +247,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
     // Export the URL for the load balanced service.
     const url = service.status.loadBalancer.ingress[0].hostname;
 
-    const gatewayRecord = new aws.route53.Record(`${appName}-record`, {
+    const gatewayRecord = new aws.route53.Record(`${appName}-gateway-dns`, {
         zoneId: zone.zoneId,
         name: domainName,
         type: "A",

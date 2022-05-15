@@ -106,7 +106,8 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
     // const s : string = await url.apply((f) => f.toString())
     // const elbZone = await aws.route53.getZone({name: })
     //'Z0191605UGITHVV6M61S'
-    const devRecord = new aws.route53.Record(`${appName}-frontend`, {
+
+    const devRecord = new aws.route53.Record(`${appName}-frontend-dns`, {
         zoneId: zone.zoneId,
         name: domainName,
         type: 'A',

@@ -31,9 +31,7 @@ export const Dashboard = (props: any) => {
                 <Route path="*" element={<Home />} />
               </Routes>
 
-              {/* <Route path={`${props.match.url}/matrix`} component={IFrameAppliance} />
-              <Route path={`${props.match.url}/organisation`} component={Organisation} />
-              <Route path={`${props.match.url}/settings`} component={Settigns} /> */}
+            
             </Box>
           </Box>
       </Grommet>
