@@ -18,8 +18,6 @@ import { Strategy as LocalStrategy } from 'passport-local'
 
 const prisma = new PrismaClient();
 
-const pkg = require('../package.json');
-
 var OidcStrategy = require("passport-openidconnect").Strategy;
 
 const { NODE_ENV } = process.env;
@@ -44,8 +42,6 @@ const config = {
 (async (port: number = 8000) => {
 
 	const deploymentLevel = process.env.DEPLOYMENT_LEVEL || "dev";
-
-	console.log(pkg.version)
 
 	const app = express()
 
