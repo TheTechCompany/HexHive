@@ -40,7 +40,9 @@ export default (prisma: PrismaClient) => {
 			email: String
 			password: String
 
-			roles: [Role!]! 
+			inactive: Boolean
+
+			roles: [Role]
 			organisation: HiveOrganisation
 		}
 
@@ -171,7 +173,7 @@ export default (prisma: PrismaClient) => {
 					}
 				})
 		
-				return users;
+				return users?.map((x) => ({...x, email: x.email || ''}));
 			}
 		
 		},

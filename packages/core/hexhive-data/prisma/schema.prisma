@@ -16,8 +16,10 @@ model User {
 
   name String
   
-  email String @unique
+  email String? @unique
   password String 
+
+  inactive Boolean @default(false)
 
   organisations UserTrust[] @relation(name: "trusts")
 }
