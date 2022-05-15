@@ -37,12 +37,12 @@ jobs:
       - name: Setup stack
         run: |
           echo "STACK_NAME=ultraviolet/db-staging" >> $GITHUB_ENV
-        if: ${{ github.ref == 'staging' }}
+        if: ${{ github.ref == staging }}
 
       - name: Setup stack
         run: |
           echo "STACK_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
-        if: ${{ github.ref == 'master' }}
+        if: ${{ github.ref == master }}
         
       - name: Update infrastructure
         uses: pulumi/actions@v3
