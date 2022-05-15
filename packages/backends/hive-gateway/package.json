@@ -52,6 +52,7 @@
 		"jose": "2",
 		"mongodb": "^4.3.0",
 		"multer": "^1.4.4",
+		"nanoid": "^3.3.4",
 		"node-fetch": "^2.6.0",
 		"passport": "^0.5.2",
 		"passport-headerapikey": "^1.2.2",
