@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/styles",
-  "version": "1.0.2-beta.40",
+  "version": "1.0.2-beta.41",
   "description": "",
   "main": "dist/index.js",
   "publishConfig": {
