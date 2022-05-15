@@ -40,7 +40,6 @@ export class HiveFrontendServer {
     this.app = Router();
 
     this.getExternalViews = opts.getViews;
-    // this.getUser = opts.getUser
 
     this.routes = opts.routes;
 
