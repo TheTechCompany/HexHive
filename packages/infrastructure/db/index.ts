@@ -9,7 +9,6 @@ import { ApplicationDB } from './src'
 
 const main = (async () => {
     const config = new Config();
-
     const org = config.require('org');
 
     const stackRef = new pulumi.StackReference(`${org}/base-infrastructure/prod`)
