@@ -26,4 +26,5 @@ const main = (async () => {
 })()
 
 export const postgres_name = main.then((result) => result.dbService.metadata.name)
+
 export const postgres_pass = main.then((result) => result.dbPass)
