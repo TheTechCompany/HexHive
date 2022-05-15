@@ -10,8 +10,6 @@ export const frontendRouter = () => {
 
 
 	app.use(cookieParser())
-	// this.app.use(helmet())
-
 	
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
 	app.use(session({
