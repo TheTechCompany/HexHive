@@ -162,7 +162,7 @@ jobs:
   push_gateway_infra:
     name: Update Pulumi Infra
     runs-on: ubuntu-latest
-    needs: [build_gateway, build_admin, push_db_infra, build_frontend-server]
+    needs: [build_gateway, build_admin, build_frontend-server]
     env:
       COMMAND_MONGO_URL: ${{ secrets.COMMAND_MONGO_URL }}
       COMMAND_MONGO_DB: ${{ secrets.COMMAND_MONGO_DB }}
@@ -207,7 +207,7 @@ jobs:
   preview-db:
     name: Deploy DB Migration
     runs-on: ubuntu-latest
-    needs: [build_gateway, push_db_infra, build_frontend-server]
+    needs: [build_gateway, build_frontend-server]
     env:
       PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}  
     steps: 
