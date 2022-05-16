@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/frontend-server",
-  "version": "1.0.2-beta.43",
+  "version": "1.0.2-beta.44",
   "description": "",
   "main": "dist/index.js",
   "files": [

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2-beta.44](https://github.com/TheTechCompany/hexhive-common/compare/v1.0.2-beta.43...v1.0.2-beta.44) (2022-05-16)
+
+**Note:** Version bump only for package @hexhive/common
+
+
+
+
+
 ## [1.0.2-beta.43](https://github.com/TheTechCompany/hexhive-common/compare/v1.0.2-beta.42...v1.0.2-beta.43) (2022-05-15)
 
 **Note:** Version bump only for package @hexhive/common
