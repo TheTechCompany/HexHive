@@ -8,7 +8,6 @@ export const frontendRouter = () => {
 
 	const app = Router()
 
-
 	app.use(cookieParser())
 	
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
