@@ -159,6 +159,8 @@ export default (prisma: PrismaClient) => {
 			users: async (root: any, args: any, context: any) => {
 				let query : any = {};
 				if(args.ids){
+					console.log("IDS", {ids: args.ids});
+					
 					query.id = {in: args.ids}
 				}
 				if(args.active) query.inactive = false;

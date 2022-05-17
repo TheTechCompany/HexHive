@@ -120,7 +120,6 @@ export default async (deployment: string) => {
     const instanceProfile = new aws.iam.InstanceProfile(`${deployment}-ng-ip`, { role });
 
 
-
     const managedGroup = new eks.ManagedNodeGroup(`${deployment}-mng`, {
         cluster: cluster,
         nodeRole: cluster.instanceRoles?.[0],
