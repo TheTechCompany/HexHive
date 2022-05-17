@@ -178,8 +178,12 @@ export default (prisma: PrismaClient) => {
 				})
 
 				console.log("User result", JSON.stringify(query), JSON.stringify(users))
-		
-				return users?.map((x) => ({...x, email: x.email || ''}));
+				
+				if(args.ids){
+					return args.ids.map((id: string) => users.find((a) => a.id == id))?.map((x: any) => ({...x, email: x.email || ''}))
+				}else{
+					return users?.map((x) => ({...x, email: x.email || ''}));
+				}
 			}
 		
 		},
