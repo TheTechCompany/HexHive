@@ -98,7 +98,7 @@ export default (prisma: PrismaClient) => {
 		HiveOrganisation: {
 			members: async (root: any) => {
 
-				const members = await prisma.user.findMany()
+				const members = await prisma.user.findMany({where: {organisations: {some: {issuer: {id: root.id}}}}})
 				return members;
 			},
 			applications: async (root: any, args: any, context: any) => {
@@ -176,6 +176,8 @@ export default (prisma: PrismaClient) => {
 						organisations: true
 					}
 				})
+
+				console.log("User result", JSON.stringify(query), JSON.stringify(users))
 		
 				return users?.map((x) => ({...x, email: x.email || ''}));
 			}
