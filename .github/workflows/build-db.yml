@@ -62,9 +62,10 @@ jobs:
 
   
   push_db_infra:
-    name: Update Pulumi Infra
+    name: Update DB Infra
     runs-on: ubuntu-latest
-    needs: [build_db]
+    env: 
+      POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -72,8 +73,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16.x
-
-      - run: echo "IMAGE=sha-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
       
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -89,16 +88,11 @@ jobs:
         run: |
           echo "STACK_NAME=ultraviolet/db-staging" >> $GITHUB_ENV
         if: ${{ github.ref == 'refs/heads/staging' }}
-      
-      - name: Setup stack
-        run: |
-          echo "STACK_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
-        if: ${{ github.ref == 'refs/heads/next' }}
 
       - name: Setup stack
         run: |
           echo "STACK_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'master' }}
         
       - name: Update infrastructure
         uses: pulumi/actions@v3
@@ -108,3 +102,4 @@ jobs:
           work-dir: ./packages/infrastructure/db
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+

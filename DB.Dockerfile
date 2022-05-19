@@ -14,6 +14,8 @@ RUN ./bootstrap
 
 WORKDIR /tmp/timescaledb/build
 
+ENV OPENSSL_ROOT_DIR /etc/ssl1.1/
+
 RUN make
 
 RUN make install
