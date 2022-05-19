@@ -122,7 +122,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         ports: [{name: 'postgres', containerPort: 5432}],
                         volumeMounts: [
                             { name: 'postgres-storage', mountPath: '/var/lib/postgresql/data' },
-                            { name: 'postgres-config', mountPath: '/var/lib/postgresql/data'}
+                            { name: 'postgres-config', mountPath: '/var/lib/postgresql/data/postgresql.conf'}
                         ],
                         env: [
                             {
@@ -139,7 +139,8 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                     }, {
                         name: 'postgres-config',
                         configMap: {
-                            name: postgresConfig.metadata.name
+                            name: postgresConfig.metadata.name,
+                            items: [{key: 'postgresql.conf', path: '.'}]
                         }
                     }]
                     
