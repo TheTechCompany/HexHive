@@ -1,6 +1,6 @@
 FROM postgres:alpine
 
-RUN apk update; apk add git alpine-sdk cmake openssl
+RUN apk update; apk add git cmake openssl-dev
 
 WORKDIR /tmp/
 
@@ -14,7 +14,7 @@ RUN ./bootstrap
 
 WORKDIR /tmp/timescaledb/build
 
-ENV OPENSSL_ROOT_DIR /etc/ssl1.1/
+# ENV OPENSSL_ROOT_DIR /etc/ssl1.1/
 
 RUN make
 
