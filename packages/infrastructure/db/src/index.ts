@@ -94,17 +94,6 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
 
     const pgconf = readFileSync(path.join(__dirname, '../files/postgresql.conf'), 'utf8')
 
-    // const postgresConfig = new k8s.core.v1.ConfigMap(`${depName}-postgresql.conf`, {
-    //     metadata: {
-    //         name: `${depName}-postgresql.conf`
-    //     },
-    //     data: {
-    //         'postgresql.conf': pgconf 
-    //     }
-    // }, {
-    //     provider
-    // })
-
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
             labels: appLabels
