@@ -11,7 +11,6 @@ on:
 concurrency: infra-${{ github.ref }}
 
 jobs:
-
   build_admin:
     runs-on: ubuntu-latest
     steps:

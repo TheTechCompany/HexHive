@@ -1,0 +1,110 @@
+name: Infrastructure
+
+on:
+  push:
+    branches:
+      - staging
+      - next
+      - master
+    paths: ["DB.Dockerfile", "packages/infrastructure/db/**"]
+
+concurrency: db-${{ github.ref }}
+
+jobs:
+  build_db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            thetechcompany/hexhive-db
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v1
+      
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Login to dockerhub
+        uses: docker/login-action@v1
+        with: 
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push 
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with: 
+          context: .
+          file: ./DB.Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BUILD_ENV=github
+  
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
+  
+  push_db_infra:
+    name: Update Pulumi Infra
+    runs-on: ubuntu-latest
+    needs: [build_db]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - run: echo "IMAGE=sha-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ap-southeast-2
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - run: yarn
+        working-directory: ./packages/infrastructure/db
+
+      - name: Setup stack
+        run: |
+          echo "STACK_NAME=ultraviolet/db-staging" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/staging' }}
+      
+      - name: Setup stack
+        run: |
+          echo "STACK_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/next' }}
+
+      - name: Setup stack
+        run: |
+          echo "STACK_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
+        if: ${{ github.ref == 'refs/heads/master' }}
+        
+      - name: Update infrastructure
+        uses: pulumi/actions@v3
+        with:
+          command: up
+          stack-name: ${{ env.STACK_NAME }}
+          work-dir: ./packages/infrastructure/db
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
