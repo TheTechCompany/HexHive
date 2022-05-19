@@ -85,6 +85,8 @@ jobs:
       - run: yarn
         working-directory: ./packages/infrastructure/db
 
+      - run: echo "IMAGE=sha-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
       - name: Setup stack
         run: |
           echo "STACK_NAME=ultraviolet/db-staging" >> $GITHUB_ENV
