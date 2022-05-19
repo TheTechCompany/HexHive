@@ -94,16 +94,16 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
 
     const pgconf = readFileSync(path.join(__dirname, '../files/postgresql.conf'), 'utf8')
 
-    const postgresConfig = new k8s.core.v1.ConfigMap(`${depName}-postgresql.conf`, {
-        metadata: {
-            name: `${depName}-postgresql.conf`
-        },
-        data: {
-            'postgresql.conf': pgconf 
-        }
-    }, {
-        provider
-    })
+    // const postgresConfig = new k8s.core.v1.ConfigMap(`${depName}-postgresql.conf`, {
+    //     metadata: {
+    //         name: `${depName}-postgresql.conf`
+    //     },
+    //     data: {
+    //         'postgresql.conf': pgconf 
+    //     }
+    // }, {
+    //     provider
+    // })
 
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
@@ -121,7 +121,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         image: `thetechcompany/hexhive-db:${imageTag}`,
                         ports: [{name: 'postgres', containerPort: 5432}],
                         volumeMounts: [
-                            { name: 'postgres-config', mountPath: '/var/lib/postgresql/data/'},
+                            // { name: 'postgres-config', mountPath: '/var/lib/postgresql/data/'},
                             { name: 'postgres-storage', mountPath: '/var/lib/postgresql/data' },
                         ],
                         env: [
@@ -136,13 +136,15 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         persistentVolumeClaim: {
                             claimName: storageClaim.metadata.name
                         }
-                    }, {
-                        name: 'postgres-config',
-                        configMap: {
-                            name: postgresConfig.metadata.name,
-                            items: [{key: 'postgresql.conf', path: '.'}]
-                        }
-                    }]
+                    }, 
+                    // {
+                    //     name: 'postgres-config',
+                    //     configMap: {
+                    //         name: postgresConfig.metadata.name,
+                    //         items: [{key: 'postgresql.conf', path: '.'}]
+                    //     }
+                    // }
+                ]
                     
                 }
             }
