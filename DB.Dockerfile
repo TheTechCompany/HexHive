@@ -1,6 +1,6 @@
 FROM postgres:alpine
 
-RUN apk update; apk add git alpine-sdk cmake openssl-dev
+RUN apk update; apk add git alpine-sdk cmake openssl-dev krb5-pkinit krb5-dev krb5
 
 WORKDIR /tmp/
 
