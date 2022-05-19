@@ -18,3 +18,8 @@ RUN make
 
 RUN make install
 
+WORKDIR /
+
+ENTRYPOINT [ "docker-entrypoint.sh" ]
+
+CMD ["postgres"]
