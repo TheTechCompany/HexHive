@@ -1,6 +1,6 @@
 FROM postgres:alpine
 
-RUN apk update; apk add git cmake openssl-dev
+RUN apk update; apk add git alpine-sdk cmake openssl-dev
 
 WORKDIR /tmp/
 
