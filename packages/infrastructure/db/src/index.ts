@@ -121,8 +121,8 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         image: `thetechcompany/hexhive-db:${imageTag}`,
                         ports: [{name: 'postgres', containerPort: 5432}],
                         volumeMounts: [
+                            { name: 'postgres-config', mountPath: '/var/lib/postgresql/data/'},
                             { name: 'postgres-storage', mountPath: '/var/lib/postgresql/data' },
-                            { name: 'postgres-config', mountPath: '/var/lib/postgresql/data/'}
                         ],
                         env: [
                             {
