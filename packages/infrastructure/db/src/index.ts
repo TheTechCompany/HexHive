@@ -140,7 +140,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         name: 'postgres-config',
                         configMap: {
                             name: postgresConfig.metadata.name,
-                            items: [{key: 'postgresql.conf', path: './postgresql.conf'}]
+                            items: [{key: 'postgresql.conf', path: '.'}]
                         }
                     }]
                     
