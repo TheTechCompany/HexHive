@@ -1,4 +1,4 @@
-name: Infrastructure
+name: DB Infrastructure
 
 on:
   push:
@@ -64,6 +64,7 @@ jobs:
   push_db_infra:
     name: Update DB Infra
     runs-on: ubuntu-latest
+    needs: [build_db]
     env: 
       POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
     steps:
