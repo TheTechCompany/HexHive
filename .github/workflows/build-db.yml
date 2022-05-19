@@ -6,7 +6,7 @@ on:
       - staging
       - next
       - master
-    paths: ["DB.Dockerfile", "packages/infrastructure/db/**"]
+    paths: ["db/**", "packages/infrastructure/db/**"]
 
 concurrency: db-${{ github.ref }}
 

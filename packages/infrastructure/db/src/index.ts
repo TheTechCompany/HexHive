@@ -2,6 +2,8 @@ import * as k8s from '@pulumi/kubernetes'
 import { Config, Output } from '@pulumi/pulumi';
 import {efs} from '@pulumi/aws'
 import * as aws from '@pulumi/aws'
+import { readFileSync } from 'fs';
+import path = require('path');
 
 export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, pgPassword: string) => {
 
@@ -53,6 +55,8 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         rootDirectory: { path: "/" },
     })
 
+
+
     const storagePv = new k8s.core.v1.PersistentVolume(`postgres-pv-${suffix}`, {
         metadata: {
             name: `postgres-pv-${suffix}`,
@@ -88,6 +92,19 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         }   
     }, {provider})
 
+    const pgconf = readFileSync(path.join(__dirname, '../files/postgresql.conf'), 'utf8')
+
+    const postgresConfig = new k8s.core.v1.ConfigMap(`${depName}-postgresql.conf`, {
+        metadata: {
+            name: `${depName}-postgresql.conf`
+        },
+        data: {
+            'postgresql.conf': pgconf 
+        }
+    }, {
+        provider
+    })
+
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
             labels: appLabels
@@ -105,6 +122,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         ports: [{name: 'postgres', containerPort: 5432}],
                         volumeMounts: [
                             { name: 'postgres-storage', mountPath: '/var/lib/postgresql/data' },
+                            { name: 'postgres-config', mountPath: '/var/lib/postgresql/data'}
                         ],
                         env: [
                             {
@@ -117,6 +135,11 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         name: 'postgres-storage',
                         persistentVolumeClaim: {
                             claimName: storageClaim.metadata.name
+                        }
+                    }, {
+                        name: 'postgres-config',
+                        configMap: {
+                            name: postgresConfig.metadata.name
                         }
                     }]
                     
