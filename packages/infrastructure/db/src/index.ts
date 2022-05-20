@@ -124,14 +124,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         persistentVolumeClaim: {
                             claimName: storageClaim.metadata.name
                         }
-                    }, 
-                    // {
-                    //     name: 'postgres-config',
-                    //     configMap: {
-                    //         name: postgresConfig.metadata.name,
-                    //         items: [{key: 'postgresql.conf', path: '.'}]
-                    //     }
-                    // }
+                    }
                 ]
                     
                 }
