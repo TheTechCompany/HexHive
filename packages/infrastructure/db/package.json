@@ -1,7 +1,8 @@
 {
     "name": "hexhive-db",
     "devDependencies": {
-        "@types/node": "^14"
+        "@types/node": "^14",
+        "dotenv": "^16.0.1"
     },
     "dependencies": {
         "@pulumi/aws": "^5.0.0",
