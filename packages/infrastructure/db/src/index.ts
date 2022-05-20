@@ -6,7 +6,6 @@ import { readFileSync } from 'fs';
 import path = require('path');
 
 export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, pgPassword: string) => {
-
     const config = new Config();
 
     let suffix = config.require('suffix');
