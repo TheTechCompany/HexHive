@@ -65,21 +65,6 @@ export const DefaultRouter = () : Router => {
 		res.redirect('/login')
 	}
 
-	// router.use('/graphql', (req, res, next) => {
-	// 	if(req.user){
-	// 		console.log(req.user, (req.user as any)._raw)
-	// 		req.user = {
-	// 			...JSON.parse((req.user as any)._raw)
-	// 		}
-	// 	}
-	// 	next()
-	// })
-
-	// if(fileManager) router.use("/api/files", FileRouter(fileManager, neo_session))
-	// if(fileManager) router.use("/api/pipelines", PipelineRouter(neo_session, fileManager, taskRegistry))
-
-	// router.use("/api/events", EventRouter(neo_session))
-
 	router.get("/me", ensureLoggedIn, async (req: any, res) => {
 		
 		try{
@@ -88,6 +73,6 @@ export const DefaultRouter = () : Router => {
 			res.status(400).send({error: e})
 		}
 	})
-	// router.use('/user', UserRouter(cas, methods))
+
 	return router
 }
