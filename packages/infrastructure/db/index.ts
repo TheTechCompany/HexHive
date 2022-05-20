@@ -1,8 +1,10 @@
+import { config } from 'dotenv'
+config();
 import { Provider } from "@pulumi/kubernetes";
 import * as pulumi from '@pulumi/pulumi'
 import { Config } from "@pulumi/pulumi";
 import * as aws from '@pulumi/aws'
-
+import RabbitMQ from './src/rabbitmq'
 import { ApplicationDB } from './src'
 
 const main = (async () => {
@@ -18,12 +20,18 @@ const main = (async () => {
 
     if(!process.env.POSTGRES_PASSWORD) throw new Error("no POSTGRES_PASSWORD env set");
 
-    const { service: dbService } = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
+    const { url: rabbitURL } = await RabbitMQ(provider, vpcId)
+
+    const {service: dbService} = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
+    
     return {
+        rabbitURL,
         dbService,
         dbPass: process.env.POSTGRES_PASSWORD
     }
 })()
+
+export const rabbitURL = main.then((result) => result.rabbitURL);
 
 export const postgres_name = main.then((result) => result.dbService.metadata.name)
 

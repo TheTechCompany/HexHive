@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - staging
+    paths: ["packages/core/**", "packages/shared/**", "packages/workers/**"]
+
 
 jobs:
   publish:
