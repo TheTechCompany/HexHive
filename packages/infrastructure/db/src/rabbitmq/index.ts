@@ -12,7 +12,7 @@ export default async (provider: Provider, vpcId: Output<any>) => {
 
     const suffix = config.require('suffix');
 
-    const appName = `hive-command-mq-${suffix}`
+    const appName = `hexhive-mq-${suffix}`
 
 
     const { storageClaim } = await RabbitMQPersistence(provider, vpcId)

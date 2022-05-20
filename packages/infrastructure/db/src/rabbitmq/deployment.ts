@@ -21,7 +21,7 @@ export const RabbitMQDeployment = async (provider: Provider, appName: string, st
                 metadata: { labels: appLabels },
                 spec: {
                  
-                    hostname: `hive-command-mq-${suffix}`,
+                    hostname: `hexhive-mq-${suffix}`,
                     containers: [{
                         imagePullPolicy: "Always",
                         name: appName,
