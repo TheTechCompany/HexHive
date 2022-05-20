@@ -5,7 +5,8 @@ import * as pulumi from '@pulumi/pulumi'
 import { Config } from "@pulumi/pulumi";
 import * as aws from '@pulumi/aws'
 import RabbitMQ from './src/rabbitmq'
-import { ApplicationDB } from './src'
+import { ApplicationDB } from './src/postgres'
+import { TimescaleDB } from './src/timescaledb'
 
 const main = (async () => {
     const config = new Config();
@@ -22,16 +23,20 @@ const main = (async () => {
 
     const { url: rabbitURL } = await RabbitMQ(provider, vpcId)
 
+    const { service: timescale } = await TimescaleDB(provider, vpcId, process.env.POSTGRES_PASSWORD);
     const {service: dbService} = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
-    
+
     return {
         rabbitURL,
         dbService,
+        timescaleService: timescale,
         dbPass: process.env.POSTGRES_PASSWORD
     }
 })()
 
 export const rabbitURL = main.then((result) => result.rabbitURL);
+
+export const timeseries_name = main.then((result) => result.timescaleService.metadata.name)
 
 export const postgres_name = main.then((result) => result.dbService.metadata.name)
 

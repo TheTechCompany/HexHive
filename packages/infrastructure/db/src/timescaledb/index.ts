@@ -2,21 +2,19 @@ import * as k8s from '@pulumi/kubernetes'
 import { Config, Output } from '@pulumi/pulumi';
 import {efs} from '@pulumi/aws'
 import * as aws from '@pulumi/aws'
-import { readFileSync } from 'fs';
-import path = require('path');
 
-export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, pgPassword: string) => {
+export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pgPassword: string) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
     
     const imageTag = process.env.IMAGE;
 
-    const depName = `pgdb-${suffix}`
+    const depName = `timeseriesdb-${suffix}`
 
     const appLabels = {appClass: depName}
 
-    const efsVolume = new efs.FileSystem(`postgres-storage-${suffix}`)
+    const efsVolume = new efs.FileSystem(`timeseriesdb-storage-${suffix}`)
     
     const subnets = await vpcId.apply(async (id) => await aws.ec2.getSubnets({
         filters: [
@@ -48,7 +46,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         }
 
     })
-    const efsAp = new efs.AccessPoint(`postgres-ap-${suffix}`, {
+    const efsAp = new efs.AccessPoint(`timeseriesdb-ap-${suffix}`, {
         fileSystemId: efsVolume.id,
         posixUser: {uid: 1000, gid: 1000},
         rootDirectory: { path: "/" },
@@ -56,9 +54,9 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
 
 
 
-    const storagePv = new k8s.core.v1.PersistentVolume(`postgres-pv-${suffix}`, {
+    const storagePv = new k8s.core.v1.PersistentVolume(`timeseriesdb-pv-${suffix}`, {
         metadata: {
-            name: `postgres-pv-${suffix}`,
+            name: `timeseriesdb-pv-${suffix}`,
         },
         spec: {
             capacity: {
@@ -75,9 +73,9 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         }
     }, {provider})
 
-    const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`postgres-pvc-${suffix}`, {
+    const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`timeseriesdb-pvc-${suffix}`, {
         metadata: {
-            name: `postgres-pvc-${suffix}`,
+            name: `timeseriesdb-pvc-${suffix}`,
         },
         spec: {
             accessModes: ['ReadWriteMany'],
@@ -91,7 +89,6 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         }   
     }, {provider})
 
-    const pgconf = readFileSync(path.join(__dirname, '../files/postgresql.conf'), 'utf8')
 
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
@@ -106,11 +103,11 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                 spec: {
                     containers: [{
                         name: depName,
-                        image: `postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,
-                        ports: [{name: 'postgres', containerPort: 5432}],
+                        image: 'timescale/timescaledb:latest-pg14', //`postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,
+                        ports: [{name: 'timeseriesdb', containerPort: 5432}],
                         volumeMounts: [
                             // { name: 'postgres-config', mountPath: '/var/lib/postgresql/data/'},
-                            { name: 'postgres-storage', mountPath: '/var/lib/postgresql/data' },
+                            { name: 'timeseriesdb-storage', mountPath: '/var/lib/postgresql/data' },
                         ],
                         env: [
                             {
@@ -120,7 +117,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                         ]
                     }],
                     volumes: [{
-                        name: 'postgres-storage',
+                        name: 'timeseriesdb-storage',
                         persistentVolumeClaim: {
                             claimName: storageClaim.metadata.name
                         }
@@ -141,7 +138,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         },
         spec: {
             type: "ClusterIP",
-            ports: [{ name: "postgres", port: 5432, targetPort: "postgres" }],
+            ports: [{ name: "timeseriesdb", port: 5432, targetPort: "timeseriesdb" }],
             selector: appLabels,
         },
     }, { provider: provider });
