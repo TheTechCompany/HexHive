@@ -23,6 +23,7 @@ const main = (async () => {
     const { url: rabbitURL } = await RabbitMQ(provider, vpcId)
 
     const {service: dbService} = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
+    
     return {
         rabbitURL,
         dbService,

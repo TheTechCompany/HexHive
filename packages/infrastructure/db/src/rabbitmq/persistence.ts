@@ -8,7 +8,7 @@ export const RabbitMQPersistence = async (provider: Provider, vpcId: Output<any>
 
     const suffix = config.get('suffix');
 
-    let efsRoot = `hivecommand-mq-storage-${suffix}`;
+    let efsRoot = `hexhive-mq-storage-${suffix}`;
 
     const efsVolume =  new aws.efs.FileSystem(efsRoot)
     
