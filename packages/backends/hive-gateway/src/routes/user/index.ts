@@ -5,7 +5,6 @@ export const UserRouter  = () : Router => {
 
 	router.get("/", (req, res) => {
 		res.send({user: (req as any).user})
-		// methods.findUserById()
 	})
 
 	return router
