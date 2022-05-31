@@ -22,9 +22,7 @@ export default class Patch {
 
 
 		(this.diff.processor.pipes.patch as any).debug = true;
-
-		// this.diff.processor.pipes.patch.before('trivial', PatchMiddleware)
-
+ 
         if(fs.existsSync(`./last_dump-${this.opts.id}.json`)){
             this.last = JSON.parse(fs.readFileSync(`./last_dump-${this.opts.id}.json`, 'utf-8'), dateReviver)
         }
