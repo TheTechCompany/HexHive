@@ -51,6 +51,8 @@ export class MSSQLWorker extends EventEmitter {
 			setInterval(this.poll.bind(this, task), 60 * 1000)
 		})
 
+		// this.poll(task);
+
 
 		// await Promise.all(this.task.map(async (task) => {
 		// 	await this.poll(task)
@@ -94,18 +96,7 @@ export class MSSQLWorker extends EventEmitter {
 
 	}
 
-	// parseAction(key: string, value: any){
-	// 	if(Array.isArray(value) && value.length == 1){
-	// 		this.newItem(value)
-	// 	}else if(typeof(value) === 'object' && !Array.isArray(value)){
-	// 		let update = {};
-	// 		for(var k in value){
-	// 			update[k] = value[k][1]
-	// 		}
-	// 		this.updatedItem(key, )
-	// 	}
-	// }
-
+	
 	async poll(task: WorkerTask){
 		let q = this.getQuery(task)
 

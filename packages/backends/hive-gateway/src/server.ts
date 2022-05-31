@@ -84,38 +84,6 @@ const argv = yargs(hideBin(process.argv)).options({
 		// next(null, {...obj, name: "Test"});
 	});
 
-	// app.post('/auth', (req, res, next) => {
-	// 	console.log('Auth');
-	// 	next()
-	// }, (req, res, next) => {
-	// 	const resp = passport.authenticate('headerapikey')(req, res, next)
-	// }, (req, res) => {
-	// 	console.log("AUTH")
-	// 	res.send({user: req.user})
-	// })
-
-	app.use('/login', (req, res, next) => {
-		if(req.query.returnTo){
-			(req.session as any).returnTo = req.query.returnTo
-		}
-		next();
-	}, passport.authenticate('oidc'))
-
-	app.get('/logout', function(req, res){
-		req.logout();
-		res.redirect('/');
-	});
-
-	app.use('/callback',
-		passport.authenticate('oidc', { failureRedirect: '/error' }),
-			(req, res) => {
-
-				const returnTo = (req.session as any).returnTo;
-				(req.session as any).returnTo = undefined;
-				console.log(req)
-				res.redirect(returnTo || process.env.UI_URL || "https://next.hexhive.io/dashboard");
-			}
-		);
 
 	const { port, endpoints, dev } = await argv.argv;
 
@@ -141,89 +109,57 @@ const argv = yargs(hideBin(process.argv)).options({
 	passport.use(new ApiKeyStrategy({
 		header: 'Authorization',
 		prefix: 'API-Key '
-	}, false, (apiKey: string, done: (err: any, user: any) => void) => {
+	}, false, async (apiKey: string, done: (err: any, user: any) => void) => {
 		console.log("API Key", {apiKey})
 
-		prisma.applicationServiceAccount?.findFirst({
-			where: {
-				apiKey: apiKey
-			},
-			include: {
-				application: true
-			}
-		}).then((serviceAccount) => {
+		const [serviceAccount, organisation] = await Promise.all([
+			prisma.applicationServiceAccount.findFirst({where: {apiKey: apiKey}, include: {application: true}}),
+			prisma.organisation.findFirst({where: {apiKeys: {some: {apiKey: apiKey}}}})
+		]);
+
+	
 			if(serviceAccount){
 				done(null, {
 					type: 'appServiceAccount',
 					id: serviceAccount.id,
 					application: serviceAccount?.application?.id
 				})
+			}else if(organisation){
+				done(null, {
+					type: 'org-key',
+					organisation: organisation?.id,
+					id: organisation?.id
+				})
 			}else{
-				done("No ServiceAccount found for API-Key", null)
+				done("No valid claim found for API-Key", null)
 			}
-		})
-
-		// done(null, {apiKey})
 	}))
 
-	passport.use(new JwtStrategy(jwtConfig, (payload: any, done: (err: any, user: any) => void) => {
+	passport.use(new JwtStrategy(jwtConfig, async (payload: any, done: (err: any, user: any) => void) => {
 		console.log("JWT", {payload})
 		
 		if(payload.key){
-			// const session = neoDriver?.session();
-			// session?.run(`
-			// 	MATCH (org:HiveOrganisation)-[:HAS_KEY]->(:HiveKey {key: $key})-[:HAS_PERMISSION]->(apps:HiveAppliance)
 
-			// 	RETURN {
-			// 		organisation: org.id,
-			// 		applications: collect(apps{.*})
-			// 	}
-			// `, {
-			// 	key: payload.key
-			// }).then((data) => {
-			// 	const user = data?.records?.[0]?.get(0);
+			const organisation = await prisma.organisation.findFirst({
+				where: {
+					apiKeys: {
+						some: {
+							apiKey: payload.key
+						}
+					}
+				}
+			});
 
-			// 	session.close()
-			// 	done(null, {type: 'api-key', ...user})
-			// })
+			if(!organisation) done("No Org found for API-Key", null);
+
+			done(null, {type: 'org-key', organisation: organisation?.id})
+		
 		}else{
 			done(null, {type: 'app-2-app', ...payload})
 		}
 
 	}))
 		
-	// passport.use('oidc', new OidcStrategy({
-	// 	...config,
-	// 	skipUserProfile: false
-	// }, (issuer: any, profile: any, done: any) => {
-	// 	console.log({profile})
-	// 	const session = neoDriver?.session();
-	// 	session?.run(`
-	// 	  MATCH (org:HiveOrganisation)-[:TRUSTS]->(user:HiveUser {id: $id})
-	// 	  CALL {
-	// 		  WITH user
-	// 		MATCH (user)-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-	// 		RETURN distinct(apps{.*}) as apps
-	// 	  }
-	// 	  RETURN user{
-	// 		id: user.id,
-	// 		name: user.name,
-	// 		organisation: org.id,
-	// 		applications: collect(apps{.*})
-	// 	  }
-	// 	`, {
-		  
-	// 		id: profile.id,
-		  
-	// 	}).then((data) => {
-		  
-	// 	  const user = data.records?.[0].get(0);
-		  
-	// 	  session.close()
-	// 	  done(null, user);
-	// 	})
-	// }))
-
 
 	console.log(`=> Starting Gateway`)
 

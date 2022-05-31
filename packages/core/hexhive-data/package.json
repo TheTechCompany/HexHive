@@ -1,8 +1,9 @@
 {
   "name": "@hexhive/data",
-  "version": "1.0.2-beta.42",
+  "version": "1.0.2-beta.49",
   "description": "",
   "main": "dist/index.js",
+  "private": true,
   "files": [
     "dist/"
   ],
