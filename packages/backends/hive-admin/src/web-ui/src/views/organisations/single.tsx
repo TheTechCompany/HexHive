@@ -4,13 +4,16 @@ import { useParams } from 'react-router-dom';
 import { HeaderBar } from '../../components/header-bar';
 import { AssignApplicationModal } from '../../modals/assign-application';
 import { RoleModal } from '../../modals/role-modal';
+import { ServiceAccountModal } from '../../modals/serviceaccout-modal';
 
 const baseUrl = process.env.NODE_ENV == 'production' ? '' : 'http://localhost:9999';
 
 export const OrganisationSingle = () => {
 
+    const [ selectedApiKey, setSelectedApiKey ] = useState(null);
     const [ assignModalOpen, setAssignModalOpen ] = useState(false);
     const [roleModalOpen, openRoleModal ] = useState(false);
+    const [ apiModalOpen, openAPIModal ] = useState(false);
 
     const { id } = useParams()
 
@@ -52,8 +55,52 @@ export const OrganisationSingle = () => {
         }).then((r) => r.json())
     }
 
+    const createAPIKey = (name: string, apiKey: string) => {
+        return fetch(`${baseUrl}/api/organisations/${id}/apiKeys`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                apiKey
+            })
+        }).then((r) => r.json())
+    }
+
+    const updateAPIKey = (id: string, name: string, apiKey: string) => {
+        return fetch(`${baseUrl}/api/organisations/${id}/apiKeys`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: id,
+                name: name,
+                apiKey
+            })
+        }).then((r) => r.json())
+    }
+    
     return (
         <Box flex>
+
+            <ServiceAccountModal
+                open={apiModalOpen}
+                selected={selectedApiKey}
+                onClose={() => openAPIModal(false)}
+                onSubmit={(apiKey) => {
+                    if(!apiKey.id){
+                        createAPIKey(apiKey.name, apiKey.apiKey).then(() => {
+                            openAPIModal(false)
+                        });
+                    }else{
+                        updateAPIKey(apiKey.id, apiKey.name, apiKey.apiKey).then(() => {
+                            openAPIModal(false);
+                        })
+                    }
+                }}
+                />
             <AssignApplicationModal
                 open={assignModalOpen}
                 onClose={() => setAssignModalOpen(false)}
@@ -99,13 +146,29 @@ export const OrganisationSingle = () => {
                          primaryKey="name" />
                 </Box>
                 <Box background={'white'} round="xsmall" overflow={'hidden'} flex>
-                    <HeaderBar 
-                        onClick={() => openRoleModal(true)}
-                        title='Roles' />
+                    <Box flex>
+                        <HeaderBar 
+                            onClick={() => openRoleModal(true)}
+                            title='Roles' />
 
-                    <List
-                        data={organisation?.roles}
-                        primaryKey="name" />
+                        <List
+                            data={organisation?.roles}
+                            primaryKey="name" />
+
+                    </Box>
+                    <Box flex>
+                        <HeaderBar
+                            title='API-Keys'
+                            onClick={() => openAPIModal(true)} />
+                        
+                        <List
+                            onClickItem={({item}: any) => {
+                                openAPIModal(true); 
+                                setSelectedApiKey(item)
+                            }}
+                            data={organisation.apiKeys || []}
+                            primaryKey="name" />
+                    </Box>
                 </Box>
             </Box>
         </Box>

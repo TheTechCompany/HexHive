@@ -40,6 +40,7 @@ export default (prisma: PrismaClient) => {
                             applications: true,
                         }
                     },
+                    apiKeys: true,
                     trustsUsers: true
                 }
             })
@@ -82,5 +83,33 @@ export default (prisma: PrismaClient) => {
             res.send({result: app})
         })
         
+    router.route('/:id/apiKeys')
+        .get(async (req, res) => {
+            const apiKeys = await prisma.aPIKey.findMany({where: {organisation: {id: req.params.id}}})
+            res.send({apiKeys})
+        })
+        .put(async (req, res) => {
+            await prisma.aPIKey.update({
+                where: {
+                    id: req.body.id,
+                },
+                data: {
+                    name: req.body.name
+                }
+            })
+            res.send({success: true})
+        })
+        .post(async (req, res) => {
+            await prisma.aPIKey.create({
+                data: {
+                    id: nanoid(),
+                    name: req.body.name,
+                    apiKey: nanoid(),
+                    organisation: {
+                        connect: {id: req.params.id}
+                    }
+                }
+            })
+        })
     return router;
 }

@@ -44,8 +44,19 @@ model Organisation {
 
   trustsUsers UserTrust[] @relation(name: "issuedTrust")
 
+  apiKeys APIKey[] @relation(name: "hasAPIKey")
+  
   roles Role[]
   applications Application[]
+}
+
+model APIKey {
+  id String @id
+  name String
+  apiKey String
+  
+  organisation Organisation @relation(name: "hasAPIKey", fields: [organisationId], references: [id], onDelete: Cascade)
+  organisationId String
 }
 
 model Application {
