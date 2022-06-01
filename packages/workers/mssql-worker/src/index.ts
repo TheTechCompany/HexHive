@@ -40,9 +40,17 @@ export class MSSQLWorker extends EventEmitter {
 		console.log(result)
 	}
 
+	async runOnce(){
+		this.pool = await mssql.connect(this.config);
+
+		this.task.forEach((task) => {
+			this.poll(task);
+		})
+	}
+
 	async start(){
 		this.pool = await mssql.connect(this.config)
-		console.log({pool: this.pool})
+		// console.log({pool: this.pool})
 		// await this.discover();
 		
 		this.task.forEach((task) => {
