@@ -115,17 +115,23 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                                 name: 'POSTGRES_PASSWORD',
                                 value: pgPassword
                             }
-                        ]
+                        ],
+                        resources: {
+                            requests: {
+                                cpu: '0.5',
+                                memory: '1GB'
+                            }
+                        }
                     }],
+                
                     volumes: [{
                         name: 'timeseriesdb-storage',
                         persistentVolumeClaim: {
                             claimName: storageClaim.metadata.name
                         }
-                    }
-                ]
+                    }]
                     
-                }
+                },
             }
         }
     }, {provider})
