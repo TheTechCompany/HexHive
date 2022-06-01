@@ -118,6 +118,8 @@ export class MSSQLWorker extends EventEmitter {
 			return task.collect.map((collect) => {
 				if(typeof(collect) == "object"){
 					switch(collect.type){
+						case 'Number':
+							return {[collect.to]: parseFloat(parseFloat(item[collect.to]).toFixed(2))}
 						case 'Date':
 							return {[collect.to]: item[collect.to] /*new Date(item[collect.key])*/}
 						case 'Function':
