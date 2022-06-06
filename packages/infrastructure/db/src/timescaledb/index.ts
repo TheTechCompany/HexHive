@@ -89,6 +89,21 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
         }   
     }, {provider})
 
+    const ebsClaim = new k8s.core.v1.PersistentVolumeClaim(`timeseries-pvc-${suffix}`, {
+        metadata: {
+            name: `timeseries-pvc-${suffix}`,
+        },
+        spec: {
+            accessModes: ['ReadWriteOnce'],
+            storageClassName: 'gp2',
+            resources: {
+                requests: {
+                    storage: '7Gi'
+                }
+            }
+        }
+    })
+
 
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
@@ -108,6 +123,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                         ports: [{name: 'timeseriesdb', containerPort: 5432}],
                         volumeMounts: [
                             { name: 'timeseriesdb-store', mountPath: '/var/lib/postgresql/data' },
+                            { name: 'backup-store', mountPath: '/backup'}
                         ],
                         env: [
                             {
@@ -131,6 +147,11 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                         name: 'timeseriesdb-store',
                         persistentVolumeClaim: {
                             claimName: storageClaim.metadata.name
+                        }
+                    }, {
+                        name: 'backup-store',
+                        persistentVolumeClaim: {
+                            claimName: ebsClaim.metadata.name
                         }
                     }]
                     
