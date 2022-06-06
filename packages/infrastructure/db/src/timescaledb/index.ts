@@ -104,7 +104,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                     containers: [{
                         imagePullPolicy: 'IfNotPresent',
                         name: depName,
-                        image: 'timescale/timescaledb:latest-pg14', //`postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,
+                        image: 'timescale/timescaledb:2.6.1-pg14', //`postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,
                         ports: [{name: 'timeseriesdb', containerPort: 5432}],
                         volumeMounts: [
                             { name: 'timeseriesdb-store', mountPath: '/var/lib/postgresql/data' },
