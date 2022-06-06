@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/mssql-worker",
-  "version": "1.0.2-beta.51",
+  "version": "1.0.2-beta.52",
   "description": "",
   "main": "dist/index.js",
   "files": [

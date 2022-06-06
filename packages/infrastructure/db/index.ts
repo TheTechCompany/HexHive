@@ -7,6 +7,7 @@ import * as aws from '@pulumi/aws'
 import RabbitMQ from './src/rabbitmq'
 import { ApplicationDB } from './src/postgres'
 import { TimescaleDB } from './src/timescaledb'
+import { PgBouncer } from './src/pgbouncer'
 
 const main = (async () => {
     const config = new Config();
@@ -26,10 +27,13 @@ const main = (async () => {
     const { service: timescale } = await TimescaleDB(provider, vpcId, process.env.POSTGRES_PASSWORD);
     const {service: dbService} = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
 
+    const timescaleUrl = timescale.metadata.name.apply((name) => `${name}.default.svc.cluster.local`)
+    const { service: bouncerService } = await PgBouncer(provider, timescaleUrl, process.env.POSTGRES_PASSWORD);
+
     return {
         rabbitURL,
         dbService,
-        timescaleService: timescale,
+        timescaleService: bouncerService,
         dbPass: process.env.POSTGRES_PASSWORD
     }
 })()
