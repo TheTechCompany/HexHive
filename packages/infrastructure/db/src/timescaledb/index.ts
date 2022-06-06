@@ -1,5 +1,5 @@
 import * as k8s from '@pulumi/kubernetes'
-import { Config, Output } from '@pulumi/pulumi';
+import { all, Config, Output } from '@pulumi/pulumi';
 import {efs} from '@pulumi/aws'
 import * as aws from '@pulumi/aws'
 
@@ -8,6 +8,12 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
 
     let suffix = config.require('suffix');
     
+    const ns = new k8s.core.v1.Namespace(`db-${suffix}`, {
+        metadata: {
+            name: `db-${suffix}`
+        }
+    }, {provider})
+
     const imageTag = process.env.IMAGE;
 
     const depName = `timeseriesdb-${suffix}`
@@ -92,6 +98,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
     const ebsClaim = new k8s.core.v1.PersistentVolumeClaim(`timeseries-pvc-${suffix}`, {
         metadata: {
             name: `timeseries-pvc-${suffix}`,
+            namespace: ns.metadata.name
         },
         spec: {
             accessModes: ['ReadWriteOnce'],
@@ -109,7 +116,8 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
 
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
-            labels: appLabels
+            labels: appLabels,
+            namespace: ns.metadata.name,
         },
         spec: {
             replicas: 1,
@@ -118,6 +126,9 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
             template: {
                 metadata: {labels: appLabels},
                 spec: {
+                    nodeSelector: {
+                        'eks.amazonaws.com/nodegroup': 'managed-nodes'
+                    },
                     containers: [{
                         imagePullPolicy: 'IfNotPresent',
                         name: depName,
@@ -135,28 +146,24 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                         ],
                         resources: {
                             requests: {
-                                cpu: '2',
-                                memory: '8Gi'
+                                cpu: '0.5',
+                                memory: '1Gi'
                             },
                             limits: {
-                                cpu: '2',
-                                memory: '8Gi'
+                                cpu: '0.5',
+                                memory: '1Gi'
                             }
                         }
                     }],
                 
-                    volumes: [{
+                    volumes: [
+                    
+                    {
                         name: 'timeseriesdb-store',
                         persistentVolumeClaim: {
-                            claimName: storageClaim.metadata.name
+                            claimName: ebsClaim.metadata.name
                         }
-                    }, 
-                    // {
-                    //     name: 'backup-store',
-                    //     persistentVolumeClaim: {
-                    //         claimName: ebsClaim.metadata.name
-                    //     }
-                    // }
+                    }
                 ]
                     
                 },
@@ -166,7 +173,8 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
 
     const service = new k8s.core.v1.Service(`${depName}-svc`, {
         metadata: { 
-            labels: appLabels
+            labels: appLabels,
+            namespace: ns.metadata.name
         },
         spec: {
             type: "ClusterIP",
@@ -177,6 +185,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
 
     return {
         service,
-        deployment
+        deployment,
+        url: all([service.metadata.name, ns.metadata.name]).apply(([name, ns]) => `${name}.${ns}.svc.cluster.local:5432`)
     }
 }

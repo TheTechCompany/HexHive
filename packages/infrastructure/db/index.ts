@@ -24,21 +24,24 @@ const main = (async () => {
 
     const { url: rabbitURL } = await RabbitMQ(provider, vpcId)
 
-    const { service: timescale } = await TimescaleDB(provider, vpcId, process.env.POSTGRES_PASSWORD);
+    const { service: timescale, url: timescaleUrl } = await TimescaleDB(provider, vpcId, process.env.POSTGRES_PASSWORD);
     const {service: dbService} = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
 
-    const timescaleUrl = timescale.metadata.name.apply((name) => `${name}.default.svc.cluster.local`)
+    // const timescaleUrl = timescale.metadata.name.apply((name) => `${name}.default.svc.cluster.local`)
     // const { service: bouncerService } = await PgBouncer(provider, timescaleUrl, process.env.POSTGRES_PASSWORD);
 
     return {
         rabbitURL,
         dbService,
         timescaleService: timescale,
+        timescaleUrl,
         dbPass: process.env.POSTGRES_PASSWORD
     }
 })()
 
 export const rabbitURL = main.then((result) => result.rabbitURL);
+
+export const timescale_url = main.then((result) => result.timescaleUrl);
 
 export const timeseries_name = main.then((result) => result.timescaleService.metadata.name)
 
