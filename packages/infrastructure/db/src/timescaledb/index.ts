@@ -107,8 +107,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                         image: 'timescale/timescaledb:latest-pg14', //`postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,
                         ports: [{name: 'timeseriesdb', containerPort: 5432}],
                         volumeMounts: [
-                            // { name: 'postgres-config', mountPath: '/var/lib/postgresql/data/'},
-                            { name: 'timeseriesdb-storage', mountPath: '/var/lib/postgresql/data' },
+                            { name: 'timeseriesdb-store', mountPath: '/var/lib/postgresql/data' },
                         ],
                         env: [
                             {
@@ -125,7 +124,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                     }],
                 
                     volumes: [{
-                        name: 'timeseriesdb-storage',
+                        name: 'timeseriesdb-store',
                         persistentVolumeClaim: {
                             claimName: storageClaim.metadata.name
                         }
@@ -138,10 +137,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
 
     const service = new k8s.core.v1.Service(`${depName}-svc`, {
         metadata: { 
-            labels: appLabels,
-            annotations: {
-            
-            }
+            labels: appLabels
         },
         spec: {
             type: "ClusterIP",
