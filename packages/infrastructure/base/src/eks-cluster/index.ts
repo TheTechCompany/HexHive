@@ -134,6 +134,14 @@ export default async (deployment: string) => {
             desiredSize: 1
         }
     })
+
+    // const ebsStorageClass = new k8s.storage.v1.StorageClass(`${deployment}-ebs-storage`, {
+    //     metadata: {
+    //         name: 'ebs-sc'
+    //     },
+    //     provisioner: 'ebs.csi.aws.com',
+    //     volumeBindingMode: 'WaitForFirstConsumer'
+    // })
     
 
     // const efsController = EFSCSI(cluster, account)
