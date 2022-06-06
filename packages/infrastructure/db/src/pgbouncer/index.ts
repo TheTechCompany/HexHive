@@ -49,6 +49,10 @@ export const PgBouncer = (provider: Provider, timescaleUrl: any, timescalePass: 
                                 {
                                     name: 'POSTGRESQL_DATABASE',
                                     value: 'hivecommand'
+                                },
+                                {
+                                    name: "PGBOUNCER_DATABASE",
+                                    value: 'hivecommand'
                                 }
                             ]
                         }
