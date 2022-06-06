@@ -119,6 +119,10 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                             requests: {
                                 cpu: '1',
                                 memory: '2Gi'
+                            },
+                            limits: {
+                                cpu: '1',
+                                memory: '4Gi'
                             }
                         }
                     }],
