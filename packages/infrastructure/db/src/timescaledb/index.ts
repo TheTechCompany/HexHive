@@ -102,6 +102,8 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                 }
             }
         }
+    }, {
+        provider
     })
 
 
