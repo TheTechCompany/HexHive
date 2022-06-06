@@ -33,7 +33,7 @@ const main = (async () => {
     return {
         rabbitURL,
         dbService,
-        timescaleService: bouncerService,
+        timescaleService: timescale,
         dbPass: process.env.POSTGRES_PASSWORD
     }
 })()
