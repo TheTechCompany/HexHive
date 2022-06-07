@@ -136,7 +136,6 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                         ports: [{name: 'timeseriesdb', containerPort: 5432}],
                         volumeMounts: [
                             { name: 'timeseriesdb-store', mountPath: '/var/lib/postgresql/data/', subPath: 'newdata' },
-                            // { name: 'backup-store', mountPath: '/backup'}
                         ],
                         env: [
                             {
@@ -160,7 +159,6 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                     
                     {
                         name: 'timeseriesdb-store',
-                    
                         persistentVolumeClaim: {
                             claimName: ebsClaim.metadata.name,
                               
