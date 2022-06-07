@@ -105,7 +105,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
             storageClassName: 'gp2',
             resources: {
                 requests: {
-                    storage: '10Gi'
+                    storage: '7Gi'
                 }
             }
         }
@@ -135,7 +135,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                         image: 'timescale/timescaledb:2.7.0-pg14', 
                         ports: [{name: 'timeseriesdb', containerPort: 5432}],
                         volumeMounts: [
-                            { name: 'timeseriesdb-store', mountPath: '/var/lib/postgresql/data' },
+                            { name: 'timeseriesdb-store', mountPath: '/var/lib/postgresql/data/', subPath: 'newdata' },
                             // { name: 'backup-store', mountPath: '/backup'}
                         ],
                         env: [
@@ -146,11 +146,11 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                         ],
                         resources: {
                             requests: {
-                                cpu: '0.5',
-                                memory: '1Gi'
+                                cpu: '0.25',
+                                memory: '0.5Gi'
                             },
                             limits: {
-                                cpu: '0.5',
+                                cpu: '0.25',
                                 memory: '1Gi'
                             }
                         }
@@ -160,8 +160,10 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                     
                     {
                         name: 'timeseriesdb-store',
+                    
                         persistentVolumeClaim: {
-                            claimName: ebsClaim.metadata.name
+                            claimName: ebsClaim.metadata.name,
+                              
                         }
                     }
                 ]
