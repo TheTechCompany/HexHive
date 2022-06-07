@@ -134,8 +134,8 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
                         name: depName,
                         image: 'timescale/timescaledb:2.7.0-pg14', 
                         ports: [{name: 'timeseriesdb', containerPort: 5432}],
-                        volumeMounts: [
-                            { name: 'timeseriesdb-store', mountPath: '/var/lib/postgresql/data/', subPath: 'newdata' },
+                        volumeMounts: [//newdata
+                            { name: 'timeseriesdb-store', mountPath: '/var/lib/postgresql/data/', subPath: 'data' },
                         ],
                         env: [
                             {
