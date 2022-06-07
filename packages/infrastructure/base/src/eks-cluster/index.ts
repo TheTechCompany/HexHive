@@ -123,7 +123,7 @@ export default async (deployment: string) => {
     const managedGroup = new eks.ManagedNodeGroup(`${deployment}-mng`, {
         cluster: cluster,
         nodeRole: cluster.instanceRoles?.[0],
-        instanceTypes: ["t2.small"],
+        instanceTypes: ["t3.medium"],
         nodeGroupName: `managed-nodes`,
         labels: {
             type: 'managed-node-group'
