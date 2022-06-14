@@ -3,16 +3,11 @@ import { all, Config, Output } from '@pulumi/pulumi';
 import {efs} from '@pulumi/aws'
 import * as aws from '@pulumi/aws'
 
-export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pgPassword: string) => {
+export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, namespace: k8s.core.v1.Namespace, pgPassword: string) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
     
-    const ns = new k8s.core.v1.Namespace(`db-${suffix}`, {
-        metadata: {
-            name: `db-${suffix}`
-        }
-    }, {provider})
 
     const imageTag = process.env.IMAGE;
 
@@ -98,7 +93,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
     const ebsClaim = new k8s.core.v1.PersistentVolumeClaim(`timeseries-pvc-${suffix}`, {
         metadata: {
             name: `timeseries-pvc-${suffix}`,
-            namespace: ns.metadata.name
+            namespace: namespace.metadata.name
         },
         spec: {
             accessModes: ['ReadWriteOnce'],
@@ -117,7 +112,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
             labels: appLabels,
-            namespace: ns.metadata.name,
+            namespace: namespace.metadata.name,
         },
         spec: {
             replicas: 1,
@@ -174,7 +169,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
     const service = new k8s.core.v1.Service(`${depName}-svc`, {
         metadata: { 
             labels: appLabels,
-            namespace: ns.metadata.name
+            namespace: namespace.metadata.name
         },
         spec: {
             type: "ClusterIP",
@@ -186,6 +181,6 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, pg
     return {
         service,
         deployment,
-        url: all([service.metadata.name, ns.metadata.name]).apply(([name, ns]) => `${name}.${ns}.svc.cluster.local:5432`)
+        url: all([service.metadata.name, namespace.metadata.name]).apply(([name, ns]) => `${name}.${ns}.svc.cluster.local:5432`)
     }
 }

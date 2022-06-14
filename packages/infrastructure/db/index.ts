@@ -7,7 +7,9 @@ import * as aws from '@pulumi/aws'
 import RabbitMQ from './src/rabbitmq'
 import { ApplicationDB } from './src/postgres'
 import { TimescaleDB } from './src/timescaledb'
+import { MongoDB } from './src/mongo'
 import { PgBouncer } from './src/pgbouncer'
+import * as k8s from '@pulumi/kubernetes'
 
 const main = (async () => {
     const config = new Config();
@@ -22,9 +24,18 @@ const main = (async () => {
 
     if(!process.env.POSTGRES_PASSWORD) throw new Error("no POSTGRES_PASSWORD env set");
 
+    let suffix = config.require('suffix');
+    
+    const ns = new k8s.core.v1.Namespace(`db-${suffix}`, {
+        metadata: {
+            name: `db-${suffix}`
+        }
+    }, {provider})
+
     const { url: rabbitURL } = await RabbitMQ(provider, vpcId)
 
-    const { service: timescale, url: timescaleUrl } = await TimescaleDB(provider, vpcId, process.env.POSTGRES_PASSWORD);
+    const { service: timescale, url: timescaleUrl } = await TimescaleDB(provider, vpcId, ns, process.env.POSTGRES_PASSWORD);
+    const { url: mongoUrl } = await MongoDB(provider, vpcId, ns);
     const {service: dbService} = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
 
     // const timescaleUrl = timescale.metadata.name.apply((name) => `${name}.default.svc.cluster.local`)
@@ -35,11 +46,14 @@ const main = (async () => {
         dbService,
         timescaleService: timescale,
         timescaleUrl,
+        mongoUrl,
         dbPass: process.env.POSTGRES_PASSWORD
     }
 })()
 
 export const rabbitURL = main.then((result) => result.rabbitURL);
+
+export const mongo_url = main.then((result) => result.mongoUrl);
 
 export const timescale_url = main.then((result) => result.timescaleUrl);
 
