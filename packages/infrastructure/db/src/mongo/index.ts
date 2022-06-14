@@ -65,7 +65,6 @@ export const MongoDB = async (provider: k8s.Provider, vpcId: Output<any>, namesp
                             }
                         }
                     }],
-                
                     volumes: [
                     {
                         name: 'mongo-store',
