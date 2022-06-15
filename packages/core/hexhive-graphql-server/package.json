@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/graphql-server",
-  "version": "1.0.2-beta.42",
+  "version": "1.0.2-beta.53",
   "description": "",
   "main": "dist/index.js",
   "files": [
