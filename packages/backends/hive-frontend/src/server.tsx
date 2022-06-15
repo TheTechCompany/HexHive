@@ -51,15 +51,6 @@ const config = {
 	app.set('view engine', 'ejs');
 	app.set('views', path.resolve(__dirname, './views'));
 
-	// const neoDriver = driver(
-	// 	process.env.NEO4J_URI || "neo4j://localhost",
-	// 	auth.basic(
-	// 		process.env.NEO4J_USER || "neo4j",
-	// 		process.env.NEO4J_PASSWORD || "test"
-	// 	)
-	// );
-
-
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : { cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' } }
 
 	app.use(session({
