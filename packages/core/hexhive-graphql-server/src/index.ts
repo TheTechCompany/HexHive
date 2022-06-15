@@ -141,7 +141,7 @@ export class HiveGraph {
 		  
 		  (req as any).jwt = {
 			  ...(verified as any || {}),
-			id: (verified as any)?.sub,
+			id: (verified as any)?.sub || (verified as any)?.id,
 		  };
 
 		  next();
