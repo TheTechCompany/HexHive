@@ -30,7 +30,6 @@ export const MongoDB = async (provider: k8s.Provider, vpcId: Output<any>, namesp
         provider
     })
 
-
     const deployment = new k8s.apps.v1.Deployment(`${depName}-dep`, {
         metadata: {
             labels: appLabels,
