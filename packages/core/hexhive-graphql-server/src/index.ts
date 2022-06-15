@@ -135,6 +135,8 @@ export class HiveGraph {
 			{ algorithms: ["RS256"] }
 		  );
 
+		  console.log({verified});
+
 		  (req as any).token  = hiveJwt;
 			
 		  (req as any).gatewayUrl = gatewayUrl;
