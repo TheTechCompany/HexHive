@@ -22,6 +22,7 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 			const { id, email, name, organisation } = context.user
 			headers["X-Hive-JWT"] = keyManager?.({
 				sub: id,
+				id: id,
 				email,
 				name,
 				organisation
