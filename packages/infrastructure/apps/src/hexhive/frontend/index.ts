@@ -68,6 +68,14 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, zone: aws.rou
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
                             { name: "DATABASE_URL", value: all([dbUrl, postgresPass]).apply(([url, pass]) => `postgresql://postgres:${pass}@${url}.default.svc.cluster.local:5432/postgres`) },
                         ],
+                        resources: {
+                            requests: {
+                                cpu: '0.25',
+                            },
+                            limits: {
+                                cpu: '0.5'
+                            }
+                        },
                         readinessProbe: {
                             tcpSocket: {
                                 port: 'http'
