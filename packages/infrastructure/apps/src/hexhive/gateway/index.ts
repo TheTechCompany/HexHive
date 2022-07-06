@@ -185,9 +185,6 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
 
                         ],
                         resources: {
-                            requests: {
-                                cpu: "0.25"
-                            },
                             limits: {
                                 cpu: '0.5'
                             }
