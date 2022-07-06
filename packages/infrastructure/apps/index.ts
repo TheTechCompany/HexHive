@@ -43,7 +43,7 @@ const main = (async () => {
 
     const vpc = await vpcId.apply(async (id) => await aws.ec2.getVpc({ id: id }));
 
-    const { deployment: adminDeployment } = await AdminPane(provider, postgresUrl, postgresPass)
+    // const { deployment: adminDeployment } = await AdminPane(provider, postgresUrl, postgresPass)
 
     const { url: gatewayUrl } = await GatewayCluster(provider, vpc.id, hexhiveZone, config.require('gateway-url'), config.require('frontend-url'), mongoUrl.apply(s => `${s}`), postgresUrl, postgresPass);
     const { url: frontendUrl } = await MicrofrontendCluster(provider, hexhiveZone, config.require('frontend-url'), config.require('gateway-url'), mongoUrl.apply(s => `${s}`), postgresUrl, postgresPass);
@@ -52,7 +52,7 @@ const main = (async () => {
         gatewayUrl,
         frontendUrl,
 
-        adminDeployment,
+        // adminDeployment,
         kubeconfig
     }
 })()
@@ -65,4 +65,4 @@ export const frontendUrl = main.then(result => result.frontendUrl)
 
 export const kubeconfig = main.then(result => result.kubeconfig)
 
-export const adminDeployment = main.then((result) => result.adminDeployment.metadata.name);
+// export const adminDeployment = main.then((result) => result.adminDeployment.metadata.name);
