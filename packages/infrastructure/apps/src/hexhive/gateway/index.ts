@@ -135,6 +135,11 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                         "version": "0.0.1"
                     },
                     {
+                        "name": "HiveChat",
+                        "url": "http://hive-chat-${suffix}-svc.default.svc.cluster.local/graphql",
+                        "version": "0.0.1"
+                    },
+                    {
                         "name": "HiveAutomate",
                         "url": "http://hive-automate-${suffix}-svc.default.svc.cluster.local/graphql",
                         "version": "0.0.1"
