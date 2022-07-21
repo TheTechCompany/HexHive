@@ -193,6 +193,11 @@ const config = {
 				key: "Hive-Report",
 				route: '/hive-report',
 				url: 'http://localhost:8193/hivereport-app-frontend.js'
+			},
+			{
+				key: "Hive-Chat",
+				route: '/hive-chat',
+				url: "http://localhost:8515/hexhive-apps-hive-chat.js"
 			}
 		] : [],
 		getViews: async (req) => {
