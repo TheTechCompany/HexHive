@@ -226,7 +226,6 @@ export default (prisma: PrismaClient) => {
 							organisations: {
 								create: [{
 									id: nanoid(),
-									roles: [],
 									issuer: {
 										connect: {
 											id: context?.jwt?.organisation	
