@@ -21,4 +21,5 @@ export const frontendRouter = () => {
 	}));
 
 	return app
+	
 }
