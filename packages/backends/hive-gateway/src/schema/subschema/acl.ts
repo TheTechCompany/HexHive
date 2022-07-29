@@ -227,7 +227,11 @@ export default (prisma: PrismaClient) => {
 								create: [{
 									id: nanoid(),
 									roles: [],
-									issuerId: context?.jwt?.organisation	
+									issuer: {
+										connect: {
+											id: context?.jwt?.organisation	
+										}
+									}
 								}]
 							}
 						}
