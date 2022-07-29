@@ -194,6 +194,7 @@ export default (prisma: PrismaClient) => {
 
 				console.log("User result", JSON.stringify(query), JSON.stringify(users))
 				
+			
 				if(args.ids){
 					return args.ids.map((id: string) => users.find((a) => a.id == id))?.map((x: any) => ({...x, email: x.email || ''}))
 				}else{
@@ -204,6 +205,7 @@ export default (prisma: PrismaClient) => {
 		},
 		Mutation: {
 			createUser: async (root: any, args: any, context: any) => {
+				console.log("Create User", context)
 				return await prisma.$transaction(async (prisma) => {
 					const userCount = await prisma.user.count({
 						where: {
