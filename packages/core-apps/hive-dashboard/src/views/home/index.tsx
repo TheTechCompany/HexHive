@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { Box, ThemeContext, Text, Layer, List, Button } from 'grommet'
 
 import { SettingsOption, Add, ThreeD, Edit, Checkmark } from 'grommet-icons';
-import { BaseHeader } from '../../components/header';
 import { HexBoxBackground } from '../../components/hex-box-background/HexBoxBackground';
-import { Footer } from '../../components/footer';
 
 import { Hivecommand, Hivefiles, Hiveflow, Hivemind, Svg3D, MatrixLogo } from '../../assets';
 import { HexHive } from '../../components/hex-hive';
-import {BaseStyle} from '@hexhive/styles'
+import {HexHiveTheme} from '@hexhive/styles'
 export const Home : React.FC<any> = (props) => {
     const [ drawer, setDrawer ] = useState<boolean>(false);
     const [ editing, setEditing ] = useState<boolean>(false)
@@ -51,12 +49,13 @@ export const Home : React.FC<any> = (props) => {
                 </ThemeContext.Extend>}
             
             <HexHive edit={editing} />
-            <Button
+            
+            {/* <Button
                 onClick={() => setEditing(!editing)}
                 hoverIndicator
                 color="accent-1"
-                style={{background: BaseStyle.global.colors['accent-2'], borderRadius: '50%', position: 'absolute', right: 12, bottom: 12}}
-                icon={editing ? <Checkmark color="neutral-1" /> : <Edit color="neutral-1"/>}/>
+                style={{background: HexHiveTheme.palette.secondary.main, borderRadius: '50%', position: 'absolute', right: 12, bottom: 12}}
+                icon={editing ? <Checkmark color="neutral-1" /> : <Edit color="neutral-1"/>}/> */}
             {/* <HexBoxBackground 
                 onAdd={() => window.location.href = '/dashboard/apps'}
                 onAction={(item) => {

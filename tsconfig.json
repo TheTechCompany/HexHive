@@ -35,7 +35,6 @@
      "@types/react": ["../node_modules/@types/react"],
      "@types/react-router-dom": ["../node_modules/@types/react-router-dom"],
      "@types/react-dom": ["../node_modules/@types/react-dom"],
-     "@hexhive/styles": ["./shared/hexhive-styles/src"],
      "@hexhive/auth-ui": ["./shared/hexhive-auth-ui/src"],
      "@hexhive/types": ["./shared/hexhive-types/src"],
      "@hexhive/ui": ["./core/hexhive-ui/src"],

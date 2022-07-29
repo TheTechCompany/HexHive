@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { BaseStyle } from '@hexhive/styles';
+import { HexHiveTheme } from '@hexhive/styles';
 import styled from 'styled-components';
 import { Add } from 'grommet-icons';
 import { HexBox } from './HexBox';
