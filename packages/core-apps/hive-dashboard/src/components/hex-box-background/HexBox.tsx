@@ -99,7 +99,7 @@ export const HexBox = styled(BaseHexBox)`
 }
 
 .cube {
-    background-color: ${p => p.color || p.topColor || HexHiveTheme.palette.primary.main};
+    background-color: ${p => p.color || p.topColor || HexHiveTheme.palette.primary.light};
     position: relative;
     -webkit-transform: translateZ(${p => p.size || 3}em) translateX(${p => (p.size || 3) / 1.}em) translateY(${p => (p.size || 3) / 1.}em);
     -webkit-transform-style: preserve-3d;
@@ -120,7 +120,7 @@ export const HexBox = styled(BaseHexBox)`
 }
 
 .left-container:after {
-    background-color: ${p => p.color || p.leftColor ||  HexHiveTheme.palette.secondary.main};
+    background-color: ${p => p.color || p.leftColor ||  HexHiveTheme.palette.secondary.light};
 
 }
 
@@ -130,7 +130,7 @@ export const HexBox = styled(BaseHexBox)`
 }
 /* Right */
 .right-container:before {
-    background-color: ${p => p.color || p.rightColor || HexHiveTheme.palette.secondary.main};
+    background-color: ${p => p.color || p.rightColor || HexHiveTheme.palette.secondary.light};
 
 }
 

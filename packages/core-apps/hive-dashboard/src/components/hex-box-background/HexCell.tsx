@@ -31,7 +31,7 @@ export const HexCell : React.FC<HexCellProps> = (props) => {
             size={HEX_SIZE + 1} 
             top={(props.top * TOP_MULTIPLIER) - 0.8} 
             left={-0.8 + (props.left * WIDTH_MULTIPLIER + (props.top % 2 == 0 ? ROW_OFFSET : 0))}
-            color={props.background ? "rgba(127, 127, 127, 0.3)" : HexHiveTheme?.palette?.secondary.main} >
+            color={props.background ? "rgba(127, 127, 127, 0.3)" : HexHiveTheme?.palette?.secondary.light} >
             {/* <Text weight="bold" color="neutral-4">{props.text}</Text> */}
            
         </Hexagon>
