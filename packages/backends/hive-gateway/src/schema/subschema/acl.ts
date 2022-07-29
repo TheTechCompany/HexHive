@@ -9,6 +9,8 @@ export default (prisma: PrismaClient) => {
 
 			users(ids: [ID], active: Boolean): [HiveUser] @merge(keyField: "id", keyArg: "ids")
 
+			userList: [HiveUser]
+
 			roles(ids: [ID]): [Role] @merge(keyField: "id", keyArg:"ids")
 		}
 
@@ -137,6 +139,19 @@ export default (prisma: PrismaClient) => {
 			}
 		},
 		Query: {
+			userList: async (root: any, args: any, context: any) => {
+				return await prisma.user.findMany({
+					where: {
+						organisations: {
+							some: {issuerId: context?.jwt?.organisation || context?.user?.organisation}, 
+						},
+						inactive: false
+					},
+					include: {
+						organisations: true
+					}
+				})
+			},
 			roles: async (root: any, args: any, context: any) => {
 				return await prisma.role.findMany({where: {organisation: {id: context.jwt.organisation}}});
 			},
