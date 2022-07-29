@@ -9,7 +9,7 @@ export default (prisma: PrismaClient) => {
 
 			users(ids: [ID], active: Boolean): [HiveUser] @merge(keyField: "id", keyArg: "ids")
 
-			userList: [HiveUser]
+			people: [Person]
 
 			roles(ids: [ID]): [Role] @merge(keyField: "id", keyArg:"ids")
 		}
@@ -44,6 +44,14 @@ export default (prisma: PrismaClient) => {
 			email: String
 			password: String
 			inactive: Boolean
+		}
+
+		type Person {
+			id: ID
+
+			displayId: String
+
+			name: String
 		}
 
 
@@ -139,7 +147,7 @@ export default (prisma: PrismaClient) => {
 			}
 		},
 		Query: {
-			userList: async (root: any, args: any, context: any) => {
+			people: async (root: any, args: any, context: any) => {
 				return await prisma.user.findMany({
 					where: {
 						organisations: {
