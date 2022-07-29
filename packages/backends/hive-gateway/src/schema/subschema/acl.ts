@@ -153,7 +153,7 @@ export default (prisma: PrismaClient) => {
 						organisations: {
 							some: {issuerId: context?.jwt?.organisation || context?.user?.organisation}, 
 						},
-						inactive: false
+						// inactive: false
 					},
 					include: {
 						organisations: true
