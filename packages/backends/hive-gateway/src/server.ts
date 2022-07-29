@@ -119,12 +119,15 @@ const argv = yargs(hideBin(process.argv)).options({
 
 	
 			if(serviceAccount){
+				console.log("Service Account")
 				done(null, {
 					type: 'appServiceAccount',
 					id: serviceAccount.id,
 					application: serviceAccount?.application?.id
 				})
 			}else if(organisation){
+				console.log("Org Account")
+
 				done(null, {
 					type: 'org-key',
 					organisation: organisation?.id,
