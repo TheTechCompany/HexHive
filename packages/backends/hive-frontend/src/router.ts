@@ -5,7 +5,6 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
 export const frontendRouter = () => {
-
 	const app = Router()
 
 	app.use(cookieParser())
