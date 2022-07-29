@@ -8,7 +8,6 @@
   "exclude": ["src/**/*.test*"],
   "references": [
     {"path": "../../core/hexhive-client"},
-    {"path": "../../shared/hexhive-styles"},
     {"path": "../../shared/hexhive-auth-ui"}
   ]
 }
