@@ -13,6 +13,9 @@ export default (prisma: PrismaClient) => {
 		}
 
 		type Mutation {
+			createUser(input: UserInput): HiveUser
+			updateUser(id: ID, input: UserInput): HiveUser
+
 			createRole(input: RoleInput): Role
 			updateRole(id: ID, input: RoleInput): Role
 			deleteRole(id: ID): Role
@@ -32,9 +35,21 @@ export default (prisma: PrismaClient) => {
 
 		}
 
+		input UserInput {
+			id: ID
+
+			name: String
+			email: String
+			password: String
+			inactive: Boolean
+		}
+
 
 		type HiveUser  {
 			id: ID! 
+
+			displayId: String
+
 			name: String
 			
 			email: String
@@ -188,6 +203,56 @@ export default (prisma: PrismaClient) => {
 		
 		},
 		Mutation: {
+			createUser: async (root: any, args: any, context: any) => {
+				return await prisma.$transaction(async (prisma) => {
+					const userCount = await prisma.user.count({
+						where: {
+							organisations :{
+								some:{
+									issuerId: context?.jwt?.organisation
+								}
+							}
+						}
+					})
+
+					return await prisma.user.create({
+						data: {
+							id: nanoid(),
+							displayId: args.input.id || userCount + 1,
+							name: args.input.name,
+							email: args.input.email || 'n/a',
+							password: args.input.password || 'unset',
+							inactive: args.input.inactive || false,
+							organisations: {
+								create: [{
+									id: nanoid(),
+									roles: [],
+									issuerId: context?.jwt?.organisation	
+								}]
+							}
+						}
+					})
+
+				})
+			},
+			updateUser: async (root: any, args: any, context: any) => {
+				return await prisma.user.updateMany({
+					where: {
+						displayId: args.id,
+						organisations: {
+							some: {
+								issuerId: context?.jwt?.organisation
+							}
+						}
+					},
+					data: {
+						name: args.input.name,
+						email: args.input.email,
+						password: args.input.password,
+						inactive: args.input.inactive
+					}
+				})
+			},
 			createRole: async (root: any, args: any, context: any) => {
 				return await prisma.role.create({
 					data: {
