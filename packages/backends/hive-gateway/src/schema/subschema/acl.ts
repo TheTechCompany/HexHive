@@ -183,7 +183,7 @@ export default (prisma: PrismaClient) => {
 				const users = await prisma.user.findMany({
 					where: {
 						organisations: {
-							some: {issuerId: context?.jwt?.organisation}, 
+							some: {issuerId: context?.jwt?.organisation || context?.user?.organisation}, 
 						},
 						...query
 					},
@@ -211,7 +211,7 @@ export default (prisma: PrismaClient) => {
 						where: {
 							organisations :{
 								some:{
-									issuerId: context?.jwt?.organisation
+									issuerId: context?.jwt?.organisation || context?.user?.organisation
 								}
 							}
 						}
@@ -230,7 +230,7 @@ export default (prisma: PrismaClient) => {
 									id: nanoid(),
 									issuer: {
 										connect: {
-											id: context?.jwt?.organisation	
+											id: context?.jwt?.organisation || context?.user?.organisation
 										}
 									}
 								}]
@@ -246,7 +246,7 @@ export default (prisma: PrismaClient) => {
 						displayId: args.id,
 						organisations: {
 							some: {
-								issuerId: context?.jwt?.organisation
+								issuerId: context?.jwt?.organisation || context?.user?.organisation
 							}
 						}
 					},
