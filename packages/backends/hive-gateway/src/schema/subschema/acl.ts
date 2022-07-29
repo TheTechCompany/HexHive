@@ -222,8 +222,8 @@ export default (prisma: PrismaClient) => {
 							id: nanoid(),
 							displayId: args.input.id || userCount + 1,
 							name: args.input.name,
-							email: args.input.email || 'n/a',
-							password: args.input.password || 'unset',
+							email: args.input.email,
+							password: args.input.password || 'unhashable',
 							inactive: args.input.inactive || false,
 							organisations: {
 								create: [{
