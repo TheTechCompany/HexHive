@@ -9,6 +9,7 @@ export interface HexCellProps {
     size?: number;
     left?: number;
     apps?: any[];
+    opacity?: string;
     onClick?: () => void;
     onSelect?: (item: any) => void;
     background?: boolean;
@@ -24,7 +25,7 @@ export const HexCell : React.FC<HexCellProps> = (props) => {
     const ROW_OFFSET = HEX_SIZE * 0.6;
 
     return (
-        <div>
+        <div style={{opacity: props.opacity}}>
         <Hexagon
             selected={selected}
             onClick={() => props.onClick()}

@@ -98,8 +98,14 @@ export const HexBox = styled(BaseHexBox)`
     width: ${p => p.size || 3}em;
 }
 
-.cube {
+.cube:before {
+    content: " ";
+    position: relative;
+    z-index: -1;
     background-color: ${p => p.color || p.topColor || HexHiveTheme.palette.primary.light};
+}
+
+.cube {
     position: relative;
     -webkit-transform: translateZ(${p => p.size || 3}em) translateX(${p => (p.size || 3) / 1.}em) translateY(${p => (p.size || 3) / 1.}em);
     -webkit-transform-style: preserve-3d;

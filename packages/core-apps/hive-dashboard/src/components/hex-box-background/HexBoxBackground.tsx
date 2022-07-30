@@ -5,6 +5,7 @@ import { HexBox } from './HexBox';
 import useResizeAware from 'react-resize-aware';
 import { HexButton } from './HexButton';
 import { HexCell } from './HexCell';
+import {  HexHiveTheme } from '@hexhive/styles'
 
 const COLORSCHEME = [
     'rgb(201, 210, 189)',
@@ -187,6 +188,7 @@ const BaseBoxBackground : React.FC<BoxBackgroundProps> = ({
                             apps={apps || []} 
                             top={o} 
                             left={i} 
+                            opacity={'0.3'}
                             onClick={() => {
                             onClick({x, y})
                         }} size={size?.actions} />)
@@ -237,6 +239,19 @@ right: 0;
 left: 0;
 bottom: 0;
 
+.container:before {
+    content: " ";
+    display: block;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    position: absolute;
+    z-index: -1; 
+
+    background-color: ${HexHiveTheme.palette.primary.main};
+    opacity: 0.3;
+}
 
 .action-container {
     -webkit-transform-style: preserve-3d;
