@@ -234,7 +234,7 @@ export const HexBoxBackground = styled(BaseBoxBackground)`
 
 position: absolute;
 z-index: 0;
-top: 60px;
+top: 0px;
 right: 0;
 left: 0;
 bottom: 0;
