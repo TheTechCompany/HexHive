@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/microfrontend-server",
-  "version": "1.0.2-beta.42",
+  "version": "1.0.2-beta.55",
   "main": "dist/index.js",
   "files": [
     "dist/"
