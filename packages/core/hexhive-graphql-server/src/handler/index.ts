@@ -1,7 +1,7 @@
 import { GraphQLSchema } from "graphql";
 import { getGraphQLParameters, processRequest, renderGraphiQL, sendResult, shouldRenderGraphiQL } from "graphql-helix";
 
-export const graphqlHTTP = (schema: GraphQLSchema) => {
+export const graphqlHTTP = (schema: GraphQLSchema, contextFactory?: (context: any) => any) => {
 	return async (req: any, res: any, next: any) => {
 		const request = {
 			body: req.body,
@@ -25,6 +25,7 @@ export const graphqlHTTP = (schema: GraphQLSchema) => {
 				request,
 				schema,
 				contextFactory: (context) => ({
+					...contextFactory?.(context),
 					...context,
 					...req
 				})

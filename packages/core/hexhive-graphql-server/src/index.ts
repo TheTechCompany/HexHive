@@ -20,6 +20,7 @@ import { DateResolver, DateTimeResolver } from 'graphql-scalars';
 export interface HiveGraphOptions {
 	rootServer: string;
 	schema: GraphQLSchema | {typeDefs: any, resolvers: any};
+	contextFactory?: (context: any) => any;
 	dev?: boolean;
 	uploads?: boolean;
 }
@@ -43,10 +44,13 @@ export class HiveGraph {
 
 	private keys?: string[] = [];
 
+	private contextFactory?: (context: any) => any;
+
 	constructor(options: HiveGraphOptions){
 		this.rootServer = options.rootServer;
 		this.dev = options.dev || false
 
+		this.contextFactory = options.contextFactory;
 		this.schema = new GraphQLSchema({})
 
 		this.scalarSchema = makeExecutableSchema({
@@ -118,7 +122,7 @@ export class HiveGraph {
 			this.router.use(
 				'/graphql', 
 				graphqlUploadExpress({maxFileSize: 10 * 1024 * 1024, maxFiles: 20}),
-				graphqlHTTP(this.schema)
+				graphqlHTTP(this.schema, this.contextFactory)
 			)
 		}
 	}
