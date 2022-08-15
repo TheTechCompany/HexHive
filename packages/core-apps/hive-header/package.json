@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-core/header",
-  "version": "1.0.2-beta.55",
+  "version": "1.0.2-beta.56",
   "private": true,
   "scripts": {
     "start": "webpack serve --port 8502",
