@@ -26,6 +26,7 @@ export const HexagonBox = styled(BaseHexagon)`
     .hexagon-container:before {
       content: "";
       background-color: ${p => p.color || '#64C7CC'};
+      backdrop-filter: blur(5px);
       transition: opacity 0.2s ease-in-out;
       opacity: 0.5;
       z-index: -1;
@@ -59,6 +60,7 @@ export const HexagonBox = styled(BaseHexagon)`
     &:after,
     &:before {
       opacity: 0.5;
+      backdrop-filter: blur(5px);
     }
 
     &:hover:before,
