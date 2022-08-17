@@ -96,7 +96,35 @@ export class SchemaRegistry {
 					execute
 				})
 
-				sendResult(result, res)
+				if(result.type == "PUSH"){
+
+				
+					res.writeHead(200, {
+						'Content-Type': 'text/event-stream',
+						// Connection: 'keep-alive',
+						'Cache-Control': 'no-cache'
+					});
+
+					// setInterval(() => {
+					// 	res.write('data: {}')
+					// }, 1000)
+
+					req.socket.on('close', () => {
+						console.log("Connection close socket")
+						result.unsubscribe();
+					})
+
+
+					await result.subscribe((result) => {
+						console.log("Subscription result", result);
+						res.write(`data: ${JSON.stringify(result)}`);
+					})
+				}else{
+					// console.log(result.type, result);
+
+					sendResult(result, res)
+				}
+
 			}
 		})
 	}

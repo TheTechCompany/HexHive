@@ -1,5 +1,5 @@
 import {JwksClient} from 'jwks-rsa'
-import { Router } from 'express';
+import { Router, json } from 'express';
 import {verify} from 'jsonwebtoken';
 import { GraphQLSchema, print } from 'graphql'
 import { getGraphQLParameters, processRequest, renderGraphiQL, shouldRenderGraphiQL, sendResult } from "graphql-helix";
@@ -117,7 +117,7 @@ export class HiveGraph {
 		await this.getRootConfiguration()
 
 		if(this.schema){
-			this.router.use(bodyParser.json());
+			this.router.use(json());
 			if(!this.isDev) this.router.use('/graphql', this.isAuthenticated.bind(this))
 			this.router.use(
 				'/graphql', 

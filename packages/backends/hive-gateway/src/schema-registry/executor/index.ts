@@ -3,6 +3,25 @@ import { handleJSON } from "./json";
 import fetch from 'node-fetch'
 import { handleMultipart } from "./multipart";
 import { extractFiles, isMultipart } from "./multipart/utils";
+import { nanoid } from "nanoid";
+
+async function* generateJsonIterable(response: any){
+	for await (const chunk of response){
+		let data = chunk.toString();
+
+		try{
+			let substring = data.match(/data: (.+)/)?.[1]
+			console.log({substring})
+			console.log({typeof: typeof(data), substring})
+			let jsonData = JSON.parse(`${substring}`);
+			console.log("CHUNK", jsonData)
+
+		yield jsonData //chunk.toString();
+		}catch(e){
+			yield data;
+		}
+	}
+}
 
 export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) => {
 	return async ({ document, variables, context }: any) => {
@@ -40,6 +59,13 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 		}else{
 			formData = await handleJSON(query, variables)
 		}
+		const id = nanoid();
+
+		console.time('Start query ' + id)
+		console.log("Before response", {id, query})
+		let response : any = '';
+
+		let isStream = query.indexOf('subscription') == 0
 
 		const fetchResult = await fetch(url, {
 			method: "POST",
@@ -47,8 +73,59 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 			body: formData
 		})
 
-		return await fetchResult.json() as any
- 
+	
+		console.timeEnd('Start query ' + id)
 
+			// console.log("After fetch")
+
+		if(isStream){
+			console.log("IS STREAM");
+
+			// const iterable = {
+			// 	[Symbol.asyncIterator]: () => ({
+			// 		next: () => fetchResult.body.
+			// 	})
+			// }
+			// fetchResult.body
+			const jsonIterable = generateJsonIterable(fetchResult.body);
+
+			const asyncReturn = jsonIterable.return;
+  
+			jsonIterable.return = () => {
+				console.log("Async Cancel")
+			  return asyncReturn ? asyncReturn.call(jsonIterable) : Promise.resolve({ value: undefined, done: true });
+			};
+
+			return jsonIterable //generateJsonIterable(fetchResult.body);
+
+			// for await (const chunk of fetchResult.body){
+			// 	console.log("CHUNK OF STREAM", chunk.toString())
+			// 	return JSON.parse(chunk.toString())
+			// }
+			// return fetchResult.body
+		}else{
+			const result = await fetchResult.json();
+			return result;
+		}
+
+		// 	try{
+		// 		// response = await fetchResult.json();
+
+		// 		for await (const chunk of fetchResult.body){
+		// 			let data = chunk;
+		// 			console.dir("Chunk " + data)
+		// 			response += data
+		// 		}
+		// 	}catch(e){
+		// 		console.log("ERROR");
+		// 	}
+			
+		// 	// console.log("After response")
+
+		
+		// 	// console.log("HAS", {response})
+			
+	
+		// return JSON.parse(response || '{}') //await fetchResult.json() as any
 	}
 }
