@@ -45,7 +45,7 @@ export default async (amiName: string, keyName: string, privateKey: string, sg: 
         ebsBlockDevices: [
             {
                 deviceName: '/dev/sda',
-                volumeSize: 10
+                volumeSize: 15
             }
         ],
         tags: {
@@ -158,6 +158,14 @@ systemctl restart k3s
                 httpEndpoint: 'enabled',
                 httpPutResponseHopLimit: 2
             },
+            blockDeviceMappings: [
+                {
+                    deviceName: '/dev/sda',
+                    ebs: {
+                        volumeSize: 15
+                    }
+                }
+            ],
             userData: Buffer.from(data).toString('base64'),
             keyName,
             // vpcSecurityGroupIds: [sg.id],
