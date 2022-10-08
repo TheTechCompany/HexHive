@@ -3,81 +3,83 @@ import { Config, Output } from '@pulumi/pulumi';
 import * as aws from '@pulumi/aws'
 import {Provider} from '@pulumi/kubernetes'
 
-export const RabbitMQPersistence = async (provider: Provider, vpcId: Output<any>) => {
+export const RabbitMQPersistence = async (provider: Provider, vpcId: Output<any>, ns: k8s.core.v1.Namespace) => {
     const config = new Config()
 
     const suffix = config.get('suffix');
 
     let efsRoot = `hexhive-mq-storage-${suffix}`;
 
-    const efsVolume =  new aws.efs.FileSystem(efsRoot)
+    // const efsVolume =  new aws.efs.FileSystem(efsRoot)
     
     // const subnetIds = await vpc.publicSubnetIds;
 
     const targets = [];
 
-    const subnets = await vpcId.apply(async (id) => await aws.ec2.getSubnets({
-        filters: [
-            {
-                name: 'vpc-id',
-                values: [id]
-            },
-            {
-                name: 'tag:type',
-                values: ['public']
-            }
-        ]
-    }))
+    // const subnets = await vpcId.apply(async (id) => await aws.ec2.getSubnets({
+    //     filters: [
+    //         {
+    //             name: 'vpc-id',
+    //             values: [id]
+    //         },
+    //         {
+    //             name: 'tag:type',
+    //             values: ['public']
+    //         }
+    //     ]
+    // }))
 
-    const defaultSecurityGroup = await vpcId.apply(async (id) => aws.ec2.getSecurityGroup({
-        vpcId: id,
-        name: 'default'
-    }))
+    // const defaultSecurityGroup = await vpcId.apply(async (id) => aws.ec2.getSecurityGroup({
+    //     vpcId: id,
+    //     name: 'default'
+    // }))
 
-    subnets.ids.apply((ids) => {
-        for(let i = 0; i < ids.length; i++){
-            targets.push(new aws.efs.MountTarget(`${efsRoot}-fs-mount-${i}`, {
-                fileSystemId: efsVolume.id,
-                subnetId: ids[i],
-                securityGroups: [defaultSecurityGroup.id]
-            }))
-        }
-    })
+    // subnets.ids.apply((ids) => {
+    //     for(let i = 0; i < ids.length; i++){
+    //         targets.push(new aws.efs.MountTarget(`${efsRoot}-fs-mount-${i}`, {
+    //             fileSystemId: efsVolume.id,
+    //             subnetId: ids[i],
+    //             securityGroups: [defaultSecurityGroup.id]
+    //         }))
+    //     }
+    // })
 
-    const efsAp = new aws.efs.AccessPoint(`${efsRoot}-ap`, {
-        fileSystemId: efsVolume.id,
-        posixUser: {uid: 1000, gid: 1000},
-        rootDirectory: { path: "/" },
-    })
+    // const efsAp = new aws.efs.AccessPoint(`${efsRoot}-ap`, {
+    //     fileSystemId: efsVolume.id,
+    //     posixUser: {uid: 1000, gid: 1000},
+    //     rootDirectory: { path: "/" },
+    // })
 
 
-    const storagePv = new k8s.core.v1.PersistentVolume(`${efsRoot}-pv`, {
-        metadata: {
-            name: `${efsRoot}-pv`,
-        },
-        spec: {
-            capacity: {
-                storage: '100Gi'
-            },
-            volumeMode: 'Filesystem',
-            accessModes: ['ReadWriteMany'],
-            persistentVolumeReclaimPolicy: 'Retain',
-            storageClassName: 'efs-sc',
-            csi: {
-                driver: 'efs.csi.aws.com',
-                volumeHandle: efsVolume.id
-            }
-        }
-    }, {provider})
+    // const storagePv = new k8s.core.v1.PersistentVolume(`${efsRoot}-pv`, {
+    //     metadata: {
+    //         name: `${efsRoot}-pv`,
+    //         namespace: ns.metadata.name
+    //     },
+    //     spec: {
+    //         capacity: {
+    //             storage: '100Gi'
+    //         },
+    //         volumeMode: 'Filesystem',
+    //         accessModes: ['ReadWriteMany'],
+    //         persistentVolumeReclaimPolicy: 'Retain',
+    //         storageClassName: 'efs-sc',
+    //         csi: {
+    //             driver: 'efs.csi.aws.com',
+    //             volumeHandle: efsVolume.id
+    //         }
+    //     }
+    // }, {provider})
 
     const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`${efsRoot}-pvc`, {
         metadata: {
             name: `${efsRoot}-pvc`,
+            namespace: ns.metadata.name
         },
         spec: {
-            accessModes: ['ReadWriteMany'],
-            storageClassName: 'efs-sc',
-            volumeName: storagePv.metadata.name,
+            accessModes: ['ReadWriteOnce'],
+            storageClassName: 'ebs',
+            // volumeName: storagePv.metadata.name,
             resources: {
                 requests: {
                     storage: '10Gi'
@@ -88,6 +90,6 @@ export const RabbitMQPersistence = async (provider: Provider, vpcId: Output<any>
     
     return {
         storageClaim,
-        storagePv
+        // storagePv
     }
 }

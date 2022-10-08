@@ -15,7 +15,7 @@ import { HashType } from './directives/hash'
 import gql from 'graphql-tag';
 import schema from './schema';
 import { graphqlHTTP } from './handler';
-import { DateResolver, DateTimeResolver } from 'graphql-scalars';
+import { DateResolver, DateTimeResolver, GraphQLJSON, GraphQLJSONObject} from 'graphql-scalars';
 
 export interface HiveGraphOptions {
 	rootServer: string;
@@ -56,9 +56,14 @@ export class HiveGraph {
 		this.scalarSchema = makeExecutableSchema({
 			typeDefs: gql`
 				scalar Upload
+				scalar JSON
+				scalar JSONObject
+
 			`,
 			resolvers: {
-				Upload: GraphQLUpload
+				Upload: GraphQLUpload,
+				JSON: GraphQLJSON,
+				JSONObject: GraphQLJSONObject
 			}
 		})
 
@@ -71,6 +76,8 @@ export class HiveGraph {
 
 			let ScalarTypes : any = {}
 			if(options.uploads) ScalarTypes['Upload'] = GraphQLUpload;
+			ScalarTypes['JSON'] = GraphQLJSON
+			ScalarTypes['JSONObject'] = GraphQLJSONObject
 
 			const mergedTypeDefs = mergeTypeDefs([
 				schema({uploads: options.uploads || false}),

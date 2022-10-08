@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 import { stitchingDirectives } from '@graphql-tools/stitching-directives'
-import { DateTimeTypeDefinition, DateTypeDefinition } from 'graphql-scalars'
+import { DateTimeTypeDefinition, DateTypeDefinition, JSONDefinition, JSONObjectDefinition } from 'graphql-scalars'
 const { allStitchingDirectivesTypeDefs } = stitchingDirectives();
 
 export default (options: {uploads: boolean}) => `
@@ -9,6 +9,10 @@ ${allStitchingDirectivesTypeDefs}
 
 ${DateTimeTypeDefinition}
 ${DateTypeDefinition}
+
+${JSONDefinition}
+${JSONObjectDefinition}
+
 scalar Hash
 ${options.uploads ? 'scalar Upload' : ''}
 

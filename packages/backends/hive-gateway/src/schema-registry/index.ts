@@ -1,6 +1,5 @@
 import { GraphQLSchema, buildSchema } from "graphql";
 import { remoteExecutor } from "./executor";
-import { GraphQLServer } from "@hexhive/express-graphql";
 import { stitchSchemas, ValidationLevel } from "@graphql-tools/stitch";
 import { introspectSchema, wrapSchema } from "@graphql-tools/wrap";
 import { Router } from 'express'

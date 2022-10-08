@@ -1,16 +1,14 @@
 import * as k8s from '@pulumi/kubernetes'
-import { Config, Output } from '@pulumi/pulumi';
+import { all, Config, Output } from '@pulumi/pulumi';
 import {efs} from '@pulumi/aws'
 import * as aws from '@pulumi/aws'
 
-export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, ns: k8s.core.v1.Namespace, pgPassword: string) => {
+export const RedisDB = async (provider: k8s.Provider, vpcId: Output<any>, ns: k8s.core.v1.Namespace) => {
     const config = new Config();
 
     let suffix = config.require('suffix');
     
-    const imageTag = process.env.IMAGE;
-
-    const depName = `pgdb-${suffix}`
+    const depName = `redisdb-${suffix}`
 
     const appLabels = {appClass: depName}
 
@@ -73,9 +71,9 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
     //     }
     // }, {provider})
 
-    const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`postgres-pvc-${suffix}`, {
+    const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`redis-pvc-${suffix}`, {
         metadata: {
-            name: `postgres-pvc-${suffix}`,
+            name: `redis-pvc-${suffix}`,
             namespace: ns.metadata.name
         },
         spec: {
@@ -84,7 +82,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
             // volumeName: storagePv.metadata.name,
             resources: {
                 requests: {
-                    storage: '10Gi'
+                    storage: '5Gi'
                 }
             }
         }   
@@ -105,21 +103,15 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
                 spec: {
                     containers: [{
                         name: depName,
-                        image: 'postgres:latest', //`postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,
-                        ports: [{name: 'postgres', containerPort: 5432}],
+                        image: 'redis:7.0.4', //`postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,
+                        ports: [{name: 'redis', containerPort: 6379}],
                         volumeMounts: [
                             // { name: 'postgres-config', mountPath: '/var/lib/postgresql/data/'},
-                            { name: 'postgres-storage', mountPath: '/var/lib/postgresql/data' },
-                        ],
-                        env: [
-                            {
-                                name: 'POSTGRES_PASSWORD',
-                                value: pgPassword
-                            }
+                            { name: 'redis-storage', mountPath: '/data' },
                         ]
                     }],
                     volumes: [{
-                        name: 'postgres-storage',
+                        name: 'redis-storage',
                         persistentVolumeClaim: {
                             claimName: storageClaim.metadata.name
                         }
@@ -141,16 +133,17 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
         },
         spec: {
             type: "ClusterIP",
-            ports: [{ name: "postgres", port: 5432, targetPort: "postgres" }],
+            ports: [{ name: "redis", port: 6379, targetPort: "redis" }],
             selector: appLabels,
         },
     }, { 
         provider: provider,
         dependsOn: [deployment]
-     });
+    });
 
     return {
         service,
-        deployment
+        deployment,
+        url: all([service.metadata.name, ns.metadata.name]).apply(([service, ns]) => `${service}.${ns}.svc.cluster.local`)
     }
 }

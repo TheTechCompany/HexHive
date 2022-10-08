@@ -2,7 +2,7 @@ import * as k8s from "@pulumi/kubernetes";
 import * as aws from '@pulumi/aws';
 import { all, Config, Output } from "@pulumi/pulumi";
 
-export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<string>, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>, dbUrl: Output<any>, postgresPass: Output<any>) => {
+export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certificate, vpcId: Output<string>, zone: aws.route53.GetZoneResult, domainName: string, frontendUrl: string, mongoUrl: Output<string>, dbUrl: Output<any>, postgresPass: Output<any>) => {
     // Create an EKS cluster with the default configuration.
     // const cluster = new eks.Cluster("my-cluster");
 
@@ -15,11 +15,11 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
     let redundancy = config.require('redundancy');
 
     const appName = `hexhive-gateway-${suffix}`;
-    const appLabels = { appClass: appName };
+    const appLabels = { appClass: appName, suffix };
 
     let efsRoot = `gateway-config-${suffix}`;
 
-    const efsVolume =  new aws.efs.FileSystem(efsRoot)
+    // const efsVolume =  new aws.efs.FileSystem(efsRoot)
     
     // const subnetIds = await vpc.publicSubnetIds;
 
@@ -43,52 +43,48 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
         name: 'default'
     }))
 
-    subnets.ids.apply((ids) => {
-        for(let i = 0; i < ids.length; i++){
-            targets.push(new aws.efs.MountTarget(`${efsRoot}-fs-mount-${i}`, {
-                fileSystemId: efsVolume.id,
-                subnetId: ids[i],
-                securityGroups: [defaultSecurityGroup.id]
-            }))
-        }
-    })
+    // subnets.ids.apply((ids) => {
+    //     for(let i = 0; i < ids.length; i++){
+    //         targets.push(new aws.efs.MountTarget(`${efsRoot}-fs-mount-${i}`, {
+    //             fileSystemId: efsVolume.id,
+    //             subnetId: ids[i],
+    //             securityGroups: [defaultSecurityGroup.id]
+    //         }))
+    //     }
+    // })
 
-    const efsAp = new aws.efs.AccessPoint(`${efsRoot}-ap`, {
-        fileSystemId: efsVolume.id,
-        posixUser: {uid: 1000, gid: 1000},
-        rootDirectory: { path: "/" },
-    })
+    // const efsAp = new aws.efs.AccessPoint(`${efsRoot}-ap`, {
+    //     fileSystemId: efsVolume.id,
+    //     posixUser: {uid: 1000, gid: 1000},
+    //     rootDirectory: { path: "/" },
+    // })
 
 
-    const storagePv = new k8s.core.v1.PersistentVolume(`${efsRoot}-pv`, {
-        metadata: {
-            name: `${efsRoot}-pv`,
-        },
-        spec: {
-            capacity: {
-                storage: '100Gi'
-            },
-            volumeMode: 'Filesystem',
-            accessModes: ['ReadWriteMany'],
-            persistentVolumeReclaimPolicy: 'Retain',
-            storageClassName: 'efs-sc',
-            csi: {
-                driver: 'efs.csi.aws.com',
-                volumeHandle: efsVolume.id
-            }
-        }
-    }, {
-        provider
-    })
+    // const storagePv = new k8s.core.v1.PersistentVolume(`${efsRoot}-pv`, {
+    //     metadata: {
+    //         name: `${efsRoot}-pv`,
+    //     },
+    //     spec: {
+    //         capacity: {
+    //             storage: '100Gi'
+    //         },
+    //         volumeMode: 'Filesystem',
+    //         accessModes: ['ReadWriteOnce'],
+    //         persistentVolumeReclaimPolicy: 'Retain',
+    //         storageClassName: 'ebs'
+    //     }
+    // }, {
+    //     provider
+    // })
 
     const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`${efsRoot}-pvc`, {
         metadata: {
             name: `${efsRoot}-pvc`,
         },
         spec: {
-            accessModes: ['ReadWriteMany'],
-            storageClassName: 'efs-sc',
-            volumeName: storagePv.metadata.name,
+            accessModes: ['ReadWriteOnce'],
+            storageClassName: 'ebs',
+            // volumeName: storagePv.metadata.name,
             resources: {
                 requests: {
                     storage: '10Gi'
@@ -99,24 +95,24 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
         provider
     })
     
-    const sslCert = new aws.acm.Certificate(`${appName}-ssl-certif`, {
-        domainName: domainName,
-        // subjectAlternativeNames: [domainName],
-        validationMethod: "DNS"   
-    })
+    // const sslCert = new aws.acm.Certificate(`${appName}-ssl-certif`, {
+    //     domainName: domainName,
+    //     // subjectAlternativeNames: [domainName],
+    //     validationMethod: "DNS"   
+    // })
 
-    const certValidation = new aws.route53.Record(`${appName}-certValidation`, {
-        name: sslCert.domainValidationOptions[0].resourceRecordName,
-        zoneId: zone.id,   
-        type: sslCert.domainValidationOptions[0].resourceRecordType,
-        records: [sslCert.domainValidationOptions[0].resourceRecordValue],
-        ttl: 60
-    })
+    // const certValidation = new aws.route53.Record(`${appName}-certValidation`, {
+    //     name: sslCert.domainValidationOptions[0].resourceRecordName,
+    //     zoneId: zone.id,   
+    //     type: sslCert.domainValidationOptions[0].resourceRecordType,
+    //     records: [sslCert.domainValidationOptions[0].resourceRecordValue],
+    //     ttl: 60
+    // })
 
-    const sslValidation = new aws.acm.CertificateValidation(`${appName}-ssl-cert-validation`, {
-        certificateArn: sslCert.arn,
-        validationRecordFqdns: [certValidation.fqdn] //exampleRecord.map((rec) => rec.fqdn)
-    })
+    // const sslValidation = new aws.acm.CertificateValidation(`${appName}-ssl-cert-validation`, {
+    //     certificateArn: sslCert.arn,
+    //     validationRecordFqdns: [certValidation.fqdn] //exampleRecord.map((rec) => rec.fqdn)
+    // })
 
     const configMap = new k8s.core.v1.ConfigMap(`${appName}-config`, {
         metadata: {name: `${appName}-config`},
@@ -170,6 +166,9 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
             template: {
                 metadata: { labels: appLabels },
                 spec: {
+                    nodeSelector: {
+                        'role': 'worker'
+                    },
                     containers: [{
                         imagePullPolicy: "Always",
                         name: appName,
@@ -184,7 +183,7 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
                             { name: 'UI_URL',  value: `https://${frontendUrl}/dashboard` },
                             { name: 'BASE_URL',  value: `https://${frontendUrl}`},
                             { name: 'GATEWAY_URL', value: `http://hexhive-gateway-${suffix}-svc.default.svc.cluster.local/graphql`},
-                            { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}.default.svc.cluster.local`) },
+                            { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}`) },
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
                             { name: 'DATABASE_URL', value: all([dbUrl, postgresPass]).apply(([url, pass]) => `postgresql://postgres:${pass}@${url}.default.svc.cluster.local:5432/postgres`) },
 
@@ -227,31 +226,103 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
         },
     }, { provider: provider });
 
+    // const service = new k8s.core.v1.Service(`${appName}-svc`, {
+    //     metadata: { 
+    //         name: `${appName}-svc`,
+    //         labels: appLabels,
+    //         annotations: {
+        
+    //             'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslValidation.certificateArn,
+    //             'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
+    //             'service.beta.kubernetes.io/aws-load-balancer-backend-protocol': 'http',
+
+    //             'service.beta.kubernetes.io/aws-load-balancer-type': 'nlb',
+    //             // 'service.beta.kubernetes.io/aws-load-balancer-type': 'external',
+    //             'service.beta.kubernetes.io/aws-load-balancer-nlb-target-type': 'ip',
+    //             'service.beta.kubernetes.io/aws-load-balancer-scheme': 'internet-facing'
+    //         }
+    //     },
+    //     spec: {
+    //         type: "LoadBalancer",
+    //         ports: [{ port: 80, targetPort: "http", name: 'http' }, { port: 443, targetPort: "http", name: 'https'}],
+    //         selector: appLabels,
+    //     },
+    // }, { provider: provider });
+
     const service = new k8s.core.v1.Service(`${appName}-svc`, {
         metadata: { 
             name: `${appName}-svc`,
             labels: appLabels,
             annotations: {
         
-                'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslValidation.certificateArn,
-                'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
-                'service.beta.kubernetes.io/aws-load-balancer-backend-protocol': 'http',
+                // 'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslValidation.certificateArn,
+                // 'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
+                // 'service.beta.kubernetes.io/aws-load-balancer-backend-protocol': 'http',
 
-                'service.beta.kubernetes.io/aws-load-balancer-type': 'external',
-                'service.beta.kubernetes.io/aws-load-balancer-nlb-target-type': 'ip',
-                'service.beta.kubernetes.io/aws-load-balancer-scheme': 'internet-facing'
+                // 'service.beta.kubernetes.io/aws-load-balancer-type': 'nlb',
+                // // 'service.beta.kubernetes.io/aws-load-balancer-type': 'external',
+                // 'service.beta.kubernetes.io/aws-load-balancer-nlb-target-type': 'ip',
+                // 'service.beta.kubernetes.io/aws-load-balancer-scheme': 'internet-facing'
             }
         },
         spec: {
-            type: "LoadBalancer",
+            type: "NodePort",
             ports: [{ port: 80, targetPort: "http", name: 'http' }, { port: 443, targetPort: "http", name: 'https'}],
             selector: appLabels,
         },
     }, { provider: provider });
 
 
+    const ingress = new k8s.networking.v1.Ingress('gateway-ingess', {
+        metadata: {
+            // namespace: ''
+            annotations: {
+                'alb.ingress.kubernetes.io/listen-ports': '[{"HTTPS":443}, {"HTTP":80}]',
+                'alb.ingress.kubernetes.io/certificate-arn': ssl.arn,
+                'alb.ingress.kubernetes.io/scheme': 'internet-facing',
+                'alb.ingress.kubernetes.io/group.name': 'hexhive-core',
+                'alb.ingress.kubernetes.io/target-type': 'instance',
+                'alb.ingress.kubernetes.io/success-codes': '200-499'
+                // 'alb.ingress.kubernetes.io/target-node-labels': 'cluster=hexhive-cluster'
+                // 'alb.ingress.kubernetes.io/subnets': subnets.ids.apply((x) => x.join(', '))
+            },
+            
+        },
+        spec: {
+            ingressClassName: 'alb',
+            
+            rules: [
+                {
+                    host: domainName,
+                    http: {
+                        paths: [
+                            {
+                                path: '/*',
+                                pathType: 'ImplementationSpecific',
+                                backend: {
+                                    // resource: service,
+                                    service: {
+                                        name: service.metadata.name,
+                                        port: {
+                                            name: 'http',
+                                            // number: 80
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }, {
+        provider
+    })
+
+
     // Export the URL for the load balanced service.
-    const url = service.status.loadBalancer.ingress[0].hostname;
+    const url = ingress.status.loadBalancer.ingress[0].hostname;
+    //service.status.loadBalancer.ingress[0].hostname;
 
     const gatewayRecord = new aws.route53.Record(`${appName}-gateway-dns`, {
         zoneId: zone.zoneId,
@@ -259,12 +330,12 @@ export const GatewayCluster = async (provider: k8s.Provider, vpcId: Output<strin
         type: "A",
         aliases: [{
             name: url,
-            zoneId: 'ZCT6FZBF4DROD',
+            zoneId: 'Z1GM3OXH4ZPM65',
             evaluateTargetHealth: true
         }]   
     })
 
     // const ingressUrl = ingress.;
 
-    return {url, deployment, service}
+    return {url, deployment, internalUrl: service.metadata.name.apply((name) => `${name}.default.svc.cluster.local`), service}
 }

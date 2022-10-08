@@ -1,6 +1,7 @@
 import { print } from "graphql"
 import { handleJSON } from "./json";
 import fetch from 'node-fetch'
+import { AbortController } from 'abort-controller'
 import { handleMultipart } from "./multipart";
 import { extractFiles, isMultipart } from "./multipart/utils";
 import { nanoid } from "nanoid";
@@ -16,7 +17,7 @@ async function* generateJsonIterable(response: any){
 			let jsonData = JSON.parse(`${substring}`);
 			console.log("CHUNK", jsonData)
 
-		yield jsonData //chunk.toString();
+			yield jsonData //chunk.toString();
 		}catch(e){
 			yield data;
 		}
@@ -67,10 +68,15 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 
 		let isStream = query.indexOf('subscription') == 0
 
+		const controller = new AbortController();
+
+		const signal = controller.signal;
+
 		const fetchResult = await fetch(url, {
 			method: "POST",
 			headers,
-			body: formData
+			body: formData,
+			signal: signal
 		})
 
 	
@@ -87,12 +93,19 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 			// 	})
 			// }
 			// fetchResult.body
-			const jsonIterable = generateJsonIterable(fetchResult.body);
+		
+
+			const initialIterator = fetchResult.body[Symbol.asyncIterator]();
+			const initialReturn = initialIterator.return;
+
+			const jsonIterable = generateJsonIterable(initialIterator);
 
 			const asyncReturn = jsonIterable.return;
-  
+
 			jsonIterable.return = () => {
 				console.log("Async Cancel")
+				controller.abort()
+				initialReturn ? initialReturn.call(initialIterator) : Promise.resolve({value: undefined, done: true});
 			  return asyncReturn ? asyncReturn.call(jsonIterable) : Promise.resolve({ value: undefined, done: true });
 			};
 

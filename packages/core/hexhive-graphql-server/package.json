@@ -24,6 +24,7 @@
     "@neo4j/graphql-ogm": "3.x",
     "graphql-helix": "^1.12.0",
     "graphql-scalars": "^1.17.0",
+    "graphql-type-json": "^0.3.2",
     "graphql-upload": "^13.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.5"

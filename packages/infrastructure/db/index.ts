@@ -9,6 +9,8 @@ import { ApplicationDB } from './src/postgres'
 import { TimescaleDB } from './src/timescaledb'
 import { MongoDB } from './src/mongo'
 import { PgBouncer } from './src/pgbouncer'
+import { RedisDB } from './src/redis'
+
 import * as k8s from '@pulumi/kubernetes'
 
 const main = (async () => {
@@ -17,9 +19,10 @@ const main = (async () => {
 
     const stackRef = new pulumi.StackReference(`${org}/base-infrastructure/prod`)
 
-    const kubeconfig = stackRef.getOutput('kubeconfig');
+    const kubeconfig = stackRef.getOutput('k3sconfig');
     const vpcId = stackRef.getOutput('vpcId');
 
+    if(!kubeconfig) throw new Error("no kubeconfig");
     const provider = new Provider('eks', { kubeconfig });
 
     if(!process.env.POSTGRES_PASSWORD) throw new Error("no POSTGRES_PASSWORD env set");
@@ -32,17 +35,20 @@ const main = (async () => {
         }
     }, {provider})
 
-    const { url: rabbitURL } = await RabbitMQ(provider, vpcId)
+    const { url: rabbitURL } = await RabbitMQ(provider, vpcId, ns)
+
+    const { url: redisUrl } = await RedisDB(provider, vpcId, ns);
 
     const { service: timescale, url: timescaleUrl } = await TimescaleDB(provider, vpcId, ns, process.env.POSTGRES_PASSWORD);
     const { url: mongoUrl } = await MongoDB(provider, vpcId, ns);
-    const {service: dbService} = await ApplicationDB(provider, vpcId, process.env.POSTGRES_PASSWORD)
+    const {service: dbService} = await ApplicationDB(provider, vpcId, ns, process.env.POSTGRES_PASSWORD)
 
     // const timescaleUrl = timescale.metadata.name.apply((name) => `${name}.default.svc.cluster.local`)
     // const { service: bouncerService } = await PgBouncer(provider, timescaleUrl, process.env.POSTGRES_PASSWORD);
 
     return {
         rabbitURL,
+        redisUrl,
         dbService,
         timescaleService: timescale,
         timescaleUrl,
@@ -52,6 +58,7 @@ const main = (async () => {
 })()
 
 export const rabbitURL = main.then((result) => result.rabbitURL);
+export const redisUrl = main.then((result) => result.redisUrl);
 
 export const mongo_url = main.then((result) => result.mongoUrl);
 

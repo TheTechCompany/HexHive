@@ -1,4 +1,4 @@
 config:
   aws:region: ap-southeast-2
-  base-infrastructure:amiName: K3S.20.04
+  base-infrastructure:amiName: ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20220610
   base-infrastructure:keyName: M1
