@@ -46,6 +46,7 @@ const main = (async () => {
     // const timescaleUrl = timescale.metadata.name.apply((name) => `${name}.default.svc.cluster.local`)
     // const { service: bouncerService } = await PgBouncer(provider, timescaleUrl, process.env.POSTGRES_PASSWORD);
 
+    
     return {
         rabbitURL,
         redisUrl,

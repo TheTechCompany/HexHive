@@ -257,7 +257,7 @@ jobs:
 
       - run: mkdir ~/.kube/
 
-      - run: echo $(pulumi stack output kubeconfig) > ~/.kube/config.json
+      - run: echo $(pulumi stack output k3sconfig) > ~/.kube/config
         working-directory: ./packages/infrastructure/apps
         id: kube_config
 
@@ -283,7 +283,7 @@ jobs:
         with:
           version: "v1.23.5"
 
-      - run: aws eks update-kubeconfig --name hexhive-cluster-eksCluster-506b63f
+      # - run: aws eks update-kubeconfig --name hexhive-cluster-eksCluster-506b63f
       
           
       - run: kubectl --kubeconfig ~/.kube/config port-forward service/${{ steps.postgres_url.outputs.postgres }} 5432:5432 &

@@ -15,7 +15,6 @@ export default (zone: aws.route53.GetZoneResult) => {
         validationMethod: "DNS"
     })
 
-
     let certValidations = sslCert.domainValidationOptions.apply((domains) => {
         return domains.map((domain) => {
             return new aws.route53.Record(`${domainName}-certValidation-${domain.domainName}`, {

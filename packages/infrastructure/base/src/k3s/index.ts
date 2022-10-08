@@ -33,6 +33,7 @@ export default async (amiName: string, keyName: string, privateKey: string, sg: 
     }
 
 
+    
     //Setup Control Node
 
     const controlNode = new aws.ec2.Instance('k8s-control-node', {
