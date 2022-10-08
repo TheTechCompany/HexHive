@@ -1,6 +1,5 @@
 import { Box, Text, Spinner } from 'grommet';
 import React, { useState } from 'react';
-import { BaseHeader } from '../header';
 
 export const IFrameAppliance = () => {
     const [ loading, setLoading ] = useState<boolean>(true);
@@ -13,7 +12,6 @@ export const IFrameAppliance = () => {
         <Box 
             direction="column"
             flex>
-            <BaseHeader />
             <Box 
                 flex 
                 direction="column">

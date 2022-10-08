@@ -1,7 +1,6 @@
 import { Box, Text, DataTable, Button, List } from 'grommet'
 import { Close } from 'grommet-icons'
 import React, { useState } from 'react'
-import { BaseHeader } from '../../components/header';
 import { UserRow } from '../../components/user-row';
 import { InviteModal } from './modals/invite';
 import { UpdateModal } from './modals/update';
@@ -14,7 +13,6 @@ export const Organisation  : React.FC<any> = (props) => {
         <Box
             direction="column" 
             flex>
-                  <BaseHeader />
 
             <InviteModal open={inviteModal} onClose={() => openInvite(false)} />
             <UpdateModal open={updateModal} onClose={() => openUpdate(false)} />

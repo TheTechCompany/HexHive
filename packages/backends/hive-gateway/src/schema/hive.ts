@@ -30,6 +30,10 @@ export default  async (pool: Pool, prisma: PrismaClient) => {
 			empty: String
 		}
 
+		type Subscription {
+			empty: String
+		}
+
 		${subschemaTypeDefs}
 	`
 	

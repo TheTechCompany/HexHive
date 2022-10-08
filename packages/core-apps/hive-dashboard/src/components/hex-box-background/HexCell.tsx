@@ -1,4 +1,4 @@
-import { BaseStyle } from '@hexhive/styles';
+import { HexHiveTheme } from '@hexhive/styles';
 import { Box, Text, Layer, List, Button } from 'grommet';
 import React, { useRef, useState } from 'react';
 import { Hexagon } from './Hexagon';
@@ -9,6 +9,7 @@ export interface HexCellProps {
     size?: number;
     left?: number;
     apps?: any[];
+    opacity?: string;
     onClick?: () => void;
     onSelect?: (item: any) => void;
     background?: boolean;
@@ -24,14 +25,14 @@ export const HexCell : React.FC<HexCellProps> = (props) => {
     const ROW_OFFSET = HEX_SIZE * 0.6;
 
     return (
-        <div>
+        <div style={{opacity: props.opacity}}>
         <Hexagon
             selected={selected}
             onClick={() => props.onClick()}
             size={HEX_SIZE + 1} 
             top={(props.top * TOP_MULTIPLIER) - 0.8} 
             left={-0.8 + (props.left * WIDTH_MULTIPLIER + (props.top % 2 == 0 ? ROW_OFFSET : 0))}
-            color={props.background ? "rgba(127, 127, 127, 0.3)" : BaseStyle?.global?.colors['neutral-2']} >
+            color={props.background ? "rgba(127, 127, 127, 0.3)" : HexHiveTheme?.palette?.secondary.light} >
             {/* <Text weight="bold" color="neutral-4">{props.text}</Text> */}
            
         </Hexagon>

@@ -1,4 +1,4 @@
-import { Box, List, Text } from 'grommet';
+import { Box, List, Typography } from '@mui/material';
 import React from 'react';
 import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import { Apps } from './views/apps';
@@ -11,6 +11,8 @@ import { AppSingle } from './views/app-single/AppSingle';
 import { IntegrationList } from './views/integration-list';
 import { IntegrationSingle } from './views/integration-single';
 import { IntegrationEditor } from './views/integration-editor';
+
+import { Sidebar } from '@hexhive/ui'
 
 const API_URL = localStorage.getItem('HEXHIVE_API') || process.env.REACT_APP_API;
 
@@ -31,6 +33,7 @@ export const App = (props)=> {
 		{label: "Apps", path: 'apps'}, 
 		{label: "Integrations", path: 'integrations'}, 
 		{label: "Usage", path: "usage"}]
+
 	const onNavigate = ({item}) => {
 		navigate(`${item.path}`)
 	}
@@ -38,8 +41,14 @@ export const App = (props)=> {
 	return (
 		<ApolloProvider client={client}>
 
-		<Box direction="row" flex>
-			<Box width="small" background="brand">
+		<Box  sx={{display: 'flex', flex: 1}}>
+			<Sidebar
+				menu={menu}
+				onSelect={(item) => {
+					onNavigate({item: item})
+				}}
+				/>
+			{/* <Box width="small" background="brand">
 				<List
 					onClickItem={onNavigate}
 					border={false}
@@ -51,8 +60,8 @@ export const App = (props)=> {
 						</Box>
 					)}
 				</List>
-			</Box>
-			<Box background="neutral-2" pad="xsmall" flex>
+			</Box> */}
+			<Box sx={{flex: 1}}>
 				<Routes>
 					<Route path="" element={<Home/>} />
 					<Route path="users" element={<Users/>} />

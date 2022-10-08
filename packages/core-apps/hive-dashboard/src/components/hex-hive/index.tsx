@@ -100,7 +100,9 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
             {
                 icon: <Message />,
                 top: 4,
-                left: 4
+                left: 4,
+                title: "Chat",
+                path: 'chat'
             }
         ].filter((a) => activeApps?.map((x) => x.slug).indexOf(a.path) > -1)
         

@@ -1,9 +1,11 @@
 import { useAuth } from "@hexhive/auth-ui";
-import { Box, Text, Collapsible, Layer, List, Menu } from "grommet";
-import React, { useState } from "react";
+import { Box, Typography, MenuItem, MenuList, List, Menu } from "@mui/material";
+import React, { useState, useRef } from "react";
 import { withTheme } from "styled-components";
-import { Logout } from "grommet-icons";
-import { Profile, Settings } from "@hexhive/icons";
+// import { Logout } from "grommet-icons";
+import { Logout, Settings } from '@mui/icons-material'
+// import { Profile, Settings } from "@hexhive/icons";
+import { HexHiveTheme } from '@hexhive/styles'
 
 const API_URL = localStorage.getItem('HEXHIVE_API');
 
@@ -12,14 +14,16 @@ export const UserDropdown = () => {
   const { activeUser } = useAuth();
   const [open, setOpen] = useState<boolean>(false);
 
+  const anchorEl = useRef<any>()
+
   const menu = [
     {
-      icon: <Settings height="30px" width="20px" />,
+      icon: <Settings  />,
       label: "Settings",
       onClick: () => {},
     },
     {
-      icon: <Logout color="black" size="15px" />,
+      icon: <Logout />,
       label: "Log out",
       onClick: () => {
         window.location.href = `${
@@ -35,53 +39,60 @@ export const UserDropdown = () => {
   return (
     <>
       <Box
-        focusIndicator={false}
+        ref={anchorEl}
         onClick={() => setOpen(!open)}
-        style={{ cursor: "pointer", position: "relative", zIndex: 9 }}
-        background="rgba(255, 255, 255, 0.2)"
-        align="center"
-        pad={{ horizontal: "small", vertical: "xxsmall" }}
-        round="medium"
-        gap="xsmall"
-        direction="row"
+        sx={{ 
+          cursor: "pointer", 
+          position: "relative", 
+    
+          boxShadow: `0px 0px 2px 2px ${HexHiveTheme.palette.secondary.light}`,
+          borderRadius: '3px',
+          zIndex: 9, 
+          display: 'flex', 
+          alignItems: 'center' 
+        }}
       >
-        <Text size="small">
+        <Box 
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            padding: '3px',
+            paddingLeft: '6px',
+            paddingRight: '6px',
+          }}>
+        <Box sx={{height: '10px', width: '10px', border: `3px solid ${HexHiveTheme.palette.secondary.light}`, marginRight: '6px', borderRadius: '15px'}} height="15px" />
+
+        <Typography >
           {activeUser?.name || process.env.NODE_ENV == "production"
             ? activeUser?.name
             : "Test User"}
-        </Text>
-        <Profile height="15px" />
+        </Typography>
 
         <Box
-          background="brand"
-          style={{
-            filter: "invert(0.222)",
-            position: "absolute",
-            top: "110%",
-            left: 0,
-            right: 0,
-          }}
+         
         >
-          <Collapsible direction="vertical" open={open}>
-            <List
-              pad="none"
-              onClickItem={({ item }) => item.onClick()}
-              data={menu}
-            >
-              {(datum) => (
-                <Box
-                  pad="xsmall"
-                  gap="xsmall"
-                  align="center"
-                  justify="between"
-                  direction="row"
-                >
-                  {datum.icon}
-                  <Text size="small">{datum.label}</Text>
-                </Box>
-              )}
-            </List>
-          </Collapsible>
+          <Menu 
+            anchorEl={anchorEl.current}
+            transformOrigin={{
+              horizontal: 'right',
+              vertical: 'top'
+            }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            autoFocus={false}
+            open={open}>
+              
+              {menu.map((menu_item) => (
+                <MenuItem
+                  onClick={() => menu_item.onClick()}>
+                  {menu_item.icon}
+                  <Typography>{menu_item.label}</Typography>
+                </MenuItem>
+              ))}
+          </Menu>
+        </Box>
         </Box>
       </Box>
     </>

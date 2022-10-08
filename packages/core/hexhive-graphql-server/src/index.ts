@@ -1,5 +1,5 @@
 import {JwksClient} from 'jwks-rsa'
-import { Router } from 'express';
+import { Router, json } from 'express';
 import {verify} from 'jsonwebtoken';
 import { GraphQLSchema, print } from 'graphql'
 import { getGraphQLParameters, processRequest, renderGraphiQL, shouldRenderGraphiQL, sendResult } from "graphql-helix";
@@ -15,11 +15,12 @@ import { HashType } from './directives/hash'
 import gql from 'graphql-tag';
 import schema from './schema';
 import { graphqlHTTP } from './handler';
-import { DateResolver, DateTimeResolver } from 'graphql-scalars';
+import { DateResolver, DateTimeResolver, GraphQLJSON, GraphQLJSONObject} from 'graphql-scalars';
 
 export interface HiveGraphOptions {
 	rootServer: string;
 	schema: GraphQLSchema | {typeDefs: any, resolvers: any};
+	contextFactory?: (context: any) => any;
 	dev?: boolean;
 	uploads?: boolean;
 }
@@ -43,18 +44,26 @@ export class HiveGraph {
 
 	private keys?: string[] = [];
 
+	private contextFactory?: (context: any) => any;
+
 	constructor(options: HiveGraphOptions){
 		this.rootServer = options.rootServer;
 		this.dev = options.dev || false
 
+		this.contextFactory = options.contextFactory;
 		this.schema = new GraphQLSchema({})
 
 		this.scalarSchema = makeExecutableSchema({
 			typeDefs: gql`
 				scalar Upload
+				scalar JSON
+				scalar JSONObject
+
 			`,
 			resolvers: {
-				Upload: GraphQLUpload
+				Upload: GraphQLUpload,
+				JSON: GraphQLJSON,
+				JSONObject: GraphQLJSONObject
 			}
 		})
 
@@ -67,6 +76,8 @@ export class HiveGraph {
 
 			let ScalarTypes : any = {}
 			if(options.uploads) ScalarTypes['Upload'] = GraphQLUpload;
+			ScalarTypes['JSON'] = GraphQLJSON
+			ScalarTypes['JSONObject'] = GraphQLJSONObject
 
 			const mergedTypeDefs = mergeTypeDefs([
 				schema({uploads: options.uploads || false}),
@@ -113,12 +124,12 @@ export class HiveGraph {
 		await this.getRootConfiguration()
 
 		if(this.schema){
-			this.router.use(bodyParser.json());
+			this.router.use(json());
 			if(!this.isDev) this.router.use('/graphql', this.isAuthenticated.bind(this))
 			this.router.use(
 				'/graphql', 
 				graphqlUploadExpress({maxFileSize: 10 * 1024 * 1024, maxFiles: 20}),
-				graphqlHTTP(this.schema)
+				graphqlHTTP(this.schema, this.contextFactory)
 			)
 		}
 	}

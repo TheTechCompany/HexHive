@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -13,6 +14,8 @@ datasource db {
 
 model User {
   id String @id
+
+  displayId String?
 
   name String
   

@@ -1,3 +1,0 @@
-check-leaks: true
-require:
-  - './resources/register.js'

@@ -1,4 +1,4 @@
-import { BaseStyle } from '@hexhive/styles';
+import { HexHiveTheme } from '@hexhive/styles';
 import React from 'react';
 import styled from 'styled-components'
 
@@ -98,8 +98,14 @@ export const HexBox = styled(BaseHexBox)`
     width: ${p => p.size || 3}em;
 }
 
+.cube:before {
+    content: " ";
+    position: relative;
+    z-index: -1;
+    background-color: ${p => p.color || p.topColor || HexHiveTheme.palette.primary.light};
+}
+
 .cube {
-    background-color: ${p => p.color || p.topColor || BaseStyle.global.colors['brand']};
     position: relative;
     -webkit-transform: translateZ(${p => p.size || 3}em) translateX(${p => (p.size || 3) / 1.}em) translateY(${p => (p.size || 3) / 1.}em);
     -webkit-transform-style: preserve-3d;
@@ -120,7 +126,7 @@ export const HexBox = styled(BaseHexBox)`
 }
 
 .left-container:after {
-    background-color: ${p => p.color || p.leftColor || BaseStyle.global.colors['neutral-2']};
+    background-color: ${p => p.color || p.leftColor ||  HexHiveTheme.palette.secondary.light};
 
 }
 
@@ -130,7 +136,7 @@ export const HexBox = styled(BaseHexBox)`
 }
 /* Right */
 .right-container:before {
-    background-color: ${p => p.color || p.rightColor || BaseStyle.global.colors['accent-1']};
+    background-color: ${p => p.color || p.rightColor || HexHiveTheme.palette.secondary.light};
 
 }
 

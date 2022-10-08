@@ -9,10 +9,15 @@ export default (prisma: PrismaClient) => {
 
 			users(ids: [ID], active: Boolean): [HiveUser] @merge(keyField: "id", keyArg: "ids")
 
+			people: [Person]
+
 			roles(ids: [ID]): [Role] @merge(keyField: "id", keyArg:"ids")
 		}
 
 		type Mutation {
+			createUser(input: UserInput): HiveUser
+			updateUser(id: ID, input: UserInput): HiveUser
+
 			createRole(input: RoleInput): Role
 			updateRole(id: ID, input: RoleInput): Role
 			deleteRole(id: ID): Role
@@ -32,9 +37,29 @@ export default (prisma: PrismaClient) => {
 
 		}
 
+		input UserInput {
+			id: ID
+
+			name: String
+			email: String
+			password: String
+			inactive: Boolean
+		}
+
+		type Person {
+			id: ID
+
+			displayId: String
+
+			name: String
+		}
+
 
 		type HiveUser  {
 			id: ID! 
+
+			displayId: String
+
 			name: String
 			
 			email: String
@@ -122,6 +147,19 @@ export default (prisma: PrismaClient) => {
 			}
 		},
 		Query: {
+			people: async (root: any, args: any, context: any) => {
+				return await prisma.user.findMany({
+					where: {
+						organisations: {
+							some: {issuerId: context?.jwt?.organisation || context?.user?.organisation}, 
+						},
+						// inactive: false
+					},
+					include: {
+						organisations: true
+					}
+				})
+			},
 			roles: async (root: any, args: any, context: any) => {
 				return await prisma.role.findMany({where: {organisation: {id: context.jwt.organisation}}});
 			},
@@ -168,7 +206,7 @@ export default (prisma: PrismaClient) => {
 				const users = await prisma.user.findMany({
 					where: {
 						organisations: {
-							some: {issuerId: context?.jwt?.organisation}, 
+							some: {issuerId: context?.jwt?.organisation || context?.user?.organisation}, 
 						},
 						...query
 					},
@@ -179,6 +217,7 @@ export default (prisma: PrismaClient) => {
 
 				console.log("User result", JSON.stringify(query), JSON.stringify(users))
 				
+			
 				if(args.ids){
 					return args.ids.map((id: string) => users.find((a) => a.id == id))?.map((x: any) => ({...x, email: x.email || ''}))
 				}else{
@@ -188,6 +227,60 @@ export default (prisma: PrismaClient) => {
 		
 		},
 		Mutation: {
+			createUser: async (root: any, args: any, context: any) => {
+				console.log("Create User", context)
+				return await prisma.$transaction(async (prisma) => {
+					const userCount = await prisma.user.count({
+						where: {
+							organisations :{
+								some:{
+									issuerId: context?.jwt?.organisation || context?.user?.organisation
+								}
+							}
+						}
+					})
+
+					return await prisma.user.create({
+						data: {
+							id: nanoid(),
+							displayId: args.input.id || userCount + 1,
+							name: args.input.name,
+							email: args.input.email,
+							password: args.input.password || 'unhashable',
+							inactive: args.input.inactive || false,
+							organisations: {
+								create: [{
+									id: nanoid(),
+									issuer: {
+										connect: {
+											id: context?.jwt?.organisation || context?.user?.organisation
+										}
+									}
+								}]
+							}
+						}
+					})
+
+				})
+			},
+			updateUser: async (root: any, args: any, context: any) => {
+				return await prisma.user.updateMany({
+					where: {
+						displayId: args.id,
+						organisations: {
+							some: {
+								issuerId: context?.jwt?.organisation || context?.user?.organisation
+							}
+						}
+					},
+					data: {
+						name: args.input.name,
+						email: args.input.email,
+						password: args.input.password,
+						inactive: args.input.inactive
+					}
+				})
+			},
 			createRole: async (root: any, args: any, context: any) => {
 				return await prisma.role.create({
 					data: {

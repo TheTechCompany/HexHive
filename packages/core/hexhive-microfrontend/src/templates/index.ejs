@@ -38,6 +38,10 @@
       }
     }
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,100&display=swap" rel="stylesheet"> 
+
   <link rel="preload" href="https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js" as="script">
 
   <!-- Add your organization's prod import map URL to this script's src  -->
@@ -76,28 +80,23 @@
 
   <style>
 
-  @font-face {
-    font-family: 'BebasNeue';
-    src: url(<%= static_url %>/fonts/BebasNeue-Regular.ttf) format('ttf');
-    font-weight: 300;
-    font-style: normal;
-  }
-  *{
-    font-family: 'BebasNeue', sans-serif;
-  }
+ 
     body{
+      font-family: 'Roboto', sans-serif;
+      
       display: flex;
       margin: 0;
       flex: 1;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
+      flex-direction: column;
     }
 
     main {
       flex: 1;
       position: relative;
-      top: 40px;
+      top: 0px;
       height: calc(100vh - 40px);
       width: 100vw;
       overflow: hidden;
