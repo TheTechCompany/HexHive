@@ -42,6 +42,12 @@ export default async (amiName: string, keyName: string, privateKey: string, sg: 
         keyName: keyName,
         subnetId: subnets[0],
         vpcSecurityGroupIds: [sg.id],
+        ebsBlockDevices: [
+            {
+                deviceName: '/dev/sda',
+                volumeSize: 10
+            }
+        ],
         tags: {
             'cluster': 'hexhive-cluster',
             'kubernetes.io/cluster/hexhive-cluster': 'shared'
