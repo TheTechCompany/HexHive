@@ -42,6 +42,12 @@ export default async (amiName: string, keyName: string, privateKey: string, sg: 
         keyName: keyName,
         subnetId: subnets[0],
         vpcSecurityGroupIds: [sg.id],
+        ebsBlockDevices: [
+            {
+                deviceName: '/dev/sda',
+                volumeSize: 15
+            }
+        ],
         tags: {
             'cluster': 'hexhive-cluster',
             'kubernetes.io/cluster/hexhive-cluster': 'shared'
@@ -152,6 +158,14 @@ systemctl restart k3s
                 httpEndpoint: 'enabled',
                 httpPutResponseHopLimit: 2
             },
+            blockDeviceMappings: [
+                {
+                    deviceName: '/dev/sda',
+                    ebs: {
+                        volumeSize: 15
+                    }
+                }
+            ],
             userData: Buffer.from(data).toString('base64'),
             keyName,
             // vpcSecurityGroupIds: [sg.id],
