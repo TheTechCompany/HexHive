@@ -43,10 +43,11 @@ const main = (async () => {
     const { url: mongoUrl } = await MongoDB(provider, vpcId, ns);
     const {service: dbService} = await ApplicationDB(provider, vpcId, ns, process.env.POSTGRES_PASSWORD)
 
+    
     // const timescaleUrl = timescale.metadata.name.apply((name) => `${name}.default.svc.cluster.local`)
     // const { service: bouncerService } = await PgBouncer(provider, timescaleUrl, process.env.POSTGRES_PASSWORD);
 
-    
+
     return {
         rabbitURL,
         redisUrl,

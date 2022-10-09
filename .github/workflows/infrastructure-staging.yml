@@ -6,7 +6,7 @@ on:
       - staging
       - next
       - master
-    paths: ["packages/infrastructure/apps/**", "packages/core/**", "packages/backends/**"]
+    paths: ["packages/infrastructure/apps/**", "packages/infrastructure/db/**", "packages/core/**", "packages/backends/**"]
 
 concurrency: infra-${{ github.ref }}
 
