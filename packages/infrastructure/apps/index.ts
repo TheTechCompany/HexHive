@@ -40,6 +40,7 @@ const main = (async () => {
 
     const hexhiveZone = await aws.route53.getZone({name: "hexhive.io"})
 
+    
     // const greencoZone = await aws.route53.getZone({name: 'greenco.co.nz'});
 
     const vpc = await vpcId.apply(async (id) => await aws.ec2.getVpc({ id: id }));
