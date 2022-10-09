@@ -257,7 +257,7 @@ jobs:
 
       - run: mkdir ~/.kube/
 
-      - run: echo $(pulumi stack -s ultraviolet/prod output k3sconfig) > ~/.kube/config
+      - run: pulumi stack -s ultraviolet/prod output k3sconfig > ~/.kube/config
         working-directory: ./packages/infrastructure/base
         id: kube_config
 
