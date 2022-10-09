@@ -54,7 +54,7 @@ export class HiveGraph {
 		this.schema = new GraphQLSchema({})
 
 		this.scalarSchema = makeExecutableSchema({
-			typeDefs: gql`
+			typeDefs: `
 				scalar Upload
 				scalar JSON
 				scalar JSONObject
