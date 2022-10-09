@@ -52,6 +52,7 @@ export class HiveGateway {
 		return this.keyManager.publicKey
 	}
 
+	
 	async init(){
 		this.initDB();
 		await this.keyManager.init()

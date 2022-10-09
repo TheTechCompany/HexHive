@@ -24,7 +24,7 @@ export default async (amiName: string, keyName: string, privateKey: string, sg: 
                 values: [`${amiName}`]
             }
         ],
-        owners: ['099720109477']
+        owners: ['471796009502']
         // owners: ['self']
     })
 
@@ -33,7 +33,7 @@ export default async (amiName: string, keyName: string, privateKey: string, sg: 
     }
 
 
-    
+
     //Setup Control Node
 
     const controlNode = new aws.ec2.Instance('k8s-control-node', {
@@ -43,12 +43,12 @@ export default async (amiName: string, keyName: string, privateKey: string, sg: 
         keyName: keyName,
         subnetId: subnets[0],
         vpcSecurityGroupIds: [sg.id],
-        ebsBlockDevices: [
-            {
-                deviceName: '/dev/sda',
-                volumeSize: 15
-            }
-        ],
+        // ebsBlockDevices: [
+        //     {
+        //         deviceName: '/dev/sda',
+        //         volumeSize: 15
+        //     }
+        // ],
         tags: {
             'cluster': 'hexhive-cluster',
             'kubernetes.io/cluster/hexhive-cluster': 'shared'
@@ -159,14 +159,14 @@ systemctl restart k3s
                 httpEndpoint: 'enabled',
                 httpPutResponseHopLimit: 2
             },
-            blockDeviceMappings: [
-                {
-                    deviceName: '/dev/sda',
-                    ebs: {
-                        volumeSize: 15
-                    }
-                }
-            ],
+            // blockDeviceMappings: [
+            //     {
+            //         deviceName: '/dev/sda',
+            //         ebs: {
+            //             volumeSize: 15
+            //         }
+            //     }
+            // ],
             userData: Buffer.from(data).toString('base64'),
             keyName,
             // vpcSecurityGroupIds: [sg.id],
