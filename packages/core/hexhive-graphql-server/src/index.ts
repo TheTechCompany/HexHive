@@ -58,7 +58,6 @@ export class HiveGraph {
 				scalar Upload
 				scalar JSON
 				scalar JSONObject
-
 			`,
 			resolvers: {
 				Upload: GraphQLUpload,
@@ -98,7 +97,6 @@ export class HiveGraph {
 					}
 				}
 			])
-
 			console.log('=> HiveGraph: Merged TypeDefs')
 
 			this.schema = makeExecutableSchema({
