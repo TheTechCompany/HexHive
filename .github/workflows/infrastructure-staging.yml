@@ -258,7 +258,7 @@ jobs:
       - run: mkdir ~/.kube/
 
       - run: echo $(pulumi stack output k3sconfig) > ~/.kube/config
-        working-directory: ./packages/infrastructure/apps
+        working-directory: ./packages/infrastructure/base
         id: kube_config
 
       - run: pulumi stack select ${{ env.DB_NAME }}

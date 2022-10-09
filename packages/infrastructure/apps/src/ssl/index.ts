@@ -26,6 +26,7 @@ export default (zone: aws.route53.GetZoneResult) => {
             })
         })
     });
+    
     // let certValidation = new aws.route53.Record(`${domainName}-certValidation`, {
     //     name: sslCert.domainValidationOptions[0].resourceRecordName,
     //     zoneId: zone.zoneId,
