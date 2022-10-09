@@ -85,7 +85,6 @@ const main = (async () => {
     //     })
     // })
 
-
     const sg = new aws.ec2.SecurityGroup(`${deployment}-sg`, {
         vpcId: defaultVpc.vpc.id,
         ingress: [{

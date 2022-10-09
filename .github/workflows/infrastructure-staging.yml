@@ -239,16 +239,21 @@ jobs:
       - name: Setup DB stack
         run: |
           echo "DB_NAME=ultraviolet/db-staging" >> $GITHUB_ENV
+          echo "DB=db-staging" >> $GITHUB_ENV
         if: ${{ github.ref == 'refs/heads/staging' }}
 
       - name: Setup stack
         run: |
           echo "DB_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
+          echo "DB=db-prod" >> $GITHUB_ENV
+
         if: ${{ github.ref == 'refs/heads/next' }}
 
       - name: Setup stack
         run: |
           echo "DB_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
+          echo "DB=db-prod" >> $GITHUB_ENV
+
         if: ${{ github.ref == 'refs/heads/master' }}
         
 
@@ -286,7 +291,7 @@ jobs:
       # - run: aws eks update-kubeconfig --name hexhive-cluster-eksCluster-506b63f
       
           
-      - run: kubectl --kubeconfig ~/.kube/config port-forward service/${{ steps.postgres_url.outputs.postgres }} 5432:5432 &
+      - run: kubectl --kubeconfig ~/.kube/config -n ${{ env.DB }} port-forward service/${{ steps.postgres_url.outputs.postgres }} 5432:5432 &
       
       - run: sleep 30s
 
