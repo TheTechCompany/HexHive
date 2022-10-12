@@ -2,7 +2,7 @@ import * as k8s from '@pulumi/kubernetes'
 import { Config } from '@pulumi/pulumi';
 import { Provider } from '@pulumi/kubernetes'
 
-export const RabbitMQService = async (provider: Provider, appName: string) => {
+export const RabbitMQService = async (provider: Provider, appName: string, deployment: k8s.apps.v1.Deployment, ns: k8s.core.v1.Namespace) => {
 
     const appLabels = { appClass: appName };
 
@@ -10,6 +10,7 @@ export const RabbitMQService = async (provider: Provider, appName: string) => {
         metadata: { 
             labels: appLabels,
             name: `${appName}-svc`,
+            namespace: ns.metadata.name,
             annotations: {
                 // 'service.beta.kubernetes.io/aws-load-balancer-ssl-cert': sslCert.arn,
                 // 'service.beta.kubernetes.io/aws-load-balancer-ssl-ports': 'https',
@@ -24,7 +25,10 @@ export const RabbitMQService = async (provider: Provider, appName: string) => {
             ports: [{ name: "amqp", port: 5672, targetPort: "amqp" }],
             selector: appLabels,
         },
-    }, { provider: provider });
+    }, { 
+        provider: provider,
+        dependsOn: [deployment]
+    });
 
     return service;
 }

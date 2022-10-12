@@ -131,7 +131,7 @@ export default async (deployment: string) => {
         scalingConfig: {
             minSize: 1,
             maxSize: 2,
-            desiredSize: 1
+            desiredSize: 2
         }
     })
 

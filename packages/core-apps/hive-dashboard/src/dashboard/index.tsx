@@ -3,12 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Home } from '../views/home';
 import { Box } from '@mui/material';
 
-import { AuthProvider } from '@hexhive/auth-ui'
-import { Organisation } from '../views/organisation';
-import { Settigns } from '../views/settings';
-
 import { HexHiveTheme } from '@hexhive/styles'
-import { IFrameAppliance } from '../components/iframe-appliance';
 import { ThemeProvider } from '@mui/material'
 
 const NoToken = () => (<div>No token</div>)

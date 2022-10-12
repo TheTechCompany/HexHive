@@ -1,7 +1,7 @@
 import { GraphQLSchema } from "graphql";
 import { getGraphQLParameters, processRequest, renderGraphiQL, sendResult, shouldRenderGraphiQL } from "graphql-helix";
 
-export const graphqlHTTP = (schema: GraphQLSchema) => {
+export const graphqlHTTP = (schema: GraphQLSchema, contextFactory?: (context: any) => any) => {
 	return async (req: any, res: any, next: any) => {
 		const request = {
 			body: req.body,
@@ -25,6 +25,7 @@ export const graphqlHTTP = (schema: GraphQLSchema) => {
 				request,
 				schema,
 				contextFactory: (context) => ({
+					...contextFactory?.(context),
 					...context,
 					...req
 				})
@@ -36,7 +37,28 @@ export const graphqlHTTP = (schema: GraphQLSchema) => {
 			// 3) PUSH: a stream of events to push back down the client for a subscription
 			// The "sendResult" is a NodeJS-only shortcut for handling all possible types of Graphql responses,
 			// See "Advanced Usage" below for more details and customizations available on that layer.
-			sendResult(result, res);
+			if(result.type == "PUSH"){
+
+				res.writeHead(200, {
+					'Content-Type': 'text/event-stream',
+					// Connection: 'keep-alive',
+					'Cache-Control': 'no-cache'
+				});
+
+				req.socket.on('close', () => {
+					console.log("Connection close socket")
+					result.unsubscribe();
+				})
+
+				await result.subscribe((result) => {
+					console.log("Subscription result", result);
+					res.write(`data: ${JSON.stringify(result)}`);
+				})
+
+			}else{
+				sendResult(result, res);
+			}
+
 		}
 	}
 }

@@ -10,19 +10,34 @@ export const MongoDB = async (provider: k8s.Provider, vpcId: Output<any>, namesp
 
     const depName = `mongodb-${suffix}`
 
-    const appLabels = {appClass: depName}
+    const appLabels = {
+        appClass: depName,
+        // 'topology.kubernetes.io/region': config.require('aws:region')
+    }
+
+    // const pv = new k8s.core.v1.PersistentVolume('mongo-pv', {
+    //     spec: {
+    //         capacity: {
+    //             storage: '5Gi'
+    //         },
+    //         accessModes: ['ReadWriteOnce'],
+    //         storageClassName: 'ebs'
+    //     }
+    // })
 
     const ebsClaim = new k8s.core.v1.PersistentVolumeClaim(`mongo-pvc-${suffix}`, {
         metadata: {
             name: `mongo-pvc-${suffix}`,
-            namespace: namespace.metadata.name
+            namespace: namespace.metadata.name,
+            labels: appLabels
         },
         spec: {
+            
             accessModes: ['ReadWriteOnce'],
-            storageClassName: 'gp2',
+            storageClassName: 'ebs',
             resources: {
                 requests: {
-                    storage: '7Gi'
+                    storage: '9Gi'
                 }
             }
         }
@@ -42,9 +57,9 @@ export const MongoDB = async (provider: k8s.Provider, vpcId: Output<any>, namesp
             template: {
                 metadata: {labels: appLabels},
                 spec: {
-                    nodeSelector: {
-                        'eks.amazonaws.com/nodegroup': 'managed-nodes'
-                    },
+                    // nodeSelector:{
+                    //         'kubernetes.io/arch': 'amd64'
+                    // },
                     containers: [{
                         imagePullPolicy: 'IfNotPresent',
                         name: depName,
@@ -53,16 +68,16 @@ export const MongoDB = async (provider: k8s.Provider, vpcId: Output<any>, namesp
                         volumeMounts: [//newdata
                             { name: 'mongo-store', mountPath: '/data/db', subPath: 'data' },
                         ],
-                        resources: {
-                            requests: {
-                                cpu: '0.25',
-                                memory: '0.5Gi'
-                            },
-                            limits: {
-                                cpu: '0.25',
-                                memory: '0.5Gi'
-                            }
-                        }
+                        // resources: {
+                        //     requests: {
+                        //         cpu: '0.25',
+                        //         memory: '0.5Gi'
+                        //     },
+                        //     limits: {
+                        //         cpu: '0.25',
+                        //         memory: '0.5Gi'
+                        //     }
+                        // }
                     }],
                     volumes: [
                     {
@@ -77,7 +92,7 @@ export const MongoDB = async (provider: k8s.Provider, vpcId: Output<any>, namesp
                 },
             }
         }
-    }, {provider})
+    }, { provider })
 
     const service = new k8s.core.v1.Service(`${depName}-svc`, {
         metadata: { 
@@ -89,10 +104,13 @@ export const MongoDB = async (provider: k8s.Provider, vpcId: Output<any>, namesp
             ports: [{ name: "mongo", port: 27017, targetPort: "mongo" }],
             selector: appLabels,
         },
-    }, { provider: provider });
+    }, { 
+        provider: provider,
+        dependsOn: [deployment]
+    });
 
     return {
-        service,
+        // service,
         deployment,
         url: all([service.metadata.name, namespace.metadata.name]).apply(([name, ns]) => `${name}.${ns}.svc.cluster.local:27017`)
     }

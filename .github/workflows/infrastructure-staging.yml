@@ -6,7 +6,7 @@ on:
       - staging
       - next
       - master
-    paths: ["packages/infrastructure/apps/**", "packages/core/**", "packages/backends/**"]
+    paths: ["packages/infrastructure/apps/**", "packages/infrastructure/db/**", "packages/core/**", "packages/backends/**"]
 
 concurrency: infra-${{ github.ref }}
 
@@ -239,16 +239,21 @@ jobs:
       - name: Setup DB stack
         run: |
           echo "DB_NAME=ultraviolet/db-staging" >> $GITHUB_ENV
+          echo "DB=db-staging" >> $GITHUB_ENV
         if: ${{ github.ref == 'refs/heads/staging' }}
 
       - name: Setup stack
         run: |
           echo "DB_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
+          echo "DB=db-prod" >> $GITHUB_ENV
+
         if: ${{ github.ref == 'refs/heads/next' }}
 
       - name: Setup stack
         run: |
           echo "DB_NAME=ultraviolet/db-prod" >> $GITHUB_ENV
+          echo "DB=db-prod" >> $GITHUB_ENV
+
         if: ${{ github.ref == 'refs/heads/master' }}
         
 
@@ -257,8 +262,8 @@ jobs:
 
       - run: mkdir ~/.kube/
 
-      - run: echo $(pulumi stack output kubeconfig) > ~/.kube/config.json
-        working-directory: ./packages/infrastructure/apps
+      - run: pulumi stack -s ultraviolet/prod output k3sconfig > ~/.kube/config
+        working-directory: ./packages/infrastructure/base
         id: kube_config
 
       - run: pulumi stack select ${{ env.DB_NAME }}
@@ -283,10 +288,10 @@ jobs:
         with:
           version: "v1.23.5"
 
-      - run: aws eks update-kubeconfig --name hexhive-cluster-eksCluster-506b63f
+      # - run: aws eks update-kubeconfig --name hexhive-cluster-eksCluster-506b63f
       
           
-      - run: kubectl --kubeconfig ~/.kube/config port-forward service/${{ steps.postgres_url.outputs.postgres }} 5432:5432 &
+      - run: kubectl --kubeconfig ~/.kube/config -n ${{ env.DB }} port-forward service/${{ steps.postgres_url.outputs.postgres }} 5432:5432 &
       
       - run: sleep 30s
 

@@ -21,7 +21,6 @@
      "@hexhive-core/login": ["./core-apps/hive-login/src"],
      "@hexhive-core/login-v2": ["./core-apps/hive-login-v2/src"],
 
-     "@hexhive/express-graphql": ["./core/express-graphql/src"],
      "@hexhive/microfrontend-server": ["./core/hexhive-microfrontend/src"],
      "@gqty/react": ["../node_modules/@gqty/react"],
      "styled-components": ["../node_modules/styled-components"],

@@ -1018,7 +1018,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.15.3", "@babel/runtime@^7.18.6":
+"@babel/runtime@^7.18.6":
   version "7.18.9"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.9.tgz#b4fcfce55db3d2e5e080d2490f608a3b9f407f4a"
   integrity sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==
@@ -1283,15 +1283,6 @@
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
   integrity sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==
-
-"@hexhive/auth-ui@^1.0.2-beta.21":
-  version "1.0.2-beta.21"
-  resolved "https://registry.yarnpkg.com/@hexhive/auth-ui/-/auth-ui-1.0.2-beta.21.tgz#5292f1d656bb9e76aacd28d743d4a93eb9eedbe7"
-  integrity sha512-Etfzd+Efrbf2HEb9W+OgFn4u3CQ4/k6Gmtvx+H4sj4pUDPfT224cWFMYEHYZ5mbj4KxYBT0ieujYlR0UgX6Oyg==
-  dependencies:
-    "@babel/runtime" "^7.15.3"
-    react "^17.0.2"
-    styled-components "^5.3.0"
 
 "@hexhive/styles@^1.0.1-alpha.37":
   version "1.0.1-alpha.37"
@@ -7496,7 +7487,7 @@ style-loader@^3.0.0:
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.3.1.tgz#057dfa6b3d4d7c7064462830f9113ed417d38575"
   integrity sha512-GPcQ+LDJbrcxHORTRes6Jy2sfvK2kS6hpSfI/fXhPt+spVzxF6LJ1dHLN9zIGmVaaP044YKaIatFaufENRiDoQ==
 
-styled-components@^5.1.1, styled-components@^5.3.0:
+styled-components@^5.1.1:
   version "5.3.5"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.3.5.tgz#a750a398d01f1ca73af16a241dec3da6deae5ec4"
   integrity sha512-ndETJ9RKaaL6q41B69WudeqLzOpY1A/ET/glXkNZ2T7dPjPqpPCXXQjDFYZWwNnE5co0wX+gTCqx9mfxTmSIPg==
