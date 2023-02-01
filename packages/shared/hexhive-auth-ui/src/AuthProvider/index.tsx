@@ -22,7 +22,6 @@ export const AuthProvider : React.FC<AuthProviderProps> = (props) => {
 
     const [ token, setToken ] = useToken()
 
-    
     useEffect(() => {
         if(!activeUser?.id){
             getUser().then((user) => {
