@@ -2,7 +2,7 @@ import { Grommet } from "grommet";
 import { BrowserRouter as Router, Route, Routes  } from "react-router-dom";
 import { App } from "./App";
 import { HexHiveTheme } from '@hexhive/styles'
-import { AuthProvider, Loader } from '@hexhive/auth-ui'
+import { AuthProvider } from '@hexhive/auth-ui'
 import { ThemeProvider } from '@mui/material'
 
 export default function Root(props) {
