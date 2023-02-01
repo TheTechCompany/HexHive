@@ -145,7 +145,7 @@ const config = {
 					id: users?.[0].id,
 					name: users?.[0]?.name,
 					organisation: organisation?.issuer?.id,
-					applications: [...new Set(organisation?.roles?.map((x) => x.applications)?.reduce((prev, curr) => prev.concat(curr), []))]
+					applications: [...new Set(organisation?.roles?.map((x: any) => x.applications)?.reduce((prev, curr) => prev.concat(curr), []))]
 				}
 				console.log({ user: user })
 				return done(null, user)
