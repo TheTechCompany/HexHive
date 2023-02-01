@@ -1,6 +1,6 @@
-FROM node:alpine as build
+FROM node:16-slim as build
 
-RUN apk update && apk add openssl bash
+RUN apt-get update && apt-get install -y openssl
 
 WORKDIR /app
 
@@ -18,9 +18,9 @@ WORKDIR /app/packages/backends/hive-frontend
 
 RUN cp -Lr /app/packages/backends/hive-frontend/node_modules/ _node_modules/
 
-FROM node:alpine 
+FROM node:16-slim 
 
-RUN apk update; apk add openssl
+RUN apt-get update && apt-get install -y openssl
 
 WORKDIR /app
 

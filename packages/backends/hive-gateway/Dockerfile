@@ -1,8 +1,8 @@
-FROM node:16-alpine as build
+FROM node:16-slim as build
 
 ARG BUILD_ENV=github
 
-RUN apk update && apk add openssl bash
+RUN apt-get update && apt-get install -y openssl
 
 WORKDIR /app
 
@@ -20,9 +20,9 @@ WORKDIR /app/packages/backends/hive-gateway
 
 RUN cp -Lr /app/packages/backends/hive-gateway/node_modules/ _node_modules/
 
-FROM node:16-alpine
+FROM node:16-slim
 
-RUN apk update && apk add openssl bash
+RUN apt-get update && apt-get install -y openssl
 
 WORKDIR /app
 
