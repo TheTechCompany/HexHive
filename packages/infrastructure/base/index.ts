@@ -28,7 +28,6 @@ const main = (async () => {
 
     const privateKey = privateKeyBase64 // Buffer.from(privateKeyBase64, 'base64').toString('ascii');
 
-
     const deployment = "hexhive"
 
     const defaultVpc = new awsx.ec2.Vpc(`${deployment}-xvpc`, {
@@ -122,11 +121,11 @@ const main = (async () => {
 
     const cidrBlocks = publicSubnets.map((x) => x.subnet.cidrBlock.apply(x => `${x || '172.31.0.0/16'}`)) // ['172.31.0.0/24'] // subnets.map((x) => x.subnet.cidrBlock.apply((x) => `${x || '172.31.0.0/16'}`))
 
-    const { cluster, vpc } = await EKSCluster(deployment)
+    // const { cluster, vpc } = await EKSCluster(deployment)
 
     // const ipfsCluster = await IPFSCluster(cluster, vpc)
 
-    const { url: mongoUrl } = MongoCluster(cluster);
+    // const { url: mongoUrl } = MongoCluster(cluster);
 
     // if(!cidrBlocks) return;
 
@@ -141,8 +140,8 @@ const main = (async () => {
     // const { url : frontend } = await MicrofrontendCluster(cluster, zone, 'next.hexhive.io', mongoUrl);
 
     return {
-        mongoUrl,
-        vpc,
+        // mongoUrl,
+        // vpc,
         defaultVpc,
         k3sconfig: kubeconfig,
         cidrBlocks,
@@ -150,7 +149,7 @@ const main = (async () => {
         // hostIp: controlNode.privateDns,
         // token,
         // discoveryCa: discoveryCa.apply((ca) => ca?.trim()),
-        kubeconfig: cluster.kubeconfig
+        // kubeconfig: cluster.kubeconfig
     }
 
 })()
@@ -163,9 +162,9 @@ export const cidrBlocks = main.then((r) => r.cidrBlocks)
 
 export const k3sconfig = main.then(result => result.k3sconfig)
 
-export const kubeconfig = main.then(result => result.kubeconfig)
-export const vpcId = main.then(result => result.vpc.id);
+// export const kubeconfig = main.then(result => result.kubeconfig)
+// export const vpcId = main.then(result => result.vpc.id);
 
 export const defaultVpcId = main.then((r) => r.defaultVpc.id);
 
-export const mongoUrl = main.then(result => result.mongoUrl)
+// export const mongoUrl = main.then(result => result.mongoUrl)

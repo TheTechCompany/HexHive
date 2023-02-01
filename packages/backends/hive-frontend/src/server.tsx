@@ -141,13 +141,16 @@ const config = {
 
 				console.log({ org: JSON.stringify(organisation) })
 
+				const roles = organisation?.roles || [];
+				const applications = roles.map((x: any) => x.applications).reduce((prev: any, curr: any) => prev.concat(curr), [])
+
 				let user = {
 					id: users?.[0].id,
 					name: users?.[0]?.name,
 					organisation: organisation?.issuer?.id,
-					applications: [...new Set(organisation?.roles?.map((x) => x.applications)?.reduce((prev, curr) => prev.concat(curr), []))]
+					applications: [...new Set(applications)]
 				}
-				console.log({ user: user })
+				// console.log({ user: user })
 				return done(null, user)
 			}
 			if (!users?.[0]) return done(null, null, { message: "No user found with those credentials" })
@@ -217,13 +220,13 @@ const config = {
 				}
 			})
 
-			const views = (applications || []).map((app) => ({
+			const views = (applications || []).map((app: any) => ({
 				name: app.name,
 				path: app.slug || '/404',
 				default: false,
 			}))
 
-			const appliances = (applications || []).map((app) => ({
+			const appliances = (applications || []).map((app: any) => ({
 				name: app.name,
 				config_url: (deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint) || '/',
 			}))

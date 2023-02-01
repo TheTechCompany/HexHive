@@ -219,9 +219,9 @@ export default (prisma: PrismaClient) => {
 				
 			
 				if(args.ids){
-					return args.ids.map((id: string) => users.find((a) => a.id == id))?.map((x: any) => ({...x, email: x.email || ''}))
+					return args.ids.map((id: string) => users.find((a: any) => a.id == id))?.map((x: any) => ({...x, email: x.email || ''}))
 				}else{
-					return users?.map((x) => ({...x, email: x.email || ''}));
+					return users?.map((x: any) => ({...x, email: x.email || ''}));
 				}
 			}
 		
@@ -229,7 +229,7 @@ export default (prisma: PrismaClient) => {
 		Mutation: {
 			createUser: async (root: any, args: any, context: any) => {
 				console.log("Create User", context)
-				return await prisma.$transaction(async (prisma) => {
+				return await prisma.$transaction(async (prisma: any) => {
 					const userCount = await prisma.user.count({
 						where: {
 							organisations :{
