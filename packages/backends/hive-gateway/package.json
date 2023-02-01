@@ -1,6 +1,6 @@
 {
 	"name": "@hexhive/gateway",
-	"version": "1.0.2-beta.58",
+	"version": "1.0.2-beta.59",
 	"description": "",
 	"main": "dist/index.js",
 	"files": [
@@ -27,7 +27,7 @@
 		"@graphql-tools/stitch": "8.6.4",
 		"@graphql-tools/stitching-directives": "^2.2.9",
 		"@graphql-tools/wrap": "^8.3.2",
-		"@hexhive/data": "^1.0.2-beta.58",
+		"@hexhive/data": "^1.0.2-beta.59",
 		"@hexhive/types": "^1.0.2-beta.42",
 		"@prisma/client": "^3.12.0",
 		"abort-controller": "^3.0.0",
