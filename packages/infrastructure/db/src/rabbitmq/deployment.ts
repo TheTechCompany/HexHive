@@ -21,6 +21,7 @@ export const RabbitMQDeployment = async (provider: Provider, appName: string, st
             template: {
                 metadata: { labels: appLabels },
                 spec: {
+                    priority: 50,
                  
                     hostname: `hexhive-mq-${suffix}`,
                     containers: [{

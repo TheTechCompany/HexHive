@@ -103,6 +103,8 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
             template: {
                 metadata: {labels: appLabels},
                 spec: {
+                    priority: 50,
+
                     containers: [{
                         name: depName,
                         image: 'postgres:latest', //`postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,

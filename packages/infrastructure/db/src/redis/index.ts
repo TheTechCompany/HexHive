@@ -101,6 +101,8 @@ export const RedisDB = async (provider: k8s.Provider, vpcId: Output<any>, ns: k8
             template: {
                 metadata: {labels: appLabels},
                 spec: {
+                    priority: 50,
+
                     containers: [{
                         name: depName,
                         image: 'redis:7.0.4', //`postgres:latest`, //`thetechcompany/hexhive-db:${imageTag}`, //`postgres:latest`, //thetechcompany/hexhive-db:${imageTag}`,

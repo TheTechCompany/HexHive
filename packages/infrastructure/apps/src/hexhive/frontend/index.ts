@@ -42,6 +42,7 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, ssl: aws.acm.
             template: {
                 metadata: { labels: appLabels },
                 spec: {
+                    priority: 100,
                     nodeSelector: {
                         'role': 'worker'
                     },

@@ -47,6 +47,7 @@ export default (provider: Provider, vpcId: Input<string>) => {
 
         },
         chart: 'aws-load-balancer-controller',
+        version: 'v1.4.5',
         values: {
             replicaCount: 1,
             hostNetwork: true,
