@@ -3,8 +3,6 @@ name: Infrastructure
 on:
   push:
     branches:
-      - staging
-      - next
       - master
     paths: ["packages/infrastructure/apps/**", "packages/infrastructure/db/**", "packages/core/**", "packages/backends/**"]
 
