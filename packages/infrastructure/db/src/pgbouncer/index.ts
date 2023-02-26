@@ -21,10 +21,12 @@ export const PgBouncer = (provider: Provider, timescaleUrl: any, timescalePass: 
                 matchLabels: appLabels
             },
             template: {
+                
                 metadata: {
                     labels: appLabels
                 },
                 spec: {
+                    priority: 50,
                     
                     containers: [
                         {

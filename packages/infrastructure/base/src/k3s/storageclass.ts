@@ -8,7 +8,7 @@ export default (provider: Provider) => {
             repo: 'https://kubernetes-sigs.github.io/aws-ebs-csi-driver'
         },
         chart: 'aws-ebs-csi-driver',
-        // version: 'v1.10.0',
+        version: 'v2.12.0',
         namespace: 'kube-system',
         values: {
             enableVolumeScheduling: true,

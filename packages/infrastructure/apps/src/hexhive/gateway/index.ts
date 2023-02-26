@@ -159,13 +159,16 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
 
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
         metadata: { labels: appLabels },
+        
         spec: {
             replicas: redundancy ? parseInt(redundancy) : 2,
             strategy: { type: "RollingUpdate" },
             selector: { matchLabels: appLabels },
             template: {
+                
                 metadata: { labels: appLabels },
                 spec: {
+                    priority: 100,
                     nodeSelector: {
                         'role': 'worker'
                     },

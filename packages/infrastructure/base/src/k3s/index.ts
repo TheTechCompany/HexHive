@@ -184,7 +184,7 @@ systemctl restart k3s
                 id: id,
                 version: `${version}`
             },
-            minSize: 1,
+            minSize: 2,
             desiredCapacity: 3,
             maxSize: 4,
             vpcZoneIdentifiers: subnets
