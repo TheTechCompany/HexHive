@@ -1,0 +1,33 @@
+{
+  "name": "@hexhive/cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/"
+  ],
+  "bin": {
+    "hexhive": "dist/index.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc -b"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^18.15.5",
+    "@types/yargs": "16.x",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "@hexhive/dev-server": "^1.0.2-beta.59",
+    "inquirer": "8.x",
+    "yargs": "16.x"
+  }
+}

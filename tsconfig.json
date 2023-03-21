@@ -13,6 +13,7 @@
      "graphql": ["../node_modules/graphql"],
      "graphql-tag": ["../node_modules/graphql-tag"],
      "graphql-compose": ["../node_modules/graphql-compose"],
+      "@graphql-tools/delegate": ["../node_modules/@graphql-tools/delegate"],
 
      "@hexhive/data": ["./core/hexhive-data/src"],
 

@@ -15,7 +15,6 @@ const argv = yargs(process.argv.slice(2)).options({
 	
 	const localGateway = new LocalGateway(serverConfig);
 
-
 	await localGateway.init()
 
 	await localGateway.start()

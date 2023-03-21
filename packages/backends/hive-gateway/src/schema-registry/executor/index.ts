@@ -12,10 +12,7 @@ async function* generateJsonIterable(response: any){
 
 		try{
 			let substring = data.match(/data: (.+)/)?.[1]
-			console.log({substring})
-			console.log({typeof: typeof(data), substring})
 			let jsonData = JSON.parse(`${substring}`);
-			console.log("CHUNK", jsonData)
 
 			yield jsonData //chunk.toString();
 		}catch(e){
@@ -62,8 +59,6 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 		}
 		const id = nanoid();
 
-		console.time('Start query ' + id)
-		console.log("Before response", {id, query})
 		let response : any = '';
 
 		let isStream = query.indexOf('subscription') == 0
@@ -79,21 +74,7 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 			signal: signal
 		})
 
-	
-		console.timeEnd('Start query ' + id)
-
-			// console.log("After fetch")
-
 		if(isStream){
-			console.log("IS STREAM");
-
-			// const iterable = {
-			// 	[Symbol.asyncIterator]: () => ({
-			// 		next: () => fetchResult.body.
-			// 	})
-			// }
-			// fetchResult.body
-		
 
 			const initialIterator = fetchResult.body[Symbol.asyncIterator]();
 			const initialReturn = initialIterator.return;
@@ -103,42 +84,16 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 			const asyncReturn = jsonIterable.return;
 
 			jsonIterable.return = () => {
-				console.log("Async Cancel")
 				controller.abort()
 				initialReturn ? initialReturn.call(initialIterator) : Promise.resolve({value: undefined, done: true});
 			  return asyncReturn ? asyncReturn.call(jsonIterable) : Promise.resolve({ value: undefined, done: true });
 			};
 
-			return jsonIterable //generateJsonIterable(fetchResult.body);
-
-			// for await (const chunk of fetchResult.body){
-			// 	console.log("CHUNK OF STREAM", chunk.toString())
-			// 	return JSON.parse(chunk.toString())
-			// }
-			// return fetchResult.body
+			return jsonIterable 
 		}else{
 			const result = await fetchResult.json();
 			return result;
 		}
 
-		// 	try{
-		// 		// response = await fetchResult.json();
-
-		// 		for await (const chunk of fetchResult.body){
-		// 			let data = chunk;
-		// 			console.dir("Chunk " + data)
-		// 			response += data
-		// 		}
-		// 	}catch(e){
-		// 		console.log("ERROR");
-		// 	}
-			
-		// 	// console.log("After response")
-
-		
-		// 	// console.log("HAS", {response})
-			
-	
-		// return JSON.parse(response || '{}') //await fetchResult.json() as any
 	}
 }

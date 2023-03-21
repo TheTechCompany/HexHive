@@ -9,5 +9,3 @@ const payload = {
 };
 
 const token = jwt.sign(payload, process.env.JWT_SECRET || 'test');
-
-console.log({token, key: payload.key})

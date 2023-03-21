@@ -104,23 +104,15 @@ export class SchemaRegistry {
 						'Cache-Control': 'no-cache'
 					});
 
-					// setInterval(() => {
-					// 	res.write('data: {}')
-					// }, 1000)
-
 					req.socket.on('close', () => {
-						console.log("Connection close socket")
 						result.unsubscribe();
 					})
 
 
 					await result.subscribe((result) => {
-						console.log("Subscription result", result);
 						res.write(`data: ${JSON.stringify(result)}`);
 					})
 				}else{
-					// console.log(result.type, result);
-
 					sendResult(result, res)
 				}
 

@@ -73,15 +73,11 @@ const argv = yargs(hideBin(process.argv)).options({
 	app.use(passport.session())
 
 	passport.serializeUser((user, next) => {
-		console.log("serializeUser", user)
 		next(null, user);
 	});
 	  
 	passport.deserializeUser((obj: any, next) => {
-		console.log("deserializeUser", obj);
-		
 		next(null, obj)
-		// next(null, {...obj, name: "Test"});
 	});
 
 

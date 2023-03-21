@@ -10,13 +10,14 @@ export const frontendRouter = () => {
 	app.use(cookieParser())
 	
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
+	
 	app.use(session({
 		secret: process.env.SESSION_KEY || 'MyVoiceIsMyPassportVerifyMe',
 		resave: false,
 		saveUninitialized: true,
 		...cookieParams,
 		store: MongoStore.create({ 
-			mongoUrl: process.env.MONGO_URL
+			mongoUrl: process.env.MONGO_URL || 'mongodb://localhost'
 		 })
 	}));
 

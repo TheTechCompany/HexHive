@@ -142,7 +142,7 @@ export default (prisma: PrismaClient) => {
 						}
 					}
 				})
-				console.log(JSON.stringify({applications}))
+
 				return applications;
 			}
 		},
@@ -197,8 +197,6 @@ export default (prisma: PrismaClient) => {
 			users: async (root: any, args: any, context: any) => {
 				let query : any = {};
 				if(args.ids){
-					console.log("IDS", {ids: args.ids});
-					
 					query.id = {in: args.ids}
 				}
 				if(args.active) query.inactive = false;
@@ -215,9 +213,6 @@ export default (prisma: PrismaClient) => {
 					}
 				})
 
-				console.log("User result", JSON.stringify(query), JSON.stringify(users))
-				
-			
 				if(args.ids){
 					return args.ids.map((id: string) => users.find((a: any) => a.id == id))?.map((x: any) => ({...x, email: x.email || ''}))
 				}else{
@@ -228,7 +223,6 @@ export default (prisma: PrismaClient) => {
 		},
 		Mutation: {
 			createUser: async (root: any, args: any, context: any) => {
-				console.log("Create User", context)
 				return await prisma.$transaction(async (prisma: any) => {
 					const userCount = await prisma.user.count({
 						where: {

@@ -57,14 +57,6 @@ export class HiveGateway {
 		this.initDB();
 		await this.keyManager.init()
 
-		const token = this.keyManager.sign({
-			sub: '1234',
-			organisation: '1234'
-		})
-
-		console.log({token});
-		
-
 		this.router = new HiveRouter({})
 
 		await this.initHive();
@@ -72,7 +64,7 @@ export class HiveGateway {
 		await this.schemaRegistry?.reload()
 
 		this.schemaReloader = setInterval(async () => {
-			console.log("Reloading Schema...")
+			console.debug("Reloading Schema...")
 			await this.schemaRegistry?.reload()
 		}, 60 * 1000);
 	}

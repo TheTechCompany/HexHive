@@ -30,7 +30,6 @@ export class HiveRouter {
 	}
 
 	mount(...args: any[]) {
-		console.log(args)
 		if(args.length == 1){
 			this.app.use(args[0])
 		}else if(args.length == 2){
@@ -54,7 +53,7 @@ export class HiveRouter {
 			saveUninitialized: true,
 			...cookieParams,
 			store: MongoStore.create({
-				mongoUrl: process.env.MONGO_URL
+				mongoUrl: process.env.MONGO_URL || 'mongodb://localhost'
 			})
 		}));
 
