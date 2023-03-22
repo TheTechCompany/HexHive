@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - staging
-      - next
       - master
     paths: [".github/workflows/coreapps.yml", "packages/core-apps/**"]
 
