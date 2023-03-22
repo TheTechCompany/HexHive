@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-    paths: ["packages/infrastructure/apps/**", "packages/infrastructure/db/**", "packages/core/**", "packages/backends/**"]
+    paths: [".github/workflows/infrastructure.yml", "packages/infrastructure/apps/**", "packages/infrastructure/db/**", "packages/core/**", "packages/backends/**"]
 
 concurrency: infra-${{ github.ref }}
 
