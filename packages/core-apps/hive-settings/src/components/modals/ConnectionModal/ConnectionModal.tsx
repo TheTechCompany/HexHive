@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import {BaseModal} from '@hexhive/ui'
-import { Box, List, CheckBox, Text, Select } from 'grommet'
+import { Box } from '@mui/material'
 import { FormInput } from '../../FormInput/FormInput';
 import { FormLabel } from '../../FormInput/wrapper';
 import { HiveIntegration, HiveIntegrationInstance, HiveIntegrationPath } from '@hexhive/client';

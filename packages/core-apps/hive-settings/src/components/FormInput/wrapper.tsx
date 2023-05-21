@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Text } from 'grommet'
+import { Box, Typography } from '@mui/material'
 
 export const FormLabel = (props) => {
 		return (  
-			<Box direction="column">
-				<Text size="small">{props.label}</Text>
+			<Box>
+				<Typography>{props.label}</Typography>
 				{props.children}				
 			</Box>
 		)

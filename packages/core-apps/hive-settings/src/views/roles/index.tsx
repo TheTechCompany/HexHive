@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@hexhive/client";
-import { Box, List } from "grommet";
+import { Box } from "@mui/material";
 import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { RoleModal } from "../../components/modals/RoleModal/RoleModal";
@@ -88,7 +88,7 @@ export const Roles = () => {
 	
 	
 	return (
-		<Box flex>
+		<Box>
 			<RoleModal 
 				apps={apps}
 				selected={selected}

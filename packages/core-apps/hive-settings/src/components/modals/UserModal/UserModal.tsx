@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Text, List, CheckBox, TextInput } from 'grommet'
+import { Box, Typography, List, Checkbox, ListItemButton } from '@mui/material'
 import {BaseModal} from '@hexhive/ui'
 import { FormInput } from '../../FormInput/FormInput';
 
@@ -14,7 +14,7 @@ export const UserModal = (props) => {
 	useEffect(() => {
 		if(props.selected){
 			setUser(props.selected)
-			setSelectedRoles(props.selected?.roles?.map((x) => x.id))
+			setSelectedRoles((props.selected?.roles || []).map((x) => x.id))
 		}
 	}, [props.selected])
 
@@ -44,33 +44,32 @@ const toggleSelected = (item: any) => {
 			onClose={props.onClose}>
 			
 			<FormInput
+				sx={{marginTop: '12px'}}
 				value={user?.name}
 				onChange={(e) => setUser({...user, name: e.target.value})}
 				label="Name" />
+
 			<FormInput
+				sx={{marginTop: '12px'}}
 				value={user?.email}
 				onChange={(e) => setUser({...user, email: e.target.value})}	
 				label="Email"
 				 />
 				
 			<Box>
-				<Text size="small">Roles</Text>
+				<Typography>Roles</Typography>
 				{/* <TextInput 	
 					size="small"
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
 					placeholder="Search..." /> */}
-				<List
-					pad="none"
-					primaryKey="name"
-					onClickItem={({item}) => toggleSelected(item)}
-					data={props.roles.filter((a) => !search || a.name.indexOf(search) > -1)}>
-					{(datum) => (
-						<Box gap="xsmall" margin={{vertical: 'xsmall'}} direction="row" align="center">
-							<CheckBox onChange={() => toggleSelected(datum)} checked={selectedRoles.indexOf(datum.id) > -1} />
-							<Text size="small">{datum.name}</Text>
-						</Box>
-					)}
+				<List>
+					{props.roles.filter((a) => !search || a.name.indexOf(search) > -1).map((datum) => (
+						<ListItemButton onClick={() => toggleSelected(datum)} >
+							<Checkbox onChange={() => toggleSelected(datum)} checked={selectedRoles?.indexOf(datum.id) > -1} />
+							<Typography>{datum.name}</Typography>
+						</ListItemButton>
+					))}
 				</List>
 			</Box>
 		</BaseModal>

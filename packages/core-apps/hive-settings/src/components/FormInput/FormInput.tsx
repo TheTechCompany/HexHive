@@ -1,14 +1,14 @@
-import { Box, Text, TextInput } from 'grommet';
+import { Box, Typography, TextField } from '@mui/material';
 import React from 'react';
 
 export const FormInput = (props) => {
 	return (  
-		<Box direction="column">
-			<Text size="small">{props.label}</Text>
-			<TextInput 
+			<TextField
+				sx={props.sx}
+				fullWidth
+				size='small'
+				label={props.label} 
 				value={props.value}
-				onChange={props.onChange}
-				placeholder={props.label} />
-		</Box>
+				onChange={props.onChange} />
 	)
 }

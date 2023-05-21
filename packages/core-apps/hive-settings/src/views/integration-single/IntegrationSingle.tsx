@@ -1,5 +1,5 @@
-import { Box, Button, List, Text } from 'grommet';
-import { Add, Play, Edit, Stop } from 'grommet-icons';
+import { Box,IconButton, Button, List, ListItem, Typography } from '@mui/material';
+import { Add, PlayArrow, Edit, Stop } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { useQuery as useApollo, gql, useApolloClient } from '@apollo/client'
 import { IntegrationModal } from '../../components/modals/IntegrationModal/IntegrationModal';
@@ -120,12 +120,9 @@ export const IntegrationSingle = (props) => {
 	const apps = data?.hiveAppliances || []
 
 	return (
-		<Box flex>
+		<Box>
 			<Box
-				flex
-				overflow="hidden"
-				round="xsmall"
-				background="neutral-1">
+				>
 				<AppModal 
 					workers={apps}
 					onClose={() =>{
@@ -138,15 +135,10 @@ export const IntegrationSingle = (props) => {
 					}}
 					onSubmit={addConnection}
 					open={connectionOpen} />
-				<Box
-					direction="row"
-					justify="between"
-					align="center"
-					pad="xsmall"
-					background="accent-2">
-					<Text>{instances?.name}</Text>
-					<Box direction="row" align="center">
-						<Button 
+				<Box>
+					<Typography>{instances?.name}</Typography>
+					<Box>
+						<IconButton 
 							onClick={() => {
 								updateState({args: {
 									id: props.match.params.id,
@@ -155,73 +147,62 @@ export const IntegrationSingle = (props) => {
 									refetchIntegrations()
 								})
 							}}
-							plain 
-							style={{padding: 6, borderRadius: 3}} 
-							hoverIndicator 
-							icon={instances?.isRunning ? <Stop size="small" /> : <Play size="small" />} />
-						<Button
+							>
+							{instances?.isRunning ? <Stop  /> : <PlayArrow  />}
+						</IconButton>
+						<IconButton
 							onClick={() => {
 								navigate(`edit`)
 							}}
-							hoverIndicator
-							plain
-							style={{padding: 6, borderRadius: 3}}
-							size="small"
-							icon={<Edit size="small" />} />	
+						>
+							<Edit />
+						</IconButton>
+							
 					</Box>
 				</Box>
-				<Box gap="xsmall" flex direction="row">
-					<Box gap="xsmall" flex>
-						<Box 	
-							pad="xsmall"
-							elevation="small"
-							flex>
-							<Text size="small">Usage</Text>
+				<Box>
+					<Box >
+						<Box 	>
+							<Typography>Usage</Typography>
 
 							{/* <Text>$20</Text> */}
 						</Box>
-						<Box
-							pad="xsmall"
-							elevation="small"
-							flex>
-							<Box 
-								border={{side: 'bottom', size: 'small'}}
-								align="center"
-								justify="between"
-								direction="row">
-							<Text size="small">Connections</Text>
-							<Button	
+						<Box>
+							<Box >
+							<Typography >Connections</Typography>
+							<IconButton	
 								onClick={() => openConnections(true)}
-								hoverIndicator
-								icon={<Add size='small' />} 
-								size="small" />
+							>
+								<Add />
+							</IconButton>
+
 							</Box>
-						<List 
-							primaryKey={"name"}
-							data={instances?.connections || []} />
+						<List >
+							{instances?.connections?.map((conn) => (
+								<ListItem>
+									{conn.name}
+								</ListItem>
+							))}
+						</List>
  
 						</Box>
 					</Box>
-					<Box
-						pad="xsmall"
-						elevation="small"
-						width="medium">
-						<Box
-							border={{side: 'bottom', size: 'small'}}
-							align="center"
-							justify="between"
-							direction="row">
-							<Text size="small">Apps</Text>
+					<Box>
+						<Box>
+							<Typography>Apps</Typography>
 
-							<Button 
+							<IconButton 
 								onClick={() => openModal(true)}
-								size="small" 
-								hoverIndicator 
-								icon={<Add size="small" />} />
+								>
+								<Add  />
+							</IconButton>
+							
 						</Box>
-						<List 
-							primaryKey="name"
-							data={instances?.appliances ? instances?.appliances : []} />
+						<List >
+							{instances?.appliances?.map((app) => (
+								<ListItem>{app.name}</ListItem>
+							))}
+						</List>
 
 					</Box>
 				</Box>

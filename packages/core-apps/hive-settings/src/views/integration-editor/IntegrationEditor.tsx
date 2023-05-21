@@ -1,5 +1,5 @@
-import { Box, Button, Text } from 'grommet';
-import { Add } from 'grommet-icons';
+import { Box, IconButton, Typography } from '@mui/material';
+import { Add } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { MappingModal } from '../../components/modals/MappingModal';
 import { useQuery as useApollo, gql } from '@apollo/client'
@@ -51,7 +51,7 @@ export const IntegrationEditor = (props) => {
 	const connections = data?.hiveIntegrationInstances?.[0]?.connections || [];
 
 	return (
-		<Box flex>
+		<Box>
 			<MappingModal 
 				appliances={appliances}
 				connections={connections}
@@ -60,27 +60,18 @@ export const IntegrationEditor = (props) => {
 				}}
 				open={mapOpen} />
 			<Box
-				flex 
-				overflow="hidden"
-				round="xsmall" 
-				background="neutral-1">
+				>
 				<Box
-					justify="between"
-					align="center"
-					background="accent-2" 
-					pad="xsmall" 
-					direction="row">
-					<Text size="small">Integration</Text>
+					>
+					<Typography>Integration</Typography>
 
-					<Button
+					<IconButton
 						onClick={() => {
 							openMap(true)
 						}}
-						plain
-						style={{padding: 6, borderRadius: 3}}
-						hoverIndicator
-						size="small"
-						icon={<Add size="small" />} />
+					>
+						<Add />
+					</IconButton>
 				</Box>
 			</Box>
 		</Box>

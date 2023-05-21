@@ -1,8 +1,8 @@
-import { Box, Text, Button, List } from 'grommet';
-import { Add, MoreVertical } from 'grommet-icons'
+import { Box, Divider, Typography, ListItem, ListItemButton, Button, IconButton, List } from '@mui/material';
+import { Add, MoreVert } from '@mui/icons-material'
 import React from 'react';
 
-export interface CRUDListProps { 
+export interface CRUDListProps {
 	data?: any[]
 	displayKeys?: string[];
 	onClick?: (item: any) => void;
@@ -12,41 +12,48 @@ export interface CRUDListProps {
 	elevation?: string;
 }
 
-export const CRUDList : React.FC<CRUDListProps> = (props) => {
+export const CRUDList: React.FC<CRUDListProps> = ({
+	data = [],
+	onClick,
+	onCreate,
+	onMore,
+	displayKeys = []
+}) => {
 	return (
 		<Box
-			elevation={props.elevation || 'small'}
-			flex 
-			overflow="hidden"
-			background="neutral-1" 
-			round="xsmall">
-			<Box background="accent-2" pad="xsmall" direction="row" justify="end" align="center">
-				<Button 	
-					plain
-					style={{padding: 6, borderRadius: 3}}
-					onClick={props.onCreate}
-					hoverIndicator 
-					icon={<Add size='small' />} />
-			</Box>
+			sx={{ flex: 1 }}
+		>
+			{onCreate ? (<>
+				<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<IconButton
+						onClick={onCreate}>
+						<Add />
+					</IconButton>
+				</Box>
+				<Divider />
+			</>) : null}
 			<Box
-				overflow="scroll"
-				flex>
-			<List 
-				pad="none"
-				data={props.data}
-				border={false} 
-					>
-				{(datum) => (
-					<Box align="center" justify="between" direction="row">
-						<Box hoverIndicator pad="small" flex onClick={() => props.onClick?.(datum)}>
-							{props.displayKeys?.map((key) => (
-								<Text>{datum[key]}</Text>
-							))}
-						</Box>
-						<Button onClick={() => props.onMore?.(datum)} icon={<MoreVertical size="15px" />} hoverIndicator />
-					</Box>
-				)}
-			</List>
+				sx={{ flex: 1 }}>
+				<List
+
+				>
+					{data.map((datum) => (
+						<ListItem
+							secondaryAction={onMore ? (
+								<IconButton onClick={() => onMore?.(datum)}>
+									<MoreVert />
+								</IconButton>
+							) : null}
+							sx={{ display: 'flex' }}>
+							<ListItemButton onClick={() => onClick?.(datum)}>
+								{displayKeys?.map((key) => (
+									<Typography>{datum[key]}</Typography>
+								))}
+							</ListItemButton>
+
+						</ListItem>
+					))}
+				</List>
 			</Box>
 		</Box>
 	)

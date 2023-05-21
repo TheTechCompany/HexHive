@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, List } from 'grommet'
+import { Box } from '@mui/material'
 
 export const Home = (props) => {
 	return (
-		<Box direction="row">
+		<Box >
 		
 			<Box>
 

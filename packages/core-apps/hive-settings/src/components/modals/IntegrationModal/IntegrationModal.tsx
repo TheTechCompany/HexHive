@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import {BaseModal} from '@hexhive/ui'
-import { Box, List, CheckBox, Text, Select } from 'grommet'
+import { Box, Select, MenuItem } from '@mui/material'
 import { FormInput } from '../../FormInput/FormInput';
 import { FormLabel } from '../../FormInput/wrapper';
 import { HiveIntegration, HiveIntegrationInstance } from '@hexhive/client';
@@ -50,12 +50,12 @@ export const IntegrationModal = (props) => {
 					onChange={(e) => setIntegration({...integration, name: e.target.value})}
 					label="Name" />
 
-				<FormLabel label="Worker">
 					<Select 
-						placeholder="Worker"
-						labelKey="name"
-						options={props.workers} />
-				</FormLabel>
+						label="Worker">
+						{props.workers.map((worker) => (
+							<MenuItem value={worker.id}>{worker.name}</MenuItem>
+						))}
+					</Select>
 
 			</Box>
 		</BaseModal>
