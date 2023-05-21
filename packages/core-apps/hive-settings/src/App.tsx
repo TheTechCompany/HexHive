@@ -1,7 +1,7 @@
-import { Box, List, Typography } from '@mui/material';
+import { Box, List, ListItem, ListItemButton, Typography, Divider } from '@mui/material';
 import React from 'react';
 import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
-import { Apps } from './views/apps';
+import { Apps as AppsView } from './views/apps';
 import { Home } from './views/home';
 import { Roles } from './views/roles';
 import { Usage } from './views/usage';
@@ -11,8 +11,8 @@ import { AppSingle } from './views/app-single/AppSingle';
 import { IntegrationList } from './views/integration-list';
 import { IntegrationSingle } from './views/integration-single';
 import { IntegrationEditor } from './views/integration-editor';
-
-import { Sidebar } from '@hexhive/ui'
+import { AdminPanelSettings, Apps, IntegrationInstructions, Assessment, Person } from '@mui/icons-material'
+import { Sidebar } from './components/sidebar'
 
 const API_URL = localStorage.getItem('HEXHIVE_API') || process.env.REACT_APP_API;
 
@@ -28,26 +28,21 @@ export const App = (props)=> {
 
 	console.log(props)
 	const menu = [
-		{label: "Users", path: 'users'},
-		{label: "Roles", path: 'roles'}, 
-		{label: "Apps", path: 'apps'}, 
-		{label: "Integrations", path: 'integrations'}, 
-		{label: "Usage", path: "usage"}]
+		{label: "Users", path: 'users', icon: <Person />},
+		{label: "Roles", path: 'roles', icon: <AdminPanelSettings /> }, 
+		{label: "Apps", path: 'apps', icon: <Apps />}, 
+		// {label: "Integrations", path: 'integrations', icon: <IntegrationInstructions />}, 
+		// {label: "Usage", path: "usage", icon: <Assessment />}]
+	]
 
-	const onNavigate = ({item}) => {
-		navigate(`${item.path}`)
-	}
 
 	return (
 		<ApolloProvider client={client}>
 
-		<Box  sx={{display: 'flex', flex: 1}}>
-			<Sidebar
-				menu={menu}
-				onSelect={(item) => {
-					onNavigate({item: item})
-				}}
-				/>
+		<Box sx={{display: 'flex', flex: 1}}>
+			<Sidebar items={menu} />
+			
+			<Divider sx={{ marginRight: '12px'}} orientation='vertical' />
 			{/* <Box width="small" background="brand">
 				<List
 					onClickItem={onNavigate}
@@ -61,13 +56,13 @@ export const App = (props)=> {
 					)}
 				</List>
 			</Box> */}
-			<Box sx={{flex: 1}}>
+			<Box sx={{flex: 1, paddingTop: '12px', paddingRight: '12px'}}>
 				<Routes>
 					<Route path="" element={<Home/>} />
 					<Route path="users" element={<Users/>} />
 					<Route path="roles" element={<Roles/>} />
 					<Route path="apps" element={<Outlet />} >
-						<Route path="" element={<Apps />} />
+						<Route path="" element={<AppsView />} />
 						<Route path="apps/:id" element={<AppSingle/>} />
 					</Route>
 					<Route path="integrations" element={<Outlet />} >

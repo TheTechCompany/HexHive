@@ -1,4 +1,4 @@
-import { Box, List } from "grommet";
+import { Box } from "@mui/material";
 import React from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { useQuery } from '@hexhive/client'
@@ -11,18 +11,16 @@ export const Apps = (props) => {
 
 	const { data } = useApollo(gql`
 		query Q {
-			hiveOrganisations {
-				appliances {
-					... on HiveAppliance {
+			organisation {
+				applications {
 						id
 						name
-					}
 				}
 			}
 		}
 	`)
 	
-	const apps = data?.hiveOrganisations?.[0]?.appliances || [];
+	const apps = data?.organisation?.applications || [];
 
 	// const query = useQuery({
 	// 	suspense: false,
@@ -32,7 +30,7 @@ export const Apps = (props) => {
 	// const apps = query.hiveAppliances()
 
 	return (
-		<Box flex>
+		<Box>
 			<CRUDList	
 				onClick={(item) => {
 					navigate(`apps/${item.id}`)

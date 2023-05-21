@@ -1,14 +1,9 @@
 import { config as dotenv } from "dotenv";
 dotenv();
 
-import neo4j, { Driver, int, Session } from "neo4j-driver";
-import express, { Express, Router } from "express";
-import MongoStore from "connect-mongo";
-import session from "express-session";
-import cookieParser from "cookie-parser";
+import { Router } from "express";
 import { HiveMicrofrontendServer } from "@hexhive/microfrontend-server";
 import { frontendRouter } from "./router";
-
 
 export interface HiveFrontendRoute {
   route: string;
@@ -26,8 +21,6 @@ export interface HiveFrontendOptions {
 export class HiveFrontendServer {
   private app: Router;
 
-  private neoDriver?: Driver;
-  private neoSession?: Session;
   private redisClient: any;
   private frontendRegistry: HiveMicrofrontendServer;
 

@@ -1,4 +1,3 @@
-import { Grommet } from "grommet";
 import { BrowserRouter as Router, Route, Routes  } from "react-router-dom";
 import { App } from "./App";
 import { HexHiveTheme } from '@hexhive/styles'
@@ -12,7 +11,7 @@ export default function Root(props) {
         <ThemeProvider theme={HexHiveTheme}>
           <Router basename={process.env.PUBLIC_URL || "/dashboard/settings"}>
             <Routes>
-             <Route path="*" element={<App/>} />
+              <Route path="*" element={<App/>} />
             </Routes>
           </Router>
         </ThemeProvider>

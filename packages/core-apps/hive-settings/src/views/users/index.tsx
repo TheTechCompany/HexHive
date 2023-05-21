@@ -1,4 +1,4 @@
-import { Box, List } from "grommet";
+import { Box } from "@mui/material";
 import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { resolved, useMutation, useQuery } from '@hexhive/client'
@@ -16,19 +16,24 @@ export const Users = () => {
 	const query = useQuery({suspense: false, staleWhileRevalidate: true})
 
 	const { data } = useApollo(gql`
-		query Q{
+		query UsersAndRoles{
 			users {
 				id
 				name
 				email
 
 			}
+
+			roles {
+				id
+				name
+			}
 		
 		}
 	`)
 
 	const refetch = () => {
-		client.refetchQueries({include: ['Q']})
+		client.refetchQueries({include: ['UsersAndRoles']})
 	}
 
 
@@ -95,7 +100,7 @@ export const Users = () => {
 	console.log(users)
 
 	return (
-		<Box flex>
+		<Box sx={{flex: 1}}>
 			<CRUDList
 				onMore={(item) => {
 					setSelected(item)

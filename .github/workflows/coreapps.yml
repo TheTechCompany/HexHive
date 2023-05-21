@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - staging
-      - next
       - master
-    paths: ["packages/core-apps/**"]
+    paths: [".github/workflows/coreapps.yml", "packages/core-apps/**"]
 
 jobs:
   build_coreapps:

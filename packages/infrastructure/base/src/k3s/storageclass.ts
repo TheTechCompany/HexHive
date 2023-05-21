@@ -36,6 +36,7 @@ export default (provider: Provider) => {
         provisioner: 'kubernetes.io/aws-ebs',
         volumeBindingMode: 'WaitForFirstConsumer',
         reclaimPolicy: 'Retain',
+        allowVolumeExpansion: true,
         parameters: {
             type: 'gp3',
             iopsPerGB: '10',

@@ -15,7 +15,6 @@ export const isUpload = (variable: any) => {
 export const extractFiles = (variables: any) => {
 	let files = [];
 	for(var k in variables){
-		console.log({k, array: Array.isArray(variables[k]), upload: Array.isArray(variables[k]) && variables[k].map((x: any) => isUpload(x))})
 		if(isUpload(variables[k]) || (Array.isArray(variables[k]) && variables[k].map((x: any) => isUpload(x)).indexOf(true) > -1 )){
 			if(Array.isArray(variables[k])){
 				variables[k].forEach((v: any, ix: number) => {

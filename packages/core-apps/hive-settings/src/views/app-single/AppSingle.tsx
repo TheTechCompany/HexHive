@@ -1,5 +1,5 @@
-import { Box, Button, List, Text } from 'grommet';
-import { Add } from 'grommet-icons';
+import { Box, Button, IconButton, List, ListItem, Typography } from '@mui/material';
+import { Add } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { useQuery as useApollo, gql, useApolloClient } from '@apollo/client'
 import { IntegrationModal } from '../../components/modals/IntegrationModal/IntegrationModal';
@@ -69,12 +69,9 @@ export const AppSingle = (props) => {
 	const app = data?.hiveAppliances?.[0] || {}
 
 	return (
-		<Box flex>
+		<Box>
 			<Box
-				flex
-				overflow="hidden"
-				round="xsmall"
-				background="neutral-1">
+				>
 					<IntegrationModal
 						workers={integrations}
 						open={modalOpen}
@@ -87,44 +84,36 @@ export const AppSingle = (props) => {
 							openModal(false)
 						}} />
 				<Box
-					pad="xsmall"
-					background="accent-2">
-					<Text>{app.name}</Text>
+					>
+					<Typography>{app.name}</Typography>
 				</Box>
-				<Box gap="xsmall" flex direction="row">
-					<Box gap="xsmall" flex>
-						<Box 	
-							pad="xsmall"
-							elevation="small"
-							flex>
-							<Text size="small">Usage</Text>
+				<Box >
+					<Box >
+						<Box >
+							<Typography>Usage</Typography>
 
 							{/* <Text>$20</Text> */}
 						</Box>
-						<Box flex>
+						<Box >
 
 						</Box>
 					</Box>
-					<Box
-						pad="xsmall"
-						elevation="small"
-						width="medium">
-						<Box
-							border={{side: 'bottom', size: 'small'}}
-							align="center"
-							justify="between"
-							direction="row">
-							<Text size="small">Integrations</Text>
+					<Box>
+						<Box>
+							<Typography>Integrations</Typography>
 
-							<Button 
+							<IconButton 
 								onClick={() => openModal(true)}
 								size="small" 
-								hoverIndicator 
-								icon={<Add size="small" />} />
+								>
+								<Add />
+							</IconButton>
 						</Box>
-						<List 
-							primaryKey="name"
-							data={instances} />
+						<List >
+							{instances.map((instance) => (
+								<ListItem>{instance.name}</ListItem>
+							))}
+						</List>
 
 					</Box>
 				</Box>

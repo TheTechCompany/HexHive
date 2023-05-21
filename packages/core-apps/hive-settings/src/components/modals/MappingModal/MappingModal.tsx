@@ -1,5 +1,5 @@
 import { BaseModal } from '@hexhive/ui';
-import { Select , Text, Box, TextArea, TextInput} from 'grommet';
+import { Select, Typography, MenuItem, Box } from '@mui/material';
 import React, { useState } from 'react';
 
 export const MappingModal = (props) => {
@@ -14,48 +14,56 @@ export const MappingModal = (props) => {
 			open={props.open}
 			onClose={props.onClose}>
 			<Box	
-				flex
-				gap="xsmall">
+				>
 		
 				<Select
-					placeholder="Application"
-					labelKey="name"
-					key="id"
+					label="Application"
 					value={appliance}
-					onChange={({value}) => {
-						console.log(value)
-						 setAppliance(value)
-					}}
-					options={props.appliances} />
+					onChange={(e, newValue) => {
+						 setAppliance(newValue)
+					}}>
+					{props.appliances.map((appliance) => (
+						<MenuItem value={appliance.id}>{appliance.name}</MenuItem>
+					))}
+				</Select>
 
 				<Select 
-					placeholder="Type" 
-					labelKey="name"
+					label="Type" 
 					value={type}
-					onChange={({value}) => {
-						setType(value)
-					}}
-					options={appliance?.types || []}/>
+					onChange={(e, newValue) => {
+						setType(newValue)
+					}}>
+
+					{appliance.types?.map((type) => (
+						<MenuItem value={type.id}>{type.name}</MenuItem>
+					))}
+				</Select>
 				
 				<Select
-					placeholder="Connection" 
-					labelKey="name"
+					label="Connection" 
 					value={connection}
-					onChange={({value}) => {
-						setConnection(value)
+					onChange={(e, newValue) => {
+						setConnection(newValue)
 					}}
-					options={props.connections} />
+					>
+					{props.connections?.map((connection) => (
+						<MenuItem value={connection.id}>{connection.name}</MenuItem>
+					))}
+				</Select>
+
 				<Select
-					placeholder="Table" 
-					labelKey="name"
-					options={connection?.collections || []} />
+					label="Table">
+					
+					{(connection?.collections || []).map((item) => (
+						<MenuItem value={item.id}>{item.name}</MenuItem>
+					))}
+				</Select>
 				
-				<Box flex>
+				<Box>
 					{type?.fields?.map((field) => (
 						<Box
-							align="center"
-							direction="row">
-							<Text size="small">{field.name}</Text>
+							>
+							<Typography>{field.name}</Typography>
 						</Box>
 					))}
 				</Box>

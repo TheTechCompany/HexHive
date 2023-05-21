@@ -43,6 +43,7 @@
   "dependencies": {
     "@gqless/react": "^2.0.15",
     "@gqty/react": "^2.1.0",
+    "@graphql-tools/delegate": "^9.0.28",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "gqty": "^2.1.0",

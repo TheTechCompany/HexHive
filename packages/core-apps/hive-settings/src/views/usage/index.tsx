@@ -1,23 +1,16 @@
-import { Box, Text } from "grommet";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import { LineChart, XAxis, Tooltip, CartesianGrid, Line } from 'recharts';
 export const Usage = () => {
 	const data = [];
 	return (
 		<Box 
-			align={'start'}
-			wrap
-			gap="xsmall"
-			direction="row"
-			flex>
+			sx={{flex: 1}}>
 			{/* Disk Usage */}
-			<Box 
-				round="xsmall"
-				overflow="hidden"
-				elevation="small"
-				background="neutral-1">
-			<Box pad="xsmall" background="accent-2">
-				<Text>Disk Usage</Text>
+			<Box >
+			
+			<Box >
+				<Typography>Disk Usage</Typography>
 			</Box>
 			<LineChart
 				width={400}
@@ -33,13 +26,9 @@ export const Usage = () => {
 			</LineChart>
 			</Box>
 			{/* Network Usage */}
-			<Box 
-				round="xsmall"
-				overflow="hidden"
-				elevation="small"
-				background="neutral-1">
-			<Box pad="xsmall" background="accent-2">
-				<Text>Network Usage</Text>
+			<Box >
+			<Box>
+				<Typography>Network Usage</Typography>
 			</Box>
 			<LineChart
 				width={400}
@@ -55,13 +44,9 @@ export const Usage = () => {
 			</LineChart>
 			</Box>
 			{/* CPU */}
-			<Box 
-				round="xsmall"
-				overflow="hidden"
-				elevation="small"
-				background="neutral-1">
-			<Box pad="xsmall" background="accent-2">
-				<Text>CPU Usage</Text>
+			<Box >
+			<Box>
+				<Typography>CPU Usage</Typography>
 			</Box>
 
 			<LineChart
@@ -79,12 +64,9 @@ export const Usage = () => {
 			</Box>
 			{/* Memory Usage */}
 			<Box 
-				round="xsmall"
-				overflow="hidden"
-				elevation="small"
-				background="neutral-1">
-			<Box pad="xsmall" background="accent-2">
-				<Text>Memory Usage</Text>
+				>
+			<Box>
+				<Typography>Memory Usage</Typography>
 			</Box>
 			<LineChart
 				width={400}

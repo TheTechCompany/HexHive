@@ -13,30 +13,33 @@
      "graphql": ["../node_modules/graphql"],
      "graphql-tag": ["../node_modules/graphql-tag"],
      "graphql-compose": ["../node_modules/graphql-compose"],
+      "@graphql-tools/delegate": ["../node_modules/@graphql-tools/delegate"],
 
      "@hexhive/data": ["./core/hexhive-data/src"],
 
      "@hexhive/gateway": ["./backends/hive-gateway/src"],
      "@hexhive/frontend-server": ["./backends/hive-frontend/src"],
-     "@hexhive-core/login": ["./core-apps/hive-login/src"],
-     "@hexhive-core/login-v2": ["./core-apps/hive-login-v2/src"],
+
+     "@hexhive-core/settings": ["./core-apps/hive-settings/src"],
 
      "@hexhive/microfrontend-server": ["./core/hexhive-microfrontend/src"],
      "@gqty/react": ["../node_modules/@gqty/react"],
      "styled-components": ["../node_modules/styled-components"],
      "@types/styled-components": ["../node_modules/@types/styled-components"],
-     "@hexhive/client": ["./core/hexhive-client/src/gqty"],
+     "@hexhive/client": ["./core/hexhive-client/src"],
      "@hexhive/icons": ["./shared/hexhive-icons/src"],
 
      "@hexhive/patch": ["./workers/patch/src"],
      "@hexhive/mssql-worker": ["./workers/mssql-worker/src"],
      
      "@types/react": ["../node_modules/@types/react"],
+     
      "@types/react-router-dom": ["../node_modules/@types/react-router-dom"],
+     "react-router-dom": ["../node_modules/react-router-dom"],
+
      "@types/react-dom": ["../node_modules/@types/react-dom"],
      "@hexhive/auth-ui": ["./shared/hexhive-auth-ui/src"],
      "@hexhive/types": ["./shared/hexhive-types/src"],
-     "@hexhive/ui": ["./core/hexhive-ui/src"],
      "@hexhive/collaboration-client": ["./core/collaboration-client/src"],
      "@hexhive/collaboration-server": ["./core/collaboration-server/src"]
    }
