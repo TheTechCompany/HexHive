@@ -8,6 +8,8 @@ import { useAuth } from "@hexhive/auth-ui";
 export const Users = () => {
 	const client = useApolloClient()
 
+	const [ search, setSearch ] = useState('');
+
 	const { activeUser } = useAuth()
 
 	const [ selected, setSelected ] = useState<any>(undefined)
@@ -72,11 +74,18 @@ export const Users = () => {
 	`, {
 		refetchQueries: ['UsersAndRoles']
 	})
+
+	const searchFilter = (a: any) => {
+		return (!search || search.length == 0) || a.name.indexOf(search) > -1
+	}
 	
 
 	return (
-		<Box sx={{flex: 1}}>
+		<Box sx={{flex: 1, display: 'flex', minHeight: 0, flexDirection: 'column'}}>
 			<CRUDList
+				onSearch={(search) => setSearch(search)}
+				search={search}
+
 				onMore={(item) => {
 					setSelected(item)
 					openModal(true)
@@ -84,7 +93,7 @@ export const Users = () => {
 				onCreate={() => {
 					openModal(true)
 				}}
-				data={users}
+				data={users.filter(searchFilter)}
 				displayKeys={["name"]}/>
 			
 				<UserModal 

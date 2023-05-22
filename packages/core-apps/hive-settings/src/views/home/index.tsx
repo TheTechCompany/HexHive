@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 
 export const Home = (props) => {
 	return (
-		<Box >
+		<Box sx={{flex: 1, display: 'flex'}}>
 		
 			<Box>
 
