@@ -39,7 +39,7 @@ export const App = (props)=> {
 	return (
 		<ApolloProvider client={client}>
 
-		<Box sx={{display: 'flex', flex: 1}}>
+		<Box sx={{display: 'flex', minHeight: 0, flex: 1}}>
 			<Sidebar items={menu} />
 			
 			<Divider sx={{ marginRight: '12px'}} orientation='vertical' />
@@ -56,7 +56,7 @@ export const App = (props)=> {
 					)}
 				</List>
 			</Box> */}
-			<Box sx={{flex: 1, paddingTop: '12px', paddingRight: '12px'}}>
+			<Box sx={{flex: 1, display: 'flex', flexDirection: 'column', paddingTop: '12px', paddingRight: '12px'}}>
 				<Routes>
 					<Route path="" element={<Home/>} />
 					<Route path="users" element={<Users/>} />

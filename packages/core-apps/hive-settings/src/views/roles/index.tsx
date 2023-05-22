@@ -7,6 +7,9 @@ export const Roles = () => {
 
 	const client = useApolloClient()
 
+	const [ search, setSearch ] = useState('');
+
+
 	const [ selected, setSelected ] = useState<any>(undefined)
 	const [ modalOpen, openModal ] = useState<boolean>(false);
 
@@ -55,9 +58,12 @@ export const Roles = () => {
 		refetchQueries: ['Applications']
 	})
 
+	const searchFilter = (a: any) => {
+		return (!search || search.length == 0) || a.name.indexOf(search) > -1
+	}
 	
 	return (
-		<Box>
+		<Box sx={{flex: 1, minHeight: 0, display: 'flex'}}> 
 			<RoleModal 
 				apps={apps}
 				selected={selected}
@@ -77,10 +83,12 @@ export const Roles = () => {
 				open={modalOpen} 
 				onClose={() => openModal(false)} />
 			<CRUDList
+				search={search}
+				onSearch={(search) => setSearch(search)}
 				displayKeys={["name"]}
 				onMore={(item) => { setSelected(item); openModal(true) }}
 				onCreate={() => openModal(true)}
-				data={roles}/>
+				data={roles.filter(searchFilter)}/>
 		</Box>
 	)	
 }

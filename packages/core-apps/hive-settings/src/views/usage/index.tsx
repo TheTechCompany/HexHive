@@ -5,7 +5,7 @@ export const Usage = () => {
 	const data = [];
 	return (
 		<Box 
-			sx={{flex: 1}}>
+			sx={{flex: 1, minHeight: 0, display: 'flex'}}>
 			{/* Disk Usage */}
 			<Box >
 			

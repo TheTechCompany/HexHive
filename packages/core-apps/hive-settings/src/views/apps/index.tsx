@@ -10,6 +10,9 @@ export const Apps = (props) => {
 
 	const [ modalOpen, openModal ] = useState(false);
 
+	const [ search, setSearch ] = useState('');
+
+	
 	const navigate = useNavigate()
 
 	const { data } = useApollo(gql`
@@ -55,8 +58,12 @@ export const Apps = (props) => {
 	
 	// const apps = query.hiveAppliances()
 
+	const searchFilter = (a: any) => {
+		return (!search || search.length == 0) || a.name.indexOf(search) > -1
+	}
+
 	return (
-		<Box>
+		<Box sx={{flex: 1, minHeight: 0, display: 'flex'}}>
 			<AppModal 
 				onSubmit={(id) => {
 					createApp({
@@ -74,6 +81,8 @@ export const Apps = (props) => {
 				apps={available_apps}
 				open={modalOpen} />
 			<CRUDList	
+				onSearch={(search) => setSearch(search)}
+				search={search}
 				onClick={(item) => {
 					navigate(`apps/${item.id}`)
 				}}
@@ -81,7 +90,7 @@ export const Apps = (props) => {
 					openModal(true)
 				}}
 				displayKeys={["name"]}
-				data={apps}/>
+				data={apps.filter(searchFilter)}/>
 		</Box>
 	)	
 }
