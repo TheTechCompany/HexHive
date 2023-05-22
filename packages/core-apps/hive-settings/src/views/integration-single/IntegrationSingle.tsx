@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import { useQuery as useApollo, gql, useApolloClient } from '@apollo/client'
 import { IntegrationModal } from '../../components/modals/IntegrationModal/IntegrationModal';
 import { client, useMutation } from '@hexhive/client';
-import { AppModal } from '../../components/modals/AppModal/AppModal';
 import { ConnectionModal } from '../../components/modals/ConnectionModal';
 import { useNavigate } from 'react-router-dom';
+
 export const IntegrationSingle = (props) => {
 
 	const navigate = useNavigate()
@@ -123,7 +123,7 @@ export const IntegrationSingle = (props) => {
 		<Box>
 			<Box
 				>
-				<AppModal 
+				<IntegrationModal 
 					workers={apps}
 					onClose={() =>{
 						openModal(false)

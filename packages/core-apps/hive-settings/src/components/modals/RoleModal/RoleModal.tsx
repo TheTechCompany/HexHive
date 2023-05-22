@@ -67,8 +67,10 @@ export const RoleModal = (props) => {
 				<Button onClick={() => {
 					props.onSubmit?.({
 						...role,
-						add_apps: selectedApps?.filter((selected) => role.appliances?.map((x) => x.id).indexOf(selected) < 0),
-						remove_apps: role.appliances?.filter((role) => selectedApps.indexOf(role.id) < 0).map((x) => x.id)
+						appliances: selectedApps
+
+						// add_apps: selectedApps?.filter((selected) => role.appliances?.map((x) => x.id).indexOf(selected) < 0),
+						// remove_apps: role.appliances?.filter((role) => selectedApps.indexOf(role.id) < 0).map((x) => x.id)
 
 					})
 				}} variant="contained" color="primary">{props.selected ? "Save" : "Create"}</Button>

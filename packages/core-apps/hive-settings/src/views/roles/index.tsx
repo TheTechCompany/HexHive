@@ -1,9 +1,8 @@
-import { useMutation, useQuery } from "@hexhive/client";
 import { Box } from "@mui/material";
 import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { RoleModal } from "../../components/modals/RoleModal/RoleModal";
-import { gql, useQuery as useApollo, useApolloClient } from '@apollo/client'
+import { gql, useMutation, useQuery as useApollo, useApolloClient } from '@apollo/client'
 export const Roles = () => {
 
 	const client = useApolloClient()
@@ -11,15 +10,12 @@ export const Roles = () => {
 	const [ selected, setSelected ] = useState<any>(undefined)
 	const [ modalOpen, openModal ] = useState<boolean>(false);
 
-	const query = useQuery({suspense: false, staleWhileRevalidate: true})
 
 	const { data } = useApollo(gql`
-		query Q {
-			organisation {
-				applications {
-					id
-					name
-				}
+		query Applications {
+			hiveAppliances(owned: true){
+				id
+				name
 			}
 			roles {
 				id
@@ -32,60 +28,28 @@ export const Roles = () => {
 	}
 
 	const roles = data?.roles || [];
-	const apps = data?.organisation?.applications || [];
+	const apps = data?.hiveAppliances || [];
 
-	const [ createRole, createInfo ] = useMutation((mutation, args: {name: string, email: string, add_apps?: string[]}) => {
-		const item = mutation.createRole({
-			input: {
-				name: args.name
-			}
-		})
-		// const user = mutation.updateHiveOrganisations({update: {
-		// 	roles: [{create: [{node: {name: args.name, appliances: {connect: [{where: {node: { id_IN: args.add_apps}}}]} } } ]}]
-		// }})
-		// return {
-		// 	item : {
-		// 		...user.hiveOrganisations[0]
-		// 	},
-		// 	err: null
-		// }
-		return {
-			item: {
-				...item
+	const [ createRole ] = useMutation(gql`
+		mutation CreateRole($name: String, $appliances: [String]) {
+			createRole(input: {name: $name, appliances: $appliances}){
+				id
 			}
 		}
-	}, {
-		refetchQueries: [],
-		awaitRefetchQueries: true
+	`, {
+		refetchQueries: ['Applications']
 	})
 
-	const [ updateRole, updateInfo ] = useMutation((mutation, args: {id: string, name: string, add_apps?: string[], remove_apps?: string[]}) => {
-		if(!args.id) return {err: "No ID"}
-		const item = mutation.updateRole({
-			id: args.id,
-			input: {
-				name: args.name
-			}
-		})
-		// const user = mutation.updateHiveOrganisations({update: {
-		// 	roles: [{update: {node: {name: args.name, appliances:[ {connect: [{where: {node: {id_IN: args.add_apps}}}], disconnect: [{where: {node: {id_IN: args.remove_apps}}}]}] }}, where: {node: {id: args.id}}}]
-		// }})
-		// return {
-		// 	item : {
-		// 		...user.hiveOrganisations[0]
-		// 	},
-		// 	err: null
-		// }
-		return {
-			item: {
-				...item
+	const [ updateRole ] = useMutation(gql`
+		mutation UpdateRole($id: ID, $name: String, $appliances: [String]){
+			updateRole(id: $id, input: {name: $name, appliances: $appliances}){
+				id
 			}
 		}
-	}, {
-		refetchQueries: [],
-		awaitRefetchQueries: true
+	`, {
+		refetchQueries: ['Applications']
 	})
-	
+
 	
 	return (
 		<Box>
@@ -94,12 +58,12 @@ export const Roles = () => {
 				selected={selected}
 				onSubmit={(role) => {
 					if(role.id){
-						updateRole({args: {...role}}).then(() => {
+						updateRole({variables: {...role}}).then(() => {
 							openModal(false)
 							refetch()
 						})
 					}else{
-						createRole({args: {...role}}).then(() => {
+						createRole({variables: {...role}}).then(() => {
 							openModal(false)
 							refetch()
 						})

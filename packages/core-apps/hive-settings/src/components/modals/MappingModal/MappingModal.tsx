@@ -19,8 +19,8 @@ export const MappingModal = (props) => {
 				<Select
 					label="Application"
 					value={appliance}
-					onChange={(e, newValue) => {
-						 setAppliance(newValue)
+					onChange={(e) => {
+						 setAppliance(e.target.value)
 					}}>
 					{props.appliances.map((appliance) => (
 						<MenuItem value={appliance.id}>{appliance.name}</MenuItem>
@@ -30,8 +30,8 @@ export const MappingModal = (props) => {
 				<Select 
 					label="Type" 
 					value={type}
-					onChange={(e, newValue) => {
-						setType(newValue)
+					onChange={(e) => {
+						setType(e.target.value)
 					}}>
 
 					{appliance.types?.map((type) => (
@@ -42,8 +42,8 @@ export const MappingModal = (props) => {
 				<Select
 					label="Connection" 
 					value={connection}
-					onChange={(e, newValue) => {
-						setConnection(newValue)
+					onChange={(e) => {
+						setConnection(e.target.value)
 					}}
 					>
 					{props.connections?.map((connection) => (
