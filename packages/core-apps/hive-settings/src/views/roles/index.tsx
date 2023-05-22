@@ -20,6 +20,11 @@ export const Roles = () => {
 			roles {
 				id
 				name
+
+				applications {
+					id
+					name
+				}
 			}
 		}
 	`)
@@ -31,8 +36,8 @@ export const Roles = () => {
 	const apps = data?.hiveAppliances || [];
 
 	const [ createRole ] = useMutation(gql`
-		mutation CreateRole($name: String, $appliances: [String]) {
-			createRole(input: {name: $name, appliances: $appliances}){
+		mutation CreateRole($name: String, $applications: [String]) {
+			createRole(input: {name: $name, applications: $applications}){
 				id
 			}
 		}
@@ -41,8 +46,8 @@ export const Roles = () => {
 	})
 
 	const [ updateRole ] = useMutation(gql`
-		mutation UpdateRole($id: ID, $name: String, $appliances: [String]){
-			updateRole(id: $id, input: {name: $name, appliances: $appliances}){
+		mutation UpdateRole($id: ID, $name: String, $applications: [String]){
+			updateRole(id: $id, input: {name: $name, applications: $applications}){
 				id
 			}
 		}

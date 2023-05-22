@@ -18,7 +18,7 @@ export const RoleModal = (props) => {
 	useEffect(() => {
 		if (props.selected) {
 			setRole(props.selected)
-			setSelectedApps((props.selected?.appliances || []).map((x) => x.id))
+			setSelectedApps((props.selected?.applications || []).map((x) => x.id))
 		}
 	}, [props.selected])
 
@@ -67,7 +67,7 @@ export const RoleModal = (props) => {
 				<Button onClick={() => {
 					props.onSubmit?.({
 						...role,
-						appliances: selectedApps
+						applications: selectedApps
 
 						// add_apps: selectedApps?.filter((selected) => role.appliances?.map((x) => x.id).indexOf(selected) < 0),
 						// remove_apps: role.appliances?.filter((role) => selectedApps.indexOf(role.id) < 0).map((x) => x.id)
