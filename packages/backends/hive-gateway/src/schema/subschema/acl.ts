@@ -248,20 +248,12 @@ export default (prisma: PrismaClient) => {
 		Mutation: {
 			createUser: async (root: any, args: any, context: any) => {
 				return await prisma.$transaction(async (prisma: any) => {
-					const userCount = await prisma.user.count({
-						where: {
-							organisations: {
-								some:{
-									issuerId: context?.jwt?.organisation || context?.user?.organisation
-								}
-							}
-						}
-					})
+					
 
 					return await prisma.user.create({
 						data: {
 							id: nanoid(),
-							displayId: args.input.id || userCount + 1,
+							// displayId: args.input.id || userCount + 1,
 							name: args.input.name,
 							email: args.input.email,
 							password: args.input.password || 'unhashable',

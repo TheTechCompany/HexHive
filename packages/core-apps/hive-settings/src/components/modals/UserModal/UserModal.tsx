@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, Checkbox, ListItemButton } from '@mui/material'
+import { Box, Typography, List, Checkbox, FormControlLabel, ListItemButton } from '@mui/material'
 import {BaseModal} from '@hexhive/ui'
 import { FormInput } from '../../FormInput/FormInput';
 
 export const UserModal = (props) => {
 
 	const [ search, setSearch ] = useState<string>('')
-	const [ user, setUser ] = useState<{id?: string, name?: string, email?: string, roles?: {id?: string}[]}>({})
+	const [ user, setUser ] = useState<{
+		id?: string, 
+		name?: string, 
+		email?: string, 
+		inactive?: boolean,
+		roles?: {id?: string}[]
+	}>({})
 
 	const [ selectedRoles, setSelectedRoles ] = useState<any[]>([])
 	const [ removeRoles, setRemoveRoles ] = useState<any[]>([])
@@ -15,6 +21,9 @@ export const UserModal = (props) => {
 		if(props.selected){
 			setUser(props.selected)
 			setSelectedRoles((props.selected?.roles || []).map((x) => x.id))
+		}else{
+			setUser({})
+			setSelectedRoles([])
 		}
 	}, [props.selected])
 
@@ -58,6 +67,14 @@ const toggleSelected = (item: any) => {
 				label="Email"
 				 />
 				
+			<FormControlLabel
+				control={
+			<Checkbox	
+					checked={user.inactive}
+					onChange={(e) => setUser({...user, inactive: e.target.checked})}
+				 />
+				} 
+				label="Inactive" />
 			<Box>
 				<Typography>Roles</Typography>
 				{/* <TextInput 	

@@ -13,6 +13,8 @@ export interface CRUDListProps {
 	onSearch?: (search: string) => void;
 	search?: string;
 
+	renderItem?: (item: any) => any;
+
 	elevation?: string;
 }
 
@@ -23,7 +25,8 @@ export const CRUDList: React.FC<CRUDListProps> = ({
 	onMore,
 	onSearch,
 	search,
-	displayKeys = []
+	displayKeys = [],
+	renderItem
 }) => {
 
 	const header = useMemo(() => {
@@ -67,11 +70,13 @@ export const CRUDList: React.FC<CRUDListProps> = ({
 								</IconButton>
 							) : null}
 							sx={{ display: 'flex' }}>
-							<ListItemButton onClick={() => onClick?.(datum)}>
-								{displayKeys?.map((key) => (
-									<Typography>{datum[key]}</Typography>
-								))}
-							</ListItemButton>
+							{renderItem ? renderItem(datum) : (
+								<ListItemButton onClick={() => onClick?.(datum)}>
+									{displayKeys?.map((key) => (
+										<Typography>{datum[key]}</Typography>
+									))}
+								</ListItemButton>
+							)}
 
 						</ListItem>
 					))}

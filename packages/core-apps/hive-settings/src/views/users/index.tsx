@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, ListItemButton, Typography } from "@mui/material";
 import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { UserModal } from "../../components/modals/UserModal/UserModal";
@@ -21,6 +21,8 @@ export const Users = () => {
 				id
 				name
 				email
+
+				inactive
 
 				roles {
 					id
@@ -56,8 +58,8 @@ export const Users = () => {
 	// const roles = query.roles({})
 
 	const [ createUser ] = useMutation(gql`
-		mutation CreateUser ($name: String, $email: String, $roles: [String]) {
-			createUser(input: {name: $name, email: $email, roles: $roles}){
+		mutation CreateUser ($input: UserInput) {
+			createUser(input: $input){
 				id
 			}
 		}
@@ -66,8 +68,8 @@ export const Users = () => {
 	})
 
 	const [ updateUser ] = useMutation(gql`
-		mutation UpdateUser ($id: ID, $name: String, $email: String, $roles: [String] ){
-			updateUser(id: $id, input: {name: $name, email: $email, roles: $roles}){
+		mutation UpdateUser ($id: ID, $input: UserInput ){
+			updateUser(id: $id, input: $input){
 				id
 			}
 		}
@@ -93,23 +95,46 @@ export const Users = () => {
 				onCreate={() => {
 					openModal(true)
 				}}
-				data={users.filter(searchFilter)}
-				displayKeys={["name"]}/>
+				data={users.filter(searchFilter).sort((a, b) => ((a.inactive || false) - (b.inactive || false)) || (((a.email.length == 0) as any) - ((b.email.length == 0) as any)) || (a.name).localeCompare(b.name)  )}
+				displayKeys={["name"]}
+				renderItem={(item) => (
+					<ListItemButton sx={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}} disabled={item.inactive}>
+						<Typography>{item.name}</Typography>
+						<Typography fontSize={'12px'}>{item.inactive ? "account inactive" : (!item.email || item.email.length == 0) ? "not setup" : ""}</Typography>
+					</ListItemButton>
+				)}/>
 			
 				<UserModal 
 					roles={roles}
 					selected={selected}
-					onClose={() => openModal(false)}
+					onClose={() => {
+						openModal(false)
+						setSelected(null)
+					}}
 					onSubmit={(user) => {
 						if(!user.id){
-							createUser({variables: {...user}}).then((data) => {
+							createUser({
+								variables: {
+									input: {
+										name: user.name,
+										roles: user.roles,
+										inactive: user.inactive,
+										email: user.email
+									}
+								}
+							}).then((data) => {
 								console.log(data)
 								openModal(false)
 								refetch()
 							})
 						}else{
 							console.log(user)
-							updateUser({variables: {...user}}).then((data) => {
+							updateUser({variables: {id: user.id, input: {
+								name: user.name,
+								roles: user.roles,
+								inactive: user.inactive,
+								email: user.email
+							}}}).then((data) => {
 								openModal(false)
 								refetch()
 							})
