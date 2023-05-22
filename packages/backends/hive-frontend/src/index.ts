@@ -60,17 +60,17 @@ export class HiveFrontendServer {
 
     const { views: externalViews, apps: externalApps } = await this.getExternalViews?.(req) || {};
 
-    const default_views = [
+    const default_views = ([
       {
         name: "@hexhive-core/dashboard",
         path: "/",
         default: true,
       },
-      {
-        name: '@hexhive-core/settings',
-        path: '/settings',
-      }
-    ].concat(
+      // {
+      //   name: '@hexhive-core/settings',
+      //   path: '/settings',
+      // }
+    ] as any).concat(
       this.routes.map(route => {
         return { name: route.key, path: route.route }
       })
@@ -80,14 +80,14 @@ export class HiveFrontendServer {
 
     const default_apps = [
 
-      {
-        name: '@hexhive-core/settings',
-        config_url: `${
-          process.env.NODE_ENV == "production"  ?
-            `https://${process.env.DEPLOYMENT || 'apps'}.hexhive.io/settings/`
-            : "http://localhost:8888/"
-        }hexhive-core-settings.js`
-      },
+      // {
+      //   name: '@hexhive-core/settings',
+      //   config_url: `${
+      //     process.env.NODE_ENV == "production"  ?
+      //       `https://${process.env.DEPLOYMENT || 'apps'}.hexhive.io/settings/`
+      //       : "http://localhost:8888/"
+      //   }hexhive-core-settings.js`
+      // },
       {
         name: "@hexhive-core/dashboard",
         config_url: `${
