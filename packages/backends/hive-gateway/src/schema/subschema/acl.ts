@@ -88,15 +88,15 @@ export default (prisma: PrismaClient) => {
 		input RoleInput {
 			name: String
 
-			appliances: [String]
+			applications: [String]
 		}
 
 		type Role {
 			id: ID! 
 			name: String
 
-			appliances: [HiveAppliance!]! 
-			permissions: [Permission!]! 
+			applications: [HiveAppliance!]
+			permissions: [Permission!] 
 			organisation: HiveOrganisation 
 		}
 
@@ -180,7 +180,12 @@ export default (prisma: PrismaClient) => {
 				})
 			},
 			roles: async (root: any, args: any, context: any) => {
-				return await prisma.role.findMany({where: {organisation: {id: context.jwt.organisation}}});
+				return await prisma.role.findMany({
+					where: {organisation: {id: context.jwt.organisation}},
+					include: {
+						applications: true
+					}
+				});
 			},
 			organisation: async (root: any, args: any, context: any) => {
 
@@ -334,7 +339,7 @@ export default (prisma: PrismaClient) => {
 						id: nanoid(),
 						name: args.input.name,
 						applications: {
-							connect: args.applications.map((x: string) => ({id: x}))
+							connect: args.input.applications.map((x: string) => ({id: x}))
 						},
 						organisation: {
 							connect: {id: context.jwt.organisation}
@@ -348,7 +353,7 @@ export default (prisma: PrismaClient) => {
 					data: {
 						name: args.input.name,
 						applications: {
-							set: args.applications.map((x: string) => ({id: x}))
+							set: args.input.applications.map((x: string) => ({id: x}))
 						}
 					}
 				})
