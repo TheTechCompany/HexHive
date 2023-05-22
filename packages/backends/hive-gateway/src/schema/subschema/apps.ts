@@ -5,13 +5,16 @@ export default (prisma: PrismaClient) => {
     const typeDefs = `
 
         type Query {
-            hiveAppliances: [HiveAppliance!]!
+            hiveAppliances(owned: Boolean): [HiveAppliance!]!
         }
 
         type Mutation {
             createAppServiceAccount(app: ID, input: ServiceAccountInput): ServiceAccount
             updateAppServiceAccount(app: ID, id: ID, input: ServiceAccountInput): ServiceAccount
             deleteAppServiceAccount(app: ID, id: ID): ServiceAccount
+
+            createOrganisationApp(app: ID): Boolean
+            deleteOrganisationApp(app: ID): Boolean
         }
 
         type HiveAppliance {
@@ -97,13 +100,55 @@ export default (prisma: PrismaClient) => {
 
     const resolvers = {
         Query: {
-            hiveAppliances: async () => {
-                const appliances = await prisma.application.findMany()
+            hiveAppliances: async (root: any, args: any, context: any) => {
+
+                let query : any = {};
+
+                if(args.owned != null){
+                    let key = args.owned ? 'some' : 'none';
+                    query['users'] = {
+                        [key]: {
+                            id: context?.jwt?.organisation
+                        }
+                    }
+                }
+                const appliances = await prisma.application.findMany({
+                    where: query
+                })
 
                 return appliances
             }
         },
         Mutation: {
+            createOrganisationApp: async (root: any, args: any, context: any) => {
+                return await prisma.organisation.update({
+                    where: {
+                        id: context?.jwt?.organisation
+                    },
+                    data: {
+                        applications: {
+                            connect: {
+                                id: args.app
+                            }
+                        }
+                    }
+                }) != null;
+            },
+            deleteOrganisationApp: async (root: any, args: any, context: any) => {
+                return await prisma.organisation.update({
+                    where: {
+                        id: context?.jwt?.organisation,
+                    },
+                    data: {
+                        applications: {
+                            disconnect: {
+                                id: args.app
+                            }
+                        }
+                    }
+                }) != null;
+            },
+
             createAppServiceAccount: async (root: any, args: any, context: any) => {
                 return await prisma.applicationServiceAccount.create({
                     data: {

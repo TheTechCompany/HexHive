@@ -1,5 +1,6 @@
 import { PrismaClient } from "@hexhive/data";
 import { nanoid } from 'nanoid'
+import { disconnect } from "process";
 
 export default (prisma: PrismaClient) => {
 	const typeDefs = `
@@ -44,6 +45,8 @@ export default (prisma: PrismaClient) => {
 			email: String
 			password: String
 			inactive: Boolean
+
+			roles: [String]
 		}
 
 		type Person {
@@ -84,6 +87,8 @@ export default (prisma: PrismaClient) => {
 
 		input RoleInput {
 			name: String
+
+			appliances: [String]
 		}
 
 		type Role {
@@ -120,6 +125,20 @@ export default (prisma: PrismaClient) => {
 	`
 
 	const resolvers = {
+		HiveUser: {
+			roles: async (root: any, args: any, context: any) => {
+				const trusts = await prisma.userTrust.findMany({
+					where: {
+						trustId: root.id,
+						issuerId: context?.jwt?.organisation
+					},
+					include: {
+						roles: true
+					}
+				})
+				return trusts.map((x) => x.roles).reduce((prev, curr) => prev.concat(curr), [])
+			}
+		},
 		HiveOrganisation: {
 			members: async (root: any) => {
 
@@ -226,7 +245,7 @@ export default (prisma: PrismaClient) => {
 				return await prisma.$transaction(async (prisma: any) => {
 					const userCount = await prisma.user.count({
 						where: {
-							organisations :{
+							organisations: {
 								some:{
 									issuerId: context?.jwt?.organisation || context?.user?.organisation
 								}
@@ -249,6 +268,9 @@ export default (prisma: PrismaClient) => {
 										connect: {
 											id: context?.jwt?.organisation || context?.user?.organisation
 										}
+									},
+									roles: {
+										connect: args.input.roles || []
 									}
 								}]
 							}
@@ -258,20 +280,51 @@ export default (prisma: PrismaClient) => {
 				})
 			},
 			updateUser: async (root: any, args: any, context: any) => {
-				return await prisma.user.updateMany({
+
+				const {id: userId, organisations} = await prisma.user.findFirst({
 					where: {
-						displayId: args.id,
+						id: args.id,
 						organisations: {
 							some: {
-								issuerId: context?.jwt?.organisation || context?.user?.organisation
+								issuerId: context?.jwt?.organisation
 							}
 						}
+					},
+					include: {
+						organisations: true
+					}
+				}) || {};
+				if(!userId) throw new Error("No userId found");
+
+				if(args.input.roles){
+					console.log(args.input.roles)
+					await prisma.userTrust.update({
+						where: {
+							id: organisations?.find((a) => a.issuerId == context?.jwt?.organisation)?.id
+						},
+						data: {
+							roles: {
+								set: args.input.roles.map((x: string) => ({id: x}))
+							}
+						}
+					})
+				}
+
+				return await prisma.user.update({
+					where: {
+						id: args.id,
+						// organisations: {
+						// 	some: {
+						// 		issuerId: context?.jwt?.organisation || context?.user?.organisation
+						// 	}
+						// }
 					},
 					data: {
 						name: args.input.name,
 						email: args.input.email,
 						password: args.input.password,
 						inactive: args.input.inactive
+					
 					}
 				})
 			},
@@ -280,6 +333,9 @@ export default (prisma: PrismaClient) => {
 					data: {
 						id: nanoid(),
 						name: args.input.name,
+						applications: {
+							connect: args.applications.map((x: string) => ({id: x}))
+						},
 						organisation: {
 							connect: {id: context.jwt.organisation}
 						}
@@ -290,7 +346,10 @@ export default (prisma: PrismaClient) => {
 				return await prisma.role.update({
 					where: {id: args.id},
 					data: {
-						name: args.input.name
+						name: args.input.name,
+						applications: {
+							set: args.applications.map((x: string) => ({id: x}))
+						}
 					}
 				})
 			},

@@ -37,8 +37,10 @@ const toggleSelected = (item: any) => {
 			onSubmit={() => {
 				props.onSubmit?.({
 					...user,
-					add_roles: selectedRoles?.filter((selected) => user.roles?.map((x) => x.id).indexOf(selected) < 0),
-					remove_roles: user.roles?.filter((role) => selectedRoles?.indexOf(role.id) < 0).map((x) => x.id)
+					roles: selectedRoles,
+
+					// add_roles: selectedRoles?.filter((selected) => user.roles?.map((x) => x.id).indexOf(selected) < 0),
+					// remove_roles: user.roles?.filter((role) => selectedRoles?.indexOf(role.id) < 0).map((x) => x.id)
 				})
 			}}
 			onClose={props.onClose}>
