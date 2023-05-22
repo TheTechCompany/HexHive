@@ -168,7 +168,7 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
                 
                 metadata: { labels: appLabels },
                 spec: {
-                    priority: 100,
+                    // priority: 100,
                     nodeSelector: {
                         'role': 'worker'
                     },
