@@ -15,7 +15,7 @@
 	"scripts": {
 		"build": "tsc -b",
 		"start": "ts-node -r tsconfig-paths/register src/server.ts",
-		"start:prod": "node ./server.js --endpoints /tmp/endpoints.json"
+		"start:prod": "node dist/server.js --endpoints /tmp/endpoints.json"
 	},
 	"author": "",
 	"license": "ISC",
