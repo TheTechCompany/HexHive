@@ -20,7 +20,6 @@ import React, { useRef, useState } from "react";
 // import { Hivelogo, Profile } from "@hexhive/icons";
 import Hivelogo from './hivelogo'
 import {  HexHiveTheme } from '@hexhive/styles'
-import { matchPath, withRouter } from "react-router-dom";
 import { UserDropdown } from "../UserDropdown";
 
 export const BaseHeader: React.FC<any> = (props) => {

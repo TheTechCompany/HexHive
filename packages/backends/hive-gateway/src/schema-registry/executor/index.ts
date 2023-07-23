@@ -1,10 +1,11 @@
 import { print } from "graphql"
 import { handleJSON } from "./json";
 import fetch from 'node-fetch'
-import { AbortController } from 'abort-controller'
 import { handleMultipart } from "./multipart";
 import { extractFiles, isMultipart } from "./multipart/utils";
 import { nanoid } from "nanoid";
+
+const { AbortController } = require('abort-controller')
 
 async function* generateJsonIterable(response: any){
 	for await (const chunk of response){
@@ -21,7 +22,14 @@ async function* generateJsonIterable(response: any){
 	}
 }
 
-export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) => {
+/*
+	Remote Executor for HexHive GraphQL microservices
+
+	url : location of extern schema
+	keyManager : converts user info to jwt payload with signed keys
+*/
+export const remoteExecutor = (remoteId: string, url: string, keyManager?: (payload: any) => any) => {
+
 	return async ({ document, variables, context }: any) => {
 		const query = typeof document === 'string' ? document : print(document)
 
@@ -35,14 +43,21 @@ export const remoteExecutor = (url: string, keyManager?: (payload: any) => any) 
 			headers['Content-Type'] = 'application/json'
 		}
         
+
 		if(context?.user){
-			const { id, email, name, organisation } = context.user
+			const { id, email, name, organisation, roles, permissions } = context.user
+			console.log(context.user);
+	
+			// if(!context?.user?.applications?.find((a: any) => a.id == id)) return;
+
 			headers["X-Hive-JWT"] = keyManager?.({
 				sub: id,
 				id: id,
 				email,
 				name,
-				organisation
+				organisation,
+				roles: roles?.filter((a: any) => a.applications?.findIndex((b: any) => b.id == remoteId) > -1).map((x: any) => ({id: x.id})),
+				permissions: permissions?.filter((a: any) => a.scopeId == remoteId)
 			}) || '';
 		}else{
 			headers["X-Hive-JWT"] = keyManager?.({

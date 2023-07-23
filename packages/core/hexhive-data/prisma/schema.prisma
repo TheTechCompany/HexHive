@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -17,12 +16,12 @@ model User {
 
   displayId String?
 
-  name String
+  name String?
   
   email String? @unique
-  password String 
+  password String? 
 
-  inactive Boolean @default(false)
+  inactive Boolean @default(true)
 
   organisations UserTrust[] @relation(name: "trusts")
 }
@@ -33,10 +32,18 @@ model UserTrust {
   trust User @relation(name: "trusts", fields: [trustId], references: [id], onDelete: Cascade)
   trustId String
 
-  roles Role[] @relation(name: "hasRole")
-
   issuer Organisation @relation(name: "issuedTrust", fields: [issuerId], references: [id], onDelete: Cascade)
   issuerId String
+
+  type String @default("User")
+
+  accepted Boolean @default(false)
+  inactive Boolean @default(false)
+
+  roles Role[] @relation(name: "hasRole")
+  permissions Permission[] @relation(name: "hasPermission")
+
+  createdAt DateTime @default(now())
 
   @@unique([trustId, issuerId])
 }
@@ -51,6 +58,8 @@ model Organisation {
   
   roles Role[]
   applications Application[]
+  permissions Permission[]
+  policies PermissionPolicy[]
 }
 
 model APIKey {
@@ -68,11 +77,14 @@ model Application {
 
   slug String?
 
+  backend_url String?
+  
   entrypoint String?
   staging_entrypoint String?
 
   users Organisation[]
   usedInRoles Role[]
+  usedInPermissions Permission[]
 
   serviceAccounts ApplicationServiceAccount[] @relation(name: "hasServiceAccount")
 }
@@ -103,8 +115,29 @@ model Permission {
 	id String @id 
 	name String
 
-	action String
-	scope String
+  scope Application? @relation(fields: [scopeId], references: [id])
+  scopeId String?
 
-  roles Role[]
+  policies PermissionPolicy[]
+
+  usedInRoles Role[]
+  usedInTrust UserTrust[] @relation(name: "hasPermission")
+
+  organisationId String
+  organisation Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+}
+
+model PermissionPolicy {
+  id String @id
+  name String
+
+  verbs String[]
+  resource String?
+  conditions Json?
+  effect String @default("Allow")
+  
+  usedInPermissions Permission[]
+
+  organisationId String
+  organisation Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
 }

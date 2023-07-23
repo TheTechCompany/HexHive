@@ -7,6 +7,8 @@ export const AuthContext = createContext<{
         sub?: string, 
         name?: string, 
         email?: string, 
+        organisation?: string;
+        organisations?: {id: string, name: string}[];
         applications?: {id: string, name: string, slug: string}[]
     }, 
     token?: string}>({})

@@ -1,8 +1,17 @@
 import { SES } from 'aws-sdk'
+import {compile} from 'handlebars'
+import fs, { readFileSync } from 'fs';
+import path from 'path';
 
 const ses = new SES({region: 'ap-southeast-2'})
 
-export const sendMail = (to: string[], subject: string, body: string) => {
+export const sendMail = (
+	to: string[], 
+	subject: string, 
+	body: string,
+	htmlTemplate?: string,
+	htmlObject?: any
+) => {
 	return new Promise((resolve, reject) => {
 		ses.sendEmail({
 			Source: "HexHive Systems <no-reply@hexhive.io>",
@@ -12,6 +21,9 @@ export const sendMail = (to: string[], subject: string, body: string) => {
 			Message: {
 				Subject: {Data: subject},
 				Body: {
+					Html: htmlTemplate ? {
+						Data: compile(htmlTemplate)(htmlObject) 
+					}: undefined, 
 					Text: {Data: body}
 				}
 			}
@@ -23,7 +35,10 @@ export const sendMail = (to: string[], subject: string, body: string) => {
 
 }
 
-export const sendInvite = async (invite: {link: string, sender: string, to: string, receiver: string}) => {
+export const sendInvite = async (invite: {link: string, sender: string, to: string, receiver: string, type: string}) => {
+	const inviteFile = invite.type == 'User' ? 'invite-user.html' : 'invite-collaborator.html';
+	const htmlTemplate = readFileSync(path.join(__dirname, './templates/', inviteFile), 'utf-8')
+
 	const subject = `${invite.sender} has invited you to an organisation on HexHive`
 	return await sendMail(
 		[invite.to], 
@@ -34,7 +49,10 @@ export const sendInvite = async (invite: {link: string, sender: string, to: stri
 		
 		${invite.link}
 	
-		HexHive`)
+		HexHive`,
+		htmlTemplate,
+		invite
+		)
 }
 
 export const sendPasswordReset = async (reset_event: {requested: string, link: string}) => {
