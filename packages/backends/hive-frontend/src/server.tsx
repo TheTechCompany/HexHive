@@ -100,6 +100,49 @@ const config = {
 		});
 	});
 
+	app.use('/forgot', (req, res) => {
+		res.render('forgot', {
+			success: false,
+			params: {
+
+			},
+			client: {
+				
+			}
+		})
+	})
+	app.use('/join/:id', (req, res) => {
+		res.render('join', {
+			params: {
+
+			},
+			client: {
+				
+			}
+		})
+	})
+	app.use('/reset', (req, res) => {
+		res.render('reset', {
+			success: false,
+			params: {
+
+			},
+			client: {
+				
+			}
+		})
+	})
+	app.use('/signup', (req, res) => {
+		res.render('signup', {
+			params: {
+
+			},
+			client: {
+
+			}
+		})
+	})
+
 	passport.use(
 		'local',
 		new LocalStrategy({

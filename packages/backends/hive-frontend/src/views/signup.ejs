@@ -188,9 +188,7 @@
     </div>
     <div class="login-card">
       <h1>Signup</h1>
-      <% if (flash) { %>
-        <p><%= flash %></p>
-      <% } %>
+   
       <form autocomplete="off" action="/signup" method="post">
         <input required type="text" name="first_name" placeholder="First Name" />
         <input required type="text" name="last_name" placeholder="Last Name" />
@@ -207,7 +205,6 @@
         <a href="/forgot">Forgot Password?</a>
       </div>
       <div class="login-help">
-        <a href="/interaction/<%= uid %>/abort">[ Cancel ]</a>
         <% if (client.tosUri) { %>
           <a href="<%= client.tosUri %>">[ Terms of Service ]</a>
         <% } %>

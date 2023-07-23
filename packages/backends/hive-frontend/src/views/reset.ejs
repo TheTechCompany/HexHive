@@ -189,9 +189,7 @@
     </div>
     <div class="login-card">
       <h1>Forgot Password</h1>
-	  <% if (flash) { %>
-        <p><%= flash %></p>
-      <% } %>
+
 	  <% if (!success){ %>
 	  <form autocomplete="off" action="/reset" method="post">
         <input hidden required name="reset_token" placeholder="Reset token" value="<%= params.reset_token %>" />

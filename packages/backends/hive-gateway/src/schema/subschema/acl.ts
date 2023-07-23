@@ -2,6 +2,7 @@ import { PrismaClient } from "@hexhive/data";
 import { nanoid } from 'nanoid'
 import { disconnect } from "process";
 import { sendInvite } from "../../email";
+import jwt from 'jsonwebtoken';
 
 export default (prisma: PrismaClient) => {
 	const typeDefs = `
@@ -330,6 +331,9 @@ export default (prisma: PrismaClient) => {
 					}
 				})
 
+				const token = jwt.sign({
+					id: user.id
+				}, 'sECRET')
 				//Send transactional emails
 				if(!existingUser){
 					//Send invite to HexHive with organisation invite
@@ -338,7 +342,7 @@ export default (prisma: PrismaClient) => {
 						receiver: args.input.name,
 						sender: currentOrg.name,
 						type: args.input.type,
-						link: ''
+						link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
 					})
 				}else{
 					//Send invite to HexHive org to existing user
@@ -347,7 +351,7 @@ export default (prisma: PrismaClient) => {
 						receiver: args.input.name,
 						sender: currentOrg.name,
 						type: args.input.type,
-						link: ''
+						link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
 					})
 				}
 
