@@ -17,8 +17,6 @@ import { Strategy as LocalStrategy } from 'passport-local'
 
 const prisma = new PrismaClient();
 
-var OidcStrategy = require("passport-openidconnect").Strategy;
-
 const { NODE_ENV } = process.env;
 
 const url = process.env.AUTH_SERVER || "auth.hexhive.io";
@@ -191,7 +189,7 @@ const config = {
 
 				const roles = organisation?.roles || [];
 
-				const permissions = (organisation?.permissions || []).concat((roles || []).map((r) => r.permissions).reduce((p, c) => p.concat(c), []) as any[])
+				const permissions = (organisation?.permissions || []).concat((roles || []).map((r: any) => r.permissions).reduce((p: any, c: any) => p.concat(c), []) as any[])
 
 				const applications = roles.map((x: any) => x.applications).reduce((prev: any, curr: any) => prev.concat(curr), []).concat(permissions.map(x => x.scope))
 

@@ -2,7 +2,7 @@ FROM node:16-slim as build
 
 ARG BUILD_ENV=github
 
-RUN apt-get update && apt-get install -y openssl
+RUN apt-get update && apt-get install -y openssl git build-essential python3
 
 WORKDIR /app
 
