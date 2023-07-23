@@ -8,24 +8,22 @@ COPY . .
 
 RUN yarn
 
-RUN npx lerna bootstrap --scope @hexhive/frontend-server --include-dependencies
-
 ENV NODE_ENV="production"
 
 RUN npx lerna run build --scope @hexhive/frontend-server --include-dependencies
 
 WORKDIR /app/packages/backends/hive-frontend
 
-RUN cp -Lr /app/packages/backends/hive-frontend/node_modules/ _node_modules/
+# RUN cp -Lr /app/packages/backends/hive-frontend/node_modules/ _node_modules/
 
-FROM node:16-slim 
+# FROM node:16-slim 
 
-RUN apt-get update && apt-get install -y openssl
+# RUN apt-get update && apt-get install -y openssl
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY --from=build /app/packages/backends/hive-frontend/_node_modules ./node_modules/
-COPY --from=build /app/packages/backends/hive-frontend/package.json .
-COPY --from=build /app/packages/backends/hive-frontend/dist .
+# COPY --from=build /app/packages/backends/hive-frontend/_node_modules ./node_modules/
+# COPY --from=build /app/packages/backends/hive-frontend/package.json .
+# COPY --from=build /app/packages/backends/hive-frontend/dist .
 
 CMD ["yarn", "run", "start:prod"]
