@@ -10,6 +10,7 @@ RUN yarn
 
 ENV NODE_ENV="production"
 
+
 RUN npx lerna run build --scope @hexhive/frontend-server --include-dependencies
 
 WORKDIR /app/packages/backends/hive-frontend
