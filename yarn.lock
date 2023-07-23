@@ -3986,7 +3986,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.8.1, @emotion/styled@npm:^11.9.3":
+"@emotion/styled@npm:^11.11.0, @emotion/styled@npm:^11.8.1, @emotion/styled@npm:^11.9.3":
   version: 11.11.0
   resolution: "@emotion/styled@npm:11.11.0"
   dependencies:
@@ -4638,7 +4638,7 @@ __metadata:
     "@hexhive/styles": ^1.0.1-alpha.37
     "@hexhive/ui": ^1.0.1-alpha.37
     "@mui/icons-material": ^5.6.2
-    "@mui/material": ^5.6.4
+    "@mui/material": 5.14.1
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.0.0
     "@types/jest": ^26.0.23
@@ -4697,7 +4697,7 @@ __metadata:
     "@hexhive/icons": ^1.0.2-beta.42
     "@hexhive/styles": ^1.0.1-alpha.37
     "@mui/icons-material": ^5.8.4
-    "@mui/material": ^5.9.2
+    "@mui/material": 5.14.1
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.0.0
     "@types/jest": ^26.0.23
@@ -4747,11 +4747,14 @@ __metadata:
     "@babel/preset-typescript": ^7.14.5
     "@babel/runtime": ^7.14.6
     "@emotion/react": ^11.9.3
+    "@emotion/styled": ^11.11.0
     "@hexhive/auth-ui": ^1.0.2-beta.61
     "@hexhive/client": ^1.0.2-beta.42
     "@hexhive/styles": ^1.0.1-alpha.118
     "@hexhive/ui": ^1.0.1-alpha.118
-    "@mui/material": ^5.9.2
+    "@mui/icons-material": ^5.14.1
+    "@mui/lab": ^5.0.0-alpha.137
+    "@mui/material": 5.14.1
     "@react-querybuilder/dnd": ^6.5.1
     "@react-querybuilder/material": ^6.5.1
     "@testing-library/jest-dom": ^5.14.1
@@ -4769,14 +4772,18 @@ __metadata:
     eslint-config-prettier: ^8.3.0
     eslint-config-ts-react-important-stuff: ^3.0.0
     eslint-plugin-prettier: ^3.4.0
+    graphql: ^16.7.1
     husky: ^6.0.0
     identity-obj-proxy: ^3.0.0
     jest: ^27.0.5
     jest-cli: ^27.0.5
     prettier: ^2.3.2
     pretty-quick: ^3.1.1
-    react: ^17.0.2
-    react-dom: ^17.0.2
+    prop-types: ^15.8.1
+    react: 17.0.2
+    react-dnd: ^16.0.1
+    react-dnd-html5-backend: ^16.0.1
+    react-dom: 17.0.2
     react-querybuilder: ^6.5.1
     react-router-dom: ^6.2.1
     recharts: ^2.1.8
@@ -5901,7 +5908,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.6.2, @mui/icons-material@npm:^5.8.4":
+"@mui/icons-material@npm:^5.14.1, @mui/icons-material@npm:^5.6.2, @mui/icons-material@npm:^5.8.4":
   version: 5.14.1
   resolution: "@mui/icons-material@npm:5.14.1"
   dependencies:
@@ -5917,7 +5924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/lab@npm:^5.0.0-alpha.89":
+"@mui/lab@npm:^5.0.0-alpha.137, @mui/lab@npm:^5.0.0-alpha.89":
   version: 5.0.0-alpha.137
   resolution: "@mui/lab@npm:5.0.0-alpha.137"
   dependencies:
@@ -5947,7 +5954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.6.3, @mui/material@npm:^5.6.4, @mui/material@npm:^5.9.2":
+"@mui/material@npm:5.14.1, @mui/material@npm:^5.6.4":
   version: 5.14.1
   resolution: "@mui/material@npm:5.14.1"
   dependencies:
@@ -9379,17 +9386,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
-  version: 18.2.15
-  resolution: "@types/react@npm:18.2.15"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: 36989f638201bfe2f4110b06c119180f6df9c0e13d7060481e82e7a745f81745a01ae543c478a25b61e0767cb52e82da2ad5b0dedacabf99339e523d06176705
-  languageName: node
-  linkType: hard
-
 "@types/react@npm:17.0.2":
   version: 17.0.2
   resolution: "@types/react@npm:17.0.2"
@@ -9397,17 +9393,6 @@ __metadata:
     "@types/prop-types": "*"
     csstype: ^3.0.2
   checksum: a5198857165feddcbfc7d33e3322460ac62b8894d702414496a825b0c82272911ec33a42ef7c9d623a59308070eef4dfee6ff834b0674aa3f87eeb644196ee3b
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^17, @types/react@npm:^17.0.11, @types/react@npm:^17.0.15, @types/react@npm:^17.0.33":
-  version: 17.0.62
-  resolution: "@types/react@npm:17.0.62"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: 428a5aff44824ef504e9a9259b5894fe44a5db1c344b536990f07e132900ff5b34cbef0be77a84f30f37be1f88fc8b56dce328f568de8d65de3bfe414c05b2e1
   languageName: node
   linkType: hard
 
@@ -9442,13 +9427,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 2aa50cbf1d1f0cf8541ef1787f94c7442e58e63900afd3b45c354e4140ed5efc5cf26fca8eb9df9970a74c7ea582293ae2083271bd046dedf4c3cc2689a40892
-  languageName: node
-  linkType: hard
-
-"@types/scheduler@npm:*":
-  version: 0.16.3
-  resolution: "@types/scheduler@npm:0.16.3"
-  checksum: 2b0aec39c24268e3ce938c5db2f2e77f5c3dd280e05c262d9c2fe7d890929e4632a6b8e94334017b66b45e4f92a5aa42ba3356640c2a1175fa37bef2f5200767
   languageName: node
   linkType: hard
 
@@ -30992,7 +30970,7 @@ __metadata:
     "@hexhive/ui": ^0.0.12-alpha.11
     "@hexhive/utils": ^0.0.6-alpha.13
     "@mui/icons-material": ^5.6.2
-    "@mui/material": ^5.6.3
+    "@mui/material": 5.14.1
     "@types/jest": ^27.4.1
     "@types/node": ^16.11.31
     "@types/react": 17.0.2

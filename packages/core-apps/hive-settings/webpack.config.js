@@ -1,6 +1,7 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 const webpack = require('webpack');
+const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = (webpackConfigEnv, argv) => {
@@ -16,7 +17,24 @@ module.exports = (webpackConfigEnv, argv) => {
     resolve: {
       plugins: [
         new TsconfigPathsPlugin(),
-      ]
+      ],
+      alias: {
+        // // react: path.resolve(__dirname, '../../../node_modules/react'),
+        // '@types/react': path.resolve(__dirname, '../../../node_modules/@types/react'),
+        // '@types/react-dom': path.resolve(__dirname, '../../../node_modules/@types/react-dom'),
+        // // '@types/react-transition-group': path.resolve(__dirname, '../../../node_modules/@types/react-transition-group'),
+
+        // // '@hexhive/ui': path.resolve(__dirname, '../../../node_modules/@hexhive/ui'),
+        // // '@hexhive/utils': path.resolve(__dirname, '../../../node_modules/@hexhive/utils'),
+        // // '@hexhive/styles': path.resolve(__dirname, '../../../node_modules/@hexhive/styles'),
+        // // "@mui/x-date-pickers": path.resolve(__dirname, '../../../node_modules/@mui/x-date-pickers'),
+        // // // '@mui/icons-material': path.resolve(__dirname, 'node_modules/@mui/icons-material'),
+        // '@mui/material': path.resolve(__dirname, '../../../node_modules/@mui/material'),
+        // // 'styled-components': path.resolve(__dirname, '../../../node_modules/styled-components'),
+        // // 'react-router-dom': path.resolve(__dirname, '../../../node_modules/react-router-dom'),
+        // '@emotion/react': path.resolve(__dirname, '../../../node_modules/@emotion/react'),
+        // '@emotion/styled': path.resolve(__dirname, '../../../node_modules/@emotion/styled')
+      }
     },
     module: {
       rules: [
