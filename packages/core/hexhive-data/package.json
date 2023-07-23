@@ -25,8 +25,6 @@
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",
-    "nanoid": "^3.1.28",
-    "neo4j-driver": "^4.3.3",
-    "neo4j-driver-core": "^4.3.3"
+    "nanoid": "^3.1.28"
   }
 }
