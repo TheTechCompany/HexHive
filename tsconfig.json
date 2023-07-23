@@ -8,6 +8,9 @@
    "paths": {
      "react": ["../node_modules/react"],
      "react-dom": ["../node_modules/react-dom"],
+     "@types/react": ["../node_modules/@types/react"],
+     "@types/react-dom": ["../node_modules/@types/react-dom"],
+
      "grommet": ["../node_modules/grommet"],
      "gqty": ["../node_modules/gqty"],
      "graphql": ["../node_modules/graphql"],
@@ -32,12 +35,10 @@
      "@hexhive/patch": ["./workers/patch/src"],
      "@hexhive/mssql-worker": ["./workers/mssql-worker/src"],
      
-     "@types/react": ["../node_modules/@types/react"],
      
      "@types/react-router-dom": ["../node_modules/@types/react-router-dom"],
      "react-router-dom": ["../node_modules/react-router-dom"],
 
-     "@types/react-dom": ["../node_modules/@types/react-dom"],
      "@hexhive/auth-ui": ["./shared/hexhive-auth-ui/src"],
      "@hexhive/types": ["./shared/hexhive-types/src"]
    }

@@ -12,8 +12,10 @@
   },
   "scripts": {
     "build": "tsc -b",
+    "generate": "prisma generate",
     "seed": "prisma db seed",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "yarn generate"
   },
   "author": "",
   "license": "ISC",

@@ -4,7 +4,7 @@
     "jsx": "react-jsx",
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "node_modules/@types"],
+  "include": ["src/**/*"],
   "exclude": ["src/**/*.test*"],
   "references": [
     {"path": "../../core/hexhive-client"},
