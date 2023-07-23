@@ -58,8 +58,8 @@ export const Users = () => {
 	// const roles = query.roles({})
 
 	const [ createUser ] = useMutation(gql`
-		mutation CreateUser ($input: UserInput) {
-			createUser(input: $input){
+		mutation CreateUser ($input: UserTrustInput) {
+			createUserTrust(input: $input){
 				id
 			}
 		}
@@ -68,8 +68,8 @@ export const Users = () => {
 	})
 
 	const [ updateUser ] = useMutation(gql`
-		mutation UpdateUser ($id: ID, $input: UserInput ){
-			updateUser(id: $id, input: $input){
+		mutation UpdateUser ($id: ID, $input: UserTrustInput ){
+			updateUserTrust(id: $id, input: $input){
 				id
 			}
 		}
@@ -117,6 +117,7 @@ export const Users = () => {
 								variables: {
 									input: {
 										name: user.name,
+										type: user.type,
 										roles: user.roles,
 										inactive: user.inactive,
 										email: user.email
@@ -130,10 +131,9 @@ export const Users = () => {
 						}else{
 							console.log(user)
 							updateUser({variables: {id: user.id, input: {
-								name: user.name,
+								type: user.type,
 								roles: user.roles,
 								inactive: user.inactive,
-								email: user.email
 							}}}).then((data) => {
 								openModal(false)
 								refetch()

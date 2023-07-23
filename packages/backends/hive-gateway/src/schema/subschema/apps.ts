@@ -1,11 +1,11 @@
 import { PrismaClient } from "@hexhive/data"
 import { nanoid } from "nanoid"
 
-export default (prisma: PrismaClient) => {
+export default (prisma: PrismaClient, schemas: { [key: string]: {acl: any[]} }) => {
     const typeDefs = `
 
         type Query {
-            hiveAppliances(owned: Boolean): [HiveAppliance!]!
+            hiveAppliances(where: HiveApplianceWhere, owned: Boolean): [HiveAppliance!]!
         }
 
         type Mutation {
@@ -15,6 +15,10 @@ export default (prisma: PrismaClient) => {
 
             createOrganisationApp(app: ID): Boolean
             deleteOrganisationApp(app: ID): Boolean
+        }
+
+        input HiveApplianceWhere {
+            id: ID
         }
 
         type HiveAppliance {
@@ -28,10 +32,18 @@ export default (prisma: PrismaClient) => {
 
             types: [HiveType!]! 
             
-            permissions: [Permission!]! 
+            resources: [HiveApplianceResource]
+
             services: [HiveService!]!
 
             serviceAccounts: [ServiceAccount]
+        }
+
+
+        type HiveApplianceResource {
+            name: String
+            fields: [String]
+            actions: [String]
         }
 
         input ServiceAccountInput {
@@ -99,6 +111,12 @@ export default (prisma: PrismaClient) => {
     `
 
     const resolvers = {
+        HiveAppliance: {
+            resources: (root: any) => {
+                console.log("HiveAppliance perms", root);
+                return schemas[root.id]?.acl;
+            }
+        },
         Query: {
             hiveAppliances: async (root: any, args: any, context: any) => {
 
@@ -112,6 +130,10 @@ export default (prisma: PrismaClient) => {
                         }
                     }
                 }
+                if(args.where?.id){
+                    query['id'] = args.where?.id
+                }
+
                 const appliances = await prisma.application.findMany({
                     where: query
                 })

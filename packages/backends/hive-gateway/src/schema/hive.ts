@@ -15,9 +15,9 @@ require("dotenv").config()
 const { allStitchingDirectivesTypeDefs } = stitchingDirectives();
 
 
-export default  async (pool: Pool, prisma: PrismaClient) => {
+export default (prisma: PrismaClient, schemas: { [key: string]: {acl: any[]} }) => {
 
-	const {typeDefs: subschemaTypeDefs, resolvers: subschemaResolvers} = subschema(prisma);
+	const {typeDefs: subschemaTypeDefs, resolvers: subschemaResolvers} = subschema(prisma, schemas);
 
 	const typeDefs = gql`
 		${allStitchingDirectivesTypeDefs}

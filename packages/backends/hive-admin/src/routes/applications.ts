@@ -16,6 +16,7 @@ export default (prisma: PrismaClient) => {
                     id: nanoid(),
                     name: req.body.name,
                     slug: req.body.slug,
+                    backend_url: req.body.backend_url,
                     entrypoint: req.body.entrypoint,
                     staging_entrypoint: req.body.staging_entrypoint,
                 }

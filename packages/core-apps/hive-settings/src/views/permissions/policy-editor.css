@@ -1,0 +1,18 @@
+
+.justifiedLayout .queryBuilder .ruleGroup-addGroup + button.ruleGroup-cloneGroup,
+.justifiedLayout .queryBuilder .ruleGroup-addGroup + button.ruleGroup-lock,
+.justifiedLayout .queryBuilder .ruleGroup-addGroup + button.ruleGroup-remove,
+.justifiedLayout .queryBuilder .rule-operators + button.rule-cloneRule,
+.justifiedLayout .queryBuilder .rule-operators + button.rule-lock,
+.justifiedLayout .queryBuilder .rule-operators + button.rule-remove,
+.justifiedLayout .queryBuilder .rule-value + button.rule-cloneRule,
+.justifiedLayout .queryBuilder .rule-value + button.rule-lock,
+.justifiedLayout .queryBuilder .rule-value + button.rule-remove,
+.justifiedLayout .queryBuilder .control + button.rule-cloneRule,
+.justifiedLayout .queryBuilder .control + button.rule-lock,
+.justifiedLayout .queryBuilder .control + button.rule-remove,
+.justifiedLayout .queryBuilder .chakra-select__wrapper + button.rule-cloneRule,
+.justifiedLayout .queryBuilder .chakra-select__wrapper + button.rule-lock,
+.justifiedLayout .queryBuilder .chakra-select__wrapper + button.rule-remove {
+  margin-left: auto;
+}

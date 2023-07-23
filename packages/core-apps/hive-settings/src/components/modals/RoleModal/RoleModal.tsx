@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, List, Checkbox, Divider, Button, Typography, ListItemButton } from '@mui/material';
+import { Box, List, Checkbox, Divider, Button, Typography, ListItemButton, Tab, Tabs } from '@mui/material';
 import {
 	Dialog,
 	DialogTitle,
@@ -11,14 +11,18 @@ import { FormInput } from '../../FormInput/FormInput';
 
 export const RoleModal = (props) => {
 
+	const [ view, setView ] = useState('applications');
+
 	const [role, setRole] = useState<{ id?: string, name?: string, appliances?: any[] }>({})
 
 	const [selectedApps, setSelectedApps] = useState<any[]>([])
+	const [selectedPermissions, setSelectedPermissions] = useState<any[]>([])
 
 	useEffect(() => {
 		if (props.selected) {
 			setRole(props.selected)
 			setSelectedApps((props.selected?.applications || []).map((x) => x.id))
+			setSelectedPermissions((props.selected?.permissions || []).map((x) => x.id))
 		}
 	}, [props.selected])
 
@@ -31,6 +35,45 @@ export const RoleModal = (props) => {
 			roles.push(item.id)
 		}
 		setSelectedApps(roles)
+	}
+
+	const togglePermission = (item: any) => {
+		let permissions = selectedPermissions.slice();
+		let ix = permissions.indexOf(item.id)
+		if (ix > -1) {
+			permissions.splice(ix, 1);
+		} else {
+			permissions.push(item.id)
+		}
+		setSelectedPermissions(permissions)
+	}
+
+	const renderView = () => {
+		switch(view){
+			case 'applications':
+				return (
+						<List >
+							{props.apps?.map((datum) => (
+								<ListItemButton onClick={() => toggleSelected(datum)} sx={{ display: 'flex' }}>
+									<Checkbox checked={selectedApps?.indexOf(datum.id) > -1} />
+									<Typography>{datum.name}</Typography>
+								</ListItemButton>
+							))}
+						</List>
+				)
+			case 'permissions':
+				return (
+					<List>
+						{props.permissions?.map((datum) => (
+							<ListItemButton onClick={() => togglePermission(datum)}>
+								<Checkbox checked={selectedPermissions?.indexOf(datum.id) > -1} />
+
+								<Typography>{datum.name}</Typography>
+							</ListItemButton>
+						))}
+					</List>
+				)
+		}
 	}
 
 	return (
@@ -50,15 +93,12 @@ export const RoleModal = (props) => {
 
 					<Divider sx={{marginTop: '12px', marginBottom: '12px'}} />
 					<Box>
-						<Typography fontSize={'12px'}>Allowed applications</Typography>
-						<List >
-							{props.apps.map((datum) => (
-								<ListItemButton onClick={() => toggleSelected(datum)} sx={{ display: 'flex' }}>
-									<Checkbox checked={selectedApps?.indexOf(datum.id) > -1} />
-									<Typography>{datum.name}</Typography>
-								</ListItemButton>
-							))}
-						</List>
+						<Tabs sx={{bgcolor: 'secondary.main'}} value={view} onChange={(e, val) => setView(val)}>
+							<Tab value="applications" label="Applications" />
+							<Tab value="permissions" label="Permissions" />
+						</Tabs>
+						{renderView()}
+						
 					</Box>
 				</Box>
 			</DialogContent>
@@ -67,7 +107,8 @@ export const RoleModal = (props) => {
 				<Button onClick={() => {
 					props.onSubmit?.({
 						...role,
-						applications: selectedApps
+						applications: selectedApps,
+						permissions: selectedPermissions
 
 						// add_apps: selectedApps?.filter((selected) => role.appliances?.map((x) => x.id).indexOf(selected) < 0),
 						// remove_apps: role.appliances?.filter((role) => selectedApps.indexOf(role.id) < 0).map((x) => x.id)

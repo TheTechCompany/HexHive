@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, Checkbox, FormControlLabel, ListItemButton } from '@mui/material'
+import { Box, Typography, List, Checkbox, FormControlLabel, ListItemButton, Switch, Divider, Autocomplete, TextField } from '@mui/material'
 import {BaseModal} from '@hexhive/ui'
 import { FormInput } from '../../FormInput/FormInput';
 
@@ -9,6 +9,7 @@ export const UserModal = (props) => {
 	const [ user, setUser ] = useState<{
 		id?: string, 
 		name?: string, 
+		type?: string,
 		email?: string, 
 		inactive?: boolean,
 		roles?: {id?: string}[]
@@ -41,7 +42,15 @@ const toggleSelected = (item: any) => {
 	return (
 		<BaseModal
 			width="medium"
-			title={`${props.selected ? "Update" : "Create"} User`}
+			title={(
+				<Box sx={{display: 'flex', bgcolor: 'secondary.main', padding: '6px', justifyContent: 'space-between'}}>
+					<Typography sx={{color: 'navigation.main'}}>{`${props.selected ? "Update" : "Invite"} User`}</Typography>
+					<Box sx={{display: 'flex', alignItems: 'center'}}>
+						<Typography sx={{color: 'navigation.main'}}>Disabled</Typography>
+						<Switch checked={user.inactive} onChange={(e) => setUser({...user, inactive: e.target.checked})} size='small'/>
+					</Box>
+				</Box>
+			)}
 			open={props.open}
 			onSubmit={() => {
 				props.onSubmit?.({
@@ -54,27 +63,34 @@ const toggleSelected = (item: any) => {
 			}}
 			onClose={props.onClose}>
 			
-			<FormInput
+			<TextField
+				fullWidth
+				size="small"
+				disabled={user.id != null}
 				sx={{marginTop: '12px'}}
 				value={user?.name}
 				onChange={(e) => setUser({...user, name: e.target.value})}
 				label="Name" />
 
-			<FormInput
+			<TextField
+				fullWidth
+				size="small"
+				disabled={user.id != null}
 				sx={{marginTop: '12px'}}
 				value={user?.email}
 				onChange={(e) => setUser({...user, email: e.target.value})}	
 				label="Email"
 				 />
-				
-			<FormControlLabel
-				control={
-			<Checkbox	
-					checked={user.inactive}
-					onChange={(e) => setUser({...user, inactive: e.target.checked})}
-				 />
-				} 
-				label="Inactive" />
+			
+			<Autocomplete
+				sx={{marginTop: '12px'}}
+				size='small'
+				value={user?.type}
+				onChange={(e, value) => setUser({...user, type: value})}
+				renderInput={(params) => <TextField {...params} label="Type" />}
+				options={['User', 'External']} />
+
+			<Divider sx={{margin: '6px'}}></Divider>
 			<Box>
 				<Typography>Roles</Typography>
 				{/* <TextInput 	
@@ -82,10 +98,10 @@ const toggleSelected = (item: any) => {
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
 					placeholder="Search..." /> */}
-				<List>
+				<List dense>
 					{props.roles.filter((a) => !search || a.name.indexOf(search) > -1).map((datum) => (
 						<ListItemButton onClick={() => toggleSelected(datum)} >
-							<Checkbox onChange={() => toggleSelected(datum)} checked={selectedRoles?.indexOf(datum.id) > -1} />
+							<Checkbox size="small" onChange={() => toggleSelected(datum)} checked={selectedRoles?.indexOf(datum.id) > -1} />
 							<Typography>{datum.name}</Typography>
 						</ListItemButton>
 					))}

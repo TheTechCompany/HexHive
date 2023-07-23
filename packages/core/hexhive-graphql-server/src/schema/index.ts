@@ -30,6 +30,18 @@ type HiveOrganisation {
 }
 `
 
+export const ACL_Schema = `
+    type GraphResource {
+        name: String
+	    fields: [String]
+	    actions: [String]
+    }
+
+    type Query {
+        _resources: [GraphResource]
+    }
+`
+
 /*
 
 type HiveOrganisation @auth(rules: [

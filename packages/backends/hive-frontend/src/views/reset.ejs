@@ -30,7 +30,7 @@
         width: 274px;
         background-color: #F7F7F7;
         margin: 0 auto 10px;
-        border-radius: 2px;
+        border-radius: 12px;
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
         overflow: hidden;
       }
@@ -55,6 +55,7 @@
         display: block;
         margin-bottom: 10px;
         position: relative;
+        border-radius: 6px;
       }
 
       .login-card input[type=text], input[type=email], input[type=password] {
@@ -188,16 +189,14 @@
     </div>
     <div class="login-card">
       <h1>Forgot Password</h1>
-	  <% if (flash) { %>
-        <p><%= flash %></p>
-      <% } %>
+
 	  <% if (!success){ %>
 	  <form autocomplete="off" action="/reset" method="post">
         <input hidden required name="reset_token" placeholder="Reset token" value="<%= params.reset_token %>" />
 
-        <input disabled required type="email" name="email" placeholder="Enter your email" value="<%= params.login_hint %>" />
-        <input required type="password" name="new_password" placeholder="Enter your new password" autofocus="on" />
-        <input required type="password" name="confirm_password" placeholder="Confirm your password" autofocus="on" />
+        <input disabled required type="email" name="email" placeholder="E-mail" value="<%= params.login_hint %>" />
+        <input required type="password" name="new_password" placeholder="Password" autofocus="on" />
+        <input required type="password" name="confirm_password" placeholder="Confirm password" autofocus="on" />
 
         <button type="submit" class="login login-submit">Reset password</button>
       </form>

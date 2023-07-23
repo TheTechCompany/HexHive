@@ -9,8 +9,8 @@ import { KeyManager } from "./keys"
 import passport from "passport"
 
 import { graphqlUploadExpress } from 'graphql-upload'
-import { Pool } from "pg"
 import { PrismaClient } from "@hexhive/data"
+
 const {NODE_ENV} = process.env
 
 const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next.hexhive.io", ISSUER = `http://localhost:${PORT}` } = process.env
@@ -28,8 +28,6 @@ export class HiveGateway {
 	private schemaReloader?: NodeJS.Timer;
 
 	// private neoDriver?: Driver;
-
-	private pool?: Pool;
 
 
 	private options : { dev: boolean, endpoints?: SchemaEndpoint[]};
@@ -54,7 +52,6 @@ export class HiveGateway {
 
 	
 	async init(){
-		this.initDB();
 		await this.keyManager.init()
 
 		this.router = new HiveRouter({})
@@ -78,14 +75,12 @@ export class HiveGateway {
 	}
 	
 	async initHive(){
-		if(!this.pool) throw new Error("No PSQL Driver")
-
-		const schema = await hive(this.pool, prisma)
 
 		this.schemaRegistry = new SchemaRegistry({
 			initialEndpoints: this.options.endpoints || [],
-			internalSchema: schema,
+			schemaFactory: hive,
 			keyManager: (payload: any) => this.keyManager.sign(payload),
+			prisma: prisma
 		});
 	}
 
@@ -116,20 +111,6 @@ export class HiveGateway {
 
 	}
 
-	initDB(){
-		this.pool = new Pool({
-			host: process.env.DB_HOST || "localhost",
-			user: process.env.DB_USER || "postgres",
-			password: process.env.DB_PASSWORD || "test",
-		})
-
-		// this.neoDriver = neo4j.driver(
-		// 	process.env.NEO4J_URI || "localhost",
-		// 	neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
-		// )
-
-		// this.neoSession = this.neoDriver.session();
-	}
 
 }
 

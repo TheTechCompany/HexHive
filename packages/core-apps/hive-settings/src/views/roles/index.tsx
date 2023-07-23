@@ -20,10 +20,20 @@ export const Roles = () => {
 				id
 				name
 			}
+
+			permissions {
+				id
+				name
+			}
 			roles {
 				id
 				name
 
+				permissions {
+					id
+					name
+				}
+				
 				applications {
 					id
 					name
@@ -36,11 +46,12 @@ export const Roles = () => {
 	}
 
 	const roles = data?.roles || [];
+	const permissions = data?.permissions || [];
 	const apps = data?.hiveAppliances || [];
 
 	const [ createRole ] = useMutation(gql`
-		mutation CreateRole($name: String, $applications: [String]) {
-			createRole(input: {name: $name, applications: $applications}){
+		mutation CreateRole($name: String, $applications: [String], $permissions: [String]) {
+			createRole(input: {name: $name, applications: $applications, permissions: $permissions}){
 				id
 			}
 		}
@@ -49,8 +60,8 @@ export const Roles = () => {
 	})
 
 	const [ updateRole ] = useMutation(gql`
-		mutation UpdateRole($id: ID, $name: String, $applications: [String]){
-			updateRole(id: $id, input: {name: $name, applications: $applications}){
+		mutation UpdateRole($id: ID, $name: String, $applications: [String], $permissions: [String]){
+			updateRole(id: $id, input: {name: $name, applications: $applications, permissions: $permissions}){
 				id
 			}
 		}
@@ -66,6 +77,7 @@ export const Roles = () => {
 		<Box sx={{flex: 1, minHeight: 0, display: 'flex'}}> 
 			<RoleModal 
 				apps={apps}
+				permissions={permissions}
 				selected={selected}
 				onSubmit={(role) => {
 					if(role.id){

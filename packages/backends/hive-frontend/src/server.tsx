@@ -1,7 +1,6 @@
 import { HiveFrontendServer } from ".";
 import { createServer } from 'http'
 import express from 'express';
-import { driver, auth } from 'neo4j-driver'
 import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -96,9 +95,53 @@ const config = {
 
 	app.get("/logout", function (req, res) {
 		console.log(req)
-		req.logout();
-		res.redirect("/");
+		req.logOut(() => {
+			res.redirect("/");
+		});
 	});
+
+	app.use('/forgot', (req, res) => {
+		res.render('forgot', {
+			success: false,
+			params: {
+
+			},
+			client: {
+				
+			}
+		})
+	})
+	app.use('/join/:id', (req, res) => {
+		res.render('join', {
+			params: {
+
+			},
+			client: {
+				
+			}
+		})
+	})
+	app.use('/reset', (req, res) => {
+		res.render('reset', {
+			success: false,
+			params: {
+
+			},
+			client: {
+				
+			}
+		})
+	})
+	app.use('/signup', (req, res) => {
+		res.render('signup', {
+			params: {
+
+			},
+			client: {
+
+			}
+		})
+	})
 
 	passport.use(
 		'local',
@@ -119,8 +162,18 @@ const config = {
 						include: {
 							roles: {
 								include: {
-									permissions: true,
+									permissions: {
+										include: {
+											policies: true
+										}
+									},
 									applications: true
+								}
+							},
+							permissions: {
+								include: {
+									scope: true,
+									policies: true
 								}
 							},
 							issuer: true,
@@ -129,12 +182,7 @@ const config = {
 				}
 			})
 
-			console.log({
-				username,
-				password,
-				users
-			})
-
+		
 
 			if (users?.[0]) {
 				let organisation = users?.[0]?.organisations?.[0];
@@ -142,18 +190,26 @@ const config = {
 				console.log({ org: JSON.stringify(organisation) })
 
 				const roles = organisation?.roles || [];
-				const applications = roles.map((x: any) => x.applications).reduce((prev: any, curr: any) => prev.concat(curr), [])
+
+				const permissions = (organisation?.permissions || []).concat((roles || []).map((r) => r.permissions).reduce((p, c) => p.concat(c), []) as any[])
+
+				const applications = roles.map((x: any) => x.applications).reduce((prev: any, curr: any) => prev.concat(curr), []).concat(permissions.map(x => x.scope))
+
+				console.log({organisation, roles, permissions, applications})
 
 				let user = {
 					id: users?.[0].id,
 					name: users?.[0]?.name,
 					organisation: organisation?.issuer?.id,
-					applications: [...new Set(applications)]
+					organisations: users?.[0]?.organisations?.map((org) => org.issuer),
+					applications: [...new Set(applications)],
+					roles,
+					permissions
 				}
 				// console.log({ user: user })
 				return done(null, user)
 			}
-			if (!users?.[0]) return done(null, null, { message: "No user found with those credentials" })
+			if (!users?.[0]) return done(null, undefined, { message: "No user found with those credentials" })
 		})
 	)
 
@@ -201,6 +257,11 @@ const config = {
 				key: "Hive-Chat",
 				route: '/hive-chat',
 				url: "http://localhost:8515/hexhive-apps-hive-chat.js"
+			},
+			{
+				key: "Hive-Settings",
+				route: '/hive-settings',
+				url: "http://localhost:8888/hexhive-core-settings.js"
 			}
 		] : [],
 		getViews: async (req) => {
