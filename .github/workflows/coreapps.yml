@@ -21,9 +21,6 @@ jobs:
           node-version: 16.x
       - run: yarn
 
-      - run: lerna bootstrap --scope @hexhive-core/${{ matrix.apps }} --include-dependencies
-
-
       - name: Setup stack
         run: |
           echo "PUBLIC_PATH=https://staging-apps.hexhive.io/${{matrix.apps}}/" >> $GITHUB_ENV
