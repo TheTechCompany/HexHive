@@ -57,6 +57,7 @@ export class LocalGateway {
 
 		const endpointInfo = (options.applications || []).filter((a) => a.graph).map((app) => {
 			return {
+				id: app.id,
 				url: app.graph || '',
 				key: app.name || '',
 				version: app.route,
@@ -73,7 +74,7 @@ export class LocalGateway {
 
 		this.gateway = new HiveGateway({
 			dev: true,
-			endpoints: endpointInfo
+			endpoints: endpointInfo as any
 		})
 
 		this.frontendServer = new HiveFrontendServer({
