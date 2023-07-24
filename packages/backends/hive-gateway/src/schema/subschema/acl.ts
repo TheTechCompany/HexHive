@@ -140,7 +140,7 @@ export default (prisma: PrismaClient) => {
 			id: ID
 			name: String
 			resource: String
-			verb: String
+			verbs: [String]
 			effect: String
 			conditions: JSON		
 		}
