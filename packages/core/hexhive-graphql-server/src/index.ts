@@ -161,6 +161,7 @@ export class HiveGraph {
 		}
 	}
 
+
 	definePermissions(user: { permissions: { policies: { effect: string, verbs: string[], resource: string, conditions?: string }[] }[] }) {
 
 

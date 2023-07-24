@@ -3,6 +3,7 @@ import { stitchingDirectives } from '@graphql-tools/stitching-directives'
 import { DateTimeTypeDefinition, DateTypeDefinition, JSONDefinition, JSONObjectDefinition } from 'graphql-scalars'
 const { allStitchingDirectivesTypeDefs } = stitchingDirectives();
 
+
 export default (options: {uploads: boolean}) => `
 
 ${allStitchingDirectivesTypeDefs}
