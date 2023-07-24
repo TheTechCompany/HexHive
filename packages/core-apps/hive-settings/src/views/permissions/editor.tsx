@@ -52,7 +52,7 @@ export const PermissionEditor = () => {
                     id
                     name
 
-                    verb
+                    verbs
                     effect
                     resource
                     conditions

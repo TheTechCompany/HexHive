@@ -140,7 +140,7 @@ export default (prisma: PrismaClient) => {
 			id: ID
 			name: String
 			resource: String
-			verb: String
+			verbs: [String]
 			effect: String
 			conditions: JSON		
 		}
@@ -217,7 +217,12 @@ export default (prisma: PrismaClient) => {
 			},
 			permissions: async (root: any, args: any, context: any) => {
 				return await prisma.permission.findMany({
-					where: {organisation: {id: context.jwt.organisation}},
+					where: {
+						id: args.input.ids ? {in: args.input.ids} : undefined,
+						organisation: {
+							id: context.jwt.organisation
+						}
+					},
 					include: {
 						policies: true,
 						scope: true
