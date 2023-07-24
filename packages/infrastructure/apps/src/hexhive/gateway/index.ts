@@ -164,7 +164,7 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
         data: {
             keys: process.env.JWKS_KEYS
         }
-    })
+    }, {provider})
 
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
         metadata: { labels: appLabels },
