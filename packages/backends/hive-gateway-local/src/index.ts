@@ -27,6 +27,7 @@ var OidcStrategy = require('passport-openidconnect').Strategy;
 // };
 
 export interface LocalGatewayApp {
+	id: string;
 	name: string;
 	graph?: string;
 	route?: string;
