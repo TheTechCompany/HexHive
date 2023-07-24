@@ -25,7 +25,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        yarn install --frozen-lockfile
+        yarn install --immutable
 
     - name: Build # Build all packages
       run: npx lerna exec npm run build
