@@ -54,6 +54,7 @@ export class HiveGateway {
 	async init(){
 		await this.keyManager.init()
 
+		
 		this.router = new HiveRouter({})
 
 		await this.initHive();
