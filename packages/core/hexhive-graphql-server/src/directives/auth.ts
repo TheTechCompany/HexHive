@@ -3,3 +3,4 @@ export const authDirective = (name: string) => {
         authDirectiveTypeDefs: `directive @${name}(capabilities: [String], roles: [String], role: String, capability: String) on`
     }
 }
+
