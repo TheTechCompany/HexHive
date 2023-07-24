@@ -204,24 +204,25 @@ export class SchemaRegistry {
 			}`
 		})
 
-		const schemaTypes = aclResult.data.__schema?.types?.filter((a: any) => a.kind == 'OBJECT');
-		const types = schemaTypes.filter((a: any) => aclResult.data._resources.map((x: any) => x.name).indexOf(a.name) > -1);
+		const schemaTypes = aclResult.data?.__schema?.types?.filter((a: any) => a.kind == 'OBJECT');
 
-		console.log(types.map((type: any) => type.fields?.filter((a: any) => {
-				let fields = aclResult.data._resources.find((a: any) => a.name == type.name).fields
-				if(!fields) return true;
-				return fields?.indexOf(a.name) > -1
-			}).map((x: any) => 
-				`${x.name}: ${x.type?.name || (x.type.kind == 'LIST' ? ('[' + x.type?.ofType?.name + ']') : x.type?.ofType?.name ) }`
-			)
-		))
+		const types = schemaTypes?.filter((a: any) => aclResult.data._resources.map((x: any) => x.name)?.indexOf(a.name) > -1);
+
+		// console.log(types.map((type: any) => type.fields?.filter((a: any) => {
+		// 		let fields = aclResult.data._resources.find((a: any) => a.name == type.name).fields
+		// 		if(!fields) return true;
+		// 		return fields?.indexOf(a.name) > -1
+		// 	}).map((x: any) => 
+		// 		`${x.name}: ${x.type?.name || (x.type.kind == 'LIST' ? ('[' + x.type?.ofType?.name + ']') : x.type?.ofType?.name ) }`
+		// 	)
+		// ))
 		
-		const acl = aclResult.data._resources.map((resource: any) => {
+		const acl = aclResult?.data?._resources?.map((resource: any) => {
 			let type = types?.find((a: any) => a.name == resource.name);
 			return {
 				...resource,
-				fields: type.fields?.filter((a: any) => {
-					let fields = aclResult.data._resources.find((a: any) => a.name == type.name).fields
+				fields: type?.fields?.filter((a: any) => {
+					let fields = aclResult?.data?._resources?.find((a: any) => a.name == type.name)?.fields
 					if(!fields) return true;
 					return fields?.indexOf(a.name) > -1
 				}).map((x: any) => x.name)
