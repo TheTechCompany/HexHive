@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/admin",
-  "version": "1.0.2-beta.61",
+  "version": "1.0.2-beta.62",
   "description": "",
   "private": true,
   "main": "index.js",
@@ -19,7 +19,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@hexhive/data": "^1.0.2-beta.61",
+    "@hexhive/data": "^1.0.2-beta.62",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "express": "^4.18.0",

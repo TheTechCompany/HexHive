@@ -25,22 +25,27 @@ jobs:
         run: |
           echo "PUBLIC_PATH=https://staging-apps.hexhive.io/${{matrix.apps}}/" >> $GITHUB_ENV
           echo "REACT_APP_API=https://staging-api.hexhive.io" >> $GITHUB_ENV
+          echo "NODE_ENV=production" >> $GITHUB_ENV
         if: ${{ github.ref == 'refs/heads/staging' }}
 
       - name: Setup stack
         run: |
           echo "PUBLIC_PATH=https://next-apps.hexhive.io/${{matrix.apps}}/" >> $GITHUB_ENV
           echo "REACT_APP_API=https://next-api.hexhive.io" >> $GITHUB_ENV       
+          echo "NODE_ENV=production" >> $GITHUB_ENV
         if: ${{ github.ref == 'refs/heads/next' }}
 
       - name: Setup stack
         run: |
           echo "PUBLIC_PATH=https://apps.hexhive.io/${{matrix.apps}}/" >> $GITHUB_ENV
           echo "REACT_APP_API=https://api.hexhive.io" >> $GITHUB_ENV       
+          echo "NODE_ENV=production" >> $GITHUB_ENV
         if: ${{ github.ref == 'refs/heads/master' }}
         
       - name: Build web
         run: (NODE_ENV=production CI=false; lerna run build --scope @hexhive-core/${{ matrix.apps }} --include-dependencies)
+        env: 
+          NODE_ENV: production
       
       - name: Configure AWS Creds
         uses: aws-actions/configure-aws-credentials@v1
