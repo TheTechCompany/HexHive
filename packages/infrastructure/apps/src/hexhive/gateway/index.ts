@@ -161,7 +161,7 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
 
     const jwksSecret = new k8s.core.v1.Secret(`${appName}-jwks-secret`, {
         metadata: {name: `${appName}-jwks`},
-        data: {
+        stringData: {
             keys: process.env.JWKS_KEYS
         }
     }, {provider})
