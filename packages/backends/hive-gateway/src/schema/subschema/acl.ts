@@ -218,7 +218,7 @@ export default (prisma: PrismaClient) => {
 			permissions: async (root: any, args: any, context: any) => {
 				return await prisma.permission.findMany({
 					where: {
-						id: args.input.ids ? {in: args.input.ids} : undefined,
+						id: args?.ids ? {in: args?.ids} : undefined,
 						organisation: {
 							id: context.jwt.organisation
 						}
