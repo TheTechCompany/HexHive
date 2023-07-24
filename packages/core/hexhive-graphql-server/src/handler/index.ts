@@ -17,6 +17,7 @@ export const graphqlHTTP = (schema: GraphQLSchema, contextFactory?: (context: an
 			// Extract the Graphql parameters from the request
 			const { operationName, query, variables } = getGraphQLParameters(request);
 		
+			
 			// Validate and execute the query
 			const result = await processRequest({
 				operationName,
