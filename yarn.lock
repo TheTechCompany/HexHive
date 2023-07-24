@@ -4664,7 +4664,7 @@ __metadata:
     process: ^0.11.10
     react: ^17.0.2
     react-dom: ^17.0.2
-    react-resize-aware: ^3.1.1
+    react-resize-aware: 3.1.1
     react-router-dom: ^6.2.1
     single-spa-react: ^4.2.0
     styled-components: ^5.3.3
@@ -26156,6 +26156,15 @@ __metadata:
   peerDependencies:
     react: ">= 16.3"
   checksum: 616a10205acfaf8cc3aa0824b60f6d037eef87143d8f338cf826deb74a353db9b9baad67a65dc8535fe90840bfc3e1b8a901f9c247033ffeec2f30405ac7528e
+  languageName: node
+  linkType: hard
+
+"react-resize-aware@npm:3.1.1":
+  version: 3.1.1
+  resolution: "react-resize-aware@npm:3.1.1"
+  peerDependencies:
+    react: ^16.8.0 || 17.x
+  checksum: 0088849e128403ea66f90d588379d9260089c6f218b46e6254da20fe5e4d39c8d13b64da1e6a24bacd0d808db8b7d26bf9dc72801c58606c0b26e9eb5da1bdc5
   languageName: node
   linkType: hard
 
