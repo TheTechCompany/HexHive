@@ -26,24 +26,33 @@ export class KeyManager {
 	}
 
 	async init(){
-		if(existsSync(this.keyLocation)){
-			const keys = JSON.parse(readFileSync(this.keyLocation, 'utf8'))
+		if(process.env.JWKS_KEYS){
+			const keys = JSON.parse(process.env.JWKS_KEYS);
 
 			if(keys.privateKey && keys.publicKey){
 				this.privateKey = keys.privateKey;
 				this.publicKey = keys.publicKey;
 			}
 		}else{
-			console.log("Generating keys....")
+			if(existsSync(this.keyLocation)){
+				const keys = JSON.parse(readFileSync(this.keyLocation, 'utf8'))
 
-			const { privateKey, publicKey }  = await this.generateRSAKeyPair(2048)
+				if(keys.privateKey && keys.publicKey){
+					this.privateKey = keys.privateKey;
+					this.publicKey = keys.publicKey;
+				}
+			}else{
+				console.log("Generating keys....")
 
-			this.privateKey = privateKey
-			this.publicKey = publicKey
-			writeFileSync(this.keyLocation, JSON.stringify({
-				privateKey,
-				publicKey
-			}), 'utf8')
+				const { privateKey, publicKey }  = await this.generateRSAKeyPair(2048)
+
+				this.privateKey = privateKey
+				this.publicKey = publicKey
+				writeFileSync(this.keyLocation, JSON.stringify({
+					privateKey,
+					publicKey
+				}), 'utf8')
+			}
 		}
 		if(this.publicKey){
 			this._jwks = [pem2jwk(this.publicKey)]

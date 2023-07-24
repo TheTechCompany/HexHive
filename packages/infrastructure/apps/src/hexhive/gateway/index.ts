@@ -77,23 +77,23 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
     //     provider
     // })
 
-    const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`${efsRoot}-pvc`, {
-        metadata: {
-            name: `${efsRoot}-pvc`,
-        },
-        spec: {
-            accessModes: ['ReadWriteOnce'],
-            storageClassName: 'ebs',
-            // volumeName: storagePv.metadata.name,
-            resources: {
-                requests: {
-                    storage: '10Gi'
-                }
-            }
-        }   
-    }, {
-        provider
-    })
+    // const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`${efsRoot}-pvc`, {
+    //     metadata: {
+    //         name: `${efsRoot}-pvc`,
+    //     },
+    //     spec: {
+    //         accessModes: ['ReadWriteOnce'],
+    //         storageClassName: 'ebs',
+    //         // volumeName: storagePv.metadata.name,
+    //         resources: {
+    //             requests: {
+    //                 storage: '10Gi'
+    //             }
+    //         }
+    //     }   
+    // }, {
+    //     provider
+    // })
     
     // const sslCert = new aws.acm.Certificate(`${appName}-ssl-certif`, {
     //     domainName: domainName,
@@ -157,6 +157,15 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
         provider: provider,
     })
 
+    if(!process.env.JWKS_KEYS) throw new Error('JWKS Keys not Provided');
+
+    const jwksSecret = new k8s.core.v1.Secret(`${appName}-jwks-secret`, {
+        metadata: {name: `${appName}-jwks`},
+        data: {
+            keys: process.env.JWKS_KEYS
+        }
+    })
+
     const deployment = new k8s.apps.v1.Deployment(`${appName}-dep`, {
         metadata: { labels: appLabels },
         
@@ -178,7 +187,7 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
                         image: `thetechcompany/hexhive-gateway:${imageTag}`,
                         ports: [{ name: "http", containerPort: 7000 }],
                         volumeMounts: [
-                            { name: "keystore", mountPath: '/data/jwks/' },
+                            // { name: "keystore", mountPath: '/data/jwks/' },
                             { name: 'endpoints-config', mountPath: '/tmp/endpoints.json', subPath: 'endpoints.json' }
                         ],
                         env: [
@@ -189,7 +198,7 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
                             { name: "MONGO_URL", value: mongoUrl.apply((url) => `mongodb://${url}`) },
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
                             { name: 'DATABASE_URL', value: all([dbUrl, postgresPass]).apply(([url, pass]) => `postgresql://postgres:${pass}@${url}.db-${suffix}.svc.cluster.local:5432/postgres`) },
-
+                            { name: 'JWKS_KEYS', valueFrom: { secretKeyRef: {key: 'keys', name: jwksSecret.metadata.name } } }
                         ],
                         resources: {
                             limits: {
@@ -218,12 +227,13 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
                             }]
                         }
                     }, 
-                    {
-                        name: 'keystore',
-                        persistentVolumeClaim: {
-                            claimName: storageClaim.metadata.name,
-                        }
-                    }]
+                    // {
+                    //     name: 'keystore',
+                    //     persistentVolumeClaim: {
+                    //         claimName: storageClaim.metadata.name,
+                    //     }
+                    // }
+                    ]
                 }
             }
         },
