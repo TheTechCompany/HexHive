@@ -24,7 +24,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        yarn install --immutable-cache
+        yarn install --immutable --immutable-cache
 
     - name: Build # Build all packages
       run: npx lerna exec npm run build
