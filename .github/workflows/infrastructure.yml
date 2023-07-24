@@ -169,6 +169,8 @@ jobs:
       COMMAND_MONGO_PASS: ${{ secrets.COMMAND_MONGO_PASS }}
       COMMAND_MONGO_AUTH_DB: ${{ secrets.COMMAND_MONGO_AUTH_DB }}
       RABBIT_URL: ${{ secrets.RABBIT_URL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWKS_KEYS: ${{ secrets.JWKS_KEYS }}
       TIMESERIES_HOST: ${{ secrets.TIMESERIES_HOST }}
       TIMESERIES_PASSWORD: ${{ secrets.TIMESERIES_PASSWORD }}
     steps:
