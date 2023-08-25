@@ -100,7 +100,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, na
             storageClassName: 'ebs',
             resources: {
                 requests: {
-                    storage: '10Gi'
+                    storage: '20Gi'
                 }
             }
         }
