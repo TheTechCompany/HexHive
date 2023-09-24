@@ -3,6 +3,9 @@
   "version": "1.0.2-beta.66",
   "description": "",
   "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist/"
   ],
