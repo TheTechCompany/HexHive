@@ -45,7 +45,6 @@ export class LocalGateway {
 	private frontendServer: HiveFrontendServer;
 
 	private port = 7000;
-
 	private applications : LocalGatewayApp[]
 
 	constructor(options: LocalGatewayOptions){
