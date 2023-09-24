@@ -3716,7 +3716,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hexhive/cli@workspace:packages/clients/command-line"
   dependencies:
-    "@hexhive/dev-server": ^1.0.2-beta.64
+    "@hexhive/dev-server": ^1.0.2-beta.65
     "@types/dot": ^1.1.5
     "@types/inquirer": ^9.0.3
     "@types/node": ^18.15.5
@@ -3792,11 +3792,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/dev-server@^1.0.2-beta.64, @hexhive/dev-server@workspace:packages/backends/hive-gateway-local":
+"@hexhive/dev-server@^1.0.2-beta.65, @hexhive/dev-server@workspace:packages/backends/hive-gateway-local":
   version: 0.0.0-use.local
   resolution: "@hexhive/dev-server@workspace:packages/backends/hive-gateway-local"
   dependencies:
-    "@hexhive/frontend-server": ^1.0.2-beta.62
+    "@hexhive/frontend-server": ^1.0.2-beta.65
     "@hexhive/gateway": ^1.0.2-beta.64
     "@types/express": ^4.17.13
     "@types/express-session": ^1.17.4
@@ -3830,7 +3830,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/frontend-server@^1.0.2-beta.62, @hexhive/frontend-server@workspace:packages/backends/hive-frontend":
+"@hexhive/frontend-server@^1.0.2-beta.65, @hexhive/frontend-server@workspace:packages/backends/hive-frontend":
   version: 0.0.0-use.local
   resolution: "@hexhive/frontend-server@workspace:packages/backends/hive-frontend"
   dependencies:
