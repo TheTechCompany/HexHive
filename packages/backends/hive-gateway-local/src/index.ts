@@ -25,7 +25,6 @@ var OidcStrategy = require('passport-openidconnect').Strategy;
 // 	callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
 // 	scope: process.env.SCOPE || "openid email name groups"
 // };
-
 export interface LocalGatewayApp {
 	id: string;
 	name: string;
