@@ -3686,7 +3686,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hexhive/admin@workspace:packages/backends/hive-admin"
   dependencies:
-    "@hexhive/data": ^1.0.2-beta.66
+    "@hexhive/data": ^1.0.2-beta.67
     "@types/cors": ^2.8.12
     "@types/express": ^4.17.13
     body-parser: ^1.20.0
@@ -3716,7 +3716,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hexhive/cli@workspace:packages/clients/command-line"
   dependencies:
-    "@hexhive/dev-server": ^1.0.2-beta.66
+    "@hexhive/dev-server": ^1.0.2-beta.67
     "@types/dot": ^1.1.5
     "@types/inquirer": ^9.0.3
     "@types/node": ^18.15.5
@@ -3779,7 +3779,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/data@^1.0.2-beta.66, @hexhive/data@workspace:packages/core/hexhive-data":
+"@hexhive/data@^1.0.2-beta.67, @hexhive/data@workspace:packages/core/hexhive-data":
   version: 0.0.0-use.local
   resolution: "@hexhive/data@workspace:packages/core/hexhive-data"
   dependencies:
@@ -3792,12 +3792,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/dev-server@^1.0.2-beta.66, @hexhive/dev-server@workspace:packages/backends/hive-gateway-local":
+"@hexhive/dev-server@^1.0.2-beta.67, @hexhive/dev-server@workspace:packages/backends/hive-gateway-local":
   version: 0.0.0-use.local
   resolution: "@hexhive/dev-server@workspace:packages/backends/hive-gateway-local"
   dependencies:
-    "@hexhive/frontend-server": ^1.0.2-beta.66
-    "@hexhive/gateway": ^1.0.2-beta.66
+    "@hexhive/frontend-server": ^1.0.2-beta.67
+    "@hexhive/gateway": ^1.0.2-beta.67
     "@types/express": ^4.17.13
     "@types/express-session": ^1.17.4
     "@types/passport": ^1.0.7
@@ -3830,11 +3830,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/frontend-server@^1.0.2-beta.66, @hexhive/frontend-server@workspace:packages/backends/hive-frontend":
+"@hexhive/frontend-server@^1.0.2-beta.67, @hexhive/frontend-server@workspace:packages/backends/hive-frontend":
   version: 0.0.0-use.local
   resolution: "@hexhive/frontend-server@workspace:packages/backends/hive-frontend"
   dependencies:
-    "@hexhive/data": ^1.0.2-beta.66
+    "@hexhive/data": ^1.0.2-beta.67
     "@hexhive/microfrontend-server": ^1.0.2-beta.66
     "@types/cookie-parser": ^1.4.2
     "@types/express": ^4.17.13
@@ -3860,7 +3860,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/gateway@^1.0.2-beta.66, @hexhive/gateway@workspace:packages/backends/hive-gateway":
+"@hexhive/gateway@^1.0.2-beta.67, @hexhive/gateway@workspace:packages/backends/hive-gateway":
   version: 0.0.0-use.local
   resolution: "@hexhive/gateway@workspace:packages/backends/hive-gateway"
   dependencies:
@@ -3869,7 +3869,7 @@ __metadata:
     "@graphql-tools/stitch": 8.6.4
     "@graphql-tools/stitching-directives": ^2.2.9
     "@graphql-tools/wrap": ^8.3.2
-    "@hexhive/data": ^1.0.2-beta.66
+    "@hexhive/data": ^1.0.2-beta.67
     "@hexhive/types": ^1.0.2-beta.66
     "@types/amqplib": ^0.8.2
     "@types/cookie-parser": ^1.4.2
