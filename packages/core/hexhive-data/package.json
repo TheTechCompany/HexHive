@@ -3,7 +3,6 @@
   "version": "1.0.2-beta.66",
   "description": "",
   "main": "dist/index.js",
-  "private": true,
   "files": [
     "dist/"
   ],
