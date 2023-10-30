@@ -1,9 +1,7 @@
 MONGO_URL=mongodb://localhost/sessions
 
-NEO4J_URI=neo4j://localhost
-NEO4J_PASSWORD=test
-
-CLIENT_ID=
-CLIENT_SECRET=
-
 JWT_SECRET=
+
+GATEWAY_URL=http://localhost:7000/graphql
+
+DATABASE_URL=""

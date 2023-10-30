@@ -8,6 +8,7 @@ import { KeyManager } from "../keys";
 import { envelop, useLazyLoadedSchema } from '@envelop/core'
 import { stitchingDirectives } from "@graphql-tools/stitching-directives";
 import { Application, PrismaClient } from "@hexhive/data";
+import nodemailer from 'nodemailer'
 
 const { stitchingDirectivesTransformer } = stitchingDirectives()
 
@@ -16,9 +17,12 @@ export interface SchemaEndpoint extends Application {
 	status?: 'available' | 'unavailable' | 'error';
 }
 
+export type SchemaFactory = (prisma: PrismaClient, schemas: { [key: string]: {schema: GraphQLSchema, acl: any[]} }, transporter?: nodemailer.Transporter ) => GraphQLSchema;
+
 export interface SchemaRegistryOptions {
 	initialEndpoints?: SchemaEndpoint[];
-	schemaFactory?: (prisma: PrismaClient, schemas: { [key: string]: {schema: GraphQLSchema, acl: any[]} } ) => GraphQLSchema;
+	transporter?: nodemailer.Transporter;
+	schemaFactory?: SchemaFactory;
 	keyManager: (payload: any) => any;
 	prisma: PrismaClient;
 }
@@ -30,7 +34,9 @@ export class SchemaRegistry {
 	private mergedSchema?: GraphQLSchema;
 
 	// private internalSchema : GraphQLSchema;
-	private schemaFactory?: (prisma: PrismaClient, schemas: { [key: string]: {schema: GraphQLSchema, acl: any[]} } ) => GraphQLSchema;
+	private schemaFactory?: SchemaFactory
+
+	private transporter?: nodemailer.Transporter;
 
 	private keyManager: (payload: any) => any;
 
@@ -50,6 +56,8 @@ export class SchemaRegistry {
 
 		// this.internalSchema = opts.internalSchema;
 		this.schemaFactory = opts.schemaFactory;
+
+		this.transporter = opts.transporter;
 
 		this.server = Router()
 
@@ -238,7 +246,7 @@ export class SchemaRegistry {
 		let { query } = context.req
 	
 
-		return this.mergedSchema || this.schemaFactory?.(this.prisma, this.schemas)
+		return this.mergedSchema || this.schemaFactory?.(this.prisma, this.schemas, this.transporter)
 	}
 
 	private updateSchema(){
@@ -248,7 +256,7 @@ export class SchemaRegistry {
 			return this.schemas[schema]	
 		})
 
-		const internalSchema = this.schemaFactory?.(this.prisma, this.schemas);
+		const internalSchema = this.schemaFactory?.(this.prisma, this.schemas, this.transporter);
 
 		const schema = stitchSchemas({
 			subschemaConfigTransforms: [stitchingDirectivesTransformer],

@@ -7,6 +7,7 @@ import { SchemaEndpoint, SchemaRegistry } from "./schema-registry"
 import hive from "./schema/hive"
 import { KeyManager } from "./keys"
 import passport from "passport"
+import nodemailer from 'nodemailer'
 
 import { graphqlUploadExpress } from 'graphql-upload'
 import { PrismaClient } from "@hexhive/data"
@@ -16,6 +17,12 @@ const {NODE_ENV} = process.env
 const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next.hexhive.io", ISSUER = `http://localhost:${PORT}` } = process.env
 
 const prisma = new PrismaClient()
+
+export interface HiveGatewayOptions {
+	dev: boolean;
+	endpoints?: SchemaEndpoint[];
+	transporter?: nodemailer.Transporter;
+}
 
 export class HiveGateway {
 
@@ -30,10 +37,10 @@ export class HiveGateway {
 	// private neoDriver?: Driver;
 
 
-	private options : { dev: boolean, endpoints?: SchemaEndpoint[]};
+	private options : HiveGatewayOptions
 
 
-	constructor(opts: {dev: boolean, endpoints?: SchemaEndpoint[]}){
+	constructor(opts: HiveGatewayOptions){
 		
 		this.keyManager = new KeyManager();
 
@@ -78,6 +85,7 @@ export class HiveGateway {
 	async initHive(){
 
 		this.schemaRegistry = new SchemaRegistry({
+			transporter: this.options.transporter,
 			initialEndpoints: this.options.endpoints || [],
 			schemaFactory: hive,
 			keyManager: (payload: any) => this.keyManager.sign(payload),

@@ -9,6 +9,9 @@ import passport from 'passport';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
+import * as aws from "@aws-sdk/client-ses";
+import nodemailer from 'nodemailer'
+
 import { PrismaClient } from '@hexhive/data'
 
 import ApiKeyStrategy from 'passport-headerapikey'
@@ -21,16 +24,6 @@ const {NODE_ENV} = process.env
 
 
 const url = process.env.AUTH_SERVER || "auth.hexhive.io"
-const config = {
-	issuer: `https://${url}`,
-	authorizationURL: `https://${url}/auth`,
-	tokenURL: `https://${url}/token`,
-	userInfoURL: `https://${url}/me`,
-	clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
-	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
-	callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
-	scope: process.env.SCOPE || "openid email name groups"
-};
 
 const jwtConfig = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -51,6 +44,12 @@ const argv = yargs(hideBin(process.argv)).options({
 
 	const app = express()
 	const server = createServer(app)
+
+	const ses = new aws.SESClient({});
+
+	const transporter = nodemailer.createTransport({
+	  SES: {ses, aws: aws},
+	});
 
 	// const neoDriver = neo4j.driver(
 	// 	process.env.NEO4J_URI || "localhost",
@@ -94,6 +93,7 @@ const argv = yargs(hideBin(process.argv)).options({
 	
 	const gateway = new HiveGateway({
 		dev: dev,
+		transporter,
 		endpoints: endpointInfo
 	})
 		

@@ -1,21 +1,14 @@
 #!/usr/bin/env node
-import yargs from 'yargs/yargs';
-import { LocalGateway } from '.';
-import { readFileSync } from 'fs';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
-const argv = yargs(process.argv.slice(2)).options({
-  config: { type: 'string'},
-}).argv;
-
-(async () => {
-	const { config } = await argv;
-
-	let serverConfig: any = {applications: []};
-	if(config) serverConfig = JSON.parse(readFileSync(config, 'utf8') || '{applications: []}');
-	
-	const localGateway = new LocalGateway(serverConfig);
-
-	await localGateway.init()
-
-	await localGateway.start()
-})()
+yargs(hideBin(process.argv))
+  // Use the commands directory to scaffold.
+//   .command('hex-dev', 'Serve HexHive in development mode')
+  .commandDir('commands')
+//   .command('create', false, createBuilder, createHandler)
+  // Enable strict mode.
+  .strict()
+  // Useful aliases.
+  .alias({ h: 'help' })
+  .argv;

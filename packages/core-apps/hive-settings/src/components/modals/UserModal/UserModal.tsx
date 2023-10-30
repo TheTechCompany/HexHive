@@ -19,13 +19,8 @@ export const UserModal = (props) => {
 	const [ removeRoles, setRemoveRoles ] = useState<any[]>([])
 
 	useEffect(() => {
-		if(props.selected){
-			setUser(props.selected)
+			setUser({...props.selected})
 			setSelectedRoles((props.selected?.roles || []).map((x) => x.id))
-		}else{
-			setUser({})
-			setSelectedRoles([])
-		}
 	}, [props.selected])
 
 const toggleSelected = (item: any) => {

@@ -3,8 +3,9 @@ import { nanoid } from 'nanoid'
 import { disconnect } from "process";
 import { sendInvite } from "../../email";
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer'
 
-export default (prisma: PrismaClient) => {
+export default (prisma: PrismaClient, transporter?: nodemailer.Transporter) => {
 	const typeDefs = `
 
 		extend type Query {
@@ -271,15 +272,25 @@ export default (prisma: PrismaClient) => {
 			},
 			users: async (root: any, args: any, context: any) => {
 				let query : any = {};
+				
+				let orgQuery : any = {};
+
 				if(args.ids){
 					query.id = {in: args.ids}
 				}
-				if(args.active) query.inactive = false;
+				
+				if(args.active) {
+					query.inactive = false;
+					orgQuery.inactive = false;
+				}
 				
 				const users = await prisma.user.findMany({
 					where: {
 						organisations: {
-							some: {issuerId: context?.jwt?.organisation || context?.user?.organisation}, 
+							some: {
+								issuerId: context?.jwt?.organisation || context?.user?.organisation,
+								...orgQuery
+							}, 
 						},
 						...query
 					},
@@ -288,10 +299,11 @@ export default (prisma: PrismaClient) => {
 					}
 				})
 
+				//Inactive users might still show up
 				if(args.ids){
-					return args.ids.map((id: string) => users.find((a: any) => a.id == id))?.map((x: any) => ({...x, email: x.email || ''}))
+					return args.ids.map((id: string) => users.find((a: any) => a.id == id))?.map((x: any) => ({...x, inactive: x.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x.email || ''}))
 				}else{
-					return users?.map((x: any) => ({...x, email: x.email || ''}));
+					return users?.map((x: any) => ({...x, inactive: x.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x.email || ''}));
 				}
 			}
 		
@@ -299,19 +311,22 @@ export default (prisma: PrismaClient) => {
 		Mutation: {
 			createUserTrust: async (root: any, args: any, context: any) => {
 
-				let existingUser = await prisma.user.findFirst({
-					where: {
-						email: args.input.email
-					}
-				});
+				let existingUser : any = {};
+				if(args.input.email){
+					existingUser = await prisma.user.findFirst({
+						where: {
+							email: args.input.email
+						}
+					});
+				}
 
 				const currentOrg = await prisma.organisation.findFirst({where: {id: context?.jwt?.organisation}})
 				if(!currentOrg) throw new Error("Not authorized to invite new users");
 
-				let user = {id: existingUser?.id}
+				let user = {id: existingUser?.id, email: existingUser?.email || args.input.email}
 				if(!user.id){
 					user.id = nanoid();
-					await prisma.user.create({
+					const u = await prisma.user.create({
 						data: {
 							id: user.id,
 							email: args.input.email,
@@ -319,6 +334,7 @@ export default (prisma: PrismaClient) => {
 							inactive: true
 						}
 					})
+					console.log({u})
 				}
 
 				await prisma.userTrust.create({
@@ -339,27 +355,36 @@ export default (prisma: PrismaClient) => {
 				const token = jwt.sign({
 					id: user.id
 				}, 'sECRET')
-				//Send transactional emails
-				if(!existingUser){
-					//Send invite to HexHive with organisation invite
-					await sendInvite({
-						to: args.input.email,
-						receiver: args.input.name,
-						sender: currentOrg.name,
-						type: args.input.type,
-						link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
-					})
-				}else{
-					//Send invite to HexHive org to existing user
-					await sendInvite({
-						to: args.input.email,
-						receiver: args.input.name,
-						sender: currentOrg.name,
-						type: args.input.type,
-						link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
-					})
-				}
 
+				if(!transporter) throw new Error('No SMTP transporter provided');
+				
+				if(user.email){
+					//Send transactional emails
+					if(!existingUser){
+						//Send invite to HexHive with organisation invite
+						await sendInvite(
+							transporter,
+						{
+							to: args.input.email,
+							receiver: args.input.name,
+							sender: currentOrg.name,
+							type: args.input.type,
+							link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
+						})
+					}else{
+						//Send invite to HexHive org to existing user
+						await sendInvite(
+							transporter,
+						{
+							to: args.input.email,
+							receiver: args.input.name,
+							sender: currentOrg.name,
+							type: args.input.type,
+							link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
+						})
+					}
+
+				}
 				return user;
 			},
 			updateUserTrust: async (root: any, args: any, context: any) => {
@@ -403,6 +428,16 @@ export default (prisma: PrismaClient) => {
 			
 				}
 
+				console.log("User update", update);
+
+				const t = await prisma.userTrust.findFirst({
+					where: {
+						trustId: args.id
+					}
+				});
+
+				console.log(t);
+
 				await prisma.userTrust.update({
 					where: {
 						trustId_issuerId: {
@@ -411,6 +446,20 @@ export default (prisma: PrismaClient) => {
 						}
 					},
 					data: update
+				})
+
+				return await prisma.user.findFirst({
+					where: {
+						id: args.id,
+						organisations: {
+							some: {
+								issuerId: context?.jwt?.organisation
+							}
+						}
+					},
+					include: {
+						organisations: true
+					}
 				})
 
 				// return await prisma.user.update({

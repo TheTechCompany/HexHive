@@ -11,10 +11,7 @@ let app;
 beforeAll(async () => {
     app = express()
 
-    const neoDriver = neo4j.driver(
-        process.env.NEO4J_URI || "localhost",
-        neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
-    )
+
     
     server  = new HiveGraph({
         rootServer: 'http://localhost:7000',
@@ -35,7 +32,6 @@ beforeAll(async () => {
                     }
                 }
             },
-            driver: neoDriver
         },
         dev: true
     });

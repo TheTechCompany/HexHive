@@ -20,21 +20,6 @@ const prisma = new PrismaClient();
 const { NODE_ENV } = process.env;
 
 const url = process.env.AUTH_SERVER || "auth.hexhive.io";
-const config = {
-	issuer: `https://${url}`,
-	authorizationURL: `https://${url}/auth`,
-	tokenURL: `https://${url}/token`,
-	userInfoURL: `https://${url}/me`,
-	clientID:
-		process.env.CLIENT_ID ||
-		"test" ||
-		`${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
-	clientSecret:
-		process.env.CLIENT_SECRET ||
-		`${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
-	callbackURL: `${process.env.BASE_URL || "http://localhost:8000"}/callback`,
-	scope: process.env.SCOPE || "openid email name groups",
-};
 
 (async (port: number = 8000) => {
 
@@ -290,49 +275,6 @@ const config = {
 				config_url: (deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint) || '/',
 			}))
 
-
-			// const session = neoDriver?.session()
-
-			// const apps = await session?.readTransaction(async (tx) => {
-			// 	let apps: any[] = [];
-
-			// 	if (!req || !req.user.id) {
-			// 		const result = await tx?.run(`
-			// 			MATCH (apps:HiveAppliance)
-			// 			WHERE apps.entrypoint IS NOT NULL
-			// 			RETURN distinct(apps{.*})
-			// 		`);
-
-			// 		apps = result?.records.map((x) => x.get(0)) || [];
-			// 	} else {
-			// 		const result = await tx?.run(
-			// 			`
-			// 			MATCH (user:HiveUser {id: $id})-[:HAS_ROLE]->()-->(apps:HiveAppliance)
-			// 			WHERE apps.entrypoint IS NOT NULL
-			// 			RETURN distinct(apps{.*})
-			// 		`,
-			// 			{
-			// 				id: req.user.id,
-			// 			}
-			// 		);
-
-			// 		apps = result?.records.map((x) => x.get(0)) || [];
-			// 	}
-			// 	return apps || [];
-			// }) || [];
-
-			// session?.close()
-
-			// const views = (apps || []).map((app) => ({
-			// 	name: app.name,
-			// 	path: app.slug,
-			// 	default: false,
-			// }))
-
-			// const appliances = apps?.map((app) => ({
-			// 	name: app.name,
-			// 	config_url: deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint,
-			// }))
 
 			return { views: views, apps: appliances }
 
