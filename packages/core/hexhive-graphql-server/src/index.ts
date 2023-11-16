@@ -14,7 +14,6 @@ import { AbilityBuilder, buildMongoQueryMatcher, createMongoAbility } from '@cas
 import { $and, and, $or, or } from '@ucast/mongo2js';
 import { DocumentCondition } from '@ucast/core';
 
-
 const $expr = {
 	type: 'document',
 	validate(instruction: any, value: any) {
@@ -48,7 +47,6 @@ export interface HiveGraphOptions {
 	dev?: boolean;
 	uploads?: boolean;
 }
-
 
 export class HiveGraph {
 
