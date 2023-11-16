@@ -164,7 +164,6 @@ export class HiveGraph {
 
 	definePermissions(user: { permissions: { policies: { effect: string, verbs: string[], resource: string, conditions?: string }[] }[] }) {
 
-
 		const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 
 		user?.permissions?.map((perm) => {
