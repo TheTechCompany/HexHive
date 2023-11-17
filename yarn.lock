@@ -3903,7 +3903,7 @@ __metadata:
     graphql-compose: ^9.0.6
     graphql-tag: ^2.12.6
     grommet: 2.20.1
-    lerna: ^7.1.4
+    lerna: 7.4.2
     nanoid: ^3.1.23
     prettier: ^2.4.1
     process: ^0.11.10
@@ -18081,7 +18081,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lerna@npm:^7.1.4":
+"lerna@npm:7.4.2":
   version: 7.4.2
   resolution: "lerna@npm:7.4.2"
   dependencies:
