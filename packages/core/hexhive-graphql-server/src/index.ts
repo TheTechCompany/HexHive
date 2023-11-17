@@ -48,8 +48,6 @@ export interface HiveGraphOptions {
 	uploads?: boolean;
 }
 
-
-
 export class HiveGraph {
 
 	private dev: boolean;
