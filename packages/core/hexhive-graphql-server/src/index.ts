@@ -2,18 +2,15 @@ import { JwksClient } from 'jwks-rsa'
 import { Router, json } from 'express';
 import { verify } from 'jsonwebtoken';
 import { GraphQLSchema, print } from 'graphql'
-import { getGraphQLParameters, processRequest, renderGraphiQL, shouldRenderGraphiQL, sendResult } from "graphql-helix";
 import { mergeResolvers, mergeTypeDefs } from '@graphql-tools/merge'
 import { GraphQLUpload, graphqlUploadExpress } from 'graphql-upload'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { stitchSchemas } from '@graphql-tools/stitch'
-import bodyParser from 'body-parser'
 import { HashType } from './directives/hash'
-import gql from 'graphql-tag';
 import schema, { ACL_Schema } from './schema';
 import { graphqlHTTP } from './handler';
 import { DateResolver, DateTimeResolver, GraphQLJSON, GraphQLJSONObject } from 'graphql-scalars';
-import { AbilityBuilder, buildMongoQueryMatcher, createMongoAbility, defineAbility } from '@casl/ability'
+import { AbilityBuilder, buildMongoQueryMatcher, createMongoAbility } from '@casl/ability'
 import { $and, and, $or, or } from '@ucast/mongo2js';
 import { DocumentCondition } from '@ucast/core';
 
@@ -50,7 +47,6 @@ export interface HiveGraphOptions {
 	dev?: boolean;
 	uploads?: boolean;
 }
-
 
 export class HiveGraph {
 
@@ -163,7 +159,6 @@ export class HiveGraph {
 
 
 	definePermissions(user: { permissions: { policies: { effect: string, verbs: string[], resource: string, conditions?: string }[] }[] }) {
-
 
 		const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 

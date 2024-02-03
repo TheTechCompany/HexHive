@@ -3,28 +3,11 @@ import { config } from 'dotenv'
 config()
 import { HiveGateway } from '@hexhive/gateway'
 import { HiveFrontendServer } from '@hexhive/frontend-server'
-import { readFileSync } from 'fs';
 import express, {Express} from 'express';
 import { Routes } from './routes'
 import session from 'express-session';
-import passport from 'passport';
-var OidcStrategy = require('passport-openidconnect').Strategy;
 
 // const {NODE_ENV} = process.env
-
-// console.log(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
-
-// const url = process.env.AUTH_SERVER || "auth.hexhive.io"
-// const openIdConfig = {
-// 	issuer: `https://${url}`,
-// 	authorizationURL: `https://${url}/auth`,
-// 	tokenURL: `https://${url}/token`,
-// 	userInfoURL: `https://${url}/me`,
-// 	clientID: process.env.CLIENT_ID || "test" || `${NODE_ENV != "production" ? "staging-" : ""}hexhive.io`,
-// 	clientSecret: process.env.CLIENT_SECRET || `${NODE_ENV != "production" ? "staging-" : ""}hexhive_secret`,
-// 	callbackURL: `${process.env.BASE_URL || "http://localhost:7000"}/callback`,
-// 	scope: process.env.SCOPE || "openid email name groups"
-// };
 
 export interface LocalGatewayApp {
 	id: string;
@@ -46,7 +29,6 @@ export class LocalGateway {
 	private frontendServer: HiveFrontendServer;
 
 	private port = 7000;
-
 	private applications : LocalGatewayApp[]
 
 	constructor(options: LocalGatewayOptions){

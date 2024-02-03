@@ -20,7 +20,6 @@ export const frontendRouter = () => {
 			mongoUrl: process.env.MONGO_URL || 'mongodb://localhost'
 		 })
 	}));
-
 	return app
 	
 }

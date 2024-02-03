@@ -9,15 +9,16 @@ import { PrismaClient } from '@hexhive/data'
 
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeResolvers } from "@graphql-tools/merge"
+import nodemailer from 'nodemailer'
 
 require("dotenv").config()
 
 const { allStitchingDirectivesTypeDefs } = stitchingDirectives();
 
 
-export default (prisma: PrismaClient, schemas: { [key: string]: {acl: any[]} }) => {
+export default (prisma: PrismaClient, schemas: { [key: string]: {acl: any[]} }, transporter?: nodemailer.Transporter) => {
 
-	const {typeDefs: subschemaTypeDefs, resolvers: subschemaResolvers} = subschema(prisma, schemas);
+	const {typeDefs: subschemaTypeDefs, resolvers: subschemaResolvers} = subschema(prisma, schemas, transporter);
 
 	const typeDefs = gql`
 		${allStitchingDirectivesTypeDefs}

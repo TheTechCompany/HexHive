@@ -12,7 +12,7 @@ export const Users = () => {
 
 	const { activeUser } = useAuth()
 
-	const [ selected, setSelected ] = useState<any>(undefined)
+	const [ selected, setSelected ] = useState<any>({})
 	const [ modalOpen, openModal ] = useState<boolean>(false)
 
 	const { data } = useApollo(gql`
@@ -109,7 +109,7 @@ export const Users = () => {
 					selected={selected}
 					onClose={() => {
 						openModal(false)
-						setSelected(null)
+						setSelected({})
 					}}
 					onSubmit={(user) => {
 						if(!user.id){

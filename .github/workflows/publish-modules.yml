@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - staging
-    paths: [".github/workflows/publish-modules.yml", "packages/clients/**", "packages/core/**", "packages/shared/**", "packages/workers/**"]
+    paths: [".github/workflows/publish-modules.yml", "packages/backends/**", "packages/clients/**", "packages/core/**", "packages/shared/**", "packages/workers/**"]
 
 
 jobs:
