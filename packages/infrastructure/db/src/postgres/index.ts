@@ -54,25 +54,6 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
 
 
 
-    // const storagePv = new k8s.core.v1.PersistentVolume(`postgres-pv-${suffix}`, {
-    //     metadata: {
-    //         name: `postgres-pv-${suffix}`,
-    //     },
-    //     spec: {
-    //         capacity: {
-    //             storage: '100Gi'
-    //         },
-    //         volumeMode: 'Filesystem',
-    //         accessModes: ['ReadWriteMany'],
-    //         persistentVolumeReclaimPolicy: 'Retain',
-    //         storageClassName: 'efs-sc',
-    //         csi: {
-    //             driver: 'efs.csi.aws.com',
-    //             volumeHandle: efsVolume.id
-    //         }
-    //     }
-    // }, {provider})
-
     const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`postgres-pvc-${suffix}`, {
         metadata: {
             name: `postgres-pvc-${suffix}`,
