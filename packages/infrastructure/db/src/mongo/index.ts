@@ -57,7 +57,7 @@ export const MongoDB = async (provider: k8s.Provider, vpcId: Output<any>, namesp
             template: {
                 metadata: {labels: appLabels},
                 spec: {
-                    priority: 50,
+                    // priority: 50,
                     // nodeSelector:{
                     //         'kubernetes.io/arch': 'amd64'
                     // },
