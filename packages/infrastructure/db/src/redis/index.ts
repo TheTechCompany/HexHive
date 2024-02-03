@@ -101,7 +101,7 @@ export const RedisDB = async (provider: k8s.Provider, vpcId: Output<any>, ns: k8
             template: {
                 metadata: {labels: appLabels},
                 spec: {
-                    priority: 50,
+                    // priority: 50,
 
                     containers: [{
                         name: depName,

@@ -121,7 +121,7 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, na
             template: {
                 metadata: {labels: appLabels},
                 spec: {
-                    priority: 50,
+                    // priority: 50,
 
                     // nodeSelector: {
                     //     'eks.amazonaws.com/nodegroup': 'managed-nodes'

@@ -26,7 +26,7 @@ export const PgBouncer = (provider: Provider, timescaleUrl: any, timescalePass: 
                     labels: appLabels
                 },
                 spec: {
-                    priority: 50,
+                    // priority: 50,
                     
                     containers: [
                         {
