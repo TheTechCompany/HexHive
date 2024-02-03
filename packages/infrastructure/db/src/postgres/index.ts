@@ -52,8 +52,6 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
     //     rootDirectory: { path: "/" },
     // })
 
-
-
     const storageClaim = new k8s.core.v1.PersistentVolumeClaim(`postgres-pvc-${suffix}`, {
         metadata: {
             name: `postgres-pvc-${suffix}`,

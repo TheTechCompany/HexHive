@@ -4153,7 +4153,7 @@ __metadata:
     "@types/yargs": ^17.0.3
     dotenv: ^10.0.0
     jsondiffpatch: ^0.4.1
-    mssql: ^8.0.2
+    mssql: 8.0.2
     typescript: ^4.4.3
     yargs: ^17.2.1
   bin:
@@ -11172,13 +11172,6 @@ __metadata:
   version: 8.3.0
   resolution: "commander@npm:8.3.0"
   checksum: 0f82321821fc27b83bd409510bb9deeebcfa799ff0bf5d102128b500b7af22872c0c92cb6a0ebc5a4cf19c6b550fba9cedfa7329d18c6442a625f851377bacf0
-  languageName: node
-  linkType: hard
-
-"commander@npm:^9.1.0":
-  version: 9.5.0
-  resolution: "commander@npm:9.5.0"
-  checksum: c7a3e27aa59e913b54a1bafd366b88650bc41d6651f0cbe258d4ff09d43d6a7394232a4dadd0bf518b3e696fdf595db1028a0d82c785b88bd61f8a440cecfade
   languageName: node
   linkType: hard
 
@@ -19446,19 +19439,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mssql@npm:^8.0.2":
-  version: 8.1.4
-  resolution: "mssql@npm:8.1.4"
+"mssql@npm:8.0.2":
+  version: 8.0.2
+  resolution: "mssql@npm:8.0.2"
   dependencies:
     "@tediousjs/connection-string": ^0.3.0
-    commander: ^9.1.0
     debug: ^4.3.3
     rfdc: ^1.3.0
     tarn: ^3.0.2
     tedious: ^14.0.0
   bin:
     mssql: bin/mssql
-  checksum: b70f490243d190a1dc118adaa9eab74b9d80f08e5258a69aded2564d649ce9a5de64c8f440c0b99601b30eb8cd413ed7c42e94fe8c99fee323295d9e0beb7080
+  checksum: 1a825a9241a107aeb657dd2bf2d3867822ada5b9b657db8476dbe9a81969dba7392b95f1229d8ede5c6fabb5567bb317fac5cb6b7e9196efa53171477d2102c5
   languageName: node
   linkType: hard
 
