@@ -142,12 +142,12 @@ export const TimescaleDB = async (provider: k8s.Provider, vpcId: Output<any>, na
                         ],
                         resources: {
                             requests: {
-                                cpu: '0.25',
-                                memory: '1Gi'
-                            },
-                            limits: {
                                 cpu: '0.5',
                                 memory: '2Gi'
+                            },
+                            limits: {
+                                cpu: '1',
+                                memory: '4Gi'
                             }
                         }
                     }],

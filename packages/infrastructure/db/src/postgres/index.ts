@@ -63,7 +63,7 @@ export const ApplicationDB = async (provider: k8s.Provider, vpcId: Output<any>, 
             // volumeName: storagePv.metadata.name,
             resources: {
                 requests: {
-                    storage: '10Gi'
+                    storage: '20Gi'
                 }
             }
         }   
