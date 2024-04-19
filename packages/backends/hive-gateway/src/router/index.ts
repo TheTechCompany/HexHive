@@ -4,7 +4,6 @@ import session from 'express-session';
 import helmet from 'helmet';
 import passport from 'passport';
 import cors from 'cors';
-import MongoStore from 'connect-mongo'
 
 
 export interface HiveRouterOptions {
@@ -23,10 +22,6 @@ export class HiveRouter {
 		this.app = Router()
 
 		this.options = options
-
-		// this.server = createServer(this.app)
-
-		this.initMiddleware()
 	}
 
 	mount(...args: any[]) {
@@ -37,30 +32,6 @@ export class HiveRouter {
 		}
 	}
 
-
-	initMiddleware() {
-		// this.app.set("trust proxy", true)
-
-		// this.app.use(cors())
-		this.app.use(cookieParser())
-		// this.app.use(helxmet())
-
-		let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
-
-		this.app.use(session({
-			secret: process.env.SESSION_KEY || 'MyVoiceIsMyPassportVerifyMe',
-			resave: false,
-			saveUninitialized: true,
-			...cookieParams,
-			store: MongoStore.create({
-				mongoUrl: process.env.MONGO_URL || 'mongodb://localhost'
-			})
-		}));
-
-		// app.use(auth(config))
-
-	
-	}
 
 	get connect(){
 		return this.app

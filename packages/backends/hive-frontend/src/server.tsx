@@ -3,7 +3,6 @@ import { createServer } from 'http'
 import express from 'express';
 import passport from "passport";
 import session from "express-session";
-import MongoStore from "connect-mongo";
 import fs from 'fs';
 import path from 'path';
 
@@ -15,6 +14,11 @@ import { PrismaClient } from '@hexhive/data'
 
 import { Strategy as LocalStrategy } from 'passport-local'
 
+import { createClient } from 'redis';
+import RedisStore from 'connect-redis';
+import cookieParser from "cookie-parser";
+
+
 const prisma = new PrismaClient();
 
 const { NODE_ENV } = process.env;
@@ -24,8 +28,19 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 (async (port: number = 8000) => {
 
 	const deploymentLevel = process.env.DEPLOYMENT_LEVEL || "dev";
-
+	
 	const app = express()
+
+
+	const redisClient = createClient({
+		url: process.env.REDIS_URL
+	})
+	await redisClient.connect();
+
+	const redisStore = new RedisStore({
+		client: redisClient,
+		prefix: "hexhive:"
+	})
 
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded());
@@ -35,14 +50,14 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : { cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' } }
 
+	app.use(cookieParser())
+
 	app.use(session({
 		secret: process.env.SESSION_KEY || 'MyVoiceIsMyPassportVerifyMe',
 		resave: false,
 		saveUninitialized: true,
 		...cookieParams,
-		store: MongoStore.create({
-			mongoUrl: process.env.MONGO_URL
-		})
+		store: redisStore
 	}));
 
 	app.use(passport.initialize());

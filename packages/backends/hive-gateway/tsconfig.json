@@ -72,7 +72,6 @@
   },
   "exclude": ["dist/", "utils/"],
   "references": [
-    {"path": "../../shared/hexhive-types"},
     {"path": "../../core/hexhive-data"}
   ]
 }
