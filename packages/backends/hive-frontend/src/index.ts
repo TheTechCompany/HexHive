@@ -3,7 +3,6 @@ dotenv();
 
 import { Router } from "express";
 import { HiveMicrofrontendServer } from "@hexhive/microfrontend-server";
-import { frontendRouter } from "./router";
 
 export interface HiveFrontendRoute {
   route: string;
@@ -35,8 +34,6 @@ export class HiveFrontendServer {
     this.getExternalViews = opts.getViews;
 
     this.routes = opts.routes;
-
-    this.app.use(frontendRouter());
 
     this.frontendRegistry = new HiveMicrofrontendServer({
       apiUrl: opts.apiUrl,

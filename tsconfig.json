@@ -39,8 +39,7 @@
      "@types/react-router-dom": ["../node_modules/@types/react-router-dom"],
      "react-router-dom": ["../node_modules/react-router-dom"],
 
-     "@hexhive/auth-ui": ["./shared/hexhive-auth-ui/src"],
-     "@hexhive/types": ["./shared/hexhive-types/src"]
+     "@hexhive/auth-ui": ["./shared/hexhive-auth-ui/src"]
    }
   }
 }

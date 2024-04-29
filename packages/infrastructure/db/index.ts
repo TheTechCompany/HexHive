@@ -4,10 +4,8 @@ import { Provider } from "@pulumi/kubernetes";
 import * as pulumi from '@pulumi/pulumi'
 import { Config } from "@pulumi/pulumi";
 import * as aws from '@pulumi/aws'
-import RabbitMQ from './src/rabbitmq'
 import { ApplicationDB } from './src/postgres'
 import { TimescaleDB } from './src/timescaledb'
-import { MongoDB } from './src/mongo'
 import { PgBouncer } from './src/pgbouncer'
 import { RedisDB } from './src/redis'
 
@@ -35,12 +33,10 @@ const main = (async () => {
         }
     }, {provider})
 
-    const { url: rabbitURL } = await RabbitMQ(provider, vpcId, ns)
-
     const { url: redisUrl } = await RedisDB(provider, vpcId, ns);
 
     const { service: timescale, url: timescaleUrl } = await TimescaleDB(provider, vpcId, ns, process.env.POSTGRES_PASSWORD);
-    const { url: mongoUrl } = await MongoDB(provider, vpcId, ns);
+
     const {service: dbService} = await ApplicationDB(provider, vpcId, ns, process.env.POSTGRES_PASSWORD)
 
     
@@ -49,20 +45,15 @@ const main = (async () => {
 
 
     return {
-        rabbitURL,
         redisUrl,
         dbService,
         timescaleService: timescale,
         timescaleUrl,
-        mongoUrl,
         dbPass: process.env.POSTGRES_PASSWORD
     }
 })()
 
-export const rabbitURL = main.then((result) => result.rabbitURL);
 export const redisUrl = main.then((result) => result.redisUrl);
-
-export const mongo_url = main.then((result) => result.mongoUrl);
 
 export const timescale_url = main.then((result) => result.timescaleUrl);
 

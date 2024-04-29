@@ -30,19 +30,19 @@
   "dependencies": {
     "@hexhive/data": "^1.0.2-beta.70",
     "@hexhive/microfrontend-server": "^1.0.2-beta.66",
-    "connect-mongo": "^4.6.0",
+    "connect-redis": "7.x",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "greenlock-express": "^4.0.3",
-    "mongodb": "^4.2.2",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "passport-openidconnect": "0.1.1",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "redis": "4.x"
   },
   "gitHead": "92dbd6f35a180402f000705602518556ca13d7d6"
 }

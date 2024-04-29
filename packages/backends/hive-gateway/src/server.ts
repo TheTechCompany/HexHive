@@ -7,7 +7,9 @@ import { createServer, Server as HttpServer } from 'http';
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
-import MongoStore from 'connect-mongo';
+
+import RedisStore from 'connect-redis';
+import { createClient } from 'redis';
 
 import * as aws from "@aws-sdk/client-ses";
 import nodemailer from 'nodemailer'
@@ -15,6 +17,7 @@ import nodemailer from 'nodemailer'
 import { PrismaClient } from '@hexhive/data'
 
 import ApiKeyStrategy from 'passport-headerapikey'
+import cookieParser from 'cookie-parser';
 // const { Strategy: ApiKeyStrategy } = require('passport-headerapikey')
 
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
@@ -51,6 +54,21 @@ const argv = yargs(hideBin(process.argv)).options({
 	  SES: {ses, aws: aws},
 	});
 
+	const redisClient = createClient({
+		url: process.env.REDIS_URL
+	})
+
+	try{
+		await redisClient.connect();
+	}catch(err){
+		console.error(`Redis: `, err)
+	}
+
+	const redisStore = new RedisStore({
+		client: redisClient,
+		prefix: "hexhive:"
+	})
+
 	// const neoDriver = neo4j.driver(
 	// 	process.env.NEO4J_URI || "localhost",
 	// 	neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
@@ -58,14 +76,14 @@ const argv = yargs(hideBin(process.argv)).options({
 	
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
 
+	app.use(cookieParser())
+
 	app.use(session({
 		secret: process.env.SESSION_KEY || 'MyVoiceIsMyPassportVerifyMe',
 		resave: false,
 		saveUninitialized: true,
 		...cookieParams,
-		store: MongoStore.create({
-			mongoUrl: process.env.MONGO_URL
-		})
+		store: redisStore
 	}));
 
 	app.use(passport.initialize())
