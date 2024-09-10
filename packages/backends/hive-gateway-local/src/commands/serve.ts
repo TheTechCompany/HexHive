@@ -20,7 +20,9 @@ export const command: string = 'serve [options]';
 export const desc: string = 'Manage HexHive config';
 
 export const builder = (yargs: any) =>
-    yargs.string('config')
+    yargs
+    .string('config')
+    .string('env')
   
 
 export const handler = async (argv: Arguments<Options>) => {
