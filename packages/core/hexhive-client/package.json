@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/client",
-  "version": "1.0.2-beta.62",
+  "version": "1.0.2-beta.71",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
