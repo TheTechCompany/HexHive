@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/dev-server",
-  "version": "1.0.2-beta.71",
+  "version": "1.0.2-beta.72",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -39,8 +39,8 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@hexhive/frontend-server": "^1.0.2-beta.71",
-    "@hexhive/gateway": "^1.0.2-beta.71",
+    "@hexhive/frontend-server": "^1.0.2-beta.72",
+    "@hexhive/gateway": "^1.0.2-beta.72",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "inquirer": "^8.x",
