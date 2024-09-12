@@ -3819,7 +3819,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/data@^1.0.2-beta.73, @hexhive/data@workspace:^, @hexhive/data@workspace:packages/core/hexhive-data":
+"@hexhive/data@^1.0.2-beta.72, @hexhive/data@^1.0.2-beta.73, @hexhive/data@workspace:^, @hexhive/data@workspace:packages/core/hexhive-data":
   version: 0.0.0-use.local
   resolution: "@hexhive/data@workspace:packages/core/hexhive-data"
   dependencies:
@@ -3906,7 +3906,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hexhive/frontend-server@workspace:packages/backends/hive-frontend"
   dependencies:
-    "@hexhive/data": ^1.0.2-beta.73
+    "@hexhive/data": ^1.0.2-beta.72
     "@hexhive/db-postgres": "workspace:^"
     "@hexhive/db-types": "workspace:^"
     "@hexhive/microfrontend-server": ^1.0.2-beta.73
