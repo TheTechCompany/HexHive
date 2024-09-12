@@ -3,6 +3,9 @@
   "version": "1.0.2-beta.73",
   "description": "",
   "main": "dist/index.js",
+  "installConfig": {
+    "hoistingLimits": "dependencies"
+  },
   "files": [
     "dist/"
   ],
@@ -16,7 +19,7 @@
     "start:cli": "npx ts-node -r tsconfig-paths/register src/cli.ts",
     "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "cd src/dev-view && vite",
-    "build": "tsc -b && rm -rf dist/dev-view/* && yarn build:app && cp -r src/dev-view/dist dist/dev-view/dist",
+    "build": "tsc -b && rm -rf dist/dev-view && mkdir -p dist/dev-view && yarn build:app && cp -r src/dev-view/dist dist/dev-view/dist",
     "build:app": "cd src/dev-view && tsc && vite build",
     "preview": "cd src/dev-view && vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -39,6 +42,9 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
+    "@hexhive-core/dashboard": "workspace:^",
+    "@hexhive-core/header": "workspace:^",
+    "@hexhive/db-memory": "workspace:^",
     "@hexhive/frontend-server": "^1.0.2-beta.73",
     "@hexhive/gateway": "^1.0.2-beta.73",
     "express": "^4.17.2",

@@ -70,8 +70,9 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["dist/", "utils/"],
+  "exclude": ["dist/", "utils/", "src/server.ts"],
   "references": [
-    {"path": "../../core/hexhive-data"}
+    {"path": "../../core/hexhive-data"},
+    {"path": "../../db/hive-db-types"}
   ]
 }

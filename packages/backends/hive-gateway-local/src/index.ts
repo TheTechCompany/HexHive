@@ -6,7 +6,9 @@ import { HiveFrontendServer } from '@hexhive/frontend-server'
 import express, {Express} from 'express';
 import { Routes } from './routes'
 import session from 'express-session';
-
+import { HiveDB } from '@hexhive/db-types';
+import { HiveDBMemory } from '@hexhive/db-memory';
+import cors from 'cors';
 // const {NODE_ENV} = process.env
 
 export interface LocalGatewayApp {
@@ -20,20 +22,30 @@ export interface LocalGatewayApp {
 export interface LocalGatewayOptions {
 	applications: LocalGatewayApp[];
 	port: number
+	db: HiveDB
 }
 
 export class LocalGateway {
 	private app: Express;
+	private coreApps: Express;
 
 	private gateway: HiveGateway;
 	private frontendServer: HiveFrontendServer;
 
 	private port = 7000;
+	private corePort = 7001;
 	private applications : LocalGatewayApp[]
 
+	private db: HiveDB;
+
 	constructor(options: LocalGatewayOptions){
+
+		this.db = options.db || HiveDBMemory()
 		this.app = express()
 
+		this.coreApps = express()
+		this.coreApps.use(cors());
+		
 		this.port = options.port || 7000;
 
 		this.applications = options.applications
@@ -55,12 +67,23 @@ export class LocalGateway {
 			}
 		})
 
+		process.env.CORE_URL = 'http://localhost:7001/';
+
+		this.coreApps.get('/hexhive-core-dashboard.js', (req, res) => {
+			res.sendFile(require.resolve('@hexhive-core/dashboard'))
+		});
+		this.coreApps.get('/hexhive-core-header.js', (req, res) => {
+			res.sendFile(require.resolve('@hexhive-core/header'))
+		});
+		
 		this.gateway = new HiveGateway({
 			dev: true,
+			db: this.db,
 			endpoints: endpointInfo as any
 		})
 
 		this.frontendServer = new HiveFrontendServer({
+			// db: this.db,
 			apiUrl: `http://localhost:${this.port}`,
 			routes: routeInfo,
 			getViews: async (req) => {
@@ -86,7 +109,7 @@ export class LocalGateway {
 		}));
 		
 		this.app.use((req, res, next) => {
-			if(!req.isAuthenticated) req.isAuthenticated = () => true;
+			if(!req.isAuthenticated) req.isAuthenticated = (() => true) as any;
 			if(!req.user){
 				req.user = {
 					id: '0v9EW7tP8Ys35JY4sypqw',
@@ -209,6 +232,8 @@ export class LocalGateway {
 	
 	start(){
 		this.app.listen(this.port)
+		this.coreApps.listen(this.corePort)
+
 		console.log(`=> Gateway Online on ${this.port}`)
 		console.log(`=> View at http://localhost:${this.port}`)
 	}

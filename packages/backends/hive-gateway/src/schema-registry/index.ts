@@ -9,6 +9,7 @@ import { envelop, useLazyLoadedSchema } from '@envelop/core'
 import { stitchingDirectives } from "@graphql-tools/stitching-directives";
 import { Application, PrismaClient } from "@hexhive/data";
 import nodemailer from 'nodemailer'
+import { HiveDB } from '@hexhive/db-types'
 
 const { stitchingDirectivesTransformer } = stitchingDirectives()
 
@@ -17,14 +18,14 @@ export interface SchemaEndpoint extends Application {
 	status?: 'available' | 'unavailable' | 'error';
 }
 
-export type SchemaFactory = (prisma: PrismaClient, schemas: { [key: string]: {schema: GraphQLSchema, acl: any[]} }, transporter?: nodemailer.Transporter ) => GraphQLSchema;
+export type SchemaFactory = (db: HiveDB, schemas: { [key: string]: {schema: GraphQLSchema, acl: any[]} }, transporter?: nodemailer.Transporter ) => GraphQLSchema;
 
 export interface SchemaRegistryOptions {
 	initialEndpoints?: SchemaEndpoint[];
 	transporter?: nodemailer.Transporter;
 	schemaFactory?: SchemaFactory;
 	keyManager: (payload: any) => any;
-	prisma: PrismaClient;
+	db: HiveDB;
 }
 export class SchemaRegistry {
 	
@@ -44,13 +45,13 @@ export class SchemaRegistry {
 
 	private getEnveloped: Function;
 
-	private prisma : PrismaClient;
+	private db : HiveDB;
 
 	constructor(opts: SchemaRegistryOptions){
 		this.endpoints = opts.initialEndpoints || []
 		this.schemas = {};
 
-		this.prisma = opts.prisma;
+		this.db = opts.db;
 
 		this.keyManager = opts.keyManager
 
@@ -143,10 +144,9 @@ export class SchemaRegistry {
 	// }
 
 	public async reload(){
-		this.endpoints = await this.prisma.application.findMany({
-
-		});
-
+		
+		this.endpoints = (await this.db.getApplications()) as any[]
+		
 		await Promise.all(this.endpoints.map(async (endpoint, ix) => {
 			try{
 				const {schema, acl} = await this.loadSchemaFromEndpoint(endpoint.id) || {}
@@ -246,7 +246,7 @@ export class SchemaRegistry {
 		let { query } = context.req
 	
 
-		return this.mergedSchema || this.schemaFactory?.(this.prisma, this.schemas, this.transporter)
+		return this.mergedSchema || this.schemaFactory?.(this.db, this.schemas, this.transporter)
 	}
 
 	private updateSchema(){
@@ -256,7 +256,7 @@ export class SchemaRegistry {
 			return this.schemas[schema]	
 		})
 
-		const internalSchema = this.schemaFactory?.(this.prisma, this.schemas, this.transporter);
+		const internalSchema = this.schemaFactory?.(this.db, this.schemas, this.transporter);
 
 		const schema = stitchSchemas({
 			subschemaConfigTransforms: [stitchingDirectivesTransformer],

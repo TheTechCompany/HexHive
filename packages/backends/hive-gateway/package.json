@@ -26,7 +26,8 @@
     "@graphql-tools/stitch": "8.6.4",
     "@graphql-tools/stitching-directives": "^2.2.9",
     "@graphql-tools/wrap": "^8.3.2",
-    "@hexhive/data": "^1.0.2-beta.73",
+    "@hexhive/db-memory": "workspace:^",
+    "@hexhive/db-types": "workspace:^",
     "abort-controller": "^3.0.0",
     "api-key-auth": "^0.2.3",
     "assert": "^2.0.0",
@@ -64,6 +65,7 @@
     "yargs": "^17.3.0"
   },
   "devDependencies": {
+    "@hexhive/db-postgres": "workspace:^",
     "@types/amqplib": "^0.8.2",
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",

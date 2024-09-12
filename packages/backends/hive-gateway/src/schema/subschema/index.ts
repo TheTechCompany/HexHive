@@ -4,10 +4,11 @@ import nodemailer from 'nodemailer'
 import { JSONDefinition, JSONResolver } from 'graphql-scalars'
 import acl from './acl'
 import apps from './apps'
+import { HiveDB } from '@hexhive/db-types'
 
-export default (prisma: PrismaClient, schemas: { [key: string]: {acl: any[]} }, transporter?: nodemailer.Transporter) => {
-    const { typeDefs: aclTypeDefs, resolvers: aclResolvers } = acl(prisma, transporter)
-    const { typeDefs: appTypeDefs, resolvers: appResolvers }  = apps(prisma, schemas);
+export default (db: HiveDB, schemas: { [key: string]: {acl: any[]} }, transporter?: nodemailer.Transporter) => {
+    const { typeDefs: aclTypeDefs, resolvers: aclResolvers } = acl(db, transporter)
+    const { typeDefs: appTypeDefs, resolvers: appResolvers }  = apps(db, schemas);
 
     const resolvers : any = mergeResolvers([
         aclResolvers,

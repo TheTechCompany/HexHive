@@ -77,7 +77,7 @@ function App() {
         <h4>HexHive Development Server</h4>
       </header>
       <main style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-        <div style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+        <div style={{flex: 0.7, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
           <h2>Graphs</h2>
           <ul style={{listStyle: 'none'}}>
             {graphs.map((graph, ix) => (
@@ -104,12 +104,12 @@ function App() {
                 <li style={{display: 'flex', flexDirection: 'row'}}>
                        <div style={{background: site.live ? 'lightgreen': "red", height: 20, width: 20, borderRadius: 10}}>
                 </div>
-                 <span>{site.name}</span><span>- {site.config_url.substring(0, 20)}...</span>
+                 <span>{site.name}</span><span>- {site.config_url.substring(0, 40)}...</span>
                 </li>
             ))}
           </ul>
         </div>
-        <div style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+        <div style={{flex: 0.7, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
           <h2>Views</h2>
           <ul style={{listStyle: 'none'}}>
             {views?.map((site, ix) => (
