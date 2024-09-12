@@ -37,7 +37,6 @@ export const handler = async (argv: Arguments<Options>) => {
 	await localGateway.init()
 
 	await localGateway.start()
-    // console.log("TEMPLATE", { template })
 
     return argv;
 };
