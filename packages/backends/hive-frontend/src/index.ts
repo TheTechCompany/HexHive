@@ -90,7 +90,7 @@ export class HiveFrontendServer {
         config_url: `${
           process.env.NODE_ENV == "production" ?
             `https://${process.env.DEPLOYMENT || 'apps'}.hexhive.io/dashboard/`
-            : "http://localhost:8501/"
+            : process.env.CORE_URL || "http://localhost:8501/"
         }hexhive-core-dashboard.js`,
       },
       {
@@ -98,7 +98,7 @@ export class HiveFrontendServer {
         config_url: `${
           process.env.NODE_ENV == "production" ?
             `https://${process.env.DEPLOYMENT || 'apps'}.hexhive.io/header/`
-            : "http://localhost:8502/"
+            : process.env.CORE_URL || "http://localhost:8502/"
         }hexhive-core-header.js`,
       },
     ].concat(

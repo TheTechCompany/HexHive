@@ -17,7 +17,7 @@ type Options = {
 };
 
 export const command: string = 'serve [options]';
-export const desc: string = 'Manage HexHive config';
+export const desc: string = 'Start HexHive gateway';
 
 export const builder = (yargs: any) =>
     yargs

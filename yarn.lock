@@ -3540,7 +3540,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive-core/dashboard@workspace:packages/core-apps/hive-dashboard":
+"@hexhive-core/dashboard@workspace:^, @hexhive-core/dashboard@workspace:packages/core-apps/hive-dashboard":
   version: 0.0.0-use.local
   resolution: "@hexhive-core/dashboard@workspace:packages/core-apps/hive-dashboard"
   dependencies:
@@ -3600,7 +3600,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive-core/header@workspace:packages/core-apps/hive-header":
+"@hexhive-core/header@workspace:^, @hexhive-core/header@workspace:packages/core-apps/hive-header":
   version: 0.0.0-use.local
   resolution: "@hexhive-core/header@workspace:packages/core-apps/hive-header"
   dependencies:
@@ -3819,7 +3819,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/data@^1.0.2-beta.72, @hexhive/data@workspace:packages/core/hexhive-data":
+"@hexhive/data@^1.0.2-beta.72, @hexhive/data@workspace:^, @hexhive/data@workspace:packages/core/hexhive-data":
   version: 0.0.0-use.local
   resolution: "@hexhive/data@workspace:packages/core/hexhive-data"
   dependencies:
@@ -3841,6 +3841,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@hexhive/db-postgres@workspace:^, @hexhive/db-postgres@workspace:packages/db/hive-db-postgres":
+  version: 0.0.0-use.local
+  resolution: "@hexhive/db-postgres@workspace:packages/db/hive-db-postgres"
+  dependencies:
+    "@hexhive/data": "workspace:^"
+    "@hexhive/db-types": "workspace:^"
+    typescript: ^5.6.2
+  languageName: unknown
+  linkType: soft
+
 "@hexhive/db-types@workspace:^, @hexhive/db-types@workspace:packages/db/hive-db-types":
   version: 0.0.0-use.local
   resolution: "@hexhive/db-types@workspace:packages/db/hive-db-types"
@@ -3853,6 +3863,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hexhive/dev-server@workspace:packages/backends/hive-gateway-local"
   dependencies:
+    "@hexhive-core/dashboard": "workspace:^"
+    "@hexhive-core/header": "workspace:^"
+    "@hexhive/db-memory": "workspace:^"
     "@hexhive/frontend-server": ^1.0.2-beta.72
     "@hexhive/gateway": ^1.0.2-beta.72
     "@types/dotenv": ^8.2.0
@@ -3894,6 +3907,8 @@ __metadata:
   resolution: "@hexhive/frontend-server@workspace:packages/backends/hive-frontend"
   dependencies:
     "@hexhive/data": ^1.0.2-beta.72
+    "@hexhive/db-postgres": "workspace:^"
+    "@hexhive/db-types": "workspace:^"
     "@hexhive/microfrontend-server": ^1.0.2-beta.72
     "@types/cookie-parser": ^1.4.2
     "@types/express": ^4.17.13
@@ -3929,8 +3944,8 @@ __metadata:
     "@graphql-tools/stitch": 8.6.4
     "@graphql-tools/stitching-directives": ^2.2.9
     "@graphql-tools/wrap": ^8.3.2
-    "@hexhive/data": ^1.0.2-beta.72
     "@hexhive/db-memory": "workspace:^"
+    "@hexhive/db-postgres": "workspace:^"
     "@hexhive/db-types": "workspace:^"
     "@types/amqplib": ^0.8.2
     "@types/cookie-parser": ^1.4.2

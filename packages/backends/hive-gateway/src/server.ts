@@ -14,8 +14,7 @@ import { createClient } from 'redis';
 import * as aws from "@aws-sdk/client-ses";
 import nodemailer from 'nodemailer'
 
-import { PrismaClient } from '@hexhive/data'
-
+import { HiveDBPG } from '@hexhive/db-postgres'
 import ApiKeyStrategy from 'passport-headerapikey'
 import cookieParser from 'cookie-parser';
 // const { Strategy: ApiKeyStrategy } = require('passport-headerapikey')
@@ -43,7 +42,7 @@ const argv = yargs(hideBin(process.argv)).options({
 
 (async () => {
 
-	const prisma = new PrismaClient();
+	const db = HiveDBPG()
 
 	const app = express()
 	const server = createServer(app)
@@ -110,6 +109,7 @@ const argv = yargs(hideBin(process.argv)).options({
 	}
 	
 	const gateway = new HiveGateway({
+		db,
 		dev: dev,
 		transporter,
 		endpoints: endpointInfo
@@ -126,30 +126,30 @@ const argv = yargs(hideBin(process.argv)).options({
 	}, false, async (apiKey: string, done: (err: any, user: any) => void) => {
 		console.log("API Key", {apiKey})
 
-		const [serviceAccount, organisation] = await Promise.all([
-			prisma.applicationServiceAccount.findFirst({where: {apiKey: apiKey}, include: {application: true}}),
-			prisma.organisation.findFirst({where: {apiKeys: {some: {apiKey: apiKey}}}})
-		]);
+		// const [serviceAccount, organisation] = await Promise.all([
+		// 	prisma.applicationServiceAccount.findFirst({where: {apiKey: apiKey}, include: {application: true}}),
+		// 	prisma.organisation.findFirst({where: {apiKeys: {some: {apiKey: apiKey}}}})
+		// ]);
 
 	
-			if(serviceAccount){
-				console.log("Service Account")
-				done(null, {
-					type: 'appServiceAccount',
-					id: serviceAccount.id,
-					application: serviceAccount?.application?.id
-				})
-			}else if(organisation){
-				console.log("Org Account")
+			// if(serviceAccount){
+			// 	console.log("Service Account")
+			// 	done(null, {
+			// 		type: 'appServiceAccount',
+			// 		id: serviceAccount.id,
+			// 		application: serviceAccount?.application?.id
+			// 	})
+			// }else if(organisation){
+			// 	console.log("Org Account")
 
-				done(null, {
-					type: 'org-key',
-					organisation: organisation?.id,
-					id: organisation?.id
-				})
-			}else{
-				done("No valid claim found for API-Key", null)
-			}
+			// 	done(null, {
+			// 		type: 'org-key',
+			// 		organisation: organisation?.id,
+			// 		id: organisation?.id
+			// 	})
+			// }else{
+			// 	done("No valid claim found for API-Key", null)
+			// }
 	}))
 
 	passport.use(new JwtStrategy(jwtConfig, async (payload: any, done: (err: any, user: any) => void) => {
@@ -157,19 +157,19 @@ const argv = yargs(hideBin(process.argv)).options({
 		
 		if(payload.key){
 
-			const organisation = await prisma.organisation.findFirst({
-				where: {
-					apiKeys: {
-						some: {
-							apiKey: payload.key
-						}
-					}
-				}
-			});
+			// // const organisation = await prisma.organisation.findFirst({
+			// // 	where: {
+			// // 		apiKeys: {
+			// // 			some: {
+			// // 				apiKey: payload.key
+			// // 			}
+			// // 		}
+			// // 	}
+			// // });
 
-			if(!organisation) done("No Org found for API-Key", null);
+			// // if(!organisation) done("No Org found for API-Key", null);
 
-			done(null, {type: 'org-key', organisation: organisation?.id})
+			// done(null, {type: 'org-key', organisation: organisation?.id})
 		
 		}else{
 			done(null, {type: 'app-2-app', ...payload})

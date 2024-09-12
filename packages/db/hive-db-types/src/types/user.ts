@@ -11,7 +11,7 @@ export interface User {
 
     inactive: boolean //User marked as do not trust by system
 
-    organisations: Trust[];
+    organisations?: Trust[];
 }
 
 export interface Trust {

@@ -10,16 +10,14 @@ import crypto from 'crypto'
 
 import bodyParser from 'body-parser'
 
-import { PrismaClient } from '@hexhive/data'
-
 import { Strategy as LocalStrategy } from 'passport-local'
 
 import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
 import cookieParser from "cookie-parser";
+import { HiveDB } from '@hexhive/db-types'
+import { HiveDBPG } from '@hexhive/db-postgres'
 
-
-const prisma = new PrismaClient();
 
 const { NODE_ENV } = process.env;
 
@@ -27,10 +25,11 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 
 (async (port: number = 8000) => {
 
-	const deploymentLevel = process.env.DEPLOYMENT_LEVEL || "dev";
-	
-	const app = express()
+	const db: HiveDB = HiveDBPG();
 
+	const deploymentLevel = process.env.DEPLOYMENT_LEVEL || "dev";
+
+	const app = express()
 
 	const redisClient = createClient({
 		url: process.env.REDIS_URL
@@ -105,7 +104,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 
 			},
 			client: {
-				
+
 			}
 		})
 	})
@@ -115,7 +114,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 
 			},
 			client: {
-				
+
 			}
 		})
 	})
@@ -126,7 +125,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 
 			},
 			client: {
-				
+
 			}
 		})
 	})
@@ -148,66 +147,38 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 			passwordField: 'password'
 		}, async (username, password, done) => {
 
-			const pass = crypto.createHash('sha256').update(password).digest("hex");
 
-			const users = await prisma.user.findMany({
-				where: {
-					email: username,
-					password: pass
-				},
-				include: {
-					organisations: {
-						include: {
-							roles: {
-								include: {
-									permissions: {
-										include: {
-											policies: true
-										}
-									},
-									applications: true
-								}
-							},
-							permissions: {
-								include: {
-									scope: true,
-									policies: true
-								}
-							},
-							issuer: true,
-						}
+			try {
+				const user = await db.authenticateUser(username, password)
+
+
+				if (user) {
+					let organisation = user?.organisations?.[0];
+
+					const roles = organisation?.roles || [];
+
+					const permissions = (organisation?.permissions || []).concat((roles || []).map((r: any) => r.permissions).reduce((p: any, c: any) => p.concat(c), []) as any[])
+
+					const applications = roles.map((x: any) => x.applications).reduce((prev: any, curr: any) => prev.concat(curr), []).concat(permissions.map(x => x.scope))
+
+
+					let userObject = {
+						id: user?.id,
+						name: user?.name,
+						organisation: organisation?.issuer?.id,
+						organisations: user?.organisations?.map((org) => org.issuer),
+						applications: [...new Set(applications)],
+						roles,
+						permissions
 					}
+					// console.log({ user: user })
+					return done(null, userObject)
 				}
-			})
-
-		
-
-			if (users?.[0]) {
-				let organisation = users?.[0]?.organisations?.[0];
-
-				console.log({ org: JSON.stringify(organisation) })
-
-				const roles = organisation?.roles || [];
-
-				const permissions = (organisation?.permissions || []).concat((roles || []).map((r: any) => r.permissions).reduce((p: any, c: any) => p.concat(c), []) as any[])
-
-				const applications = roles.map((x: any) => x.applications).reduce((prev: any, curr: any) => prev.concat(curr), []).concat(permissions.map(x => x.scope))
-
-				console.log({organisation, roles, permissions, applications})
-
-				let user = {
-					id: users?.[0].id,
-					name: users?.[0]?.name,
-					organisation: organisation?.issuer?.id,
-					organisations: users?.[0]?.organisations?.map((org) => org.issuer),
-					applications: [...new Set(applications)],
-					roles,
-					permissions
-				}
-				// console.log({ user: user })
-				return done(null, user)
+				if (!user) return done(null, undefined, { message: "No user found with those credentials" })
+			} catch (e) {
+				return done(null, undefined, { message: "No user found with those credentials" })
 			}
-			if (!users?.[0]) return done(null, undefined, { message: "No user found with those credentials" })
+
 		})
 	)
 
@@ -264,20 +235,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 		] : [],
 		getViews: async (req) => {
 
-			// prisma.role.findMany()
-			const applications = await prisma.application.findMany({
-				where: {
-					usedInRoles: {
-						some: {
-							usedBy: {
-								some: {
-									trust: {id: req.user.id}
-								}
-							}
-						}
-					}
-				}
-			})
+			const applications = await db.getUserApplications(req.user.id, req.user.organisation);
 
 			const views = (applications || []).map((app: any) => ({
 				name: app.name,
@@ -289,7 +247,6 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 				name: app.name,
 				config_url: (deploymentLevel == 'staging' ? app.staging_entrypoint : app.entrypoint) || '/',
 			}))
-
 
 			return { views: views, apps: appliances }
 

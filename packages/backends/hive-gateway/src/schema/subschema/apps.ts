@@ -1,7 +1,7 @@
-import { PrismaClient } from "@hexhive/data"
+import { HiveDB } from "@hexhive/db-types"
 import { nanoid } from "nanoid"
 
-export default (prisma: PrismaClient, schemas: { [key: string]: {acl: any[]} }) => {
+export default (db: HiveDB, schemas: { [key: string]: {acl: any[]} }) => {
     const typeDefs = `
 
         type Query {
@@ -134,65 +134,68 @@ export default (prisma: PrismaClient, schemas: { [key: string]: {acl: any[]} }) 
                     query['id'] = args.where?.id
                 }
 
-                const appliances = await prisma.application.findMany({
-                    where: query
-                })
+                
+                // const appliances = await prisma.application.findMany({
+                //     where: query
+                // })
+
+                const appliances = await db.getApplications()
 
                 return appliances
             }
         },
         Mutation: {
             createOrganisationApp: async (root: any, args: any, context: any) => {
-                return await prisma.organisation.update({
-                    where: {
-                        id: context?.jwt?.organisation
-                    },
-                    data: {
-                        applications: {
-                            connect: {
-                                id: args.app
-                            }
-                        }
-                    }
-                }) != null;
+                // return await prisma.organisation.update({
+                //     where: {
+                //         id: context?.jwt?.organisation
+                //     },
+                //     data: {
+                //         applications: {
+                //             connect: {
+                //                 id: args.app
+                //             }
+                //         }
+                //     }
+                // }) != null;
             },
             deleteOrganisationApp: async (root: any, args: any, context: any) => {
-                return await prisma.organisation.update({
-                    where: {
-                        id: context?.jwt?.organisation,
-                    },
-                    data: {
-                        applications: {
-                            disconnect: {
-                                id: args.app
-                            }
-                        }
-                    }
-                }) != null;
+                // return await prisma.organisation.update({
+                //     where: {
+                //         id: context?.jwt?.organisation,
+                //     },
+                //     data: {
+                //         applications: {
+                //             disconnect: {
+                //                 id: args.app
+                //             }
+                //         }
+                //     }
+                // }) != null;
             },
 
             createAppServiceAccount: async (root: any, args: any, context: any) => {
-                return await prisma.applicationServiceAccount.create({
-                    data: {
-                        id: nanoid(),
-                        name: args.input.name,
-                        apiKey: nanoid(),
-                        application: {
-                            connect: {id: args.app}
-                        }
-                    }
-                })
+                // return await prisma.applicationServiceAccount.create({
+                //     data: {
+                //         id: nanoid(),
+                //         name: args.input.name,
+                //         apiKey: nanoid(),
+                //         application: {
+                //             connect: {id: args.app}
+                //         }
+                //     }
+                // })
             },
             updateAppServiceAccount: async (root: any, args: any, context: any) => {
-                return await prisma.applicationServiceAccount.update({
-                    where: {id: args.id},
-                    data: {
-                        name: args.input.name
-                    }
-                })
+                // return await prisma.applicationServiceAccount.update({
+                //     where: {id: args.id},
+                //     data: {
+                //         name: args.input.name
+                //     }
+                // })
             },
             deleteAppServiceAccount: async (root: any, args: any, context: any) => {
-                return await prisma.applicationServiceAccount.delete({where: {id: args.id}})   
+                // return await prisma.applicationServiceAccount.delete({where: {id: args.id}})   
             }
         }
     }

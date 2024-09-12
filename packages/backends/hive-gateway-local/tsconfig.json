@@ -103,6 +103,7 @@
   },
   "references": [
     {"path": "../hive-gateway"},
-    {"path": "../hive-frontend"}
+    {"path": "../hive-frontend"},
+    {"path": "../../db/hive-db-memory"}
   ]
 }

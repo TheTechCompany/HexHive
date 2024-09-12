@@ -109,6 +109,7 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "references": [
-    {"path": "../hive-db-types"}
+    {"path": "../hive-db-types"},
+    {"path": "../../core/hexhive-data"}
   ]
 }

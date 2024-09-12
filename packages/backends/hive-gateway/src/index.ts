@@ -10,16 +10,16 @@ import passport from "passport"
 import nodemailer from 'nodemailer'
 
 import { graphqlUploadExpress } from 'graphql-upload'
-import { PrismaClient } from "@hexhive/data"
+import { HiveDB } from "@hexhive/db-types"
 
 const {NODE_ENV} = process.env
 
 const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next.hexhive.io", ISSUER = `http://localhost:${PORT}` } = process.env
 
-const prisma = new PrismaClient()
 
 export interface HiveGatewayOptions {
 	dev: boolean;
+	db: HiveDB;
 	endpoints?: SchemaEndpoint[];
 	transporter?: nodemailer.Transporter;
 }
@@ -39,9 +39,13 @@ export class HiveGateway {
 
 	private options : HiveGatewayOptions
 
+	private db : HiveDB;
+
 
 	constructor(opts: HiveGatewayOptions){
 		
+		this.db = opts.db;
+
 		this.keyManager = new KeyManager();
 
 	
@@ -89,7 +93,7 @@ export class HiveGateway {
 			initialEndpoints: this.options.endpoints || [],
 			schemaFactory: hive,
 			keyManager: (payload: any) => this.keyManager.sign(payload),
-			prisma: prisma
+			db: this.db
 		});
 	}
 

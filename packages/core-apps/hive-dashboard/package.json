@@ -1,7 +1,10 @@
 {
   "name": "@hexhive-core/dashboard",
   "version": "1.0.2-beta.72",
-  "private": true,
+  "main": "./dist/hexhive-core-dashboard.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "webpack serve --port 8501",
     "start:standalone": "webpack serve --env standalone",
