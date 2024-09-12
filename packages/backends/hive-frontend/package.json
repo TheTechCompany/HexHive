@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/frontend-server",
-  "version": "1.0.2-beta.72",
+  "version": "1.0.2-beta.73",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@hexhive/db-types": "workspace:^",
-    "@hexhive/microfrontend-server": "^1.0.2-beta.72",
+    "@hexhive/microfrontend-server": "^1.0.2-beta.73",
     "connect-redis": "7.x",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
