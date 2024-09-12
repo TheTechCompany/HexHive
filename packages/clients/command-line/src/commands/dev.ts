@@ -19,6 +19,7 @@ import { BackendTemplate } from "../templates/backend";
 
 import type { Arguments } from 'yargs';
 import { readFileSync } from 'fs';
+import { HiveDBMemory } from '@hexhive/db-memory';
 
 const pkg = require('../../package.json')
 
@@ -43,6 +44,7 @@ export const handler = async (argv: Arguments<Options>) => {
         applications
     } = argv;
 
+    const db = HiveDBMemory()
 
     let applicationFile = {applications: []};
 
@@ -51,6 +53,7 @@ export const handler = async (argv: Arguments<Options>) => {
     }
 
     const localGateway = new LocalGateway({
+        db,
         port,
         applications: applicationFile.applications
     });
