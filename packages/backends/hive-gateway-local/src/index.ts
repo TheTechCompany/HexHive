@@ -6,7 +6,8 @@ import { HiveFrontendServer } from '@hexhive/frontend-server'
 import express, {Express} from 'express';
 import { Routes } from './routes'
 import session from 'express-session';
-
+import { HiveDB } from '@hexhive/db-types';
+import { HiveDBMemory } from '@hexhive/db-memory';
 // const {NODE_ENV} = process.env
 
 export interface LocalGatewayApp {
@@ -20,6 +21,7 @@ export interface LocalGatewayApp {
 export interface LocalGatewayOptions {
 	applications: LocalGatewayApp[];
 	port: number
+	db: HiveDB
 }
 
 export class LocalGateway {
@@ -31,7 +33,11 @@ export class LocalGateway {
 	private port = 7000;
 	private applications : LocalGatewayApp[]
 
+	private db: HiveDB;
+
 	constructor(options: LocalGatewayOptions){
+
+		this.db = options.db || HiveDBMemory()
 		this.app = express()
 
 		this.port = options.port || 7000;
@@ -57,10 +63,12 @@ export class LocalGateway {
 
 		this.gateway = new HiveGateway({
 			dev: true,
+			db: this.db,
 			endpoints: endpointInfo as any
 		})
 
 		this.frontendServer = new HiveFrontendServer({
+			db: this.db,
 			apiUrl: `http://localhost:${this.port}`,
 			routes: routeInfo,
 			getViews: async (req) => {

@@ -19,6 +19,7 @@
       "@graphql-tools/delegate": ["../node_modules/@graphql-tools/delegate"],
 
      "@hexhive/data": ["./core/hexhive-data/src"],
+     "@hexhive/db-types": ["./db/hive-db-types/src"],
 
      "@hexhive/gateway": ["./backends/hive-gateway/src"],
      "@hexhive/frontend-server": ["./backends/hive-frontend/src"],
