@@ -23,8 +23,6 @@ const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
 
 const {NODE_ENV} = process.env
 
-
-
 const url = process.env.AUTH_SERVER || "auth.hexhive.io"
 
 const jwtConfig = {
@@ -68,11 +66,6 @@ const argv = yargs(hideBin(process.argv)).options({
 		prefix: "hexhive:"
 	})
 
-	// const neoDriver = neo4j.driver(
-	// 	process.env.NEO4J_URI || "localhost",
-	// 	neo4j.auth.basic(process.env.NEO4J_USER || "neo4j", process.env.NEO4J_PASSWORD || "test")
-	// )
-	
 	let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
 
 	app.use(cookieParser())
@@ -95,7 +88,6 @@ const argv = yargs(hideBin(process.argv)).options({
 	passport.deserializeUser((obj: any, next) => {
 		next(null, obj)
 	});
-
 
 	const { port, endpoints, dev } = await argv.argv;
 
