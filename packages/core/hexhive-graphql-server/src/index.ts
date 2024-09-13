@@ -113,7 +113,7 @@ export class HiveGraph {
 
 		if(!this.dontRegister){
 			await registerEndpoint({
-				host: this.rootServer || '',
+				host: `${this.rootServer || ''}/register-endpoint`,
 				secret: this.secretKey
 			}, {
 				name: this.name, 

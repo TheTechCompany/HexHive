@@ -144,7 +144,7 @@ export class HiveFrontendServer {
       }
     });
 
-    this.app.get('/*', (req, res, next) => {
+    this.app.get('/dashboard*', (req, res, next) => {
       if(req.path.indexOf('/dashboard') < 0 && req.path.indexOf('/me') < 0 && req.path.indexOf('/login') < 0 && req.path.indexOf('/logout') < 0 && req.path.indexOf('/error') < 0) {
         res.redirect('/dashboard')
       }else{
@@ -157,12 +157,12 @@ export class HiveFrontendServer {
 
     this.app.use("/dashboard", this.frontendRegistry.routes());
 
-    this.app.get('*', (req, res, next) => {
-      if(req.path.indexOf('/me') < 0 && req.path.indexOf('/login') < 0 && req.path.indexOf('/logout') < 0 && req.path.indexOf('/error') < 0){
-      res.status(404).send({error: "404 Page not found"})
-      }else{
-        next()
-      }
-    })
+    // this.app.get('*', (req, res, next) => {
+    //   if(req.path.indexOf('/me') < 0 && req.path.indexOf('/login') < 0 && req.path.indexOf('/logout') < 0 && req.path.indexOf('/error') < 0){
+    //   res.status(404).send({error: "404 Page not found"})
+    //   }else{
+    //     next()
+    //   }
+    // })
   }
 }

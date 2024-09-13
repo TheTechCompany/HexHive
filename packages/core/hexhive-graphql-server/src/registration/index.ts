@@ -65,7 +65,7 @@ export const registerEndpoint = async (gateway: {
                 answer,
                 challengeId: resp.challengeId,
             })
-        }).then((r) => r.json());
+        }).then((r) => r.json()).catch((e) => console.log(e));
 
         if(challengeAnswerResp.success){
             console.log("Authorised to gateway!")
