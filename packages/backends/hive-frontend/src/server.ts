@@ -18,7 +18,6 @@ import cookieParser from "cookie-parser";
 import { HiveDB } from '@hexhive/db-types'
 import { HiveDBPG } from '@hexhive/db-postgres'
 
-
 const { NODE_ENV } = process.env;
 
 const url = process.env.AUTH_SERVER || "auth.hexhive.io";
