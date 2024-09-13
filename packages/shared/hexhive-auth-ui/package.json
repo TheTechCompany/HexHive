@@ -6,6 +6,9 @@
   "homepage": "https://github.com/TheTechCompany/hexhive-common/tree/main/packages/hexhive-auth-ui#readme",
   "license": "ISC",
   "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "directories": {
     "dist": "dist",
     "test": "__tests__"
