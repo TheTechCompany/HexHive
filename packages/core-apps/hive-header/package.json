@@ -1,7 +1,9 @@
 {
   "name": "@hexhive-core/header",
   "main": "./dist/hexhive-core-header.js",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "publishConfig": {
     "access": "public"
   },
