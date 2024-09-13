@@ -238,6 +238,8 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 
 			const applications = await db.getUserApplications(req.user.id, req.user.organisation);
 
+			console.log({applications, user: req.user})
+
 			const views = (applications || []).map((app: any) => ({
 				name: app.name,
 				path: app.slug || '/404',

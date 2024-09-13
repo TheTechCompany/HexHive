@@ -7,6 +7,8 @@ export interface Application {
 
     slug: string
 
+    publicKey: string
+
     backend_url: string
 
     entrypoint: string
@@ -18,6 +20,15 @@ export interface Application {
 
     serviceAccounts: ApplicationServiceAccount[]
 }
+
+export interface ApplicationChallenge {
+    id: string;
+
+    challenge: string;
+
+    application: Partial<Application>;
+}
+
 //Investigate deletion, required for doing what for applications?
 export interface ApplicationServiceAccount {
     id: string

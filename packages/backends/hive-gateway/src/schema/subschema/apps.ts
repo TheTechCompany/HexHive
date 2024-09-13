@@ -17,6 +17,7 @@ export default (db: HiveDB, schemas: { [key: string]: {acl: any[]} }) => {
             deleteOrganisationApp(app: ID): Boolean
         }
 
+
         input HiveApplianceWhere {
             id: ID
         }

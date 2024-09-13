@@ -1,35 +1,12 @@
 import { JwksClient } from 'jwks-rsa'
 import { Router, json } from 'express';
-import { verify } from 'jsonwebtoken';
-import { GraphQLSchema, print } from 'graphql'
-import { mergeResolvers, mergeTypeDefs } from '@graphql-tools/merge'
-import { GraphQLUpload, graphqlUploadExpress } from 'graphql-upload'
-import { makeExecutableSchema } from '@graphql-tools/schema'
-import { stitchSchemas } from '@graphql-tools/stitch'
-import { HashType } from './directives/hash'
-import schema, { ACL_Schema } from './schema';
+import { GraphQLSchema } from 'graphql'
+import { graphqlUploadExpress } from 'graphql-upload'
 import { graphqlHTTP } from './handler';
-import { DateResolver, DateTimeResolver, GraphQLJSON, GraphQLJSONObject } from 'graphql-scalars';
-import { AbilityBuilder, buildMongoQueryMatcher, createMongoAbility } from '@casl/ability'
-import { $and, and, $or, or } from '@ucast/mongo2js';
-import { DocumentCondition } from '@ucast/core';
+import { setupSchema } from './schema/setup';
+import { isAuthenticated } from './utils/is-authenticated';
+import { registerEndpoint } from './registration';
 
-const $expr = {
-	type: 'document',
-	validate(instruction: any, value: any) {
-		if (value == null || typeof value !== 'boolean') {
-			throw new Error(`"$${instruction.name}" expects to receive a boolean`)
-		}
-	},
-	parse(instruction: any, schema: any) {
-		return new DocumentCondition(instruction.name, schema);
-	}
-};
-const expr = (condition: DocumentCondition<any>, object: any) => {
-	return condition.value //(object)
-};
-
-const conditionsMatcher = buildMongoQueryMatcher({ $and, $or, $expr }, { and, or, expr });
 
 export interface GraphResource {
 	name: string; //Name of resource in GraphQL
@@ -38,7 +15,16 @@ export interface GraphResource {
 }
 
 export interface HiveGraphOptions {
-	rootServer: string;
+	rootServer: string; //Reachable gateway instance
+	
+	name: string;
+	backend_url: string;
+	entrypoint: string;
+	slug: string;
+
+	secretKey?: string; //Shared key for gateways setup with PSK auth
+	dontRegister?: boolean; //Dont register this gateway against the rootServer automatically
+
 	schema: GraphQLSchema | { typeDefs: any, resolvers: any };
 
 	resources: GraphResource[];
@@ -56,7 +42,13 @@ export class HiveGraph {
 
 	private rootServer?: string;
 
-	private scalarSchema: GraphQLSchema;
+	public name: string;
+	public backend_url: string;
+	public entrypoint: string;
+	public slug: string;
+
+	private secretKey?: string;
+	private dontRegister?: boolean;
 
 	private schema: GraphQLSchema;
 
@@ -69,78 +61,39 @@ export class HiveGraph {
 	private contextFactory?: (context: any) => any;
 
 	constructor(options: HiveGraphOptions) {
+
+		this.name = options.name;
+		this.backend_url = options.backend_url;
+		this.entrypoint = options.entrypoint;
+		this.slug = options.slug;
+
 		this.rootServer = options.rootServer;
+		this.dontRegister = options.dontRegister;
+		this.secretKey = options.secretKey;
+
 		this.dev = options.dev || false
 
 		this.resources = options.resources || [];
 
 		this.contextFactory = options.contextFactory;
-		this.schema = new GraphQLSchema({})
+		
+		const { schema } = setupSchema(options.schema, this.resources, options.uploads);
 
-		this.scalarSchema = makeExecutableSchema({
-			typeDefs: `
-				scalar Upload
-				scalar JSON
-				scalar JSONObject
-			`,
-			resolvers: {
-				Upload: GraphQLUpload,
-				JSON: GraphQLJSON,
-				JSONObject: GraphQLJSONObject
-			}
-		})
-
-		if (options.schema instanceof GraphQLSchema) {
-			this.schema = stitchSchemas({ subschemas: [options.schema, this.scalarSchema] });
-		} else {
-			const { typeDefs, resolvers = {} } = options.schema;
-
-			console.log('=> HiveGraph: Setting up schema')
-
-			let ScalarTypes: any = {}
-			if (options.uploads) ScalarTypes['Upload'] = GraphQLUpload;
-			ScalarTypes['JSON'] = GraphQLJSON
-			ScalarTypes['JSONObject'] = GraphQLJSONObject
-
-			const mergedTypeDefs = mergeTypeDefs([
-				schema({ uploads: options.uploads || false }),
-				typeDefs
-			])
-
-			const mergedResolvers = mergeResolvers([
-				resolvers,
-				{
-					Hash: HashType,
-					DateTime: DateTimeResolver,
-					Date: DateResolver,
-					...ScalarTypes
-				},
-				{
-					Query: {
-						_sdl: () => print(mergedTypeDefs),
-						_resources: () => this.resources
-					}
-				}
-			])
-			console.log('=> HiveGraph: Merged TypeDefs')
-
-			this.schema = makeExecutableSchema({
-				typeDefs: mergeTypeDefs([mergedTypeDefs, ACL_Schema]),
-				resolvers: mergedResolvers
-			})
-
-			console.log(`=> HiveGraph : Schema setup`)
-		}
+		this.schema = schema;
 
 		this.jwksClient = new JwksClient({
 			jwksUri: `${this.rootServer}/.well-known/jwks.json`
 		})
 
-		this.router = Router()
+		this.router = Router();
 	}
 
 	get isDev() {
 		return process.env.NODE_ENV === 'development' || this.dev
+	}
+
+	get middleware() {
+		return this.router
 	}
 
 	async init() {
@@ -148,71 +101,33 @@ export class HiveGraph {
 
 		if (this.schema) {
 			this.router.use(json());
-			if (!this.isDev) this.router.use('/graphql', this.isAuthenticated.bind(this))
+
+			if (!this.isDev) this.router.use('/graphql', isAuthenticated(this.keys || []))
+
 			this.router.use(
 				'/graphql',
 				graphqlUploadExpress({ maxFileSize: 10 * 1024 * 1024, maxFiles: 20 }),
 				graphqlHTTP(this.schema, this.contextFactory)
 			)
 		}
-	}
 
-
-	definePermissions(user: { permissions: { policies: { effect: string, verbs: string[], resource: string, conditions?: string }[] }[] }) {
-
-		const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
-
-		user?.permissions?.map((perm) => {
-			perm.policies.map((policy) => {
-				policy.verbs.map((verb) => {
-					if (policy.effect == 'Allow') {
-						can(verb, policy.resource, policy.conditions ? JSON.parse(policy.conditions) : undefined)
-					} else if (policy.effect == 'Deny') {
-						cannot(verb, policy.resource, policy.conditions ? JSON.parse(policy.conditions) : undefined)
-					}
-				})
-
-			})
-		})
-
-		return build({ conditionsMatcher })
-	}
-
-	isAuthenticated(req: any, res: any, next: any) {
-		const hiveJwt = req.headers["x-hive-jwt"]?.toString();
-
-		const gatewayUrl = req.headers['x-hive-gateway']?.toString();
-
-		if (hiveJwt) {
-			const verified = verify(
-				hiveJwt,
-				this.keys?.[0] || '',
-				{ algorithms: ["RS256"] }
-			);
-
-			(req as any).token = hiveJwt;
-
-			(req as any).gatewayUrl = gatewayUrl;
-
-			(req as any).jwt = {
-				...(verified as any || {}),
-				id: (verified as any)?.sub || (verified as any)?.id,
-				acl: this.definePermissions(verified as any)
-			};
-
-			next();
-		} else {
-			res.send({ error: "No JWT" });
+		if(!this.dontRegister){
+			await registerEndpoint({
+				host: this.rootServer || '',
+				secret: this.secretKey
+			}, {
+				name: this.name, 
+				backend_url: this.backend_url,
+				slug: this.slug,
+				entrypoint: this.entrypoint,
+				resources: this.resources
+			});
 		}
 	}
 
 	async getRootConfiguration() {
 		const keys = await this.jwksClient?.getSigningKeys()
 		this.keys = keys?.map((x) => x.getPublicKey())
-	}
-
-	get middleware() {
-		return this.router
 	}
 
 }

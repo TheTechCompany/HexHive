@@ -1,5 +1,7 @@
 require("dotenv").config()
 
+import dns from 'dns';
+
 import { DefaultRouter } from "./routes"
 
 import { HiveRouter } from "./router"
@@ -11,6 +13,8 @@ import nodemailer from 'nodemailer'
 
 import { graphqlUploadExpress } from 'graphql-upload'
 import { HiveDB } from "@hexhive/db-types"
+import { nanoid } from 'nanoid';
+import NodeRSA from 'node-rsa'
 
 const {NODE_ENV} = process.env
 
@@ -19,7 +23,9 @@ const { PORT = (NODE_ENV == "production" ? 80 : 7000), AUTH_SITE = "https://next
 
 export interface HiveGatewayOptions {
 	dev: boolean;
+	
 	db: HiveDB;
+	privateKey: string;
 	endpoints?: SchemaEndpoint[];
 	transporter?: nodemailer.Transporter;
 }
@@ -41,6 +47,9 @@ export class HiveGateway {
 
 	private db : HiveDB;
 
+	private key: NodeRSA;
+
+	private publicKey: string;
 
 	constructor(opts: HiveGatewayOptions){
 		
@@ -48,7 +57,10 @@ export class HiveGateway {
 
 		this.keyManager = new KeyManager();
 
-	
+		this.key = new NodeRSA(opts.privateKey);
+
+		this.publicKey = this.key.exportKey('public')
+
 		this.options = opts;
 	
 	}
@@ -65,7 +77,6 @@ export class HiveGateway {
 	async init(){
 		await this.keyManager.init()
 
-		
 		this.router = new HiveRouter({})
 
 		await this.initHive();
@@ -108,6 +119,73 @@ export class HiveGateway {
 		
 		this.router?.mount('/.well-known/jwks.json', (req: any, res: any) => {
 			res.send(this.keyManager.jwks)
+		})
+
+		this.router?.connect.post('/register-endpoint', async (req, res) => {
+			if(!req.ip) return;
+
+			const application = await this.db.getApplicationByPublicKey(req.body.publicKey)
+
+	
+				const url = req.body.backend_url
+				const key = new NodeRSA().importKey(req.body.publicKey)
+				const challenge = key.encrypt(url, 'base64')
+
+				const { id: challengeId } = await this.db.createApplicationChallenge(req.body.publicKey, url, {
+					id: application?.id,
+					name: req.body.name,
+					slug: req.body.slug,
+					backend_url: url, 
+					entrypoint: req.body.entrypoint
+				})
+
+				res.send({
+					publicKey: this.publicKey,
+					challenge,
+					challengeId
+				})
+
+		})
+
+		this.router?.connect.post('/register-endpoint/challenge', async (req, res) => {
+			
+			console.log(req.body.answer)
+
+			const answer = this.key.decrypt(req.body.answer, 'utf8');
+
+			console.log({answer})
+			
+			if(answer){
+
+				const challenge = await this.db.getApplicationChallenge(req.body.publicKey, req.body.challengeId, answer)
+
+				if(!challenge) return res.send({error: "Failed to verify identity"})
+				
+				console.log({challenge})
+				if(!challenge.application?.id){
+
+					let newSlug = challenge.application.slug || nanoid()
+					const application = await this.db.getApplicationBySlug(newSlug)
+
+					if(application){
+						newSlug += '-'+nanoid().substring(0, 4)
+					}
+
+					await this.db.createApplication({
+						id: nanoid(),
+						name: challenge.application.name,
+						slug: newSlug,
+						publicKey: req.body.publicKey,
+						backend_url: challenge.application.backend_url,
+						entrypoint: challenge.application.entrypoint,
+						// resources: challenge.application.resources
+					});
+
+				}else{
+					//Any necessary updates
+				}
+				res.send({success: true})
+			}
 		})
 
 		if(!this.isDev){

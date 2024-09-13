@@ -100,8 +100,9 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
         getUserRoles: function (id: string, organisationId: string): Promise<types.Role[]> {
             throw new Error("Function not implemented.");
         },
-        getUserApplications: function (id: string, organisationId: string): Promise<types.Application[]> {
-            throw new Error("Function not implemented.");
+        getUserApplications: async (id: string, organisationId: string): Promise<types.Application[]> {
+            // throw new Error("Function not implemented.");
+            return applications;
         },
         createTrust: function (email: string, userId: string, organisationId: string, roles: string[], permissions: string[]): Promise<types.Trust> {
             throw new Error("Function not implemented.");

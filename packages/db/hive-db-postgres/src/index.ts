@@ -18,7 +18,11 @@ export const HiveDBPG: HiveDBFactory = () => {
             return await prisma.application.create({
                 data: {
                     id: nanoid(),
-                    name: application.name || 'New Application'
+                    name: application.name || 'New Application',
+                    backend_url: application.backend_url,
+                    entrypoint: application.entrypoint,
+                    slug: application.slug,
+                    publicKey: application.publicKey
                 }
             }) as any;
         },
@@ -28,12 +32,16 @@ export const HiveDBPG: HiveDBFactory = () => {
                     id
                 },
                 data: {
-                    name: application.name
+                    name: application.name,
+                    backend_url: application.backend_url,
+                    entrypoint: application.entrypoint,
+                    slug: application.slug,
+                    publicKey: application.publicKey
                 }
             }) as any;
         },
         deleteApplication: async (id: string): Promise<void> => {
-            await prisma.application.delete({where: {id}})
+            await prisma.application.delete({ where: { id } });
         },
         getOrganisations: async (ids?: string[]): Promise<types.Organisation[]> => {
             const organisations = await prisma.organisation.findMany({
@@ -48,7 +56,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                     trustsUsers: true,
                     apiKeys: true
                 }
-            })
+            });
             return organisations as any;
         },
         getOrganisationApplications: async (id: string) => {
@@ -57,7 +65,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                 where: {
                     users: { some: { id } }
                 }
-            })
+            });
 
             return applications;
         },
@@ -77,7 +85,7 @@ export const HiveDBPG: HiveDBFactory = () => {
         },
         updateOrganisation: async (id: string, organisation: Partial<types.Organisation>): Promise<types.Organisation> => {
             return await prisma.organisation.update({
-                where: {id},
+                where: { id },
                 data: {
                     id: nanoid(),
                     name: organisation.name || 'New Organisation',
@@ -93,43 +101,43 @@ export const HiveDBPG: HiveDBFactory = () => {
         },
         deleteOrganisation: async (id: string): Promise<void> => {
             await prisma.organisation.delete({
-                where: {id}
-            })
+                where: { id }
+            });
         },
         authenticateUser: async (username: string, password: string) => {
-            
-			const pass = crypto.createHash('sha256').update(password).digest("hex");
 
-			const user = await prisma.user.findFirst({
-				where: {
-					email: username,
-					password: pass
-				},
-				include: {
-					organisations: {
-                        where: {inactive: false},
-						include: {
-							roles: {
-								include: {
-									permissions: {
-										include: {
-											policies: true
-										}
-									},
-									applications: true
-								}
-							},
-							permissions: {
-								include: {
-									scope: true,
-									policies: true
-								}
-							},
-							issuer: true,
-						}
-					}
-				}
-			})
+            const pass = crypto.createHash('sha256').update(password).digest("hex");
+
+            const user = await prisma.user.findFirst({
+                where: {
+                    email: username,
+                    password: pass
+                },
+                include: {
+                    organisations: {
+                        where: { inactive: false },
+                        include: {
+                            roles: {
+                                include: {
+                                    permissions: {
+                                        include: {
+                                            policies: true
+                                        }
+                                    },
+                                    applications: true
+                                }
+                            },
+                            permissions: {
+                                include: {
+                                    scope: true,
+                                    policies: true
+                                }
+                            },
+                            issuer: true,
+                        }
+                    }
+                }
+            });
 
             return user as any;
 
@@ -140,22 +148,24 @@ export const HiveDBPG: HiveDBFactory = () => {
             }) as any[];
         },
         getUserApplications: async (id: string, organisationId: string) => {
-            
-			const applications = await prisma.application.findMany({
-				where: {
-					usedInRoles: {
-						some: {
-							usedBy: {
-								some: {
-									trust: { id: id },
-                                    issuer: {id: organisationId}
-								}
-							}
-						}
-					},
-                    // users:
-				}
-			})
+
+            // const applications = await prisma.application.findMany({
+            //     where: {
+            //         usedInRoles: {
+            //             some: {
+            //                 usedBy: {
+            //                     some: {
+            //                         trust: { id: id },
+            //                         issuer: { id: organisationId }
+            //                     }
+            //                 }
+            //             }
+            //         },
+            //         // users:
+            //     }
+            // });
+            const applications = await prisma.application.findMany({});
+
             return applications as any;
         },
         getUserRoles: async (id: string, organisationId: string) => {
@@ -167,11 +177,11 @@ export const HiveDBPG: HiveDBFactory = () => {
                 include: {
                     roles: true
                 }
-            })
-            return trusts.map((x) => x.roles).reduce((prev, curr) => prev.concat(curr), []) as any[]
+            });
+            return trusts.map((x) => x.roles).reduce((prev, curr) => prev.concat(curr), []) as any[];
         },
         createUser: async (user: Partial<types.User>): Promise<types.User> => {
-            
+
             const pass = crypto.createHash('sha256').update(user.password || '').digest('hex');
 
             const newUser = await prisma.user.create({
@@ -187,12 +197,12 @@ export const HiveDBPG: HiveDBFactory = () => {
         },
         updateUser: async (id: string, user: Partial<types.User>): Promise<types.User> => {
             const updatedUser = await prisma.user.update({
-                where: {id},
+                where: { id },
                 data: {
                     name: user.name,
                     email: user.email,
                 }
-            })
+            });
             return updatedUser as any;
         },
         deleteUser: function (id: string): Promise<void> {
@@ -202,7 +212,7 @@ export const HiveDBPG: HiveDBFactory = () => {
 
             const members: any[] = await prisma.user.findMany({
                 where: {
-                    id: (ids && ids.length > 0) ? {in: ids} : undefined,
+                    id: (ids && ids.length > 0) ? { in: ids } : undefined,
                     organisations: {
                         some: {
                             issuer: {
@@ -271,14 +281,14 @@ export const HiveDBPG: HiveDBFactory = () => {
             if (roles) {
                 update['roles'] = {
                     set: roles.map((x: string) => ({ id: x }))
-                }
+                };
             }
 
 
             if (permissions) {
                 update['permissions'] = {
                     set: permissions.map((x: string) => ({ id: x }))
-                }
+                };
             }
 
 
@@ -302,7 +312,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                     permissions: true
                 },
                 data: update
-            })
+            });
 
             return trust as any;
         },
@@ -331,7 +341,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                         connect: { id: organisationId }
                     }
                 }
-            })
+            });
         },
         updatePermission: async (id: string, name: string, scopeId: string, organisationId: string) => {
             return await prisma.permission.update({
@@ -343,7 +353,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                     // 	set: args.input.applications.map((x: string) => ({id: x}))
                     // }
                 }
-            })
+            });
         },
         deletePermission: async (id: string, organisationId: string) => {
             return await prisma.permission.delete({ where: { id: id, organisation: { id: organisationId } } });
@@ -352,7 +362,7 @@ export const HiveDBPG: HiveDBFactory = () => {
             return await prisma.role.findMany({
                 where: {
                     id: (ids && ids.length > 0) ? { in: ids } : undefined,
-                    organisation: {id: organisationId}
+                    organisation: { id: organisationId }
                 },
                 include: {
                     applications: true,
@@ -375,7 +385,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                         connect: { id: organisationId }
                     }
                 }
-            })
+            });
         },
         updateRole: async (id: string, name: string, permissions: string[], applications: string[], organisationId: string) => {
             return await prisma.role.update({
@@ -389,7 +399,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                         set: applications?.map((x: string) => ({ id: x }))
                     }
                 }
-            })
+            });
         },
         deleteRole: async (id: string, organisationId: string) => {
             return await prisma.role.delete({ where: { id: id, organisationId } });
@@ -400,7 +410,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                     id: permissionId,
                     organisationId: organisationId
                 }
-            })
+            });
             if (!perm) throw new Error("Not allowed");
 
             return await prisma.permissionPolicy.create({
@@ -417,9 +427,8 @@ export const HiveDBPG: HiveDBFactory = () => {
                         }
                     },
                     organisationId: organisationId
-
                 }
-            })
+            });
         },
         updatePermissionPolicy: async (id: string, permissionId: string, name: string, verbs: string[], resource: string, effect: string, conditions: any[], organisationId: string) => {
             const perm = await prisma.permission.findFirst({
@@ -427,7 +436,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                     id: permissionId,
                     organisationId: organisationId
                 }
-            })
+            });
             if (!perm) throw new Error("Not allowed");
 
             return await prisma.permissionPolicy.update({
@@ -441,7 +450,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                     effect: effect,
                     conditions: conditions,
                 }
-            })
+            });
         },
         deletePermissionPolicy: async (id: string, permissionId: string, organisationId: string) => {
             const perm = await prisma.permission.findFirst({
@@ -449,13 +458,39 @@ export const HiveDBPG: HiveDBFactory = () => {
                     id: permissionId,
                     organisationId: organisationId
                 }
-            })
+            });
             if (!perm) throw new Error("Not allowed");
 
             return await prisma.permissionPolicy.delete({
                 where: { id: id }
-            })
+            });
         },
+        getApplicationByPublicKey: async (publicKey: string): Promise<types.Application> => {
+            return await prisma.application.findFirst({ where: { publicKey } }) as any;
+        },
+        createApplicationChallenge: async (publicKey: string, challenge: string, application: Partial<types.Application>): Promise<types.ApplicationChallenge> => {
+            return await prisma.applicationChallenge.create({
+                data: {
+                    id: nanoid(),
+                    publicKey,
+                    challenge,
+                    application: application as any
+                }
+            }) as any;
+        },
+        getApplicationChallenge: async (publicKey: string, challengeId: string, challenge: string): Promise<types.ApplicationChallenge> => {
+            console.log({ publicKey, challenge, challengeId });
+            return await prisma.applicationChallenge.findFirst({
+                where: {
+                    publicKey,
+                    challenge,
+                    id: challengeId
+                }
+            }) as any;
+        },
+        getApplicationBySlug: async (slug: string): Promise<types.Application> => {
+            return await prisma.application.findFirst({where: {slug: slug}}) as any;
+        }
     }
 
     return db;

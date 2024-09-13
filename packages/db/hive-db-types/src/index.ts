@@ -6,9 +6,14 @@ export interface HiveDBConfig {
 
 export interface HiveDB { 
     getApplications: (ids?: string[]) => Promise<types.Application[]>
+    getApplicationByPublicKey: (publicKey: string) => Promise<types.Application>;
+    getApplicationBySlug: (slug: string) => Promise<types.Application>;
     createApplication: (application: Partial<types.Application>) => Promise<types.Application>
     updateApplication: (id: string, application: Partial<types.Application>) => Promise<types.Application>
     deleteApplication: (id: string) => Promise<void>
+
+    createApplicationChallenge: (publicKey: string, challenge: string, application: Partial<types.Application>) => Promise<types.ApplicationChallenge>
+    getApplicationChallenge: (publicKey: string, challengeId: string, challenge: string) => Promise<types.ApplicationChallenge>;
 
     getOrganisations: (ids?: string[]) => Promise<types.Organisation[]>
     getOrganisationUsers: (ids: string[], organisationId: string) => Promise<types.User[]>;

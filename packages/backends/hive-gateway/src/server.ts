@@ -17,6 +17,8 @@ import nodemailer from 'nodemailer'
 import { HiveDBPG } from '@hexhive/db-postgres'
 import ApiKeyStrategy from 'passport-headerapikey'
 import cookieParser from 'cookie-parser';
+import NodeRSA from 'node-rsa'
+
 // const { Strategy: ApiKeyStrategy } = require('passport-headerapikey')
 
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
@@ -39,6 +41,13 @@ const argv = yargs(hideBin(process.argv)).options({
 });
 
 (async () => {
+
+	let PRIVATE_KEY = process.env.PRIVATE_KEY;
+	if(!PRIVATE_KEY){
+		console.log("Generating private key....")
+		const k = new NodeRSA({b: 512})
+		PRIVATE_KEY = k.exportKey('private')
+	}
 
 	const db = HiveDBPG()
 
@@ -101,6 +110,7 @@ const argv = yargs(hideBin(process.argv)).options({
 	}
 	
 	const gateway = new HiveGateway({
+		privateKey: PRIVATE_KEY,
 		db,
 		dev: dev,
 		transporter,
@@ -124,24 +134,24 @@ const argv = yargs(hideBin(process.argv)).options({
 		// ]);
 
 	
-			// if(serviceAccount){
-			// 	console.log("Service Account")
-			// 	done(null, {
-			// 		type: 'appServiceAccount',
-			// 		id: serviceAccount.id,
-			// 		application: serviceAccount?.application?.id
-			// 	})
-			// }else if(organisation){
-			// 	console.log("Org Account")
+		// 	if(serviceAccount){
+		// 		console.log("Service Account")
+		// 		done(null, {
+		// 			type: 'appServiceAccount',
+		// 			id: serviceAccount.id,
+		// 			application: serviceAccount?.application?.id
+		// 		})
+		// 	}else if(organisation){
+		// 		console.log("Org Account")
 
-			// 	done(null, {
-			// 		type: 'org-key',
-			// 		organisation: organisation?.id,
-			// 		id: organisation?.id
-			// 	})
-			// }else{
-			// 	done("No valid claim found for API-Key", null)
-			// }
+		// 		done(null, {
+		// 			type: 'org-key',
+		// 			organisation: organisation?.id,
+		// 			id: organisation?.id
+		// 		})
+		// 	}else{
+		// 		done("No valid claim found for API-Key", null)
+		// 	}
 	}))
 
 	passport.use(new JwtStrategy(jwtConfig, async (payload: any, done: (err: any, user: any) => void) => {
@@ -149,17 +159,17 @@ const argv = yargs(hideBin(process.argv)).options({
 		
 		if(payload.key){
 
-			// // const organisation = await prisma.organisation.findFirst({
-			// // 	where: {
-			// // 		apiKeys: {
-			// // 			some: {
-			// // 				apiKey: payload.key
-			// // 			}
-			// // 		}
-			// // 	}
-			// // });
+			// const organisation = await prisma.organisation.findFirst({
+			// 	where: {
+			// 		apiKeys: {
+			// 			some: {
+			// 				apiKey: payload.key
+			// 			}
+			// 		}
+			// 	}
+			// });
 
-			// // if(!organisation) done("No Org found for API-Key", null);
+			// if(!organisation) done("No Org found for API-Key", null);
 
 			// done(null, {type: 'org-key', organisation: organisation?.id})
 		

@@ -21,7 +21,7 @@ model User {
   password String? 
 
   lastOrganisation String?
-  
+
   inactive Boolean @default(true)
 
   organisations UserTrust[] @relation(name: "trusts")
@@ -76,6 +76,8 @@ model Application {
   id String @id
   name String
 
+  publicKey String? @unique
+
   slug String?
 
   backend_url String?
@@ -88,6 +90,16 @@ model Application {
   usedInPermissions Permission[]
 
   serviceAccounts ApplicationServiceAccount[] @relation(name: "hasServiceAccount")
+}
+
+model ApplicationChallenge {
+  id String @id
+
+  publicKey String
+  challenge String
+  application Json?
+
+  createdAt DateTime @default(now())
 }
 
 model ApplicationServiceAccount {
