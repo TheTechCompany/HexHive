@@ -102,7 +102,6 @@
   "exclude": ["dist/", "src/server.ts"],
   "references": [
     {"path": "../../core/hexhive-microfrontend"},
-    {"path": "../../core/hexhive-data"},
     {"path": "../../db/hive-db-types"}
   ]
 }

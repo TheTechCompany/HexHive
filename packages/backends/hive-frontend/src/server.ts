@@ -146,20 +146,22 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 			passwordField: 'password'
 		}, async (username, password, done) => {
 
-
 			try {
 				const user = await db.authenticateUser(username, password)
 
-
 				if (user) {
+				
 					let organisation = user?.organisations?.[0];
+
+					if(user.lastOrganisation){
+						organisation = user?.organisations?.find((a) => a.id == user.lastOrganisation)
+					}
 
 					const roles = organisation?.roles || [];
 
 					const permissions = (organisation?.permissions || []).concat((roles || []).map((r: any) => r.permissions).reduce((p: any, c: any) => p.concat(c), []) as any[])
 
 					const applications = roles.map((x: any) => x.applications).reduce((prev: any, curr: any) => prev.concat(curr), []).concat(permissions.map(x => x.scope))
-
 
 					let userObject = {
 						id: user?.id,

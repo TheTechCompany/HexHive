@@ -20,6 +20,8 @@ model User {
   email String? @unique
   password String? 
 
+  lastOrganisation String?
+  
   inactive Boolean @default(true)
 
   organisations UserTrust[] @relation(name: "trusts")

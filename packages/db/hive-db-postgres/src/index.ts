@@ -107,6 +107,7 @@ export const HiveDBPG: HiveDBFactory = () => {
 				},
 				include: {
 					organisations: {
+                        where: {inactive: false},
 						include: {
 							roles: {
 								include: {

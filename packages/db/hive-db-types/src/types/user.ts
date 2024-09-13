@@ -9,6 +9,8 @@ export interface User {
     email: string
     password: string
 
+    lastOrganisation?: string;
+
     inactive: boolean //User marked as do not trust by system
 
     organisations?: Trust[];
