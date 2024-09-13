@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/db-types",
-  "version": "1.0.2-beta.77",
+  "version": "1.0.2-beta.78",
   "main": "dist/index.js",
   "files": [
     "dist/"
