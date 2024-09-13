@@ -23,16 +23,17 @@ export const builder = (yargs: any) =>
     yargs
     .string('config')
     .string('env')
+    .string('privateKey')
   
 
 export const handler = async (argv: Arguments<Options>) => {
 
-    const { config } = await argv;
+    const { config, privateKey } = await argv;
 
 	let serverConfig: any = {applications: []};
 	if(config) serverConfig = JSON.parse(readFileSync(config, 'utf8') || '{applications: []}');
 	
-	const localGateway = new LocalGateway(serverConfig);
+	const localGateway = new LocalGateway({...serverConfig, privateKey});
 
 	await localGateway.init()
 

@@ -16,13 +16,15 @@ export const registerEndpoint = async (gateway: {
     
     let key;
     if(!PRIVATE_KEY){
-        console.log("Generating keypair...");
+        console.error("Put your private key in $HEXHIVE_SECRET so you can access the registered application later")
+        console.log("Generating one-time keypair...");
 
         key = new NodeRSA({b: 512});
+
+        console.log(key.exportKey('private'))
     }else{
         key = new NodeRSA(PRIVATE_KEY || '')
     }
-
 
     console.log("Sending registration payload...")
     
@@ -51,12 +53,8 @@ export const registerEndpoint = async (gateway: {
 
         const answer = blank.encrypt(answerText, 'base64')
 
-        console.log({answerText, answer, key: blank.exportKey('public'), pubKey: resp.publicKey, challenge: resp.challenge})
-
         console.log("Responding to challenge...");
         
-        // console.log(blank.decrypt(answer, 'utf8'))
-
         const challengeAnswerResp = await fetch(gateway.host + '/challenge', {
             method: 'POST',
             headers: {
@@ -78,16 +76,16 @@ export const registerEndpoint = async (gateway: {
 
 }
 
-(async () => {
-    await registerEndpoint({
-        host: 'http://localhost:7000/register-endpoint'
-    }, {
-        name: 'test-app',
-        slug: 'app',
-        backend_url: 'http://localhost:7003/graphql',
-        entrypoint: 'http://localhost:8504/hivecommand-app-frontend.js',
-        // port: 7003,
-        resources: [{name: 'Resource', actions: []}]
-     })
+// (async () => {
+//     await registerEndpoint({
+//         host: 'http://localhost:7000/register-endpoint'
+//     }, {
+//         name: 'test-app',
+//         slug: 'app',
+//         backend_url: 'http://localhost:7003/graphql',
+//         entrypoint: 'http://localhost:8504/hivecommand-app-frontend.js',
+//         // port: 7003,
+//         resources: [{name: 'Resource', actions: []}]
+//      })
 
-})();
+// })();

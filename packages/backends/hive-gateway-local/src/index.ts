@@ -9,6 +9,8 @@ import session from 'express-session';
 import { HiveDB } from '@hexhive/db-types';
 import { HiveDBMemory } from '@hexhive/db-memory';
 import cors from 'cors';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
+import NodeRSA from 'node-rsa';
 // const {NODE_ENV} = process.env
 
 export interface LocalGatewayApp {
@@ -23,6 +25,7 @@ export interface LocalGatewayOptions {
 	applications: LocalGatewayApp[];
 	port: number
 	db: HiveDB
+	privateKey?: string;
 }
 
 export class LocalGateway {
@@ -74,11 +77,26 @@ export class LocalGateway {
 		this.coreApps.get('/hexhive-core-header.js', (req, res) => {
 			res.sendFile(require.resolve('@hexhive-core/header'))
 		});
+
+		let privateKey : string;
+
+		if(options.privateKey){
+			if(existsSync(options.privateKey)){
+				privateKey = new NodeRSA(readFileSync(options.privateKey, 'utf8')).exportKey('private')
+			}else{
+				console.log("Generating key...")
+				privateKey = new NodeRSA({b: 1024}).exportKey('private');
+				writeFileSync(options.privateKey, privateKey)
+			 }
+		}else{
+			privateKey = new NodeRSA({b: 1024}).exportKey('private');
+		}
 		
 		this.gateway = new HiveGateway({
 			dev: true,
 			db: this.db,
-			endpoints: endpointInfo as any
+			endpoints: endpointInfo as any,
+			privateKey 
 		})
 
 		this.frontendServer = new HiveFrontendServer({
