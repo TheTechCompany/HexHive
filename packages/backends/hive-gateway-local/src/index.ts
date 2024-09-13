@@ -39,7 +39,6 @@ export class LocalGateway {
 	private db: HiveDB;
 
 	constructor(options: LocalGatewayOptions){
-
 		this.db = options.db || HiveDBMemory()
 		this.app = express()
 
