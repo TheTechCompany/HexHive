@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/db-postgres",
-  "version": "1.0.2-beta.79",
+  "version": "1.0.2-beta.80",
   "main": "dist/index.js",
   "files": [
     "dist/"
