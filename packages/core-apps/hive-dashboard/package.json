@@ -4,6 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": ["dist/"],
   "version": "1.0.2-beta.76",
   "scripts": {
     "start": "webpack serve --port 8501",

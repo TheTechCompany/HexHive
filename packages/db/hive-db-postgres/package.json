@@ -2,6 +2,8 @@
   "name": "@hexhive/db-postgres",
   "version": "1.0.2-beta.76",
   "main": "dist/index.js",
+  "files": ["dist/"],
+
   "publishConfig": {
     "access": "public"
   },
