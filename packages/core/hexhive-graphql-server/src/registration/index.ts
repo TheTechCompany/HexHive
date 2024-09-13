@@ -68,9 +68,11 @@ export const registerEndpoint = async (gateway: {
         }).then((r) => r.json());
 
         if(challengeAnswerResp.success){
-            console.log("AUTH")
+            console.log("Authorised to gateway!")
+            console.log("Application available with the slug below:")
+            console.log(challengeAnswerResp.result?.slug)
         }else{
-            console.log(challengeAnswerResp)
+            console.log(challengeAnswerResp.error)
         }
     }
 

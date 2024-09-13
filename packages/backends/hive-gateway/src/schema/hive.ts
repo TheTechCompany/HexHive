@@ -4,9 +4,6 @@ import subschema from "./subschema"
 
 import { stitchingDirectives } from '@graphql-tools/stitching-directives'
 
-import { Pool } from "pg"
-import { PrismaClient } from '@hexhive/data'
-
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeResolvers } from "@graphql-tools/merge"
 import nodemailer from 'nodemailer'

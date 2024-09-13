@@ -149,19 +149,15 @@ export class HiveGateway {
 
 		this.router?.connect.post('/register-endpoint/challenge', async (req, res) => {
 			
-			console.log(req.body.answer)
-
 			const answer = this.key.decrypt(req.body.answer, 'utf8');
 
-			console.log({answer})
-			
 			if(answer){
+				let slug;
 
 				const challenge = await this.db.getApplicationChallenge(req.body.publicKey, req.body.challengeId, answer)
 
 				if(!challenge) return res.send({error: "Failed to verify identity"})
 				
-				console.log({challenge})
 				if(!challenge.application?.id){
 
 					let newSlug = challenge.application.slug || nanoid()
@@ -180,11 +176,12 @@ export class HiveGateway {
 						entrypoint: challenge.application.entrypoint,
 						// resources: challenge.application.resources
 					});
+					slug = newSlug
 
 				}else{
 					//Any necessary updates
 				}
-				res.send({success: true})
+				res.send({success: true, result: {slug}})
 			}
 		})
 
