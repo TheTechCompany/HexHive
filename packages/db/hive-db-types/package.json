@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/db-types",
-  "version": "1.0.2-beta.76",
+  "version": "1.0.2-beta.77",
   "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
