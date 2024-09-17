@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/dev-server",
-  "version": "1.0.2-beta.89",
+  "version": "1.0.2-beta.90",
   "description": "",
   "main": "dist/index.js",
   "installConfig": {
@@ -42,8 +42,8 @@
     "@hexhive-core/dashboard": "workspace:^",
     "@hexhive-core/header": "workspace:^",
     "@hexhive/db-memory": "workspace:^",
-    "@hexhive/frontend-server": "^1.0.2-beta.89",
-    "@hexhive/gateway": "^1.0.2-beta.89",
+    "@hexhive/frontend-server": "^1.0.2-beta.90",
+    "@hexhive/gateway": "^1.0.2-beta.90",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "inquirer": "^8.x",

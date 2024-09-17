@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/data",
-  "version": "1.0.2-beta.89",
+  "version": "1.0.2-beta.90",
   "description": "",
   "main": "dist/index.js",
   "publishConfig": {
