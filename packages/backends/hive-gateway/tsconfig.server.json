@@ -15,7 +15,8 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["src/server.ts"],
+  "include": ["src/", "src/server.ts"],
+  "exclude": ["dist/"],
   "references": [
     {"path": "../../core/hexhive-data"},
     {"path": "../../core/hexhive-crypto"},
