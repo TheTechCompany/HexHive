@@ -1,6 +1,6 @@
 {
   "name": "@hexhive-core/settings",
-  "version": "1.0.2-beta.82",
+  "version": "1.0.2-beta.83",
   "private": true,
   "scripts": {
     "start": "webpack serve --port 8888",
@@ -58,7 +58,7 @@
     "@babel/runtime": "^7.21.5",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.11.0",
-    "@hexhive/auth-ui": "^1.0.2-beta.82",
+    "@hexhive/auth-ui": "^1.0.2-beta.83",
     "@hexhive/client": "^1.0.2-beta.73",
     "@hexhive/styles": "^1.0.1-alpha.118",
     "@hexhive/ui": "^1.0.1-alpha.118",
