@@ -3782,7 +3782,7 @@ __metadata:
     "@babel/runtime": ^7.14.6
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
-    "@hexhive/auth-ui": ^1.0.2-beta.91
+    "@hexhive/auth-ui": ^1.0.2-beta.92
     "@hexhive/styles": ^1.0.1-alpha.37
     "@hexhive/ui": ^1.0.1-alpha.37
     "@mui/icons-material": ^5.6.2
@@ -3834,8 +3834,8 @@ __metadata:
     "@babel/preset-typescript": ^7.14.5
     "@babel/runtime": ^7.14.6
     "@emotion/react": ^11.9.3
-    "@hexhive/auth-ui": ^1.0.2-beta.91
-    "@hexhive/icons": ^1.0.2-beta.91
+    "@hexhive/auth-ui": ^1.0.2-beta.92
+    "@hexhive/icons": ^1.0.2-beta.92
     "@hexhive/styles": ^1.0.1-alpha.37
     "@mui/icons-material": ^5.8.4
     "@mui/material": 5.14.1
@@ -3884,7 +3884,7 @@ __metadata:
     "@babel/runtime": ^7.14.6
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.11.0
-    "@hexhive/auth-ui": ^1.0.2-beta.91
+    "@hexhive/auth-ui": ^1.0.2-beta.92
     "@hexhive/client": ^1.0.2-beta.73
     "@hexhive/styles": ^1.0.1-alpha.118
     "@hexhive/ui": ^1.0.1-alpha.118
@@ -3940,7 +3940,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hexhive/admin@workspace:packages/backends/hive-admin"
   dependencies:
-    "@hexhive/data": ^1.0.2-beta.91
+    "@hexhive/data": ^1.0.2-beta.92
     "@types/cors": ^2.8.12
     "@types/express": ^4.17.13
     body-parser: ^1.20.0
@@ -3952,7 +3952,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/auth-ui@^1.0.2-beta.91, @hexhive/auth-ui@workspace:packages/shared/hexhive-auth-ui":
+"@hexhive/auth-ui@^1.0.2-beta.92, @hexhive/auth-ui@workspace:packages/shared/hexhive-auth-ui":
   version: 0.0.0-use.local
   resolution: "@hexhive/auth-ui@workspace:packages/shared/hexhive-auth-ui"
   dependencies:
@@ -3971,7 +3971,7 @@ __metadata:
   resolution: "@hexhive/cli@workspace:packages/clients/command-line"
   dependencies:
     "@hexhive/crypto": "workspace:^"
-    "@hexhive/dev-server": ^1.0.2-beta.91
+    "@hexhive/dev-server": ^1.0.2-beta.92
     "@types/dot": ^1.1.5
     "@types/inquirer": ^9.0.3
     "@types/node": ^18.15.5
@@ -4047,7 +4047,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/data@^1.0.2-beta.91, @hexhive/data@workspace:^, @hexhive/data@workspace:packages/core/hexhive-data":
+"@hexhive/data@^1.0.2-beta.92, @hexhive/data@workspace:^, @hexhive/data@workspace:packages/core/hexhive-data":
   version: 0.0.0-use.local
   resolution: "@hexhive/data@workspace:packages/core/hexhive-data"
   dependencies:
@@ -4087,15 +4087,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/dev-server@^1.0.2-beta.91, @hexhive/dev-server@workspace:packages/backends/hive-gateway-local":
+"@hexhive/dev-server@^1.0.2-beta.92, @hexhive/dev-server@workspace:packages/backends/hive-gateway-local":
   version: 0.0.0-use.local
   resolution: "@hexhive/dev-server@workspace:packages/backends/hive-gateway-local"
   dependencies:
     "@hexhive-core/dashboard": "workspace:^"
     "@hexhive-core/header": "workspace:^"
     "@hexhive/db-memory": "workspace:^"
-    "@hexhive/frontend-server": ^1.0.2-beta.91
-    "@hexhive/gateway": ^1.0.2-beta.91
+    "@hexhive/frontend-server": ^1.0.2-beta.92
+    "@hexhive/gateway": ^1.0.2-beta.92
     "@types/dotenv": ^8.2.0
     "@types/express": ^4.17.13
     "@types/express-session": ^1.17.4
@@ -4128,14 +4128,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/frontend-server@^1.0.2-beta.91, @hexhive/frontend-server@workspace:packages/backends/hive-frontend":
+"@hexhive/frontend-server@^1.0.2-beta.92, @hexhive/frontend-server@workspace:packages/backends/hive-frontend":
   version: 0.0.0-use.local
   resolution: "@hexhive/frontend-server@workspace:packages/backends/hive-frontend"
   dependencies:
-    "@hexhive/data": ^1.0.2-beta.91
+    "@hexhive/data": ^1.0.2-beta.92
     "@hexhive/db-postgres": "workspace:^"
     "@hexhive/db-types": "workspace:^"
-    "@hexhive/microfrontend-server": ^1.0.2-beta.91
+    "@hexhive/microfrontend-server": ^1.0.2-beta.92
     "@types/cookie-parser": ^1.4.2
     "@types/express": ^4.17.13
     "@types/express-session": ^1.17.4
@@ -4160,7 +4160,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/gateway@^1.0.2-beta.91, @hexhive/gateway@workspace:packages/backends/hive-gateway":
+"@hexhive/gateway@^1.0.2-beta.92, @hexhive/gateway@workspace:packages/backends/hive-gateway":
   version: 0.0.0-use.local
   resolution: "@hexhive/gateway@workspace:packages/backends/hive-gateway"
   dependencies:
@@ -4274,7 +4274,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/icons@^1.0.2-beta.91, @hexhive/icons@workspace:packages/shared/hexhive-icons":
+"@hexhive/icons@^1.0.2-beta.92, @hexhive/icons@workspace:packages/shared/hexhive-icons":
   version: 0.0.0-use.local
   resolution: "@hexhive/icons@workspace:packages/shared/hexhive-icons"
   dependencies:
@@ -4282,7 +4282,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/microfrontend-server@^1.0.2-beta.91, @hexhive/microfrontend-server@workspace:packages/core/hexhive-microfrontend":
+"@hexhive/microfrontend-server@^1.0.2-beta.92, @hexhive/microfrontend-server@workspace:packages/core/hexhive-microfrontend":
   version: 0.0.0-use.local
   resolution: "@hexhive/microfrontend-server@workspace:packages/core/hexhive-microfrontend"
   dependencies:

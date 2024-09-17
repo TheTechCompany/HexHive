@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/cli",
-  "version": "1.0.2-beta.91",
+  "version": "1.0.2-beta.92",
   "description": "",
   "main": "dist/index.js",
   "publishConfig": {
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@hexhive/crypto": "workspace:^",
-    "@hexhive/dev-server": "^1.0.2-beta.91",
+    "@hexhive/dev-server": "^1.0.2-beta.92",
     "dot": "^1.1.3",
     "inquirer": "8.x",
     "simple-git": "^3.17.0",
