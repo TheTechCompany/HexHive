@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/gateway",
-  "version": "1.0.2-beta.91",
+  "version": "1.0.2-beta.92",
   "description": "",
   "main": "dist/index.js",
   "files": [
