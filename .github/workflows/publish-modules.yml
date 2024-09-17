@@ -12,7 +12,7 @@ on:
       - 'packages/core/**'
       - 'packages/shared/**'
       - 'packages/workers/**'
-      - '!*CHANGELOG.md'
+      - '!**/CHANGELOG.md'
 
 
 jobs:
