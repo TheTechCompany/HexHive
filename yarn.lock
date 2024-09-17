@@ -3762,7 +3762,7 @@ __metadata:
     "@babel/runtime": ^7.14.6
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
-    "@hexhive/auth-ui": ^1.0.2-beta.80
+    "@hexhive/auth-ui": ^1.0.2-beta.81
     "@hexhive/styles": ^1.0.1-alpha.37
     "@hexhive/ui": ^1.0.1-alpha.37
     "@mui/icons-material": ^5.6.2
@@ -3821,8 +3821,8 @@ __metadata:
     "@babel/preset-typescript": ^7.14.5
     "@babel/runtime": ^7.14.6
     "@emotion/react": ^11.9.3
-    "@hexhive/auth-ui": ^1.0.2-beta.80
-    "@hexhive/icons": ^1.0.2-beta.80
+    "@hexhive/auth-ui": ^1.0.2-beta.81
+    "@hexhive/icons": ^1.0.2-beta.81
     "@hexhive/styles": ^1.0.1-alpha.37
     "@mui/icons-material": ^5.8.4
     "@mui/material": 5.14.1
@@ -3876,7 +3876,7 @@ __metadata:
     "@babel/runtime": ^7.14.6
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.11.0
-    "@hexhive/auth-ui": ^1.0.2-beta.80
+    "@hexhive/auth-ui": ^1.0.2-beta.81
     "@hexhive/client": ^1.0.2-beta.73
     "@hexhive/styles": ^1.0.1-alpha.118
     "@hexhive/ui": ^1.0.1-alpha.118
@@ -3932,7 +3932,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hexhive/admin@workspace:packages/backends/hive-admin"
   dependencies:
-    "@hexhive/data": ^1.0.2-beta.80
+    "@hexhive/data": ^1.0.2-beta.81
     "@types/cors": ^2.8.12
     "@types/express": ^4.17.13
     body-parser: ^1.20.0
@@ -3944,7 +3944,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/auth-ui@^1.0.2-beta.80, @hexhive/auth-ui@workspace:packages/shared/hexhive-auth-ui":
+"@hexhive/auth-ui@^1.0.2-beta.81, @hexhive/auth-ui@workspace:packages/shared/hexhive-auth-ui":
   version: 0.0.0-use.local
   resolution: "@hexhive/auth-ui@workspace:packages/shared/hexhive-auth-ui"
   dependencies:
@@ -3963,7 +3963,7 @@ __metadata:
   resolution: "@hexhive/cli@workspace:packages/clients/command-line"
   dependencies:
     "@hexhive/crypto": "workspace:^"
-    "@hexhive/dev-server": ^1.0.2-beta.80
+    "@hexhive/dev-server": ^1.0.2-beta.81
     "@types/dot": ^1.1.5
     "@types/inquirer": ^9.0.3
     "@types/node": ^18.15.5
@@ -4039,7 +4039,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/data@^1.0.2-beta.80, @hexhive/data@workspace:^, @hexhive/data@workspace:packages/core/hexhive-data":
+"@hexhive/data@^1.0.2-beta.81, @hexhive/data@workspace:^, @hexhive/data@workspace:packages/core/hexhive-data":
   version: 0.0.0-use.local
   resolution: "@hexhive/data@workspace:packages/core/hexhive-data"
   dependencies:
@@ -4051,15 +4051,6 @@ __metadata:
     typescript: ^4.4.3
   languageName: unknown
   linkType: soft
-
-"@hexhive/db-memory@npm:^1.0.2-beta.81":
-  version: 1.0.2-beta.81
-  resolution: "@hexhive/db-memory@npm:1.0.2-beta.81"
-  dependencies:
-    "@hexhive/db-types": ^1.0.2-beta.81
-  checksum: 32ba34f2f3b88ecfcbd5d4722c5ac052f96fe88ca4a7116449fcb6377e5d02d80051c61c521f65768bd75047f341ad142c9ad0ec2583fb2074ef11967dd30347
-  languageName: node
-  linkType: hard
 
 "@hexhive/db-memory@workspace:^, @hexhive/db-memory@workspace:packages/db/hive-db-memory":
   version: 0.0.0-use.local
@@ -4080,13 +4071,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/db-types@npm:^1.0.2-beta.81":
-  version: 1.0.2-beta.81
-  resolution: "@hexhive/db-types@npm:1.0.2-beta.81"
-  checksum: 450749ab306d6b7b1322181e24cd690055ea54a2b5b8b8eb174f1a756f1a2c9f01374a84b01fcfafde1cf0a0acf37b4058f7d5d73111b0468e019a45ee169719
-  languageName: node
-  linkType: hard
-
 "@hexhive/db-types@workspace:^, @hexhive/db-types@workspace:packages/db/hive-db-types":
   version: 0.0.0-use.local
   resolution: "@hexhive/db-types@workspace:packages/db/hive-db-types"
@@ -4095,15 +4079,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/dev-server@^1.0.2-beta.80, @hexhive/dev-server@workspace:packages/backends/hive-gateway-local":
+"@hexhive/dev-server@^1.0.2-beta.81, @hexhive/dev-server@workspace:packages/backends/hive-gateway-local":
   version: 0.0.0-use.local
   resolution: "@hexhive/dev-server@workspace:packages/backends/hive-gateway-local"
   dependencies:
     "@hexhive-core/dashboard": "workspace:^"
     "@hexhive-core/header": "workspace:^"
     "@hexhive/db-memory": "workspace:^"
-    "@hexhive/frontend-server": ^1.0.2-beta.80
-    "@hexhive/gateway": ^1.0.2-beta.80
+    "@hexhive/frontend-server": ^1.0.2-beta.81
+    "@hexhive/gateway": ^1.0.2-beta.81
     "@types/dotenv": ^8.2.0
     "@types/express": ^4.17.13
     "@types/express-session": ^1.17.4
@@ -4123,8 +4107,6 @@ __metadata:
     typescript: ^4.5.4
     vite: ^2.7.2
     yargs: ^17.3.1
-  bin:
-    hex-dev: dist/cli.js
   languageName: unknown
   linkType: soft
 
@@ -4138,11 +4120,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/frontend-server@^1.0.2-beta.80, @hexhive/frontend-server@workspace:packages/backends/hive-frontend":
+"@hexhive/frontend-server@^1.0.2-beta.81, @hexhive/frontend-server@workspace:packages/backends/hive-frontend":
   version: 0.0.0-use.local
   resolution: "@hexhive/frontend-server@workspace:packages/backends/hive-frontend"
   dependencies:
-    "@hexhive/data": ^1.0.2-beta.80
+    "@hexhive/data": ^1.0.2-beta.81
     "@hexhive/db-postgres": "workspace:^"
     "@hexhive/db-types": "workspace:^"
     "@hexhive/microfrontend-server": ^1.0.2-beta.73
@@ -4170,60 +4152,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/gateway@npm:^1.0.2-beta.80":
-  version: 1.0.2-beta.81
-  resolution: "@hexhive/gateway@npm:1.0.2-beta.81"
-  dependencies:
-    "@aws-sdk/client-ses": ^3.418.0
-    "@envelop/core": ^1.7.1
-    "@graphql-tools/merge": ^8.2.3
-    "@graphql-tools/stitch": 8.6.4
-    "@graphql-tools/stitching-directives": ^2.2.9
-    "@graphql-tools/wrap": ^8.3.2
-    "@hexhive/db-memory": ^1.0.2-beta.81
-    "@hexhive/db-types": ^1.0.2-beta.81
-    abort-controller: ^3.0.0
-    api-key-auth: ^0.2.3
-    assert: ^2.0.0
-    aws-sdk: ^2.987.0
-    connect-redis: 7.x
-    cookie-parser: ^1.4.5
-    cors: ^2.8.5
-    cross-fetch: ^3.1.4
-    dot-object: ^2.1.4
-    dotenv: ^16.0.1
-    express: ^4.17.2
-    express-session: ^1.17.2
-    form-data: ^4.0.0
-    glob: ^7.1.7
-    got: ^11.8.2
-    graphql: ^16.7.1
-    graphql-helix: ^1.11.0
-    graphql-scalars: ^1.22.2
-    graphql-tag: ^2.12.6
-    graphql-upload: ^13.0.0
-    handlebars: ^4.7.7
-    helmet: ^4.6.0
-    jose: 2
-    multer: ^1.4.5-lts.1
-    nanoid: ^3.3.4
-    node-fetch: ^2.6.0
-    node-rsa: ^1.1.1
-    nodemailer: ^6.9.5
-    passport: ^0.5.2
-    passport-headerapikey: ^1.2.2
-    passport-jwt: ^4.0.0
-    pem-jwk: ^2.0.0
-    redis: 4.x
-    ws: ^8.1.0
-    yargs: ^17.3.0
-  bin:
-    hive-gateway: dist/server
-  checksum: 8001886d28859d588a9d3c5420f18ecfbfd3bea72249a0e40cfd2742554b99c12700b99e5a4f8536e6c943012c9fe9f7c28f0796f03624fd8f5044b1a31a5c4e
-  languageName: node
-  linkType: hard
-
-"@hexhive/gateway@workspace:packages/backends/hive-gateway":
+"@hexhive/gateway@^1.0.2-beta.81, @hexhive/gateway@workspace:packages/backends/hive-gateway":
   version: 0.0.0-use.local
   resolution: "@hexhive/gateway@workspace:packages/backends/hive-gateway"
   dependencies:
@@ -4341,7 +4270,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hexhive/icons@^1.0.2-beta.80, @hexhive/icons@workspace:packages/shared/hexhive-icons":
+"@hexhive/icons@^1.0.2-beta.81, @hexhive/icons@workspace:packages/shared/hexhive-icons":
   version: 0.0.0-use.local
   resolution: "@hexhive/icons@workspace:packages/shared/hexhive-icons"
   dependencies:
