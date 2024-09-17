@@ -16,7 +16,7 @@ WORKDIR /app/packages/backends/hive-gateway
 
 RUN cp tsconfig.server.json tsconfig.json
 
-RUN npx lerna run build --scope @hexhive/gateway --include-dependencies
+RUN npx lerna run build:prod --scope @hexhive/gateway
 
 
 # RUN cp -Lr /app/packages/backends/hive-gateway/node_modules/ _node_modules/
