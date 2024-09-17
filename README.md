@@ -79,7 +79,7 @@ Skip the boiletplate, deploy your solution to the world.
 ### Installation
 
 ```sh
-  npm install @hexhive/dev-server -g
+  npm install @hexhive/cli -g
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -92,24 +92,18 @@ Skip the boiletplate, deploy your solution to the world.
 
 #### Install
 
-- [@hexhive/dev-server](https://npmjs.com/@hexhive/dev-server)
+- [@hexhive/cli](https://npmjs.com/@hexhive/cli)
 
 ```sh
-hex-dev --config ./applications.json
+hexhive dev
 ```
 
-applications.json
-```
-{
-  applications: [
-    {
-      name: "MyApp",
-      route: "/app",
-      app: "/entry.js",
-      graph: "/graphql"
-    }
-  ]  
-}
+```sh
+cd micrograph/
+yarn start
+
+Starting...
+App available at /dashboard/app
 ```
 
 Admin will be available at http://localhost:7000/
