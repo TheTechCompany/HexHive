@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "build:prod": "tsc -p tsconfig.server.json",
+    "build:prod": "tsc -b tsconfig.server.json",
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "start:prod": "node dist/server.js --endpoints /tmp/endpoints.json"
   },
