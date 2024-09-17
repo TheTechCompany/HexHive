@@ -12,10 +12,7 @@ RUN yarn
 
 WORKDIR /app/packages/backends/hive-frontend
 
-RUN cp tsconfig.server.json tsconfig.json
-
 RUN npx lerna run build:prod --scope @hexhive/frontend-server
-
 
 # RUN cp -Lr /app/packages/backends/hive-frontend/node_modules/ _node_modules/
 
