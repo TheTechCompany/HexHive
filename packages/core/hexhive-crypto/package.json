@@ -1,0 +1,23 @@
+{
+  "name": "@hexhive/crypto",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "Cryptography wrapper library for HexHive",
+  "dependencies": {
+    "node-rsa": "^1.1.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.6.2"
+  }
+}

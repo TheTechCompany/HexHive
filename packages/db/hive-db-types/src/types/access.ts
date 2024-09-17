@@ -2,7 +2,6 @@ import { Trust } from "./user"
 import { Application } from "./application"
 import { Organisation } from "./organisation"
 
-
 export interface Role {
     id: string
     name: string

@@ -1,4 +1,5 @@
 {
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
@@ -98,5 +99,8 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "exclude": ["__tests__/", "dist/"]
+  "exclude": ["__tests__/", "dist/"],
+  "references": [
+    {"path": "../hexhive-crypto"},
+  ]
 }

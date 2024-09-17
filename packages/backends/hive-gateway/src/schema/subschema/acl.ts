@@ -181,7 +181,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				//Get roles user is in for org
 				//Get applications that are compatible with that role
 				const applications = await db.getOrganisationApplications(context?.jwt?.organisation)
-
+				console.log({applications})
 				const roles = await db.getUserRoles(context?.jwt?.id, context?.jwt?.organisation)
 
 				return applications.filter((application) => {

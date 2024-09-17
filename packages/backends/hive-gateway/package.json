@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/gateway",
-  "version": "1.0.2-beta.80",
+  "version": "1.0.2-beta.78",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -26,13 +26,13 @@
     "@graphql-tools/stitch": "8.6.4",
     "@graphql-tools/stitching-directives": "^2.2.9",
     "@graphql-tools/wrap": "^8.3.2",
+    "@hexhive/crypto": "workspace:^",
     "@hexhive/db-memory": "workspace:^",
     "@hexhive/db-types": "workspace:^",
     "abort-controller": "^3.0.0",
     "api-key-auth": "^0.2.3",
     "assert": "^2.0.0",
     "aws-sdk": "^2.987.0",
-    "connect-redis": "7.x",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "cross-fetch": "^3.1.4",
@@ -60,7 +60,6 @@
     "passport-headerapikey": "^1.2.2",
     "passport-jwt": "^4.0.0",
     "pem-jwk": "^2.0.0",
-    "redis": "4.x",
     "ws": "^8.1.0",
     "yargs": "^17.3.0"
   },
@@ -88,9 +87,11 @@
     "@types/ws": "^7.4.7",
     "@types/yargs": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "connect-redis": "7.x",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.26.0",
     "prettier": "^2.4.1",
+    "redis": "4.x",
     "ts-node": "^10.2.0",
     "typescript": "^4.3.5"
   },

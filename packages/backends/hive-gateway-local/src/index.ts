@@ -104,9 +104,23 @@ export class LocalGateway {
 			apiUrl: `http://localhost:${this.port}`,
 			routes: routeInfo,
 			getViews: async (req) => {
+
+				const applications = await this.db.getApplications();
+
+				const views = (applications || []).map((app: any) => ({
+					name: app.name,
+					path: app.slug || '/404',
+					default: false,
+				}))
+	
+				const appliances = (applications || []).map((app: any) => ({
+					name: app.name,
+					config_url: app.entrypoint || '/',
+				}))
+	
 				return {
-					views: [],
-					apps: []
+					views: views,
+					apps: appliances as any[]
 				}
 			}
 		})

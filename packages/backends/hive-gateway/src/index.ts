@@ -15,6 +15,7 @@ import { graphqlUploadExpress } from 'graphql-upload'
 import { HiveDB } from "@hexhive/db-types"
 import { nanoid } from 'nanoid';
 import NodeRSA from 'node-rsa'
+import { createChallenge, fromKey, getAnswer } from '@hexhive/crypto'
 
 const {NODE_ENV} = process.env
 
@@ -57,7 +58,7 @@ export class HiveGateway {
 
 		this.keyManager = new KeyManager();
 
-		this.key = new NodeRSA(opts.privateKey);
+		this.key = fromKey(opts.privateKey); 
 
 		this.publicKey = this.key.exportKey('public')
 
@@ -125,11 +126,9 @@ export class HiveGateway {
 			if(!req.ip) return;
 
 			const application = await this.db.getApplicationByPublicKey(req.body.publicKey)
-
 	
 				const url = req.body.backend_url
-				const key = new NodeRSA().importKey(req.body.publicKey)
-				const challenge = key.encrypt(url, 'base64')
+				const challenge = createChallenge(req.body.publicKey, {url})
 
 				const { id: challengeId } = await this.db.createApplicationChallenge(req.body.publicKey, url, {
 					id: application?.id,
@@ -149,7 +148,7 @@ export class HiveGateway {
 
 		this.router?.connect.post('/register-endpoint/challenge', async (req, res) => {
 			
-			const answer = this.key.decrypt(req.body.answer, 'utf8');
+			const answer = getAnswer(this.key, req.body.answer)
 
 			if(answer){
 				let slug;

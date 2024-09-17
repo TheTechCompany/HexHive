@@ -73,6 +73,7 @@
   "exclude": ["dist/", "utils/", "src/server.ts"],
   "references": [
     {"path": "../../core/hexhive-data"},
+    {"path": "../../core/hexhive-crypto"},
     {"path": "../../db/hive-db-types"}
   ]
 }

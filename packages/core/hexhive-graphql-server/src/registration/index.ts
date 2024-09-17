@@ -1,5 +1,6 @@
 import { GraphResource } from "..";
 import NodeRSA from 'node-rsa'
+import { fromKey, generateKey, answerChallenge, getChallenge } from '@hexhive/crypto'
 
 export const registerEndpoint = async (gateway: {
     host: string,
@@ -19,11 +20,11 @@ export const registerEndpoint = async (gateway: {
         console.error("Put your private key in $HEXHIVE_SECRET so you can access the registered application later")
         console.log("Generating one-time keypair...");
 
-        key = new NodeRSA({b: 512});
+        key = generateKey(512);
 
         console.log(key.exportKey('private'))
     }else{
-        key = new NodeRSA(PRIVATE_KEY || '')
+        key = fromKey(PRIVATE_KEY || '')
     }
 
     console.log("Sending registration payload...")
@@ -46,12 +47,9 @@ export const registerEndpoint = async (gateway: {
     }).then((r) => r.json());
 
     if(resp.challenge){
+        const challenge = getChallenge(key, resp.challenge)
 
-        const answerText = key.decrypt(resp.challenge, 'utf8')
-
-        const blank = new NodeRSA().importKey(resp.publicKey, 'public');
-
-        const answer = blank.encrypt(answerText, 'base64')
+        const answer = answerChallenge(resp.publicKey, challenge);
 
         console.log("Responding to challenge...");
         
@@ -75,19 +73,4 @@ export const registerEndpoint = async (gateway: {
             console.log(challengeAnswerResp.error)
         }
     }
-
 }
-
-// (async () => {
-//     await registerEndpoint({
-//         host: 'http://localhost:7000/register-endpoint'
-//     }, {
-//         name: 'test-app',
-//         slug: 'app',
-//         backend_url: 'http://localhost:7003/graphql',
-//         entrypoint: 'http://localhost:8504/hivecommand-app-frontend.js',
-//         // port: 7003,
-//         resources: [{name: 'Resource', actions: []}]
-//      })
-
-// })();

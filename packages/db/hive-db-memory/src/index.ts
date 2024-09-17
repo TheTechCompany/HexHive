@@ -24,7 +24,7 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
             return users.filter((a) => trust_bonds?.findIndex((b) => b.trust.id == a.id) > -1);
         },
         getApplications: async function (ids?: string[]): Promise<types.Application[]> {
-            if (ids) {
+            if (ids && ids.length > 0) {
                 return applications.filter((a) => ids?.indexOf(a.id) > -1);
             }
             return applications;
@@ -114,6 +114,7 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
         },
         getUserApplications: async (id: string, organisationId: string): Promise<types.Application[]> => {
             // throw new Error("Function not implemented.");
+            console.log({applications})
             return applications;
         },
         createTrust: function (email: string, userId: string, organisationId: string, roles: string[], permissions: string[]): Promise<types.Trust> {
