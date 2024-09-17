@@ -4,8 +4,9 @@ import { disconnect } from "process";
 import { sendInvite } from "../../email";
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer'
+import { HiveDB } from "@hexhive/db-types";
 
-export default (prisma: PrismaClient, transporter?: nodemailer.Transporter) => {
+export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 	const typeDefs = `
 
 		extend type Query {
@@ -164,91 +165,56 @@ export default (prisma: PrismaClient, transporter?: nodemailer.Transporter) => {
 	const resolvers = {
 		HiveUser: {
 			roles: async (root: any, args: any, context: any) => {
-				const trusts = await prisma.userTrust.findMany({
-					where: {
-						trustId: root.id,
-						issuerId: context?.jwt?.organisation
-					},
-					include: {
-						roles: true
-					}
-				})
-				return trusts.map((x) => x.roles).reduce((prev, curr) => prev.concat(curr), [])
+				return await db.getUserRoles(root.id, context?.jwt?.organisation)
 			}
 		},
 		HiveOrganisation: {
 			members: async (root: any) => {
-
-				const members = await prisma.user.findMany({where: {organisations: {some: {issuer: {id: root.id}}}}})
-				return members;
+				return await db.getOrganisationUsers([], root.id)
 			},
 			applications: async (root: any, args: any, context: any) => {
-				//Add route for checking rbac
-				const applications = await prisma.application.findMany({
-					where: {
-						users: {
-							some: {id: root.id}
-						},
-						usedInRoles: {
-							some: {
-								usedBy: {
-									some: {trustId: context?.jwt?.id}
-								}
-							}
-						}
-					}
-				})
+				//Gets the applications that the organisation has installed that are also accessible by this user privilege
 
-				return applications;
+				//Add route for checking rbac
+				
+				//Get org applications
+				//Get roles user is in for org
+				//Get applications that are compatible with that role
+				const applications = await db.getOrganisationApplications(context?.jwt?.organisation)
+				console.log({applications})
+				const roles = await db.getUserRoles(context?.jwt?.id, context?.jwt?.organisation)
+
+				return applications.filter((application) => {
+					return roles.findIndex((role) => role.applications.findIndex((app) => app.id == application.id) > -1) > -1
+				})
+				
 			}
 		},
 		Query: {
 			people: async (root: any, args: any, context: any) => {
-				return await prisma.user.findMany({
-					where: {
-						organisations: {
-							some: {issuerId: context?.jwt?.organisation || context?.user?.organisation}, 
-						},
-						// inactive: false
-					},
-					include: {
-						organisations: true
-					}
-				})
+				const users = await db.getOrganisationUsers([], context?.jwt?.organisation)
+				return users;
+				// return await prisma.user.findMany({
+				// 	where: {
+				// 		organisations: {
+				// 			some: {issuerId: context?.jwt?.organisation || context?.user?.organisation}, 
+				// 		},
+				// 		// inactive: false
+				// 	},
+				// 	include: {
+				// 		organisations: true
+				// 	}
+				// })
 			},
 			permissions: async (root: any, args: any, context: any) => {
-				return await prisma.permission.findMany({
-					where: {
-						id: args?.ids ? {in: args?.ids} : undefined,
-						organisation: {
-							id: context.jwt.organisation
-						}
-					},
-					include: {
-						policies: true,
-						scope: true
-					}
-				});
+				return await db.getPermissions(args.ids, context?.jwt?.organisation)
 			},
 			roles: async (root: any, args: any, context: any) => {
-				return await prisma.role.findMany({
-					where: {organisation: {id: context.jwt.organisation}},
-					include: {
-						applications: true,
-						permissions: true
-					}
-				});
+				return await db.getRoles(args.ids, context?.jwt?.organisation)
 			},
 			organisation: async (root: any, args: any, context: any) => {
 
-				const org = await prisma.organisation.findFirst({
-					where: {
-						id: context.user.organisation
-					},
-					include: {
-						applications: true
-					}
-				})
+				const [org] = await db.getOrganisations([context?.jwt?.organisation])
 
 				return org;
 				// console.log({context})
@@ -283,21 +249,33 @@ export default (prisma: PrismaClient, transporter?: nodemailer.Transporter) => {
 					query.inactive = false;
 					orgQuery.inactive = false;
 				}
-				
-				const users = await prisma.user.findMany({
-					where: {
-						organisations: {
-							some: {
-								issuerId: context?.jwt?.organisation || context?.user?.organisation,
-								...orgQuery
-							}, 
-						},
-						...query
-					},
-					include: {
-						organisations: true
+
+				let users = await db.getOrganisationUsers(args.ids, context?.jwt?.organisation)
+
+				users = users.filter((user) => {
+					if(query.inactive == false && user.inactive){
+						return false;
 					}
+					if(orgQuery.inactive == false && user.organisations?.find((a) => a.issuer.id == context?.jwt?.organisation)?.inactive){
+						return false;
+					}
+					return true;
 				})
+				
+				// const users = await prisma.user.findMany({
+				// 	where: {
+				// 		organisations: {
+				// 			some: {
+				// 				issuerId: context?.jwt?.organisation || context?.user?.organisation,
+				// 				...orgQuery
+				// 			}, 
+				// 		},
+				// 		...query
+				// 	},
+				// 	include: {
+				// 		organisations: true
+				// 	}
+				// })
 
 				//Inactive users might still show up
 				if(args.ids){
@@ -311,156 +289,65 @@ export default (prisma: PrismaClient, transporter?: nodemailer.Transporter) => {
 		Mutation: {
 			createUserTrust: async (root: any, args: any, context: any) => {
 
-				let existingUser : any = {};
-				if(args.input.email){
-					existingUser = await prisma.user.findFirst({
-						where: {
-							email: args.input.email
-						}
-					});
+				try{
+					const userTrust = await db.createTrust(args.input?.email, context?.jwt?.id, context?.jwt?.organisation, args.input?.roles, args.input?.permissions)
+					return userTrust;
+				}catch(e){
+					console.log(e);
 				}
+				//If fail invite user
 
-				const currentOrg = await prisma.organisation.findFirst({where: {id: context?.jwt?.organisation}})
-				if(!currentOrg) throw new Error("Not authorized to invite new users");
-
-				let user = {id: existingUser?.id, email: existingUser?.email || args.input.email}
-				if(!user.id){
-					user.id = nanoid();
-					const u = await prisma.user.create({
-						data: {
-							id: user.id,
-							email: args.input.email,
-							name: args.input.name,
-							inactive: true
-						}
-					})
-					console.log({u})
-				}
-
-				await prisma.userTrust.create({
-					data: {
-						id: nanoid(),
-						issuerId: context.jwt.organisation,
-						trustId: user.id,
-						accepted: false,
-						roles: {
-							connect: args.input.roles?.map((x: any) => ({id: x})) || []
-						},
-						permissions: {
-							connect: args.input.permissions?.map((x: any) => ({id: x})) || []
-						}
-					}
-				})
-
-				const token = jwt.sign({
-					id: user.id
-				}, 'sECRET')
-
-				if(!transporter) throw new Error('No SMTP transporter provided');
+				// if (!user.id) {
+				// 	user.id = nanoid();
+				// 	const u = await prisma.user.create({
+				// 		data: {
+				// 			id: user.id,
+				// 			email: args.input?.email,
+				// 			name: args.input?.name,
+				// 			inactive: true
+				// 		}
+				// 	})
+				// 	console.log({ u })
+				// }
 				
-				if(user.email){
-					//Send transactional emails
-					if(!existingUser){
-						//Send invite to HexHive with organisation invite
-						await sendInvite(
-							transporter,
-						{
-							to: args.input.email,
-							receiver: args.input.name,
-							sender: currentOrg.name,
-							type: args.input.type,
-							link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
-						})
-					}else{
-						//Send invite to HexHive org to existing user
-						await sendInvite(
-							transporter,
-						{
-							to: args.input.email,
-							receiver: args.input.name,
-							sender: currentOrg.name,
-							type: args.input.type,
-							link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
-						})
-					}
+				// const token = jwt.sign({
+				// 	id: user.id
+				// }, 'sECRET')
 
-				}
-				return user;
+				// if(!transporter) throw new Error('No SMTP transporter provided');
+				
+				// if(user.email){
+				// 	//Send transactional emails
+				// 	if(!existingUser){
+				// 		//Send invite to HexHive with organisation invite
+				// 		await sendInvite(
+				// 			transporter,
+				// 		{
+				// 			to: args.input?.email,
+				// 			receiver: args.input?.name,
+				// 			sender: currentOrg.name,
+				// 			type: args.input?.type,
+				// 			link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
+				// 		})
+				// 	}else{
+				// 		//Send invite to HexHive org to existing user
+				// 		await sendInvite(
+				// 			transporter,
+				// 		{
+				// 			to: args.input?.email,
+				// 			receiver: args.input?.name,
+				// 			sender: currentOrg.name,
+				// 			type: args.input?.type,
+				// 			link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
+				// 		})
+				// 	}
+
+				// }
 			},
 			updateUserTrust: async (root: any, args: any, context: any) => {
 
-				const {id: userId, organisations} = await prisma.user.findFirst({
-					where: {
-						id: args.id,
-						organisations: {
-							some: {
-								issuerId: context?.jwt?.organisation
-							}
-						}
-					},
-					include: {
-						organisations: true
-					}
-				}) || {};
-
-				if(!userId) throw new Error("No userId found");
-
-
-				let update : any = {};
-
-				if(args.input.roles){
-					update['roles'] = {
-						set: args.input.roles.map((x: string) => ({id: x}))
-					}
-				}
-
-
-				if(args.input.permissions){
-					update['permissions'] = {
-						set: args.input.permissions.map((x: string) => ({id: x}))
-					}
-				}
-
-
-				if(args.input.inactive != null){
-					update['inactive'] =  args.input.inactive;
-
+				return await db.updateTrust(args.id, context?.jwt?.id, context?.jwt?.organisation, args.input?.roles, args.input?.permissions, args.input?.inactive)
 			
-				}
-
-				console.log("User update", update);
-
-				const t = await prisma.userTrust.findFirst({
-					where: {
-						trustId: args.id
-					}
-				});
-
-				console.log(t);
-
-				await prisma.userTrust.update({
-					where: {
-						trustId_issuerId: {
-							trustId: args.id,
-							issuerId: context?.jwt?.organisation
-						}
-					},
-					data: update
-				})
-
-				return await prisma.user.findFirst({
-					where: {
-						id: args.id,
-						organisations: {
-							some: {
-								issuerId: context?.jwt?.organisation
-							}
-						}
-					},
-					include: {
-						organisations: true
-					}
-				})
 
 				// return await prisma.user.update({
 				// 	where: {
@@ -472,136 +359,41 @@ export default (prisma: PrismaClient, transporter?: nodemailer.Transporter) => {
 				// 		// }
 				// 	},
 				// 	data: {
-				// 		name: args.input.name,
-				// 		email: args.input.email,
-				// 		password: args.input.password,
-				// 		inactive: args.input.inactive
+				// 		name: args.input?.name,
+				// 		email: args.input?.email,
+				// 		password: args.input?.password,
+				// 		inactive: args.input?.inactive
 					
 				// 	}
 				// })
 			},
 			createRole: async (root: any, args: any, context: any) => {
-				return await prisma.role.create({
-					data: {
-						id: nanoid(),
-						name: args.input.name,
-						permissions: {
-							connect: args.input.permissions?.map((x: string) => ({id: x}))
-						},
-						applications: {
-							connect: args.input.applications.map((x: string) => ({id: x}))
-						},
-						organisation: {
-							connect: {id: context.jwt.organisation}
-						}
-					}
-				})
+				return await db.createRole(args.input?.name, args.input?.permissions, args.input?.applications, context?.jwt.organisation)
 			},
 			updateRole: async (root: any, args: any, context: any) => {
-				return await prisma.role.update({
-					where: {id: args.id},
-					data: {
-						name: args.input.name,
-						permissions: {
-							set: args.input.permissions?.map((x: string) => ({id: x}))
-						},
-						applications: {
-							set: args.input.applications?.map((x: string) => ({id: x}))
-						}
-					}
-				})
+				return await db.updateRole(args.id, args.input?.name, args.input?.permissions, args.input?.applications, context?.jwt?.organisation)
 			},
 			deleteRole: async (root: any, args: any, context: any) => {
-				return await prisma.role.delete({where: {id: args.id}});
+				return await db.deleteRole(args.id, context?.jwt?.organisation)
 			},
 			createPermission: async (root: any, args: any, context: any) => {
-				return await prisma.permission.create({
-					data: {
-						id: nanoid(),
-						name: args.input.name,
-						
-						organisation: {
-							connect: {id: context.jwt.organisation}
-						}
-					}
-				})
+				return await db.createPermission(args.input?.name, context?.jwt.organisation)
 			},
 			updatePermission: async (root: any, args: any, context: any) => {
-				return await prisma.permission.update({
-					where: {id: args.id},
-					data: {
-						name: args.input.name,
-						scopeId: args.input.scopeId
-						// applications: {
-						// 	set: args.input.applications.map((x: string) => ({id: x}))
-						// }
-					}
-				})
+				return await db.updatePermission(args.id, args.input?.name, args.input?.scopeId, context?.jwt?.organisation)
 			},
 			deletePermission: async (root: any, args: any, context: any) => {
-				return await prisma.permission.delete({where: {id: args.id}});
+				return await db.deletePermission(args.id, context?.jwt?.organisation)
 			},
 			createPermissionPolicy: async (root: any, args: any, context: any) => {
-				const perm = await prisma.permission.findFirst({
-					where: {
-						id: args.permission,
-						organisationId: context?.jwt?.organisation
-					}
-				})
-				if(!perm) throw new Error("Not allowed");
-
-				return await prisma.permissionPolicy.create({
-					data: {
-						id: nanoid(),
-						name: args.input?.name || '',
-						verbs: args.input?.verbs,
-						resource: args.input?.resource,
-						effect: args.input?.effect,
-						conditions: args.input?.conditions,
-						usedInPermissions: {
-							connect: {
-								id: perm.id
-							}
-						},
-						organisationId: context?.jwt?.organisation
-						
-					}
-				})
+				return await db.createPermissionPolicy(args.permission, args.input?.name, args.input?.verbs, args.input?.resource, args.input?.effect, args.input?.conditions, context?.jwt?.organisation)
 			},
 			updatePermissionPolicy: async (root: any, args: any, context: any) => {
-				const perm = await prisma.permission.findFirst({
-					where: {
-						id: args.permission,
-						organisationId: context?.jwt?.organisation
-					}
-				})
-				if(!perm) throw new Error("Not allowed");
-
-				return await prisma.permissionPolicy.update({
-					where: {
-						id: args.id
-					},
-					data: {
-						name: args.input?.name,
-						verbs: args.input?.verbs,
-						resource: args.input?.resource,
-						effect: args.input?.effect,
-						conditions: args.input?.conditions,
-					}
-				})
+				return await db.updatePermissionPolicy(args.id, args.permission, args.input?.name, args.input?.verbs, args.input?.resource, args.input?.effect, args.input?.conditions, context?.jwt?.organisation)
+		
 			},
 			deletePermissionPolicy: async (root: any, args: any, context: any) => {
-				const perm = await prisma.permission.findFirst({
-					where: {
-						id: args.permission,
-						organisationId: context?.jwt?.organisation
-					}
-				})
-				if(!perm) throw new Error("Not allowed");
-
-				return await prisma.permissionPolicy.delete({
-					where: {id: args.id}
-				})
+				return await db.deletePermissionPolicy(args.id, args.permission, context?.jwt?.organisation)
 			}
 		}
 	}

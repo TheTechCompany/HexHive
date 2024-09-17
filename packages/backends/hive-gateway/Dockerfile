@@ -6,15 +6,18 @@ RUN apt-get update && apt-get install -y openssl git build-essential python3
 
 WORKDIR /app
 
+ENV NODE_ENV="development"
+
 COPY . . 
 
 RUN yarn
 
-ENV NODE_ENV="production"
+WORKDIR /app/packages/backends/hive-gateway
+
+RUN cp tsconfig.server.json tsconfig.json
 
 RUN npx lerna run build --scope @hexhive/gateway --include-dependencies
 
-WORKDIR /app/packages/backends/hive-gateway
 
 # RUN cp -Lr /app/packages/backends/hive-gateway/node_modules/ _node_modules/
 

@@ -40,6 +40,8 @@ stack_output
 
 stack.log
 
+*yarn-error.log
+
 .yarn/*
 !.yarn/cache
 !.yarn/patches

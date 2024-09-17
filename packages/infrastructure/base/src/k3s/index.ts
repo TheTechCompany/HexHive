@@ -159,6 +159,10 @@ systemctl restart k3s
                 httpEndpoint: 'enabled',
                 httpPutResponseHopLimit: 2
             },
+            placement: {
+                availabilityZone: controlNode.availabilityZone
+            },
+
             // blockDeviceMappings: [
             //     {
             //         deviceName: '/dev/sda',
@@ -184,9 +188,9 @@ systemctl restart k3s
                 id: id,
                 version: `${version}`
             },
-            minSize: 2,
-            desiredCapacity: 3,
-            maxSize: 4,
+            minSize: 1,
+            desiredCapacity: 2,
+            maxSize: 3,
             vpcZoneIdentifiers: subnets
         })
     })

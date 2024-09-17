@@ -1,6 +1,7 @@
 {
   "name": "@hexhive-clients/desktop",
-  "version": "1.0.2-beta.62",
+  "version": "1.0.2-beta.73",
+  "private": true,
   "scripts": {
     "tauri": "tauri",
     "start": "webpack serve --port 9000 --env isLocal",

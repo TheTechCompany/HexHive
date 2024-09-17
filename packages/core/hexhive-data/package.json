@@ -1,13 +1,14 @@
 {
   "name": "@hexhive/data",
-  "version": "1.0.2-beta.70",
+  "version": "1.0.2-beta.83",
   "description": "",
   "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "prisma/"
   ],
   "prisma": {
     "seed": "ts-node prisma/seed"
@@ -17,7 +18,7 @@
     "generate": "npx prisma generate",
     "seed": "prisma db seed",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "yarn generate"
+    "postinstall": "npm run generate"
   },
   "author": "",
   "license": "ISC",

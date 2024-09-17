@@ -65,8 +65,6 @@ export const AppTemplate = async (localPath: string) => {
 
     const { urlSlug, developerPort } = await inquirer.prompt(Object.values(secondPrompts));
 
-
-
     console.log('Cloning template repository...');
 
     await git.clone(APP_TEMPLATE_URL, localPath)

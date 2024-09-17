@@ -108,6 +108,7 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "references": [
-    { "path": "../../backends/hive-gateway-local" }
+    { "path": "../../backends/hive-gateway-local" },
+    { "path": "../../core/hexhive-crypto"}
   ]
 }

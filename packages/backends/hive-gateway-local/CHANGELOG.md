@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2-beta.83](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.82...v1.0.2-beta.83) (2024-09-17)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.82](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.81...v1.0.2-beta.82) (2024-09-17)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.81](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.80...v1.0.2-beta.81) (2024-09-13)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.80](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.79...v1.0.2-beta.80) (2024-09-13)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.79](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.78...v1.0.2-beta.79) (2024-09-13)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.78](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.77...v1.0.2-beta.78) (2024-09-13)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.77](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.76...v1.0.2-beta.77) (2024-09-13)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.76](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.75...v1.0.2-beta.76) (2024-09-13)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.75](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.74...v1.0.2-beta.75) (2024-09-13)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.74](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.73...v1.0.2-beta.74) (2024-09-12)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.73](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.72...v1.0.2-beta.73) (2024-09-11)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.72](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.71...v1.0.2-beta.72) (2024-09-10)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
+## [1.0.2-beta.71](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.70...v1.0.2-beta.71) (2024-04-29)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
 ## [1.0.2-beta.70](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.69...v1.0.2-beta.70) (2023-11-17)
 
 **Note:** Version bump only for package @hexhive/dev-server

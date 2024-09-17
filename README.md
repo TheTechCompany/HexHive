@@ -1,30 +1,5 @@
-<div id="top"></div>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
-<br />
 <div align="center">
   <a href="https://github.com/TheTechCompany/HexHive">
     <img src="images/HX2.1.svg" alt="Logo" width="80" height="80">
@@ -33,7 +8,7 @@
 <h3 align="center">HexHive</h3>
 
   <p align="center">
-    The SaaS platform for the Hexagon Protocol.
+    The extendable SaaS platform.
     <br />
     <a href="https://docs.hexhive.io"><strong>Explore the docs »</strong></a>
     <br />
@@ -80,15 +55,12 @@
 
 Skip the boiletplate, deploy your solution to the world.
 
-HexHive is built on the Hexagon Protocol, a protocol that allows developers to build decentralized applications sooner and keeps users in control of where and how they want to use their data.
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
 
 - [React.js](https://reactjs.org/)
 - [Single SPA](https://single-spa.js.org/)
-- [Neo4J](https://neo4j.com/)
 - [GraphQL](https://graphql.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -110,20 +82,19 @@ HexHive is built on the Hexagon Protocol, a protocol that allows developers to b
   npm install @hexhive/dev-server -g
 ```
 
- <p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
 
 ### Dev Server
+
+#### Install
+
+- [@hexhive/dev-server](https://npmjs.com/@hexhive/dev-server)
+
 ```sh
-git clone https://github.com/TheTechCompany/HexHive
-
-cd HexHive/.dev
-
-docker-compose up -d
-
 hex-dev --config ./applications.json
 ```
 
@@ -144,7 +115,7 @@ applications.json
 Admin will be available at http://localhost:7000/
 Visit http://localhost:7000/dashboard/app to see your app.
 
-### GraphQL modules
+### Gateway GraphQL modules
 
 ```
 import { HiveGraph } from '@hexhive/graphql-server';
@@ -203,7 +174,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the GNU GPL v3 License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -220,6 +191,3 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [issues-url]: https://github.com/TheTechCompany/HexHive/issues
 [license-shield]: https://img.shields.io/github/license/TheTechCompany/HexHive.svg?style=for-the-badge
 [license-url]: https://github.com/TheTechCompany/HexHive/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png

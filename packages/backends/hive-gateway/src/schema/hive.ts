@@ -4,21 +4,19 @@ import subschema from "./subschema"
 
 import { stitchingDirectives } from '@graphql-tools/stitching-directives'
 
-import { Pool } from "pg"
-import { PrismaClient } from '@hexhive/data'
-
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeResolvers } from "@graphql-tools/merge"
 import nodemailer from 'nodemailer'
+import { HiveDB } from "@hexhive/db-types"
 
 require("dotenv").config()
 
 const { allStitchingDirectivesTypeDefs } = stitchingDirectives();
 
 
-export default (prisma: PrismaClient, schemas: { [key: string]: {acl: any[]} }, transporter?: nodemailer.Transporter) => {
+export default (db: HiveDB, schemas: { [key: string]: {acl: any[]} }, transporter?: nodemailer.Transporter) => {
 
-	const {typeDefs: subschemaTypeDefs, resolvers: subschemaResolvers} = subschema(prisma, schemas, transporter);
+	const {typeDefs: subschemaTypeDefs, resolvers: subschemaResolvers} = subschema(db, schemas, transporter);
 
 	const typeDefs = gql`
 		${allStitchingDirectivesTypeDefs}

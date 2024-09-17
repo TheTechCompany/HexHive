@@ -4,16 +4,18 @@ RUN apt-get update && apt-get install -y openssl
 
 WORKDIR /app
 
+ENV NODE_ENV="development"
+
 COPY . . 
 
 RUN yarn
 
-ENV NODE_ENV="production"
+WORKDIR /app/packages/backends/hive-frontend
 
+RUN cp tsconfig.server.json tsconfig.json
 
 RUN npx lerna run build --scope @hexhive/frontend-server --include-dependencies
 
-WORKDIR /app/packages/backends/hive-frontend
 
 # RUN cp -Lr /app/packages/backends/hive-frontend/node_modules/ _node_modules/
 

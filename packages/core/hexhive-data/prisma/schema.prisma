@@ -13,12 +13,14 @@ datasource db {
 model User {
   id String @id
 
-  displayId String?
+  displayId String? //TODO Delete soon
 
   name String?
   
   email String? @unique
   password String? 
+
+  lastOrganisation String?
 
   inactive Boolean @default(true)
 
@@ -64,7 +66,7 @@ model Organisation {
 model APIKey {
   id String @id
   name String
-  apiKey String
+  apiKey String @unique
   
   organisation Organisation @relation(name: "hasAPIKey", fields: [organisationId], references: [id], onDelete: Cascade)
   organisationId String
@@ -73,6 +75,8 @@ model APIKey {
 model Application {
   id String @id
   name String
+
+  publicKey String? @unique
 
   slug String?
 
@@ -88,10 +92,20 @@ model Application {
   serviceAccounts ApplicationServiceAccount[] @relation(name: "hasServiceAccount")
 }
 
+model ApplicationChallenge {
+  id String @id
+
+  publicKey String
+  challenge String
+  application Json?
+
+  createdAt DateTime @default(now())
+}
+
 model ApplicationServiceAccount {
   id String @id
   name String
-  apiKey String
+  apiKey String @unique
 
   application Application @relation(name: "hasServiceAccount", references: [id], fields: [applicationId])
   applicationId String
