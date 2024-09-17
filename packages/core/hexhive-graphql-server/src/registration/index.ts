@@ -47,6 +47,7 @@ export const registerEndpoint = async (gateway: {
     }).then((r) => r.json());
 
     if(resp.challenge){
+        
         const challenge = getChallenge(key, resp.challenge)
 
         const answer = answerChallenge(resp.publicKey, challenge);
