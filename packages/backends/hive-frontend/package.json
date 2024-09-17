@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/frontend-server",
-  "version": "1.0.2-beta.93",
+  "version": "1.0.2-beta.94",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@hexhive/data": "^1.0.2-beta.93",
+    "@hexhive/data": "^1.0.2-beta.94",
     "@hexhive/db-postgres": "workspace:^",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@hexhive/db-types": "workspace:^",
-    "@hexhive/microfrontend-server": "^1.0.2-beta.93",
+    "@hexhive/microfrontend-server": "^1.0.2-beta.94",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.6",

@@ -7,7 +7,7 @@
   "files": [
     "dist/"
   ],
-  "version": "1.0.2-beta.93",
+  "version": "1.0.2-beta.94",
   "scripts": {
     "start": "webpack serve --port 8501",
     "start:standalone": "webpack serve --env standalone",
@@ -50,7 +50,7 @@
     "@apollo/client": "^3.5.6",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@hexhive/auth-ui": "^1.0.2-beta.93",
+    "@hexhive/auth-ui": "^1.0.2-beta.94",
     "@hexhive/styles": "^1.0.1-alpha.37",
     "@hexhive/ui": "^1.0.1-alpha.37",
     "@mui/icons-material": "^5.6.2",
