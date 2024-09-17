@@ -1,7 +1,7 @@
 import { GraphQLSchema, GraphQLScalarType, GraphQLObjectType, GraphQLField, GraphQLInterfaceType, GraphQLArgument, GraphQLUnionType, GraphQLEnumType, GraphQLEnumValue, GraphQLInputObjectType, GraphQLInputField, Kind } from "graphql";
 import crypto from 'crypto'
 
-export const HashType = new GraphQLScalarType<string, string>({
+export const HashType = new GraphQLScalarType({
     name: 'Hash',
     serialize: (value) => {
         console.log("serialize", {value})

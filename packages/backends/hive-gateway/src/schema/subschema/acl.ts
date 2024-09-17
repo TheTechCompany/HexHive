@@ -290,7 +290,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 			createUserTrust: async (root: any, args: any, context: any) => {
 
 				try{
-					const userTrust = await db.createTrust(args.input.email, context?.jwt?.id, context?.jwt?.organisation, args.input.roles, args.input.permissions)
+					const userTrust = await db.createTrust(args.input?.email, context?.jwt?.id, context?.jwt?.organisation, args.input?.roles, args.input?.permissions)
 					return userTrust;
 				}catch(e){
 					console.log(e);
@@ -302,8 +302,8 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				// 	const u = await prisma.user.create({
 				// 		data: {
 				// 			id: user.id,
-				// 			email: args.input.email,
-				// 			name: args.input.name,
+				// 			email: args.input?.email,
+				// 			name: args.input?.name,
 				// 			inactive: true
 				// 		}
 				// 	})
@@ -323,10 +323,10 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				// 		await sendInvite(
 				// 			transporter,
 				// 		{
-				// 			to: args.input.email,
-				// 			receiver: args.input.name,
+				// 			to: args.input?.email,
+				// 			receiver: args.input?.name,
 				// 			sender: currentOrg.name,
-				// 			type: args.input.type,
+				// 			type: args.input?.type,
 				// 			link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
 				// 		})
 				// 	}else{
@@ -334,10 +334,10 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				// 		await sendInvite(
 				// 			transporter,
 				// 		{
-				// 			to: args.input.email,
-				// 			receiver: args.input.name,
+				// 			to: args.input?.email,
+				// 			receiver: args.input?.name,
 				// 			sender: currentOrg.name,
-				// 			type: args.input.type,
+				// 			type: args.input?.type,
 				// 			link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
 				// 		})
 				// 	}
@@ -346,7 +346,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 			},
 			updateUserTrust: async (root: any, args: any, context: any) => {
 
-				return await db.updateTrust(args.id, context?.jwt?.id, context?.jwt?.organisation, args.input.roles, args.input.permissions, args.input.inactive)
+				return await db.updateTrust(args.id, context?.jwt?.id, context?.jwt?.organisation, args.input?.roles, args.input?.permissions, args.input?.inactive)
 			
 
 				// return await prisma.user.update({
@@ -359,37 +359,37 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				// 		// }
 				// 	},
 				// 	data: {
-				// 		name: args.input.name,
-				// 		email: args.input.email,
-				// 		password: args.input.password,
-				// 		inactive: args.input.inactive
+				// 		name: args.input?.name,
+				// 		email: args.input?.email,
+				// 		password: args.input?.password,
+				// 		inactive: args.input?.inactive
 					
 				// 	}
 				// })
 			},
 			createRole: async (root: any, args: any, context: any) => {
-				return await db.createRole(args.input.name, args.input.permissions, args.input.applications, context?.jwt.organisation)
+				return await db.createRole(args.input?.name, args.input?.permissions, args.input?.applications, context?.jwt.organisation)
 			},
 			updateRole: async (root: any, args: any, context: any) => {
-				return await db.updateRole(args.id, args.input.name, args.input.permissions, args.input.applications, context?.jwt?.organisation)
+				return await db.updateRole(args.id, args.input?.name, args.input?.permissions, args.input?.applications, context?.jwt?.organisation)
 			},
 			deleteRole: async (root: any, args: any, context: any) => {
 				return await db.deleteRole(args.id, context?.jwt?.organisation)
 			},
 			createPermission: async (root: any, args: any, context: any) => {
-				return await db.createPermission(args.input.name, context?.jwt.organisation)
+				return await db.createPermission(args.input?.name, context?.jwt.organisation)
 			},
 			updatePermission: async (root: any, args: any, context: any) => {
-				return await db.updatePermission(args.id, args.input.name, args.input.scopeId, context?.jwt?.organisation)
+				return await db.updatePermission(args.id, args.input?.name, args.input?.scopeId, context?.jwt?.organisation)
 			},
 			deletePermission: async (root: any, args: any, context: any) => {
 				return await db.deletePermission(args.id, context?.jwt?.organisation)
 			},
 			createPermissionPolicy: async (root: any, args: any, context: any) => {
-				return await db.createPermissionPolicy(args.permission, args.input.name, args.input.verbs, args.input.resource, args.input.effect, args.input.conditions, context?.jwt?.organisation)
+				return await db.createPermissionPolicy(args.permission, args.input?.name, args.input?.verbs, args.input?.resource, args.input?.effect, args.input?.conditions, context?.jwt?.organisation)
 			},
 			updatePermissionPolicy: async (root: any, args: any, context: any) => {
-				return await db.updatePermissionPolicy(args.id, args.permission, args.input.name, args.input.verbs, args.input.resource, args.input.effect, args.input.conditions, context?.jwt?.organisation)
+				return await db.updatePermissionPolicy(args.id, args.permission, args.input?.name, args.input?.verbs, args.input?.resource, args.input?.effect, args.input?.conditions, context?.jwt?.organisation)
 		
 			},
 			deletePermissionPolicy: async (root: any, args: any, context: any) => {

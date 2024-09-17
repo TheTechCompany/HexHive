@@ -128,7 +128,7 @@ export class HiveGateway {
 			const application = await this.db.getApplicationByPublicKey(req.body.publicKey)
 	
 				const url = req.body.backend_url
-				const challenge = createChallenge(req.body.publicKey, {url})
+				const challenge = createChallenge(req.body.publicKey, url)
 
 				const { id: challengeId } = await this.db.createApplicationChallenge(req.body.publicKey, url, {
 					id: application?.id,
