@@ -175,7 +175,11 @@ export const HiveDBPG: HiveDBFactory = () => {
                     issuerId: organisationId
                 },
                 include: {
-                    roles: true
+                    roles: {
+                        include: {
+                            applications: true
+                        }
+                    }
                 }
             });
             return trusts.map((x) => x.roles).reduce((prev, curr) => prev.concat(curr), []) as any[];
@@ -531,3 +535,4 @@ export const HiveDBPG: HiveDBFactory = () => {
 
     return db;
 }
+
