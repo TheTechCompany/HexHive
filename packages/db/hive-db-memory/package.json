@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/db-memory",
-  "version": "1.0.2-beta.89",
+  "version": "1.0.2-beta.90",
   "main": "dist/index.js",
   "files": [
     "dist/"
