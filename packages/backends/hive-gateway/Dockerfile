@@ -14,8 +14,6 @@ RUN yarn
 
 WORKDIR /app/packages/backends/hive-gateway
 
-RUN cp tsconfig.server.json tsconfig.json
-
 RUN npx lerna run build:prod --scope @hexhive/gateway
 
 

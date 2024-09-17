@@ -1,8 +1,7 @@
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "references": [
     {"path": "../../core/hexhive-microfrontend"},
-    {"path": "../../db/hive-db-types"},
     {"path": "../../db/hive-db-postgres"}
   ]
 }
