@@ -173,6 +173,7 @@ jobs:
       JWKS_KEYS: ${{ secrets.JWKS_KEYS }}
       TIMESERIES_HOST: ${{ secrets.TIMESERIES_HOST }}
       TIMESERIES_PASSWORD: ${{ secrets.TIMESERIES_PASSWORD }}
+      PRIVATE_KEY: ${{ secrets.GATEWAY_PRIVATE_KEY }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -226,7 +227,6 @@ jobs:
     needs: [build_gateway, build_frontend-server]
     env:
       PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}  
-      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
     steps: 
       - uses: actions/checkout@v2
 
