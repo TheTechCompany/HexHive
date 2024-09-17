@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/frontend-server",
-  "version": "1.0.2-beta.84",
+  "version": "1.0.2-beta.85",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "tsc -b && cp -r ./src/views/ dist/views/",
-    "build:prod": "tsc -p tsconfig.server.json -b && cp -r ./src/views/ dist/views/",
+    "build:prod": "tsc -b -p tsconfig.server.json && cp -r ./src/views/ dist/views/",
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "start:prod": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@hexhive/data": "^1.0.2-beta.84",
+    "@hexhive/data": "^1.0.2-beta.85",
     "@hexhive/db-postgres": "workspace:^",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
