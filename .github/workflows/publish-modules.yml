@@ -4,8 +4,15 @@ on:
   push:
     branches:
       - staging
-    paths: [".github/workflows/publish-modules.yml", "packages/core-apps/**", "packages/backends/**", "packages/clients/**", "packages/core/**", "packages/shared/**", "packages/workers/**"]
-    # paths-ignore: ["*CHANGELOG.md"]
+    paths: 
+      - .github/workflows/publish-modules.yml
+      - packages/core-apps/**
+      - packages/backends/**
+      - packages/clients/**
+      - packages/core/** 
+      - packages/shared/**
+      - packages/workers/**
+      - !*CHANGELOG.md
 
 
 jobs:
