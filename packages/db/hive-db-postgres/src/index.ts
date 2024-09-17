@@ -224,6 +224,13 @@ export const HiveDBPG: HiveDBFactory = () => {
                             }
                         }
                     }
+                },
+                include: {
+                    organisations: {
+                        include: {
+                            issuer: true
+                        }
+                    }
                 }
             });
             return members;
