@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/frontend-server",
-  "version": "1.0.2-beta.83",
+  "version": "1.0.2-beta.84",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@hexhive/data": "^1.0.2-beta.83",
+    "@hexhive/data": "^1.0.2-beta.84",
     "@hexhive/db-postgres": "workspace:^",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
