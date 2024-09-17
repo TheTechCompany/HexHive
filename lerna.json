@@ -11,6 +11,6 @@
     "packages/clients/*",
     "packages/db/*"
   ],
-  "version": "1.0.2-beta.88",
+  "version": "1.0.2-beta.89",
   "npmClient": "yarn"
 }

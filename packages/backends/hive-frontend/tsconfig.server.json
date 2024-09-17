@@ -1,5 +1,6 @@
 {
   "extends": "./tsconfig.json",
+  "include": ["src/server.ts"],
   "references": [
     {"path": "../../core/hexhive-microfrontend"},
     {"path": "../../db/hive-db-postgres"}

@@ -226,6 +226,7 @@ jobs:
     needs: [build_gateway, build_frontend-server]
     env:
       PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}  
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
     steps: 
       - uses: actions/checkout@v2
 
