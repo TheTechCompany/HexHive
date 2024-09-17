@@ -107,18 +107,18 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
             const user = users.find((user) => user.id == id);
 
             return roles.filter((role) => {
-                role.organisation.id == organisationId
+                role.organisation.id == organisationId;
             }).filter((role) => {
                 return true;
-            }) as any
+            }) as any;
         },
         getUserApplications: async (id: string, organisationId: string): Promise<types.Application[]> => {
             // throw new Error("Function not implemented.");
-            console.log({applications})
+            console.log({ applications });
             return applications;
         },
         createTrust: function (email: string, userId: string, organisationId: string, roles: string[], permissions: string[]): Promise<types.Trust> {
-            let newTrust : types.Trust = {
+            let newTrust: types.Trust = {
                 id: nanoid(),
                 type: 'User',
                 accepted: true,
@@ -128,8 +128,8 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
                 trust: users.find((user) => user.email == email) as any,
                 roles: roles as any,
                 permissions: permissions as any
-            }
-            trusts.push(newTrust)
+            };
+            trusts.push(newTrust);
             return newTrust as any;
         },
         updateTrust: function (id: string, userId: string, organisationId: string, roles: string[], permissions: string[], inactive: boolean): Promise<types.Trust> {
@@ -139,20 +139,20 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
                 roles: roles as any,
                 permissions: permissions as any,
                 inactive
-            }
-            return trusts[ix] as any
+            };
+            return trusts[ix] as any;
         },
         getRoles: async (ids: string[], organisationId: string) => {
             return roles.filter((role) => {
-                if(ids && ids.length > 0){
-                    return ids.indexOf(role.id) > -1
+                if (ids && ids.length > 0) {
+                    return ids.indexOf(role.id) > -1;
                 }
                 return true;
-            }).filter((role) => role.organisation.id == organisationId) as any
+            }).filter((role) => role.organisation.id == organisationId) as any;
         },
         createRole: async (name: string, permissions: string[], applications: string[], organisationId: string) => {
-            
-            let newRole : types.Role = {
+
+            let newRole: types.Role = {
                 id: nanoid(),
                 name,
                 permissions: permissions as any,
@@ -171,38 +171,38 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
                 name,
                 permissions: permissions as any,
                 applications: applications as any,
-            }
+            };
         },
         deleteRole: async (id: string, organisationId: string) => {
             let ix = roles.findIndex((role) => role.id == id);
-            roles.splice(ix, 1)
+            roles.splice(ix, 1);
         },
         getPermissions: async (ids: string[], organisationId: string) => {
-            return permissions.filter((perm) => perm.organisation.id == organisationId)
+            return permissions.filter((perm) => perm.organisation.id == organisationId);
         },
         createPermission: function (name: string, organisationId: string): void {
-            let newPermission : types.Permission = {
+            let newPermission: types.Permission = {
                 id: nanoid(),
                 name,
                 organisation: organisations.find((org) => org.id == organisationId) as any
-            } as any
-            permissions.push(newPermission)
-            return newPermission as any
+            } as any;
+            permissions.push(newPermission);
+            return newPermission as any;
         },
         updatePermission: function (id: string, name: string, scopeId: string, organisationId: string): void {
             let ix = permissions.findIndex((perm) => perm.id == id && perm.organisation.id == organisationId);
             permissions[ix] = {
                 ...permissions[ix],
                 name
-            }
+            };
             return permissions[ix] as any;
         },
         deletePermission: function (id: string, organisationId: string): void {
             let ix = permissions.findIndex((perm) => perm.id == id && perm.organisation.id == organisationId);
-            permissions.splice(ix, 1)
+            permissions.splice(ix, 1);
         },
         createPermissionPolicy: function (permissionId: string, name: string, verbs: string[], resource: string, effect: string, conditions: any, organisationId: string): void {
-            let newPermissionPolicy : types.PermissionPolicy = {
+            let newPermissionPolicy: types.PermissionPolicy = {
                 id: nanoid(),
                 name,
                 verbs,
@@ -210,8 +210,8 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
                 effect,
                 conditions,
                 organisation: organisations.find((org) => org.id == organisationId) as any
-            }
-            permissionPolicies.push(newPermissionPolicy)
+            };
+            permissionPolicies.push(newPermissionPolicy);
             return newPermissionPolicy as any;
         },
         updatePermissionPolicy: function (id: string, permissionId: string, name: string, verbs: string[], resource: string, effect: string, conditions: any, organisationId: string): void {
@@ -223,12 +223,12 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
                 resource,
                 effect,
                 conditions
-            }
+            };
             return permissionPolicies[ix] as any;
         },
         deletePermissionPolicy: function (id: string, permissionId: string, organisationId: string): void {
             let ix = permissionPolicies.findIndex((permissionPolicy) => permissionPolicy.id == id && permissionPolicy.organisation.id == organisationId);
-            permissionPolicies.splice(ix, 1)
+            permissionPolicies.splice(ix, 1);
         },
         getApplicationByPublicKey: function (publicKey: string): Promise<types.Application> {
             return applications.find((app) => app.publicKey == publicKey) as any;
@@ -244,14 +244,29 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
                     ...application,
                     publicKey
                 }
-            }
-            applicationChallenges.push(newChallenge)
+            };
+            applicationChallenges.push(newChallenge);
             return newChallenge as any;
         },
         getApplicationChallenge: function (publicKey: string, challengeId: string, _challenge: string): Promise<types.ApplicationChallenge> {
             return applicationChallenges.find((challenge) => {
-                return challenge.application.publicKey == publicKey && challenge.id == challengeId && challenge.challenge == _challenge
+                return challenge.application.publicKey == publicKey && challenge.id == challengeId && challenge.challenge == _challenge;
             }) as any;
+        },
+        getApplicationServiceAccountByKey: function (apiKey: string): Promise<types.ApplicationServiceAccount> {
+            throw new Error("Function not implemented.");
+        },
+        getAPIKeyByKey: function (apiKey: string): Promise<types.APIKey> {
+            throw new Error("Function not implemented.");
+        },
+        createAPIKey: function (name: string, organisationId: string): Promise<types.APIKey> {
+            throw new Error("Function not implemented.");
+        },
+        updateAPIKey: function (id: string, name: string, organisationId: string): Promise<types.APIKey> {
+            throw new Error("Function not implemented.");
+        },
+        deleteAPIKey: function (id: string, organisationId: string): Promise<void> {
+            throw new Error("Function not implemented.");
         }
     }
     return db;
