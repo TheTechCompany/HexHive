@@ -1,6 +1,6 @@
 {
   "name": "@hexhive/crypto",
-  "version": "1.0.2-beta.93",
+  "version": "1.0.2-beta.94",
   "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
