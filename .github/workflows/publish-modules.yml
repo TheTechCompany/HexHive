@@ -5,14 +5,14 @@ on:
     branches:
       - staging
     paths: 
-      - .github/workflows/publish-modules.yml
-      - packages/core-apps/**
-      - packages/backends/**
-      - packages/clients/**
-      - packages/core/** 
-      - packages/shared/**
-      - packages/workers/**
-      - !*CHANGELOG.md
+      - '.github/workflows/publish-modules.yml'
+      - 'packages/core-apps/**'
+      - 'packages/backends/**'
+      - 'packages/clients/**'
+      - 'packages/core/**'
+      - 'packages/shared/**'
+      - 'packages/workers/**'
+      - '!*CHANGELOG.md'
 
 
 jobs:
