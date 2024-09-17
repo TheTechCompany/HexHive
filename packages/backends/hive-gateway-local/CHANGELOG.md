@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2-beta.93](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.92...v1.0.2-beta.93) (2024-09-17)
+
+**Note:** Version bump only for package @hexhive/dev-server
+
 ## [1.0.2-beta.92](https://github.com/TheTechCompany/HexHive/compare/v1.0.2-beta.91...v1.0.2-beta.92) (2024-09-17)
 
 **Note:** Version bump only for package @hexhive/dev-server
