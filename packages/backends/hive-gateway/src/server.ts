@@ -23,7 +23,7 @@ import NodeRSA from 'node-rsa'
 
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
 
-const {NODE_ENV} = process.env
+const { NODE_ENV } = process.env
 
 const url = process.env.AUTH_SERVER || "auth.hexhive.io"
 
@@ -35,17 +35,17 @@ const jwtConfig = {
 };
 
 const argv = yargs(hideBin(process.argv)).options({
-	port: {type: 'number', default: 7000},
-	dev: {type: 'boolean', default: false},
-	endpoints: {type: 'string'},
+	port: { type: 'number', default: 7000 },
+	dev: { type: 'boolean', default: false },
+	endpoints: { type: 'string' },
 });
 
 (async () => {
 
 	let PRIVATE_KEY = process.env.PRIVATE_KEY;
-	if(!PRIVATE_KEY){
+	if (!PRIVATE_KEY) {
 		console.log("Generating private key....")
-		const k = new NodeRSA({b: 512})
+		const k = new NodeRSA({ b: 512 })
 		PRIVATE_KEY = k.exportKey('private')
 	}
 
@@ -57,16 +57,16 @@ const argv = yargs(hideBin(process.argv)).options({
 	const ses = new aws.SESClient({});
 
 	const transporter = nodemailer.createTransport({
-	  SES: {ses, aws: aws},
+		SES: { ses, aws: aws },
 	});
 
 	const redisClient = createClient({
 		url: process.env.REDIS_URL
 	})
 
-	try{
+	try {
 		await redisClient.connect();
-	}catch(err){
+	} catch (err) {
 		console.error(`Redis: `, err)
 	}
 
@@ -75,7 +75,7 @@ const argv = yargs(hideBin(process.argv)).options({
 		prefix: "hexhive:"
 	})
 
-	let cookieParams = process.env.NODE_ENV === 'development' ? {} : {cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' }}
+	let cookieParams = process.env.NODE_ENV === 'development' ? {} : { cookie: { domain: process.env.BASE_DOMAIN || 'domain.com' } }
 
 	app.use(cookieParser())
 
@@ -93,7 +93,7 @@ const argv = yargs(hideBin(process.argv)).options({
 	passport.serializeUser((user, next) => {
 		next(null, user);
 	});
-	  
+
 	passport.deserializeUser((obj: any, next) => {
 		next(null, obj)
 	});
@@ -101,14 +101,14 @@ const argv = yargs(hideBin(process.argv)).options({
 	const { port, endpoints, dev } = await argv.argv;
 
 	console.log(`=> Starting Gateway on ${port}`)
-	
+
 	let endpointInfo = [];
 
-	if(endpoints){
+	if (endpoints) {
 		const endpointData = JSON.parse(readFileSync(endpoints, 'utf8'))
-		endpointInfo = endpointData.endpoints.map(({url, name, version}: any) => ({url, key: name, version}))
+		endpointInfo = endpointData.endpoints.map(({ url, name, version }: any) => ({ url, key: name, version }))
 	}
-	
+
 	const gateway = new HiveGateway({
 		privateKey: PRIVATE_KEY,
 		db,
@@ -116,91 +116,81 @@ const argv = yargs(hideBin(process.argv)).options({
 		transporter,
 		endpoints: endpointInfo
 	})
-		
+
 	console.log(`=> Initializing Gateway`)
 	await gateway.init()
 
-	if(gateway.jwtSecret) jwtConfig.secretOrKey = gateway.jwtSecret
+	if (gateway.jwtSecret) jwtConfig.secretOrKey = gateway.jwtSecret
 
 	passport.use(new ApiKeyStrategy({
 		header: 'Authorization',
 		prefix: 'API-Key '
 	}, false, async (apiKey: string, done: (err: any, user: any) => void) => {
-		console.log("API Key", {apiKey})
+		console.log("API Key", { apiKey })
 
-		// const [serviceAccount, organisation] = await Promise.all([
-		// 	prisma.applicationServiceAccount.findFirst({where: {apiKey: apiKey}, include: {application: true}}),
-		// 	prisma.organisation.findFirst({where: {apiKeys: {some: {apiKey: apiKey}}}})
-		// ]);
+		const [serviceAccount, { organisation }] = await Promise.all([
+			db.getApplicationServiceAccountByKey(apiKey),
+			db.getAPIKeyByKey(apiKey)
+		]);
 
-	
-		// 	if(serviceAccount){
-		// 		console.log("Service Account")
-		// 		done(null, {
-		// 			type: 'appServiceAccount',
-		// 			id: serviceAccount.id,
-		// 			application: serviceAccount?.application?.id
-		// 		})
-		// 	}else if(organisation){
-		// 		console.log("Org Account")
 
-		// 		done(null, {
-		// 			type: 'org-key',
-		// 			organisation: organisation?.id,
-		// 			id: organisation?.id
-		// 		})
-		// 	}else{
-		// 		done("No valid claim found for API-Key", null)
-		// 	}
+		if (serviceAccount) {
+			console.log("Service Account")
+			done(null, {
+				type: 'appServiceAccount',
+				id: serviceAccount.id,
+				application: serviceAccount?.application?.id
+			})
+		} else if (organisation) {
+			console.log("Org Account")
+
+			done(null, {
+				type: 'org-key',
+				organisation: organisation?.id,
+				id: organisation?.id
+			})
+		} else {
+			done("No valid claim found for API-Key", null)
+		}
 	}))
 
 	passport.use(new JwtStrategy(jwtConfig, async (payload: any, done: (err: any, user: any) => void) => {
-		console.log("JWT", {payload})
-		
-		if(payload.key){
+		console.log("JWT", { payload })
 
-			// const organisation = await prisma.organisation.findFirst({
-			// 	where: {
-			// 		apiKeys: {
-			// 			some: {
-			// 				apiKey: payload.key
-			// 			}
-			// 		}
-			// 	}
-			// });
+		if (payload.key) {
 
-			// if(!organisation) done("No Org found for API-Key", null);
+			const { organisation } = await db.getAPIKeyByKey(payload.key)
 
-			// done(null, {type: 'org-key', organisation: organisation?.id})
-		
-		}else{
-			done(null, {type: 'app-2-app', ...payload})
+			if (!organisation) done("No Org found for API-Key", null);
+
+			done(null, { type: 'org-key', organisation: organisation?.id })
+
+		} else {
+			done(null, { type: 'app-2-app', ...payload })
 		}
 
 	}))
-		
 
 	console.log(`=> Starting Gateway`)
 
-	if(gateway.connect) app.use(gateway.connect)
+	if (gateway.connect) app.use(gateway.connect)
 
-	if(process.env.NODE_ENV == "production"){
+	if (process.env.NODE_ENV == "production") {
 
 		app.set('trust proxy', true) // trust first proxy
-		
-			app.use((req, res, next) => {
-				req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
-			})
 
-			server.listen(port, () => {
-				console.log(`🚀 Server ready at :${port}`)
-			})
-			
-		
-		}else{
-	
-			server.listen(port, () => {
-				console.log(`🚀 Server ready at :${port}`)
-			})
-		}
+		app.use((req, res, next) => {
+			req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
+		})
+
+		server.listen(port, () => {
+			console.log(`🚀 Server ready at :${port}`)
+		})
+
+	} else {
+
+		server.listen(port, () => {
+			console.log(`🚀 Server ready at :${port}`)
+		})
+	}
 })()

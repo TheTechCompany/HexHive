@@ -3,6 +3,8 @@
 /* 
     HexHive CLI
 */
+import process from 'process';
+process.removeAllListeners('warning');
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';

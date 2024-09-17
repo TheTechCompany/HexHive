@@ -19,6 +19,13 @@ export interface HiveDB {
     getOrganisationUsers: (ids: string[], organisationId: string) => Promise<types.User[]>;
     getOrganisationApplications: (id: string) => Promise<types.Application[]>;
 
+    getApplicationServiceAccountByKey: (apiKey: string) => Promise<types.ApplicationServiceAccount>;
+
+    getAPIKeyByKey: (apiKey: string) => Promise<types.APIKey>;
+    createAPIKey: (name: string, organisationId: string) => Promise<types.APIKey>;
+    updateAPIKey: (id: string, name: string, organisationId: string) => Promise<types.APIKey>;
+    deleteAPIKey: (id: string, organisationId: string) => Promise<void>;
+
     createOrganisation: (application: Partial<types.Organisation>) => Promise<types.Organisation>
     updateOrganisation: (id: string, application: Partial<types.Organisation>) => Promise<types.Organisation>
     deleteOrganisation: (id: string) => Promise<void>

@@ -10,29 +10,26 @@ import { Arguments, Argv, CommandBuilder } from 'yargs';
 const pkg = require('../../package.json')
 
 type Options = {
-    action: string
+    bits: number
 };
 
-export const command: string = 'keys <action>';
-export const desc: string = 'Run key actions';
+export const command: string = 'keygen <bits>';
+export const desc: string = 'Run keygen';
 
 export const builder = (yargs: any) =>
     yargs
-        .positional('action', {
-            type: 'string', 
+        .positional('bits', {
+            type: 'number', 
             required: true
             // name: { type: 'string', required: true }
         })
 
 export const handler = async (argv: Arguments<Options>) => {
     const {
-        action,
+        bits = 1024,
     } = argv;
 
-    switch(action){
-        case 'generate':
-            return generateKey(1024)
-    }
+    console.log(generateKey(bits).exportKey('private'))
     
     return argv;
 

@@ -18,6 +18,7 @@ export interface Organisation {
 
 export interface APIKey {
     id: string
+    
     name: string
     apiKey: string
 

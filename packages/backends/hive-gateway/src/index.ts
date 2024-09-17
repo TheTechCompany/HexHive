@@ -41,9 +41,6 @@ export class HiveGateway {
 	private schemaRegistry?: SchemaRegistry;
 	private schemaReloader?: NodeJS.Timer;
 
-	// private neoDriver?: Driver;
-
-
 	private options : HiveGatewayOptions
 
 	private db : HiveDB;
@@ -128,6 +125,7 @@ export class HiveGateway {
 			const application = await this.db.getApplicationByPublicKey(req.body.publicKey)
 	
 				const url = req.body.backend_url
+				console.log(req.body.publicKey)
 				const challenge = createChallenge(req.body.publicKey, url)
 
 				const { id: challengeId } = await this.db.createApplicationChallenge(req.body.publicKey, url, {
@@ -175,6 +173,9 @@ export class HiveGateway {
 						entrypoint: challenge.application.entrypoint,
 						// resources: challenge.application.resources
 					});
+
+					await this.schemaRegistry?.reload()
+
 					slug = newSlug
 
 				}else{
@@ -200,76 +201,3 @@ export class HiveGateway {
 
 
 }
-
-// (async () => {
-// 	console.log(`Setting up data connections...`)
-
-
-// 	const taskRegistry = new TaskRegistry()
-
-// 	// const collaborationServer = new CollaborationServer();
-         
-
-// 	await connect_data()
-
-// 	console.log(`Data connections setup`)
-
-
-	
-
-	
-
-
-
-
-// 	if (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "local-auth") {
-
-// 		app.use("/graphql", async (req, res, next) => {
-
-// 			try {
-
-// 				console.log(req.user);
-// 					(req as any).jwt = {
-// 						iat: 1516239022,
-// 						roles: ["admin"],
-// 						...req.user
-// 					}
-
-// 				next()
-// 			}catch(e){
-// 				next("No user info found")
-// 			}
-// 		})
-// 	}
-
-// 	const graphqlServer = new GraphQLServer({})
-
-// 	const reloadSchema = async () => {
-// 		console.log("Loading Schema")
-// 		subschemas = await SubSchema(REMOTE_SCHEMA)
-// 		schema = stitchSchemas({
-// 			subschemas: subschemas
-// 		})
-// 		hiveSchema(driver, mqChannel, pgClient,  taskRegistry).then((hive) => {
-// 			// app.stack.find((a) => a.ro)
-// 			graphqlServer.setSchema( mergeSchemas({schemas: [printerSchema, hive, schema]}))
-// 			// app.use("/graphql", graphqlHTTP({
-// 			// 	graphiql: true,
-// 			// }))
-// 		})
-	 
-// 	}
-	
-// 	const middleware = graphqlServer.http({})
-// 	await reloadSchema()
-
-// 	if(middleware) app.use('/graphql', middleware)
-
-// 	//Reload remote schema every 5 minutes
-// 	setInterval(async () => {
-// 		await reloadSchema()
-// 	}, 5 * 60 * 1000)
-
-
-
-// })()

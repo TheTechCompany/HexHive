@@ -489,7 +489,43 @@ export const HiveDBPG: HiveDBFactory = () => {
             }) as any;
         },
         getApplicationBySlug: async (slug: string): Promise<types.Application> => {
-            return await prisma.application.findFirst({where: {slug: slug}}) as any;
+            return await prisma.application.findFirst({ where: { slug: slug } }) as any;
+        },
+        createAPIKey: async (name: string, organisationId: string): Promise<types.APIKey> => {
+            return await prisma.aPIKey.create({
+                data: {
+                    id: nanoid(),
+                    name,
+                    apiKey: crypto.createHash('sha256').update(nanoid()).digest('hex'),
+                    organisation: { connect: { id: organisationId } }
+                },
+                include: { organisation: true }
+            }) as any;
+        },
+        updateAPIKey: async (id: string, name: string, organisationId: string): Promise<types.APIKey> => {
+            return await prisma.aPIKey.update({
+                where: {
+                    id,
+                    organisationId
+                },
+                data: {
+                    name
+                },
+                include: { organisation: true }
+            }) as any;
+        },
+        deleteAPIKey: async (id: string, organisationId: string): Promise<void> => {
+            await prisma.aPIKey.delete({ where: { id, organisationId } });
+        },
+        getAPIKeyByKey: async (apiKey: string): Promise<types.APIKey> => {
+            return await prisma.aPIKey.findFirst({
+                where: {
+                    apiKey
+                }
+            }) as any;
+        },
+        getApplicationServiceAccountByKey: async (apiKey: string) : Promise<types.ApplicationServiceAccount> => {
+            return await prisma.applicationServiceAccount.findFirst({where: {apiKey: apiKey}, include: {application: true}}) as any;
         }
     }
 

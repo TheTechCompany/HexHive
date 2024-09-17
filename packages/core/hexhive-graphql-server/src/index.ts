@@ -112,7 +112,7 @@ export class HiveGraph {
 		}
 
 		if(!this.dontRegister){
-			await registerEndpoint({
+			registerEndpoint({
 				host: `${this.rootServer || ''}/register-endpoint`,
 				secret: this.secretKey
 			}, {
@@ -121,7 +121,9 @@ export class HiveGraph {
 				slug: this.slug,
 				entrypoint: this.entrypoint,
 				resources: this.resources
-			});
+			}).then(() => {
+				console.log('Regisration finished', this.rootServer)
+			})
 		}
 	}
 

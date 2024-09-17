@@ -2,7 +2,7 @@ import NodeRSA = require("node-rsa")
 
 //publicKey - newRequest public key
 export const createChallenge = (publicKey: string, challengeContent: {}) => {
-    const key = new NodeRSA().importKey(publicKey)
+    const key = new NodeRSA().importKey(publicKey, 'public')
     const challenge = key.encrypt(JSON.stringify(challengeContent), 'base64')
     return challenge;
 }
@@ -14,7 +14,7 @@ export const getChallenge = (key: NodeRSA, challengeString: string) => {
 
 //publicKey - issuer public key
 export const answerChallenge = (publicKey: string, answerContent: {}) => {
-    const key = new NodeRSA().importKey(publicKey)
+    const key = new NodeRSA().importKey(publicKey, 'public')
     const answer = key.encrypt(JSON.stringify(answerContent), 'base64')
     return answer;
 }   
