@@ -1,8 +1,8 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": {
-  },
   "references": [
+    {"path": "../../core/hexhive-microfrontend"},
+    {"path": "../../db/hive-db-types"},
     {"path": "../../db/hive-db-postgres"}
   ]
 }
