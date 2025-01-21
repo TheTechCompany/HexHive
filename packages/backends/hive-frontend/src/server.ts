@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 
 import crypto from 'crypto'
+import jwt from 'jsonwebtoken'
 
 import bodyParser from 'body-parser'
 
@@ -128,11 +129,43 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 			}
 		})
 	})
-	app.use('/signup', (req, res) => {
-		res.render('signup', {
-			params: {
 
-			},
+	app.post('/signup', (req, res) => {
+		console.log(req.body)
+
+		if(req.body.password != req.body.confirm_password){
+			res.send({error: "Passwords don't match"})
+		}
+	})
+
+	app.use('/signup',async (req, res) => {
+		console.log({query: req.query})
+		let params : any = {};
+
+		if(req.query.token){
+			// const token_info = jwt.verify(
+			// 	req.query.token as any, 
+			// 	process.env.JWT_SECRET || ''
+			// ) as any;
+
+			const token_info = {
+				id: 'lFixz_VyS9UfPN63QLjW8'
+			}
+
+			if(token_info){
+				const [ user ] = await db.getUsers([token_info?.id])
+				params = {
+					invite: true,
+					name: user.name,
+					email: user.email
+				}
+			}
+
+			
+		}
+
+		res.render('signup', {
+			params,
 			client: {
 
 			}

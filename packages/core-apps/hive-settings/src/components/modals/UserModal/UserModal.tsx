@@ -11,6 +11,7 @@ export const UserModal = (props) => {
 		name?: string, 
 		type?: string,
 		email?: string, 
+		password?: string,
 		inactive?: boolean,
 		roles?: {id?: string}[]
 	}>({})
@@ -39,7 +40,7 @@ const toggleSelected = (item: any) => {
 			width="medium"
 			title={(
 				<Box sx={{display: 'flex', bgcolor: 'secondary.main', padding: '6px', justifyContent: 'space-between'}}>
-					<Typography sx={{color: 'navigation.main'}}>{`${props.selected ? "Update" : "Invite"} User`}</Typography>
+					<Typography sx={{color: 'navigation.main'}}>{`${props.selected ? "Update" : "Create"} User`}</Typography>
 					<Box sx={{display: 'flex', alignItems: 'center'}}>
 						<Typography sx={{color: 'navigation.main'}}>Disabled</Typography>
 						<Switch checked={user.inactive} onChange={(e) => setUser({...user, inactive: e.target.checked})} size='small'/>
@@ -63,7 +64,7 @@ const toggleSelected = (item: any) => {
 				size="small"
 				disabled={user.id != null}
 				sx={{marginTop: '12px'}}
-				value={user?.name}
+				value={user?.name || ''}
 				onChange={(e) => setUser({...user, name: e.target.value})}
 				label="Name" />
 
@@ -72,11 +73,11 @@ const toggleSelected = (item: any) => {
 				size="small"
 				disabled={user.id != null}
 				sx={{marginTop: '12px'}}
-				value={user?.email}
+				value={user?.email || ''}
 				onChange={(e) => setUser({...user, email: e.target.value})}	
 				label="Email"
 				 />
-			
+				
 			<Autocomplete
 				sx={{marginTop: '12px'}}
 				size='small'

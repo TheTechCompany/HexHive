@@ -21,6 +21,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 		}
 
 		type Mutation {
+			
 			createUserTrust(input: UserTrustInput): HiveUser
 			updateUserTrust(id: ID, input: UserTrustInput): HiveUser
 
@@ -56,9 +57,8 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 
 			name: String
 			type: String
-
 			email: String
-
+			
 			inactive: Boolean
 
 			roles: [String]
@@ -176,7 +176,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				//Gets the applications that the organisation has installed that are also accessible by this user privilege
 
 				//Add route for checking rbac
-				
+
 				//Get org applications
 				//Get roles user is in for org
 				//Get applications that are compatible with that role
@@ -187,7 +187,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				return applications?.filter((application) => {
 					return roles?.findIndex((role) => role?.applications?.findIndex((app) => app.id == application.id) > -1) > -1
 				})
-				
+
 			}
 		},
 		Query: {
@@ -237,15 +237,15 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				// }))
 			},
 			users: async (root: any, args: any, context: any) => {
-				let query : any = {};
-				
-				let orgQuery : any = {};
+				let query: any = {};
 
-				if(args.ids){
-					query.id = {in: args.ids}
+				let orgQuery: any = {};
+
+				if (args.ids) {
+					query.id = { in: args.ids }
 				}
-				
-				if(args.active) {
+
+				if (args.active) {
 					query.inactive = false;
 					orgQuery.inactive = false;
 				}
@@ -253,15 +253,15 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				let users = await db.getOrganisationUsers(args.ids, context?.jwt?.organisation)
 
 				users = users.filter((user) => {
-					if(query.inactive == false && user.inactive){
+					if (query.inactive == false && user.inactive) {
 						return false;
 					}
-					if(orgQuery.inactive == false && user.organisations?.find((a) => a.issuer.id == context?.jwt?.organisation)?.inactive){
+					if (orgQuery.inactive == false && user.organisations?.find((a) => a.issuer.id == context?.jwt?.organisation)?.inactive) {
 						return false;
 					}
 					return true;
 				})
-				
+
 				// const users = await prisma.user.findMany({
 				// 	where: {
 				// 		organisations: {
@@ -278,76 +278,111 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				// })
 
 				//Inactive users might still show up
-				if(args.ids){
-					return args.ids.map((id: string) => users.find((a: any) => a.id == id))?.map((x: any) => ({...x, inactive: x.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x.email || ''}))
-				}else{
-					return users?.map((x: any) => ({...x, inactive: x.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x.email || ''}));
+				if (args.ids) {
+					return args.ids.map((id: string) => users.find((a: any) => a.id == id))?.map((x: any) => ({ ...x, inactive: x.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x.email || '' }))
+				} else {
+					return users?.map((x: any) => ({ ...x, inactive: x.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x.email || '' }));
 				}
 			}
-		
+
 		},
 		Mutation: {
 			createUserTrust: async (root: any, args: any, context: any) => {
 
-				try{
-					const userTrust = await db.createTrust(args.input?.email, context?.jwt?.id, context?.jwt?.organisation, args.input?.roles, args.input?.permissions)
-					return userTrust;
-				}catch(e){
+				let userTrust: any;
+
+				const [user] = await db.getUsersByEmail([args.input.email])
+
+				if (!user) {
+					await db.createUser({
+						email: args.input.email,
+						name: args.input.name
+					})
+				}
+
+				try {
+					userTrust = await db.createTrust(args.input?.email, args.input?.type, context?.jwt?.id, context?.jwt?.organisation, args.input?.roles, args.input?.permissions)
+					// return userTrust;
+				} catch (e) {
 					console.log(e);
 				}
-				//If fail invite user
 
-				// if (!user.id) {
-				// 	user.id = nanoid();
-				// 	const u = await prisma.user.create({
-				// 		data: {
-				// 			id: user.id,
-				// 			email: args.input?.email,
-				// 			name: args.input?.name,
-				// 			inactive: true
-				// 		}
-				// 	})
-				// 	console.log({ u })
-				// }
-				
-				// const token = jwt.sign({
-				// 	id: user.id
-				// }, 'sECRET')
+				if (!transporter) {
+					console.error('SMTP not setup for sending transactional emails')
+				} else {
 
-				// if(!transporter) throw new Error('No SMTP transporter provided');
-				
-				// if(user.email){
-				// 	//Send transactional emails
-				// 	if(!existingUser){
-				// 		//Send invite to HexHive with organisation invite
-				// 		await sendInvite(
-				// 			transporter,
-				// 		{
-				// 			to: args.input?.email,
-				// 			receiver: args.input?.name,
-				// 			sender: currentOrg.name,
-				// 			type: args.input?.type,
-				// 			link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
-				// 		})
-				// 	}else{
-				// 		//Send invite to HexHive org to existing user
-				// 		await sendInvite(
-				// 			transporter,
-				// 		{
-				// 			to: args.input?.email,
-				// 			receiver: args.input?.name,
-				// 			sender: currentOrg.name,
-				// 			type: args.input?.type,
-				// 			link: `https://go.hexhive.io/join/${currentOrg.id}?token=${token}`
-				// 		})
-				// 	}
+					const [organisation] = await db.getOrganisations([context?.jwt?.organisation])
+					const [issuingUser] = await db.getUsers([context?.jwt?.id])
+					const [newUser] = await db.getUsersByEmail([args.input.email])
 
-				// }
+
+					if (!user) {
+
+						const token = jwt.sign({
+							id: newUser.id,
+							organisationInvite: organisation?.id,
+							type: 'signup-token'
+						}, process.env.JWT_SECRET || '')
+
+						//Send invite to HexHive
+						sendInvite(transporter, {
+							to: args.input?.email,
+							subject: "You've been invited to join HexHive",
+							message: `Kia Ora${args.input.name ? ` ${args.input.name}` : ''},
+		
+		${issuingUser?.name} has invited you to join ${organisation.name} on HexHive
+
+		Click the link below to setup your account and join them.
+		
+		https://go.hexhive.io/signup?token=${token}
+	
+		HexHive`,
+							type: args.input?.type,
+						}, {
+							receiver: args.input.name,
+							sender: organisation?.name,
+							senderName: issuingUser?.name,
+							secondaryText: `Click the link below to setup your account and join them.`,
+							buttonText: 'Signup',
+							link: `https://go.hexhive.io/signup?token=${token}`
+						})
+					} else {
+						const token = jwt.sign({
+							id: newUser.id,
+							organisationInvite: organisation?.id,
+							type: 'join-token'
+						}, process.env.JWT_SECRET || '')
+
+						sendInvite(transporter, {
+							to: args.input?.email,
+							subject: `You've been invite to join ${organisation.name} on HexHive`,
+							message: `Kia Ora${user.name ? ` ${user.name}` : ''},
+		
+		${issuingUser?.name} has invited you to join ${organisation?.name} on HexHive
+		
+		Click the link below to join them.
+
+		https://go.hexhive.io/join/${token}
+	
+		HexHive`,
+							type: args.input?.type,
+						}, {
+							receiver: user.name,
+							sender: organisation?.name,
+							senderName: issuingUser?.name,
+							secondaryText: `Click the link below to join them.`,
+							buttonText: 'Join Organisation',
+							link: `https://go.hexhive.io/join/${token}`
+						})
+					}
+
+				}
+				return userTrust
 			},
 			updateUserTrust: async (root: any, args: any, context: any) => {
 
-				return await db.updateTrust(args.id, context?.jwt?.id, context?.jwt?.organisation, args.input?.roles, args.input?.permissions, args.input?.inactive)
-			
+				return await db.updateTrust(args.id, args.input?.type, context?.jwt?.id, context?.jwt?.organisation, args.input?.roles, args.input?.permissions, args.input?.inactive)
+
 
 				// return await prisma.user.update({
 				// 	where: {
@@ -363,7 +398,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				// 		email: args.input?.email,
 				// 		password: args.input?.password,
 				// 		inactive: args.input?.inactive
-					
+
 				// 	}
 				// })
 			},
@@ -390,7 +425,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 			},
 			updatePermissionPolicy: async (root: any, args: any, context: any) => {
 				return await db.updatePermissionPolicy(args.id, args.permission, args.input?.name, args.input?.verbs, args.input?.resource, args.input?.effect, args.input?.conditions, context?.jwt?.organisation)
-		
+
 			},
 			deletePermissionPolicy: async (root: any, args: any, context: any) => {
 				return await db.deletePermissionPolicy(args.id, args.permission, context?.jwt?.organisation)
@@ -398,7 +433,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 		}
 	}
 
-	return {typeDefs, resolvers}
+	return { typeDefs, resolvers }
 }
 
 /*

@@ -190,11 +190,12 @@
       <h1>Signup</h1>
    
       <form autocomplete="off" action="/signup" method="post">
-        <input required type="text" name="first_name" placeholder="First Name" />
-        <input required type="text" name="last_name" placeholder="Last Name" />
+        <input required value="<%= params.name %>" type="text" name="name" placeholder="Name" />
+        <% if(!params.invite){ %>
         <input required type="text" name="organisation" placeholder="Organisation Name" />
+        <% } %>
         <hr />
-        <input style="margin-top: 12px;" required type="email" name="email" placeholder="E-mail" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>
+        <input disabled="<%= params.invite %>" value="<%= params.email %>" style="margin-top: 12px;" required type="email" name="email" placeholder="E-mail" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>
         <input required type="password" name="password" placeholder="Password" />
         <input required type="password" name="confirm_password" placeholder="Confirm Password" />
 

@@ -57,7 +57,10 @@ const argv = yargs(hideBin(process.argv)).options({
 	const ses = new aws.SESClient({});
 
 	const transporter = nodemailer.createTransport({
-		SES: { ses, aws: aws },
+		SES: { 
+			ses, 
+			aws: aws 
+		},
 	});
 
 	const redisClient = createClient({
