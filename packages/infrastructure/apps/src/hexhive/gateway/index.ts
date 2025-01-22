@@ -202,7 +202,7 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
                             { name: 'PRIVATE_KEY', value: process.env.PRIVATE_KEY },
                             { name: 'AWS_ACCESS_KEY_ID', value: process.env.AWS_ACCESS_KEY_ID},
                             { name: 'AWS_SECRET_ACCESS_KEY', value: process.env.AWS_SECRET_ACCESS_KEY},
-                            { name: 'AWS_DEFAULT_REGION', value: process.env.AWS_DEFAULT_REGION}
+                            { name: 'AWS_REGION', value: process.env.AWS_DEFAULT_REGION}
                         ],
                         resources: {
                             limits: {

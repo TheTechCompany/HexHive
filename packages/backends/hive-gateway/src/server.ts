@@ -54,7 +54,9 @@ const argv = yargs(hideBin(process.argv)).options({
 	const app = express()
 	const server = createServer(app)
 
-	const ses = new aws.SESClient({});
+	const ses = new aws.SESClient({
+		region: process.env.AWS_REGION
+	});
 
 	const transporter = nodemailer.createTransport({
 		SES: { 
