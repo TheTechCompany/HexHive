@@ -130,7 +130,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 		})
 	})
 
-	app.post('/signup', (req, res) => {
+	app.post('/signup', async (req, res) => {
 		console.log(req.body)
 
 		if(req.body.password != req.body.confirm_password){
@@ -141,7 +141,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 		}
 
 		await db.updateUser(req.session.newUser?.id, {
-			password: crypto.createHash('sha256').update(req.body.password).digest('hex');
+			password: crypto.createHash('sha256').update(req.body.password).digest('hex')
 		});
 
 		res.redirect('/');
