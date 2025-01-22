@@ -127,7 +127,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 		})
 	})
 
-	app.post('/signup', async (req, res) => {
+	app.post('/signup', async (req: any, res) => {
 		console.log(req.body)
 
 		if(req.body.password != req.body.confirm_password){
@@ -145,7 +145,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 
 	})
 
-	app.use('/signup',async (req, res) => {
+	app.use('/signup',async (req: any, res) => {
 		console.log({query: req.query})
 		let params : any = {};
 
