@@ -14,7 +14,8 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "build:prod": "tsc -b tsconfig.server.json",
+    "build:prod": "tsc -b tsconfig.server.json && npm run copy-files",
+    "copy-files": "mkdir dist/email/templates; cp -R src/email/templates/* dist/email/templates/",
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "start:prod": "node dist/server.js --endpoints /tmp/endpoints.json"
   },
