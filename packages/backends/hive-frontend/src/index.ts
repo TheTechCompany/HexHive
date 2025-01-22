@@ -42,7 +42,6 @@ export class HiveFrontendServer {
     });
 
     this.init();
-
   }
 
   get connect() {

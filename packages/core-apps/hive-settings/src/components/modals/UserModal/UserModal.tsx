@@ -58,7 +58,6 @@ const toggleSelected = (item: any) => {
 				})
 			}}
 			onClose={props.onClose}>
-			
 			<TextField
 				fullWidth
 				size="small"
