@@ -199,7 +199,10 @@ export const GatewayCluster = async (provider: k8s.Provider, ssl: aws.acm.Certif
                             { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
                             { name: 'DATABASE_URL', value: all([dbUrl, postgresPass]).apply(([url, pass]) => `postgresql://postgres:${pass}@${url}.db-${suffix}.svc.cluster.local:5432/postgres`) },
                             { name: 'JWKS_KEYS', valueFrom: { secretKeyRef: {key: 'keys', name: jwksSecret.metadata.name } } },
-                            { name: 'PRIVATE_KEY', value: process.env.PRIVATE_KEY }
+                            { name: 'PRIVATE_KEY', value: process.env.PRIVATE_KEY },
+                            { name: 'AWS_ACCESS_KEY_ID', value: process.env.AWS_ACCESS_KEY_ID},
+                            { name: 'AWS_SECRET_ACCESS_KEY', value: process.env.AWS_SECRET_ACCESS_KEY},
+                            { name: 'AWS_DEFAULT_REGION', value: process.env.AWS_DEFAULT_REGION}
                         ],
                         resources: {
                             limits: {
