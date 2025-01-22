@@ -134,8 +134,18 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 		console.log(req.body)
 
 		if(req.body.password != req.body.confirm_password){
-			res.send({error: "Passwords don't match"})
+			return res.send({error: "Passwords don't match"})
 		}
+		if(!req.session.newUser){
+			return res.send({error: "Not allowed"});
+		}
+
+		await db.updateUser(req.session.newUser?.id, {
+			password: crypto.createHash('sha256').update(req.body.password).digest('hex');
+		});
+
+		res.redirect('/');
+
 	})
 
 	app.use('/signup',async (req, res) => {
@@ -159,6 +169,8 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 					name: user.name,
 					email: user.email
 				}
+
+				req.session.newUser = user;
 			}
 
 			

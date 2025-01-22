@@ -36,7 +36,7 @@ export interface HiveDB {
     getUserRoles: (id: string, organisationId: string) => Promise<types.Role[]>
     getUserApplications: (id: string, organisationId: string) => Promise<types.Application[]>
     createUser: (user: Partial<types.User>) => Promise<types.User>
-    updateUser: (id: string, application: Partial<types.User>) => Promise<types.User>
+    updateUser: (id: string, user: Partial<types.User>) => Promise<types.User>
     deleteUser: (id: string) => Promise<void>
 
     //Trust relationships should be audited

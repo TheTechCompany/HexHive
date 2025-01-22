@@ -207,11 +207,14 @@ export const HiveDBPG: HiveDBFactory = () => {
             return newUser as any;
         },
         updateUser: async (id: string, user: Partial<types.User>): Promise<types.User> => {
+            let update : any = {};
+            if(user.password) update.password = user.password;
             const updatedUser = await prisma.user.update({
                 where: { id },
                 data: {
                     name: user.name,
                     email: user.email,
+                    ...update
                 }
             });
             return updatedUser as any;
