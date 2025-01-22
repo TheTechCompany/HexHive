@@ -62,6 +62,7 @@ export const MicrofrontendCluster = async (provider: k8s.Provider, ssl: aws.acm.
                             { name: 'BASE_URL', value: `https://${domainName}` },
                             { name: 'BASE_DOMAIN', value: 'hexhive.io' },
                             { name: 'API_URL', value: `https://${backendUrl}` },
+                            { name: "JWT_SECRET", value: process.env.JWT_SECRET || 'test' },
                             { name: "REDIS_URL", value: redisUrl.apply((url) => `redis://${url}`) },
                             { name: "DATABASE_URL", value: all([dbUrl, postgresPass]).apply(([url, pass]) => `postgresql://postgres:${pass}@${url}.db-${suffix}.svc.cluster.local:5432/postgres`) },
                         ],
