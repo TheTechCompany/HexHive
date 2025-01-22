@@ -1,0 +1,7 @@
+.featureList {
+    display: flex;
+    flex: 1;
+    padding: 24px;
+    flex-direction: column;
+    gap: 12px;
+}

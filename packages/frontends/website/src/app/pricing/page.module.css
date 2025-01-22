@@ -1,0 +1,10 @@
+.pricingContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 12px;
+    padding: 12px;
+    color: black;
+    min-height: 50vh;
+    min-width: 20vw;
+}

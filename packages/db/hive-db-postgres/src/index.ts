@@ -144,7 +144,14 @@ export const HiveDBPG: HiveDBFactory = () => {
         },
         getUsers: async (ids?: string[]): Promise<types.User[]> => {
             return await prisma.user.findMany({
-                where: {}
+                where: {id: {in: ids}}
+            }) as any[];
+        },
+        getUsersByEmail: async (emails): Promise<types.User[]> => {
+            return await prisma.user.findMany({
+                where: {
+                    email: {in: emails}
+                }
             }) as any[];
         },
         getUserApplications: async (id: string, organisationId: string) => {
@@ -200,11 +207,14 @@ export const HiveDBPG: HiveDBFactory = () => {
             return newUser as any;
         },
         updateUser: async (id: string, user: Partial<types.User>): Promise<types.User> => {
+            let update : any = {};
+            if(user.password) update.password = user.password;
             const updatedUser = await prisma.user.update({
                 where: { id },
                 data: {
                     name: user.name,
                     email: user.email,
+                    ...update
                 }
             });
             return updatedUser as any;
@@ -235,7 +245,7 @@ export const HiveDBPG: HiveDBFactory = () => {
             });
             return members;
         },
-        createTrust: async (email: string, userId: string, organisationId: string, roles: string[], permissions: string[]): Promise<types.Trust> => {
+        createTrust: async (email: string, type: string, issuingUserId: string, organisationId: string, roles: string[], permissions: string[]): Promise<types.Trust> => {
 
             let existingUser: any = {};
             if (email) {
@@ -249,7 +259,9 @@ export const HiveDBPG: HiveDBFactory = () => {
             const currentOrg = await prisma.organisation.findFirst({ where: { id: organisationId } });
             if (!currentOrg) throw new Error("Not authorized to invite new users"); //TODO check for admin
 
-            if (!existingUser.id) throw new Error("No user to trust");
+            if (!existingUser.id){
+                throw new Error("No user to trust");
+            }
 
             let user = { id: existingUser?.id, email: existingUser?.email || email };
 
@@ -259,6 +271,7 @@ export const HiveDBPG: HiveDBFactory = () => {
                     issuerId: organisationId,
                     trustId: user.id,
                     accepted: false,
+                    type,
                     roles: {
                         connect: roles?.map((x: any) => ({ id: x })) || []
                     },
@@ -269,7 +282,7 @@ export const HiveDBPG: HiveDBFactory = () => {
             });
             return trust as any;
         },
-        updateTrust: async (id: string, userId: string, organisationId: string, roles: string[], permissions: string[], inactive: boolean): Promise<types.Trust> => {
+        updateTrust: async (id: string, type: string, modifierUserId: string, organisationId: string, roles: string[], permissions: string[], inactive: boolean): Promise<types.Trust> => {
             const { id: organisationIdCheck, organisations } = await prisma.user.findFirst({
                 where: {
                     id: id,
@@ -305,9 +318,9 @@ export const HiveDBPG: HiveDBFactory = () => {
 
             if (inactive != null) {
                 update['inactive'] = inactive;
-
-
             }
+
+            update['type'] = type;
 
             const trust = await prisma.userTrust.update({
                 where: {

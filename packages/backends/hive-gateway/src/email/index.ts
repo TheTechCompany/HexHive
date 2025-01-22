@@ -15,7 +15,7 @@ export const sendMail = async (
 ) => {
 
 		return await transporter.sendMail({
-			from: "HexHive Systems <no-reply@hexhive.io>",
+			from: "HexHive <no-reply@hexhive.io>",
 			to,
 			subject,
 			text: body,
@@ -26,25 +26,27 @@ export const sendMail = async (
 
 export const sendInvite = async (
 	transporter: nodemailer.Transporter,
-	invite: {link: string, sender: string, to: string, receiver: string, type: string}
+	invite: {
+		to: string, //E-mail of new user
+		subject: string, //Subject of the E-Mail
+		
+		message: string,
+
+		type: string //User or external
+	},
+	htmlData?: any
 ) => {
 	const inviteFile = invite.type == 'User' ? 'invite-user.html' : 'invite-collaborator.html';
 	const htmlTemplate = readFileSync(path.join(__dirname, './templates/', inviteFile), 'utf-8')
 
-	const subject = `${invite.sender} has invited you to an organisation on HexHive`
+	console.log("Sending mail to ", invite.to, invite.message)
 	return await sendMail(
 		transporter,
 		[invite.to], 
-		subject,
-		`Kia Ora${invite.receiver ? ` ${invite.receiver}`: ''},
-		
-		${invite.sender} has invited you to join their HexHive organisation
-		
-		${invite.link}
-	
-		HexHive`,
+		invite.subject,
+		invite.message,
 		htmlTemplate,
-		invite
+		htmlData
 		)
 }
 

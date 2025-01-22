@@ -32,15 +32,16 @@ export interface HiveDB {
 
     authenticateUser: (username: string, password: string) => Promise<types.User>; //username and password provided in cleartext, returns one User or throws an error
     getUsers: (ids?: string[]) => Promise<types.User[]>
+    getUsersByEmail: (emails: string[]) => Promise<types.User[]>
     getUserRoles: (id: string, organisationId: string) => Promise<types.Role[]>
     getUserApplications: (id: string, organisationId: string) => Promise<types.Application[]>
-    createUser: (application: Partial<types.User>) => Promise<types.User>
-    updateUser: (id: string, application: Partial<types.User>) => Promise<types.User>
+    createUser: (user: Partial<types.User>) => Promise<types.User>
+    updateUser: (id: string, user: Partial<types.User>) => Promise<types.User>
     deleteUser: (id: string) => Promise<void>
 
     //Trust relationships should be audited
-    createTrust: (email: string, userId: string, organisationId: string, roles: string[], permissions: string[]) => Promise<types.Trust>;
-    updateTrust: (id: string, userId: string, organisationId: string, roles: string[], permissions: string[], inactive: boolean) => Promise<types.Trust>
+    createTrust: (email: string, type: string, issuingUserId: string, organisationId: string, roles: string[], permissions: string[]) => Promise<types.Trust>;
+    updateTrust: (id: string, type: string, modifierUserId: string, organisationId: string, roles: string[], permissions: string[], inactive: boolean) => Promise<types.Trust>
 
     getRoles: (ids: string[], organisationId: string) => void;
     createRole: (name: string, permissions: string[], applications: string[], organisationId: string) => void;
