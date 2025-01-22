@@ -3,14 +3,11 @@ import { createServer } from 'http'
 import express from 'express';
 import passport from "passport";
 import session from "express-session";
-import fs from 'fs';
 import path from 'path';
 
 import crypto from 'crypto'
-import jwt from 'jsonwebtoken'
 
 import bodyParser from 'body-parser'
-
 import { Strategy as LocalStrategy } from 'passport-local'
 
 import { createClient } from 'redis';
