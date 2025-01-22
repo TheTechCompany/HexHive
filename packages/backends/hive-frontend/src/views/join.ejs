@@ -189,7 +189,7 @@
     <div class="login-card">
       <h1>Welcome <%= user %></h1>
 
-      <form autocomplete="off" action="/join" method="post">
+      <form autocomplete="off" action="<%= submitURL %>" method="post">
         <button type="submit" class="login login-submit">Join <%= sender %></button>
         <p>By clicking Join <%= sender %> you will gain access to data from <%= sender %> and your accounts will be linked</p>
       </form>

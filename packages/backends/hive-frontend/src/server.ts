@@ -15,6 +15,7 @@ import RedisStore from 'connect-redis';
 import cookieParser from "cookie-parser";
 import { HiveDB } from '@hexhive/db-types'
 import { HiveDBPG } from '@hexhive/db-postgres'
+import jwt from 'jsonwebtoken'
 
 const { NODE_ENV } = process.env;
 
@@ -105,16 +106,41 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 			}
 		})
 	})
-	app.use('/join/:id', (req, res) => {
-		res.render('join', {
-			params: {
 
+	app.post('/join', async (req, res) => {
+		if(!req.query.token) return res.send({error: "No auth token found"});
+
+		const info: any = jwt.verify(req.query.token as any, process.env.JWT_SECRET || '');
+		if(info.type !== 'join-token') return res.send({error: "Wrong token provided"});
+
+		await db.acceptTrust(info.id, info.organisationInvite)
+
+		res.redirect('/')
+	})
+
+	app.use('/join', async (req, res) => {
+		if(!req.query.token) return res.send({error: "No auth token found"});
+
+		const info : any = jwt.verify(req.query.token as any, process.env.JWT_SECRET || '');
+		if(info.type !== 'join-token') return res.send({error: "Wrong token provided"});
+
+		const users = await db.getUsers([info.id]);
+		const organisations = await db.getOrganisations([info.organisationInvite]);
+
+		res.render('join', {
+			user: users?.[0]?.name,
+			sender: organisations?.[0]?.name,
+			uid: '',
+			submitURL: `/join?token=${req.query.token}`,
+			params: {
+				// user: 'Test'
 			},
 			client: {
 
 			}
 		})
 	})
+
 	app.use('/reset', (req, res) => {
 		res.render('reset', {
 			success: false,
@@ -128,20 +154,31 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 	})
 
 	app.post('/signup', async (req: any, res) => {
-		console.log(req.body)
 
-		if(req.body.password != req.body.confirm_password){
-			return res.send({error: "Passwords don't match"})
+		if(req.query.token){
+			const token_info = jwt.verify(
+				req.query.token as any, 
+				process.env.JWT_SECRET || ''
+			) as any;
+
+			console.log(req.body)
+
+			if(req.body.password != req.body.confirm_password){
+				return res.send({error: "Passwords don't match"})
+			}
+			if(!req.session.newUser){
+				return res.send({error: "Not allowed"});
+			}
+
+			await db.updateUser(token_info?.id, {
+				password: crypto.createHash('sha256').update(req.body.password).digest('hex')
+			});
+
+			await db.acceptTrust(token_info?.id, token_info)
+
+			res.redirect('/');
 		}
-		if(!req.session.newUser){
-			return res.send({error: "Not allowed"});
-		}
 
-		await db.updateUser(req.session.newUser?.id, {
-			password: crypto.createHash('sha256').update(req.body.password).digest('hex')
-		});
-
-		res.redirect('/');
 
 	})
 
@@ -150,24 +187,26 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 		let params : any = {};
 
 		if(req.query.token){
-			// const token_info = jwt.verify(
-			// 	req.query.token as any, 
-			// 	process.env.JWT_SECRET || ''
-			// ) as any;
+			const token_info = jwt.verify(
+				req.query.token as any, 
+				process.env.JWT_SECRET || ''
+			) as any;
 
-			const token_info = {
-				id: 'lFixz_VyS9UfPN63QLjW8'
-			}
+			// const token_info = {
+			// 	id: 'lFixz_VyS9UfPN63QLjW8'
+			// }
 
 			if(token_info){
 				const [ user ] = await db.getUsers([token_info?.id])
+				const [ organisation ] = await db.getOrganisations([token_info?.organisationInvite])
 				params = {
 					invite: true,
-					name: user.name,
-					email: user.email
+					name: user?.name,
+					email: user?.email,
+					org_name: organisation?.name
 				}
 
-				req.session.newUser = user;
+				// req.session.newUser = user;
 			}
 
 			
@@ -175,6 +214,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 
 		res.render('signup', {
 			params,
+			signupURL: `/signup?token=${req.query.token}`,
 			client: {
 
 			}

@@ -362,7 +362,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 		
 		Click the link below to join them.
 
-		https://go.hexhive.io/join/${token}
+		https://go.hexhive.io/join?token=${token}
 	
 		HexHive`,
 							type: args.input?.type,
@@ -372,7 +372,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 							senderName: issuingUser?.name,
 							secondaryText: `Click the link below to join them.`,
 							buttonText: 'Join Organisation',
-							link: `https://go.hexhive.io/join/${token}`
+							link: `https://go.hexhive.io/join?token=${token}`
 						})
 					}
 
