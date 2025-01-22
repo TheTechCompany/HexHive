@@ -42,6 +42,7 @@ export interface HiveDB {
     //Trust relationships should be audited
     createTrust: (email: string, type: string, issuingUserId: string, organisationId: string, roles: string[], permissions: string[]) => Promise<types.Trust>;
     updateTrust: (id: string, type: string, modifierUserId: string, organisationId: string, roles: string[], permissions: string[], inactive: boolean) => Promise<types.Trust>
+    acceptTrust: (id: string, organisation: string) => Promise<void>;
 
     getRoles: (ids: string[], organisationId: string) => void;
     createRole: (name: string, permissions: string[], applications: string[], organisationId: string) => void;

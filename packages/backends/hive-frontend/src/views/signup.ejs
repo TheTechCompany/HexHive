@@ -189,10 +189,12 @@
     <div class="login-card">
       <h1>Signup</h1>
    
-      <form autocomplete="off" action="/signup" method="post">
+      <form autocomplete="off" action="<%= signupURL %>" method="post">
         <input required value="<%= params.name %>" type="text" name="name" placeholder="Name" />
         <% if(!params.invite){ %>
         <input required type="text" name="organisation" placeholder="Organisation Name" />
+        <% }else{ %>
+        <input type="text" name="organisation" disabled placeholder="Organisation Name" value="<%= params.org_name %>" />
         <% } %>
         <hr />
         <input disabled="<%= params.invite %>" value="<%= params.email %>" style="margin-top: 12px;" required type="email" name="email" placeholder="E-mail" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>

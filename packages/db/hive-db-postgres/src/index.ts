@@ -340,6 +340,19 @@ export const HiveDBPG: HiveDBFactory = () => {
 
             return trust as any;
         },
+        acceptTrust: async (id, organisation) => {
+            await prisma.userTrust.update({
+                where: {
+                    trustId_issuerId: {
+                        trustId: id,
+                        issuerId: organisation
+                    }
+                },
+                data: {
+                    accepted: true
+                }
+            })
+        },
         getPermissions: async (ids: string[], organisationId: string) => {
 
             return await prisma.permission.findMany({

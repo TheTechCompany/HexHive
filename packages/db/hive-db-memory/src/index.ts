@@ -142,6 +142,9 @@ export const HiveDBMemory : HiveDBFactory = (config) => {
             };
             return trusts[ix] as any;
         },
+        acceptTrust: async (id, organisation) => {
+
+        },
         getRoles: async (ids: string[], organisationId: string) => {
             return roles.filter((role) => {
                 if (ids && ids.length > 0) {
