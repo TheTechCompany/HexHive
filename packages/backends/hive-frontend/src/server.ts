@@ -166,10 +166,7 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 			if(req.body.password != req.body.confirm_password){
 				return res.send({error: "Passwords don't match"})
 			}
-			if(!req.session.newUser){
-				return res.send({error: "Not allowed"});
-			}
-
+			
 			await db.updateUser(token_info?.id, {
 				password: crypto.createHash('sha256').update(req.body.password).digest('hex')
 			});
@@ -177,6 +174,8 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 			await db.acceptTrust(token_info?.id, token_info)
 
 			res.redirect('/');
+		}else{
+			return res.send({error: "Not allowed"});
 		}
 
 
