@@ -166,12 +166,12 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 			if(req.body.password != req.body.confirm_password){
 				return res.send({error: "Passwords don't match"})
 			}
-			
+
 			await db.updateUser(token_info?.id, {
 				password: crypto.createHash('sha256').update(req.body.password).digest('hex')
 			});
 
-			await db.acceptTrust(token_info?.id, token_info)
+			await db.acceptTrust(token_info?.id, token_info?.organisationInvite)
 
 			res.redirect('/');
 		}else{
