@@ -31,7 +31,6 @@
     "@hexhive/crypto": "workspace:^",
     "@hexhive/db-memory": "workspace:^",
     "@hexhive/db-types": "workspace:^",
-    "@hexhive/webhooks": "workspace:^",
     "abort-controller": "^3.0.0",
     "api-key-auth": "^0.2.3",
     "assert": "^2.0.0",
