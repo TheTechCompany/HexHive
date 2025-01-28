@@ -40,11 +40,11 @@ export const DefaultRouter = () : Router => {
     
 	const corsOptions = {
 		origin: (origin : any, callback: (error: any, result?: any) => void) => {
-			if (whitelist.indexOf(origin) !== -1 || !origin) {
+			// if (whitelist.indexOf(origin) !== -1 || !origin) {
 				callback(null, true)
-			} else {
-				callback(new Error("Not allowed by CORS"))
-			}
+			// } else {
+			// 	callback(new Error("Not allowed by CORS"))
+			// }
 		},
 		credentials: true
         
