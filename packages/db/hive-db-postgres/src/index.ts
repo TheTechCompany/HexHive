@@ -528,25 +528,41 @@ export const HiveDBPG: HiveDBFactory = () => {
         getApplicationBySlug: async (slug: string): Promise<types.Application> => {
             return await prisma.application.findFirst({ where: { slug: slug } }) as any;
         },
-        createAPIKey: async (name: string, organisationId: string): Promise<types.APIKey> => {
+        getAPIKeysByOrganisation: async (id: string) => {
+            return await prisma.aPIKey.findMany({
+                where: {organisationId: id}, 
+                include: {
+                    organisation: true, 
+                    roles: true
+                }
+            }) as any
+        },
+        createAPIKey: async (name: string, roles: string[], organisationId: string): Promise<types.APIKey> => {
             return await prisma.aPIKey.create({
                 data: {
                     id: nanoid(),
                     name,
                     apiKey: crypto.createHash('sha256').update(nanoid()).digest('hex'),
+                    roles: {
+                        connect: roles.map((x) => ({id: x}))
+                    },
                     organisation: { connect: { id: organisationId } }
                 },
                 include: { organisation: true }
             }) as any;
         },
-        updateAPIKey: async (id: string, name: string, organisationId: string): Promise<types.APIKey> => {
+        updateAPIKey: async (id: string, name: string, roles: string[], organisationId: string): Promise<types.APIKey> => {
             return await prisma.aPIKey.update({
                 where: {
                     id,
                     organisationId
                 },
                 data: {
-                    name
+                    name,
+                    roles: {
+                        set: roles.map((x) => ({id: x}))
+                    },
+                    lastUpdated: new Date()
                 },
                 include: { organisation: true }
             }) as any;
@@ -558,6 +574,19 @@ export const HiveDBPG: HiveDBFactory = () => {
             return await prisma.aPIKey.findFirst({
                 where: {
                     apiKey
+                },
+                include: {
+                    organisation: true,
+                    roles: {
+                        include: {
+                            permissions: {
+                                include: {
+                                    policies: true
+                                }
+                            },
+                            applications: true
+                        }
+                    }
                 }
             }) as any;
         },

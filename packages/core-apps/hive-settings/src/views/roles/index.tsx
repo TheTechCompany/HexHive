@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { RoleModal } from "../../components/modals/RoleModal/RoleModal";
@@ -74,7 +74,7 @@ export const Roles = () => {
 	}
 	
 	return (
-		<Box sx={{flex: 1, minHeight: 0, display: 'flex'}}> 
+		<Paper sx={{flex: 1, padding: '8px', minHeight: 0, display: 'flex'}}> 
 			<RoleModal 
 				apps={apps}
 				permissions={permissions}
@@ -101,6 +101,6 @@ export const Roles = () => {
 				onMore={(item) => { setSelected(item); openModal(true) }}
 				onCreate={() => openModal(true)}
 				data={roles.filter(searchFilter)}/>
-		</Box>
+		</Paper>
 	)	
 }

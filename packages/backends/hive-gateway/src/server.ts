@@ -133,7 +133,7 @@ const argv = yargs(hideBin(process.argv)).options({
 	}, false, async (apiKey: string, done: (err: any, user: any) => void) => {
 		console.log("API Key", { apiKey })
 
-		const [serviceAccount, { organisation }] = await Promise.all([
+		const [serviceAccount, { id, organisation, roles }] = await Promise.all([
 			db.getApplicationServiceAccountByKey(apiKey),
 			db.getAPIKeyByKey(apiKey)
 		]);
@@ -147,12 +147,13 @@ const argv = yargs(hideBin(process.argv)).options({
 				application: serviceAccount?.application?.id
 			})
 		} else if (organisation) {
-			console.log("Org Account")
+			console.log("Org API Account", organisation, roles)
 
 			done(null, {
 				type: 'org-key',
+				roles,
 				organisation: organisation?.id,
-				id: organisation?.id
+				id: id
 			})
 		} else {
 			done("No valid claim found for API-Key", null)

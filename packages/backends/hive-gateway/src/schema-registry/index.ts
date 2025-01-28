@@ -99,10 +99,12 @@ export class SchemaRegistry {
 					validate,
 					contextFactory: async (executionContext) => {
 						const context = await contextFactory(executionContext)
+
+						console.log({user: req.user, jwt: (req as any).jwt})
 						return {
 							context,
 							user: req.user,
-							jwt: (req as any).jwt
+							jwt: req.user
 						}
 					},
 					execute
@@ -140,6 +142,10 @@ export class SchemaRegistry {
 	// public addEndpoint(url: string, key: string){
 	// 	this.endpoints.push({backend_url: url, id: key})
 	// }
+
+	public getSchemaList(){
+		return this.schemas;
+	}
 
 	public async reload(){
 		

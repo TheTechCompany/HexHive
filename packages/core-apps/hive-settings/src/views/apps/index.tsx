@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React, { useState } from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { useQuery } from '@hexhive/client'
@@ -63,7 +63,7 @@ export const Apps = (props) => {
 	}
 
 	return (
-		<Box sx={{flex: 1, minHeight: 0, display: 'flex'}}>
+		<Paper sx={{flex: 1, padding: '8px',  minHeight: 0, display: 'flex'}}>
 			<AppModal 
 				onSubmit={(id) => {
 					createApp({
@@ -91,6 +91,6 @@ export const Apps = (props) => {
 				}}
 				displayKeys={["name"]}
 				data={apps.filter(searchFilter)}/>
-		</Box>
+		</Paper>
 	)	
 }

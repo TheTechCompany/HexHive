@@ -64,6 +64,7 @@ export const CRUDList: React.FC<CRUDListProps> = ({
 				<List>
 					{data.map((datum) => (
 						<ListItem
+							disablePadding
 							secondaryAction={onMore ? (
 								<IconButton onClick={() => onMore?.(datum)}>
 									<MoreVert />

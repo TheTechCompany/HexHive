@@ -63,6 +63,13 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 path: 'files'
             },
             {
+                icon: <></>,
+                top: 2,
+                left: 6,
+                path: 'connect',
+                title: 'Connect'
+            },
+            {
                 icon: <Flow  width="50" height="50" />,
                 top: 3,
                 title: "Flow",

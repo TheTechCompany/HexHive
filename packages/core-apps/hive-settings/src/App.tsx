@@ -15,6 +15,7 @@ import { IntegrationEditor } from './views/integration-editor';
 import { AdminPanelSettings, Apps, IntegrationInstructions, Assessment, Key, Person } from '@mui/icons-material'
 import { Sidebar } from './components/sidebar'
 import { PermissionEditor } from './views/permissions/editor';
+import { APIKeyList } from './views/api-keys';
 
 const API_URL = localStorage.getItem('HEXHIVE_API') || process.env.REACT_APP_API;
 
@@ -30,10 +31,11 @@ export const App = (props)=> {
 
 	console.log(props)
 	const menu = [
-		{label: "Users", path: 'users', icon: <Person />},
+		{label: "Users", path: '', icon: <Person />},
 		{label: "Roles", path: 'roles', icon: <AdminPanelSettings /> }, 
 		{label: "Permissions", path: 'permissions', icon: <Key /> }, 
 		{label: "Apps", path: 'apps', icon: <Apps />}, 
+		{label: "API Keys", path: 'api-keys', icon: <Key />}
 		// {label: "Integrations", path: 'integrations', icon: <IntegrationInstructions />}, 
 		// {label: "Usage", path: "usage", icon: <Assessment />}]
 	]
@@ -45,7 +47,7 @@ export const App = (props)=> {
 		<Box sx={{display: 'flex', minHeight: 0, flex: 1}}>
 			<Sidebar items={menu} />
 			
-			<Divider sx={{ marginRight: '12px'}} orientation='vertical' />
+			{/* <Divider sx={{ marginRight: '12px'}} orientation='vertical' /> */}
 			{/* <Box width="small" background="brand">
 				<List
 					onClickItem={onNavigate}
@@ -59,10 +61,10 @@ export const App = (props)=> {
 					)}
 				</List>
 			</Box> */}
-			<Box sx={{flex: 1, display: 'flex', flexDirection: 'column', paddingTop: '12px', paddingRight: '12px'}}>
+			<Box sx={{flex: 1, background: '#aaa', display: 'flex', flexDirection: 'column', padding: '12px'}}>
 				<Routes>
-					<Route path="" element={<Home/>} />
-					<Route path="users" element={<Users/>} />
+					{/* <Route path="" element={<Home/>} /> */}
+					<Route path="" element={<Users/>} />
 					<Route path="roles" element={<Roles/>} />
 					<Route path="permissions" element={<Outlet/>}>
 						<Route path="" element={<Permissions />} />
@@ -71,6 +73,9 @@ export const App = (props)=> {
 					<Route path="apps" element={<Outlet />} >
 						<Route path="" element={<AppsView />} />
 						<Route path="apps/:id" element={<AppSingle/>} />
+					</Route>
+					<Route path="api-keys" element={<Outlet />}>
+						<Route path="" element={<APIKeyList />} />
 					</Route>
 					<Route path="integrations" element={<Outlet />} >
 						<Route path="" element={<IntegrationList/>} />

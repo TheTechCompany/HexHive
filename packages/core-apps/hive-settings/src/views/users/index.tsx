@@ -1,4 +1,4 @@
-import { Box, ListItemButton, Typography } from "@mui/material";
+import { Box, ListItemButton, Paper, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { UserModal } from "../../components/modals/UserModal/UserModal";
@@ -103,7 +103,7 @@ export const Users = () => {
 
 
 	return (
-		<Box sx={{ flex: 1, display: 'flex', minHeight: 0, flexDirection: 'column' }}>
+		<Paper sx={{ flex: 1, padding: '8px',  display: 'flex', minHeight: 0, flexDirection: 'column' }}>
 			<CRUDList
 				onSearch={(search) => setSearch(search)}
 				search={search}
@@ -170,6 +170,6 @@ export const Users = () => {
 					console.log(user)
 				}}
 				open={modalOpen} />
-		</Box>
+		</Paper>
 	)
 }

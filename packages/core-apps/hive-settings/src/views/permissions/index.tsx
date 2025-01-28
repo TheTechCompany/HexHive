@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React, {useState} from "react";
 import { CRUDList } from "../../components/CRUDList/CRUDList";
 import { RoleModal } from "../../components/modals/RoleModal/RoleModal";
@@ -65,7 +65,7 @@ export const Permissions = () => {
 	}
 	
 	return (
-		<Box sx={{flex: 1, minHeight: 0, display: 'flex'}}> 
+		<Paper sx={{flex: 1,  padding: '8px', minHeight: 0, display: 'flex'}}> 
 			<PermissionModal 
 				selected={selected}
 				onSubmit={(role) => {
@@ -91,6 +91,6 @@ export const Permissions = () => {
 				onCreate={() => openModal(true)}
 				onClick={(item) => navigate(item.id)}
 				data={permissions.filter(searchFilter)}/>
-		</Box>
+		</Paper>
 	)	
 }
