@@ -5,7 +5,7 @@ import { HexBoxBackground } from '../hex-box-background/HexBoxBackground';
 import { HexButton } from '../hex-box-background/HexButton';
 import { useQuery, gql } from '@apollo/client';
 import { AppModal } from '../app-modal';
-import { Files, Flow, Market, Command, Automate, Settings, Signage, Message } from '../../assets/icons';
+import { Files, Flow, Market, Command, Automate, Settings, Signage, Message, Connect} from '../../assets/icons';
 import Fonts from '../../assets/fonts';
 import { useAuth } from '@hexhive/auth-ui';
 import { useNavigate } from 'react-router-dom';
@@ -61,6 +61,13 @@ export const HexHive : React.FC<HexHiveProps> = (props) => {
                 top: 3,
                 left: 4,
                 path: 'files'
+            },
+            {
+                icon: <Connect width="50" height="50" />,
+                top: 2,
+                left: 6,
+                path: 'connect',
+                title: 'Connect'
             },
             {
                 icon: <Flow  width="50" height="50" />,

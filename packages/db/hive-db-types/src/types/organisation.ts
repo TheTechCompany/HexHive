@@ -22,5 +22,7 @@ export interface APIKey {
     name: string
     apiKey: string
 
+    roles: Role[]
+
     organisation: Organisation
 }

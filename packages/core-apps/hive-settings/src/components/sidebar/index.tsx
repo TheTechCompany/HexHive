@@ -7,6 +7,8 @@ export interface SidebarProps {
 }
 
 export const Sidebar : React.FC<SidebarProps> = (props) => {
+
+
     return (
         <Box sx={{minWidth: '200px', color: 'white', bgcolor: 'primary.main'}}>
             <List>

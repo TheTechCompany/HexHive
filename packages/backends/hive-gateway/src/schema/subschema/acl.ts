@@ -36,6 +36,11 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 			createPermissionPolicy(permission: ID, input: PermissionPolicyInput): PermissionPolicy
 			updatePermissionPolicy(permission: ID, id: ID, input: PermissionPolicyInput): PermissionPolicy
 			deletePermissionPolicy(permission: ID, id: ID): PermissionPolicy
+
+
+			createAPIKey(input: APIKeyInput): APIKey
+			updateAPIKey(id: ID, input: APIKeyInput): APIKey
+			deleteAPIKey(id: ID): APIKey
 		}
 
 		type HiveOrganisation {
@@ -47,8 +52,24 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 
 			applications: [HiveAppliance!]! 
 			integrations: [HiveIntegrationInstance!]! 
+			
+			apiKeys: [APIKey]
 
 			subscriptions: [HiveApplianceConfiguration!]!
+
+		}
+
+		input APIKeyInput {
+			name: String
+			roles: [String]
+		}
+
+		type APIKey{
+			id: ID
+			name: String
+			apiKey: String
+
+			roles: [Role]
 
 		}
 
@@ -169,6 +190,9 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 			}
 		},
 		HiveOrganisation: {
+			apiKeys: async (root: any) => {
+				return await db.getAPIKeysByOrganisation(root.id);
+			},
 			members: async (root: any) => {
 				return await db.getOrganisationUsers([], root.id)
 			},
@@ -287,6 +311,15 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 
 		},
 		Mutation: {
+			createAPIKey: async (root: any, args: { input: any}, context: any) => {
+				return await db.createAPIKey(args.input.name, args.input.roles || [], context?.jwt?.organisation)
+			},
+			updateAPIKey: async (root: any, args: { id: string, input: any}, context: any) => {
+				return await db.updateAPIKey(args.id, args.input.name, args.input.roles || [], context?.jwt?.organisation)
+			},
+			deleteAPIKey: async (root: any, args: {id: string}, context: any) => {
+				return await db.deleteAPIKey(args.id, context.jwt?.organisation)
+			},
 			createUserTrust: async (root: any, args: any, context: any) => {
 
 				let userTrust: any;

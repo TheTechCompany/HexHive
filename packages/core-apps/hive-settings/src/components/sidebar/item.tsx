@@ -12,12 +12,14 @@ export interface SidebarItemProps {
 export const SidebarItem: React.FC<SidebarItemProps> = (props) => {
 
     const { pathname } = useResolvedPath(props.path)
-    const isActive = useMatch(pathname) != null;
+    const isActive = useMatch(props.path) != null;
 
     const navigate = useNavigate();
 
+    console.log(isActive, pathname, props.path)
+
     return (
-        <ListItemButton sx={{'&.Mui-selected': {backgroundColor: "#dfdfdf10"} }} selected={isActive} onClick={() => navigate(props.path)}>
+        <ListItemButton sx={{'&.Mui-selected': {background: "#bbbbbb7a"} }} selected={isActive} onClick={() => navigate(props.path)}>
             {props.icon}
             <Typography sx={{marginLeft: '12px'}}>
                 {props.label}

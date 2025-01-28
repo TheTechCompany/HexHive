@@ -67,9 +67,14 @@ model APIKey {
   id String @id
   name String
   apiKey String @unique
+
+  roles Role[] @relation(name: "hasAPIRole")
   
   organisation Organisation @relation(name: "hasAPIKey", fields: [organisationId], references: [id], onDelete: Cascade)
   organisationId String
+
+  createdAt DateTime @default(now())
+  lastUpdated DateTime?
 }
 
 model Application {
@@ -119,6 +124,7 @@ model Role {
   permissions Permission[]
 
   usedBy UserTrust[] @relation(name: "hasRole")
+  usedByAPIKey APIKey[] @relation(name: "hasAPIRole")
 
   organisationId String
   organisation Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)

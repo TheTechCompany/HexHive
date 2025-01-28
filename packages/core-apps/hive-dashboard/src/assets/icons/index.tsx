@@ -5,4 +5,5 @@ export { default as Flow } from './Flow'
 export { default as Market } from './Market'
 export { default as Message } from './Message'
 export { default as Settings } from './Settings'
+export { default as Connect } from './Connect';
 export { default as Signage } from './Signage'
