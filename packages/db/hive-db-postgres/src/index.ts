@@ -10,8 +10,18 @@ export const HiveDBPG: HiveDBFactory = () => {
 
     let db: HiveDB = {
         getApplications: async (ids?: string[]): Promise<types.Application[]> => {
+            let query : any = {};
+            if(ids){
+                query.id = {in: ids}
+            }
+            console.log(query,ids)
             return await prisma.application.findMany({
-                where: {}
+                where: {
+                    ...query
+                },
+                include: {
+                    users: true
+                }
             }) as any[];
         },
         createApplication: async (application: Partial<types.Application>): Promise<types.Application> => {
@@ -42,6 +52,30 @@ export const HiveDBPG: HiveDBFactory = () => {
         },
         deleteApplication: async (id: string): Promise<void> => {
             await prisma.application.delete({ where: { id } });
+        },
+        detachOrganisationApp: async (organisation: string, application: string) => {
+            return await prisma.organisation.update({
+                where: {
+                    id: organisation
+                },
+                data: {
+                    applications: {
+                        disconnect: {id: application}
+                    }
+                }
+            }) as any
+        },
+        attachOrganisationApp: async (organisation: string, application: string) => {
+            return await prisma.organisation.update({
+                where: {
+                    id: organisation
+                },
+                data: {
+                    applications: {
+                        connect: {id: application}
+                    }
+                }
+            }) as any
         },
         getOrganisations: async (ids?: string[]): Promise<types.Organisation[]> => {
             const organisations = await prisma.organisation.findMany({
@@ -144,7 +178,32 @@ export const HiveDBPG: HiveDBFactory = () => {
         },
         getUsers: async (ids?: string[]): Promise<types.User[]> => {
             return await prisma.user.findMany({
-                where: {id: {in: ids}}
+                where: {id: {in: ids}},
+                include: {
+                    organisations: {
+                        where: {inactive: false},
+                        include: {
+                            issuer: true,
+                            roles: {
+                                include: {
+                                    applications: true,
+                                    permissions: {
+                                        include: {
+                                            scope: true,
+                                            policies: true
+                                        }
+                                    }
+                                }
+                            },
+                            permissions: {
+                                include: {
+                                    scope: true,
+                                    policies: true
+                                }
+                            }
+                        }
+                    }
+                }
             }) as any[];
         },
         getUsersByEmail: async (emails): Promise<types.User[]> => {
@@ -209,6 +268,8 @@ export const HiveDBPG: HiveDBFactory = () => {
         updateUser: async (id: string, user: Partial<types.User>): Promise<types.User> => {
             let update : any = {};
             if(user.password) update.password = user.password;
+            if(user.lastOrganisation) update.lastOrganisation = user.lastOrganisation;
+
             const updatedUser = await prisma.user.update({
                 where: { id },
                 data: {

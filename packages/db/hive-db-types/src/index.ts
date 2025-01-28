@@ -15,6 +15,9 @@ export interface HiveDB {
     createApplicationChallenge: (publicKey: string, challenge: string, application: Partial<types.Application>) => Promise<types.ApplicationChallenge>
     getApplicationChallenge: (publicKey: string, challengeId: string, challenge: string) => Promise<types.ApplicationChallenge>;
 
+    detachOrganisationApp: (organisation: string, application: string) => Promise<types.Application>;
+    attachOrganisationApp: (organisation: string, application: string) => Promise<types.Application>;
+
     getOrganisations: (ids?: string[]) => Promise<types.Organisation[]>
     getOrganisationUsers: (ids: string[], organisationId: string) => Promise<types.User[]>;
     getOrganisationApplications: (id: string) => Promise<types.Application[]>;

@@ -104,7 +104,8 @@ export class SchemaRegistry {
 						return {
 							context,
 							user: req.user,
-							jwt: req.user
+							jwt: req.user,
+							logIn: (user: any) => req.logIn(user, (err) => console.log(err))
 						}
 					},
 					execute

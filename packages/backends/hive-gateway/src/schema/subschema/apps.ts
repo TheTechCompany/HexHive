@@ -19,7 +19,7 @@ export default (db: HiveDB, schemas: { [key: string]: {acl: any[]} }) => {
 
 
         input HiveApplianceWhere {
-            id: ID
+            ids: ID
         }
 
         type HiveAppliance {
@@ -123,30 +123,44 @@ export default (db: HiveDB, schemas: { [key: string]: {acl: any[]} }) => {
 
                 let query : any = {};
 
-                if(args.owned != null){
-                    let key = args.owned ? 'some' : 'none';
-                    query['users'] = {
-                        [key]: {
-                            id: context?.jwt?.organisation
-                        }
-                    }
-                }
-                if(args.where?.id){
-                    query['id'] = args.where?.id
-                }
+                // if(args.owned != null){
+                //     let key = args.owned ? 'some' : 'none';
+                //     query['users'] = {
+                //         [key]: {
+                //             id: context?.jwt?.organisation
+                //         }
+                //     }
+                // }
+                // if(args.where?.id){
+                //     query['id'] = args.where?.id
+                // }
 
                 
                 // const appliances = await prisma.application.findMany({
                 //     where: query
                 // })
 
-                const appliances = await db.getApplications()
+                let appliances = await db.getApplications(args?.where?.ids);
+                console.log(appliances, args)
+
+                if(args.owned != null){
+                    appliances = appliances.filter((app) => {
+                        if(args.owned){
+                            return app?.users?.find((a) => a.id == context?.jwt?.organisation)
+                        }else{
+                            return app?.users?.find((a) => a.id == context?.jwt?.organisation) == null
+                        }
+                    })
+                }
+
+                console.log(appliances, args)
 
                 return appliances
             }
         },
         Mutation: {
             createOrganisationApp: async (root: any, args: any, context: any) => {
+                return await db.attachOrganisationApp(context?.jwt?.organisation, args.app) != null;
                 // return await prisma.organisation.update({
                 //     where: {
                 //         id: context?.jwt?.organisation
@@ -161,6 +175,8 @@ export default (db: HiveDB, schemas: { [key: string]: {acl: any[]} }) => {
                 // }) != null;
             },
             deleteOrganisationApp: async (root: any, args: any, context: any) => {
+                return await db.detachOrganisationApp(context?.jwt?.organisation, args.app) != null;
+
                 // return await prisma.organisation.update({
                 //     where: {
                 //         id: context?.jwt?.organisation,

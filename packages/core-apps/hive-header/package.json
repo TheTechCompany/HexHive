@@ -46,7 +46,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.9",
+    "@apollo/client": "^3.12.8",
     "@emotion/react": "^11.9.3",
     "@hexhive/auth-ui": "^1.0.2-beta.94",
     "@hexhive/icons": "^1.0.2-beta.94",

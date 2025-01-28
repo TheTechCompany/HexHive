@@ -21,6 +21,8 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 		}
 
 		type Mutation {
+
+			switchOrganisation(id: ID): HiveOrganisation
 			
 			createUserTrust(input: UserTrustInput): HiveUser
 			updateUserTrust(id: ID, input: UserTrustInput): HiveUser
@@ -208,6 +210,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 
 				const roles = await db.getUserRoles(context?.jwt?.id, context?.jwt?.organisation)
 
+				console.log({applications, roles})
 				return applications?.filter((application) => {
 					return roles?.findIndex((role) => role?.applications?.findIndex((app) => app.id == application.id) > -1) > -1
 				})
@@ -311,6 +314,42 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 
 		},
 		Mutation: {
+			switchOrganisation: async (root: any, args: any, context: any) => {
+				console.log(context?.jwt?.id, args.id)
+				await db.updateUser(context?.jwt?.id, {lastOrganisation: args.id});
+
+				const [ user ] = await db.getUsers([context?.jwt?.id]);
+
+				const organisation = user.organisations?.find((a) => a.issuer?.id == args.id);
+
+				if(!organisation) throw new Error('Organisation not found');
+
+				const roles = organisation?.roles || [];
+
+				const permissions = (organisation?.permissions || []).concat((roles || []).map((r: any) => r.permissions).reduce((p: any, c: any) => p.concat(c), []) as any[])
+
+				const applications = roles.map((x: any) => x.applications).reduce((prev: any, curr: any) => prev.concat(curr), []).concat(permissions.map(x => x.scope))
+
+				let userObject = {
+					id: user?.id,
+					name: user?.name,
+					organisation: organisation?.issuer?.id,
+					organisations: user?.organisations?.map((org) => org.issuer),
+					applications: [...new Set(applications)],
+					roles,
+					permissions
+				}
+
+				context.logIn(userObject)
+
+				// context.updateUser(userObject)
+				// context.user = userObject;
+				// context.jwt = userObject;
+				// req.jwt
+
+				return organisation;
+
+			},
 			createAPIKey: async (root: any, args: { input: any}, context: any) => {
 				return await db.createAPIKey(args.input.name, args.input.roles || [], context?.jwt?.organisation)
 			},

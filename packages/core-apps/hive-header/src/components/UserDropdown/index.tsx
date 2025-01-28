@@ -6,11 +6,13 @@ import { withTheme } from "styled-components";
 import { ArrowBack, Logout, Settings } from '@mui/icons-material'
 // import { Profile, Settings } from "@hexhive/icons";
 import { HexHiveTheme } from '@hexhive/styles'
+import { useMutation, gql } from '@apollo/client';
 
 const API_URL = localStorage.getItem('HEXHIVE_API');
 
 
 export const UserDropdown = () => {
+  
   const { activeUser } = useAuth();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -33,12 +35,20 @@ export const UserDropdown = () => {
       label: "Log out",
       onClick: () => {
         window.location.href = `${process.env.NODE_ENV == "production"
-            ? API_URL || "https://staging-api.hexhive.io"
-            : "http://localhost:7000"
+            ? API_URL || "https://go.hexhive.io"
+            : "http://localhost:8000"
           }/logout`;
       },
     },
   ];
+
+  const [ switchOrganisation ] = useMutation(gql`
+    mutation SwitchOrg($id: ID) {
+      switchOrganisation(id: $id){
+        name
+      }
+    }  
+  `)
 
   console.log("user dropdown", activeUser);
 
@@ -57,7 +67,9 @@ export const UserDropdown = () => {
         <Divider />
         <MenuList dense>
         {activeUser?.organisations?.map((organisation) => (
-          <MenuItem sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <MenuItem 
+            onClick={() => switchOrganisation({variables: {id: organisation.id}}).then(() => window.location.href = window.location.href)}
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography>{organisation.name}</Typography>
             <Radio checked={organisation.id == activeUser.organisation} size="small" />
           </MenuItem>
@@ -69,6 +81,8 @@ export const UserDropdown = () => {
   }
 
   const renderDefaultView = () => {
+    const { activeUser } = useAuth();
+
     return (
       <>
         <Card
@@ -79,7 +93,7 @@ export const UserDropdown = () => {
             setView('organisations')
           }}>
           <MenuItem>
-            Ultraviolet Ltd
+            {activeUser?.organisations?.find((a) => a.id == activeUser.organisation)?.name}
           </MenuItem>
           <MenuItem>
             See all organisations
@@ -127,7 +141,7 @@ export const UserDropdown = () => {
           <Typography >
             {activeUser?.name || process.env.NODE_ENV == "production"
               ? activeUser?.name
-              : "Test User"}
+              : "User"}
           </Typography>
 
 
