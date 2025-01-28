@@ -233,9 +233,11 @@ const url = process.env.AUTH_SERVER || "auth.hexhive.io";
 				if (user) {
 				
 					let organisation = user?.organisations?.[0];
-
+					console.log({user})
 					if(user.lastOrganisation){
-						organisation = user?.organisations?.find((a) => a.id == user.lastOrganisation)
+						organisation = user?.organisations?.find((a) => a.issuer?.id == user.lastOrganisation)
+					}else{
+						await db.updateUser(user.id, {lastOrganisation: organisation?.id});
 					}
 
 					const roles = organisation?.roles || [];
