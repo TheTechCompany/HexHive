@@ -98,7 +98,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 
 
 		type HiveUser  {
-			id: ID! 
+			id: ID
 
 			displayId: String
 
@@ -280,6 +280,7 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 				let users = await db.getOrganisationUsers(args.ids, context?.jwt?.organisation)
 
 				users = users.filter((user) => {
+					if(!user) return false;
 					if (query.inactive == false && user.inactive) {
 						return false;
 					}
@@ -306,9 +307,9 @@ export default (db: HiveDB, transporter?: nodemailer.Transporter) => {
 
 				//Inactive users might still show up
 				if (args.ids) {
-					return args.ids.map((id: string) => users.find((a: any) => a.id == id))?.map((x: any) => ({ ...x, inactive: x.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x.email || '' }))
+					return args.ids.map((id: string) => users.find((a: any) => a.id == id))?.map((x: any) => ({ ...x, inactive: x?.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x?.email || '' }))
 				} else {
-					return users?.map((x: any) => ({ ...x, inactive: x.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x.email || '' }));
+					return users?.map((x: any) => ({ ...x, inactive: x?.organisations?.find((a: any) => a.issuerId == context?.jwt?.organisation)?.inactive, email: x?.email || '' }));
 				}
 			}
 
